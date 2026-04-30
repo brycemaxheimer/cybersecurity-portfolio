@@ -8,306 +8,168 @@
 <link rel="stylesheet" href="/css/style.css">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <style>
-    .pg-shell {
-        display: grid;
-        grid-template-columns: 240px minmax(0, 1fr);
-        gap: 1.5rem;
-        margin-top: 1.5rem;
-    }
-    @media (max-width: 800px) { .pg-shell { grid-template-columns: 1fr; } }
+.pg-shell { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 1.5rem; margin-top: 1.5rem; }
+@media (max-width: 800px) { .pg-shell { grid-template-columns: 1fr; } }
 
-    .pg-sidebar h4 {
-        font-size: 0.74rem;
-        font-family: var(--font-mono);
-        color: var(--mint-deep);
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        margin: 1.4rem 0 0.6rem;
-    }
-    .pg-sidebar h4:first-child { margin-top: 0; }
+.pg-sidebar h4 {
+    font-size: 0.74rem; font-family: var(--font-mono); color: var(--mint-deep);
+    font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+    margin: 1.4rem 0 0.6rem;
+}
+.pg-sidebar h4:first-child { margin-top: 0; }
+.pg-sidebar ul { list-style: none; padding: 0; margin: 0; }
+.pg-sidebar li { margin-bottom: 0.3rem; }
 
-    .pg-sidebar ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-    .pg-sidebar li { margin-bottom: 0.3rem; }
+.pg-table-item {
+    display: flex; justify-content: space-between; align-items: center;
+    width: 100%; padding: 0.35rem 0.6rem;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 4px;
+    color: var(--text-1); font-family: var(--font-mono); font-size: 0.78rem;
+    cursor: pointer; text-align: left; transition: all 0.15s;
+}
+.pg-table-item:hover { border-color: var(--mint-deep); background: var(--surface-2); color: var(--mint); }
+.pg-table-item code { background: none; border: none; padding: 0; color: inherit; }
+.pg-table-count { color: var(--text-3); font-size: 0.72rem; font-variant-numeric: tabular-nums; }
 
-    .pg-table-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-        padding: 0.35rem 0.6rem;
-        background: var(--surface);
-        border: 1px solid var(--line);
-        border-radius: 4px;
-        color: var(--text-1);
-        font-family: var(--font-mono);
-        font-size: 0.78rem;
-        cursor: pointer;
-        text-align: left;
-        transition: all 0.15s;
-    }
-    .pg-table-item:hover { border-color: var(--mint-deep); background: var(--surface-2); color: var(--mint); }
-    .pg-table-item code { background: none; border: none; padding: 0; color: inherit; }
-    .pg-table-count {
-        color: var(--text-3);
-        font-size: 0.72rem;
-        font-variant-numeric: tabular-nums;
-    }
+.pg-example {
+    display: block; font-family: var(--font-mono); font-size: 0.78rem; line-height: 1.4;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 4px;
+    padding: 0.5rem 0.7rem; margin: 0.3rem 0; color: var(--text-1);
+    cursor: pointer; text-align: left; width: 100%;
+    white-space: pre-wrap; transition: all 0.15s;
+}
+.pg-example:hover { border-color: var(--mint-deep); background: var(--surface-2); color: var(--mint); }
 
-    .pg-example {
-        display: block;
-        font-family: var(--font-mono);
-        font-size: 0.78rem;
-        line-height: 1.4;
-        background: var(--surface);
-        border: 1px solid var(--line);
-        border-radius: 4px;
-        padding: 0.5rem 0.7rem;
-        margin: 0.3rem 0;
-        color: var(--text-1);
-        cursor: pointer;
-        text-align: left;
-        width: 100%;
-        white-space: pre-wrap;
-        transition: all 0.15s;
-    }
-    .pg-example:hover { border-color: var(--mint-deep); background: var(--surface-2); color: var(--mint); }
+.pg-editor {
+    width: 100%; min-height: 200px;
+    background: var(--code-bg); color: var(--code-text);
+    border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 1rem; font-family: var(--font-mono); font-size: 0.92rem;
+    resize: vertical; line-height: 1.6; tab-size: 4;
+}
+.pg-editor:focus { outline: none; border-color: var(--mint-deep); box-shadow: 0 0 0 3px rgba(70,208,154,0.15); }
 
-    .pg-editor {
-        width: 100%;
-        min-height: 200px;
-        background: var(--code-bg);
-        color: var(--code-text);
-        border: 1px solid var(--line);
-        border-radius: var(--radius);
-        padding: 1rem;
-        font-family: var(--font-mono);
-        font-size: 0.92rem;
-        resize: vertical;
-        line-height: 1.6;
-        tab-size: 4;
-    }
-    .pg-editor:focus { outline: none; border-color: var(--mint-deep); box-shadow: 0 0 0 3px rgba(70,208,154,0.15); }
+.pg-toolbar {
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 0.8rem; margin-top: 0.7rem; flex-wrap: wrap;
+}
+.pg-run {
+    font-family: var(--font-sans); font-size: 0.92rem; font-weight: 600;
+    padding: 0.55rem 1.4rem;
+    background: var(--mint-deep); color: var(--bg-0);
+    border: 1px solid var(--mint-deep); border-radius: var(--radius);
+    cursor: pointer; letter-spacing: 0.02em; transition: background 0.15s;
+}
+.pg-run:hover { background: var(--mint); border-color: var(--mint); }
+.pg-status { font-family: var(--font-mono); font-size: 0.82rem; color: var(--text-2); letter-spacing: 0.02em; }
+.pg-status-busy { color: var(--amber); }
+.pg-status-ok   { color: var(--mint-deep); }
+.pg-status-warn { color: var(--amber); }
+.pg-status-err  { color: var(--coral); }
 
-    .pg-toolbar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 0.8rem;
-        margin-top: 0.7rem;
-        flex-wrap: wrap;
-    }
+.pg-results {
+    margin-top: 1rem;
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 0.5rem 0; min-height: 180px;
+}
+.pg-results .placeholder {
+    color: var(--text-2); font-family: var(--font-sans); font-size: 0.95rem;
+    text-align: center; padding: 2.5rem 1rem;
+}
+.pg-results .placeholder kbd {
+    display: inline-block; padding: 0.1rem 0.4rem;
+    background: var(--bg-deep); border: 1px solid var(--line);
+    border-radius: 3px; font-family: var(--font-mono); font-size: 0.78rem;
+}
 
-    .pg-run {
-        font-family: var(--font-sans);
-        font-size: 0.92rem;
-        font-weight: 600;
-        padding: 0.55rem 1.4rem;
-        background: var(--mint-deep);
-        color: var(--bg-0);
-        border: 1px solid var(--mint-deep);
-        border-radius: var(--radius);
-        cursor: pointer;
-        letter-spacing: 0.02em;
-        transition: background 0.15s;
-    }
-    .pg-run:hover { background: var(--mint); border-color: var(--mint); }
+.pg-result-meta {
+    padding: 0.5rem 1rem; color: var(--text-3);
+    font-family: var(--font-mono); font-size: 0.78rem;
+    border-bottom: 1px solid var(--line);
+}
+.pg-result-meta:last-child { border-bottom: none; border-top: 1px solid var(--line); }
 
-    .pg-status {
-        font-family: var(--font-mono);
-        font-size: 0.82rem;
-        color: var(--text-2);
-        letter-spacing: 0.02em;
-    }
-    .pg-status-busy { color: var(--amber); }
-    .pg-status-ok   { color: var(--mint-deep); }
-    .pg-status-warn { color: var(--amber); }
-    .pg-status-err  { color: var(--coral); }
+.pg-table-wrap {
+    overflow-x: auto; max-height: 70vh; overflow-y: auto;
+    border-top: 1px solid var(--line);
+}
+.pg-table {
+    width: max-content; min-width: 100%;
+    border-collapse: collapse; font-family: var(--font-mono); font-size: 0.82rem;
+}
+.pg-table th, .pg-table td {
+    padding: 0.45rem 0.8rem; text-align: left;
+    border-bottom: 1px solid var(--line); vertical-align: top;
+    white-space: nowrap;
+}
+.pg-table th {
+    position: sticky; top: 0;
+    background: var(--bg-deep); color: var(--mint-deep); font-weight: 600;
+    text-transform: none; letter-spacing: 0;
+    z-index: 1; border-bottom: 1px solid var(--line-strong);
+}
+.pg-table td { color: var(--text-1); }
+.pg-table tr:hover td { background: rgba(15, 35, 28, 0.5); }
+.pg-null { color: var(--text-3); font-style: italic; }
 
-    .pg-results {
-        margin-top: 1rem;
-        background: var(--surface);
-        border: 1px solid var(--line);
-        border-radius: var(--radius);
-        padding: 0.5rem 0;
-        min-height: 180px;
-    }
-    .pg-results .placeholder {
-        color: var(--text-2);
-        font-family: var(--font-sans);
-        font-size: 0.95rem;
-        text-align: center;
-        padding: 2.5rem 1rem;
-    }
-    .pg-results .placeholder kbd {
-        display: inline-block;
-        padding: 0.1rem 0.4rem;
-        background: var(--bg-deep);
-        border: 1px solid var(--line);
-        border-radius: 3px;
-        font-family: var(--font-mono);
-        font-size: 0.78rem;
-    }
-    .pg-result-meta {
-        padding: 0.5rem 1rem;
-        color: var(--text-3);
-        font-family: var(--font-mono);
-        font-size: 0.78rem;
-        border-bottom: 1px solid var(--line);
-    }
-    .pg-result-meta:last-child {
-        border-bottom: none;
-        border-top: 1px solid var(--line);
-    }
-    .pg-table-wrap {
-        overflow-x: auto;
-        max-height: 70vh;
-        overflow-y: auto;
-        border-top: 1px solid var(--line);
-    }
-    .pg-table {
-        width: max-content;       /* size to actual content, allow horizontal scroll */
-        min-width: 100%;
-        border-collapse: collapse;
-        font-family: var(--font-mono);
-        font-size: 0.82rem;
-    }
-    .pg-table th, .pg-table td {
-        padding: 0.45rem 0.8rem;
-        text-align: left;
-        border-bottom: 1px solid var(--line);
-        vertical-align: top;
-        white-space: nowrap;       /* don't squeeze cells; let table scroll */
-    }
-    .pg-table th {
-        position: sticky;
-        top: 0;
-        background: var(--bg-deep);
-        color: var(--mint-deep);
-        font-weight: 600;
-        text-transform: none;
-        letter-spacing: 0;
-        z-index: 1;
-        border-bottom: 1px solid var(--line-strong);
-    }
-    .pg-table td { color: var(--text-1); }
-    .pg-table tr:hover td { background: rgba(15, 35, 28, 0.5); }
+.pg-cell-trunc {
+    display: inline-block; max-width: 60ch;
+    overflow: hidden; text-overflow: ellipsis;
+    vertical-align: bottom; cursor: zoom-in;
+    border-bottom: 1px dotted var(--line-strong);
+}
+.pg-cell-trunc.expanded {
+    max-width: none; white-space: pre-wrap; word-break: break-all;
+    cursor: zoom-out; border-bottom-color: var(--mint-deep);
+}
 
-    .pg-null { color: var(--text-3); font-style: italic; }
+.pg-result-toolbar {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 0.8rem; padding: 0.5rem 1rem;
+    background: var(--bg-deep); border-bottom: 1px solid var(--line);
+    font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-3);
+    flex-wrap: wrap;
+}
+.pg-result-toolbar button {
+    font-family: var(--font-mono); font-size: 0.78rem; padding: 0.25rem 0.7rem;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 3px;
+    color: var(--text-1); cursor: pointer; transition: all 0.15s;
+}
+.pg-result-toolbar button:hover { border-color: var(--mint-deep); color: var(--mint); }
+.pg-result-toolbar .toolbar-tools { display: flex; gap: 0.4rem; }
 
-    /* Long values get truncated with ellipsis. Click to expand inline. */
-    .pg-cell-trunc {
-        display: inline-block;
-        max-width: 60ch;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        vertical-align: bottom;
-        cursor: zoom-in;
-        border-bottom: 1px dotted var(--line-strong);
-    }
-    .pg-cell-trunc.expanded {
-        max-width: none;
-        white-space: pre-wrap;
-        word-break: break-all;
-        cursor: zoom-out;
-        border-bottom-color: var(--mint-deep);
-    }
+.pg-error {
+    margin: 0.5rem 1rem; padding: 0.8rem 1rem;
+    background: rgba(239, 146, 115, 0.08); border: 1px solid var(--coral);
+    border-radius: var(--radius); color: var(--text-1);
+    font-family: var(--font-mono); font-size: 0.85rem; line-height: 1.5;
+}
+.pg-error strong { color: var(--coral); }
 
-    /* Toolbar above the result table */
-    .pg-result-toolbar {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 0.8rem;
-        padding: 0.5rem 1rem;
-        background: var(--bg-deep);
-        border-bottom: 1px solid var(--line);
-        font-family: var(--font-mono);
-        font-size: 0.78rem;
-        color: var(--text-3);
-        flex-wrap: wrap;
-    }
-    .pg-result-toolbar button {
-        font-family: var(--font-mono);
-        font-size: 0.78rem;
-        padding: 0.25rem 0.7rem;
-        background: var(--surface);
-        border: 1px solid var(--line);
-        border-radius: 3px;
-        color: var(--text-1);
-        cursor: pointer;
-        transition: all 0.15s;
-    }
-    .pg-result-toolbar button:hover {
-        border-color: var(--mint-deep);
-        color: var(--mint);
-    }
-    .pg-result-toolbar .toolbar-tools {
-        display: flex;
-        gap: 0.4rem;
-    }
+.pg-sql-preview { margin-top: 0.8rem; font-size: 0.78rem; }
+.pg-sql-preview summary {
+    cursor: pointer; color: var(--text-3);
+    font-family: var(--font-mono); letter-spacing: 0.05em;
+    text-transform: uppercase; padding: 0.3rem 0;
+}
+.pg-sql-preview summary:hover { color: var(--mint-deep); }
+.pg-sql-preview pre { font-size: 0.78rem; margin: 0.5rem 0 0; }
 
-    .pg-error {
-        margin: 0.5rem 1rem;
-        padding: 0.8rem 1rem;
-        background: rgba(239, 146, 115, 0.08);
-        border: 1px solid var(--coral);
-        border-radius: var(--radius);
-        color: var(--text-1);
-        font-family: var(--font-mono);
-        font-size: 0.85rem;
-        line-height: 1.5;
-    }
-    .pg-error strong { color: var(--coral); }
-
-    .pg-sql-preview {
-        margin-top: 0.8rem;
-        font-size: 0.78rem;
-    }
-    .pg-sql-preview summary {
-        cursor: pointer;
-        color: var(--text-3);
-        font-family: var(--font-mono);
-        letter-spacing: 0.05em;
-        text-transform: uppercase;
-        padding: 0.3rem 0;
-    }
-    .pg-sql-preview summary:hover { color: var(--mint-deep); }
-    .pg-sql-preview pre {
-        font-size: 0.78rem;
-        margin: 0.5rem 0 0;
-    }
-
-    .pg-supported {
-        margin-top: 2.5rem;
-        padding: 1.2rem 1.4rem;
-        background: var(--surface);
-        border: 1px solid var(--line);
-        border-radius: var(--radius);
-    }
-    .pg-supported h3 { margin-top: 0; }
-    .pg-supported dl {
-        display: grid;
-        grid-template-columns: max-content 1fr;
-        gap: 0.4rem 1.2rem;
-        margin: 0;
-    }
-    .pg-supported dt {
-        font-family: var(--font-mono);
-        color: var(--mint-deep);
-        font-size: 0.85rem;
-        font-weight: 600;
-    }
-    .pg-supported dd {
-        margin: 0;
-        color: var(--text-1);
-        font-size: 0.93rem;
-    }
-    .pg-supported code { font-size: 0.82rem; }
+.pg-supported {
+    margin-top: 2.5rem; padding: 1.2rem 1.4rem;
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+}
+.pg-supported h3 { margin-top: 0; }
+.pg-supported dl {
+    display: grid; grid-template-columns: max-content 1fr;
+    gap: 0.4rem 1.2rem; margin: 0;
+}
+.pg-supported dt {
+    font-family: var(--font-mono); color: var(--mint-deep);
+    font-size: 0.85rem; font-weight: 600;
+}
+.pg-supported dd { margin: 0; color: var(--text-1); font-size: 0.93rem; }
+.pg-supported code { font-size: 0.82rem; }
 </style>
 </head>
 <body>
@@ -335,4 +197,108 @@
 <a href="/kql/cheatsheet/" style="font-family: var(--font-mono); font-size: 0.88rem; color: var(--mint-deep); border-bottom: 1px solid var(--mint-deep); padding-bottom: 2px; text-decoration: none">Open the cheatsheet &rarr;</a>
 </div>
 <p style="color: var(--text-1); max-width: 70ch; margin-top: 1rem">
-    A working KQL engine in your browser. Type queries against pre-loaded sample tables &mdash; the same Sentine
+A working KQL engine in your browser. Type queries against pre-loaded sample tables &mdash; the same Sentinel-shaped data my <code>Invoke-KqlPS</code> PowerShell module uses for offline practice. Translates KQL to SQLite SQL via a hand-written lexer/parser, executes against <a href="https://github.com/sql-js/sql.js">sql.js</a> (WASM SQLite). No backend, no signup, no telemetry.
+</p>
+
+<div class="pg-shell">
+<aside class="pg-sidebar">
+<h4>Tables</h4>
+<ul id="tables-list"><li style="color: var(--text-3); font-family: var(--font-mono); font-size: 0.78rem">loading...</li></ul>
+
+<h4>Examples</h4>
+<button class="pg-example" data-q="DeviceLogonEvents
+| where ActionType == 'LogonFailed'
+| summarize attempts = count() by AccountName
+| top 10 by attempts">Failed-logon top 10</button>
+
+<button class="pg-example" data-q="DeviceProcessEvents
+| where InitiatingProcessFileName == 'powershell.exe'
+| project Timestamp, DeviceName, FileName, ProcessCommandLine
+| take 25">PowerShell-spawned procs</button>
+
+<button class="pg-example" data-q="SigninLogs
+| where ResultType != 0
+| summarize failures = count() by UserPrincipalName, IPAddress
+| order by failures desc
+| take 20">Failed sign-ins by user/IP</button>
+
+<button class="pg-example" data-q="SecurityEvent
+| where EventID == 4624
+| summarize logons = count() by Account, LogonType
+| order by logons desc">Successful logons by account</button>
+
+<button class="pg-example" data-q="DeviceNetworkEvents
+| where RemotePort in (22, 3389, 5985, 5986)
+| project Timestamp, DeviceName, RemoteIP, RemotePort, InitiatingProcessFileName
+| take 20">Remote-mgmt port traffic</button>
+
+<button class="pg-example" data-q="DeviceFileEvents
+| where ActionType == 'FileCreated'
+| where FileName endswith '.exe' or FileName endswith '.dll'
+| project Timestamp, DeviceName, FolderPath, FileName, InitiatingProcessFileName
+| take 30">Executable file drops</button>
+</aside>
+
+<div>
+<textarea class="pg-editor" id="editor" spellcheck="false">DeviceLogonEvents
+| where ActionType == 'LogonFailed'
+| summarize attempts = count() by AccountName
+| top 10 by attempts</textarea>
+
+<div class="pg-toolbar">
+<button class="pg-run" id="run-btn">Run query &rarr;</button>
+<span class="pg-status" id="status">Initializing engine...</span>
+</div>
+
+<div class="pg-results" id="results">
+<div class="placeholder">Loading sample data...</div>
+</div>
+
+<details class="pg-sql-preview">
+<summary>View translated SQL</summary>
+<pre id="sql-preview"></pre>
+</details>
+</div>
+</div>
+
+<section class="pg-supported">
+<h3>What's supported</h3>
+<p style="color: var(--text-1); margin-bottom: 1rem">
+Pragmatic subset &mdash; the most common ~80% of real SOC queries. Full faithful parity with the PowerShell module is on the roadmap.
+</p>
+<dl>
+<dt>Operators</dt>
+<dd><code>where</code>, <code>project</code>, <code>project-keep</code>, <code>project-away</code>, <code>extend</code>, <code>summarize ... by</code>, <code>count</code>, <code>top N by</code>, <code>take</code>, <code>limit</code>, <code>distinct</code>, <code>order/sort by</code>, <code>let</code> (scalar)</dd>
+
+<dt>Predicates</dt>
+<dd><code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>contains</code>, <code>!contains</code>, <code>contains_cs</code>, <code>startswith</code>, <code>endswith</code>, <code>has</code>, <code>!has</code>, <code>in (...)</code>, <code>!in (...)</code>, <code>between (a..b)</code>, <code>and</code>, <code>or</code>, <code>not</code></dd>
+
+<dt>Functions</dt>
+<dd><code>ago</code>, <code>now</code>, <code>datetime</code>, <code>bin</code>, <code>tolower</code>, <code>toupper</code>, <code>strlen</code>, <code>strcat</code>, <code>substring</code>, <code>isempty</code>, <code>isnotempty</code>, <code>isnull</code>, <code>isnotnull</code>, <code>iff</code>, <code>tostring</code>, <code>toint</code>, <code>tolong</code>, <code>toreal</code>, <code>todatetime</code>, <code>count</code>, <code>dcount</code>, <code>sum</code>, <code>avg</code>, <code>min</code>, <code>max</code>, <code>countif</code>, <code>sumif</code></dd>
+
+<dt>Tables</dt>
+<dd>16 Sentinel-shaped sample tables (DeviceLogonEvents, DeviceProcessEvents, SigninLogs, SecurityEvent, etc.). See the sidebar.</dd>
+
+<dt>Not yet</dt>
+<dd><code>join</code>, <code>union</code>, <code>parse</code>, <code>mv-expand</code>, <code>render</code>, <code>materialize</code>, regex matchers (<code>=~</code>, <code>matches regex</code>), advanced time-series operators. The engine throws a clear error if you hit one.</dd>
+</dl>
+</section>
+
+</main>
+
+<footer class="site-footer">
+<div class="container-wide">
+&copy; 2026 Bryce Maxheimer &middot;
+<a href="https://github.com/brycemaxheimer">GitHub</a> &middot;
+<a href="/about.html">Contact</a>
+</div>
+</footer>
+
+<script src="/kql/vendor/sql-wasm.js"></script>
+<script src="/kql/engine/schema.js"></script>
+<script src="/kql/engine/engine.js"></script>
+<script src="/kql/engine/runtime.js"></script>
+<script src="/kql/engine/main.js" defer></script>
+
+</body>
+</html>
