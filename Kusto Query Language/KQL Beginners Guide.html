@@ -1,0 +1,2269 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>KQL From the Ground Up - A Beginner's Companion</title>
+        <style>
+            :root {
+                --bg: #ffffff;
+                --bg-soft: #f8f7f4;
+                --bg-code: #f3f2ed;
+                --bg-code-inline: #ebe9e2;
+                --ink: #1a1a1a;
+                --ink-soft: #4a4a4a;
+                --ink-faint: #6e6e6e;
+                --rule: #d8d6cf;
+                --rule-soft: #e8e6df;
+                --accent: #1f4e79;
+                --accent-soft: #e6eef5;
+                --warn: #8a5a00;
+                --warn-soft: #fbf2dc;
+                --danger: #8b1a1a;
+                --danger-soft: #f9e6e6;
+                --good: #1f5e3f;
+                --good-soft: #e3efe7;
+                --story: #5b3a86;
+                --story-soft: #f0eaf6;
+                --kw: #1f4e79;
+                --str: #6a3b00;
+                --num: #2a4d2a;
+                --com: #6e6e6e;
+            }
+            * {
+                box-sizing: border-box;
+            }
+            html,
+            body {
+                margin: 0;
+                padding: 0;
+                background: var(--bg);
+                color: var(--ink);
+                font-family: "Charter", "Georgia", "Cambria", "Times New Roman", Times, serif;
+                font-size: 15px;
+                line-height: 1.62;
+            }
+            .wrap {
+                max-width: 880px;
+                margin: 0 auto;
+                padding: 32px 40px 100px;
+            }
+            header.cover {
+                border-bottom: 2px solid var(--ink);
+                padding-bottom: 22px;
+                margin-bottom: 32px;
+            }
+            header.cover h1 {
+                font-size: 32px;
+                margin: 0 0 6px;
+                letter-spacing: -0.012em;
+                line-height: 1.15;
+            }
+            header.cover .sub {
+                color: var(--ink-soft);
+                font-style: italic;
+                font-size: 15px;
+            }
+            header.cover .meta {
+                margin-top: 12px;
+                font-size: 12px;
+                color: var(--ink-faint);
+                font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+            }
+            h2 {
+                font-size: 24px;
+                margin: 44px 0 8px;
+                padding-bottom: 6px;
+                border-bottom: 1px solid var(--rule);
+                letter-spacing: -0.005em;
+                page-break-after: avoid;
+            }
+            h3 {
+                font-size: 18px;
+                margin: 26px 0 6px;
+                color: var(--accent);
+                page-break-after: avoid;
+            }
+            h4 {
+                font-size: 14px;
+                margin: 18px 0 4px;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                color: var(--ink-soft);
+                font-weight: 600;
+            }
+            p {
+                margin: 8px 0 12px;
+            }
+            code,
+            kbd,
+            pre,
+            .mono {
+                font-family: ui-monospace, "SF Mono", "Menlo", "Consolas", "DejaVu Sans Mono", monospace;
+            }
+            code {
+                background: var(--bg-code-inline);
+                padding: 1px 5px;
+                border-radius: 3px;
+                font-size: 12.8px;
+            }
+            pre {
+                background: var(--bg-code);
+                border: 1px solid var(--rule);
+                border-left: 3px solid var(--accent);
+                padding: 14px 16px;
+                border-radius: 3px;
+                overflow-x: auto;
+                margin: 10px 0 14px;
+                line-height: 1.55;
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+            pre code {
+                background: transparent;
+                padding: 0;
+                font-size: 12.8px;
+            }
+            /* manual KQL syntax tinting via spans, no JS highlighter */
+            .k {
+                color: var(--kw);
+                font-weight: 600;
+            }
+            .s {
+                color: var(--str);
+            }
+            .n {
+                color: var(--num);
+            }
+            .c {
+                color: var(--com);
+                font-style: italic;
+            }
+            .fn {
+                color: #5b3a86;
+            }
+            .t {
+                color: #2c4d2a;
+                font-weight: 600;
+            }
+            /* TOC */
+            .toc {
+                background: var(--bg-soft);
+                border: 1px solid var(--rule);
+                padding: 16px 24px 14px;
+                border-radius: 4px;
+                margin: 22px 0 32px;
+                font-size: 13.5px;
+            }
+            .toc h4 {
+                margin: 0 0 8px;
+                font-size: 12px;
+                letter-spacing: 0.06em;
+            }
+            .toc ol {
+                margin: 0;
+                padding-left: 22px;
+                column-count: 2;
+                column-gap: 26px;
+                line-height: 1.75;
+            }
+            .toc a {
+                color: var(--accent);
+                text-decoration: none;
+            }
+            .toc a:hover {
+                text-decoration: underline;
+            }
+            /* Callouts: each named for its purpose so they are self-documenting */
+            .callout {
+                border: 1px solid var(--rule);
+                border-left: 4px solid var(--accent);
+                background: var(--accent-soft);
+                padding: 12px 16px;
+                margin: 12px 0 16px;
+                border-radius: 0 3px 3px 0;
+                font-size: 14px;
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+            .callout.warn {
+                border-left-color: var(--warn);
+                background: var(--warn-soft);
+            }
+            .callout.danger {
+                border-left-color: var(--danger);
+                background: var(--danger-soft);
+            }
+            .callout.good {
+                border-left-color: var(--good);
+                background: var(--good-soft);
+            }
+            .callout.from-past {
+                border-left-color: var(--story);
+                background: var(--story-soft);
+            }
+            .callout .label {
+                display: inline-block;
+                font-size: 11px;
+                text-transform: uppercase;
+                letter-spacing: 0.08em;
+                font-weight: 700;
+                color: var(--accent);
+                margin-right: 6px;
+            }
+            .callout.warn .label {
+                color: var(--warn);
+            }
+            .callout.danger .label {
+                color: var(--danger);
+            }
+            .callout.good .label {
+                color: var(--good);
+            }
+            .callout.from-past .label {
+                color: var(--story);
+            }
+            .callout p:last-child {
+                margin-bottom: 0;
+            }
+            .callout p:first-child {
+                margin-top: 0;
+            }
+            /* "Read it out loud" sentence boxes */
+            .read-aloud {
+                background: #fffbf0;
+                border: 1px solid #efe1b8;
+                border-left: 4px solid #c89a32;
+                padding: 10px 14px;
+                margin: 10px 0 14px;
+                font-size: 14px;
+                font-style: italic;
+                color: #5a4715;
+                border-radius: 0 3px 3px 0;
+            }
+            .read-aloud strong {
+                font-style: normal;
+                color: #4a3a10;
+            }
+            /* Tables for reference data (Event IDs, schema cards, etc.) */
+            table {
+                border-collapse: collapse;
+                width: 100%;
+                margin: 10px 0 16px;
+                font-size: 13.5px;
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+            th,
+            td {
+                border: 1px solid var(--rule);
+                padding: 7px 10px;
+                text-align: left;
+                vertical-align: top;
+            }
+            th {
+                background: var(--bg-soft);
+                font-weight: 600;
+                font-size: 13px;
+            }
+            tbody tr:nth-child(even) td {
+                background: #fbfaf6;
+            }
+            /* Image / screenshot slot */
+            .image-slot {
+                border: 1.5px dashed #b8b6ae;
+                background: repeating-linear-gradient(45deg, #fafaf6, #fafaf6 8px, #f3f2ec 8px, #f3f2ec 16px);
+                padding: 22px 18px;
+                margin: 14px 0 18px;
+                text-align: center;
+                color: var(--ink-faint);
+                font-size: 13px;
+                border-radius: 3px;
+                page-break-inside: avoid;
+            }
+            .image-slot .caption {
+                margin-top: 6px;
+                font-style: italic;
+                font-size: 12px;
+            }
+            .image-slot img {
+                max-width: 100%;
+                height: auto;
+            }
+            /* Exercise cards */
+            .exercise {
+                border: 1px solid var(--rule);
+                border-left: 5px solid var(--accent);
+                border-radius: 3px;
+                padding: 14px 18px;
+                margin: 16px 0 20px;
+                background: #fdfdfb;
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+            .exercise h3 {
+                margin: 0 0 6px;
+                color: var(--ink);
+            }
+            .exercise .badge {
+                display: inline-block;
+                font-size: 10.5px;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.08em;
+                padding: 2px 7px;
+                border-radius: 10px;
+                margin-right: 8px;
+                vertical-align: 2px;
+                color: white;
+                background: var(--accent);
+            }
+            .exercise details {
+                margin-top: 10px;
+                border-top: 1px dashed var(--rule);
+                padding-top: 10px;
+            }
+            .exercise details summary {
+                cursor: pointer;
+                font-weight: 600;
+                font-size: 14px;
+                color: var(--accent);
+                list-style: revert;
+            }
+            .exercise details[open] summary {
+                margin-bottom: 8px;
+            }
+            /* Print rules */
+            @media print {
+                body {
+                    font-size: 11pt;
+                }
+                .wrap {
+                    max-width: 100%;
+                    padding: 0 12mm;
+                }
+                pre {
+                    font-size: 9pt;
+                }
+                details {
+                    display: block;
+                }
+                details > summary {
+                    display: none;
+                }
+                details > *:not(summary) {
+                    display: revert !important;
+                }
+                .toc ol {
+                    column-count: 2;
+                }
+                .no-print {
+                    display: none !important;
+                }
+                a {
+                    color: var(--ink);
+                    text-decoration: none;
+                }
+                .callout,
+                .read-aloud,
+                .exercise,
+                pre,
+                table,
+                figure {
+                    page-break-inside: avoid;
+                }
+            }
+            .toolbar {
+                position: sticky;
+                top: 0;
+                background: rgba(255, 255, 255, 0.96);
+                border-bottom: 1px solid var(--rule);
+                padding: 8px 0;
+                margin: -10px 0 10px;
+                font-size: 12.5px;
+                z-index: 10;
+            }
+            .toolbar button {
+                font-family: inherit;
+                font-size: 12px;
+                padding: 4px 10px;
+                border: 1px solid var(--rule);
+                background: var(--bg-soft);
+                border-radius: 3px;
+                cursor: pointer;
+                margin-right: 6px;
+            }
+            .toolbar button:hover {
+                background: #ebe9e0;
+            }
+            .small {
+                font-size: 12px;
+                color: var(--ink-faint);
+            }
+            hr.thin {
+                border: 0;
+                border-top: 1px solid var(--rule);
+                margin: 22px 0;
+            }
+            /* Schema mini-cards */
+            .schema-card {
+                border: 1px solid var(--rule);
+                border-radius: 4px;
+                padding: 12px 16px;
+                margin: 10px 0 14px;
+                background: var(--bg-soft);
+                font-size: 13.5px;
+                page-break-inside: avoid;
+            }
+            .schema-card h4 {
+                margin: 0 0 4px;
+                color: var(--accent);
+                font-family: ui-monospace, monospace;
+                font-size: 13.5px;
+                text-transform: none;
+                letter-spacing: 0;
+            }
+            .schema-card .desc {
+                font-size: 13px;
+                color: var(--ink-soft);
+                margin: 4px 0 8px;
+            }
+            .schema-card .cols {
+                font-family: ui-monospace, monospace;
+                font-size: 12px;
+                color: var(--ink-soft);
+                line-height: 1.7;
+            }
+            .schema-card .cols b {
+                color: var(--ink);
+                font-weight: 600;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="wrap">
+            <header class="cover">
+                <h1>KQL From the Ground Up</h1>
+                <div class="sub">
+                    End-to-end introduction to Kusto Query Language for SOC analysts new to writing queries.
+                </div>
+            </header>
+            <div class="toolbar no-print">
+                <button onclick="document.querySelectorAll('details').forEach(d=>d.open=true)">
+                    Expand all solutions
+                </button>
+                <button onclick="document.querySelectorAll('details').forEach(d=>d.open=false)">
+                    Collapse all solutions
+                </button>
+                <button onclick="window.print()">Print / Save PDF</button>
+            </div>
+            <nav class="toc">
+                <h4>Contents</h4>
+                <ol>
+                    <li><a href="#intro">How to read this guide</a></li>
+                    <li><a href="#mental-model">The mental model: pipes and tables</a></li>
+                    <li><a href="#first-query">Your first query</a></li>
+                    <li><a href="#time">Time is the most important column</a></li>
+                    <li>
+                        <a href="#where">Filtering with <code>where</code></a>
+                    </li>
+                    <li><a href="#strings">String comparisons in depth</a></li>
+                    <li>
+                        <a href="#project">Choosing columns with <code>project</code></a>
+                    </li>
+                    <li>
+                        <a href="#extend">Computing new columns with <code>extend</code></a>
+                    </li>
+                    <li>
+                        <a href="#summarize">Counting things with <code>summarize</code></a>
+                    </li>
+                    <li>
+                        <a href="#bin">Time buckets with <code>bin()</code></a>
+                    </li>
+                    <li><a href="#sort-top">Sorting and limiting</a></li>
+                    <li><a href="#schemas">The schema gotcha - when "the same field" isn't</a></li>
+                    <li>
+                        <a href="#combining">Combining tables: <code>union</code> and <code>join</code></a>
+                    </li>
+                    <li><a href="#parsing">Parsing messy fields</a></li>
+                    <li><a href="#pitfalls">Things that have bitten us</a></li>
+                    <li><a href="#walkthrough">Reading a real query out loud</a></li>
+                    <li><a href="#exercises">Practice exercises</a></li>
+                    <li><a href="#reference">Quick reference appendix</a></li>
+                </ol>
+            </nav>
+            <!-- =================================================================== -->
+            <h2 id="intro">1. How to read this guide</h2>
+            <p>
+                If you have watched a few KQL videos, copied some queries from a wiki, and changed a couple of column
+                names without really being sure what you were doing, this guide is for you. The goal here is not to make
+                you fast at KQL. The goal is to give you a mental picture of what is actually happening when you type a
+                query, so that when something does not work the way you expected, you have somewhere to start looking.
+            </p>
+            <p>
+                Each section builds on the previous one. We start with what a query <em>is</em> as a piece of text, then
+                move to filtering, then to picking columns, then to grouping, and so on. By the time you get to joins,
+                you should already understand that a join is not a magical operator but just one more step in a sequence
+                of table transformations. The exercises at the end are intentionally easy - the point is to wire the new
+                ideas into your hands, not to test you.
+            </p>
+            <p>
+                Throughout the guide you will see four kinds of highlighted boxes. The blue ones are general points
+                worth pausing on. The amber ones are warnings about things that look right but are wrong. The red ones
+                are outright traps. The purple ones, marked <em>From the field</em>, are stories from real query reviews
+                where something went sideways - those are some of the most valuable bits, because they show you what the
+                warnings actually look like when they happen to you.
+            </p>
+            <div class="callout from-past">
+                <span class="label">From the field</span>
+                This guide draws specifically on queries I have worked through - including the long "Mega Query" where I
+                created a double-materialize bug, the Sysmon EventData parsing patterns I developed, and the schema
+                variations that have tripped people (and myself) up.
+            </div>
+            <!-- =================================================================== -->
+            <h2 id="mental-model">2. The mental model: pipes and tables</h2>
+            <p>
+                The single most important thing to internalize about KQL is this: every query is a sequence of steps,
+                and every step takes a table as input and produces a table as output. There is no concept of looping, no
+                concept of variables in the imperative sense, and almost no concept of "fetching one record." You start
+                with a table, you pass it through a series of transformations, and what comes out the other end is the
+                result you see.
+            </p>
+            <p>
+                The pipe character - the vertical bar <code>|</code> - is what connects one step to the next. You can
+                read it out loud as the word "then" or "and then". That single habit will change how queries feel to
+                you. When you look at a query, do not try to understand the whole thing at once. Read it left to right,
+                line by line, saying "then" every time you hit a pipe.
+            </p>
+            <p>Here is the smallest meaningful query you can write:</p>
+            <pre><code><span class="t">SecurityEvent</span>
+| <span class="k">take</span> <span class="n">10</span></code></pre>
+            <div class="read-aloud">
+                <strong>Read it out loud:</strong> "Take the SecurityEvent table, <em>then</em> give me 10 rows."
+            </div>
+            <p>
+                That is the whole shape of every KQL query you will ever write. The first line names a table. Every
+                subsequent line that begins with a pipe is one more transformation step. You can have one step or thirty
+                steps; it is all the same pattern.
+            </p>
+            <p>
+                A query in KQL is sometimes called a "pipeline" for exactly this reason. Each step is fed by the step
+                before it and feeds the step after it. The output of one step is always a table - possibly with
+                different columns, fewer rows, or aggregated values, but always a table. This is why you can stack steps
+                freely: every step speaks the same language to its neighbors.
+            </p>
+            <div class="callout">
+                <span class="label">Worth pausing on</span>
+                Comments in KQL start with two slashes, just like in many other languages:
+                <code>// this is a comment</code>. There is no multi-line comment syntax. Use comments liberally, for
+                your own sake, and for the sake of others who may be reading/using your query.
+            </div>
+            <!-- =================================================================== -->
+            <h2 id="first-query">3. Your first query</h2>
+            <p>
+                Let us go back to the <code>take 10</code> query and look at what comes back. The
+                <code>SecurityEvent</code> table holds Windows Security events forwarded from your domain-joined
+                machines, things like logons, logon failures, process creation, service installs, and so on. When you
+                run <code>SecurityEvent | take 10</code>, you get back ten rows from that table. Which ten? That is
+                actually an important question.
+            </p>
+            <p>
+                The answer is: any ten. Microsoft's documentation is explicit that <code>take</code> does not guarantee
+                any particular ordering - it gives you a sample of rows the engine happened to encounter first. This is
+                fine when you are exploring schema (you just want to see what columns exist and what they look like),
+                but it is a bad idea any time you actually care which rows you get. There is a different operator,
+                <code>top</code>, that orders the data first and then gives you the top however-many; I will get to that
+                one later.
+            </p>
+            <p>
+                For now, run <code>SecurityEvent | take 10</code> in your environment and look at the result. You will
+                probably notice that <code>SecurityEvent</code> has dozens of columns. Most of them are empty for any
+                given row. This is because <code>SecurityEvent</code> is a wide table that has to accommodate every
+                possible Windows Security event, but each individual event only fills out a handful of those columns - a
+                logon event fills in <code>LogonType</code> and <code>IpAddress</code>, while a process-creation event
+                fills in <code>NewProcessName</code> and <code>CommandLine</code>, and so on. This is normal. Almost
+                every Sentinel table is built this way.
+            </p>
+            <p>
+                Before you do anything else with a new table, get used to running
+                <code>TableName | take 10</code> against it just to see what columns exist and different value types
+                exist. Then run <code>TableName | getschema</code>, which gives you a tidy list of column names and
+                their data types. The two together are the cheapest possible way to orient yourself in a new dataset.
+            </p>
+            <pre><code><span class="t">SecurityEvent</span>
+| <span class="k">getschema</span>
+| <span class="k">project</span> ColumnName, ColumnType
+| <span class="k">order by</span> ColumnName <span class="k">asc</span></code></pre>
+            <p>
+                Notice the structure of that query. It has three steps. The first step is the table. The second step
+                asks for the schema, which produces a small table where each row describes one column of
+                <code>SecurityEvent</code>. The third step keeps only two columns of that schema-description table and
+                sorts them. The output is a clean alphabetical list of every column with its type. Read that out loud:
+                "Take SecurityEvent, then describe its schema, then keep only the column name and type, then sort
+                alphabetically." That is the whole query.
+            </p>
+            <!-- =================================================================== -->
+            <h2 id="time">4. Time is the most important column</h2>
+            <p>
+                Almost every Sentinel table has a column called <code>TimeGenerated</code>. It is a
+                <code>datetime</code> value that records when the event was generated. This is the column you will
+                filter on more than any other, because the data behind these tables is enormous - often billions of rows
+                - and the engine indexes data by time. If you do not constrain the time range, the engine has to
+                consider far more data than it needs to, your query takes longer to run, and you may even hit a query
+                limit (10m by default in Log Analytics).
+            </p>
+            <p>
+                The function you will use most for time filtering is <code>ago()</code>. It takes a duration and returns
+                a datetime that is that far in the past, relative to right now. So <code>ago(1h)</code> means "one hour
+                ago," <code>ago(7d)</code> means "seven days ago," and so on. The syntax for the duration uses suffixes:
+                <code>s</code> for seconds, <code>m</code> for minutes, <code>h</code> for hours, <code>d</code> for
+                days. There is no week or month suffix; you write seven days as <code>7d</code> and a month as roughly
+                <code>30d</code>.
+            </p>
+            <p>
+                The conventional first step in any production query is to filter <code>TimeGenerated</code> to the
+                smallest range that still answers your question:
+            </p>
+            <pre><code><span class="t">SecurityEvent</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1h</span>)
+| <span class="k">take</span> <span class="n">10</span></code></pre>
+            <div class="read-aloud">
+                "Take SecurityEvent, then keep only rows from the last hour, then give me ten of them."<br />
+                Read the query literally, you are asking the engine to return any value in the TimeGenerated column that
+                is greater than the time was 1h ago.
+            </div>
+            <p>
+                Time-filter <em>first</em>, before doing anything else. The reason is that the engine pushes time
+                filters down to the storage layer - it never even reads data from outside your time window. By contrast,
+                if you filter on a different column first and then filter on time, the engine has to do work it could
+                have skipped. This will not matter on a tiny query in a tiny lab; it will matter a lot the first time
+                you write a query against a busy production workspace.
+            </p>
+            <div class="callout warn">
+                <span class="label">Trap</span>
+                You can write <code>where TimeGenerated &gt; ago(1h)</code> or
+                <code>where TimeGenerated &gt;= ago(1h)</code>. They are nearly identical for almost every realistic
+                case. What you should <strong>NOT</strong> do is write
+                <code>where TimeGenerated &gt; "2026-04-25"</code>. That is comparing a datetime to a string and you
+                will usually get either zero rows back or a confusing error. Always wrap explicit timestamps in
+                either:<br />
+                <code>datetime()</code>: <code>where TimeGenerated &gt; datetime(2026-04-25)</code><br />
+                or <br />
+                <code>todatetime(): where TimeGenerated &gt; todatetime(2026-04-25T15:22:00Z)</code>
+            </div>
+            <p>If you need a fixed window - say, between two specific timestamps - use <code>between</code>:</p>
+            <pre><code><span class="t">SecurityEvent</span>
+| <span class="k">where</span> TimeGenerated <span class="k">between</span> (<span class="fn">datetime</span>(<span class="n">2026-04-20</span>) .. <span class="fn">datetime</span>(<span class="n">2026-04-21</span>))</code></pre>
+            <p>
+                The two dots between the start and end times are the range syntax in KQL. You will see it again with
+                <code>in (a .. b)</code> for numeric ranges.
+            </p>
+            <!-- =================================================================== -->
+            <h2 id="where">5. Filtering with <code>where</code></h2>
+            <p>
+                The <code>where</code> operator is the workhorse of KQL. You will use it more than any other operator.
+                Its job is to keep only the rows that satisfy a condition; rows that do not satisfy the condition are
+                dropped. The remaining rows are passed forward to the next step.
+            </p>
+            <p>
+                The condition can be almost anything that evaluates to true or false: a comparison, a string match, a
+                check against a list of values, the result of a function, or any combination of those joined with
+                <code>and</code> and <code>or</code>. Here is a typical example with several conditions chained
+                together:
+            </p>
+            <pre><code><span class="t">SecurityEvent</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">24h</span>)
+| <span class="k">where</span> EventID == <span class="n">4625</span>
+| <span class="k">where</span> Account !endswith <span class="s">"$"</span></code></pre>
+            <p>
+                That query keeps only events from the last 24 hours, only event ID 4625 (Windows failed-logon), and only
+                accounts that do not end with a dollar sign. The dollar sign at the end of an account name is the
+                convention for machine accounts (computer objects in Active Directory), so this query is asking for
+                human-account failed logons.
+            </p>
+            <p>
+                You might have noticed that there are three separate <code>where</code> clauses instead of one big one.
+                Both are valid, and the engine is smart enough to combine them internally. Many people prefer one filter
+                per line, like above, because it makes the query easier to read and easier to comment out individual
+                conditions while you are debugging. Either of these forms works:
+            </p>
+            <pre><code><span class="c">// Style A: one where per line</span>
+<span class="t">SecurityEvent</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">24h</span>)
+| <span class="k">where</span> EventID == <span class="n">4625</span>
+
+<span class="c">// Style B: combined with "and"</span>
+<span class="t">SecurityEvent</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">24h</span>) <span class="k">and</span> EventID == <span class="n">4625</span></code></pre>
+            <p>
+                Pick whichever you find easier to read. The performance difference is negligible; the readability
+                difference is real.
+            </p>
+            <div class="callout">
+                <span class="label">Worth pausing on</span>
+                Understand Style A is implicity utilizing <code>and</code>; the pipe is telling the KQL do this
+                <strong>and</strong> then do this. Whenever using Style B to one-line your logic, if you use
+                <code>or</code> instead of <code>and</code>, you may filter a lot less than intended.
+            </div>
+            <h3>Comparison operators you will use constantly</h3>
+            <p>
+                For numbers, dates, and exact-match strings, use the standard comparison operators: <code>==</code> for
+                equals, <code>!=</code> for not-equals, <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>,
+                <code>&gt;=</code>. Note that equality is a double equals sign - a single equals sign is the assignment
+                operator and you will see it inside <code>extend</code> and <code>project-rename</code> later.
+            </p>
+            <p>To check whether a value is in a list, use <code>in</code>:</p>
+            <pre><code><span class="t">SecurityEvent</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1h</span>)
+| <span class="k">where</span> EventID <span class="k">in</span> (<span class="n">4624</span>, <span class="n">4625</span>, <span class="n">4634</span>, <span class="n">4648</span>)</code></pre>
+            <p>
+                That is the same as writing
+                <code>EventID == 4624 or EventID == 4625 or EventID == 4634 or EventID == 4648</code>, only shorter and
+                easier to maintain. You can negate it with <code>!in</code>. There is also a case-insensitive variant
+                <code>in~</code> that I will return to in the next section, when we talk about strings.
+            </p>
+            <div class="callout">
+                <span class="label">Worth pausing on</span>
+                When you are checking against a long list, you can also write the list once at the top of the query as a
+                named value and reuse it. This is what <code>let</code> is for. I will get to <code>let</code> in detail
+                later, but here is a sneak peek so the idea sits in the back of your mind:
+            </div>
+            <pre><code><span class="k">let</span> AuthEvents = <span class="fn">dynamic</span>([<span class="n">4624</span>, <span class="n">4625</span>, <span class="n">4634</span>, <span class="n">4648</span>]);
+<span class="t">SecurityEvent</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1h</span>)
+| <span class="k">where</span> EventID <span class="k">in</span> (AuthEvents)</code></pre>
+            <p>
+                The <code>dynamic([...])</code> wrapper turns a comma-separated list into an array value that
+                <code>in</code> knows how to use. You will see <code>dynamic</code> a lot when we get to columns that
+                hold structured data.
+            </p>
+            <!-- =================================================================== -->
+            <h2 id="strings">6. String comparisons in depth</h2>
+            <p>
+                Most of the columns in security data are strings: account names, file paths, command lines, URLs, IP
+                addresses (yes, often as strings), and so on. KQL gives you a lot of string operators, and the
+                differences between them matter for both correctness and performance. This is also one of the most
+                common places where new KQL users write something that "works" on their dev data and falls over later.
+            </p>
+            <p>
+                Let us walk through them in order from cheapest to most expensive. The mental picture you should keep is
+                that some operators can use the engine's index, which means they look at very little data, while others
+                have to scan every row, which means they read everything.
+            </p>
+            <h3><code>==</code> and <code>=~</code> for exact match</h3>
+            <p>
+                The double-equals operator <code>==</code> is case-sensitive:
+                <code>"Administrator" == "administrator"</code> is false. The squiggle-equals operator
+                <code>=~</code> is case-insensitive: <code>"Administrator" =~ "administrator"</code> is true.
+                Microsoft's official guidance, taken straight from their best-practices documentation, is to use
+                <code>=~</code> rather than wrapping a column in <code>tolower()</code> before comparing. The reason is
+                that <code>tolower(Account) == "administrator"</code> applies a function to the column, which prevents
+                the engine from using its index - every row has to be lowercased before comparison. Using
+                <code>=~</code> tells the engine "do a case-insensitive comparison" and lets it stay efficient.
+            </p>
+            <pre><code><span class="c">// Microsoft recommends this:</span>
+| <span class="k">where</span> Account =~ <span class="s">"corp\\bryce"</span>
+
+<span class="c">// Not this - slower because the function blocks index use:</span>
+| <span class="k">where</span> <span class="fn">tolower</span>(Account) == <span class="s">"corp\\bryce"</span></code></pre>
+            <p>
+                Also note the doubled backslash in the string. KQL string literals use the backslash as an escape
+                character, so a single backslash needs to be written as two backslashes. If you want to avoid this and
+                write the path more naturally, use a "raw" string by prefixing with the at-sign:
+                <code>@"corp\bryce"</code>.
+            </p>
+            <h3><code>has</code> versus <code>contains</code></h3>
+            <p>
+                This is the most important distinction in KQL string operators. They look almost identical and people
+                use them interchangeably, but they behave very differently and one of them is much faster than the
+                other.
+            </p>
+            <p>
+                The <code>has</code> operator looks for a whole-word match, which means it works against the engine's
+                word index and is fast. The <code>contains</code> operator looks for the substring anywhere - even in
+                the middle of another word - which means it cannot use the index and has to scan every row. For columns
+                like <code>CommandLine</code>, which can be megabytes of text per row across millions of rows, the
+                difference between <code>has</code> and <code>contains</code> is the difference between a query that
+                finishes in seconds and one that times out.
+            </p>
+            <p>
+                The catch is that <code>has</code> only matches whole "terms," where a term is roughly an alphanumeric
+                run separated by punctuation or whitespace. So <code>CommandLine has "powershell"</code> will match
+                <code>"powershell.exe -enc ABCD"</code> because <code>powershell</code> is a separate term inside that
+                string. But <code>CommandLine has "shell"</code> will <em>not</em> match <code>"powershell.exe"</code>,
+                because <code>shell</code> is glued to <code>power</code> with no separator. If you needed to find
+                <code>"shell"</code> anywhere, including embedded in other words, that is when you would reach for
+                <code>contains</code>.
+            </p>
+            <pre><code><span class="c">// Fast: uses the term index</span>
+| <span class="k">where</span> CommandLine has <span class="s">"mimikatz"</span>
+
+<span class="c">// Also fast: case-sensitive variant</span>
+| <span class="k">where</span> CommandLine has_cs <span class="s">"Mimikatz"</span>
+
+<span class="c">// Slow: full scan, only use when you really need substring match</span>
+| <span class="k">where</span> CommandLine contains <span class="s">"shel"</span></code></pre>
+            <p>
+                The default is case-insensitive. If you want case-sensitive, append <code>_cs</code> to almost any
+                string operator: <code>has_cs</code>, <code>contains_cs</code>, <code>startswith_cs</code>, and so on.
+            </p>
+            <div class="callout warn">
+                <span class="label">Watch out</span>
+                Microsoft's guidance is explicit: when you are extracting from a dynamic (JSON) column, do the cheap
+                <code>has</code> filter first, and only then dig into the JSON. Their example is "<code
+                    >where DynamicColumn has \"Rare value\" | where DynamicColumn.SomeKey == \"Rare value\"</code
+                >" rather than "<code>where DynamicColumn.SomeKey == \"Rare value\"</code>." The first form filters out
+                most rows cheaply with <code>has</code> and only does JSON parsing on the remainder; the second form
+                parses every row's JSON.
+            </div>
+            <h3>Multi-term searches: <code>has_any</code> and <code>has_all</code></h3>
+            <p>
+                When you want to match any of a list of terms, do not write a long chain of <code>or</code> conditions.
+                Use <code>has_any</code>:
+            </p>
+            <pre><code><span class="k">let</span> Suspicious = <span class="fn">dynamic</span>([<span class="s">"mimikatz"</span>, <span class="s">"rubeus"</span>, <span class="s">"impacket"</span>, <span class="s">"bloodhound"</span>]);
+<span class="t">SecurityEvent</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1d</span>)
+| <span class="k">where</span> CommandLine has_any (Suspicious)</code></pre>
+            <p>
+                The <code>has_all</code> variant requires that every term in the list be present. You will use
+                <code>has_any</code> far more often than <code>has_all</code>. Both still use the term index, so they
+                are fast.
+            </p>
+            <h3>Prefix and suffix: <code>startswith</code> and <code>endswith</code></h3>
+            <p>
+                Self-explanatory: <code>startswith</code> matches a prefix and <code>endswith</code> matches a suffix.
+                Both are reasonably efficient. The classic use case for <code>endswith</code> is filtering out machine
+                accounts, which always end in <code>$</code>: <code>where Account !endswith "$"</code>. For
+                <code>startswith</code>, a typical use is filtering by a domain prefix:
+                <code>where Account startswith "CORP\\"</code>.
+            </p>
+            <h3>Regular expressions: <code>matches regex</code></h3>
+            <p>
+                This is the operator of last resort. It supports proper regular expressions and will match anything you
+                can describe in regex syntax, but it cannot use any index - it has to evaluate the regex against every
+                row. Reach for it only when no other operator will do.
+            </p>
+            <pre><code><span class="c">// Look for a 32-character hex string anywhere in the URL</span>
+| <span class="k">where</span> RemoteUrl <span class="k">matches regex</span> <span class="s">@"\b[a-f0-9]{32}\b"</span></code></pre>
+            <p>
+                Notice the <code>@</code> prefix on the string. That is the raw-string syntax - it tells KQL to treat
+                the backslashes as literal backslashes rather than escape sequences. You almost always want raw strings
+                for regex patterns; otherwise you end up writing <code>"\\b[a-f0-9]\\{32\\}\\b"</code> and going slowly
+                mad.
+            </p>
+            <h3>The <code>not</code> function</h3>
+            <p>
+                Certain operators - such as <code>has_any</code> to name one - do not allow you to prepend a
+                <code>!</code> (e.g. <code>!has_any</code> is <strong>not</strong> valid KQL). In those instances, you
+                can use the <code>not()</code> operator to reverse the logic through a boolean expression. This is
+                telling the query, in more literal terms, return data "where X is not true".
+            </p>
+            <pre><code><span class="c">// Where the following statement is <strong>not</strong> true (or false)</span>
+| <span class="k">where not(</span>Account <span class="k">has_any</span> <span class="s">('$','NT AUTHORITY','DWM')</span>)</code></pre>
+            <p>
+                You should use the <code>not()</code> function when you need to negate complex logical expressions,
+                multiple grouped conditions, or scalar functions that do not have a dedicated negative operator built
+                into KQL.
+            </p>
+            <h3>Summary table you can refer back to</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Operator</th>
+                        <th>What it does</th>
+                        <th>Speed</th>
+                        <th>Typical use</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>==</code></td>
+                        <td>Exact equality, case-sensitive</td>
+                        <td>Fast (indexed)</td>
+                        <td>EventID, numeric IDs, exact known strings</td>
+                    </tr>
+                    <tr>
+                        <td><code>=~</code></td>
+                        <td>Exact equality, case-insensitive</td>
+                        <td>Fast</td>
+                        <td>Account names, file names where casing varies</td>
+                    </tr>
+                    <tr>
+                        <td><code>has</code></td>
+                        <td>Whole-word substring</td>
+                        <td>Fast (indexed)</td>
+                        <td>Searching CommandLine, RemoteUrl, etc.</td>
+                    </tr>
+                    <tr>
+                        <td><code>has_any</code> / <code>has_all</code></td>
+                        <td>Multiple terms</td>
+                        <td>Fast</td>
+                        <td>Watch lists of suspicious tokens</td>
+                    </tr>
+                    <tr>
+                        <td><code>startswith</code> / <code>endswith</code></td>
+                        <td>Prefix / suffix match</td>
+                        <td>Fast-ish</td>
+                        <td>Domain prefixes, file extensions</td>
+                    </tr>
+                    <tr>
+                        <td><code>contains</code></td>
+                        <td>Any substring, anywhere</td>
+                        <td>Slow (scan)</td>
+                        <td>Last resort when <code>has</code> won't match</td>
+                    </tr>
+                    <tr>
+                        <td><code>matches regex</code></td>
+                        <td>Full regex pattern</td>
+                        <td>Slowest</td>
+                        <td>When you absolutely need a pattern</td>
+                    </tr>
+                    <tr>
+                        <td><code>in</code> / <code>!in</code></td>
+                        <td>Membership in a list</td>
+                        <td>Fast</td>
+                        <td>EventID lists, allow/deny lists</td>
+                    </tr>
+                    <tr>
+                        <td><code>not()</code></td>
+                        <td>Reverses the boolean result</td>
+                        <td>Operator dependent</td>
+                        <td>Complex logical expressions or when there is not a dedicated negative operator</td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- =================================================================== -->
+            <h2 id="project">7. Choosing columns with <code>project</code></h2>
+            <p>
+                Tables in Sentinel can have a hundred columns, most of which are empty for any given event. Once you
+                have filtered to the rows you care about, the next thing you usually want to do is narrow down to the
+                columns you care about. That is what <code>project</code> is for. It selects a subset of columns and
+                discards the rest. As a side effect, it also reorders the columns to whatever order you list them in.
+            </p>
+            <pre><code><span class="t">SecurityEvent</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1h</span>) <span class="k">and</span> EventID == <span class="n">4624</span>
+| <span class="k">project</span> TimeGenerated, Computer, Account, IpAddress, LogonType</code></pre>
+            <div class="read-aloud">
+                "Take SecurityEvent, then keep only rows from the last hour where EventID is 4624, then keep only those
+                five columns."
+            </div>
+            <p>
+                Why bother projecting? Two reasons. First, your output is much easier to read when you are not staring
+                at 90 empty columns. Second, projecting early makes downstream operations faster - every step from this
+                point on only has to carry five columns through, not ninety. Microsoft's official guidance is to project
+                as early as possible in the pipeline.
+            </p>
+            <h3>The project family</h3>
+            <p>
+                There are several variants of <code>project</code> that handle slightly different cases. The basic one
+                we just saw selects columns. The others are about renaming, dropping, and reordering without losing the
+                rest. Here is the whole family in one example:
+            </p>
+            <pre><code><span class="t">DeviceProcessEvents</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1h</span>)
+| <span class="k">project-keep</span> TimeGenerated, DeviceName, AccountName, FileName, ProcessCommandLine, SHA256
+<span class="c">// project-keep does the same as project but is clearer when you are</span>
+<span class="c">// keeping a subset of columns rather than reorganizing them</span>
+| <span class="k">project-rename</span> Host = DeviceName, User = AccountName, Cmd = ProcessCommandLine
+<span class="c">// project-rename changes column names without dropping the others</span>
+| <span class="k">project-away</span> SHA256
+<span class="c">// project-away removes specific columns and keeps the rest</span></code></pre>
+            <p>
+                You will mostly use plain <code>project</code> early on. As your queries grow,
+                <code>project-rename</code> becomes valuable because it lets you give columns more meaningful names
+                without rewriting half the query. <code>project-away</code> is useful late in a pipeline when you want
+                to drop a few "scratch" columns you used for intermediate calculations.
+            </p>
+            <h3>One subtle thing about projecting</h3>
+            <p>
+                Once a column has been dropped by a <code>project</code>, it is gone for the rest of the pipeline. If
+                you then write <code>where DroppedColumn == "x"</code> you will get an error saying the column does not
+                exist. This sounds obvious but trips people up because the original table still has that column - it is
+                just no longer in the row-set being passed to the next step. Remember that every step's output is a
+                complete table on its own; you only see what you projected.
+            </p>
+            <!-- =================================================================== -->
+            <h2 id="extend">8. Computing new columns with <code>extend</code></h2>
+            <p>
+                Where <code>project</code> picks columns that already exist, <code>extend</code> creates new columns by
+                computing values from existing ones. This is where you start doing real work - extracting the file name
+                from a full path, flagging events that match some condition, or computing time differences.
+            </p>
+            <pre><code><span class="t">SecurityEvent</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1h</span>) <span class="k">and</span> EventID == <span class="n">4688</span>
+| <span class="k">extend</span> HourOfDay = <span class="fn">datetime_part</span>(<span class="s">"hour"</span>, TimeGenerated)
+| <span class="k">extend</span> IsAfterHours = HourOfDay &lt; <span class="n">7</span> <span class="k">or</span> HourOfDay &gt; <span class="n">19</span></code></pre>
+            <p>
+                That query adds two new columns: <code>HourOfDay</code>, which extracts the hour from the timestamp, and
+                <code>IsAfterHours</code>, which is a boolean true/false based on whether the hour falls outside
+                business hours. Now any later steps in the pipeline can filter or summarize using these new columns. You
+                can stack as many <code>extend</code> clauses as you need, and you can compute multiple columns in a
+                single <code>extend</code> by separating them with commas:
+            </p>
+            <pre><code><span class="k">extend</span>
+    HourOfDay    = <span class="fn">datetime_part</span>(<span class="s">"hour"</span>, TimeGenerated),
+    IsAfterHours = <span class="fn">datetime_part</span>(<span class="s">"hour"</span>, TimeGenerated) <span class="k">!between</span> (<span class="n">7</span> .. <span class="n">19</span>),
+    LeafFileName = <span class="fn">tostring</span>(<span class="fn">split</span>(NewProcessName, <span class="s">"\\"</span>)[-<span class="n">1</span>])</code></pre>
+            <p>
+                That third column is worth pausing on because it shows a pattern you will use often. The
+                <code>NewProcessName</code> column on a 4688 event holds a full Windows path like
+                <code>C:\Windows\System32\cmd.exe</code>. The <code>split</code> function breaks that path on the
+                backslash separator, returning an array. Indexing with <code>[-1]</code> gives you the last element,
+                which is the file name. Wrapping the whole thing in <code>tostring</code> converts it from a dynamic
+                value to a plain string. The result is just <code>cmd.exe</code>, which is much easier to filter and
+                summarize on than the full path.
+            </p>
+            <div class="callout warn">
+                <span class="label">A common stumble</span>
+                You <strong>cannot</strong> use a column you just extended in the same <code>extend</code> statement. In
+                the above example, if you attempt to use <code>HourOfDay</code> on the next line, it would return an
+                error saying the column does not exist. To use an extended column in another extend statement, you have
+                to re-extend first.
+                <code
+                    ><br />
+                    | extend HourOfDay = datetime_part("hour", TimeGenerated) <br />
+                    | extend IsAfterHours = HourOfDay !between (7 .. 19)</code
+                >
+            </div>
+            <h3>Conditional values with <code>iff</code> and <code>case</code></h3>
+            <p>
+                Two functions you will see constantly inside <code>extend</code> are <code>iff</code> and
+                <code>case</code>. The <code>iff</code> function is a simple if/then/else:
+                <code>iff(condition, valueIfTrue, valueIfFalse)</code>. You can also use <code>iif</code>, there is no
+                functional difference, it is purely an alias. The <code>case</code> function is a multi-branch version:
+                <code>case(cond1, val1, cond2, val2, ..., defaultVal)</code>.
+            </p>
+            <pre><code>| <span class="k">extend</span> Severity = <span class="fn">case</span>(
+    EventID == <span class="n">4625</span>, <span class="s">"medium"</span>,
+    EventID == <span class="n">4624</span> <span class="k">and</span> LogonType == <span class="n">10</span>, <span class="s">"high"</span>,
+    EventID <span class="k">in</span> (<span class="n">4672</span>, <span class="n">4720</span>, <span class="n">4732</span>), <span class="s">"high"</span>,
+    <span class="s">"low"</span>
+)</code></pre>
+            <p>
+                Each pair is a condition followed by the value to return when that condition is true. The conditions are
+                evaluated top to bottom and the first match wins. The last argument, with no condition before it, is the
+                default - what gets returned if none of the conditions matched.
+            </p>
+            <!-- =================================================================== -->
+            <h2 id="summarize">9. Counting things with <code>summarize</code></h2>
+            <p>
+                Up to this point, every operator we have seen returns a row-by-row transformation of the input. The
+                output has the same general shape as the input, just with fewer rows or different columns.
+                <code>summarize</code> is the first operator that fundamentally changes the shape of the data. It groups
+                rows together and produces one output row per group, replacing the original rows with a summary value.
+            </p>
+            <p>The simplest use of <code>summarize</code> is just counting all the rows:</p>
+            <pre><code><span class="t">SecurityEvent</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1h</span>) <span class="k">and</span> EventID == <span class="n">4625</span>
+| <span class="k">summarize</span> <span class="fn">count</span>()</code></pre>
+            <p>
+                That returns exactly one row with one column - the total number of failed logons in the last hour.
+                Useful, but boring. The interesting form is <code>summarize ... by ...</code>, which says "give me one
+                row per distinct value of these columns":
+            </p>
+            <pre><code><span class="t">SecurityEvent</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1h</span>) <span class="k">and</span> EventID == <span class="n">4625</span>
+| <span class="k">summarize</span> Failures = <span class="fn">count</span>() <span class="k">by</span> Account, Computer</code></pre>
+            <div class="read-aloud">
+                "Take SecurityEvent, then keep only failed logons in the last hour, then count how many there were per
+                Account and Computer combination."
+            </div>
+            <p>
+                The output has three columns: <code>Account</code>, <code>Computer</code>, and <code>Failures</code>.
+                There is one row per unique <code>(Account, Computer)</code> pair, and <code>Failures</code> is the
+                count of failed logons for that pair. Notice the <code>Failures = count()</code> bit - that is naming
+                the aggregated column. Without the assignment, the column would be named <code>count_</code>, which is
+                fine but ugly. Always name your aggregates.
+            </p>
+            <h3>Aggregation functions you will use most</h3>
+            <p>
+                Inside the <code>summarize</code>, you can compute several different summary values at once. The most
+                useful aggregation functions in security work are these:
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Function</th>
+                        <th>What it returns</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>count()</code></td>
+                        <td>Number of rows in the group.</td>
+                    </tr>
+                    <tr>
+                        <td><code>countif(predicate)</code></td>
+                        <td>
+                            Number of rows where the predicate is true. Saves you from running two summarize branches.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>dcount(column)</code></td>
+                        <td>Approximate distinct count. Very efficient even on huge data.</td>
+                    </tr>
+                    <tr>
+                        <td><code>min(column)</code> / <code>max(column)</code></td>
+                        <td>Smallest / largest value. Common for first-seen / last-seen times.</td>
+                    </tr>
+                    <tr>
+                        <td><code>sum(column)</code> / <code>avg(column)</code></td>
+                        <td>Total / average of a numeric column.</td>
+                    </tr>
+                    <tr>
+                        <td><code>take_any(column)</code></td>
+                        <td>
+                            Any single value of the column from the group. Cheaper than <code>min</code>/<code
+                                >max</code
+                            >
+                            when you just need a sample.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>arg_max(column, *)</code></td>
+                        <td>
+                            The row with the largest value of <code>column</code>, with <code>*</code> meaning "keep all
+                            the other columns from that row too." This is hugely useful and we will return to it.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>make_set(column)</code></td>
+                        <td>A deduplicated array of all values of the column in the group.</td>
+                    </tr>
+                    <tr>
+                        <td><code>make_list(column)</code></td>
+                        <td>An ordered array of all values, possibly with duplicates.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>
+                Here is a query that uses several of these together. It produces, for each user account in the last day,
+                the total number of process executions, the number of distinct devices they ran processes on, the first
+                time we saw them, the last time we saw them, and a sample of up to ten distinct file names:
+            </p>
+            <pre><code><span class="t">SecurityEvent</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1d</span>)
+| <span class="k">where</span> Account !endswith <span class="s">"$"</span> <span class="k">and</span> <span class="fn">isnotempty</span>(Account)
+| <span class="k">summarize</span>
+    Executions    = <span class="fn">count</span>(),
+    DeviceCount   = <span class="fn">dcount</span>(DeviceName),
+    FirstSeen     = <span class="fn">min</span>(TimeGenerated),
+    LastSeen      = <span class="fn">max</span>(TimeGenerated),
+    SampleFiles   = <span class="fn">make_set</span>(FileName, <span class="n">10</span>)
+  <span class="k">by</span> AccountName
+| <span class="k">order by</span> Executions <span class="k">desc</span></code></pre>
+            <p>
+                That last argument inside <code>make_set</code>, the <code>10</code>, caps the size of the resulting
+                array. Without a cap, a noisy account could produce a make-set with thousands of file names, which is
+                rarely what you want. Always cap your <code>make_set</code> and <code>make_list</code> calls.
+            </p>
+            <h3>The <code>arg_max</code> trick</h3>
+            <p>
+                Of all the aggregation functions, <code>arg_max</code> is probably the one that will most change how you
+                write queries once you discover it. The signature is <code>arg_max(column, *)</code>, where
+                <code>column</code> is the value you want to maximize and <code>*</code> means "keep all the other
+                columns from the winning row." It answers the question "for each group, give me the latest row, with
+                everything that was on that row."
+            </p>
+            <pre><code><span class="c">// Per device, the most recent network adapter info available</span>
+<span class="t">CommonSecurityLog</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">7d</span>)
+| <span class="k">summarize</span> <span class="fn">arg_max</span>(TimeGenerated, *) <span class="k">by</span> DeviceName</code></pre>
+            <p>
+                That returns one row per device, with all of <code>DeviceNetworkInfo</code>'s columns, taken from the
+                most recent row for that device. Without <code>arg_max</code>, doing this would require either a join or
+                a window function. With <code>arg_max</code>, it is one line.
+            </p>
+            <!-- =================================================================== -->
+            <h2 id="bin">10. Time buckets with <code>bin()</code></h2>
+            <p>
+                The <code>bin</code> function is a small but extremely useful one. It takes a value and rounds it down
+                to the nearest multiple of some unit. For datetime values, that means rounding down to the start of an
+                hour, day, or any other interval. The killer use is grouping events by time bucket.
+            </p>
+            <pre><code><span class="t">SecurityEvent</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">24h</span>) <span class="k">and</span> EventID == <span class="n">4625</span>
+| <span class="k">summarize</span> Failures = <span class="fn">count</span>() <span class="k">by</span> <span class="fn">bin</span>(TimeGenerated, <span class="n">5m</span>)
+| <span class="k">order by</span> TimeGenerated <span class="k">asc</span></code></pre>
+            <p>
+                That gives you the count of failed logons in each 5-minute bucket over the last 24 hours, in
+                chronological order. You can plot the result as a time series in Sentinel directly. Adjust the bucket
+                size to your question - <code>1m</code> for fine-grained timelines, <code>1h</code> for daily patterns,
+                <code>1d</code> for week-long patterns.
+            </p>
+            <p>You can combine time bucketing with grouping by other columns:</p>
+            <pre><code><span class="t">SecurityEvent</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">24h</span>) <span class="k">and</span> EventID <span class="k">in</span> (<span class="n">4624</span>, <span class="n">4625</span>)
+| <span class="k">summarize</span>
+    Successes = <span class="fn">countif</span>(EventID == <span class="n">4624</span>),
+    Failures  = <span class="fn">countif</span>(EventID == <span class="n">4625</span>)
+  <span class="k">by</span> Computer, <span class="fn">bin</span>(TimeGenerated, <span class="n">15m</span>)
+| <span class="k">order by</span> Computer <span class="k">asc</span>, TimeGenerated <span class="k">asc</span></code></pre>
+            <p>
+                Now you have one row per <code>(Computer, 15-minute window)</code> with separate counts of successes and
+                failures. Notice the <code>countif</code> trick - it counts only the rows where its condition is true.
+                Without it, you would have to either run two separate <code>summarize</code> queries and join them, or
+                split the data and union it back, both of which are uglier and slower.
+            </p>
+            <!-- =================================================================== -->
+            <h2 id="sort-top">11. Sorting and limiting</h2>
+            <p>
+                You have already met <code>take</code>, which gives you "any N rows" with no ordering guarantee. The two
+                cousins of <code>take</code> are <code>top</code> and <code>order by</code> (which is the same as
+                <code>sort by</code>, just spelled differently).
+            </p>
+            <p>
+                The <code>order by</code> operator sorts the entire row-set by one or more columns. It takes
+                <code>asc</code> for ascending or <code>desc</code> for descending; the default is descending. Multiple
+                columns are separated by commas (order matters):
+            </p>
+            <pre><code><span class="t">DeviceProcessEvents</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1h</span>)
+| <span class="k">summarize</span> n = <span class="fn">count</span>() <span class="k">by</span> DeviceName, FileName
+| <span class="k">order by</span> n <span class="k">desc</span>, DeviceName <span class="k">asc</span></code></pre>
+            <p>
+                The <code>top</code> operator combines sorting and limiting in one step: it sorts and then takes the top
+                N. Use it when you only want the top so many rows by some metric:
+            </p>
+            <pre><code>| <span class="k">top</span> <span class="n">10</span> <span class="k">by</span> n <span class="k">desc</span></code></pre>
+            <p>
+                That is functionally equivalent to <code>order by n desc | take 10</code>, but it expresses the intent
+                more clearly. It is also slightly more efficient because the engine can stop early once it has the top
+                N.
+            </p>
+            <div class="callout">
+                <span class="label">Worth pausing on</span>
+                Microsoft's documentation makes a small but useful point: at the end of a query you are exploring,
+                finish with either <code>| limit 100</code> (a synonym for <code>take</code>) or <code>| count</code>.
+                Without it, on an unfamiliar dataset, your query may return gigabytes of rows before you realize you
+                forgot to filter something. Adding the limit is a cheap insurance policy while you are still feeling out
+                a new table.
+            </div>
+            <!-- =================================================================== -->
+            <h2 id="schemas">12. The schema gotcha - when "the same field" isn't</h2>
+            <p>
+                This section is one of the most important in the whole guide, because it explains a class of bug that
+                confuses new and experienced KQL users alike. The same conceptual idea - "what user logged on?" or "what
+                was the logon type?" - is represented differently in different tables, sometimes in subtle ways that
+                will silently produce wrong results if you do not know about them.
+            </p>
+            <p>
+                The clearest example is <code>SecurityEvent</code> versus <code>DeviceLogonEvents</code>. Both record
+                logon-related activity. <code>SecurityEvent</code> is sourced from the older Microsoft Monitoring Agent
+                reading the Windows Security event log; <code>DeviceLogonEvents</code> is sourced from Microsoft
+                Defender for Endpoint. They overlap heavily but they are not the same table, and the schemas are not
+                identical.
+            </p>
+            <p>Look carefully at how each table represents <code>LogonType</code>:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Table</th>
+                        <th>Column name</th>
+                        <th>Data type</th>
+                        <th>Example value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>SecurityEvent</code></td>
+                        <td><code>LogonType</code></td>
+                        <td><code>int</code></td>
+                        <td><code>2</code>, <code>3</code>, <code>10</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>DeviceLogonEvents</code></td>
+                        <td><code>LogonType</code></td>
+                        <td><code>string</code></td>
+                        <td><code>"Interactive"</code>, <code>"Network"</code>, <code>"RemoteInteractive"</code></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>
+                If you write <code>where LogonType == 2</code> against <code>SecurityEvent</code>, you correctly get
+                interactive logons. If you write the same thing against <code>DeviceLogonEvents</code>, you will get
+                nothing - not because there are no interactive logons, but because the comparison
+                <code>"Interactive" == 2</code> is always false, and KQL will not even warn you. The query runs cleanly
+                and returns zero rows, which is the worst possible failure mode.
+            </p>
+            <p>
+                The same pattern applies to account names. <code>SecurityEvent</code> has a unified
+                <code>Account</code> column that looks like <code>"CORP\\bryce"</code> - domain and username glued
+                together with a backslash. <code>DeviceLogonEvents</code> and <code>DeviceProcessEvents</code> instead
+                have <code>AccountDomain</code> and <code>AccountName</code> as separate columns, with no backslash
+                anywhere. If you have a query that filters on <code>Account =~ "corp\\bryce"</code> and you change the
+                source table to <code>DeviceProcessEvents</code> without updating the filter, you will again get zero
+                rows and no error.
+            </p>
+            <div class="callout from-past">
+                <span class="label">From the field</span>
+                In one of my earlier query reviews I experienced an issue where the query had a default behavior of
+                returning no results when the <code>EventType</code> input array was empty:
+                <code>where "FileAccess" in~ (EventType)</code> against an empty <code>EventType</code> array silently
+                returns nothing. That is a legitimate design choice - it acted as a safety net when run with no scoping
+                arguments - but it also means the query "works" in the sense that it does not error, while producing a
+                zero-row output that an analyst could mistake for "no findings." Empty results are not the same as no
+                findings; they are no answer. Always sanity-check that your filters are not silently filtering away
+                everything.
+            </div>
+            <h3>What to do about it</h3>
+            <p>
+                The defense against these types of issues is to know the schemas of the tables you query most. Run
+                <code>TableName | getschema</code> the first time you touch a new table, and again whenever a query
+                returns zero rows when you expected some. Keep a small reference card for the tables you use most if you
+                feel it is necessary. The appendix at the end of this document has compact schema cards for the tables
+                you will encounter day to day.
+            </p>
+            <!-- =================================================================== -->
+            <h2 id="combining">13. Combining tables: <code>union</code> and <code>join</code></h2>
+            <p>
+                So far every query has touched a single table. Real investigations often span multiple tables, because
+                the data you need is spread across them - logons in one table, process executions in another, network
+                activity in a third. KQL gives us two operators for combining tables: <code>union</code>, which stacks
+                tables on top of each other, and <code>join</code>, which links rows from one table to rows from another
+                based on a key.
+            </p>
+            <h3><code>union</code></h3>
+            <p>
+                Use <code>union</code> when you want all the rows from multiple tables together as if they came from
+                one. The tables do not need to have the same schema; columns that are in one table but not another will
+                simply be empty for rows that came from the other table. The most common use is when the same conceptual
+                data lives in two tables - for instance, both <code>SecurityEvent</code> (4624) and
+                <code>SigninLogs</code> record logon activity, but for different sources.
+            </p>
+            <pre><code><span class="k">union</span>
+    (<span class="t">SecurityEvent</span> | <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1h</span>) <span class="k">and</span> EventID == <span class="n">4624</span>
+                   | <span class="k">project</span> TimeGenerated, Computer, Account, IpAddress, Source = <span class="s">"SecEvent"</span>),
+    (<span class="t">DeviceLogonEvents</span> | <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1h</span>) <span class="k">and</span> ActionType == <span class="s">"LogonSuccess"</span>
+                       | <span class="k">project</span> TimeGenerated, Computer = DeviceName, Account = AccountName, IpAddress = RemoteIP, Source = <span class="s">"DefenderEDR"</span>)
+| <span class="k">order by</span> TimeGenerated <span class="k">desc</span></code></pre>
+            <p>
+                Notice that I projected each side to the same column names before unioning. That is not strictly
+                required - <code>union</code> will tolerate mismatched columns - but it makes the result much cleaner.
+                Notice also the added <code>Source</code> column, which lets you tell which table each row came from.
+                This is a good habit; it costs nothing and you will be glad of it five minutes later when you wonder why
+                a row looks weird.
+            </p>
+            <h3><code>join</code> and the trap that catches everyone</h3>
+            <p>
+                The <code>join</code> operator merges two tables based on matching values in one or more columns, like
+                SQL joins. The general syntax is:
+            </p>
+            <pre><code>LeftTable
+| <span class="k">join</span> kind=&lt;kind&gt; (RightTable) <span class="k">on</span> Key</code></pre>
+            <p>
+                The <code>kind=</code> parameter is critical. There are several kinds of join (9 to be exact):
+                <code>inner</code> (only matching rows from both sides), <code>leftouter</code> (all left rows, matching
+                right or null), <code>leftanti</code> (left rows with no match in right), and a few more shown in the
+                image below. I will cover the most useful ones in a moment. But first, the trap.
+            </p>
+            <div class="image-slot">
+                <img src=".\images\join-kinds.png" width="1000" contain alt="..." />
+            </div>
+            <div class="callout danger">
+                <span class="label">The default-join trap</span>
+                If you write <code>LeftTable | join (RightTable) on Key</code> with no <code>kind=</code> specified, KQL
+                does <em>not</em> default to a SQL-style inner join. It defaults to a kind called
+                <code>innerunique</code>, which silently de-duplicates the left side on the join key before joining.
+                This means duplicate left rows are dropped before you ever see them, and your query returns fewer rows
+                than you expected, with no error and no warning.
+                <strong>Always specify <code>kind=</code> explicitly.</strong> If you want a SQL inner join, write
+                <code>kind=inner</code>. If you want all left rows, write <code>kind=leftouter</code>. The one thing you
+                almost certainly do not want is the default.
+            </div>
+            <p>
+                With that warning recorded, here are the joins you will use most. The mental model that helps is to
+                picture two columns of rows next to each other, and ask: "for each row on the left, what should happen?"
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th><code>kind=</code></th>
+                        <th>For each left row...</th>
+                        <th>Use it for</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>inner</code></td>
+                        <td>Keep it once for every matching right row; drop if no match</td>
+                        <td>True intersection of two sets</td>
+                    </tr>
+                    <tr>
+                        <td><code>leftouter</code></td>
+                        <td>Keep it; matched right columns or null</td>
+                        <td>Enrichment - adding optional context</td>
+                    </tr>
+                    <tr>
+                        <td><code>leftanti</code></td>
+                        <td>Keep it only if there is no match in the right</td>
+                        <td>"First time seen" - events not in your baseline</td>
+                    </tr>
+                    <tr>
+                        <td><code>innerunique</code></td>
+                        <td>De-dup left first, then inner join</td>
+                        <td>The default; usually not what you want</td>
+                    </tr>
+                </tbody>
+            </table>
+            <h3>A typical enrichment join</h3>
+            <p>
+                A very common pattern is "I have some events, and I want to attach extra context from another table."
+                The right operator for this is almost always <code>kind=leftouter</code>:
+            </p>
+            <pre><code><span class="c">// Logons enriched with the most recent device info per device</span>
+<span class="k">let</span> RecentDeviceInfo = <span class="t">DeviceNetworkInfo</span>
+    | <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">7d</span>)
+    | <span class="k">summarize</span> <span class="fn">arg_max</span>(TimeGenerated, *) <span class="k">by</span> DeviceName
+    | <span class="k">project</span> DeviceName, IPAddresses, MacAddress;
+<span class="t">DeviceLogonEvents</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1h</span>) <span class="k">and</span> ActionType == <span class="s">"LogonSuccess"</span>
+| <span class="k">join</span> kind=leftouter (RecentDeviceInfo) <span class="k">on</span> DeviceName
+| <span class="k">project</span> TimeGenerated, DeviceName, AccountName, LogonType, IPAddresses, MacAddress</code></pre>
+            <p>
+                Read this slowly. You first define a small lookup table called <code>RecentDeviceInfo</code> with one
+                row per device, holding only the columns you want to attach. Then you take the actual logon events, do a
+                left-outer join to that lookup, and project the fields you care about. Each logon event keeps everything
+                it had before and gains the device's most recent IP and MAC address. If the device is brand new and not
+                in the lookup table, those fields will be empty rather than dropping the row - that is the "leftouter"
+                behavior in action.
+            </p>
+            <h3>The "first time seen" idiom</h3>
+            <p>
+                One of the most useful patterns in detection engineering is "show me the things I have not seen before."
+                The <code>leftanti</code> join makes this clean:
+            </p>
+            <pre><code><span class="c">// Process executions in the last hour that did not appear anywhere in the last 30 days</span>
+<span class="k">let</span> Baseline = <span class="t">DeviceProcessEvents</span>
+    | <span class="k">where</span> TimeGenerated <span class="k">between</span> (<span class="fn">ago</span>(<span class="n">30d</span>) .. <span class="fn">ago</span>(<span class="n">1h</span>))
+    | <span class="k">distinct</span> DeviceName, FileName, SHA256;
+<span class="t">DeviceProcessEvents</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1h</span>)
+| <span class="k">join</span> kind=leftanti (Baseline) <span class="k">on</span> DeviceName, FileName, SHA256</code></pre>
+            <p>
+                Each row in the recent events is kept only if there is no matching row in the baseline. The result is
+                the set of "new" things - process executions on a host running with a hash combination that has never
+                been seen on that host before in the last 30 days. This is much cleaner than trying to do it with
+                <code>!in</code> against a giant in-memory list.
+            </p>
+            <!-- =================================================================== -->
+            <h2 id="parsing">14. Parsing messy fields</h2>
+            <p>
+                Sooner or later you will need to extract a value out of a string column that does not have its own
+                dedicated column. The classic example is the <code>EventData</code> column on
+                <code>SecurityEvent</code>: it contains the raw XML payload of the underlying Windows Security event,
+                with all the field-by-field details that did not get promoted to top-level columns. To get at any of
+                those details, you have to parse.
+            </p>
+            <p>KQL has several tools for this, ranging from "easy and fast" to "powerful but slow." In rough order:</p>
+            <h3><code>parse</code> - easy when the data has a stable shape</h3>
+            <p>
+                The <code>parse</code> operator works when the source string follows a stable pattern of literal text
+                and variable values. You write the literal text in quotes and the variable parts as bare names, and KQL
+                extracts them. I will outline three examples below to help outline multiple use cases.
+            </p>
+            <p>
+                This is the simplest execution of parse, you are looking solely for the value between "from" and "port".
+                In this case, that is the Source IP so we name it accordingly.
+            </p>
+            <pre><code><span class="t">Syslog</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1h</span>) <span class="k">and</span> ProcessName == <span class="s">"sshd-session"</span>
+| <span class="k">parse</span> SyslogMessage <span class="k">with</span> * <span class="s">" from "</span> SourceIP <span class="s">" port " </span>*
+| <span class="k">project</span> TimeGenerated, Computer, SourceIP</code></pre>
+            <p>
+                This is a similar, but more specific parse, instead of parsing one value, you are parsing out three.
+                This interprets more as a sentence than above, where all strings (for, from, port, ssh2:) have to exist
+                and in the manner you typed them for the data to be parsed out. Any typographical error or SyslogMessage
+                that does not contain the full sentence will not be parsed.
+            </p>
+            <pre><code><span class="t">Syslog</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1h</span>) <span class="k">and</span> ProcessName == <span class="s">"sshd-session"</span>
+| <span class="k">parse</span> SyslogMessage <span class="k">with</span> * <span class="s">"for "</span> User <span class="s">" from "</span> SourceIP <span class="s">" port "</span> Port <span class="s">" ssh2:" </span>*
+| <span class="k">project</span> TimeGenerated, Computer, User, SourceIP, Port</code></pre>
+            <p>
+                The last example has a subtle difference, the <code>*</code> was removed from the end of the parse
+                statement. You should use this whenever the value you are parsing out is at the end of the data,
+                otherwise you will receive an error for ambiguity. A second change was adding <code>:string</code> and
+                <code>:int</code> to the <code>User</code> and <code>Port</code> variables inside the parse statement.
+                This allows for explicit type casting during extraction, it is not necessary, but depending on the data
+                set, can be useful.
+            </p>
+            <pre><code><span class="t">Syslog</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1h</span>) <span class="k">and</span> ProcessName == <span class="s">"sshd-session"</span>
+| <span class="k">parse</span> SyslogMessage <span class="k">with</span> * <span class="s">"for "</span> User:string <span class="s">" from "</span> SourceIP <span class="s">" port "</span> Port:int <span class="s">" ssh2: "</span> PublicKey
+| <span class="k">project</span> TimeGenerated, Computer, User, SourceIP, Port, PublicKey</code></pre>
+            <p>
+                The asterisks at the start and end mean "skip everything up to the next literal" and "ignore anything
+                after the last literal." The string fragments are the literal text you expect to see, and
+                <code>User</code>, <code>SourceIP</code>, <code>Port</code> are the variable parts you want to extract.
+                Microsoft's official guidance is to prefer <code>parse</code> over multiple <code>extract()</code> calls
+                when the strings all follow the same format - it is one operator, the engine optimizes it together, and
+                it is easier to read.
+            </p>
+            <h3><code>extract</code> and <code>extract_all</code> - when the format varies</h3>
+            <p>
+                When the string is not predictably formatted, regex is your tool. <code>extract</code> pulls out a
+                single capture group; <code>extract_all</code> pulls out all of them.
+            </p>
+            <pre><code>| <span class="k">extend</span> Host = <span class="fn">extract</span>(<span class="s">@"https?://([^/:]+)"</span>, <span class="n">1</span>, RemoteUrl)</code></pre>
+            <p>
+                The first argument is the regex pattern, the second argument is which capture group to return
+                (1-indexed), and the third argument is the column to extract from. The result is the captured text or an
+                empty string if there is no match.
+            </p>
+            <h3>Sysmon EventData and dynamic XML - the pattern I developed</h3>
+            <p>
+                For Sysmon events forwarded into the <code>SecurityEvent</code> table, the field-level data lives inside
+                the <code>EventData</code> string as XML. There are two common ways to get at it. The first is to use
+                <code>extract</code> with a regex against the raw string, which is robust and easy to reason about. The
+                second is to use <code>parse_xml</code> followed by <code>mv-apply</code> with <code>bag_pack</code> to
+                construct a key-value bag of every <code>&lt;Data Name="..."&gt;</code> element. Here is the second
+                pattern, in the form I have used for Sysmon process-access events:
+            </p>
+            <pre><code><span class="t">SecurityEvent</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1h</span>) <span class="k">and</span> EventID == <span class="n">10</span>
+| <span class="k">extend</span> CleanXml = <span class="fn">replace_string</span>(
+   EventData, @' xmlns="http://schemas.microsoft.com/win/2004/08/events/event"', ""
+  )
+| <span class="k">extend</span> ParsedXml = <span class="fn">parse_xml</span>(CleanXml)
+| <span class="k">extend</span> DataFields = ParsedXml.EventData.Data
+| <span class="k">mv-apply</span> Field = DataFields <span class="k">on</span> (
+    <span class="k">extend</span> Key = <span class="fn">tostring</span>(Field['@Name']), Value = Field['#text']
+      | <span class="k">summarize</span> PackedBag = <span class="fn">make_bag</span>(<span class="fn">bag_pack</span>(Key, Value))
+  )
+| <span class="k">evaluate</span> <span class="fn">bag_unpack</span>(PackedBag, "Unpacked_")
+| <span class="k">project</span> TimeGenerated, Computer,
+          SourceImage   = <span class="fn">tostring</span>(Unpacked_SourceImage),
+          TargetImage   = <span class="fn">tostring</span>(Unpacked_TargetImage),
+          GrantedAccess = <span class="fn">tostring</span>(Unpacked_GrantedAccess),
+          CallTrace     = <span class="fn">tostring</span>(Unpacked_CallTrace)</code></pre>
+            <p>
+                This is more advanced than where you are right now, and that is fine. The reason it appears here is so
+                you have a complete worked example to come back to once you start touching Sysmon data seriously. Read
+                the steps and trust that they will become clear with practice. The high-level shape is: parse the XML,
+                walk over each <code>Data</code> element, build a property bag mapping <code>Name → value</code>, and
+                then read fields out of the bag by name.
+            </p>
+            <div class="callout from-past">
+                <span class="label">From the field</span>
+                When I built this pattern, I considered both approaches - regex extract versus XML parse - and ended up
+                using both in different contexts. Regex is more forgiving when the XML structure varies between
+                collectors. XML parse is cleaner when the structure is reliable.
+            </div>
+            <h3>Arrays and <code>mv-expand</code></h3>
+            <p>
+                You have just seen <code>mv-apply</code>. Its simpler cousin is <code>mv-expand</code>, which takes a
+                single row containing an array and turns it into multiple rows, one per element. If a row has columns
+                <code>Host = "WS01"</code> and <code>Tags = ["a","b","c"]</code>, then
+                <code>mv-expand Tags</code> produces three rows, all with <code>Host = "WS01"</code>, and
+                <code>Tags</code> set to <code>"a"</code>, then <code>"b"</code>, then <code>"c"</code>. This is
+                invaluable when a column holds a list and you want to filter on individual elements.
+            </p>
+            <pre><code><span class="t">DeviceProcessEvents</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1h</span>) <span class="k">and</span> ProcessCommandLine has <span class="s">"powershell"</span>
+| <span class="k">extend</span> Tokens = <span class="fn">split</span>(ProcessCommandLine, <span class="s">" "</span>)
+| <span class="k">mv-expand</span> Token = Tokens
+| <span class="k">where</span> Token <span class="k">matches regex</span> <span class="s">@"^[A-Za-z0-9+/=]{200,}$"</span>
+| <span class="k">project</span> TimeGenerated, Token, Tokens</code></pre>
+            <p>
+                That query splits each PowerShell command line on whitespace, expands one row per token, and then keeps
+                only tokens that look like long base64-ish blobs - a quick way to find encoded PowerShell payloads.
+                <code>mv-expand</code> is the bridge between a column-oriented world and a row-oriented one when the
+                column contains a list.
+            </p>
+            <!-- =================================================================== -->
+            <h2 id="pitfalls">15. Things that have bitten us</h2>
+            <p>
+                This section is the most concentrated value in the document. Each item here is a real error I have
+                caught in past query work. Read these in advance and you will recognize them when they happen to you.
+            </p>
+            <h3>The double-materialize error</h3>
+            <p>
+                This one came up in a review for a MITRE ATT&CK association query and is worth understanding. The setup
+                was a query with a shared base - <code>BaselineSecEvent</code> - that was used to feed two downstream
+                sub-queries, <code>FileOrObjectAccessEvents</code> and <code>SystemAccess</code>. The original query
+                looked something like this in shape:
+            </p>
+            <pre><code><span class="k">let</span> FileOrObjectAccessEvents = <span class="fn">materialize</span>(
+    <span class="t">SecurityEvent</span>
+    | <span class="k">where</span> ... lots of common logic ...
+    | <span class="k">where</span> EventID <span class="k">in</span> (<span class="n">2</span>, <span class="n">6</span>, <span class="n">7</span>, <span class="n">11</span>, <span class="n">12</span>, ...)
+);
+<span class="k">let</span> SystemAccess = <span class="fn">materialize</span>(
+    <span class="t">SecurityEvent</span>
+    | <span class="k">where</span> ... lots of common logic, again ...
+    | <span class="k">where</span> EventID <span class="k">in</span> (<span class="n">4624</span>, <span class="n">4625</span>, <span class="n">4634</span>, ...)
+);
+<span class="k">union</span> FileOrObjectAccessEvents, SystemAccess</code></pre>
+            <p>
+                The issue: the <code>materialize()</code> function forces the query engine to execute a subquery exactly
+                once, cache its results in memory, and then reuse that cached data for any subsequent references within
+                the same query.. The big <code>SecurityEvent</code> scan and all its parsing and lookups happened twice
+                - once for each materialized sub-query. The fix was to materialize the shared base once and let the
+                sub-queries read from it:
+            </p>
+            <pre><code><span class="k">let</span> BaselineSecEvent = <span class="fn">materialize</span>(
+    <span class="t">SecurityEvent</span>
+    | <span class="k">where</span> TimeGenerated <span class="k">between</span> (StartTime .. EndTime)
+    | <span class="k">where</span> ... all the common logic, run once ...
+);
+<span class="k">let</span> FileOrObjectAccessEvents = BaselineSecEvent | <span class="k">where</span> EventID <span class="k">in</span> (<span class="n">2</span>, <span class="n">6</span>, <span class="n">7</span>, <span class="n">11</span>, ...);
+<span class="k">let</span> SystemAccess = BaselineSecEvent | <span class="k">where</span> EventID <span class="k">in</span> (<span class="n">4624</span>, <span class="n">4625</span>, <span class="n">4634</span>, ...);
+<span class="k">union</span> FileOrObjectAccessEvents, SystemAccess</code></pre>
+            <p>
+                The lesson: <code>materialize</code> is cheap to use but expensive to misuse. When you have shared logic
+                that feeds multiple consumers, materialize the shared piece, not each consumer. Two materializes around
+                the same expensive base means doing the expensive work twice.
+            </p>
+            <h3>The "first match wins" lookup bug</h3>
+            <p>
+                In the same review I caught a subtler issue. There was a lookup table mapping Windows Event IDs to MITRE
+                ATT&amp;CK techniques. Event 4625 (failed logon) is associated with both T1110.001 (password guessing)
+                and T1110.002 (password cracking) - two techniques. When the lookup was done with a simple
+                <code>join</code>, only one of those mappings was kept; the other was silently dropped. The lesson: any
+                time a lookup key can map to multiple values in your reference table, a join will not return what you
+                might expect. Either explicitly handle the multi-row case, use <code>make_set</code> to gather all
+                matches, or restructure the lookup.
+            </p>
+            <h3>The "empty array silently filters everything" trap</h3>
+            <p>
+                The same query had a guard pattern: input scoping arrays like <code>EventType = dynamic([])</code> with
+                a filter <code>where "FileAccess" in~ (EventType)</code>. When the array was empty, the filter would be
+                false for every row and the query would return zero results - not an error, just nothing. This is a
+                legitimate design as a safety net (so the query does not run unbounded), but it also means that "zero
+                results" can mean either "no findings" or "you forgot to populate the input." Always sanity-check that
+                your filters are not silently filtering away everything.
+            </p>
+            <h3>String-to-int comparison and silent zero-row results</h3>
+            <p>
+                The schema gotcha section above covered this in detail, but it is worth repeating in this list.
+                Comparing <code>EventID == "4624"</code> (string against an int column) works in some KQL contexts and
+                silently produces zero rows in others. Always match the type. If you are not sure of the type, run
+                <code>YourTable | getschema</code>.
+            </p>
+            <h3>Tiny typos that produce zero matches</h3>
+            <p>
+                From the same review: a literal string <code>@"N\A"</code> where the intent was <code>"N/A"</code>. The
+                escape-aware string had a backslash where there should have been a forward slash, so anything you
+                compared to it would not match. There was no error; the comparison just always failed. When you have a
+                query that "looks right" but returns nothing, copy-paste a literal value from the data into your filter
+                rather than retyping it.
+            </p>
+            <div class="callout">
+                <span class="label">The pattern across all of these</span>
+                Every one of these bugs has the same shape: the query runs cleanly with no error, and produces a wrong
+                answer (often zero rows). Check the schema, check your literal values, check your join kinds, and check
+                whether something silently filtered out everything. KQL is very willing to do exactly what you said when
+                what you said was not what you meant.
+            </div>
+            <!-- =================================================================== -->
+            <h2 id="walkthrough">16. Reading a real query out loud</h2>
+            <p>
+                To consolidate everything I have covered, let us walk through a non-trivial query as if you had
+                encountered it in a wiki and needed to understand it before running it. Here is the query:
+            </p>
+            <pre><code><span class="k">let</span> Window = <span class="n">5m</span>;
+<span class="k">let</span> Fails = <span class="t">SecurityEvent</span>
+    | <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">24h</span>) <span class="k">and</span> EventID == <span class="n">4625</span>
+    | <span class="k">where</span> Account !endswith <span class="s">"$"</span>
+    | <span class="k">project</span> FailTime = TimeGenerated, Account, IpAddress, Computer;
+<span class="k">let</span> Wins = <span class="t">SecurityEvent</span>
+    | <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">24h</span>) <span class="k">and</span> EventID == <span class="n">4624</span>
+    | <span class="k">project</span> WinTime = TimeGenerated, Account, IpAddress, Computer;
+Fails
+| <span class="k">join</span> kind=inner Wins <span class="k">on</span> Account, IpAddress, Computer
+| <span class="k">where</span> WinTime &gt; FailTime <span class="k">and</span> WinTime - FailTime &lt;= Window
+| <span class="k">summarize</span>
+    FailCount = <span class="fn">count</span>(),
+    FirstFail = <span class="fn">min</span>(FailTime),
+    Success   = <span class="fn">min</span>(WinTime)
+  <span class="k">by</span> Account, IpAddress, Computer
+| <span class="k">where</span> FailCount &gt;= <span class="n">3</span>
+| <span class="k">order by</span> Success <span class="k">desc</span></code></pre>
+            <p>
+                Walk through it line by line, saying "then" at each pipe. The query starts by defining a constant
+                <code>Window = 5m</code> - a five-minute time window you will use later. It then defines two named
+                subqueries with <code>let</code>: <code>Fails</code> is all 4625 failed-logon events from the last 24
+                hours, with the timestamp renamed to <code>FailTime</code> so you can tell it apart later;
+                <code>Wins</code> is the same shape but for 4624 successful logons, with <code>WinTime</code>.
+            </p>
+            <div class="exercise">
+                <h3>How the query should be read</h3>
+                <p>Click the "Show solution" button to check if you read/interpreted the query right.</p>
+                <details>
+                    <summary>Show solution</summary>
+                    <pre><code><span class="k">let</span> the Window equal five minutes;
+
+Then <span class="k">let</span> Fails equal <span class="t">SecurityEvent</span>
+| <span class="k">where</span> the <strong>TimeGenerated</strong> is greater than the time was 24 hours ago and the <strong>EventID</strong> is equal to <span class="n">4625</span>
+| then take <strong>Accounts</strong> that do not end with <span class="s">"$"</span>
+| then <strong>project</strong> the columns where FailTime equals <strong>TimeGenerated, Account, IpAddress, and Computer</strong>;
+
+Next, <span class="k">let</span> Wins equal <span class="t">SecurityEvent</span>
+| then take events <span class="k">where</span> the <strong>TimeGenerated</strong> is greater than the time was 24 hours <span class="fn">ago</span> and the <strong>EventID</strong> is equal to <span class="n">4624</span>
+| then <strong>project</strong> the columns where <strong>WinTime</strong> equals <strong>TimeGenerated, Account, IpAddress, and Computer</strong>;
+
+Next take <span class="t">Fails</span>
+| then join <span class="t">Fails</span> and <span class="t">Wins</span> where they have matching row values for the columns <strong>Account, IpAddress, and Computer</strong>
+| then take the <strong>WinTimes</strong> that are greater than the <strong>FailTimes</strong> and where their difference is less than or equal to five minutes
+| then <span class="k">summarize</span> the count of failed logins, the first failure time, and the first successful login time by the <strong>Account, IpAddress, and Computer</strong>
+| then take the <strong>FailCounts</strong> that are greater than or equal to three
+| then <span class="k">order by</span> Success (First successful login time) <span class="k">descending</span> 
+               </code></pre>
+                </details>
+            </div>
+            <p>
+                The actual computation starts at the third <code>let</code>-less block. Read it: "Take the Fails table,
+                then inner-join it to the Wins table on the combination of Account, IpAddress, and Computer. Then keep
+                only matched rows where the win came after the fail and the gap was at most five minutes. Then group by
+                Account, IpAddress, and Computer, counting fails and grabbing the earliest fail time and earliest
+                success time per group. Then keep only groups with three or more fails. Then sort by success time, most
+                recent first."
+            </p>
+            <p>
+                What this query does, in plain language: it finds cases where the same account, from the same IP, on the
+                same machine, had three or more failed logons within a five-minute window followed by a successful one.
+                That is a classic password-guessing-then-success pattern.
+            </p>
+            <p>
+                If you can read a query like that comfortably and predict roughly what its output will look like before
+                running it, you are ready for some exercises.
+            </p>
+            <!-- =================================================================== -->
+            <h2 id="exercises">17. Practice exercises</h2>
+            <p>
+                These are intentionally easy. The goal is to use what you just read, not to test you. Each exercise has
+                a worked solution that you can expand. Try the exercise in your own environment first, and only open the
+                solution after you have something working - even if "working" means "does not error but I am not sure of
+                the output."
+            </p>
+            <div class="exercise">
+                <h3><span class="badge">01</span> Show the last 20 successful logons in the last hour</h3>
+                <p>
+                    Use <code>SecurityEvent</code>. EventID 4624 is a successful logon. Project just the time, computer,
+                    account, and IP address. Sort so the most recent is at the top and limit to 20 rows.
+                </p>
+                <details>
+                    <summary>Show solution</summary>
+                    <pre><code><span class="t">SecurityEvent</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1h</span>)
+| <span class="k">where</span> EventID == <span class="n">4624</span>
+| <span class="k">project</span> TimeGenerated, Computer, Account, IpAddress
+| <span class="k">order by</span> TimeGenerated <span class="k">desc</span>
+| <span class="k">take</span> <span class="n">20</span></code></pre>
+                    <p>
+                        Three things to notice about this solution. First, the time filter comes before the EventID
+                        filter - time is always first. Second, the <code>project</code> happens before the
+                        <code>order by</code>, which is good practice because it reduces the amount of data the engine
+                        has to sort. Third, I used <code>take</code> at the very end after sorting, which is the safe
+                        pattern. Using <code>top 20 by TimeGenerated desc</code> would also work and is slightly more
+                        efficient.
+                    </p>
+                </details>
+            </div>
+            <div class="exercise">
+                <h3>
+                    <span class="badge">02</span> Count failed logons per account in the last 24 hours, exclude machine
+                    accounts
+                </h3>
+                <p>
+                    Use <code>SecurityEvent</code>. EventID 4625 is a failed logon. Group by <code>Account</code>,
+                    count, and only show accounts with at least 5 failures.
+                </p>
+                <details>
+                    <summary>Show solution</summary>
+                    <pre><code><span class="t">SecurityEvent</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">24h</span>) <span class="k">and</span> EventID == <span class="n">4625</span>
+| <span class="k">where</span> Account !endswith <span class="s">"$"</span>
+| <span class="k">summarize</span> Failures = <span class="fn">count</span>() <span class="k">by</span> Account
+| <span class="k">where</span> Failures &gt;= <span class="n">5</span>
+| <span class="k">order by</span> Failures <span class="k">desc</span></code></pre>
+                    <p>
+                        The <code>!endswith "$"</code> filter is the convention for excluding machine accounts. Notice
+                        that I filter on the count <em>after</em> the summarize, which is the only place you can - the
+                        <code>Failures</code> column does not exist before that line.
+                    </p>
+                </details>
+            </div>
+            <div class="exercise">
+                <h3><span class="badge">03</span> List distinct processes per device in the last hour</h3>
+                <p>
+                    Use <code>DeviceProcessEvents</code>. For each <code>(DeviceName, FileName)</code> pair, give the
+                    first time you saw it, the last time you saw it, and a count of executions.
+                </p>
+                <details>
+                    <summary>Show solution</summary>
+                    <pre><code><span class="t">DeviceProcessEvents</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1h</span>)
+| <span class="k">summarize</span>
+    FirstSeen = <span class="fn">min</span>(TimeGenerated),
+    LastSeen  = <span class="fn">max</span>(TimeGenerated),
+    Executions = <span class="fn">count</span>()
+  <span class="k">by</span> DeviceName, FileName
+| <span class="k">order by</span> Executions <span class="k">desc</span></code></pre>
+                    <p>
+                        This is the bread-and-butter "what ran where" query. If you wanted only suspicious-looking
+                        executables, add a filter on <code>FileName</code> after the summarize, or filter
+                        <code>InitiatingProcessFileName</code> before the summarize to scope to specific parents. The
+                        point of this exercise is just to get comfortable with multiple aggregates in one summarize.
+                    </p>
+                </details>
+            </div>
+            <div class="exercise">
+                <h3><span class="badge">04</span> Plot a 5-minute timeline of failed logons over the last 6 hours</h3>
+                <p>
+                    Use <code>SecurityEvent</code>. Group failures into 5-minute buckets. The result should be one row
+                    per bucket with a count.
+                </p>
+                <details>
+                    <summary>Show solution</summary>
+                    <pre><code><span class="t">SecurityEvent</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">6h</span>) <span class="k">and</span> EventID == <span class="n">4625</span>
+| <span class="k">summarize</span> Failures = <span class="fn">count</span>() <span class="k">by</span> <span class="fn">bin</span>(TimeGenerated, <span class="n">5m</span>)
+| <span class="k">order by</span> TimeGenerated <span class="k">asc</span>
+| <span class="k">render</span> timechart</code></pre>
+                    <p>
+                        The <code>render timechart</code> at the end is a Sentinel-friendly way of saying "draw this as
+                        a line chart." You can leave it off if you just want the table. Notice that the
+                        <code>bin</code> result is named <code>TimeGenerated</code> by default - the binning preserves
+                        the source column name, which is convenient because it lines up with the chart axis.
+                    </p>
+                </details>
+            </div>
+            <div class="exercise">
+                <h3>
+                    <span class="badge">05</span> Find PowerShell commands containing any of "Invoke-Expression,"
+                    "DownloadString," or "FromBase64String"
+                </h3>
+                <p>
+                    Use <code>DeviceProcessEvents</code> and look at <code>ProcessCommandLine</code>. Use
+                    <code>has_any</code> with a list. Project just the time, device, account, and command line.
+                </p>
+                <details>
+                    <summary>Show solution</summary>
+                    <pre><code><span class="k">let</span> Suspicious = <span class="fn">dynamic</span>([<span class="s">"Invoke-Expression"</span>, <span class="s">"DownloadString"</span>, <span class="s">"FromBase64String"</span>]);
+<span class="t">DeviceProcessEvents</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1d</span>)
+| <span class="k">where</span> FileName =~ <span class="s">"powershell.exe"</span>
+| <span class="k">where</span> ProcessCommandLine has_any (Suspicious)
+| <span class="k">project</span> TimeGenerated, DeviceName, AccountName, ProcessCommandLine
+| <span class="k">order by</span> TimeGenerated <span class="k">desc</span></code></pre>
+                    <p>
+                        Three things to notice. First, <code>has_any</code> takes a parenthesized argument that is the
+                        array. Second, you filter on <code>FileName =~ "powershell.exe"</code> before the
+                        <code>has_any</code> filter - this narrows the rows the more expensive string match has to look
+                        at. Third, we used <code>=~</code> for the file name because we do not care about case.
+                    </p>
+                </details>
+            </div>
+            <div class="exercise">
+                <h3><span class="badge">06</span> Enrich a logon event with device info</h3>
+                <p>
+                    Show the last 20 logons from <code>DeviceLogonEvents</code> in the last hour, joined to
+                    <code>DeviceNetworkInfo</code> to show the device's most recent IP address.
+                </p>
+                <details>
+                    <summary>Show solution</summary>
+                    <pre><code><span class="k">let</span> RecentInfo = <span class="t">DeviceNetworkInfo</span>
+    | <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">7d</span>)
+    | <span class="k">summarize</span> <span class="fn">arg_max</span>(TimeGenerated, *) <span class="k">by</span> DeviceName
+    | <span class="k">project</span> DeviceName, IPAddresses, MacAddress;
+<span class="t">DeviceLogonEvents</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1h</span>) <span class="k">and</span> ActionType == <span class="s">"LogonSuccess"</span>
+| <span class="k">join</span> kind=leftouter (RecentInfo) <span class="k">on</span> DeviceName
+| <span class="k">project</span> TimeGenerated, DeviceName, AccountName, LogonType, IPAddresses
+| <span class="k">order by</span> TimeGenerated <span class="k">desc</span>
+| <span class="k">take</span> <span class="n">20</span></code></pre>
+                    <p>
+                        Two things to notice. First, we explicitly wrote <code>kind=leftouter</code>. You do not want
+                        the default <code>innerunique</code>; we want to keep every logon event whether or not we have a
+                        matching device-info row. Second, the lookup table <code>RecentInfo</code> has exactly one row
+                        per device thanks to the <code>arg_max</code> summarize, so the join cannot fan out into
+                        duplicates.
+                    </p>
+                </details>
+            </div>
+            <div class="exercise">
+                <h3>
+                    <span class="badge">07</span> Find new processes that have not run on a device in the last 30 days
+                </h3>
+                <p>
+                    Use <code>DeviceProcessEvents</code>. Build a 30-day baseline of
+                    <code>(DeviceName, FileName, SHA256)</code>, then find executions in the last hour that do not match
+                    anything in the baseline.
+                </p>
+                <details>
+                    <summary>Show solution</summary>
+                    <pre><code><span class="k">let</span> Baseline = <span class="t">DeviceProcessEvents</span>
+    | <span class="k">where</span> TimeGenerated <span class="k">between</span> (<span class="fn">ago</span>(<span class="n">30d</span>) .. <span class="fn">ago</span>(<span class="n">1h</span>))
+    | <span class="k">distinct</span> DeviceName, FileName, SHA256;
+<span class="t">DeviceProcessEvents</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1h</span>)
+| <span class="k">join</span> kind=leftanti (Baseline) <span class="k">on</span> DeviceName, FileName, SHA256
+| <span class="k">project</span> TimeGenerated, DeviceName, AccountName, FileName, ProcessCommandLine, SHA256
+| <span class="k">order by</span> TimeGenerated <span class="k">desc</span></code></pre>
+                    <p>
+                        This is the "first time seen on this host" pattern using <code>leftanti</code>. It is one of the
+                        most useful detection idioms in KQL. Notice that the baseline window explicitly stops at
+                        <code>ago(1h)</code>, not at <code>now()</code> - we want to compare recent events to a baseline
+                        that does not already include those recent events.
+                    </p>
+                </details>
+            </div>
+            <!-- =================================================================== -->
+            <h2 id="reference">18. Quick reference appendix</h2>
+            <h3>Operators by purpose</h3>
+            <p>Group these in your head by what they do, not alphabetically:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Goal</th>
+                        <th>Operators</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Filter rows</td>
+                        <td>
+                            <code>where</code>, <code>distinct</code>, <code>take</code>, <code>top</code>,
+                            <code>limit</code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Pick / rename / drop columns</td>
+                        <td>
+                            <code>project</code>, <code>project-keep</code>, <code>project-rename</code>,
+                            <code>project-away</code>, <code>project-reorder</code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Add computed columns</td>
+                        <td><code>extend</code></td>
+                    </tr>
+                    <tr>
+                        <td>Group and aggregate</td>
+                        <td><code>summarize ... by ...</code></td>
+                    </tr>
+                    <tr>
+                        <td>Sort</td>
+                        <td><code>order by</code> (synonym <code>sort by</code>)</td>
+                    </tr>
+                    <tr>
+                        <td>Combine tables</td>
+                        <td><code>union</code>, <code>join kind=...</code>, <code>lookup</code></td>
+                    </tr>
+                    <tr>
+                        <td>Parse strings</td>
+                        <td>
+                            <code>parse</code>, <code>parse_json</code>, <code>parse_xml</code>, <code>extract</code>,
+                            <code>extract_all</code>, <code>split</code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Work with arrays</td>
+                        <td>
+                            <code>mv-expand</code>, <code>mv-apply</code>, <code>make_set</code>, <code>make_list</code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Time math</td>
+                        <td>
+                            <code>ago()</code>, <code>now()</code>, <code>bin()</code>, <code>datetime_part()</code>,
+                            <code>format_datetime()</code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Render results</td>
+                        <td>
+                            <code>render timechart</code>, <code>render barchart</code>, <code>render columnchart</code>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <h3>Schema mini-cards for the tables you will use most</h3>
+            <p>These are condensed reference cards. Bold columns are the ones you will reach for almost every query.</p>
+            <div class="schema-card">
+                <h4>SecurityEvent</h4>
+                <div class="desc">
+                    Windows Security event log forwarded by the Microsoft Monitoring Agent. Wide table with many
+                    columns, most empty per row. Holds 4624/4625 logons, 4688 process create, 4697 service install, etc.
+                </div>
+                <div class="cols">
+                    <b>TimeGenerated</b>:datetime, <b>Computer</b>:string, <b>EventID</b>:int, <b>Account</b>:string,
+                    <b>Activity</b>:string, AccountType:string, AccountDomain:string, AccountName:string,
+                    Channel:string, IpAddress:string, IpPort:string, <b>LogonType</b>:int, LogonProcessName:string,
+                    FailureReason:string, ProcessName:string, ParentProcessName:string, NewProcessName:string,
+                    NewProcessId:string, ProcessId:string, CommandLine:string, SubjectUserName:string,
+                    SubjectUserSid:string, TargetUserName:string, TargetUserSid:string, TargetDomainName:string,
+                    TargetLogonId:string, EventSourceName:string, <b>EventData</b>:string (raw XML)
+                </div>
+            </div>
+            <div class="schema-card">
+                <h4>DeviceProcessEvents</h4>
+                <div class="desc">
+                    Defender for Endpoint process-creation telemetry. Modern alternative to SecurityEvent 4688 with
+                    richer fields including hashes and signature info.
+                </div>
+                <div class="cols">
+                    <b>TimeGenerated</b>:datetime, <b>DeviceName</b>:string, DeviceId:string, <b>AccountName</b>:string,
+                    AccountDomain:string, <b>FileName</b>:string, <b>FolderPath</b>:string,
+                    <b>ProcessCommandLine</b>:string, ProcessId:long, <b>SHA256</b>:string, SHA1:string, MD5:string,
+                    FileSize:long, <b>InitiatingProcessFileName</b>:string, InitiatingProcessFolderPath:string,
+                    <b>InitiatingProcessCommandLine</b>:string, InitiatingProcessId:long,
+                    InitiatingProcessParentFileName:string, InitiatingProcessParentId:long,
+                    InitiatingProcessAccountName:string, InitiatingProcessSHA256:string, ProcessIntegrityLevel:string,
+                    ProcessTokenElevation:string, InitiatingProcessSignerType:string,
+                    InitiatingProcessSignatureStatus:string
+                </div>
+            </div>
+            <div class="schema-card">
+                <h4>DeviceLogonEvents</h4>
+                <div class="desc">
+                    Defender for Endpoint logon telemetry. Note: <code>LogonType</code> is a string here ("Interactive",
+                    "Network", "RemoteInteractive"...) unlike SecurityEvent.
+                </div>
+                <div class="cols">
+                    <b>TimeGenerated</b>:datetime, <b>DeviceName</b>:string, <b>ActionType</b>:string ("LogonSuccess",
+                    "LogonFailed"), <b>AccountName</b>:string, AccountDomain:string, AccountSid:string,
+                    <b>LogonType</b>:string, FailureReason:string, IsLocalAdmin:bool, LogonId:long,
+                    <b>RemoteIP</b>:string, RemoteIPType:string, RemotePort:int, RemoteDeviceName:string,
+                    Protocol:string, <b>InitiatingProcessFileName</b>:string, InitiatingProcessAccountName:string
+                </div>
+            </div>
+            <div class="schema-card">
+                <h4>DeviceNetworkEvents</h4>
+                <div class="desc">
+                    Defender for Endpoint network-connection telemetry. Use for outbound connection analysis, beaconing
+                    detection, etc.
+                </div>
+                <div class="cols">
+                    <b>TimeGenerated</b>:datetime, <b>DeviceName</b>:string, <b>ActionType</b>:string
+                    ("ConnectionSuccess", "ConnectionFailed", "ListeningConnectionCreated", ...), LocalIP:string,
+                    LocalIPType:string, LocalPort:int, <b>RemoteIP</b>:string, <b>RemoteIPType</b>:string ("Public",
+                    "Private"), <b>RemotePort</b>:int, RemoteUrl:string, Protocol:string,
+                    <b>InitiatingProcessFileName</b>:string, InitiatingProcessFolderPath:string,
+                    InitiatingProcessCommandLine:string, InitiatingProcessAccountName:string,
+                    InitiatingProcessSHA256:string
+                </div>
+            </div>
+            <div class="schema-card">
+                <h4>DeviceFileEvents</h4>
+                <div class="desc">
+                    Defender for Endpoint file-system events. File creation, modification, deletion. Useful for tracking
+                    file-based persistence, ransomware behavior, suspicious drops.
+                </div>
+                <div class="cols">
+                    <b>TimeGenerated</b>:datetime, <b>DeviceName</b>:string, <b>ActionType</b>:string,
+                    <b>FileName</b>:string, <b>FolderPath</b>:string, <b>SHA256</b>:string, SHA1:string, MD5:string,
+                    FileSize:long, FileOriginUrl:string, FileOriginIP:string, RequestSourceIP:string,
+                    RequestProtocol:string, ShareName:string, <b>InitiatingProcessFileName</b>:string,
+                    InitiatingProcessAccountName:string, InitiatingProcessCommandLine:string, PreviousFileName:string,
+                    PreviousFolderPath:string
+                </div>
+            </div>
+            <div class="schema-card">
+                <h4>DeviceImageLoadEvents</h4>
+                <div class="desc">
+                    Defender for Endpoint DLL/module load events. Useful for finding DLL hijacking, unsigned modules in
+                    critical processes, suspicious module loads in lsass.
+                </div>
+                <div class="cols">
+                    <b>TimeGenerated</b>:datetime, <b>DeviceName</b>:string, <b>FileName</b>:string (the DLL),
+                    <b>FolderPath</b>:string, <b>SHA256</b>:string, SHA1:string, MD5:string,
+                    <b>InitiatingProcessFileName</b>:string (the loading process), InitiatingProcessFolderPath:string,
+                    InitiatingProcessId:long, InitiatingProcessAccountName:string, InitiatingProcessSHA256:string
+                </div>
+            </div>
+            <div class="schema-card">
+                <h4>DeviceRegistryEvents</h4>
+                <div class="desc">
+                    Registry create/modify/delete telemetry. Persistence keys, run keys, autoruns, services.
+                </div>
+                <div class="cols">
+                    <b>TimeGenerated</b>:datetime, <b>DeviceName</b>:string, <b>ActionType</b>:string
+                    ("RegistryValueSet", "RegistryKeyCreated", ...), <b>RegistryKey</b>:string,
+                    <b>RegistryValueName</b>:string, <b>RegistryValueData</b>:string, RegistryValueType:string,
+                    PreviousRegistryKey:string, PreviousRegistryValueName:string, PreviousRegistryValueData:string,
+                    <b>InitiatingProcessFileName</b>:string, InitiatingProcessAccountName:string,
+                    InitiatingProcessCommandLine:string
+                </div>
+            </div>
+            <div class="schema-card">
+                <h4>DeviceEvents</h4>
+                <div class="desc">
+                    Catch-all Defender for Endpoint events. Various ActionType values for behaviors that do not fit the
+                    other tables: AMSI, ASR, exploit guard, etc. The detailed payload often lives in
+                    <code>AdditionalFields</code> as JSON.
+                </div>
+                <div class="cols">
+                    <b>TimeGenerated</b>:datetime, <b>DeviceName</b>:string, <b>ActionType</b>:string,
+                    <b>AdditionalFields</b>:dynamic (JSON), <b>FileName</b>:string, FolderPath:string,
+                    <b>InitiatingProcessFileName</b>:string, InitiatingProcessCommandLine:string, AccountName:string,
+                    AccountDomain:string, RemoteIP:string, RemotePort:int, RemoteUrl:string, ProcessCommandLine:string,
+                    ProcessId:long
+                </div>
+            </div>
+            <div class="schema-card">
+                <h4>SigninLogs</h4>
+                <div class="desc">
+                    Microsoft Entra (Azure AD) sign-in logs. Cloud authentication events, conditional access decisions,
+                    MFA outcomes.
+                </div>
+                <div class="cols">
+                    <b>TimeGenerated</b>:datetime, <b>UserPrincipalName</b>:string, UserDisplayName:string,
+                    UserId:string, <b>IPAddress</b>:string, AppDisplayName:string, AppId:string, ClientAppUsed:string,
+                    <b>ResultType</b>:string, ResultDescription:string, <b>ConditionalAccessStatus</b>:string,
+                    IsRisky:bool, RiskLevelDuringSignIn:string, RiskState:string, RiskEventTypes:string,
+                    <b>LocationDetails</b>:dynamic, DeviceDetail:dynamic, AuthenticationRequirement:string,
+                    AuthenticationDetails:string, MfaDetail:dynamic, IsInteractive:bool, UserAgent:string
+                </div>
+            </div>
+            <div class="schema-card">
+                <h4>Syslog</h4>
+                <div class="desc">
+                    Linux/Unix syslog forwarded into Sentinel. Free-form text in <code>SyslogMessage</code>; you will
+                    parse this with <code>parse</code> or <code>extract</code>.
+                </div>
+                <div class="cols">
+                    <b>TimeGenerated</b>:datetime, <b>Computer</b>:string, HostName:string, HostIP:string,
+                    <b>Facility</b>:string, <b>SeverityLevel</b>:string, <b>ProcessName</b>:string, ProcessID:int,
+                    <b>SyslogMessage</b>:string, EventTime:datetime, CollectorHostName:string
+                </div>
+            </div>
+            <div class="schema-card">
+                <h4>SecurityAlert</h4>
+                <div class="desc">Sentinel-side alerts emitted by analytics rules and connected products.</div>
+                <div class="cols">
+                    <b>TimeGenerated</b>:datetime, <b>DisplayName</b>:string, AlertName:string,
+                    <b>AlertSeverity</b>:string, Description:string, <b>ProviderName</b>:string, VendorName:string,
+                    ProductName:string, AlertType:string, <b>StartTime</b>:datetime, <b>EndTime</b>:datetime,
+                    <b>Entities</b>:string (JSON), Tactics:string, Techniques:string, SubTechniques:string,
+                    Status:string, IsIncident:bool, ConfidenceScore:real
+                </div>
+            </div>
+            <div class="schema-card">
+                <h4>SecurityIncident</h4>
+                <div class="desc">Sentinel incident records - the higher-level grouping that holds related alerts.</div>
+                <div class="cols">
+                    <b>TimeGenerated</b>:datetime, <b>IncidentNumber</b>:int, <b>Title</b>:string, Description:string,
+                    <b>Severity</b>:string, <b>Status</b>:string, Classification:string, ClassificationReason:string,
+                    FirstActivityTime:datetime, LastActivityTime:datetime, AlertIds:dynamic, BookmarkIds:dynamic,
+                    ModifiedBy:string
+                </div>
+            </div>
+            <h3>Common Windows Security Event IDs</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>EventID</th>
+                        <th>Meaning</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>4624</td>
+                        <td>An account was successfully logged on</td>
+                    </tr>
+                    <tr>
+                        <td>4625</td>
+                        <td>An account failed to log on</td>
+                    </tr>
+                    <tr>
+                        <td>4634 / 4647</td>
+                        <td>An account was logged off</td>
+                    </tr>
+                    <tr>
+                        <td>4648</td>
+                        <td>A logon was attempted using explicit credentials</td>
+                    </tr>
+                    <tr>
+                        <td>4672</td>
+                        <td>Special privileges assigned to new logon</td>
+                    </tr>
+                    <tr>
+                        <td>4688</td>
+                        <td>A new process has been created</td>
+                    </tr>
+                    <tr>
+                        <td>4697</td>
+                        <td>A service was installed</td>
+                    </tr>
+                    <tr>
+                        <td>4720 / 4732 / 4738</td>
+                        <td>Account created / member added to group / account changed</td>
+                    </tr>
+                    <tr>
+                        <td>4768 / 4769 / 4771</td>
+                        <td>Kerberos TGT / service ticket / pre-auth failure</td>
+                    </tr>
+                    <tr>
+                        <td>4776</td>
+                        <td>NTLM credential validation</td>
+                    </tr>
+                    <tr>
+                        <td>1102</td>
+                        <td>The audit log was cleared</td>
+                    </tr>
+                </tbody>
+            </table>
+            <h3>LogonType meanings</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>What it means</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2</td>
+                        <td>Interactive</td>
+                        <td>Console logon (someone typed their password at the keyboard)</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Network</td>
+                        <td>Network access to shared resources (most common type)</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Batch</td>
+                        <td>Scheduled tasks</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Service</td>
+                        <td>Service account starting a service</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>Unlock</td>
+                        <td>Workstation unlock</td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td>NetworkCleartext</td>
+                        <td>Network logon with cleartext credentials (suspicious)</td>
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td>NewCredentials</td>
+                        <td>RunAs with /netonly</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>RemoteInteractive</td>
+                        <td>RDP</td>
+                    </tr>
+                    <tr>
+                        <td>11</td>
+                        <td>CachedInteractive</td>
+                        <td>Cached domain credentials (laptop offline)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>
