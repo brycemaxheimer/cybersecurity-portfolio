@@ -25,7 +25,7 @@ Rough backlog, no committed schedule:
 - Notes on mapping the SOC Dashboard's threat-intel modules to MITRE ATT&CK data
   sources.
 - A short post on running NIST CSF self-assessments out of an MS Access backend
-  (yes, really — it's the right tool for some shops).
+  (yes, really. It's not amazing but barrier to entry is low and use case is high; I like it at least).
 
 If a topic here is useful to you, the best feedback channel is the email on the
 About page.
