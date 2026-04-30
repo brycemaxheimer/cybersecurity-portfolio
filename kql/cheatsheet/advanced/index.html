@@ -1,0 +1,1820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KQL Detection Engineering — Reference &amp; Challenges</title>
+<style>
+/* =========================================================
+   KQL Cheat Sheet — Light Mode, Print-First
+   No external dependencies. System fonts only.
+   ========================================================= */
+
+:root {
+  --bg: #ffffff;
+  --bg-soft: #f7f7f5;
+  --bg-code: #f4f4f1;
+  --bg-code-inline: #eceae3;
+  --ink: #1a1a1a;
+  --ink-soft: #4a4a4a;
+  --ink-faint: #6e6e6e;
+  --rule: #d8d6cf;
+  --rule-soft: #e8e6df;
+  --accent: #1f4e79;          /* deep blue, professional */
+  --accent-soft: #e6eef5;
+  --warn: #8a5a00;            /* amber */
+  --warn-soft: #fbf2dc;
+  --danger: #8b1a1a;          /* red, for pitfalls */
+  --danger-soft: #f9e6e6;
+  --good: #1f5e3f;            /* green, for performant */
+  --good-soft: #e3efe7;
+  --kw: #1f4e79;              /* KQL keyword color */
+  --str: #6a3b00;             /* strings */
+  --num: #2a4d2a;             /* numbers */
+  --com: #6e6e6e;             /* comments */
+  --op:  #1a1a1a;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Charter", "Georgia", "Cambria", "Times New Roman", Times, serif;
+  font-size: 14.5px;
+  line-height: 1.55;
+}
+
+.wrap {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 28px 36px 80px;
+}
+
+header.cover {
+  border-bottom: 2px solid var(--ink);
+  padding-bottom: 18px;
+  margin-bottom: 28px;
+}
+
+header.cover h1 {
+  font-size: 30px;
+  margin: 0 0 4px;
+  letter-spacing: -0.01em;
+}
+
+header.cover .sub {
+  color: var(--ink-soft);
+  font-style: italic;
+  font-size: 14px;
+}
+
+header.cover .meta {
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--ink-faint);
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+h2 {
+  font-size: 22px;
+  margin: 36px 0 6px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--rule);
+  letter-spacing: -0.005em;
+}
+
+h3 {
+  font-size: 17px;
+  margin: 22px 0 4px;
+  color: var(--accent);
+}
+
+h4 {
+  font-size: 14.5px;
+  margin: 14px 0 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink-soft);
+  font-weight: 600;
+}
+
+p { margin: 6px 0 10px; }
+ul, ol { margin: 6px 0 10px; padding-left: 22px; }
+li { margin-bottom: 3px; }
+
+code, kbd, pre, .mono {
+  font-family: ui-monospace, "SF Mono", "Menlo", "Consolas", "DejaVu Sans Mono", monospace;
+  font-size: 12.5px;
+}
+
+code {
+  background: var(--bg-code-inline);
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 12.2px;
+}
+
+pre {
+  background: var(--bg-code);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--accent);
+  padding: 12px 14px;
+  border-radius: 3px;
+  overflow-x: auto;
+  margin: 8px 0 14px;
+  line-height: 1.5;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+pre code {
+  background: transparent;
+  padding: 0;
+  font-size: 12.5px;
+}
+
+/* Manual KQL syntax tinting via spans (no JS highlighter to keep this self-contained) */
+.k  { color: var(--kw); font-weight: 600; }    /* keyword/operator */
+.s  { color: var(--str); }                     /* string */
+.n  { color: var(--num); }                     /* number */
+.c  { color: var(--com); font-style: italic; } /* comment */
+.fn { color: #5b3a86; }                        /* function name */
+.t  { color: #2c4d2a; font-weight: 600; }      /* table */
+
+/* TOC */
+.toc {
+  background: var(--bg-soft);
+  border: 1px solid var(--rule);
+  padding: 14px 20px;
+  border-radius: 4px;
+  margin: 18px 0 28px;
+  column-count: 2;
+  column-gap: 28px;
+  font-size: 13px;
+}
+.toc h4 { margin-top: 0; column-span: all; }
+.toc ol { padding-left: 18px; }
+.toc a { color: var(--accent); text-decoration: none; }
+.toc a:hover { text-decoration: underline; }
+
+/* Callouts */
+.callout {
+  border: 1px solid var(--rule);
+  border-left: 4px solid var(--accent);
+  background: var(--accent-soft);
+  padding: 10px 14px;
+  margin: 10px 0 14px;
+  border-radius: 0 3px 3px 0;
+  font-size: 13.5px;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+.callout.warn   { border-left-color: var(--warn);   background: var(--warn-soft); }
+.callout.danger { border-left-color: var(--danger); background: var(--danger-soft); }
+.callout.good   { border-left-color: var(--good);   background: var(--good-soft); }
+.callout .label {
+  display: inline-block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  color: var(--accent);
+  margin-right: 6px;
+}
+.callout.warn .label   { color: var(--warn);   }
+.callout.danger .label { color: var(--danger); }
+.callout.good .label   { color: var(--good);   }
+
+/* "Compare to Microsoft's docs" boxes */
+.mscompare {
+  border: 1px dashed var(--rule);
+  background: #fcfcfa;
+  padding: 10px 14px;
+  margin: 10px 0 14px;
+  font-size: 13px;
+  border-radius: 3px;
+}
+.mscompare .label {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--ink-faint);
+  margin-bottom: 4px;
+  display: block;
+}
+
+/* Tables */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 8px 0 14px;
+  font-size: 13px;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+th, td {
+  border: 1px solid var(--rule);
+  padding: 6px 9px;
+  text-align: left;
+  vertical-align: top;
+}
+th {
+  background: var(--bg-soft);
+  font-weight: 600;
+  font-size: 12.5px;
+}
+tbody tr:nth-child(even) td { background: #fbfaf6; }
+
+/* Image / diagram slot — drop your own <img> in to replace */
+.image-slot {
+  border: 1.5px dashed #b8b6ae;
+  background: repeating-linear-gradient(45deg, #fafaf6, #fafaf6 8px, #f3f2ec 8px, #f3f2ec 16px);
+  padding: 18px;
+  margin: 12px 0 16px;
+  text-align: center;
+  color: var(--ink-faint);
+  font-size: 13px;
+  border-radius: 3px;
+  page-break-inside: avoid;
+}
+.image-slot .caption {
+  margin-top: 6px;
+  font-style: italic;
+  font-size: 12px;
+}
+.image-slot img { max-width: 100%; height: auto; }
+
+/* SVG diagrams */
+figure.diagram {
+  margin: 10px 0 14px;
+  text-align: center;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+figure.diagram svg { max-width: 100%; height: auto; }
+figure.diagram figcaption {
+  font-size: 12px;
+  color: var(--ink-faint);
+  margin-top: 4px;
+  font-style: italic;
+}
+
+/* Challenge cards */
+.challenge {
+  border: 1px solid var(--rule);
+  border-left: 5px solid var(--accent);
+  border-radius: 3px;
+  padding: 14px 18px;
+  margin: 14px 0 18px;
+  background: #fdfdfb;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+.challenge.lvl-easy   { border-left-color: var(--good);   }
+.challenge.lvl-med    { border-left-color: var(--accent); }
+.challenge.lvl-hard   { border-left-color: var(--warn);   }
+.challenge.lvl-expert { border-left-color: var(--danger); }
+
+.challenge h3 { color: var(--ink); margin: 0 0 4px; }
+.challenge .badge {
+  display: inline-block;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 2px 7px;
+  border-radius: 10px;
+  margin-right: 8px;
+  vertical-align: 2px;
+  color: white;
+}
+.lvl-easy   .badge { background: var(--good); }
+.lvl-med    .badge { background: var(--accent); }
+.lvl-hard   .badge { background: var(--warn); }
+.lvl-expert .badge { background: var(--danger); }
+
+.challenge .scenario {
+  margin: 6px 0 8px;
+}
+.challenge details {
+  margin-top: 10px;
+  border-top: 1px dashed var(--rule);
+  padding-top: 8px;
+}
+.challenge details summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--accent);
+  list-style: revert;
+}
+.challenge details[open] summary { margin-bottom: 6px; }
+
+/* Print styling */
+@media print {
+  body { font-size: 11pt; }
+  .wrap { max-width: 100%; padding: 0 12mm; }
+  pre { font-size: 9pt; }
+  h2 { page-break-before: auto; break-before: auto; }
+  h2.page-break { page-break-before: always; break-before: page; }
+  details { display: block; }
+  details > summary { display: none; }
+  details > *:not(summary) { display: revert !important; }
+  .toc { column-count: 2; }
+  .no-print { display: none !important; }
+  a { color: var(--ink); text-decoration: none; }
+  .callout, .mscompare, .challenge, pre, table, figure { page-break-inside: avoid; }
+}
+
+/* Screen-only helper bar for opening/closing all challenge solutions */
+.toolbar {
+  position: sticky;
+  top: 0;
+  background: rgba(255,255,255,0.96);
+  border-bottom: 1px solid var(--rule);
+  padding: 8px 0;
+  margin: -10px 0 10px;
+  font-size: 12.5px;
+  z-index: 10;
+}
+.toolbar button {
+  font-family: inherit;
+  font-size: 12px;
+  padding: 4px 10px;
+  border: 1px solid var(--rule);
+  background: var(--bg-soft);
+  border-radius: 3px;
+  cursor: pointer;
+  margin-right: 6px;
+}
+.toolbar button:hover { background: #ebe9e0; }
+
+/* utility */
+.small { font-size: 12px; color: var(--ink-faint); }
+.kbd-key {
+  display: inline-block;
+  padding: 0 5px;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  background: var(--bg-soft);
+  font-family: ui-monospace, monospace;
+  font-size: 11.5px;
+}
+hr.thin { border: 0; border-top: 1px solid var(--rule); margin: 18px 0; }
+
+
+/* ========================================================
+   Dark theme override — matches brycemaxheimer.com palette.
+   Overrides both CSS-variable values AND hardcoded light
+   colors used in callouts/cards/tables.
+   ======================================================== */
+:root {
+  --bg: #071512;
+  --bg-soft: #0f231c;
+  --bg-code: #050f0d;
+  --bg-code-inline: #183229;
+  --ink: #f4fbf6;
+  --ink-soft: #d4e5dc;
+  --ink-faint: #90ac9d;
+  --rule: rgba(157, 223, 199, 0.20);
+  --rule-soft: rgba(157, 223, 199, 0.10);
+  --accent: #46d09a;
+  --accent-soft: rgba(70, 208, 154, 0.10);
+  --warn: #e9c66d;
+  --warn-soft: rgba(233, 198, 109, 0.08);
+  --danger: #ef9273;
+  --danger-soft: rgba(239, 146, 115, 0.08);
+  --good: #46d09a;
+  --good-soft: rgba(70, 208, 154, 0.08);
+  --story: #c8a8e0;
+  --story-soft: rgba(200, 168, 224, 0.08);
+  --kw: #46d09a;
+  --str: #e9c66d;
+  --num: #8bf0c3;
+  --com: #688679;
+  --op: #d4e5dc;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", Roboto, sans-serif;
+  background-image:
+    radial-gradient(720px 480px at 8% 0%,    rgba(139, 240, 195, 0.06), transparent 60%),
+    radial-gradient(540px 320px at 96% 12%,  rgba(160, 42, 30, 0.07),   transparent 58%);
+  background-attachment: fixed;
+  font-size: 15.5px;
+  line-height: 1.65;
+}
+
+/* Override hardcoded light values from both cheatsheets */
+.challenge,
+.callout,
+.mscompare,
+pre.story,
+.read-aloud,
+.toolbar,
+.toolbar button,
+table {
+  background: var(--bg-soft) !important;
+  color: var(--ink) !important;
+  border-color: var(--rule) !important;
+}
+.toolbar { background: rgba(7, 21, 18, 0.92) !important; backdrop-filter: blur(8px); }
+.toolbar button { color: var(--ink-soft) !important; border: 1px solid var(--rule) !important; }
+.toolbar button:hover { background: var(--bg-code-inline) !important; color: var(--accent) !important; }
+
+table td, table th { border-color: var(--rule) !important; color: var(--ink) !important; }
+tbody tr:nth-child(even) td { background: rgba(15, 35, 28, 0.4) !important; }
+
+/* Syntax highlight tokens — make them readable on dark */
+.fn { color: var(--story) !important; }
+.t  { color: var(--num) !important; }
+
+/* Callouts */
+.read-aloud {
+  background: var(--warn-soft) !important;
+  border-left-color: var(--warn) !important;
+  color: var(--ink-soft) !important;
+  font-style: italic;
+}
+.read-aloud strong { color: var(--warn) !important; }
+
+/* Code blocks already use --bg-code via :root, plus borders */
+pre { border: 1px solid var(--rule) !important; border-left-color: var(--accent) !important; }
+code { background: var(--bg-code-inline) !important; color: var(--ink) !important; border: 1px solid var(--rule) !important; }
+pre code { background: transparent !important; border: none !important; }
+
+/* Headings + accent */
+h1, h2, h3, h4 { color: var(--ink) !important; }
+h2 { border-bottom-color: var(--rule) !important; }
+h3 { color: var(--accent) !important; }
+
+/* Links inside the cheatsheet content area */
+.wrap a { color: var(--accent); }
+.wrap a:hover { color: #8bf0c3; }
+
+/* TOC styling */
+.toc { background: var(--bg-soft) !important; border-color: var(--rule) !important; }
+.toc a { color: var(--ink-soft); }
+.toc a:hover { color: var(--accent); }
+
+/* Print-only adjustments preserved */
+@media print { body { background: white; color: black; } }
+</style>
+
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+</head>
+<body>
+
+<header class="site-header">
+<div class="container-wide">
+<a href="/" class="brand">Bryce Maxheimer</a>
+<nav class="nav">
+<a href="/about.html">About</a>
+<a href="/resume/">Resume</a>
+<a href="/certs/">Certs</a>
+<a href="/projects/">Projects</a>
+<a href="/writeups/">Writeups</a>
+<a href="/kql/" class="active">KQL</a>
+<a href="/blog/">Blog</a>
+</nav>
+</div>
+</header>
+<div style="padding: 0.7rem 1.5rem; font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 0.82rem; color: var(--ink-faint); border-bottom: 1px solid var(--rule); background: rgba(7,21,18,0.5);">
+  <div style="max-width: 1080px; margin: 0 auto;">
+    <a href="/kql/" style="color: var(--accent); text-decoration: none">&larr; Back to KQL Playground</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+<header class="cover">
+  <h1>KQL Detection Engineering — Reference &amp; Challenges</h1>
+  <div class="sub">A working reference for hunting, parsing, correlation, and time-series detection in Microsoft Sentinel / ADX, with 20 graded challenges.</div>
+  <div class="meta">Audience: SOC / DFIR &nbsp;·&nbsp; Scope: Sysmon, SecurityEvent, DeviceEvents, custom tables &nbsp;·&nbsp; Light-mode, print-ready, single file.</div>
+</header>
+
+<div class="toolbar no-print">
+  <button onclick="document.querySelectorAll('details').forEach(d=>d.open=true)">Expand all solutions</button>
+  <button onclick="document.querySelectorAll('details').forEach(d=>d.open=false)">Collapse all solutions</button>
+  <button onclick="window.print()">Print / Save PDF</button>
+  <span class="small">&nbsp;Tip: image slots are <code>&lt;div class="image-slot"&gt;</code> — drop an <code>&lt;img&gt;</code> inside to replace.</span>
+</div>
+
+<nav class="toc">
+  <h4>Contents</h4>
+  <ol>
+    <li><a href="#part1">Pipeline model &amp; flow control</a></li>
+    <li><a href="#part2">Filtering &amp; shaping</a></li>
+    <li><a href="#part3">Parsing &amp; type coercion</a></li>
+    <li><a href="#part4">Time, bins, &amp; date math</a></li>
+    <li><a href="#part5">Aggregation &amp; <code>summarize</code></a></li>
+    <li><a href="#part6">Joins, lookups, unions</a></li>
+    <li><a href="#part7">Multi-value: <code>mv-expand</code> vs <code>mv-apply</code></a></li>
+    <li><a href="#part8">Advanced: <code>partition</code>, <code>evaluate</code>, <code>serialize</code></a></li>
+    <li><a href="#part9">Time series &amp; <code>step</code></a></li>
+    <li><a href="#part10">Detection-engineering patterns</a></li>
+    <li><a href="#part11">Performance &amp; idioms</a></li>
+    <li><a href="#part12">Sentinel-specifics</a></li>
+    <li><a href="#challenges">Challenges (20, easy → expert)</a></li>
+  </ol>
+</nav>
+
+<!-- =================================================================== -->
+<!-- PART 1 — PIPELINE MODEL                                               -->
+<!-- =================================================================== -->
+<h2 id="part1">1. Pipeline model &amp; flow control</h2>
+
+<p>KQL is a left-to-right pipeline: each tabular operator consumes the row-set produced by the previous one. Order matters for both correctness and cost — operators that reduce row count or column width should run first.</p>
+
+<h3>let, materialize, toscalar</h3>
+
+<p><code>let</code> binds an expression, table, function, or scalar. <code>materialize()</code> caches a tabular subquery so it isn't re-executed each time it's referenced. <code>toscalar()</code> converts a 1×1 result into a scalar usable in <code>where</code> and other operators.</p>
+
+<pre><code><span class="k">let</span> Lookback = <span class="fn">ago</span>(<span class="n">7d</span>);
+<span class="k">let</span> AdminUsers = <span class="fn">dynamic</span>([<span class="s">"svc-backup"</span>, <span class="s">"administrator"</span>, <span class="s">"da-bryce"</span>]);
+<span class="k">let</span> Recent4625 = <span class="fn">materialize</span>(
+    <span class="t">SecurityEvent</span>
+    | <span class="k">where</span> TimeGenerated &gt; Lookback
+    | <span class="k">where</span> EventID == <span class="n">4625</span>
+);
+<span class="k">let</span> TotalFails = <span class="fn">toscalar</span>(Recent4625 | <span class="k">count</span>);
+Recent4625
+| <span class="k">summarize</span> n = <span class="fn">count</span>() <span class="k">by</span> Account
+| <span class="k">extend</span> share = <span class="fn">round</span>(<span class="n">100.0</span> * n / TotalFails, <span class="n">2</span>)
+| <span class="k">order by</span> n <span class="k">desc</span></code></pre>
+
+<div class="callout warn">
+  <span class="label">Pitfall</span>
+  Without <code>materialize()</code>, a <code>let</code>-bound subquery referenced multiple times is recomputed each time. With it, the result is held in memory once. Use it for any reused subquery, but watch memory: the cached set must fit.
+</div>
+
+<h3>Functions (let-bound)</h3>
+
+<pre><code><span class="c">// A reusable parameterized function</span>
+<span class="k">let</span> FailedLogonsByUser = (lookback:<span class="k">timespan</span>, user:<span class="k">string</span>) {
+    <span class="t">SecurityEvent</span>
+    | <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(lookback)
+    | <span class="k">where</span> EventID == <span class="n">4625</span>
+    | <span class="k">where</span> Account =~ user
+    | <span class="k">project</span> TimeGenerated, Computer, Account, IpAddress, FailureReason, LogonType
+};
+FailedLogonsByUser(<span class="n">24h</span>, <span class="s">"CORP\\bryce"</span>)</code></pre>
+
+<div class="mscompare">
+  <span class="label">vs. Microsoft docs</span>
+  Microsoft's reference shows <code>let</code> only as a name binding. In practice, treat your <code>let</code> block as a small standard library at the top of every saved hunt — function definitions, named constants (lookback windows, suppression lists), and materialized subqueries — so the body of the query is the actual logic.
+</div>
+
+<!-- =================================================================== -->
+<!-- PART 2 — FILTERING                                                    -->
+<!-- =================================================================== -->
+<h2 id="part2">2. Filtering &amp; shaping</h2>
+
+<h3>String predicates, ranked by cost (cheapest first)</h3>
+
+<table>
+<thead><tr><th>Operator</th><th>Indexed?</th><th>When to reach for it</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td><code>==</code> / <code>=~</code></td><td>Yes (exact)</td><td>Known full value; <code>=~</code> for case-insensitive</td><td><code>EventID == 4624</code></td></tr>
+<tr><td><code>has</code> / <code>has_cs</code></td><td>Yes (term)</td><td>Whole-term match, anywhere in field</td><td><code>CommandLine has "rundll32"</code></td></tr>
+<tr><td><code>has_any</code> / <code>has_all</code></td><td>Yes</td><td>Multi-term OR / AND</td><td><code>CommandLine has_any (lolbins)</code></td></tr>
+<tr><td><code>startswith</code> / <code>endswith</code></td><td>Partial</td><td>Prefix / suffix</td><td><code>FileName endswith ".dll"</code></td></tr>
+<tr><td><code>contains</code></td><td>No (scan)</td><td>Substring inside a term</td><td><code>Image contains "syswow"</code></td></tr>
+<tr><td><code>matches regex</code></td><td>No (scan)</td><td>Pattern match — last resort</td><td><code>cmd matches regex @"\\b[a-f0-9]{32}\\b"</code></td></tr>
+<tr><td><code>in</code> / <code>in~</code> / <code>!in</code></td><td>Yes</td><td>Membership against literal or dynamic set</td><td><code>EventID in (4624,4625,4634)</code></td></tr>
+</tbody></table>
+
+<div class="callout">
+  <span class="label">Rule of thumb</span>
+  <code>has</code> beats <code>contains</code> by an order of magnitude on indexed columns. If you're tempted to write <code>contains "powershell"</code>, try <code>has "powershell"</code> first and only fall back to <code>contains</code> when the term is glued to other characters (<code>"powershell.exe"</code> still works with <code>has</code> because it's tokenized; <code>"poweshellxx"</code> would not).
+</div>
+
+<h3>The project family</h3>
+
+<pre><code><span class="t">DeviceProcessEvents</span>
+| <span class="k">project</span>        TimeGenerated, DeviceName, ProcessCommandLine, AccountName     <span class="c">// keep only these</span>
+| <span class="k">project-keep</span>   <span class="s">"Time*"</span>, DeviceName                                            <span class="c">// keep matching wildcards</span>
+| <span class="k">project-away</span>   ProcessId, InitiatingProcessId                                 <span class="c">// drop these</span>
+| <span class="k">project-rename</span> Host = DeviceName, User = AccountName                         <span class="c">// rename in place</span>
+| <span class="k">project-reorder</span> TimeGenerated, Host, User, ProcessCommandLine                <span class="c">// reorder, keep rest</span></code></pre>
+
+<h3>extend — derive columns</h3>
+
+<pre><code><span class="t">SecurityEvent</span>
+| <span class="k">where</span> EventID == <span class="n">4688</span>
+| <span class="k">extend</span>
+    HourOfDay     = <span class="fn">datetime_part</span>(<span class="s">"hour"</span>, TimeGenerated),
+    IsAfterHours  = <span class="fn">iff</span>(<span class="fn">datetime_part</span>(<span class="s">"hour"</span>, TimeGenerated) <span class="k">!between</span> (<span class="n">7</span> .. <span class="n">19</span>), <span class="k">true</span>, <span class="k">false</span>),
+    ParentLeaf    = <span class="fn">tostring</span>(<span class="fn">split</span>(ParentProcessName, <span class="s">"\\"</span>)[-<span class="n">1</span>]),
+    ChildLeaf     = <span class="fn">tostring</span>(<span class="fn">split</span>(NewProcessName,    <span class="s">"\\"</span>)[-<span class="n">1</span>]),
+    UnusualParent = <span class="fn">iff</span>(ChildLeaf =~ <span class="s">"powershell.exe"</span> <span class="k">and</span> ParentLeaf <span class="k">in~</span> (<span class="s">"winword.exe"</span>,<span class="s">"excel.exe"</span>,<span class="s">"outlook.exe"</span>), <span class="k">true</span>, <span class="k">false</span>)
+| <span class="k">where</span> UnusualParent</code></pre>
+
+<h3>distinct vs. summarize-by</h3>
+
+<p>Use <code>distinct</code> when you want unique combinations and nothing else. Use <code>summarize ... by</code> when you also need an aggregate. <code>distinct</code> is implemented as a shuffle and is generally fine, but on huge cardinality it can be expensive — consider <code>summarize hint.shufflekey=Key by Key</code>.</p>
+
+<pre><code><span class="t">DeviceProcessEvents</span> | <span class="k">distinct</span> DeviceName, AccountName
+
+<span class="c">// equivalent in row count, but you can also keep an aggregate cheaply:</span>
+<span class="t">DeviceProcessEvents</span> | <span class="k">summarize</span> firstSeen = <span class="fn">min</span>(TimeGenerated) <span class="k">by</span> DeviceName, AccountName</code></pre>
+
+<!-- =================================================================== -->
+<!-- PART 3 — PARSING                                                      -->
+<!-- =================================================================== -->
+<h2 id="part3">3. Parsing &amp; type coercion</h2>
+
+<h3>parse — declarative pattern parsing</h3>
+
+<pre><code><span class="c">// Sysmon EID 1 (Process Create) is often shipped as a single Message blob</span>
+<span class="t">Event</span>
+| <span class="k">where</span> Source == <span class="s">"Microsoft-Windows-Sysmon"</span> <span class="k">and</span> EventID == <span class="n">1</span>
+| <span class="k">parse</span> EventData <span class="k">with</span> * <span class="s">"&lt;Data Name='UtcTime'&gt;"</span> UtcTimeRaw <span class="s">"&lt;/Data&gt;"</span>
+                          * <span class="s">"&lt;Data Name='Image'&gt;"</span>   Image      <span class="s">"&lt;/Data&gt;"</span>
+                          * <span class="s">"&lt;Data Name='CommandLine'&gt;"</span> CommandLine <span class="s">"&lt;/Data&gt;"</span>
+                          * <span class="s">"&lt;Data Name='ParentImage'&gt;"</span>  ParentImage <span class="s">"&lt;/Data&gt;"</span>
+                          *
+| <span class="k">extend</span> UtcTime = <span class="fn">todatetime</span>(UtcTimeRaw)
+| <span class="k">project</span> UtcTime, Computer, Image, ParentImage, CommandLine</code></pre>
+
+<div class="callout">
+  <span class="label">Tip</span>
+  The <code>*</code> in a <code>parse</code> pattern is "skip everything up to the next literal." Use <code>parse-where</code> to discard rows that don't match instead of returning empty strings, and <code>parse kind=regex</code> for regex captures. Use <code>parse-kv</code> for <code>key=value, key=value</code> blobs (firewall logs, Linux audit, etc.).
+</div>
+
+<h3>parse-kv — when log lines are key=value soup</h3>
+
+<pre><code><span class="t">Syslog</span>
+| <span class="k">where</span> ProcessName == <span class="s">"sshd"</span>
+| <span class="k">parse-kv</span> SyslogMessage <span class="k">as</span> (user:<span class="k">string</span>, rhost:<span class="k">string</span>, port:<span class="k">int</span>) <span class="k">with</span> (pair_delimiter=<span class="s">" "</span>, kv_delimiter=<span class="s">"="</span>)
+| <span class="k">project</span> TimeGenerated, Computer, user, rhost, port</code></pre>
+
+<h3>extract / extract_all — regex captures</h3>
+
+<pre><code><span class="t">DeviceNetworkEvents</span>
+| <span class="k">where</span> RemoteUrl <span class="k">matches regex</span> <span class="s">@"https?://[^/]+"</span>
+| <span class="k">extend</span> Host = <span class="fn">extract</span>(<span class="s">@"https?://([^/:]+)"</span>, <span class="n">1</span>, RemoteUrl)
+| <span class="k">extend</span> AllIPs = <span class="fn">extract_all</span>(<span class="s">@"\b(?:\d{1,3}\.){3}\d{1,3}\b"</span>, RemoteUrl)
+| <span class="k">project</span> TimeGenerated, DeviceName, RemoteUrl, Host, AllIPs</code></pre>
+
+<h3>parse_json &amp; dynamic paths</h3>
+
+<pre><code><span class="t">DeviceEvents</span>
+| <span class="k">where</span> ActionType == <span class="s">"AsrLsassCredentialTheftAudited"</span>
+| <span class="k">extend</span> Add = <span class="fn">parse_json</span>(AdditionalFields)
+| <span class="k">extend</span>
+    TargetImage  = <span class="fn">tostring</span>(Add.TargetImageFileName),
+    SourceCmd    = <span class="fn">tostring</span>(Add.SourceCommandLine),
+    Hashes       = <span class="fn">tostring</span>(Add.SHA256)
+| <span class="k">project</span> TimeGenerated, DeviceName, TargetImage, SourceCmd, Hashes</code></pre>
+
+<div class="callout warn">
+  <span class="label">Gotcha</span>
+  Dynamic columns are loosely typed. <code>tostring</code>, <code>tolong</code>, <code>todatetime</code> on JSON-extracted values is not optional — without it, downstream <code>where</code> clauses will silently fail to match because you're comparing string vs dynamic.
+</div>
+
+<h3>split, strcat, replace_string, replace_regex</h3>
+
+<pre><code>| <span class="k">extend</span> PathParts  = <span class="fn">split</span>(FolderPath, <span class="s">"\\"</span>)
+| <span class="k">extend</span> Drive      = <span class="fn">tostring</span>(PathParts[<span class="n">0</span>])
+| <span class="k">extend</span> FileName   = <span class="fn">tostring</span>(PathParts[-<span class="n">1</span>])
+| <span class="k">extend</span> Cleaned    = <span class="fn">replace_regex</span>(CommandLine, <span class="s">@"\s+"</span>, <span class="s">" "</span>)
+| <span class="k">extend</span> Anonymized = <span class="fn">replace_string</span>(Cleaned, <span class="s">"CORP\\"</span>, <span class="s">"REDACTED\\"</span>)
+| <span class="k">extend</span> Joined     = <span class="fn">strcat</span>(DeviceName, <span class="s">"::"</span>, Image, <span class="s">"::"</span>, AccountName)</code></pre>
+
+<h3>Type coercion</h3>
+
+<table>
+<thead><tr><th>From → To</th><th>Function</th><th>Returns null on bad input?</th></tr></thead>
+<tbody>
+<tr><td>any → datetime</td><td><code>todatetime()</code></td><td>Yes</td></tr>
+<tr><td>any → timespan</td><td><code>totimespan()</code></td><td>Yes</td></tr>
+<tr><td>string → int/long/double</td><td><code>toint() / tolong() / todouble()</code></td><td>Yes</td></tr>
+<tr><td>string → bool</td><td><code>tobool()</code></td><td>Yes</td></tr>
+<tr><td>any → string</td><td><code>tostring()</code></td><td>No (returns "")</td></tr>
+<tr><td>any → dynamic</td><td><code>todynamic() / parse_json()</code></td><td>Yes</td></tr>
+<tr><td>hex string → long</td><td><code>tolong(strcat("0x", h))</code> trick</td><td>If malformed</td></tr>
+</tbody></table>
+
+<!-- =================================================================== -->
+<!-- PART 4 — TIME                                                         -->
+<!-- =================================================================== -->
+<h2 id="part4">4. Time, bins &amp; date math</h2>
+
+<h3>The time toolkit</h3>
+
+<pre><code><span class="c">// Common building blocks</span>
+| <span class="k">extend</span> Bucket5m    = <span class="fn">bin</span>(TimeGenerated, <span class="n">5m</span>)              <span class="c">// floor to 5-minute boundary</span>
+| <span class="k">extend</span> AlignedHour = <span class="fn">bin_at</span>(TimeGenerated, <span class="n">1h</span>, <span class="fn">datetime</span>(<span class="n">2026-01-01 00:00</span>))  <span class="c">// align to a chosen origin</span>
+| <span class="k">extend</span> DayStart    = <span class="fn">startofday</span>(TimeGenerated)
+| <span class="k">extend</span> DayOfWeek   = <span class="fn">dayofweek</span>(TimeGenerated)         <span class="c">// 0d == Sunday, 6d == Saturday</span>
+| <span class="k">extend</span> AgeMinutes  = <span class="n">1.0</span> * (<span class="fn">now</span>() - TimeGenerated) / <span class="n">1m</span>
+| <span class="k">extend</span> Pretty      = <span class="fn">format_datetime</span>(TimeGenerated, <span class="s">"yyyy-MM-dd HH:mm:ss.fff"</span>)</code></pre>
+
+<h3>Sliding windows with bin</h3>
+
+<pre><code><span class="c">// Per-host login attempts in 1-minute buckets, last 24h</span>
+<span class="t">SecurityEvent</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">24h</span>) <span class="k">and</span> EventID <span class="k">in</span> (<span class="n">4624</span>,<span class="n">4625</span>)
+| <span class="k">summarize</span>
+    Success = <span class="fn">countif</span>(EventID == <span class="n">4624</span>),
+    Failed  = <span class="fn">countif</span>(EventID == <span class="n">4625</span>)
+  <span class="k">by</span> Computer, <span class="fn">bin</span>(TimeGenerated, <span class="n">1m</span>)
+| <span class="k">order by</span> Computer <span class="k">asc</span>, TimeGenerated <span class="k">asc</span></code></pre>
+
+<h3>Format tokens that bite</h3>
+
+<table>
+<thead><tr><th>Token</th><th>Meaning</th><th>Token</th><th>Meaning</th></tr></thead>
+<tbody>
+<tr><td><code>yyyy</code></td><td>4-digit year</td><td><code>HH</code></td><td>24-hour hour</td></tr>
+<tr><td><code>MM</code></td><td>2-digit month</td><td><code>hh</code></td><td>12-hour hour</td></tr>
+<tr><td><code>dd</code></td><td>day-of-month</td><td><code>mm</code></td><td>minute</td></tr>
+<tr><td><code>fff</code></td><td>milliseconds</td><td><code>ss</code></td><td>second</td></tr>
+<tr><td><code>ddd</code></td><td>abbrev. weekday</td><td><code>tt</code></td><td>AM/PM</td></tr>
+</tbody></table>
+
+<div class="callout warn">
+  <span class="label">Pitfall</span>
+  Sysmon's <code>UtcTime</code> field is a string, not a datetime. Always wrap it: <code>todatetime(UtcTime)</code>. Worse, on some collectors the value is rendered with a trailing space — <code>trim_end()</code> first.
+</div>
+
+<!-- =================================================================== -->
+<!-- PART 5 — AGGREGATION                                                  -->
+<!-- =================================================================== -->
+<h2 id="part5">5. Aggregation &amp; <code>summarize</code></h2>
+
+<h3>Core aggregators</h3>
+
+<table>
+<thead><tr><th>Aggregator</th><th>Use</th><th>Notes</th></tr></thead>
+<tbody>
+<tr><td><code>count()</code> / <code>countif(pred)</code></td><td>Row counts, conditional counts</td><td><code>countif</code> avoids splitting into multiple summarize passes</td></tr>
+<tr><td><code>dcount()</code> / <code>dcountif()</code></td><td>Approx distinct count (HLL)</td><td>4th param sets accuracy 0..4 (3 ≈ 0.8% error, default 1)</td></tr>
+<tr><td><code>count_distinct()</code></td><td>Exact distinct</td><td>More expensive; prefer <code>dcount</code> at scale</td></tr>
+<tr><td><code>arg_max(x, *)</code> / <code>arg_min</code></td><td>Row with max/min of x; <code>*</code> keeps all cols</td><td>Replaces <code>top 1 by</code> in grouped queries</td></tr>
+<tr><td><code>make_list(x [, n])</code></td><td>Ordered list (preserves input order in serialized streams)</td><td>Optional cap; combine with <code>serialize</code> for guaranteed order</td></tr>
+<tr><td><code>make_set(x [, n])</code></td><td>Deduplicated unordered set</td><td>Cheaper than <code>make_list</code> for cardinality questions</td></tr>
+<tr><td><code>make_bag(d [, n])</code></td><td>Merge dynamic property-bags</td><td>Pair with <code>bag_unpack</code></td></tr>
+<tr><td><code>percentile(x, p)</code> / <code>percentiles(x, p1, p2, ...)</code></td><td>Latency analysis, anomaly thresholds</td><td>Use <code>percentiles_array</code> when feeding to series functions</td></tr>
+<tr><td><code>hll(x)</code> / <code>tdigest(x)</code></td><td>Composable distinct counts / quantiles</td><td>Aggregate per shard, then <code>hll_merge</code> / <code>tdigest_merge</code></td></tr>
+</tbody></table>
+
+<h3>arg_max — the operator you'll use weekly</h3>
+
+<pre><code><span class="c">// Latest known IP per device (and any other column you want to keep)</span>
+<span class="t">DeviceNetworkInfo</span>
+| <span class="k">summarize</span> <span class="fn">arg_max</span>(TimeGenerated, *) <span class="k">by</span> DeviceName
+| <span class="k">project</span> DeviceName, IPAddresses, MacAddress, NetworkAdapterName, TimeGenerated</code></pre>
+
+<h3>make_list with order — the serialize trick</h3>
+
+<pre><code><span class="c">// Per-host process tree in order of appearance</span>
+<span class="t">DeviceProcessEvents</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1h</span>)
+| <span class="k">order by</span> DeviceName <span class="k">asc</span>, TimeGenerated <span class="k">asc</span>
+| <span class="k">serialize</span>
+| <span class="k">summarize</span> ProcessChain = <span class="fn">make_list</span>(FileName, <span class="n">100</span>) <span class="k">by</span> DeviceName</code></pre>
+
+<div class="callout">
+  <span class="label">Why serialize?</span>
+  <code>summarize</code> on a parallelized stream does not guarantee input order inside <code>make_list</code>. <code>order by ... | serialize</code> forces a single ordered stream feeding the aggregator. Without it, the chain may be shuffled.
+</div>
+
+<h3>Pivots with bag_unpack</h3>
+
+<pre><code><span class="t">SecurityEvent</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">7d</span>) <span class="k">and</span> EventID <span class="k">in</span> (<span class="n">4624</span>,<span class="n">4625</span>,<span class="n">4634</span>,<span class="n">4672</span>,<span class="n">4688</span>)
+| <span class="k">summarize</span> n = <span class="fn">count</span>() <span class="k">by</span> Computer, EventID
+| <span class="k">extend</span> packed = <span class="fn">bag_pack</span>(<span class="fn">tostring</span>(EventID), n)
+| <span class="k">summarize</span> bag = <span class="fn">make_bag</span>(packed) <span class="k">by</span> Computer
+| <span class="k">evaluate</span> bag_unpack(bag)</code></pre>
+
+<!-- =================================================================== -->
+<!-- PART 6 — JOINS                                                        -->
+<!-- =================================================================== -->
+<h2 id="part6">6. Joins, lookups, unions</h2>
+
+<figure class="diagram">
+<svg viewBox="0 0 720 220" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .ring   { fill: none; stroke: #1f4e79; stroke-width: 1.6; }
+    .fill   { fill: #cfe0ee; stroke: #1f4e79; stroke-width: 1.4; }
+    .label  { font: 11px ui-sans-serif, system-ui; fill: #1a1a1a; }
+    .title  { font: 12px ui-sans-serif, system-ui; font-weight: 700; fill: #1a1a1a; }
+    .ttl    { font: 10px ui-sans-serif, system-ui; fill: #4a4a4a; }
+  </style>
+  <!-- innerunique -->
+  <g transform="translate(40,30)">
+    <text class="title" x="50" y="-10">innerunique</text>
+    <circle class="ring" cx="40" cy="60" r="36"/>
+    <circle class="ring" cx="80" cy="60" r="36"/>
+    <path class="fill" d="M 60 32 a 36 36 0 0 1 0 56 a 36 36 0 0 1 0 -56 z"/>
+    <text class="ttl" x="0" y="120">L de-duped on key, then inner</text>
+    <text class="ttl" x="0" y="135">DEFAULT — surprises everyone</text>
+  </g>
+  <!-- inner -->
+  <g transform="translate(220,30)">
+    <text class="title" x="60" y="-10">inner</text>
+    <circle class="ring" cx="40" cy="60" r="36"/>
+    <circle class="ring" cx="80" cy="60" r="36"/>
+    <path class="fill" d="M 60 32 a 36 36 0 0 1 0 56 a 36 36 0 0 1 0 -56 z"/>
+    <text class="ttl" x="0" y="120">All matching pairs (cartesian on dupes)</text>
+  </g>
+  <!-- leftouter -->
+  <g transform="translate(400,30)">
+    <text class="title" x="40" y="-10">leftouter</text>
+    <circle class="fill" cx="40" cy="60" r="36"/>
+    <circle class="ring" cx="80" cy="60" r="36"/>
+    <path d="M 60 32 a 36 36 0 0 1 0 56 a 36 36 0 0 1 0 -56 z" fill="#9bbfdc"/>
+    <text class="ttl" x="0" y="120">All L; matched R or null</text>
+  </g>
+  <!-- leftanti -->
+  <g transform="translate(580,30)">
+    <text class="title" x="40" y="-10">leftanti</text>
+    <circle class="fill" cx="40" cy="60" r="36"/>
+    <circle class="ring" cx="80" cy="60" r="36"/>
+    <path d="M 60 32 a 36 36 0 0 1 0 56 a 36 36 0 0 1 0 -56 z" fill="#fff"/>
+    <text class="ttl" x="0" y="120">L rows with NO match in R</text>
+  </g>
+</svg>
+<figcaption>Join kinds at a glance. <code>innerunique</code> is the default — and the source of most surprise duplicates / missing rows.</figcaption>
+</figure>
+
+<h3>The eight kinds, with the trap explained</h3>
+
+<table>
+<thead><tr><th>kind=</th><th>What it returns</th><th>Default?</th></tr></thead>
+<tbody>
+<tr><td><code>innerunique</code></td><td>Left de-duplicated on key, then inner-joined to right. Fast, but means duplicate <em>left</em> rows are silently dropped.</td><td>Yes — this is the default if you omit <code>kind=</code>.</td></tr>
+<tr><td><code>inner</code></td><td>Cartesian of all matching pairs. The "SQL inner join" most analysts expect.</td><td>No</td></tr>
+<tr><td><code>leftouter</code></td><td>All L, matched R or <code>null</code>.</td><td>No</td></tr>
+<tr><td><code>rightouter</code></td><td>All R, matched L or <code>null</code>.</td><td>No</td></tr>
+<tr><td><code>fullouter</code></td><td>Both, with nulls on either side.</td><td>No</td></tr>
+<tr><td><code>leftanti</code></td><td>L rows with no match in R. <strong>Use for "first-time-seen"</strong>.</td><td>No</td></tr>
+<tr><td><code>rightanti</code></td><td>R rows with no match in L.</td><td>No</td></tr>
+<tr><td><code>leftsemi</code> / <code>rightsemi</code></td><td>Like inner, but returns only the L (or R) columns. Cheaper than projecting away after a join.</td><td>No</td></tr>
+</tbody></table>
+
+<div class="callout danger">
+  <span class="label">Default trap</span>
+  <code>T1 | join T2 on Key</code> is <code>innerunique</code>. If T1 has 100 rows and 10 share a key, you'll get back fewer rows than you'd expect from a SQL inner join. <em>Always specify <code>kind=</code> explicitly</em> for production rules.
+</div>
+
+<h3>The "first time seen" idiom (leftanti)</h3>
+
+<pre><code><span class="c">// Process executions in the last hour that did NOT appear anywhere in the prior 30 days</span>
+<span class="k">let</span> Baseline = <span class="t">DeviceProcessEvents</span>
+    | <span class="k">where</span> TimeGenerated <span class="k">between</span> (<span class="fn">ago</span>(<span class="n">30d</span>) .. <span class="fn">ago</span>(<span class="n">1h</span>))
+    | <span class="k">distinct</span> DeviceName, FileName, SHA256;
+<span class="t">DeviceProcessEvents</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1h</span>)
+| <span class="k">join</span> kind=leftanti Baseline <span class="k">on</span> DeviceName, FileName, SHA256
+| <span class="k">project</span> TimeGenerated, DeviceName, FileName, SHA256, ProcessCommandLine, AccountName</code></pre>
+
+<h3>lookup — optimized one-sided join</h3>
+
+<pre><code><span class="k">let</span> AdminUsers = <span class="fn">externaldata</span>(SamAccountName:<span class="k">string</span>, IsAdmin:<span class="k">bool</span>)
+    [<span class="s">@"https://watchlist.example/admins.csv"</span>] <span class="k">with</span>(format=<span class="s">"csv"</span>, ignoreFirstRecord=<span class="k">true</span>);
+<span class="t">SecurityEvent</span>
+| <span class="k">where</span> EventID == <span class="n">4624</span>
+| <span class="k">lookup</span> kind=leftouter AdminUsers <span class="k">on</span> $left.Account == $right.SamAccountName
+| <span class="k">where</span> IsAdmin == <span class="k">true</span></code></pre>
+
+<h3>union — across tables and workspaces</h3>
+
+<pre><code><span class="k">union</span> isfuzzy=<span class="k">true</span>
+    (<span class="t">SecurityEvent</span> | <span class="k">where</span> EventID == <span class="n">4624</span> | <span class="k">project</span> TimeGenerated, Computer, Account, IpAddress, _Source = <span class="s">"WinSec"</span>),
+    (<span class="t">SigninLogs</span>     | <span class="k">project</span> TimeGenerated, Computer = DeviceDetail.deviceId, Account = UserPrincipalName, IpAddress = IPAddress, _Source = <span class="s">"AAD"</span>)
+| <span class="k">summarize</span> n = <span class="fn">count</span>() <span class="k">by</span> _Source, Account
+| <span class="k">order by</span> n <span class="k">desc</span></code></pre>
+
+<div class="callout">
+  <span class="label">Hint</span>
+  When one side is small and one is huge, hint the join: <code>| join hint.strategy=broadcast SmallTable on Key</code>. When both are large but well-keyed, <code>hint.shufflekey=Key</code> distributes the work.
+</div>
+
+<!-- =================================================================== -->
+<!-- PART 7 — MULTI-VALUE                                                  -->
+<!-- =================================================================== -->
+<h2 id="part7">7. Multi-value: <code>mv-expand</code> vs <code>mv-apply</code></h2>
+
+<figure class="diagram">
+<svg viewBox="0 0 720 200" xmlns="http://www.w3.org/2000/svg">
+<style>
+  .box  { fill: #f4f4f1; stroke: #d8d6cf; }
+  .row  { fill: #ffffff; stroke: #d8d6cf; }
+  .arr  { fill: none; stroke: #1f4e79; stroke-width: 1.4; marker-end: url(#tri); }
+  .lbl  { font: 11px ui-sans-serif, system-ui; fill: #1a1a1a; }
+  .ttl  { font: 12px ui-sans-serif, system-ui; font-weight: 700; fill: #1a1a1a; }
+  .small{ font: 10px ui-sans-serif, system-ui; fill: #4a4a4a; }
+</style>
+<defs><marker id="tri" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#1f4e79"/></marker></defs>
+
+<text class="ttl" x="60" y="20">mv-expand</text>
+<rect class="box" x="20" y="30" width="140" height="50"/>
+<text class="lbl" x="30" y="50">Host=H1, dlls=[a,b,c]</text>
+<text class="small" x="30" y="68">1 row, dynamic array</text>
+<rect class="row" x="200" y="20" width="180" height="20"/><text class="lbl" x="210" y="34">Host=H1, dlls=a</text>
+<rect class="row" x="200" y="42" width="180" height="20"/><text class="lbl" x="210" y="56">Host=H1, dlls=b</text>
+<rect class="row" x="200" y="64" width="180" height="20"/><text class="lbl" x="210" y="78">Host=H1, dlls=c</text>
+<path class="arr" d="M 165 55 L 197 32"/>
+<path class="arr" d="M 165 55 L 197 54"/>
+<path class="arr" d="M 165 55 L 197 76"/>
+<text class="small" x="200" y="100">Cardinality multiplied — each element becomes its own row</text>
+
+<text class="ttl" x="60" y="130">mv-apply</text>
+<rect class="box" x="20" y="140" width="140" height="50"/>
+<text class="lbl" x="30" y="160">Host=H1, dlls=[a,b,c]</text>
+<text class="small" x="30" y="178">1 row in...</text>
+<rect class="box" x="200" y="140" width="180" height="50"/>
+<text class="lbl" x="210" y="160">Host=H1, matches=[b]</text>
+<text class="small" x="210" y="178">...subquery runs per row, projects back</text>
+<path class="arr" d="M 165 165 L 197 165"/>
+<text class="small" x="400" y="160">Use when you need a where/order/take INSIDE the array</text>
+<text class="small" x="400" y="178">Row count preserved (unless subquery filters)</text>
+</svg>
+<figcaption><code>mv-expand</code> explodes one row into many. <code>mv-apply</code> runs a subquery per row over the array and projects the result back — preserving the parent row.</figcaption>
+</figure>
+
+<h3>mv-expand</h3>
+
+<pre><code><span class="t">DeviceProcessEvents</span>
+| <span class="k">where</span> ProcessCommandLine has <span class="s">"powershell"</span>
+| <span class="k">extend</span> Tokens = <span class="fn">split</span>(ProcessCommandLine, <span class="s">" "</span>)
+| <span class="k">mv-expand</span> Token = Tokens
+| <span class="k">where</span> Token <span class="k">matches regex</span> <span class="s">@"^[A-Za-z0-9+/=]{200,}$"</span>          <span class="c">// long base64-ish tokens</span>
+| <span class="k">project</span> TimeGenerated, DeviceName, ProcessCommandLine, Token</code></pre>
+
+<h3>mv-apply — when you need where/order inside the array</h3>
+
+<pre><code><span class="c">// Per host: keep only DLL load events whose ImageLoaded matches your watch-list</span>
+<span class="k">let</span> watch = <span class="fn">dynamic</span>([<span class="s">"samlib.dll"</span>,<span class="s">"vaultcli.dll"</span>,<span class="s">"wdigest.dll"</span>]);
+<span class="t">DeviceImageLoadEvents</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1d</span>)
+| <span class="k">summarize</span> Loads = <span class="fn">make_list</span>(<span class="fn">pack</span>(<span class="s">"t"</span>, TimeGenerated, <span class="s">"dll"</span>, FileName)) <span class="k">by</span> DeviceName, InitiatingProcessFileName
+| <span class="k">mv-apply</span> Load = Loads <span class="k">to typeof</span>(<span class="k">dynamic</span>) <span class="k">on</span> (
+    <span class="k">where</span> <span class="fn">tostring</span>(Load.dll) <span class="k">in~</span> (watch)
+    | <span class="k">summarize</span> Hits = <span class="fn">make_list</span>(Load)
+  )
+| <span class="k">where</span> <span class="fn">array_length</span>(Hits) &gt;= <span class="n">2</span>             <span class="c">// at least 2 of the watched DLLs in this batch</span>
+| <span class="k">project</span> DeviceName, InitiatingProcessFileName, Hits</code></pre>
+
+<div class="callout good">
+  <span class="label">When to choose which</span>
+  Use <code>mv-expand</code> when you want a row per array element and don't care about the parent. Use <code>mv-apply</code> when you want to filter / sort / aggregate inside the array but keep one row per parent. <code>mv-apply</code> is also where you do "first N elements matching predicate," which is otherwise awkward.
+</div>
+
+<h3>pack / bag_unpack — building and flattening property bags</h3>
+
+<pre><code>| <span class="k">extend</span> Evt = <span class="fn">pack</span>(<span class="s">"id"</span>, EventID, <span class="s">"src"</span>, IpAddress, <span class="s">"acct"</span>, Account)
+| <span class="k">summarize</span> Events = <span class="fn">make_list</span>(Evt) <span class="k">by</span> Computer
+<span class="c">// elsewhere, to flatten a single-row property bag back into columns:</span>
+| <span class="k">evaluate</span> bag_unpack(Properties)</code></pre>
+
+<!-- =================================================================== -->
+<!-- PART 8 — ADVANCED                                                     -->
+<!-- =================================================================== -->
+<h2 id="part8">8. Advanced: <code>partition</code>, <code>evaluate</code>, <code>serialize</code></h2>
+
+<h3>partition — run a sub-pipeline per key</h3>
+
+<pre><code><span class="c">// For each device, keep only the top 5 commandlines by frequency in the last day.</span>
+<span class="t">DeviceProcessEvents</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1d</span>)
+| <span class="k">partition</span> hint.strategy=native <span class="k">by</span> DeviceName (
+    <span class="k">summarize</span> Hits = <span class="fn">count</span>() <span class="k">by</span> ProcessCommandLine, DeviceName
+    | <span class="k">top</span> <span class="n">5</span> <span class="k">by</span> Hits
+)</code></pre>
+
+<table>
+<thead><tr><th>strategy</th><th>When to use</th></tr></thead>
+<tbody>
+<tr><td><code>hint.strategy=native</code></td><td>Best when keys partition naturally across the cluster (e.g. tenant id, device id with high cardinality). Cheapest at scale.</td></tr>
+<tr><td><code>hint.strategy=shuffle</code></td><td>When data isn't already partitioned by key; forces a redistribute.</td></tr>
+<tr><td><code>hint.strategy=legacy</code></td><td>Default; processes per-key serially. Fine for low cardinality.</td></tr>
+</tbody></table>
+
+<h3>evaluate plugins — the power tools</h3>
+
+<table>
+<thead><tr><th>Plugin</th><th>Purpose</th></tr></thead>
+<tbody>
+<tr><td><code>autocluster</code></td><td>Finds the smallest set of column patterns that cover most of the rows. Triage gold for noisy alert tables.</td></tr>
+<tr><td><code>basket</code></td><td>Like autocluster but exhaustively enumerates frequent itemsets above a min-support threshold.</td></tr>
+<tr><td><code>diffpatterns</code></td><td>Compares two sub-populations (e.g. anomaly vs baseline) and surfaces columns that differentiate them.</td></tr>
+<tr><td><code>pivot</code></td><td>Excel-style pivot: turn distinct values of a column into columns.</td></tr>
+<tr><td><code>bag_unpack</code></td><td>Flattens a dynamic property bag into individual columns.</td></tr>
+<tr><td><code>narrow</code></td><td>Inverse of pivot — collapses many columns into <code>(Column, Value)</code> pairs.</td></tr>
+<tr><td><code>infer_storage_schema</code></td><td>Reads sample data to infer schema for <code>externaldata</code>.</td></tr>
+</tbody></table>
+
+<pre><code><span class="c">// Triage 7 days of process create alerts: what patterns dominate?</span>
+<span class="t">DeviceProcessEvents</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">7d</span>) <span class="k">and</span> InitiatingProcessFileName =~ <span class="s">"powershell.exe"</span>
+| <span class="k">project</span> DeviceName, AccountName, FileName, FolderPath, ProcessCommandLine
+| <span class="k">evaluate</span> autocluster(<span class="n">0.5</span>)         <span class="c">// 0.5 = cover 50% of rows with the fewest patterns</span></code></pre>
+
+<pre><code><span class="c">// What columns differ between "rare" and "common" parent->child relationships?</span>
+<span class="t">DeviceProcessEvents</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">7d</span>)
+| <span class="k">summarize</span> n = <span class="fn">count</span>() <span class="k">by</span> InitiatingProcessFileName, FileName, AccountDomain, FolderPath
+| <span class="k">extend</span> bucket = <span class="fn">iff</span>(n &lt;= <span class="n">2</span>, <span class="s">"rare"</span>, <span class="s">"common"</span>)
+| <span class="k">evaluate</span> diffpatterns(bucket, <span class="s">"rare"</span>, <span class="s">"common"</span>)</code></pre>
+
+<h3>serialize and the windowing functions</h3>
+
+<p>Once a stream is serialized (single ordered partition), you can use row-aware functions: <code>prev()</code>, <code>next()</code>, <code>row_number()</code>, <code>row_rank_min/dense()</code>, <code>row_cumsum()</code>, <code>row_window_session()</code>.</p>
+
+<pre><code><span class="c">// Inter-event interval per host</span>
+<span class="t">DeviceProcessEvents</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1h</span>)
+| <span class="k">order by</span> DeviceName <span class="k">asc</span>, TimeGenerated <span class="k">asc</span>
+| <span class="k">serialize</span>
+    PrevTime = <span class="fn">prev</span>(TimeGenerated, <span class="n">1</span>),
+    PrevHost = <span class="fn">prev</span>(DeviceName,    <span class="n">1</span>),
+    Gap      = <span class="fn">iff</span>(DeviceName == <span class="fn">prev</span>(DeviceName, <span class="n">1</span>), TimeGenerated - <span class="fn">prev</span>(TimeGenerated, <span class="n">1</span>), <span class="k">timespan</span>(<span class="k">null</span>))
+| <span class="k">where</span> <span class="fn">isnotnull</span>(Gap) <span class="k">and</span> Gap &lt; <span class="n">1s</span>
+| <span class="k">project</span> DeviceName, TimeGenerated, FileName, Gap</code></pre>
+
+<h3>row_window_session — sessionize without joining</h3>
+
+<pre><code><span class="c">// Group events into sessions per device when gap &gt; 5 minutes</span>
+<span class="t">DeviceProcessEvents</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1d</span>)
+| <span class="k">order by</span> DeviceName <span class="k">asc</span>, TimeGenerated <span class="k">asc</span>
+| <span class="k">extend</span> SessionStart = <span class="fn">row_window_session</span>(TimeGenerated, <span class="n">5m</span>, <span class="n">5m</span>, DeviceName != <span class="fn">prev</span>(DeviceName))
+| <span class="k">summarize</span> Events = <span class="fn">count</span>(), Files = <span class="fn">make_set</span>(FileName, <span class="n">100</span>) <span class="k">by</span> DeviceName, SessionStart</code></pre>
+
+<h3>range — synthesize rows</h3>
+
+<pre><code><span class="c">// Build a continuous 1-min spine to left-join sparse counts against</span>
+<span class="k">range</span> ts <span class="k">from</span> <span class="fn">ago</span>(<span class="n">1d</span>) <span class="k">to</span> <span class="fn">now</span>() <span class="k">step</span> <span class="n">1m</span>
+| <span class="k">join</span> kind=leftouter (
+    <span class="t">DeviceNetworkEvents</span>
+    | <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1d</span>)
+    | <span class="k">summarize</span> n = <span class="fn">count</span>() <span class="k">by</span> ts = <span class="fn">bin</span>(TimeGenerated, <span class="n">1m</span>)
+) <span class="k">on</span> ts
+| <span class="k">project</span> ts, n = <span class="fn">coalesce</span>(n, <span class="n">0</span>)
+| <span class="k">order by</span> ts <span class="k">asc</span></code></pre>
+
+<!-- =================================================================== -->
+<!-- PART 9 — TIME SERIES                                                  -->
+<!-- =================================================================== -->
+<h2 id="part9">9. Time series &amp; the <code>step</code> parameter</h2>
+
+<h3>make-series — vectorized time series construction</h3>
+
+<pre><code><span class="t">DeviceNetworkEvents</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">7d</span>) <span class="k">and</span> ActionType == <span class="s">"ConnectionSuccess"</span>
+| <span class="k">make-series</span> n = <span class="fn">count</span>() <span class="k">default</span>=<span class="n">0</span>
+    <span class="k">on</span> TimeGenerated <span class="k">from</span> <span class="fn">ago</span>(<span class="n">7d</span>) <span class="k">to</span> <span class="fn">now</span>() <span class="k">step</span> <span class="n">15m</span>
+    <span class="k">by</span> DeviceName, RemoteIP</code></pre>
+
+<p><code>step</code> is the bucket size. <code>default=0</code> fills empty buckets with zero — critical, because gaps in the series will break <code>series_decompose</code>.</p>
+
+<h3>Anomalies and forecasts</h3>
+
+<pre><code>| <span class="k">extend</span> (anomalies, score, baseline) =
+    <span class="fn">series_decompose_anomalies</span>(n, <span class="n">2.0</span>, -<span class="n">1</span>, <span class="s">"linefit"</span>)   <span class="c">// thr=2σ, period=auto, fit=linefit</span>
+| <span class="k">extend</span> AnomalyAt = <span class="fn">series_iif</span>(anomalies != <span class="n">0</span>, TimeGenerated, <span class="k">datetime</span>(<span class="k">null</span>))
+| <span class="k">mv-expand</span> TimeGenerated <span class="k">to typeof</span>(<span class="k">datetime</span>), n <span class="k">to typeof</span>(<span class="k">long</span>), anomalies <span class="k">to typeof</span>(<span class="k">int</span>), score <span class="k">to typeof</span>(<span class="k">double</span>)
+| <span class="k">where</span> anomalies != <span class="n">0</span></code></pre>
+
+<table>
+<thead><tr><th>Function</th><th>Use</th></tr></thead>
+<tbody>
+<tr><td><code>series_decompose</code></td><td>Splits series into baseline / seasonal / residual components.</td></tr>
+<tr><td><code>series_decompose_anomalies</code></td><td>Above + flags points exceeding σ threshold.</td></tr>
+<tr><td><code>series_decompose_forecast</code></td><td>Above + projects forward N points.</td></tr>
+<tr><td><code>series_outliers</code></td><td>Tukey-style outlier flagging (no seasonal model).</td></tr>
+<tr><td><code>series_periods_detect</code></td><td>Detects dominant periodicities — useful for beaconing.</td></tr>
+<tr><td><code>series_fit_line</code> / <code>series_fit_2lines</code></td><td>Linear regression / piecewise; returns slope, intercept, RSquare. <code>2lines</code> finds the breakpoint.</td></tr>
+<tr><td><code>series_fir</code> / <code>series_iir</code></td><td>Filters: moving avg / exponential smoothing.</td></tr>
+<tr><td><code>series_pearson_correlation</code></td><td>Correlation between two series — find hosts behaving alike.</td></tr>
+</tbody></table>
+
+<h3>Beaconing detection (period detection)</h3>
+
+<pre><code><span class="t">DeviceNetworkEvents</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1d</span>) <span class="k">and</span> RemoteIPType == <span class="s">"Public"</span>
+| <span class="k">make-series</span> n = <span class="fn">count</span>() <span class="k">default</span>=<span class="n">0</span>
+    <span class="k">on</span> TimeGenerated <span class="k">from</span> <span class="fn">ago</span>(<span class="n">1d</span>) <span class="k">to</span> <span class="fn">now</span>() <span class="k">step</span> <span class="n">1m</span>
+    <span class="k">by</span> DeviceName, RemoteIP
+| <span class="k">extend</span> (periods, scores) = <span class="fn">series_periods_detect</span>(n, <span class="n">0.05</span>, <span class="n">1200.0</span>, <span class="n">5</span>)
+| <span class="k">mv-expand</span> period = periods <span class="k">to typeof</span>(<span class="k">double</span>), score = scores <span class="k">to typeof</span>(<span class="k">double</span>)
+| <span class="k">where</span> score &gt; <span class="n">0.8</span> <span class="k">and</span> period <span class="k">between</span> (<span class="n">5</span> .. <span class="n">600</span>)
+| <span class="k">project</span> DeviceName, RemoteIP, IntervalMinutes = period, Confidence = score
+| <span class="k">order by</span> Confidence <span class="k">desc</span></code></pre>
+
+<div class="callout">
+  <span class="label">Reading the result</span>
+  <code>series_periods_detect(series, min_period_pct, max_period, num_periods)</code> returns the most likely periods (in step-units) and their scores. <code>step 1m</code> means a returned period of <code>15</code> equals 15 minutes between callbacks.
+</div>
+
+<!-- =================================================================== -->
+<!-- PART 10 — DETECTION PATTERNS                                          -->
+<!-- =================================================================== -->
+<h2 id="part10">10. Detection-engineering patterns</h2>
+
+<h3>A then B within Δt — the sequence pattern</h3>
+
+<pre><code><span class="c">// Failed logon followed by a successful logon for the same account from the same IP within 5 minutes</span>
+<span class="k">let</span> Window = <span class="n">5m</span>;
+<span class="k">let</span> Fails = <span class="t">SecurityEvent</span> | <span class="k">where</span> EventID == <span class="n">4625</span>
+    | <span class="k">project</span> FailTime = TimeGenerated, Account, IpAddress, Computer;
+<span class="k">let</span> Wins  = <span class="t">SecurityEvent</span> | <span class="k">where</span> EventID == <span class="n">4624</span>
+    | <span class="k">project</span> WinTime  = TimeGenerated, Account, IpAddress, Computer;
+Fails
+| <span class="k">join</span> kind=inner Wins <span class="k">on</span> Account, IpAddress, Computer
+| <span class="k">where</span> WinTime &gt; FailTime <span class="k">and</span> WinTime - FailTime &lt;= Window
+| <span class="k">summarize</span> Fails = <span class="fn">count</span>(), FirstFail = <span class="fn">min</span>(FailTime), LastWin = <span class="fn">max</span>(WinTime) <span class="k">by</span> Account, IpAddress, Computer
+| <span class="k">where</span> Fails &gt;= <span class="n">5</span></code></pre>
+
+<h3>Rare-process-as-service (prevalence math)</h3>
+
+<pre><code><span class="k">let</span> Window = <span class="n">14d</span>;
+<span class="k">let</span> TotalHosts = <span class="fn">toscalar</span>(<span class="t">DeviceProcessEvents</span> | <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(Window) | <span class="k">summarize</span> <span class="fn">dcount</span>(DeviceName));
+<span class="t">DeviceProcessEvents</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(Window)
+| <span class="k">where</span> InitiatingProcessFileName =~ <span class="s">"services.exe"</span>
+| <span class="k">summarize</span> Hosts = <span class="fn">dcount</span>(DeviceName), Sample = <span class="fn">any</span>(ProcessCommandLine) <span class="k">by</span> FileName, FolderPath, SHA256
+| <span class="k">extend</span> Prevalence = <span class="n">100.0</span> * Hosts / TotalHosts
+| <span class="k">where</span> Prevalence &lt; <span class="n">1.0</span> <span class="k">and</span> Hosts <span class="k">between</span> (<span class="n">1</span> .. <span class="n">3</span>)
+| <span class="k">order by</span> Prevalence <span class="k">asc</span></code></pre>
+
+<h3>Stack counting for triage</h3>
+
+<pre><code><span class="t">DeviceProcessEvents</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1d</span>) <span class="k">and</span> ProcessCommandLine has_any (<span class="s">"-enc"</span>,<span class="s">"-EncodedCommand"</span>,<span class="s">"FromBase64String"</span>)
+| <span class="k">summarize</span> Hits = <span class="fn">count</span>(), Hosts = <span class="fn">dcount</span>(DeviceName), Sample = <span class="fn">any</span>(ProcessCommandLine)
+    <span class="k">by</span> InitiatingProcessFileName, FileName, AccountDomain
+| <span class="k">order by</span> Hits <span class="k">desc</span></code></pre>
+
+<h3>Cross-process correlation (the WerFault/LSASS shape)</h3>
+
+<pre><code><span class="c">// Sysmon: WerFault.exe spawned with LSASS PID and -pr flag, followed by ProcessAccess to LSASS</span>
+<span class="k">let</span> Window = <span class="n">2m</span>;
+<span class="k">let</span> WerSpawn = <span class="t">DeviceProcessEvents</span>
+    | <span class="k">where</span> FileName =~ <span class="s">"WerFault.exe"</span> <span class="k">and</span> ProcessCommandLine has <span class="s">"-pr"</span>
+    | <span class="k">project</span> SpawnTime = TimeGenerated, DeviceName, WerPid = ProcessId, WerCmd = ProcessCommandLine;
+<span class="k">let</span> LsassAccess = <span class="t">DeviceEvents</span>
+    | <span class="k">where</span> ActionType == <span class="s">"ProcessAccessByOthers"</span> <span class="k">and</span> FileName =~ <span class="s">"lsass.exe"</span>
+    | <span class="k">extend</span> Add = <span class="fn">parse_json</span>(AdditionalFields)
+    | <span class="k">extend</span> AccessMask = <span class="fn">tostring</span>(Add.GrantedAccess), SourcePid = <span class="fn">tolong</span>(Add.SourceProcessId)
+    | <span class="k">project</span> AccessTime = TimeGenerated, DeviceName, SourcePid, AccessMask;
+WerSpawn
+| <span class="k">join</span> kind=inner LsassAccess <span class="k">on</span> DeviceName
+| <span class="k">where</span> AccessTime <span class="k">between</span> (SpawnTime .. SpawnTime + Window) <span class="k">and</span> SourcePid == WerPid
+| <span class="k">project</span> DeviceName, SpawnTime, WerCmd, AccessTime, AccessMask</code></pre>
+
+<!-- =================================================================== -->
+<!-- PART 11 — PERFORMANCE                                                 -->
+<!-- =================================================================== -->
+<h2 id="part11">11. Performance &amp; idioms</h2>
+
+<table>
+<thead><tr><th>Do</th><th>Don't</th></tr></thead>
+<tbody>
+<tr><td>Filter by time first, then by indexed columns, then derive.</td><td>Don't <code>extend</code> first and filter on the derived column — defeats index use.</td></tr>
+<tr><td>Use <code>has</code> on tokenized text columns.</td><td>Don't reach for <code>contains</code> or <code>matches regex</code> by reflex.</td></tr>
+<tr><td>Use <code>=~</code> for case-insensitive equality.</td><td>Don't <code>tolower(col) == "x"</code> — kills indexing.</td></tr>
+<tr><td>Use <code>countif</code> / <code>dcountif</code> with a predicate.</td><td>Don't run two <code>summarize</code> branches and join them.</td></tr>
+<tr><td>Use <code>arg_max(t, *)</code> for "latest row per group."</td><td>Don't <code>top 1 by t desc</code> inside a <code>partition</code> if a single <code>summarize arg_max</code> works.</td></tr>
+<tr><td>Use <code>materialize()</code> on subqueries referenced 2+ times.</td><td>Don't materialize huge results "just in case" — memory cost.</td></tr>
+<tr><td>For "first-time-seen": <code>join kind=leftanti</code> against a baseline.</td><td>Don't <code>!in</code> against a giant dynamic list.</td></tr>
+<tr><td>For unbounded distinct counts: <code>dcount(x, 3)</code> (HLL).</td><td>Don't reach for <code>count_distinct()</code> on hundreds of millions of rows.</td></tr>
+</tbody></table>
+
+<h3>The "filter early" rule, illustrated</h3>
+
+<pre><code><span class="c">// Bad: extend first, filter the derived column</span>
+<span class="t">DeviceProcessEvents</span>
+| <span class="k">extend</span> Lower = <span class="fn">tolower</span>(ProcessCommandLine)
+| <span class="k">where</span> Lower has <span class="s">"mimikatz"</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1h</span>)
+
+<span class="c">// Good: time first, indexed-token filter, never lowercase</span>
+<span class="t">DeviceProcessEvents</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1h</span>)
+| <span class="k">where</span> ProcessCommandLine has <span class="s">"mimikatz"</span></code></pre>
+
+<!-- =================================================================== -->
+<!-- PART 12 — SENTINEL                                                    -->
+<!-- =================================================================== -->
+<h2 id="part12">12. Sentinel-specifics</h2>
+
+<h3>Analytics rule anatomy</h3>
+<p>Sentinel scheduled rules expect: a query that returns rows; <code>TimeGenerated</code> on each row; entity mappings (Account / Host / IP / FileHash / URL …) referencing column names; optional custom details for alert fields; and a query period &le; query frequency × N (set in rule UI).</p>
+
+<pre><code><span class="c">// Skeleton ready to paste into Sentinel "Custom rule wizard"</span>
+<span class="k">let</span> Lookback = <span class="n">1h</span>;
+<span class="t">DeviceProcessEvents</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(Lookback)
+| <span class="k">where</span> FileName =~ <span class="s">"WerFault.exe"</span> <span class="k">and</span> ProcessCommandLine has <span class="s">"-pr"</span>
+| <span class="k">project</span> TimeGenerated, DeviceName, AccountName, ProcessCommandLine, ProcessId, SHA256
+<span class="c">// Entities to map in UI: Host=DeviceName, Account=AccountName, FileHash=SHA256</span>
+<span class="c">// Custom details: ProcessCommandLine, ProcessId</span></code></pre>
+
+<h3>Watchlists &amp; externaldata</h3>
+
+<pre><code><span class="c">// Built-in watchlist</span>
+<span class="k">let</span> CrownJewels = <span class="fn">_GetWatchlist</span>(<span class="s">"CrownJewelHosts"</span>) | <span class="k">project</span> Hostname;
+<span class="t">DeviceLogonEvents</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1h</span>)
+| <span class="k">where</span> DeviceName <span class="k">in</span> (CrownJewels)
+
+<span class="c">// External CSV (e.g. published Tier-0 list)</span>
+<span class="k">let</span> Tier0 = <span class="fn">externaldata</span>(Sam:<span class="k">string</span>)[<span class="s">@"https://&lt;&lt;ENV&gt;&gt;/tier0.csv"</span>] <span class="k">with</span>(format=<span class="s">"csv"</span>, ignoreFirstRecord=<span class="k">true</span>);</code></pre>
+
+<h3>Sentinel functions you'll actually use</h3>
+<table>
+<thead><tr><th>Function</th><th>Purpose</th></tr></thead>
+<tbody>
+<tr><td><code>_GetWatchlist("Name")</code></td><td>Resolves a Sentinel watchlist as a table.</td></tr>
+<tr><td><code>SecurityAlert</code> / <code>SecurityIncident</code></td><td>Built-in alert &amp; incident tables.</td></tr>
+<tr><td><code>geo_info_from_ip_address(ip)</code></td><td>Built-in GeoIP enrichment (country, city, lat/long).</td></tr>
+<tr><td><code>iff(EventID == 4624, ...)</code></td><td>Branchy column derivation; nests cleanly.</td></tr>
+<tr><td><code>_ResourceId</code></td><td>Hidden column — useful for cross-tenant queries.</td></tr>
+</tbody></table>
+
+<div class="image-slot">
+  [ Slot for screenshot: Sentinel "Analytics rule wizard — Set rule logic" tab showing entity mapping for a custom rule. ]
+  <div class="caption">Replace this slot with: <code>&lt;img src="entity-mapping.png" alt="..."&gt;</code></div>
+</div>
+
+<!-- =================================================================== -->
+<!-- CHALLENGES                                                            -->
+<!-- =================================================================== -->
+<h2 id="challenges" class="page-break">Challenges (20, easy → expert)</h2>
+
+<p class="small">Solutions are collapsed by default. In print they expand automatically. Each solution is one valid approach; there are usually several. Where a challenge depends on a table you don't have (e.g. <code>IdentityInfo</code> is UEBA-licensed), an inline note shows a substitute.</p>
+
+<!-- ============= EASY ============= -->
+<h3 style="margin-top:24px">Easy (warm-up: single table, one or two operators)</h3>
+
+<div class="challenge lvl-easy">
+<h3><span class="badge">01 · Easy</span> Firewall-related EventIDs</h3>
+<div class="scenario">Query <code>SecurityEvent</code> for the last 24 hours and return every distinct <code>EventID</code> related to Windows Firewall (rule add / change / delete / advanced setting changes). Sort by event count descending.</div>
+<details><summary>Show solution</summary>
+<pre><code><span class="k">let</span> FwIds = <span class="fn">dynamic</span>([<span class="n">4946</span>,<span class="n">4947</span>,<span class="n">4948</span>,<span class="n">4949</span>,<span class="n">4950</span>,<span class="n">4951</span>,<span class="n">4952</span>,<span class="n">4953</span>,<span class="n">4954</span>,<span class="n">4956</span>,<span class="n">4957</span>,<span class="n">4958</span>,<span class="n">5024</span>,<span class="n">5025</span>,<span class="n">5027</span>,<span class="n">5028</span>,<span class="n">5029</span>,<span class="n">5030</span>,<span class="n">5031</span>,<span class="n">5032</span>,<span class="n">5033</span>,<span class="n">5034</span>,<span class="n">5035</span>,<span class="n">5037</span>]);
+<span class="t">SecurityEvent</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">24h</span>)
+| <span class="k">where</span> EventID <span class="k">in</span> (FwIds)
+| <span class="k">summarize</span> n = <span class="fn">count</span>() <span class="k">by</span> EventID, Activity
+| <span class="k">order by</span> n <span class="k">desc</span></code></pre>
+<p class="small"><strong>Why it's easy:</strong> single <code>where</code> with <code>in</code>, no parsing, no joining. Goal is to internalize "membership filter against a typed dynamic literal."</p>
+</details>
+</div>
+
+<div class="challenge lvl-easy">
+<h3><span class="badge">02 · Easy</span> Parse Sysmon UtcTime to a real datetime</h3>
+<div class="scenario">From the raw <code>Event</code> table where Sysmon EID 1 lands as XML in <code>EventData</code>, extract <code>UtcTime</code>, <code>Image</code>, and <code>CommandLine</code>, and return them with a properly typed <code>UtcTime</code> column (not a string).</div>
+<details><summary>Show solution</summary>
+<pre><code><span class="t">Event</span>
+| <span class="k">where</span> Source == <span class="s">"Microsoft-Windows-Sysmon"</span> <span class="k">and</span> EventID == <span class="n">1</span>
+| <span class="k">parse</span> EventData <span class="k">with</span> * <span class="s">"&lt;Data Name='UtcTime'&gt;"</span> UtcTimeRaw <span class="s">"&lt;/Data&gt;"</span>
+                          * <span class="s">"&lt;Data Name='Image'&gt;"</span> Image <span class="s">"&lt;/Data&gt;"</span>
+                          * <span class="s">"&lt;Data Name='CommandLine'&gt;"</span> CommandLine <span class="s">"&lt;/Data&gt;"</span>
+                          *
+| <span class="k">extend</span> UtcTime = <span class="fn">todatetime</span>(<span class="fn">trim</span>(<span class="s">@"\s"</span>, UtcTimeRaw))
+| <span class="k">project</span> UtcTime, Computer, Image, CommandLine
+| <span class="k">order by</span> UtcTime <span class="k">desc</span></code></pre>
+<p class="small"><strong>Notes:</strong> <code>trim</code> handles the trailing-whitespace artifact from some collectors. If your Sysmon arrives via AMA / DCR, fields are already split out — use the dedicated columns directly.</p>
+</details>
+</div>
+
+<div class="challenge lvl-easy">
+<h3><span class="badge">03 · Easy</span> Distinct processes per host (Sysmon EID 1)</h3>
+<div class="scenario">Return one row per <code>(DeviceName, FileName)</code> with first-seen / last-seen and a sample command line, last 7 days.</div>
+<details><summary>Show solution</summary>
+<pre><code><span class="t">DeviceProcessEvents</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">7d</span>)
+| <span class="k">summarize</span>
+    FirstSeen = <span class="fn">min</span>(TimeGenerated),
+    LastSeen  = <span class="fn">max</span>(TimeGenerated),
+    Sample    = <span class="fn">any</span>(ProcessCommandLine),
+    Hits      = <span class="fn">count</span>()
+  <span class="k">by</span> DeviceName, FileName
+| <span class="k">order by</span> DeviceName <span class="k">asc</span>, Hits <span class="k">desc</span></code></pre>
+</details>
+</div>
+
+<div class="challenge lvl-easy">
+<h3><span class="badge">04 · Easy</span> Failed logons per account</h3>
+<div class="scenario">Count 4625 events per account in the last 24h, exclude machine accounts (ending in <code>$</code>), and only return accounts with 5+ failures.</div>
+<details><summary>Show solution</summary>
+<pre><code><span class="t">SecurityEvent</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">24h</span>) <span class="k">and</span> EventID == <span class="n">4625</span>
+| <span class="k">where</span> Account !endswith <span class="s">"$"</span>
+| <span class="k">summarize</span> Failures = <span class="fn">count</span>(), Sources = <span class="fn">dcount</span>(IpAddress), AnIp = <span class="fn">any</span>(IpAddress) <span class="k">by</span> Account
+| <span class="k">where</span> Failures &gt;= <span class="n">5</span>
+| <span class="k">order by</span> Failures <span class="k">desc</span></code></pre>
+</details>
+</div>
+
+<div class="challenge lvl-easy">
+<h3><span class="badge">05 · Easy</span> Outbound connections per host</h3>
+<div class="scenario">From <code>DeviceNetworkEvents</code>, list each device's distinct outbound <code>RemotePort</code> count and the top remote IP by connection count, last hour.</div>
+<details><summary>Show solution</summary>
+<pre><code><span class="t">DeviceNetworkEvents</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1h</span>) <span class="k">and</span> ActionType == <span class="s">"ConnectionSuccess"</span> <span class="k">and</span> RemoteIPType == <span class="s">"Public"</span>
+| <span class="k">summarize</span>
+    DistinctPorts = <span class="fn">dcount</span>(RemotePort),
+    TopPeer       = <span class="fn">arg_max</span>(<span class="fn">tostring</span>(RemoteIP), <span class="fn">count</span>()),
+    Conns         = <span class="fn">count</span>()
+  <span class="k">by</span> DeviceName
+| <span class="k">order by</span> Conns <span class="k">desc</span></code></pre>
+<p class="small">The <code>arg_max</code> idiom here gives you the most-frequent peer cheaply. If you want a tie-breaker, group differently and use <code>top-nested</code>.</p>
+</details>
+</div>
+
+<!-- ============= MEDIUM ============= -->
+<h3 style="margin-top:24px">Medium (joins, parsing, sequences)</h3>
+
+<div class="challenge lvl-med">
+<h3><span class="badge">06 · Medium</span> Failed-then-successful logon, same account, same source IP, within 5 min</h3>
+<div class="scenario">Find accounts that had ≥3 failed logons followed by a successful one from the same IP within 5 minutes. Return the account, IP, host, fail count, time-to-success, and the first/last fail timestamps.</div>
+<details><summary>Show solution</summary>
+<pre><code><span class="k">let</span> Window = <span class="n">5m</span>;
+<span class="k">let</span> Fails = <span class="t">SecurityEvent</span>
+    | <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1d</span>) <span class="k">and</span> EventID == <span class="n">4625</span> <span class="k">and</span> Account !endswith <span class="s">"$"</span>
+    | <span class="k">project</span> FailTime = TimeGenerated, Account, IpAddress, Computer;
+<span class="k">let</span> Wins  = <span class="t">SecurityEvent</span>
+    | <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1d</span>) <span class="k">and</span> EventID == <span class="n">4624</span>
+    | <span class="k">project</span> WinTime  = TimeGenerated, Account, IpAddress, Computer;
+Fails
+| <span class="k">join</span> kind=inner Wins <span class="k">on</span> Account, IpAddress, Computer
+| <span class="k">where</span> WinTime &gt; FailTime <span class="k">and</span> WinTime - FailTime &lt;= Window
+| <span class="k">summarize</span>
+    FirstFail = <span class="fn">min</span>(FailTime),
+    LastFail  = <span class="fn">max</span>(FailTime),
+    SuccessAt = <span class="fn">min</span>(WinTime),
+    FailCount = <span class="fn">count</span>()
+  <span class="k">by</span> Account, IpAddress, Computer
+| <span class="k">extend</span> TimeToSuccess = SuccessAt - LastFail
+| <span class="k">where</span> FailCount &gt;= <span class="n">3</span>
+| <span class="k">order by</span> SuccessAt <span class="k">desc</span></code></pre>
+</details>
+</div>
+
+<div class="challenge lvl-med">
+<h3><span class="badge">07 · Medium</span> Rare process by hash prevalence</h3>
+<div class="scenario">Across a 14-day baseline, find process executions where the SHA256 has been seen on 3 or fewer hosts (less than 1% of fleet). Show prevalence percentage. Account for the case where a hash is brand new in the last hour.</div>
+<details><summary>Show solution</summary>
+<pre><code><span class="k">let</span> Window = <span class="n">14d</span>;
+<span class="k">let</span> Recent = <span class="n">1h</span>;
+<span class="k">let</span> TotalHosts = <span class="fn">toscalar</span>(
+    <span class="t">DeviceProcessEvents</span> | <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(Window) | <span class="k">summarize</span> <span class="fn">dcount</span>(DeviceName)
+);
+<span class="k">let</span> Prevalence = <span class="t">DeviceProcessEvents</span>
+    | <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(Window)
+    | <span class="k">summarize</span> Hosts = <span class="fn">dcount</span>(DeviceName) <span class="k">by</span> SHA256, FileName
+    | <span class="k">extend</span> Pct = <span class="n">100.0</span> * Hosts / TotalHosts;
+<span class="t">DeviceProcessEvents</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(Recent)
+| <span class="k">join</span> kind=leftouter Prevalence <span class="k">on</span> SHA256, FileName
+| <span class="k">extend</span> Hosts = <span class="fn">coalesce</span>(Hosts, <span class="fn">toint</span>(<span class="n">1</span>)),
+         Pct   = <span class="fn">coalesce</span>(Pct,   <span class="n">100.0</span> / TotalHosts)
+| <span class="k">where</span> Hosts &lt;= <span class="n">3</span> <span class="k">or</span> Pct &lt; <span class="n">1.0</span>
+| <span class="k">project</span> TimeGenerated, DeviceName, AccountName, FileName, FolderPath, ProcessCommandLine, SHA256, Hosts, Pct
+| <span class="k">order by</span> Hosts <span class="k">asc</span>, TimeGenerated <span class="k">desc</span></code></pre>
+<p class="small"><strong>Trap:</strong> a brand-new hash won't appear in the baseline at all, so the leftouter join leaves <code>Hosts</code> null. <code>coalesce</code> patches this.</p>
+</details>
+</div>
+
+<div class="challenge lvl-med">
+<h3><span class="badge">08 · Medium</span> Beaconing on an outbound destination</h3>
+<div class="scenario">Find <code>(DeviceName, RemoteIP)</code> pairs whose outbound connections show a strong periodic signature in the last 24 hours. Return likely beacon interval in minutes and a confidence score.</div>
+<details><summary>Show solution</summary>
+<pre><code><span class="t">DeviceNetworkEvents</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1d</span>)
+    <span class="k">and</span> ActionType == <span class="s">"ConnectionSuccess"</span>
+    <span class="k">and</span> RemoteIPType == <span class="s">"Public"</span>
+| <span class="k">make-series</span> n = <span class="fn">count</span>() <span class="k">default</span>=<span class="n">0</span>
+    <span class="k">on</span> TimeGenerated <span class="k">from</span> <span class="fn">ago</span>(<span class="n">1d</span>) <span class="k">to</span> <span class="fn">now</span>() <span class="k">step</span> <span class="n">1m</span>
+    <span class="k">by</span> DeviceName, RemoteIP
+| <span class="k">where</span> <span class="fn">array_sum</span>(n) &gt;= <span class="n">20</span>                                <span class="c">// suppress sparse pairs</span>
+| <span class="k">extend</span> (periods, scores) = <span class="fn">series_periods_detect</span>(n, <span class="n">0.05</span>, <span class="n">1200.0</span>, <span class="n">3</span>)
+| <span class="k">mv-expand</span> period = periods <span class="k">to typeof</span>(<span class="k">double</span>), score = scores <span class="k">to typeof</span>(<span class="k">double</span>)
+| <span class="k">where</span> score &gt; <span class="n">0.85</span> <span class="k">and</span> period <span class="k">between</span> (<span class="n">2</span> .. <span class="n">600</span>)
+| <span class="k">project</span> DeviceName, RemoteIP, IntervalMinutes = period, Confidence = score
+| <span class="k">order by</span> Confidence <span class="k">desc</span></code></pre>
+</details>
+</div>
+
+<div class="challenge lvl-med">
+<h3><span class="badge">09 · Medium</span> Office spawning shell — parent/child anomaly</h3>
+<div class="scenario">Detect <code>winword.exe / excel.exe / outlook.exe / powerpnt.exe</code> spawning <code>powershell.exe</code>, <code>cmd.exe</code>, <code>wscript.exe</code>, or <code>cscript.exe</code> in the last day. Decode the command line if it's base64, and join to <code>DeviceLogonEvents</code> to attach the most recent interactive logon for that device.</div>
+<details><summary>Show solution</summary>
+<pre><code><span class="k">let</span> Office = <span class="fn">dynamic</span>([<span class="s">"winword.exe"</span>,<span class="s">"excel.exe"</span>,<span class="s">"outlook.exe"</span>,<span class="s">"powerpnt.exe"</span>]);
+<span class="k">let</span> Shells = <span class="fn">dynamic</span>([<span class="s">"powershell.exe"</span>,<span class="s">"cmd.exe"</span>,<span class="s">"wscript.exe"</span>,<span class="s">"cscript.exe"</span>,<span class="s">"pwsh.exe"</span>]);
+<span class="k">let</span> RecentLogon = <span class="t">DeviceLogonEvents</span>
+    | <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">2d</span>) <span class="k">and</span> LogonType == <span class="s">"Interactive"</span> <span class="k">and</span> ActionType == <span class="s">"LogonSuccess"</span>
+    | <span class="k">summarize</span> <span class="fn">arg_max</span>(TimeGenerated, AccountName, AccountDomain) <span class="k">by</span> DeviceName;
+<span class="t">DeviceProcessEvents</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1d</span>)
+| <span class="k">where</span> InitiatingProcessFileName <span class="k">in~</span> (Office) <span class="k">and</span> FileName <span class="k">in~</span> (Shells)
+| <span class="k">extend</span> EncIdx = <span class="fn">indexof</span>(<span class="fn">tolower</span>(ProcessCommandLine), <span class="s">"-enc"</span>)
+| <span class="k">extend</span> B64    = <span class="fn">extract</span>(<span class="s">@"(?i)-(?:e|en|enc|encod|encodedcommand)\s+([A-Za-z0-9+/=]+)"</span>, <span class="n">1</span>, ProcessCommandLine)
+| <span class="k">extend</span> Decoded = <span class="fn">iff</span>(<span class="fn">isnotempty</span>(B64), <span class="fn">make_string</span>(<span class="fn">base64_decode_toarray</span>(B64)), <span class="s">""</span>)
+| <span class="k">join</span> kind=leftouter RecentLogon <span class="k">on</span> DeviceName
+| <span class="k">project</span> TimeGenerated, DeviceName, AccountName, AccountDomain,
+          Parent = InitiatingProcessFileName, Child = FileName,
+          ProcessCommandLine, Decoded, LastInteractiveLogon = TimeGenerated1
+| <span class="k">order by</span> TimeGenerated <span class="k">desc</span></code></pre>
+<p class="small">The base64 in PowerShell <code>-EncodedCommand</code> is UTF-16LE — for a fully clean decode use <code>extract</code> + a small Python script in your runbook, or <code>base64_decode_tostring()</code> if your cluster supports it. The pattern above is good enough to triage.</p>
+</details>
+</div>
+
+<div class="challenge lvl-med">
+<h3><span class="badge">10 · Medium</span> Decode PowerShell ScriptBlock (4104) and stack-rank suspicious tokens</h3>
+<div class="scenario">From <code>Event</code> table EID 4104 (or <code>DeviceEvents</code> with <code>ActionType=="PowerShellCommand"</code>), pull script blocks containing any of <code>Invoke-Expression</code>, <code>DownloadString</code>, <code>FromBase64String</code>, <code>IEX</code>, <code>Add-Type</code>, <code>WMIObject</code>. Group by host and produce a top-10 of suspicious script samples per host.</div>
+<details><summary>Show solution</summary>
+<pre><code><span class="k">let</span> Tokens = <span class="fn">dynamic</span>([<span class="s">"Invoke-Expression"</span>,<span class="s">"DownloadString"</span>,<span class="s">"FromBase64String"</span>,<span class="s">"IEX"</span>,<span class="s">"Add-Type"</span>,<span class="s">"WMIObject"</span>,<span class="s">"Reflection.Assembly"</span>]);
+<span class="t">Event</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1d</span>) <span class="k">and</span> EventLog == <span class="s">"Microsoft-Windows-PowerShell/Operational"</span> <span class="k">and</span> EventID == <span class="n">4104</span>
+| <span class="k">parse</span> EventData <span class="k">with</span> * <span class="s">"&lt;Data Name='ScriptBlockText'&gt;"</span> ScriptBlock <span class="s">"&lt;/Data&gt;"</span> *
+| <span class="k">where</span> ScriptBlock has_any (Tokens)
+| <span class="k">extend</span> Hits = <span class="fn">array_length</span>(<span class="fn">extract_all</span>(<span class="fn">strcat</span>(<span class="s">@"\b("</span>, <span class="fn">strcat_array</span>(Tokens, <span class="s">"|"</span>), <span class="s">@")\b"</span>), ScriptBlock))
+| <span class="k">summarize</span> Samples = <span class="fn">make_list</span>(<span class="fn">substring</span>(ScriptBlock, <span class="n">0</span>, <span class="n">200</span>), <span class="n">10</span>), Total = <span class="fn">count</span>(), Sus = <span class="fn">sum</span>(Hits)
+    <span class="k">by</span> Computer
+| <span class="k">order by</span> Sus <span class="k">desc</span></code></pre>
+</details>
+</div>
+
+<!-- ============= HARD ============= -->
+<h3 style="margin-top:24px">Hard (multi-stage logic, windowing, evaluate plugins)</h3>
+
+<div class="challenge lvl-hard">
+<h3><span class="badge">11 · Hard</span> Lateral movement spread (4624 type 3 fan-out)</h3>
+<div class="scenario">Detect a single account that successfully authenticated to ≥5 distinct destination hosts via network logon (LogonType 3) within any 1-hour window. Return account, source IP, distinct destinations, the window start, and the list of destinations in chronological order.</div>
+<details><summary>Show solution</summary>
+<pre><code><span class="t">SecurityEvent</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1d</span>) <span class="k">and</span> EventID == <span class="n">4624</span> <span class="k">and</span> LogonType == <span class="n">3</span> <span class="k">and</span> Account !endswith <span class="s">"$"</span>
+| <span class="k">project</span> TimeGenerated, Account, IpAddress, Computer
+| <span class="k">order by</span> Account <span class="k">asc</span>, TimeGenerated <span class="k">asc</span>
+| <span class="k">extend</span> WindowStart = <span class="fn">row_window_session</span>(TimeGenerated, <span class="n">1h</span>, <span class="n">5m</span>, Account != <span class="fn">prev</span>(Account))
+| <span class="k">summarize</span>
+    Destinations = <span class="fn">make_set</span>(Computer, <span class="n">200</span>),
+    Sources      = <span class="fn">make_set</span>(IpAddress, <span class="n">50</span>),
+    DestCount    = <span class="fn">dcount</span>(Computer),
+    First        = <span class="fn">min</span>(TimeGenerated),
+    Last         = <span class="fn">max</span>(TimeGenerated)
+  <span class="k">by</span> Account, WindowStart
+| <span class="k">where</span> DestCount &gt;= <span class="n">5</span>
+| <span class="k">order by</span> DestCount <span class="k">desc</span></code></pre>
+<p class="small"><code>row_window_session(timestamp, lookback, idle_timeout, reset_predicate)</code> — assigns a session id (the start time) per account, breaking on either an account change or a 5-minute idle gap.</p>
+</details>
+</div>
+
+<div class="challenge lvl-hard">
+<h3><span class="badge">12 · Hard</span> Cluster suspicious commandlines with autocluster</h3>
+<div class="scenario">From all <code>powershell.exe</code> executions in the last 24h, surface the top column-pattern clusters that cover at least 70% of rows. Return one row per cluster, the columns that define it, and an example.</div>
+<details><summary>Show solution</summary>
+<pre><code><span class="t">DeviceProcessEvents</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1d</span>) <span class="k">and</span> FileName =~ <span class="s">"powershell.exe"</span>
+| <span class="k">project</span> DeviceName, AccountDomain, AccountName,
+          Parent = <span class="fn">tostring</span>(<span class="fn">split</span>(InitiatingProcessFolderPath, <span class="s">"\\"</span>)[-<span class="n">1</span>]),
+          CmdHead = <span class="fn">substring</span>(ProcessCommandLine, <span class="n">0</span>, <span class="n">120</span>)
+| <span class="k">evaluate</span> autocluster(<span class="n">0.7</span>, <span class="n">5</span>, <span class="n">2</span>)</code></pre>
+<p class="small"><code>autocluster(SizeWeight, WeightFactor, NumSeeds)</code>. With <code>0.7</code> we cover ~70% of rows. Pre-projecting to a small column set and trimming long strings gives the algorithm clean signal — feeding it raw <code>ProcessCommandLine</code> tends to produce one cluster per row.</p>
+</details>
+</div>
+
+<div class="challenge lvl-hard">
+<h3><span class="badge">13 · Hard</span> Diffpatterns: what changed today vs the prior week?</h3>
+<div class="scenario">Compare today's <code>DeviceProcessEvents</code> distribution to the prior 7 days. Use <code>diffpatterns</code> to surface the column-value patterns that are over-represented today. Restrict to admin-level accounts.</div>
+<details><summary>Show solution</summary>
+<pre><code><span class="k">let</span> Admins = <span class="fn">dynamic</span>([<span class="s">"administrator"</span>,<span class="s">"da-bryce"</span>,<span class="s">"svc-backup"</span>]);  <span class="c">// or _GetWatchlist("AdminAccounts") | project Sam</span>
+<span class="t">DeviceProcessEvents</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">8d</span>) <span class="k">and</span> AccountName <span class="k">in~</span> (Admins)
+| <span class="k">extend</span> bucket = <span class="fn">iff</span>(TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1d</span>), <span class="s">"today"</span>, <span class="s">"baseline"</span>)
+| <span class="k">project</span> bucket, DeviceName, FileName,
+          Folder = <span class="fn">tostring</span>(<span class="fn">split</span>(FolderPath, <span class="s">"\\"</span>)[-<span class="n">2</span>]),
+          Parent = <span class="fn">tostring</span>(<span class="fn">split</span>(InitiatingProcessFolderPath, <span class="s">"\\"</span>)[-<span class="n">1</span>])
+| <span class="k">evaluate</span> diffpatterns(bucket, <span class="s">"baseline"</span>, <span class="s">"today"</span>, <span class="s">"~"</span>, <span class="n">0.05</span>, <span class="n">2</span>)</code></pre>
+<p class="small">The output columns <code>CountA / CountB / PercentA / PercentB / PercentDiffAB</code> tell you how strongly each pattern is over-represented in <code>today</code>.</p>
+</details>
+</div>
+
+<div class="challenge lvl-hard">
+<h3><span class="badge">14 · Hard</span> Time-series anomaly: per-host outbound bytes</h3>
+<div class="scenario">For each device, build a 7-day series of outbound bytes in 1-hour buckets. Flag points where the residual exceeds 3σ AND the device has emitted at least 100MB on that hour.</div>
+<details><summary>Show solution</summary>
+<pre><code><span class="t">DeviceNetworkEvents</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">7d</span>) <span class="k">and</span> ActionType == <span class="s">"ConnectionSuccess"</span>
+| <span class="k">extend</span> Bytes = <span class="fn">tolong</span>(<span class="fn">parse_json</span>(AdditionalFields).BytesSent)
+| <span class="k">where</span> <span class="fn">isnotnull</span>(Bytes)
+| <span class="k">make-series</span> Out = <span class="fn">sum</span>(Bytes) <span class="k">default</span>=<span class="n">0</span>
+    <span class="k">on</span> TimeGenerated <span class="k">from</span> <span class="fn">ago</span>(<span class="n">7d</span>) <span class="k">to</span> <span class="fn">now</span>() <span class="k">step</span> <span class="n">1h</span>
+    <span class="k">by</span> DeviceName
+| <span class="k">extend</span> (anomalies, score, baseline) = <span class="fn">series_decompose_anomalies</span>(Out, <span class="n">3.0</span>, -<span class="n">1</span>, <span class="s">"linefit"</span>)
+| <span class="k">mv-expand</span> TimeGenerated <span class="k">to typeof</span>(<span class="k">datetime</span>),
+            Out         <span class="k">to typeof</span>(<span class="k">long</span>),
+            anomalies   <span class="k">to typeof</span>(<span class="k">int</span>),
+            score       <span class="k">to typeof</span>(<span class="k">double</span>),
+            baseline    <span class="k">to typeof</span>(<span class="k">double</span>)
+| <span class="k">where</span> anomalies != <span class="n">0</span> <span class="k">and</span> Out &gt;= <span class="n">100</span> * <span class="n">1024</span> * <span class="n">1024</span>
+| <span class="k">project</span> TimeGenerated, DeviceName, MB = Out / <span class="n">1024</span> / <span class="n">1024</span>, BaselineMB = <span class="fn">round</span>(baseline / <span class="n">1024</span> / <span class="n">1024</span>, <span class="n">1</span>), Score = score
+| <span class="k">order by</span> Score <span class="k">desc</span></code></pre>
+</details>
+</div>
+
+<div class="challenge lvl-hard">
+<h3><span class="badge">15 · Hard</span> The full one — admin user, evil.exe, then specific DLLs ~10 min later, with N events between, jitter tolerance</h3>
+<div class="scenario">
+On hosts where the logged-on user is in the admin watchlist, find the device where <code>evil.exe</code> ran and was followed (≈10 minutes ± 90 seconds of jitter) by image-loads of all of <code>{samlib.dll, vaultcli.dll, wdigest.dll}</code>, with at least 5 unrelated process events in between. Return the host, the user, the evil.exe instance, the timing, and the matched DLLs.
+</div>
+<details><summary>Show solution</summary>
+<pre><code><span class="k">let</span> Window     = <span class="n">15m</span>;                                  <span class="c">// hard outer bound</span>
+<span class="k">let</span> Target     = <span class="n">10m</span>;                                  <span class="c">// expected delay</span>
+<span class="k">let</span> Jitter     = <span class="n">90s</span>;                                  <span class="c">// tolerance</span>
+<span class="k">let</span> InterMin   = <span class="n">5</span>;                                    <span class="c">// minimum unrelated events between</span>
+<span class="k">let</span> Watch      = <span class="fn">dynamic</span>([<span class="s">"samlib.dll"</span>,<span class="s">"vaultcli.dll"</span>,<span class="s">"wdigest.dll"</span>]);
+<span class="k">let</span> Admins     = <span class="fn">dynamic</span>([<span class="s">"administrator"</span>,<span class="s">"da-bryce"</span>,<span class="s">"svc-backup"</span>]);  <span class="c">// or _GetWatchlist("AdminAccounts")</span>
+<span class="c">// 1. Trigger: evil.exe execution</span>
+<span class="k">let</span> Evil = <span class="t">DeviceProcessEvents</span>
+    | <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">7d</span>)
+    | <span class="k">where</span> FileName =~ <span class="s">"evil.exe"</span>
+    | <span class="k">where</span> AccountName <span class="k">in~</span> (Admins)
+    | <span class="k">project</span>
+        EvilTime   = TimeGenerated,
+        DeviceName,
+        AccountName,
+        EvilPid    = ProcessId,
+        EvilHash   = SHA256,
+        EvilCmd    = ProcessCommandLine;
+<span class="c">// 2. Image loads in the window after each evil.exe</span>
+<span class="k">let</span> Loads = <span class="t">DeviceImageLoadEvents</span>
+    | <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">7d</span>)
+    | <span class="k">where</span> <span class="fn">tolower</span>(FileName) <span class="k">in</span> (Watch)
+    | <span class="k">project</span> LoadTime = TimeGenerated, DeviceName, LoadedDll = <span class="fn">tolower</span>(FileName), LoadingProc = InitiatingProcessFileName, LoadingPid = InitiatingProcessId;
+<span class="c">// 3. Inter-event noise: any process event NOT the evil.exe and NOT one of the watch DLLs</span>
+<span class="k">let</span> Inter = <span class="t">DeviceProcessEvents</span>
+    | <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">7d</span>)
+    | <span class="k">project</span> InterTime = TimeGenerated, DeviceName, InterFile = FileName;
+<span class="c">// 4. Join evil.exe to its DLL loads in the window</span>
+Evil
+| <span class="k">join</span> kind=inner Loads <span class="k">on</span> DeviceName
+| <span class="k">where</span> LoadTime <span class="k">between</span> (EvilTime + (Target - Jitter) .. EvilTime + (Target + Jitter))
+       <span class="k">or</span> LoadTime <span class="k">between</span> (EvilTime .. EvilTime + Window)               <span class="c">// loose path</span>
+| <span class="k">summarize</span>
+    DllsHit  = <span class="fn">make_set</span>(LoadedDll),
+    FirstLoad= <span class="fn">min</span>(LoadTime),
+    LastLoad = <span class="fn">max</span>(LoadTime)
+  <span class="k">by</span> DeviceName, AccountName, EvilTime, EvilPid, EvilHash, EvilCmd
+| <span class="k">where</span> <span class="fn">array_length</span>(<span class="fn">set_intersect</span>(DllsHit, Watch)) == <span class="fn">array_length</span>(Watch)   <span class="c">// require ALL three</span>
+| <span class="k">extend</span> Delay = LastLoad - EvilTime
+| <span class="k">where</span> Delay <span class="k">between</span> (Target - Jitter .. Target + Jitter)                <span class="c">// jitter check on aggregate</span>
+<span class="c">// 5. Confirm InterMin unrelated events occurred between EvilTime and FirstLoad</span>
+| <span class="k">join</span> kind=inner (
+    Inter
+    | <span class="k">summarize</span> Bag = <span class="fn">make_list</span>(<span class="fn">pack</span>(<span class="s">"t"</span>, InterTime, <span class="s">"f"</span>, InterFile)) <span class="k">by</span> DeviceName
+  ) <span class="k">on</span> DeviceName
+| <span class="k">mv-apply</span> evt = Bag <span class="k">to typeof</span>(<span class="k">dynamic</span>) <span class="k">on</span> (
+    <span class="k">where</span>
+        <span class="fn">todatetime</span>(evt.t) <span class="k">between</span> (EvilTime .. FirstLoad)
+        <span class="k">and</span> <span class="fn">tolower</span>(<span class="fn">tostring</span>(evt.f)) !in (<span class="s">"evil.exe"</span>)
+    | <span class="k">summarize</span> Inters = <span class="fn">count</span>()
+)
+| <span class="k">where</span> Inters &gt;= InterMin
+| <span class="k">project</span>
+    DeviceName, AccountName,
+    EvilTime, EvilPid, EvilHash, EvilCmd,
+    FirstLoad, LastLoad, Delay,
+    DllsHit, InterEventsBetween = Inters
+| <span class="k">order by</span> EvilTime <span class="k">desc</span></code></pre>
+<p class="small">
+<strong>Reading the query:</strong>
+(1) materialize the evil.exe trigger restricted to admin users;
+(2) pull DLL loads in the window;
+(3) require all three target DLLs in the matched set;
+(4) verify the aggregate delay falls inside the jitter band — this is what gives you "≈10 min ± 90s";
+(5) re-join unrelated process events and use <code>mv-apply</code> with a <code>where</code> on the array to count noise events between the trigger and the first DLL load.<br>
+<strong>Real-world note:</strong> if your environment has tight IR-style memory budgets, replace step (5) with a <code>summarize</code> that pre-buckets per host into a property bag and avoids the second join entirely.
+</p>
+</details>
+</div>
+
+<!-- ============= EXPERT ============= -->
+<h3 style="margin-top:24px">Expert (partition + mv-apply + windowing + cross-table)</h3>
+
+<div class="challenge lvl-expert">
+<h3><span class="badge">16 · Expert</span> Per-host rare-DLL hunt with partition + mv-apply</h3>
+<div class="scenario">For each device, find DLLs loaded by <code>lsass.exe</code> that are NOT in the device's own 30-day baseline. Output one row per host listing the new DLLs and their first-seen times. Use <code>partition</code> so the per-host computation is parallelized.</div>
+<details><summary>Show solution</summary>
+<pre><code><span class="k">let</span> Recent = <span class="n">1d</span>;
+<span class="k">let</span> Baseline = <span class="n">30d</span>;
+<span class="t">DeviceImageLoadEvents</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(Baseline)
+| <span class="k">where</span> InitiatingProcessFileName =~ <span class="s">"lsass.exe"</span>
+| <span class="k">project</span> DeviceName, FileName = <span class="fn">tolower</span>(FileName), TimeGenerated
+| <span class="k">partition</span> hint.strategy=native <span class="k">by</span> DeviceName (
+    <span class="k">summarize</span>
+        BaselineDlls = <span class="fn">make_set_if</span>(FileName, TimeGenerated <span class="k">between</span> (<span class="fn">ago</span>(Baseline) .. <span class="fn">ago</span>(Recent))),
+        RecentLoads  = <span class="fn">make_list_if</span>(<span class="fn">pack</span>(<span class="s">"t"</span>, TimeGenerated, <span class="s">"d"</span>, FileName), TimeGenerated &gt; <span class="fn">ago</span>(Recent))
+        <span class="k">by</span> DeviceName
+    | <span class="k">mv-apply</span> rec = RecentLoads <span class="k">to typeof</span>(<span class="k">dynamic</span>) <span class="k">on</span> (
+        <span class="k">where</span> <span class="fn">tostring</span>(rec.d) !in (BaselineDlls)
+        | <span class="k">summarize</span> NewDlls = <span class="fn">make_set</span>(<span class="fn">tostring</span>(rec.d)),
+                    FirstSeen = <span class="fn">min</span>(<span class="fn">todatetime</span>(rec.t))
+      )
+)
+| <span class="k">where</span> <span class="fn">array_length</span>(NewDlls) &gt; <span class="n">0</span>
+| <span class="k">order by</span> FirstSeen <span class="k">desc</span></code></pre>
+</details>
+</div>
+
+<div class="challenge lvl-expert">
+<h3><span class="badge">17 · Expert</span> Reconstruct a per-host attack timeline (serialize + prev/next)</h3>
+<div class="scenario">For a candidate host, produce a chronological narrative of "interesting" events (process create, network connect, image load, registry mod) with the inter-event delta and a chained "last-3" rolling memory of preceding events. Output the timeline as one row per event with columns: <code>t</code>, <code>kind</code>, <code>summary</code>, <code>gap</code>, <code>last3</code>.</div>
+<details><summary>Show solution</summary>
+<pre><code><span class="k">let</span> Host = <span class="s">"WS-FINANCE-07"</span>;
+<span class="k">let</span> Window = <span class="n">2h</span>;
+<span class="k">let</span> P = <span class="t">DeviceProcessEvents</span>
+    | <span class="k">where</span> DeviceName == Host <span class="k">and</span> TimeGenerated &gt; <span class="fn">ago</span>(Window)
+    | <span class="k">project</span> t = TimeGenerated, kind = <span class="s">"proc"</span>, summary = <span class="fn">strcat</span>(InitiatingProcessFileName, <span class="s">" -&gt; "</span>, FileName, <span class="s">" "</span>, <span class="fn">substring</span>(ProcessCommandLine, <span class="n">0</span>, <span class="n">100</span>));
+<span class="k">let</span> N = <span class="t">DeviceNetworkEvents</span>
+    | <span class="k">where</span> DeviceName == Host <span class="k">and</span> TimeGenerated &gt; <span class="fn">ago</span>(Window) <span class="k">and</span> ActionType == <span class="s">"ConnectionSuccess"</span>
+    | <span class="k">project</span> t = TimeGenerated, kind = <span class="s">"net"</span>,  summary = <span class="fn">strcat</span>(InitiatingProcessFileName, <span class="s">" =&gt; "</span>, RemoteIP, <span class="s">":"</span>, RemotePort);
+<span class="k">let</span> L = <span class="t">DeviceImageLoadEvents</span>
+    | <span class="k">where</span> DeviceName == Host <span class="k">and</span> TimeGenerated &gt; <span class="fn">ago</span>(Window)
+    | <span class="k">project</span> t = TimeGenerated, kind = <span class="s">"load"</span>, summary = <span class="fn">strcat</span>(InitiatingProcessFileName, <span class="s">" loads "</span>, FileName);
+<span class="k">let</span> R = <span class="t">DeviceRegistryEvents</span>
+    | <span class="k">where</span> DeviceName == Host <span class="k">and</span> TimeGenerated &gt; <span class="fn">ago</span>(Window)
+    | <span class="k">project</span> t = TimeGenerated, kind = <span class="s">"reg"</span>,  summary = <span class="fn">strcat</span>(ActionType, <span class="s">" "</span>, RegistryKey, <span class="s">"\\"</span>, RegistryValueName);
+<span class="k">union</span> P, N, L, R
+| <span class="k">order by</span> t <span class="k">asc</span>
+| <span class="k">serialize</span>
+    gap   = t - <span class="fn">prev</span>(t, <span class="n">1</span>),
+    last3 = <span class="fn">strcat</span>(<span class="fn">prev</span>(summary, <span class="n">3</span>), <span class="s">"\n"</span>, <span class="fn">prev</span>(summary, <span class="n">2</span>), <span class="s">"\n"</span>, <span class="fn">prev</span>(summary, <span class="n">1</span>))
+| <span class="k">project</span> t, kind, summary, gap, last3</code></pre>
+</details>
+</div>
+
+<div class="challenge lvl-expert">
+<h3><span class="badge">18 · Expert</span> Correlate auth events with watchlist + GeoIP and find impossible travel</h3>
+<div class="scenario">For each successful interactive logon (4624 type 2 or 10), enrich with GeoIP. Per account, if two consecutive logons are from cities &gt;500 km apart and within a window shorter than realistic travel time (assume max 800 km/h), flag as impossible travel. Bring in a watchlist of high-risk accounts to prioritize.</div>
+<details><summary>Show solution</summary>
+<pre><code><span class="k">let</span> Window = <span class="n">7d</span>;
+<span class="k">let</span> Risky = <span class="fn">externaldata</span>(Sam:<span class="k">string</span>) [<span class="s">@"https://&lt;&lt;ENV&gt;&gt;/risky-users.csv"</span>] <span class="k">with</span>(format=<span class="s">"csv"</span>, ignoreFirstRecord=<span class="k">true</span>);
+<span class="t">SecurityEvent</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(Window) <span class="k">and</span> EventID == <span class="n">4624</span> <span class="k">and</span> LogonType <span class="k">in</span> (<span class="n">2</span>,<span class="n">10</span>)
+| <span class="k">where</span> Account !endswith <span class="s">"$"</span> <span class="k">and</span> <span class="fn">isnotempty</span>(IpAddress) <span class="k">and</span> IpAddress !in (<span class="s">"-"</span>,<span class="s">"::1"</span>,<span class="s">"127.0.0.1"</span>)
+| <span class="k">extend</span> Geo = <span class="fn">geo_info_from_ip_address</span>(IpAddress)
+| <span class="k">extend</span> Lat = <span class="fn">toreal</span>(Geo.latitude), Lon = <span class="fn">toreal</span>(Geo.longitude), City = <span class="fn">tostring</span>(Geo.city), Country = <span class="fn">tostring</span>(Geo.country)
+| <span class="k">where</span> <span class="fn">isnotnull</span>(Lat) <span class="k">and</span> <span class="fn">isnotnull</span>(Lon)
+| <span class="k">order by</span> Account <span class="k">asc</span>, TimeGenerated <span class="k">asc</span>
+| <span class="k">serialize</span>
+    PrevTime = <span class="fn">prev</span>(TimeGenerated),
+    PrevLat  = <span class="fn">prev</span>(Lat),
+    PrevLon  = <span class="fn">prev</span>(Lon),
+    PrevCity = <span class="fn">prev</span>(City),
+    PrevAcct = <span class="fn">prev</span>(Account)
+| <span class="k">where</span> Account == PrevAcct
+| <span class="k">extend</span> KM     = <span class="fn">geo_distance_2points</span>(PrevLon, PrevLat, Lon, Lat) / <span class="n">1000</span>
+| <span class="k">extend</span> Hours  = (TimeGenerated - PrevTime) / <span class="n">1h</span>
+| <span class="k">extend</span> NeededKmh = KM / <span class="fn">iff</span>(Hours == <span class="n">0</span>, <span class="n">0.0001</span>, Hours)
+| <span class="k">where</span> KM &gt; <span class="n">500</span> <span class="k">and</span> NeededKmh &gt; <span class="n">800</span>
+| <span class="k">join</span> kind=leftouter Risky <span class="k">on</span> $left.Account == $right.Sam
+| <span class="k">extend</span> Priority = <span class="fn">iff</span>(<span class="fn">isnotempty</span>(Sam), <span class="s">"HIGH"</span>, <span class="s">"NORMAL"</span>)
+| <span class="k">project</span> TimeGenerated, Account, From = PrevCity, To = City, KM = <span class="fn">round</span>(KM, <span class="n">0</span>), Gap = TimeGenerated - PrevTime, NeededKmh = <span class="fn">round</span>(NeededKmh, <span class="n">0</span>), Priority
+| <span class="k">order by</span> Priority <span class="k">asc</span>, NeededKmh <span class="k">desc</span></code></pre>
+<p class="small"><code>geo_distance_2points</code> takes (lon1, lat1, lon2, lat2) — note longitude first; getting this backwards is a classic bug.</p>
+</details>
+</div>
+
+<div class="challenge lvl-expert">
+<h3><span class="badge">19 · Expert</span> WerFault / LSASS dual-process detection (production rule shape)</h3>
+<div class="scenario">Detect the dual-WerFault credential-access pattern: <code>WerFault.exe -pr &lt;PID&gt;</code> spawned with the LSASS PID, followed within 2 minutes by a process-access on <code>lsass.exe</code> from that same WerFault PID with a credential-grade access mask (<code>0x1010</code>, <code>0x1410</code>, <code>0x1438</code>, <code>0x143A</code>). Suppress the legitimate Edge "AppHangXProcB1" branch (parent is a hung browser, not a service-host). Map entities and emit one alert per <code>(Device, EvilSequence)</code>.</div>
+<details><summary>Show solution</summary>
+<pre><code><span class="k">let</span> Window     = <span class="n">2m</span>;
+<span class="k">let</span> CredMasks  = <span class="fn">dynamic</span>([<span class="s">"0x1010"</span>,<span class="s">"0x1410"</span>,<span class="s">"0x1438"</span>,<span class="s">"0x143A"</span>,<span class="s">"0x143a"</span>]);
+<span class="k">let</span> EdgeParents = <span class="fn">dynamic</span>([<span class="s">"msedge.exe"</span>,<span class="s">"chrome.exe"</span>,<span class="s">"firefox.exe"</span>]);
+<span class="k">let</span> WerSpawn = <span class="t">DeviceProcessEvents</span>
+    | <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1d</span>)
+    | <span class="k">where</span> FileName =~ <span class="s">"WerFault.exe"</span>
+    | <span class="k">where</span> ProcessCommandLine has <span class="s">"-pr"</span>
+    | <span class="k">extend</span> ParentLeaf = <span class="fn">tolower</span>(<span class="fn">tostring</span>(<span class="fn">split</span>(InitiatingProcessFolderPath, <span class="s">"\\"</span>)[-<span class="n">1</span>]))
+    | <span class="k">where</span> ParentLeaf !in~ (EdgeParents)                        <span class="c">// suppress AppHangXProcB1 path</span>
+    | <span class="k">extend</span> TargetPid = <span class="fn">toint</span>(<span class="fn">extract</span>(<span class="s">@"-pr\s+(\d+)"</span>, <span class="n">1</span>, ProcessCommandLine))
+    | <span class="k">project</span>
+        SpawnTime  = TimeGenerated,
+        DeviceName,
+        WerPid     = ProcessId,
+        WerCmd     = ProcessCommandLine,
+        TargetPid,
+        Parent     = InitiatingProcessFileName,
+        Account    = AccountName;
+<span class="k">let</span> LsassAccess = <span class="t">DeviceEvents</span>
+    | <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">1d</span>)
+    | <span class="k">where</span> ActionType == <span class="s">"ProcessAccessByOthers"</span> <span class="k">and</span> FileName =~ <span class="s">"lsass.exe"</span>
+    | <span class="k">extend</span> Add = <span class="fn">parse_json</span>(AdditionalFields)
+    | <span class="k">extend</span>
+        AccessMask = <span class="fn">tostring</span>(Add.GrantedAccess),
+        SourcePid  = <span class="fn">toint</span>(Add.SourceProcessId),
+        SourceImg  = <span class="fn">tostring</span>(Add.SourceImageFileName),
+        LsassPid   = <span class="fn">toint</span>(Add.TargetProcessId)
+    | <span class="k">where</span> AccessMask <span class="k">in~</span> (CredMasks)
+    | <span class="k">project</span> AccessTime = TimeGenerated, DeviceName, SourcePid, SourceImg, LsassPid, AccessMask;
+<span class="c">// 1. WerFault was spawned with -pr targeting LSASS</span>
+<span class="c">// 2. Same WerFault PID then opens LSASS with cred-grade mask within 2 minutes</span>
+WerSpawn
+| <span class="k">join</span> kind=inner LsassAccess <span class="k">on</span> DeviceName
+| <span class="k">where</span> SourcePid == WerPid                                   <span class="c">// the access came from the WerFault we just saw spawn</span>
+| <span class="k">where</span> TargetPid == LsassPid                                 <span class="c">// the -pr target IS the lsass that got accessed</span>
+| <span class="k">where</span> AccessTime <span class="k">between</span> (SpawnTime .. SpawnTime + Window)
+| <span class="k">summarize</span>
+    AccessTimes = <span class="fn">make_set</span>(AccessTime, <span class="n">10</span>),
+    Masks       = <span class="fn">make_set</span>(AccessMask, <span class="n">10</span>),
+    SourceImgs  = <span class="fn">make_set</span>(SourceImg, <span class="n">5</span>),
+    Hits        = <span class="fn">count</span>()
+  <span class="k">by</span> DeviceName, Account, Parent, SpawnTime, WerPid, TargetPid, WerCmd
+| <span class="k">extend</span>
+    EvilSequence = <span class="fn">strcat</span>(<span class="fn">format_datetime</span>(SpawnTime, <span class="s">"yyyy-MM-dd HH:mm:ss"</span>), <span class="s">"|"</span>, DeviceName, <span class="s">"|"</span>, WerPid, <span class="s">"-&gt;"</span>, TargetPid)
+| <span class="k">project</span> SpawnTime, DeviceName, Account, Parent, WerPid, TargetPid, Masks, AccessTimes, Hits, WerCmd, EvilSequence
+<span class="c">// Sentinel entity mapping:  Host=DeviceName  Account=Account  CustomDetails={Masks, WerCmd, EvilSequence}</span></code></pre>
+<p class="small">Built around the case-specific facts you've already validated: <code>WerFault -pr</code> spawned at SYSTEM IL parented by <code>WerSvcGroup</code> (or directly by <code>services.exe</code>) ≠ Edge <code>AppHangXProcB1</code> path. Tighten <code>EdgeParents</code> to your environment.</p>
+</details>
+</div>
+
+<div class="challenge lvl-expert">
+<h3><span class="badge">20 · Expert</span> Anomaly + characterization in one query (make-series + diffpatterns)</h3>
+<div class="scenario">For each device, build a 7-day series of process-create count in 1-hour buckets. Pick the most anomalous hour per device (highest score). Then, using <code>diffpatterns</code>, compare what was happening in that hour versus the rest of the week, and surface the column-value patterns that distinguish the anomaly. Final output: device + anomaly hour + score + the top distinguishing patterns.</div>
+<details><summary>Show solution</summary>
+<pre><code><span class="k">let</span> Window = <span class="n">7d</span>;
+<span class="k">let</span> Step   = <span class="n">1h</span>;
+<span class="c">// 1. Find each device's worst-anomaly hour</span>
+<span class="k">let</span> Anomalies = <span class="t">DeviceProcessEvents</span>
+    | <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(Window)
+    | <span class="k">make-series</span> n = <span class="fn">count</span>() <span class="k">default</span>=<span class="n">0</span>
+        <span class="k">on</span> TimeGenerated <span class="k">from</span> <span class="fn">ago</span>(Window) <span class="k">to</span> <span class="fn">now</span>() <span class="k">step</span> Step
+        <span class="k">by</span> DeviceName
+    | <span class="k">extend</span> (anomalies, score, baseline) = <span class="fn">series_decompose_anomalies</span>(n, <span class="n">2.5</span>, -<span class="n">1</span>, <span class="s">"linefit"</span>)
+    | <span class="k">mv-expand</span> ts = TimeGenerated <span class="k">to typeof</span>(<span class="k">datetime</span>),
+                 cnt = n        <span class="k">to typeof</span>(<span class="k">long</span>),
+                 a   = anomalies <span class="k">to typeof</span>(<span class="k">int</span>),
+                 s   = score    <span class="k">to typeof</span>(<span class="k">double</span>)
+    | <span class="k">where</span> a != <span class="n">0</span> <span class="k">and</span> s &gt; <span class="n">0</span>
+    | <span class="k">summarize</span> <span class="fn">arg_max</span>(s, ts, cnt) <span class="k">by</span> DeviceName
+    | <span class="k">project</span> DeviceName, AnomalyHour = <span class="fn">bin</span>(ts, Step), Score = s, Cnt = cnt;
+<span class="c">// 2. For each anomaly, label rows in/out of that hour and run diffpatterns</span>
+<span class="t">DeviceProcessEvents</span>
+| <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(Window)
+| <span class="k">join</span> kind=inner Anomalies <span class="k">on</span> DeviceName
+| <span class="k">extend</span> bucket = <span class="fn">iff</span>(<span class="fn">bin</span>(TimeGenerated, Step) == AnomalyHour, <span class="s">"anomaly"</span>, <span class="s">"baseline"</span>)
+| <span class="k">project</span> DeviceName, bucket,
+          Parent = InitiatingProcessFileName,
+          Child  = FileName,
+          Folder = <span class="fn">tostring</span>(<span class="fn">split</span>(FolderPath, <span class="s">"\\"</span>)[-<span class="n">2</span>]),
+          User   = AccountName
+| <span class="k">partition</span> hint.strategy=native <span class="k">by</span> DeviceName (
+    <span class="k">evaluate</span> diffpatterns(bucket, <span class="s">"baseline"</span>, <span class="s">"anomaly"</span>, <span class="s">"~"</span>, <span class="n">0.05</span>, <span class="n">2</span>)
+)
+| <span class="k">join</span> kind=leftouter Anomalies <span class="k">on</span> DeviceName
+| <span class="k">project</span> DeviceName, AnomalyHour, Score, SegmentId, CountA, CountB, PercentA, PercentB, PercentDiffAB, Pattern
+| <span class="k">order by</span> Score <span class="k">desc</span>, PercentDiffAB <span class="k">desc</span></code></pre>
+<p class="small"><strong>What you get:</strong> "On host X at 03:00 UTC the process volume was anomalously high; the patterns that distinguish that hour from the rest of the week are <em>parent=services.exe / child=cmd.exe / user=svc-backup</em>." That's a finished triage finding in one query.</p>
+</details>
+</div>
+
+<hr class="thin">
+
+<h2 id="appendix">Appendix · Quick reference index</h2>
+
+<h3>Operators (alphabetical)</h3>
+<p class="small mono">
+as · count · distinct · evaluate · extend · facet · find · fork · getschema · invoke · join · limit/take · lookup · make-series · mv-apply · mv-expand · order/sort · parse · parse-kv · parse-where · partition · print · project · project-away · project-keep · project-rename · project-reorder · range · reduce · render · sample · sample-distinct · search · serialize · summarize · top · top-hitters · top-nested · union · where
+</p>
+
+<h3>High-leverage scalar/aggregate functions</h3>
+<p class="small mono">
+ago · arg_max · arg_min · array_length · array_sum · bag_pack · bag_unpack · base64_decode_toarray · bin · bin_at · case · coalesce · count_distinct · countif · dcount · dcountif · datetime_part · extract · extract_all · format_datetime · geo_distance_2points · geo_info_from_ip_address · iff · iif · indexof · isnotempty · isnotnull · make_bag · make_list · make_list_if · make_set · make_set_if · materialize · mv-expand to typeof · now · pack · parse_json · parse_url · percentile · percentiles · prev · next · replace_regex · replace_string · row_cumsum · row_number · row_rank_dense · row_window_session · series_decompose · series_decompose_anomalies · series_decompose_forecast · series_fit_2lines · series_fit_line · series_pearson_correlation · series_periods_detect · set_difference · set_has_element · set_intersect · set_union · split · startofday · strcat · strcat_array · substring · todatetime · todynamic · toint · tolong · toreal · toscalar · tostring · totimespan · trim
+</p>
+
+<div class="image-slot">
+  [ Slot for cheat sheet image: KQL operator pipeline diagram (left-to-right). Replace with your own diagram or screenshot. ]
+</div>
+
+<p class="small" style="margin-top:30px; color: var(--ink-faint); border-top: 1px solid var(--rule); padding-top: 14px;">
+End of document. To regenerate or extend: edit this single .html file. All styling, code samples, diagrams, and image slots are inline — no external dependencies. For air-gapped sharing, copy the file as-is.
+</p>
+
+</div>
+
+<footer class="site-footer" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;">
+<div class="container-wide">
+&copy; 2026 Bryce Maxheimer &middot;
+<a href="https://github.com/brycemaxheimer">GitHub</a> &middot;
+<a href="/about.html">Contact</a>
+</div>
+</footer>
+
+</body>
+</html>
