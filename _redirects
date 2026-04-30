@@ -1,0 +1,10 @@
+# Cloudflare Pages redirects file.
+# Format: <source path>  <destination>  <status code>
+# Examples (uncomment to use):
+#
+# Redirect a renamed post:
+#   /blog/old-slug.html   /blog/posts/new-slug.html   301
+#
+# Force trailing-slash on the blog index:
+#   /blog                 /blog/                      301
+

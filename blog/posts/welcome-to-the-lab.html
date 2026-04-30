@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Why I'm publishing in the open, how this site is built, and what's coming next.">
+    <title>Welcome to the lab — Bryce Maxheimer</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+    <div class="container">
+        <a href="/" class="brand"><span class="prompt">PS&gt;</span> brycemaxheimer</a>
+        <nav class="nav">
+            <a href="/">Home</a>
+            <a href="/blog/" class="active">Blog</a>
+            <a href="/scripts/">Scripts</a>
+            <a href="/about.html">About</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+
+<article class="post">
+    <h1>Welcome to the lab</h1>
+    <div class="meta">
+        2026-04-30  &middot;  <span class="tag">meta</span> <span class="tag">soc</span>
+    </div>
+
+    <h2>Why publish in the open</h2>
+
+    <p>Most of the cybersecurity work I do lives behind authentication walls — internal
+    runbooks, ticket comments, query libraries that are tied to a specific tenant.
+    That's fine for the day job, but it means the <em>general</em> lessons get buried with
+    the <em>specific</em> incidents.</p>
+
+    <p>This site is my attempt to fix that. I want a public-facing notebook for the
+    parts of the work that aren't sensitive: framework alignment, tooling patterns,
+    script writeups, and the occasional rabbit hole.</p>
+
+    <h2>How this site is built</h2>
+
+    <p>Three deliberate constraints:</p>
+
+    <ol>
+        <li><strong>No framework.</strong> Plain HTML and CSS, hand-written. I wanted to actually
+        <em>understand</em> every byte that ships, not delegate that to a build tool I don't read.</li>
+        <li><strong>Markdown for posts.</strong> Authoring HTML for long-form content gets old fast.
+        A small PowerShell build script (<code>build.ps1</code>) runs <code>ConvertFrom-Markdown</code>
+        over <code>posts-source/*.md</code> and emits HTML files into <code>blog/posts/</code>.</li>
+        <li><strong>Hosted on Cloudflare Pages.</strong> Free tier, automatic builds from a GitHub
+        push, custom domain via Cloudflare DNS. The whole stack costs $0/month
+        (excluding the domain registration).</li>
+    </ol>
+
+    <p>The full source is on GitHub.</p>
+
+    <h2>What's coming next</h2>
+
+    <p>Rough backlog, no committed schedule:</p>
+
+    <ul>
+        <li>A walkthrough of the <code>Invoke-KqlPS</code> lab harness — practicing KQL hunts against
+        a local SQLite copy of common Sentinel tables.</li>
+        <li>Notes on mapping the SOC Dashboard's threat-intel modules to MITRE ATT&amp;CK data sources.</li>
+        <li>A short post on running NIST CSF self-assessments out of an MS Access backend
+        (yes, really — it's the right tool for some shops).</li>
+    </ul>
+
+    <p>If a topic here is useful to you, the best feedback channel is the email on the About page.</p>
+
+    <blockquote>
+        <strong>A note on scope.</strong> Nothing on this site is offered as professional advice
+        for your environment. It's a notebook of what's worked for <em>me</em> in the
+        contexts I work in. Adopt selectively.
+    </blockquote>
+
+    <hr>
+    <p style="color: var(--muted); font-size: 0.9rem">
+        &larr; <a href="/blog/">Back to all posts</a>
+    </p>
+</article>
+
+</main>
+
+<footer class="site-footer">
+    <div class="container">
+        &copy; 2026 Bryce Maxheimer  &middot;
+        <a href="https://github.com/">GitHub</a>  &middot;
+        <a href="/about.html">Contact</a>
+    </div>
+</footer>
+
+</body>
+</html>

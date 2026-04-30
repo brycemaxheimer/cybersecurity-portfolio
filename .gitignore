@@ -1,0 +1,21 @@
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# PowerShell transcript / logs
+*.log
+transcripts/
+
+# Local previews / build artifacts that shouldn't be committed
+node_modules/
+.cache/
+
+# Drafts (uncomment if you want a private drafts folder)
+# posts-source/_drafts/

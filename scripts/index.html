@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="PowerShell scripts and modules from the SOC Dashboard project — by Bryce Maxheimer.">
+    <title>Scripts — Bryce Maxheimer</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+    <div class="container">
+        <a href="/" class="brand"><span class="prompt">PS&gt;</span> brycemaxheimer</a>
+        <nav class="nav">
+            <a href="/">Home</a>
+            <a href="/blog/">Blog</a>
+            <a href="/scripts/" class="active">Scripts</a>
+            <a href="/about.html">About</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+
+    <h1>Scripts</h1>
+    <p style="color: var(--muted)">
+        PowerShell modules and one-offs I've built or adopted. Most live inside the
+        <a href="https://github.com/">SOC Dashboard</a> project. Click any heading
+        to jump to its writeup once published.
+    </p>
+
+    <section>
+        <h2>SOC operations &amp; KQL</h2>
+
+        <article class="card" id="invoke-kqlps">
+            <h3>Invoke-KqlPS</h3>
+            <div class="meta">PowerShell  &middot;  KQL helper  &middot;  SQLite backend</div>
+            <p class="summary">
+                Translates a subset of KQL into SQL and runs it against a local SQLite
+                lab database. Lets you practice hunting queries without burning Sentinel
+                ingest budget.
+            </p>
+            <span class="tag">powershell</span><span class="tag">kql</span><span class="tag">sqlite</span>
+        </article>
+
+        <article class="card" id="build-kqllabdb" style="margin-top:1rem">
+            <h3>Build-KqlLabDb</h3>
+            <div class="meta">PowerShell  &middot;  data prep</div>
+            <p class="summary">
+                Bootstraps the lab SQLite database from the bundled CSV log samples
+                (DeviceLogonEvents, DeviceProcessEvents, SecurityAlert, SigninLogs, etc.).
+            </p>
+            <span class="tag">powershell</span><span class="tag">lab</span>
+        </article>
+
+        <article class="card" id="kqlbuilder" style="margin-top:1rem">
+            <h3>KqlBuilder &amp; KqlTemplates</h3>
+            <div class="meta">PowerShell  &middot;  query authoring</div>
+            <p class="summary">
+                Composable query builder plus a library of starter KQL templates for
+                common SOC questions (suspicious sign-ins, parent-child process anomalies,
+                rare image loads).
+            </p>
+            <span class="tag">powershell</span><span class="tag">kql</span><span class="tag">templates</span>
+        </article>
+    </section>
+
+    <section>
+        <h2>Threat intel &amp; enrichment</h2>
+
+        <article class="card" id="secintel-threatintel">
+            <h3>SecIntel.ThreatIntel</h3>
+            <div class="meta">PowerShell  &middot;  enrichment library</div>
+            <p class="summary">
+                Unified wrapper around AbuseIPDB, urlscan.io, NIST NVD, Team Cymru hash
+                lookups, and the NSRL. One consistent interface, cached responses,
+                pluggable settings.
+            </p>
+            <span class="tag">powershell</span><span class="tag">threat-intel</span><span class="tag">api</span>
+        </article>
+
+        <article class="card" id="secintel-dailybrief" style="margin-top:1rem">
+            <h3>SecIntel.DailyBrief</h3>
+            <div class="meta">PowerShell  &middot;  reporting</div>
+            <p class="summary">
+                Pulls the day's relevant CVE/KEV/EPSS movement plus enrichment data and
+                renders a digest. Run as a scheduled task to land a fresh brief in your
+                inbox each morning.
+            </p>
+            <span class="tag">powershell</span><span class="tag">cve</span><span class="tag">kev</span><span class="tag">epss</span>
+        </article>
+
+        <article class="card" id="cve-feeds" style="margin-top:1rem">
+            <h3>Update-CveKevFeed &amp; Update-EpssFeed</h3>
+            <div class="meta">PowerShell  &middot;  feed sync</div>
+            <p class="summary">
+                Mirror CISA's KEV catalog and FIRST.org's EPSS scores locally. Designed to
+                run idempotently — safe to schedule.
+            </p>
+            <span class="tag">powershell</span><span class="tag">cisa-kev</span><span class="tag">epss</span>
+        </article>
+    </section>
+
+    <section>
+        <h2>Frameworks</h2>
+
+        <article class="card" id="mitre-attack-explorer">
+            <h3>MitreAttackExplorer</h3>
+            <div class="meta">PowerShell  &middot;  MITRE ATT&amp;CK</div>
+            <p class="summary">
+                Offline browser for the ATT&amp;CK framework. Search techniques, list
+                sub-techniques, map to data sources, dump filtered JSON for downstream
+                tooling. Useful when you want a quick lookup without opening the
+                ATT&amp;CK Navigator.
+            </p>
+            <span class="tag">powershell</span><span class="tag">mitre</span><span class="tag">attack</span>
+        </article>
+
+        <article class="card" id="cve-attack-map" style="margin-top:1rem">
+            <h3>Update-CveAttackMap</h3>
+            <div class="meta">PowerShell  &middot;  cross-mapping</div>
+            <p class="summary">
+                Joins CVE records to ATT&amp;CK techniques where mappings exist, producing
+                a lookup table that's handy when prioritizing patching against observed
+                adversary behavior.
+            </p>
+            <span class="tag">powershell</span><span class="tag">cve</span><span class="tag">mitre</span>
+        </article>
+    </section>
+
+    <hr>
+    <p style="color: var(--muted); font-size: 0.9rem">
+        Source for these modules lives in the SOC Dashboard repo (link to come once it's
+        public). Everything is MIT-licensed unless a file header says otherwise.
+    </p>
+
+</main>
+
+<footer class="site-footer">
+    <div class="container">
+        &copy; 2026 Bryce Maxheimer  &middot;
+        <a href="https://github.com/">GitHub</a>  &middot;
+        <a href="/about.html">Contact</a>
+    </div>
+</footer>
+
+</body>
+</html>
