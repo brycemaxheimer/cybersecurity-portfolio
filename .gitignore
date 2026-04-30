@@ -24,3 +24,10 @@ node_modules/
 
 # Drafts (uncomment if you want a private drafts folder)
 # posts-source/_drafts/
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
