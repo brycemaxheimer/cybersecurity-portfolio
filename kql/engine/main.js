@@ -38,34 +38,89 @@
         });
     }
 
+    var TRUNC_AT = 80; // chars beyond which a cell gets the click-to-expand treatment
+
     function formatCell(v) {
         if (v === null || v === undefined) return '<span class="pg-null">null</span>';
         var s = String(v);
-        if (s.length > 200) s = s.slice(0, 197) + '...';
+        if (s.length > TRUNC_AT) {
+            return '<span class="pg-cell-trunc" data-full="' + escapeHtml(s) + '" title="Click to expand">' +
+                   escapeHtml(s) + '</span>';
+        }
         return escapeHtml(s);
+    }
+
+    function attachCellExpanders() {
+        var nodes = resultsEl.querySelectorAll('.pg-cell-trunc');
+        nodes.forEach(function (n) {
+            n.addEventListener('click', function () {
+                n.classList.toggle('expanded');
+            });
+        });
     }
 
     function renderResults(res) {
         if (!res.rows.length) {
-            resultsEl.innerHTML = '<div class="placeholder">No rows returned. <span class="pg-meta">' +
-                escapeHtml(res.sql) + '</span></div>';
+            resultsEl.innerHTML = '<div class="placeholder">No rows returned for this query.</div>';
             return;
         }
-        var html = '<div class="pg-result-meta">' + res.count + ' row' + (res.count === 1 ? '' : 's') + '</div>';
+
+        var displayRows = res.rows.slice(0, 500);
+        var html = '';
+        html += '<div class="pg-result-toolbar">';
+        html += '<span>' + res.count + ' row' + (res.count === 1 ? '' : 's') +
+                (res.rows.length > displayRows.length ? ' (showing first ' + displayRows.length + ')' : '') +
+                ' &middot; ' + res.columns.length + ' columns</span>';
+        html += '<span class="toolbar-tools">';
+        html += '<button data-act="expand-all">Expand all cells</button>';
+        html += '<button data-act="collapse-all">Collapse</button>';
+        html += '<button data-act="copy-tsv">Copy as TSV</button>';
+        html += '</span>';
+        html += '</div>';
+
         html += '<div class="pg-table-wrap"><table class="pg-table"><thead><tr>';
         res.columns.forEach(function (c) { html += '<th>' + escapeHtml(c) + '</th>'; });
         html += '</tr></thead><tbody>';
-        var displayRows = res.rows.slice(0, 500);
         displayRows.forEach(function (row) {
             html += '<tr>';
             row.forEach(function (cell) { html += '<td>' + formatCell(cell) + '</td>'; });
             html += '</tr>';
         });
         html += '</tbody></table></div>';
-        if (res.rows.length > displayRows.length) {
-            html += '<div class="pg-result-meta">Showing first ' + displayRows.length + ' of ' + res.rows.length + ' rows.</div>';
-        }
         resultsEl.innerHTML = html;
+
+        attachCellExpanders();
+        wireResultToolbar(res);
+    }
+
+    function wireResultToolbar(res) {
+        var toolbar = resultsEl.querySelector('.pg-result-toolbar');
+        if (!toolbar) return;
+        toolbar.addEventListener('click', function (e) {
+            var btn = e.target.closest('button');
+            if (!btn) return;
+            var act = btn.getAttribute('data-act');
+            if (act === 'expand-all') {
+                resultsEl.querySelectorAll('.pg-cell-trunc').forEach(function (n) { n.classList.add('expanded'); });
+            } else if (act === 'collapse-all') {
+                resultsEl.querySelectorAll('.pg-cell-trunc').forEach(function (n) { n.classList.remove('expanded'); });
+            } else if (act === 'copy-tsv') {
+                var lines = [res.columns.join('\t')];
+                res.rows.forEach(function (r) {
+                    lines.push(r.map(function (v) {
+                        if (v === null || v === undefined) return '';
+                        return String(v).replace(/[\t\n\r]/g, ' ');
+                    }).join('\t'));
+                });
+                var text = lines.join('\n');
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(text).then(function () {
+                        btn.textContent = 'Copied';
+                        setTimeout(function () { btn.textContent = 'Copy as TSV'; }, 1500);
+                    });
+                }
+            }
+        });
     }
 
     function runQuery() {

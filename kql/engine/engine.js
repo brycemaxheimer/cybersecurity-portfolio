@@ -33,13 +33,22 @@
     /* ============================================================
        LEXER
        ============================================================ */
+    // KEYWORDS reserved purely as language structure (cannot be used as
+    // identifiers or function names). 'count' is intentionally NOT here:
+    // it's both a pipeline operator AND a scalar/aggregate function, so it
+    // must lex as IDENT and be recognized contextually by the parser.
     var KEYWORDS = {
         where: 1, project: 1, 'project-keep': 1, 'project-away': 1,
-        extend: 1, summarize: 1, by: 1, count: 1, top: 1, take: 1,
+        extend: 1, summarize: 1, by: 1, top: 1, take: 1,
         limit: 1, distinct: 1, order: 1, sort: 1, asc: 1, desc: 1,
         let: 1, true: 1, false: 1, null: 1, and: 1, or: 1, not: 1,
         between: 1, on: 1, in: 1
     };
+
+    // Pipeline operators that lex as IDENT. parseOp() consults this when it
+    // can't find a KEYWORD operator. Currently just 'count', but more dual-
+    // use names can be added here without breaking expression parsing.
+    var IDENT_OPS = { count: 1 };
 
     // Word-shaped operators (lex as IDENT, then promote to OP).
     var WORD_OPS = {
@@ -238,6 +247,10 @@
 
         function parseOp() {
             var t = peek();
+            // Dual-use IDENT-as-operator (e.g., 'count').
+            if (t.kind === 'IDENT' && IDENT_OPS[t.value]) {
+                if (t.value === 'count') { consume(); return { kind: 'count' }; }
+            }
             if (t.kind !== 'KEYWORD') throw KqlError("expected an operator after '|', got '" + t.value + "'", t.pos);
             switch (t.value) {
                 case 'where':         consume(); return { kind: 'where', cond: parseExpr() };
@@ -246,7 +259,6 @@
                 case 'project-away':  consume(); return { kind: 'projectAway', cols: parseIdentList() };
                 case 'extend':        consume(); return { kind: 'extend', exprs: parseProjectList() };
                 case 'summarize':     consume(); return parseSummarize();
-                case 'count':         consume(); return { kind: 'count' };
                 case 'top':           consume(); return parseTop();
                 case 'take':
                 case 'limit':         consume(); return { kind: 'take', n: parseExpr() };
@@ -601,7 +613,7 @@
 
         // String predicates - case-insensitive by default in KQL
         var likeStr = function (val, pattern) {
-            return '(LOWER(CAST(' + L + ' AS TEXT)) LIKE LOWER(' + pattern + ') ESCAPE \'\\\\\')';
+            return '(LOWER(CAST(' + L + " AS TEXT)) LIKE LOWER(" + pattern + ") ESCAPE '\\')";
         };
         var rawString = function (n) {
             if (n.kind === 'string') return n.value;
@@ -617,10 +629,10 @@
                 if (rs !== null) return '(NOT ' + likeStr(L, escapeStr('%' + escapeLike(rs) + '%')) + ')';
                 return '(INSTR(LOWER(CAST(' + L + ' AS TEXT)), LOWER(CAST(' + R + ' AS TEXT))) = 0)';
             case 'contains_cs':
-                if (rs !== null) return '(CAST(' + L + ' AS TEXT) LIKE ' + escapeStr('%' + escapeLike(rs) + '%') + " ESCAPE '\\\\')";
+                if (rs !== null) return '(CAST(' + L + ' AS TEXT) LIKE ' + escapeStr('%' + escapeLike(rs) + '%') + " ESCAPE '\\')";
                 return '(INSTR(CAST(' + L + ' AS TEXT), CAST(' + R + ' AS TEXT)) > 0)';
             case '!contains_cs':
-                if (rs !== null) return '(CAST(' + L + ' AS TEXT) NOT LIKE ' + escapeStr('%' + escapeLike(rs) + '%') + " ESCAPE '\\\\')";
+                if (rs !== null) return '(CAST(' + L + ' AS TEXT) NOT LIKE ' + escapeStr('%' + escapeLike(rs) + '%') + " ESCAPE '\\')";
                 return '(INSTR(CAST(' + L + ' AS TEXT), CAST(' + R + ' AS TEXT)) = 0)';
             case 'startswith':
                 if (rs !== null) return likeStr(L, escapeStr(escapeLike(rs) + '%'));
@@ -638,13 +650,13 @@
                 // word-boundary case-insensitive match
                 if (rs !== null) {
                     var word = ' ' + rs.replace(/'/g, "''") + ' ';
-                    return "((' '||LOWER(CAST(" + L + " AS TEXT))||' ') LIKE LOWER('%" + escapeLike(word) + "%') ESCAPE '\\\\')";
+                    return "((' '||LOWER(CAST(" + L + " AS TEXT))||' ') LIKE LOWER('%" + escapeLike(word) + "%') ESCAPE '\\')";
                 }
                 break;
             case '!has':
                 if (rs !== null) {
                     var word2 = ' ' + rs.replace(/'/g, "''") + ' ';
-                    return "(NOT (' '||LOWER(CAST(" + L + " AS TEXT))||' ') LIKE LOWER('%" + escapeLike(word2) + "%') ESCAPE '\\\\')";
+                    return "(NOT (' '||LOWER(CAST(" + L + " AS TEXT))||' ') LIKE LOWER('%" + escapeLike(word2) + "%') ESCAPE '\\')";
                 }
                 break;
         }

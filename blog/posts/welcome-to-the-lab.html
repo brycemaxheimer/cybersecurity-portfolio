@@ -44,23 +44,6 @@
     parts of the work that aren't sensitive: framework alignment, tooling patterns,
     script writeups, and the occasional rabbit hole.</p>
 
-    <h2>How this site is built</h2>
-
-    <p>Three deliberate constraints:</p>
-
-    <ol>
-        <li><strong>No framework.</strong> Plain HTML and CSS, hand-written. I wanted to actually
-        <em>understand</em> every byte that ships, not delegate that to a build tool I don't read.</li>
-        <li><strong>Markdown for posts.</strong> Authoring HTML for long-form content gets old fast.
-        A small PowerShell build script (<code>build.ps1</code>) runs <code>ConvertFrom-Markdown</code>
-        over <code>posts-source/*.md</code> and emits HTML files into <code>blog/posts/</code>.</li>
-        <li><strong>Hosted on Cloudflare Pages.</strong> Free tier, automatic builds from a GitHub
-        push, custom domain via Cloudflare DNS. The whole stack costs $0/month
-        (excluding the domain registration).</li>
-    </ol>
-
-    <p>The full source is on GitHub.</p>
-
     <h2>What's coming next</h2>
 
     <p>Rough backlog, no committed schedule:</p>

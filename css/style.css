@@ -117,11 +117,12 @@ a:hover {
     border-bottom-color: var(--mint-deep);
 }
 
-.container {
-    max-width: var(--max-width);
+.container,
+.container-wide {
     margin: 0 auto;
     padding: 0 1.5rem;
 }
+.container      { max-width: var(--max-width); }
 .container-wide { max-width: var(--max-width-wide); }
 main { padding: 2rem 0 5rem; }
 
