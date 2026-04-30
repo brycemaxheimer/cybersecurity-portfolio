@@ -1,45 +1,51 @@
 /* ============================================================
-   brycemaxheimer.com  —  shared stylesheet
-   Warm mid-century / nature aesthetic. Cream paper, walnut ink,
-   forest green and terracotta accents, dappled sunlight in the
-   gradient layers, serif body type for the reading-room feel.
+   brycemaxheimer.com  -  shared stylesheet
+   "The Search" aesthetic: moonlit swamp at twilight. Slate-plum
+   base, lantern amber accents, deep teal moonlight, mossy olive
+   undergrowth, parchment text. Heavy film grain throughout.
+   Inspired by the VISUALDON wallpaper and the user's palette
+   (#4B464F, #69622E, #62602D, #6C541F, #6A4915).
    ============================================================ */
 
 :root {
-    /* Surface */
-    --bg:           #ede4d3;
-    --bg-deep:      #e0d5bd;
-    --surface:      #f4ece0;
-    --surface-2:    #e8debf;
+    /* Surface - the night */
+    --bg:           #2a2630;
+    --bg-deep:      #1d1a22;
+    --surface:      #36323d;
+    --surface-2:    #423d49;
 
-    /* Ink */
-    --text:         #2c1f15;
-    --text-soft:    #4a3826;
-    --muted:        #6b5a47;
-    --muted-deep:   #524434;
+    /* Ink - warm parchment, slightly amber-tinted (lantern-lit reading) */
+    --text:         #d4c2a0;
+    --text-soft:    #b8a888;
+    --muted:        #8b7d62;
+    --muted-deep:   #6e6249;
 
     /* Lines */
-    --border:       #c5b894;
-    --border-soft:  #d8caa8;
-    --border-warm:  #b8a576;
+    --border:       #4d4854;
+    --border-warm:  #5d5366;
+    --border-soft:  #3d3842;
 
-    /* Accents - earth, leaf, sky */
-    --forest:       #2d5942;
-    --forest-light: #4a7a5e;
-    --forest-deep:  #1f3f2e;
+    /* Accents - lantern amber (warm focal) */
+    --amber:        #c89a4a;
+    --amber-soft:   #946f30;
+    --amber-deep:   #6c541f;
+    --umber:        #6a4915;
 
-    --terra:        #b85a36;
-    --terra-soft:   #d07f5c;
-    --terra-deep:   #8c4326;
+    /* Accents - twilight teal (cool atmospheric, "Search" scheme color) */
+    --teal:         #006788;
+    --teal-bright:  #4d8da3;
+    --teal-glow:    #7ab2c0;
 
-    --blue:         #4f6f8a;
-    --blue-deep:    #3a566c;
+    /* Accents - mossy olive (undergrowth) */
+    --olive:        #87802e;
+    --olive-deep:   #69622e;
+    --olive-darker: #4d4820;
 
-    --gold:         #c8924a;
+    --slate:        #4b464f;
 
     /* Code */
-    --code-bg:      #d4c19a;
-    --code-text:    #3a2a1a;
+    --code-bg:      #1d1a22;
+    --code-text:    #c4a888;
 
     /* Type */
     --font-serif:   "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, "Hoefler Text", Georgia, serif;
@@ -47,34 +53,43 @@
     --font-mono:    ui-monospace, "SF Mono", Menlo, Monaco, Consolas, "Courier New", monospace;
 
     /* Layout */
-    --max-width:    760px;
-    --max-width-wide: 920px;
-    --radius:       6px;
-    --radius-lg:    10px;
+    --max-width:        760px;
+    --max-width-wide:   920px;
+    --radius:           6px;
+    --radius-lg:        10px;
 
-    /* Aliases for legacy inline styles in resume/projects/kql pages.
-       These map the old dark-theme variable names onto the new palette
-       so inline <style> blocks render coherently without per-page edits. */
-    --accent:       var(--blue-deep);
-    --accent-2:     var(--terra);
-    --warning:      var(--gold);
+    /* Aliases for legacy inline page styles */
+    --accent:       var(--teal-bright);
+    --accent-2:     var(--amber);
+    --warning:      var(--amber-soft);
+
+    /* Forest aliases (used by inline styles in resume/projects/kql) */
+    --forest:       var(--olive-deep);
+    --forest-light: var(--olive);
+    --forest-deep:  var(--amber);
+    --terra:        var(--amber-soft);
+    --terra-soft:   var(--amber);
+    --terra-deep:   var(--amber);
+    --blue:         var(--teal-bright);
+    --blue-deep:    var(--teal-bright);
+    --gold:         var(--amber);
 }
 
 * { box-sizing: border-box; }
 
 html { scroll-behavior: smooth; }
 
-/* Body - warm paper with dappled sunlight gradients.
-   Three soft radial washes simulate light filtering through tree canopy.
-   Paper grain (SVG noise) layered above for tactility. */
+/* Body - night base with three soft glows: lantern amber top-left,
+   teal moonlight right, mossy olive bottom. Heavy SVG noise grain
+   to match the dithered/painterly feel of the reference image. */
 body {
     margin: 0;
     background-color: var(--bg);
     background-image:
-        radial-gradient(ellipse 700px 500px at 12% 8%,  rgba(255, 232, 178, 0.45), transparent 65%),
-        radial-gradient(ellipse 500px 400px at 88% 22%, rgba(200, 180, 140, 0.30), transparent 65%),
-        radial-gradient(ellipse 800px 600px at 50% 95%, rgba(74, 122, 94, 0.18),  transparent 70%),
-        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.18  0 0 0 0 0.13  0 0 0 0 0.08  0 0 0 0.07 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+        radial-gradient(ellipse 700px 500px at 8% 6%,   rgba(200, 154, 74, 0.18), transparent 65%),
+        radial-gradient(ellipse 600px 500px at 95% 28%, rgba(0,   103, 136, 0.20), transparent 65%),
+        radial-gradient(ellipse 900px 600px at 50% 100%, rgba(135, 128, 46, 0.10), transparent 70%),
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.85  0 0 0 0 0.78  0 0 0 0 0.62  0 0 0 0.13 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
     background-attachment: fixed, fixed, fixed, fixed;
     background-size: auto, auto, auto, 180px 180px;
     color: var(--text);
@@ -85,8 +100,9 @@ body {
     text-rendering: optimizeLegibility;
 }
 
+/* Links - cool teal moonlight, warming on hover to lantern amber */
 a {
-    color: var(--blue-deep);
+    color: var(--teal-glow);
     text-decoration: underline;
     text-decoration-color: var(--border-warm);
     text-decoration-thickness: 1px;
@@ -94,8 +110,8 @@ a {
     transition: color 0.15s, text-decoration-color 0.15s;
 }
 a:hover {
-    color: var(--terra-deep);
-    text-decoration-color: var(--terra);
+    color: var(--amber);
+    text-decoration-color: var(--amber);
 }
 
 .container {
@@ -106,10 +122,10 @@ a:hover {
 .container-wide { max-width: var(--max-width-wide); }
 main { padding: 2.5rem 0 5rem; }
 
-/* Site header */
+/* Header - slight darker stripe, sticky, blurred */
 .site-header {
-    background: rgba(244, 236, 224, 0.85);
-    backdrop-filter: blur(6px);
+    background: rgba(29, 26, 34, 0.80);
+    backdrop-filter: blur(8px);
     border-bottom: 1px solid var(--border);
     position: sticky;
     top: 0;
@@ -123,7 +139,7 @@ main { padding: 2.5rem 0 5rem; }
     padding-bottom: 1rem;
 }
 
-/* Brand wordmark - italic serif with small leaf glyph alongside */
+/* Brand wordmark - italic serif, amber leaf glyph (lantern light) */
 .brand {
     font-family: var(--font-serif);
     font-style: italic;
@@ -140,11 +156,11 @@ main { padding: 2.5rem 0 5rem; }
     width: 18px;
     height: 18px;
     flex: 0 0 18px;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M3 21 C 7 13, 12 9, 21 5 C 19 14, 14 19, 6 21 Z' fill='none' stroke='%232d5942' stroke-width='1.6' stroke-linejoin='round'/><path d='M3 21 C 9 17, 14 13, 19 8' fill='none' stroke='%232d5942' stroke-width='1.2' stroke-linecap='round'/></svg>");
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M3 21 C 7 13, 12 9, 21 5 C 19 14, 14 19, 6 21 Z' fill='none' stroke='%23c89a4a' stroke-width='1.6' stroke-linejoin='round'/><path d='M3 21 C 9 17, 14 13, 19 8' fill='none' stroke='%23c89a4a' stroke-width='1.2' stroke-linecap='round'/></svg>");
     background-repeat: no-repeat;
     background-size: contain;
 }
-.brand:hover { color: var(--forest-deep); text-decoration: none; }
+.brand:hover { color: var(--amber); text-decoration: none; }
 
 /* Hide legacy "PS>" prompt span on pages we haven't updated yet */
 .brand .prompt { display: none; }
@@ -156,7 +172,7 @@ main { padding: 2.5rem 0 5rem; }
     font-family: var(--font-sans);
 }
 .nav a {
-    color: var(--muted-deep);
+    color: var(--text-soft);
     font-size: 0.92rem;
     text-decoration: none;
     letter-spacing: 0.02em;
@@ -165,13 +181,13 @@ main { padding: 2.5rem 0 5rem; }
     transition: color 0.15s, border-color 0.15s;
 }
 .nav a:hover {
-    color: var(--forest-deep);
+    color: var(--amber);
     text-decoration: none;
-    border-bottom-color: var(--terra);
+    border-bottom-color: var(--amber);
 }
 .nav a.active {
-    color: var(--forest-deep);
-    border-bottom-color: var(--forest);
+    color: var(--amber);
+    border-bottom-color: var(--amber);
 }
 
 /* Headings */
@@ -185,21 +201,23 @@ h1 {
     font-weight: 700;
     margin: 0.5rem 0 1rem;
     letter-spacing: -0.01em;
+    color: var(--amber);
 }
 h2 {
     font-size: 1.55rem;
     font-weight: 700;
     margin: 2.5rem 0 1rem;
-    color: var(--forest-deep);
+    color: var(--text);
 }
 h2::after {
     content: "";
     display: block;
-    width: 48px;
+    width: 56px;
     height: 2px;
-    background: var(--terra);
+    background: var(--amber);
     margin-top: 0.4rem;
     border-radius: 1px;
+    box-shadow: 0 0 8px rgba(200, 154, 74, 0.25);
 }
 h3 {
     font-size: 1.18rem;
@@ -211,6 +229,7 @@ h4 {
     font-size: 1rem;
     font-weight: 700;
     margin: 1.2rem 0 0.4rem;
+    color: var(--text-soft);
 }
 
 p { margin: 0 0 1rem; }
@@ -225,12 +244,12 @@ code {
     padding: 0.1rem 0.4rem;
     border-radius: 3px;
     font-size: 0.88em;
-    border: 1px solid var(--border-warm);
+    border: 1px solid var(--border);
 }
 pre {
     background: var(--code-bg);
     color: var(--code-text);
-    border: 1px solid var(--border-warm);
+    border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 1rem 1.2rem;
     overflow-x: auto;
@@ -241,15 +260,15 @@ pre code { background: none; border: none; padding: 0; color: var(--code-text); 
 
 /* Quotes */
 blockquote {
-    border-left: 3px solid var(--terra);
+    border-left: 3px solid var(--amber);
     margin: 1.4rem 0;
     padding: 0.6rem 1.2rem;
-    background: rgba(208, 127, 92, 0.06);
+    background: rgba(200, 154, 74, 0.06);
     color: var(--text-soft);
     font-style: italic;
     border-radius: 0 var(--radius) var(--radius) 0;
 }
-blockquote strong { font-style: normal; color: var(--terra-deep); }
+blockquote strong { font-style: normal; color: var(--amber); }
 
 hr {
     border: none;
@@ -270,11 +289,12 @@ hr {
     font-weight: 800;
     margin: 0 0 0.8rem;
     letter-spacing: -0.015em;
-    color: var(--forest-deep);
+    color: var(--amber);
+    text-shadow: 0 0 20px rgba(200, 154, 74, 0.15);
 }
 .hero h1 .cursor { display: none; }
 .hero .tagline {
-    color: var(--text-soft);
+    color: var(--text);
     font-size: 1.2rem;
     line-height: 1.55;
     max-width: 60ch;
@@ -296,13 +316,13 @@ hr {
     transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
 }
 .card:hover {
-    border-color: var(--forest-light);
+    border-color: var(--amber);
     transform: translateY(-1px);
-    box-shadow: 0 4px 16px rgba(45, 89, 66, 0.08);
+    box-shadow: 0 4px 24px rgba(200, 154, 74, 0.10);
 }
 .card h3 { margin: 0 0 0.4rem; color: var(--text); }
-.card h3 a { color: var(--forest-deep); text-decoration: none; }
-.card h3 a:hover { color: var(--terra-deep); text-decoration: underline; }
+.card h3 a { color: var(--amber); text-decoration: none; }
+.card h3 a:hover { color: var(--teal-glow); text-decoration: underline; }
 .card .meta {
     color: var(--muted);
     font-size: 0.85rem;
@@ -320,9 +340,9 @@ hr {
     display: inline-block;
     font-family: var(--font-sans);
     font-size: 0.74rem;
-    color: var(--forest-deep);
+    color: var(--olive);
     border: 1px solid var(--border-warm);
-    background: rgba(45, 89, 66, 0.06);
+    background: rgba(135, 128, 46, 0.08);
     padding: 0.1rem 0.55rem;
     border-radius: 3px;
     margin-right: 0.3rem;
@@ -356,10 +376,10 @@ article.post p { margin: 0 0 1.1rem; }
     font-family: var(--font-sans);
     text-align: center;
     margin-top: 3rem;
-    background: rgba(224, 213, 189, 0.4);
+    background: rgba(29, 26, 34, 0.5);
 }
-.site-footer a { color: var(--muted-deep); text-decoration-color: transparent; }
-.site-footer a:hover { color: var(--forest-deep); text-decoration-color: var(--terra); }
+.site-footer a { color: var(--text-soft); text-decoration-color: transparent; }
+.site-footer a:hover { color: var(--amber); text-decoration-color: var(--amber); }
 
 /* Buttons */
 .btn {
@@ -377,20 +397,21 @@ article.post p { margin: 0 0 1.1rem; }
     cursor: pointer;
 }
 .btn:hover {
-    border-color: var(--forest);
+    border-color: var(--amber);
     background: var(--surface-2);
-    color: var(--forest-deep);
+    color: var(--amber);
     text-decoration: none;
 }
 .btn-primary {
-    background: var(--forest);
-    border-color: var(--forest-deep);
-    color: #f4ece0;
+    background: var(--amber);
+    border-color: var(--amber-soft);
+    color: var(--bg-deep);
+    font-weight: 600;
 }
 .btn-primary:hover {
-    background: var(--forest-deep);
-    border-color: var(--forest-deep);
-    color: #f4ece0;
+    background: var(--amber-soft);
+    border-color: var(--amber-soft);
+    color: var(--text);
 }
 
 .kbd {
