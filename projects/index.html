@@ -11,42 +11,59 @@
         .project {
             background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 1.5rem;
+            border-radius: var(--radius-lg);
+            padding: 1.6rem 1.8rem;
             margin: 1.5rem 0;
-            transition: border-color 0.15s;
+            transition: border-color 0.2s, box-shadow 0.2s;
         }
-        .project:hover { border-color: var(--accent); }
-        .project h3 { margin-top: 0; }
-        .project h3 a { color: var(--text); }
+        .project:hover {
+            border-color: var(--forest-light);
+            box-shadow: 0 4px 16px rgba(45, 89, 66, 0.08);
+        }
+        .project h3 { margin-top: 0; color: var(--forest-deep); }
+        .project h3 a { color: var(--forest-deep); text-decoration: none; }
+        .project h3 a:hover { color: var(--terra-deep); text-decoration: underline; }
         .project .stack {
-            font-family: var(--font-mono);
+            font-family: var(--font-sans);
             color: var(--muted);
             font-size: 0.85rem;
             margin: 0.4rem 0 1rem;
+            letter-spacing: 0.02em;
         }
         .project .why {
-            border-left: 2px solid var(--accent);
-            padding-left: 1rem;
-            color: var(--muted);
-            font-size: 0.95rem;
+            border-left: 3px solid var(--terra);
+            background: rgba(208, 127, 92, 0.05);
+            padding: 0.5rem 1rem;
+            color: var(--text-soft);
+            font-size: 1rem;
             margin: 1rem 0;
+            border-radius: 0 var(--radius) var(--radius) 0;
         }
+        .project .why strong { color: var(--terra-deep); }
         .project-actions {
             display: flex;
             gap: 0.6rem;
             flex-wrap: wrap;
-            margin-top: 1rem;
+            margin-top: 1.2rem;
         }
         .project-actions a {
-            font-family: var(--font-mono);
-            font-size: 0.85rem;
-            padding: 0.3rem 0.8rem;
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            color: var(--muted);
+            font-family: var(--font-sans);
+            font-size: 0.88rem;
+            padding: 0.4rem 0.9rem;
+            border: 1px solid var(--border-warm);
+            border-radius: var(--radius);
+            color: var(--muted-deep);
+            background: var(--bg);
+            text-decoration: none;
+            letter-spacing: 0.02em;
+            transition: all 0.15s;
         }
-        .project-actions a:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+        .project-actions a:hover {
+            border-color: var(--forest);
+            color: var(--forest-deep);
+            background: var(--surface);
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
