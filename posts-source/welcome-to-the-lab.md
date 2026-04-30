@@ -16,22 +16,6 @@ This site is my attempt to fix that. I want a public-facing notebook for the
 parts of the work that aren't sensitive: framework alignment, tooling patterns,
 script writeups, and the occasional rabbit hole.
 
-## How this site is built
-
-Three deliberate constraints:
-
-1. **No framework.** Plain HTML and CSS, hand-written. I wanted to actually
-   *understand* every byte that ships, not delegate that to a build tool I don't
-   read.
-2. **Markdown for posts.** Authoring HTML for long-form content gets old fast.
-   A small PowerShell build script (`build.ps1`) runs `ConvertFrom-Markdown`
-   over `posts-source/*.md` and emits HTML files into `blog/posts/`.
-3. **Hosted on Cloudflare Pages.** Free tier, automatic builds from a GitHub
-   push, custom domain via Cloudflare DNS. The whole stack costs $0/month
-   (excluding the domain registration).
-
-The full source is on GitHub.
-
 ## What's coming next
 
 Rough backlog, no committed schedule:
@@ -41,7 +25,7 @@ Rough backlog, no committed schedule:
 - Notes on mapping the SOC Dashboard's threat-intel modules to MITRE ATT&CK data
   sources.
 - A short post on running NIST CSF self-assessments out of an MS Access backend
-  (yes, really — it's the right tool for some shops).
+  (yes, really. It's not amazing but barrier to entry is low and use case is high; I like it at least).
 
 If a topic here is useful to you, the best feedback channel is the email on the
 About page.
