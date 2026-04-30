@@ -1,0 +1,767 @@
+/* engine.js — KQL engine for the lab playground.
+ *
+ * Pragmatic subset of KQL, translated to SQLite SQL and executed via sql.js.
+ *
+ * Supported operators:
+ *   where, project, project-keep, project-away, extend,
+ *   summarize ... by, count, top N by, take/limit, distinct,
+ *   order/sort by, let bindings (scalar only).
+ *
+ * Supported scalar ops:
+ *   ==, !=, <, >, <=, >=, contains, !contains, contains_cs, !contains_cs,
+ *   startswith, !startswith, endswith, !endswith, has, !has,
+ *   in, !in, between, and, or, not.
+ *
+ * Supported functions:
+ *   ago, now, datetime, bin, tolower, toupper, strlen, isempty,
+ *   isnotempty, isnull, isnotnull, iff, strcat, count, dcount, sum,
+ *   avg, min, max, countif, sumif.
+ *
+ * Anything outside this surface throws KqlError("unsupported: ...") with
+ * a clear message — better than silently returning wrong results.
+ */
+(function (global) {
+    'use strict';
+
+    function KqlError(msg, pos) {
+        var e = new Error(msg);
+        e.name = 'KqlError';
+        e.pos = pos;
+        return e;
+    }
+
+    /* ============================================================
+       LEXER
+       ============================================================ */
+    var KEYWORDS = {
+        where: 1, project: 1, 'project-keep': 1, 'project-away': 1,
+        extend: 1, summarize: 1, by: 1, count: 1, top: 1, take: 1,
+        limit: 1, distinct: 1, order: 1, sort: 1, asc: 1, desc: 1,
+        let: 1, true: 1, false: 1, null: 1, and: 1, or: 1, not: 1,
+        between: 1, on: 1, in: 1
+    };
+
+    // Word-shaped operators (lex as IDENT, then promote to OP).
+    var WORD_OPS = {
+        contains: 1, '!contains': 1, contains_cs: 1, '!contains_cs': 1,
+        startswith: 1, '!startswith': 1,
+        endswith: 1, '!endswith': 1,
+        has: 1, '!has': 1
+    };
+
+    // Operator tokens, longest first so the lexer matches greedy.
+    var OPS = [
+        '!contains_cs', '!startswith_cs', '!endswith_cs',
+        '!contains', '!startswith', '!endswith', '!has',
+        'contains_cs', 'startswith_cs', 'endswith_cs',
+        'contains', 'startswith', 'endswith', 'has',
+        '==', '!=', '<=', '>=', '<', '>', '!in', 'in',
+        '+', '-', '*', '/', '%',
+        '..', '.',
+    ];
+
+    function tokenize(src) {
+        var tokens = [];
+        var i = 0;
+        var n = src.length;
+
+        function pushTok(kind, value, pos) { tokens.push({ kind: kind, value: value, pos: pos }); }
+
+        while (i < n) {
+            var ch = src[i];
+
+            // Whitespace
+            if (/\s/.test(ch)) { i++; continue; }
+
+            // Single-line comment // ...
+            if (ch === '/' && src[i + 1] === '/') {
+                while (i < n && src[i] !== '\n') i++;
+                continue;
+            }
+
+            // String literal: 'foo' or "foo" with backslash escapes
+            if (ch === "'" || ch === '"') {
+                var quote = ch;
+                var start = i;
+                var s = '';
+                i++;
+                while (i < n && src[i] !== quote) {
+                    if (src[i] === '\\' && i + 1 < n) {
+                        var nx = src[i + 1];
+                        if (nx === 'n') s += '\n';
+                        else if (nx === 't') s += '\t';
+                        else if (nx === 'r') s += '\r';
+                        else s += nx;
+                        i += 2;
+                    } else {
+                        s += src[i++];
+                    }
+                }
+                if (i >= n) throw KqlError('unterminated string', start);
+                i++; // closing quote
+                pushTok('STRING', s, start);
+                continue;
+            }
+
+            // Number / duration: 123, 1.5, 5m, 1h, 30s, 7d
+            if (/[0-9]/.test(ch)) {
+                var nstart = i;
+                var num = '';
+                while (i < n && /[0-9.]/.test(src[i])) num += src[i++];
+                // Duration suffix?
+                var suf = '';
+                if (i < n && /[a-zA-Z]/.test(src[i])) {
+                    while (i < n && /[a-zA-Z]/.test(src[i])) suf += src[i++];
+                    if (/^(d|h|m|s|ms|microsecond|tick)$/i.test(suf)) {
+                        pushTok('DURATION', { num: parseFloat(num), unit: suf.toLowerCase() }, nstart);
+                        continue;
+                    }
+                    // Not a recognized suffix — back up
+                    i -= suf.length;
+                }
+                pushTok('NUMBER', parseFloat(num), nstart);
+                continue;
+            }
+
+            // Identifier or keyword
+            if (/[a-zA-Z_]/.test(ch)) {
+                var istart = i;
+                while (i < n && /[a-zA-Z0-9_]/.test(src[i])) i++;
+                // Look ahead for hyphenated keywords (project-keep / project-away)
+                var raw = src.slice(istart, i);
+                if (raw === 'project' && src[i] === '-') {
+                    var j = i + 1;
+                    while (j < n && /[a-zA-Z]/.test(src[j])) j++;
+                    var hy = src.slice(istart, j);
+                    if (hy === 'project-keep' || hy === 'project-away') {
+                        i = j;
+                        pushTok('KEYWORD', hy, istart);
+                        continue;
+                    }
+                }
+                if (WORD_OPS[raw]) pushTok('OP', raw, istart);
+                else if (KEYWORDS[raw]) pushTok('KEYWORD', raw, istart);
+                else pushTok('IDENT', raw, istart);
+                continue;
+            }
+
+            // Multi-char operators
+            var matched = false;
+            for (var k = 0; k < OPS.length; k++) {
+                var op = OPS[k];
+                if (src.substr(i, op.length) === op) {
+                    // make sure 'in', 'has' etc. aren't matched as ops if followed by ident chars
+                    if (/^[a-zA-Z]/.test(op)) {
+                        var prev = src[i - 1];
+                        var after = src[i + op.length];
+                        if ((prev && /[a-zA-Z0-9_]/.test(prev)) || (after && /[a-zA-Z0-9_]/.test(after))) continue;
+                    }
+                    pushTok('OP', op, i);
+                    i += op.length;
+                    matched = true;
+                    break;
+                }
+            }
+            if (matched) continue;
+
+            // Single-char punctuation
+            if ('|(),;[]{}='.indexOf(ch) >= 0) {
+                pushTok('PUNCT', ch, i);
+                i++;
+                continue;
+            }
+
+            throw KqlError("unexpected character '" + ch + "'", i);
+        }
+
+        pushTok('EOF', null, n);
+        return tokens;
+    }
+
+    /* ============================================================
+       PARSER
+       ============================================================ */
+    function parse(tokens) {
+        var pos = 0;
+
+        function peek(offset) { return tokens[pos + (offset || 0)]; }
+        function consume() { return tokens[pos++]; }
+        function expect(kind, value) {
+            var t = peek();
+            if (t.kind !== kind || (value !== undefined && t.value !== value)) {
+                throw KqlError("expected " + (value || kind) + ", got '" + t.value + "'", t.pos);
+            }
+            return consume();
+        }
+        function check(kind, value) {
+            var t = peek();
+            return t.kind === kind && (value === undefined || t.value === value);
+        }
+        function checkAny(kind, values) {
+            var t = peek();
+            if (t.kind !== kind) return false;
+            for (var i = 0; i < values.length; i++) if (t.value === values[i]) return true;
+            return false;
+        }
+        function eat(kind, value) {
+            if (check(kind, value)) return consume();
+            return null;
+        }
+
+        // --- Top level: optional let-bindings, then a single pipeline ---
+        function parseScript() {
+            var lets = [];
+            while (check('KEYWORD', 'let')) {
+                consume();
+                var name = expect('IDENT').value;
+                expect('PUNCT', '=');
+                var expr = parseExpr();
+                expect('PUNCT', ';');
+                lets.push({ name: name, expr: expr });
+            }
+            var pipe = parsePipeline();
+            // Optional trailing semicolon
+            eat('PUNCT', ';');
+            return { lets: lets, pipeline: pipe };
+        }
+
+        function parsePipeline() {
+            // Source: an identifier (table name)
+            var src = expect('IDENT');
+            var ops = [];
+            while (check('PUNCT', '|')) {
+                consume();
+                ops.push(parseOp());
+            }
+            return { source: src.value, ops: ops };
+        }
+
+        function parseOp() {
+            var t = peek();
+            if (t.kind !== 'KEYWORD') throw KqlError("expected an operator after '|', got '" + t.value + "'", t.pos);
+            switch (t.value) {
+                case 'where':         consume(); return { kind: 'where', cond: parseExpr() };
+                case 'project':       consume(); return { kind: 'project',     cols: parseProjectList() };
+                case 'project-keep':  consume(); return { kind: 'projectKeep', cols: parseIdentList() };
+                case 'project-away':  consume(); return { kind: 'projectAway', cols: parseIdentList() };
+                case 'extend':        consume(); return { kind: 'extend', exprs: parseProjectList() };
+                case 'summarize':     consume(); return parseSummarize();
+                case 'count':         consume(); return { kind: 'count' };
+                case 'top':           consume(); return parseTop();
+                case 'take':
+                case 'limit':         consume(); return { kind: 'take', n: parseExpr() };
+                case 'distinct':      consume(); return { kind: 'distinct', cols: parseIdentList() };
+                case 'order':
+                case 'sort':          consume(); expect('KEYWORD', 'by'); return { kind: 'order', cols: parseOrderList() };
+                default:
+                    throw KqlError("unsupported operator: " + t.value, t.pos);
+            }
+        }
+
+        function parseProjectList() {
+            var items = [];
+            do {
+                // Optional alias=expr or just an expression
+                var first = peek();
+                if (first.kind === 'IDENT' && peek(1) && peek(1).kind === 'PUNCT' && peek(1).value === '=') {
+                    var alias = consume().value;
+                    consume(); // '='
+                    var e = parseExpr();
+                    items.push({ alias: alias, expr: e });
+                } else {
+                    var ex = parseExpr();
+                    items.push({ alias: ex.kind === 'ident' ? ex.name : null, expr: ex });
+                }
+            } while (eat('PUNCT', ','));
+            return items;
+        }
+
+        function parseIdentList() {
+            var ids = [];
+            do { ids.push(expect('IDENT').value); } while (eat('PUNCT', ','));
+            return ids;
+        }
+
+        function parseOrderList() {
+            var list = [];
+            do {
+                var col = expect('IDENT').value;
+                var dir = 'desc';
+                if (eat('KEYWORD', 'asc')) dir = 'asc';
+                else if (eat('KEYWORD', 'desc')) dir = 'desc';
+                list.push({ col: col, dir: dir });
+            } while (eat('PUNCT', ','));
+            return list;
+        }
+
+        function parseSummarize() {
+            // summarize Aggs...  by  cols...
+            var aggs = parseProjectList();
+            var by = [];
+            if (eat('KEYWORD', 'by')) {
+                do {
+                    var first = peek();
+                    if (first.kind === 'IDENT' && peek(1) && peek(1).kind === 'PUNCT' && peek(1).value === '=') {
+                        var alias = consume().value;
+                        consume();
+                        by.push({ alias: alias, expr: parseExpr() });
+                    } else {
+                        var ex = parseExpr();
+                        by.push({ alias: ex.kind === 'ident' ? ex.name : null, expr: ex });
+                    }
+                } while (eat('PUNCT', ','));
+            }
+            return { kind: 'summarize', aggs: aggs, by: by };
+        }
+
+        function parseTop() {
+            var n = parseExpr();
+            expect('KEYWORD', 'by');
+            var col = expect('IDENT').value;
+            var dir = 'desc';
+            if (eat('KEYWORD', 'asc')) dir = 'asc';
+            else if (eat('KEYWORD', 'desc')) dir = 'desc';
+            return { kind: 'top', n: n, col: col, dir: dir };
+        }
+
+        // --- Expressions: precedence-climbing recursive descent ---
+        function parseExpr()   { return parseOr(); }
+        function parseOr()     { return parseBin('KEYWORD', ['or'], parseAnd); }
+        function parseAnd()    { return parseBin('KEYWORD', ['and'], parseNot); }
+        function parseNot() {
+            if (eat('KEYWORD', 'not')) return { kind: 'unop', op: 'not', expr: parseNot() };
+            return parseCompare();
+        }
+
+        function parseBin(kind, values, next) {
+            var left = next();
+            while (true) {
+                var t = peek();
+                if (t.kind !== kind) break;
+                var matched = false;
+                for (var i = 0; i < values.length; i++) if (t.value === values[i]) { matched = true; break; }
+                if (!matched) break;
+                consume();
+                left = { kind: 'binop', op: t.value, left: left, right: next() };
+            }
+            return left;
+        }
+
+        // Compare operators include both OP tokens (==, contains, ...) and KEYWORD 'in'/'!in'/'between'
+        var CMP_OPS = [
+            '==', '!=', '<', '>', '<=', '>=',
+            'contains', '!contains', 'contains_cs', '!contains_cs',
+            'startswith', '!startswith', 'endswith', '!endswith',
+            'has', '!has'
+        ];
+        function parseCompare() {
+            var left = parseAdd();
+            // 'between (a .. b)'
+            if (check('KEYWORD', 'between')) {
+                consume();
+                expect('PUNCT', '(');
+                var lo = parseAdd();
+                expect('OP', '..');
+                var hi = parseAdd();
+                expect('PUNCT', ')');
+                return { kind: 'between', expr: left, lo: lo, hi: hi };
+            }
+            // 'in'/'!in' (...)
+            if (checkAny('KEYWORD', ['in']) || checkAny('OP', ['in', '!in'])) {
+                var negated = false;
+                var t = consume();
+                if (t.value === '!in') negated = true;
+                expect('PUNCT', '(');
+                var values = [];
+                if (!check('PUNCT', ')')) {
+                    do { values.push(parseAdd()); } while (eat('PUNCT', ','));
+                }
+                expect('PUNCT', ')');
+                return { kind: 'in', expr: left, values: values, negated: negated };
+            }
+            // Standard binary compare
+            var pk = peek();
+            if (pk.kind === 'OP' && CMP_OPS.indexOf(pk.value) >= 0) {
+                consume();
+                var right = parseAdd();
+                return { kind: 'binop', op: pk.value, left: left, right: right };
+            }
+            return left;
+        }
+
+        function parseAdd() {
+            var left = parseMul();
+            while (true) {
+                var t = peek();
+                if (t.kind === 'OP' && (t.value === '+' || t.value === '-')) {
+                    consume();
+                    left = { kind: 'binop', op: t.value, left: left, right: parseMul() };
+                } else break;
+            }
+            return left;
+        }
+        function parseMul() {
+            var left = parseUnary();
+            while (true) {
+                var t = peek();
+                if (t.kind === 'OP' && (t.value === '*' || t.value === '/' || t.value === '%')) {
+                    consume();
+                    left = { kind: 'binop', op: t.value, left: left, right: parseUnary() };
+                } else break;
+            }
+            return left;
+        }
+        function parseUnary() {
+            if (check('OP', '-')) { consume(); return { kind: 'unop', op: '-', expr: parsePrimary() }; }
+            return parsePrimary();
+        }
+
+        function parsePrimary() {
+            var t = peek();
+            if (t.kind === 'STRING')   { consume(); return { kind: 'string', value: t.value }; }
+            if (t.kind === 'NUMBER')   { consume(); return { kind: 'number', value: t.value }; }
+            if (t.kind === 'DURATION') { consume(); return { kind: 'duration', num: t.value.num, unit: t.value.unit }; }
+            if (t.kind === 'KEYWORD' && (t.value === 'true' || t.value === 'false')) {
+                consume(); return { kind: 'bool', value: t.value === 'true' };
+            }
+            if (t.kind === 'KEYWORD' && t.value === 'null') {
+                consume(); return { kind: 'null' };
+            }
+            if (t.kind === 'PUNCT' && t.value === '(') {
+                consume();
+                var e = parseExpr();
+                expect('PUNCT', ')');
+                return e;
+            }
+            if (t.kind === 'IDENT') {
+                consume();
+                if (check('PUNCT', '(')) {
+                    consume();
+                    var args = [];
+                    if (!check('PUNCT', ')')) {
+                        do { args.push(parseExpr()); } while (eat('PUNCT', ','));
+                    }
+                    expect('PUNCT', ')');
+                    return { kind: 'call', name: t.value, args: args };
+                }
+                return { kind: 'ident', name: t.value };
+            }
+            throw KqlError("unexpected token '" + t.value + "'", t.pos);
+        }
+
+        return parseScript();
+    }
+
+    /* ============================================================
+       TRANSLATOR — KQL AST -> SQLite SQL
+       ============================================================ */
+    var KQL2SQL_OP = {
+        '==': '=',  '!=': '!=',  '<': '<',  '>': '>',  '<=': '<=',  '>=': '>=',
+        '+': '+',   '-': '-',    '*': '*',  '/': '/',  '%': '%',
+        'and': 'AND', 'or': 'OR'
+    };
+
+    function quoteIdent(name) { return '"' + name.replace(/"/g, '""') + '"'; }
+    function escapeStr(s) { return "'" + String(s).replace(/'/g, "''") + "'"; }
+    function escapeLike(s) { return String(s).replace(/[%_\\]/g, '\\$&'); }
+
+    function translate(script, scope) {
+        // scope: { lets: { name -> sqlExpr }, currentSchema: { col -> kqlType } }
+        scope = scope || {};
+        scope.lets = scope.lets || {};
+
+        // Resolve let-bindings (scalar only, evaluated as SQL expressions in scope).
+        if (script.lets) {
+            for (var i = 0; i < script.lets.length; i++) {
+                var L = script.lets[i];
+                scope.lets[L.name] = exprSql(L.expr, scope);
+            }
+        }
+
+        var p = script.pipeline || script;
+        var sql = 'SELECT * FROM ' + quoteIdent(p.source);
+        var aliasNum = 0;
+
+        for (var k = 0; k < p.ops.length; k++) {
+            var op = p.ops[k];
+            var a = 't' + aliasNum++;
+            switch (op.kind) {
+                case 'where':
+                    sql = 'SELECT * FROM (' + sql + ') AS ' + a + ' WHERE ' + exprSql(op.cond, scope);
+                    break;
+                case 'project':
+                    sql = 'SELECT ' + projectListSql(op.cols, scope) + ' FROM (' + sql + ') AS ' + a;
+                    break;
+                case 'projectKeep':
+                    sql = 'SELECT ' + op.cols.map(quoteIdent).join(', ') + ' FROM (' + sql + ') AS ' + a;
+                    break;
+                case 'projectAway':
+                    // Resolve via "SELECT * minus columns" — we don't know full columns without schema,
+                    // so we emit a comment. The runtime handles this by post-filtering.
+                    sql = 'SELECT * FROM (' + sql + ') AS ' + a + ' /*PROJECT_AWAY:' + op.cols.join(',') + '*/';
+                    break;
+                case 'extend': {
+                    // Extend keeps all original columns plus the new ones. SQLite needs all columns named.
+                    var extendList = op.exprs.map(function (e) {
+                        return exprSql(e.expr, scope) + ' AS ' + quoteIdent(e.alias || '_ext');
+                    }).join(', ');
+                    sql = 'SELECT *, ' + extendList + ' FROM (' + sql + ') AS ' + a;
+                    break;
+                }
+                case 'summarize': {
+                    var aggList = op.aggs.map(function (e) {
+                        return exprSql(e.expr, scope) + ' AS ' + quoteIdent(e.alias || '_agg');
+                    });
+                    var byList = op.by.map(function (e) {
+                        return exprSql(e.expr, scope) + ' AS ' + quoteIdent(e.alias || '_by');
+                    });
+                    var cols = byList.concat(aggList).join(', ');
+                    sql = 'SELECT ' + cols + ' FROM (' + sql + ') AS ' + a;
+                    if (op.by.length) {
+                        sql += ' GROUP BY ' + op.by.map(function (e) { return exprSql(e.expr, scope); }).join(', ');
+                    }
+                    break;
+                }
+                case 'count':
+                    sql = 'SELECT COUNT(*) AS Count FROM (' + sql + ') AS ' + a;
+                    break;
+                case 'top': {
+                    var col = quoteIdent(op.col);
+                    var dir = op.dir === 'asc' ? 'ASC' : 'DESC';
+                    sql = 'SELECT * FROM (' + sql + ') AS ' + a +
+                          ' ORDER BY ' + col + ' ' + dir +
+                          ' LIMIT ' + exprSql(op.n, scope);
+                    break;
+                }
+                case 'take':
+                    sql = 'SELECT * FROM (' + sql + ') AS ' + a + ' LIMIT ' + exprSql(op.n, scope);
+                    break;
+                case 'distinct':
+                    sql = 'SELECT DISTINCT ' + op.cols.map(quoteIdent).join(', ') + ' FROM (' + sql + ') AS ' + a;
+                    break;
+                case 'order': {
+                    var ord = op.cols.map(function (c) {
+                        return quoteIdent(c.col) + ' ' + (c.dir === 'asc' ? 'ASC' : 'DESC');
+                    }).join(', ');
+                    sql = 'SELECT * FROM (' + sql + ') AS ' + a + ' ORDER BY ' + ord;
+                    break;
+                }
+                default:
+                    throw KqlError('unsupported pipeline op: ' + op.kind);
+            }
+        }
+
+        return sql;
+    }
+
+    function projectListSql(items, scope) {
+        return items.map(function (e) {
+            var ex = exprSql(e.expr, scope);
+            if (e.alias && e.alias !== ex.replace(/^"|"$/g, '')) {
+                return ex + ' AS ' + quoteIdent(e.alias);
+            }
+            // bare ident — emit as ident, no AS needed
+            if (e.expr.kind === 'ident') return quoteIdent(e.expr.name);
+            return ex + (e.alias ? ' AS ' + quoteIdent(e.alias) : '');
+        }).join(', ');
+    }
+
+    function exprSql(node, scope) {
+        switch (node.kind) {
+            case 'string':   return escapeStr(node.value);
+            case 'number':   return String(node.value);
+            case 'bool':     return node.value ? '1' : '0';
+            case 'null':     return 'NULL';
+            case 'ident':    return resolveIdent(node.name, scope);
+            case 'duration': return durationSeconds(node) + '';
+            case 'unop':
+                if (node.op === '-')   return '(-' + exprSql(node.expr, scope) + ')';
+                if (node.op === 'not') return '(NOT ' + exprSql(node.expr, scope) + ')';
+                throw KqlError('unsupported unary op ' + node.op);
+            case 'binop':    return binopSql(node, scope);
+            case 'call':     return callSql(node, scope);
+            case 'in':       return inSql(node, scope);
+            case 'between':
+                return '(' + exprSql(node.expr, scope) + ' BETWEEN ' + exprSql(node.lo, scope) +
+                       ' AND ' + exprSql(node.hi, scope) + ')';
+        }
+        throw KqlError('unsupported expr kind: ' + node.kind);
+    }
+
+    function resolveIdent(name, scope) {
+        if (scope && scope.lets && scope.lets.hasOwnProperty(name)) return '(' + scope.lets[name] + ')';
+        return quoteIdent(name);
+    }
+
+    function binopSql(node, scope) {
+        var op = node.op;
+        var L = exprSql(node.left, scope);
+        var R = exprSql(node.right, scope);
+        if (KQL2SQL_OP[op]) return '(' + L + ' ' + KQL2SQL_OP[op] + ' ' + R + ')';
+
+        // String predicates - case-insensitive by default in KQL
+        var likeStr = function (val, pattern) {
+            return '(LOWER(CAST(' + L + ' AS TEXT)) LIKE LOWER(' + pattern + ') ESCAPE \'\\\\\')';
+        };
+        var rawString = function (n) {
+            if (n.kind === 'string') return n.value;
+            return null;
+        };
+        var rs = rawString(node.right);
+
+        switch (op) {
+            case 'contains':
+                if (rs !== null) return likeStr(L, escapeStr('%' + escapeLike(rs) + '%'));
+                return '(INSTR(LOWER(CAST(' + L + ' AS TEXT)), LOWER(CAST(' + R + ' AS TEXT))) > 0)';
+            case '!contains':
+                if (rs !== null) return '(NOT ' + likeStr(L, escapeStr('%' + escapeLike(rs) + '%')) + ')';
+                return '(INSTR(LOWER(CAST(' + L + ' AS TEXT)), LOWER(CAST(' + R + ' AS TEXT))) = 0)';
+            case 'contains_cs':
+                if (rs !== null) return '(CAST(' + L + ' AS TEXT) LIKE ' + escapeStr('%' + escapeLike(rs) + '%') + " ESCAPE '\\\\')";
+                return '(INSTR(CAST(' + L + ' AS TEXT), CAST(' + R + ' AS TEXT)) > 0)';
+            case '!contains_cs':
+                if (rs !== null) return '(CAST(' + L + ' AS TEXT) NOT LIKE ' + escapeStr('%' + escapeLike(rs) + '%') + " ESCAPE '\\\\')";
+                return '(INSTR(CAST(' + L + ' AS TEXT), CAST(' + R + ' AS TEXT)) = 0)';
+            case 'startswith':
+                if (rs !== null) return likeStr(L, escapeStr(escapeLike(rs) + '%'));
+                break;
+            case '!startswith':
+                if (rs !== null) return '(NOT ' + likeStr(L, escapeStr(escapeLike(rs) + '%')) + ')';
+                break;
+            case 'endswith':
+                if (rs !== null) return likeStr(L, escapeStr('%' + escapeLike(rs)));
+                break;
+            case '!endswith':
+                if (rs !== null) return '(NOT ' + likeStr(L, escapeStr('%' + escapeLike(rs))) + ')';
+                break;
+            case 'has':
+                // word-boundary case-insensitive match
+                if (rs !== null) {
+                    var word = ' ' + rs.replace(/'/g, "''") + ' ';
+                    return "((' '||LOWER(CAST(" + L + " AS TEXT))||' ') LIKE LOWER('%" + escapeLike(word) + "%') ESCAPE '\\\\')";
+                }
+                break;
+            case '!has':
+                if (rs !== null) {
+                    var word2 = ' ' + rs.replace(/'/g, "''") + ' ';
+                    return "(NOT (' '||LOWER(CAST(" + L + " AS TEXT))||' ') LIKE LOWER('%" + escapeLike(word2) + "%') ESCAPE '\\\\')";
+                }
+                break;
+        }
+        throw KqlError("unsupported operator '" + op + "' (or RHS must be a literal string)");
+    }
+
+    function inSql(node, scope) {
+        var L = exprSql(node.expr, scope);
+        if (node.values.length === 0) return node.negated ? '1=1' : '0=1';
+        var vs = node.values.map(function (v) { return exprSql(v, scope); }).join(', ');
+        return '(' + L + (node.negated ? ' NOT IN (' : ' IN (') + vs + '))';
+    }
+
+    function durationSeconds(node) {
+        var n = node.num;
+        switch (node.unit) {
+            case 'd': return n * 86400;
+            case 'h': return n * 3600;
+            case 'm': return n * 60;
+            case 's': return n;
+            case 'ms': return n / 1000;
+            default: return n;
+        }
+    }
+
+    /* ---- Function calls ---- */
+    function callSql(node, scope) {
+        var name = node.name.toLowerCase();
+        var args = node.args.map(function (a) { return exprSql(a, scope); });
+        switch (name) {
+            // Time
+            case 'now':       return "DATETIME('now')";
+            case 'ago': {
+                if (node.args.length !== 1) throw KqlError("ago() expects 1 arg");
+                if (node.args[0].kind === 'duration') {
+                    var s = durationSeconds(node.args[0]);
+                    return "DATETIME('now', '" + (-s) + " seconds')";
+                }
+                // Generic: subtract seconds (assumes arg is seconds)
+                return "DATETIME('now', '-' || (" + args[0] + ") || ' seconds')";
+            }
+            case 'datetime': {
+                if (node.args.length !== 1 || node.args[0].kind !== 'string') {
+                    throw KqlError("datetime() expects a single string literal");
+                }
+                return escapeStr(node.args[0].value);
+            }
+            case 'bin': {
+                if (node.args.length !== 2) throw KqlError("bin() expects 2 args");
+                var col = args[0];
+                var grain = node.args[1];
+                if (grain.kind !== 'duration') throw KqlError("bin() second arg must be a duration");
+                var gs = durationSeconds(grain);
+                // Bin to nearest gs-second boundary
+                return "DATETIME(CAST(STRFTIME('%s'," + col + ")/" + gs + " AS INTEGER) * " + gs + ", 'unixepoch')";
+            }
+
+            // String
+            case 'tolower':   return 'LOWER(' + args[0] + ')';
+            case 'toupper':   return 'UPPER(' + args[0] + ')';
+            case 'strlen':    return 'LENGTH(' + args[0] + ')';
+            case 'strcat':    return '(' + args.join(' || ') + ')';
+            case 'substring': {
+                // KQL: substring(s, start [, length])  -- 0-indexed
+                if (args.length === 2) return 'SUBSTR(' + args[0] + ', ' + args[1] + '+1)';
+                return 'SUBSTR(' + args[0] + ', ' + args[1] + '+1, ' + args[2] + ')';
+            }
+
+            // Predicates
+            case 'isempty':    return '(' + args[0] + " IS NULL OR CAST(" + args[0] + " AS TEXT) = '')";
+            case 'isnotempty': return '(' + args[0] + " IS NOT NULL AND CAST(" + args[0] + " AS TEXT) <> '')";
+            case 'isnull':     return '(' + args[0] + ' IS NULL)';
+            case 'isnotnull':  return '(' + args[0] + ' IS NOT NULL)';
+            case 'iff': case 'iif':
+                return '(CASE WHEN ' + args[0] + ' THEN ' + args[1] + ' ELSE ' + args[2] + ' END)';
+
+            // Aggregates
+            case 'count':   return 'COUNT(*)';
+            case 'dcount':  return 'COUNT(DISTINCT ' + args[0] + ')';
+            case 'sum':     return 'SUM(' + args[0] + ')';
+            case 'avg':     return 'AVG(' + args[0] + ')';
+            case 'min':     return 'MIN(' + args[0] + ')';
+            case 'max':     return 'MAX(' + args[0] + ')';
+            case 'countif': return 'SUM(CASE WHEN ' + args[0] + ' THEN 1 ELSE 0 END)';
+            case 'sumif':   return 'SUM(CASE WHEN ' + args[1] + ' THEN ' + args[0] + ' ELSE 0 END)';
+
+            // Type coercion
+            case 'tostring': return 'CAST(' + args[0] + ' AS TEXT)';
+            case 'toint':
+            case 'tolong':   return 'CAST(' + args[0] + ' AS INTEGER)';
+            case 'toreal':
+            case 'todouble': return 'CAST(' + args[0] + ' AS REAL)';
+            case 'tobool':   return '(CASE WHEN ' + args[0] + ' THEN 1 ELSE 0 END)';
+            case 'todatetime': return "DATETIME(" + args[0] + ")";
+
+            default:
+                throw KqlError("unsupported function: " + node.name + "()");
+        }
+    }
+
+    /* ============================================================
+       PUBLIC API
+       ============================================================ */
+    function compile(source) {
+        var tokens = tokenize(source);
+        var ast = parse(tokens);
+        var sql = translate(ast);
+        // Handle project-away post-rewrite (we don't know full schema here, so leave as comment)
+        return { ast: ast, sql: sql };
+    }
+
+    global.KqlEngine = {
+        tokenize: tokenize,
+        parse: parse,
+        translate: translate,
+        compile: compile,
+        KqlError: KqlError,
+    };
+
+})(window);
