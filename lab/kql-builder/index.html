@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Visual KQL Builder - dropdown-driven KQL composition tool.">
+<title>KQL Builder &mdash; Bryce Maxheimer</title>
+<link rel="stylesheet" href="/css/style.css">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+</head>
+<body>
+
+<header class="site-header">
+<div class="container-wide">
+<a href="/" class="brand">Bryce Maxheimer</a>
+<nav class="nav">
+<a href="/about.html">About</a>
+<a href="/resume/">Resume</a>
+<a href="/certs/">Certs</a>
+<a href="/projects/">Projects</a>
+<a href="/lab/" class="active">Lab</a>
+<a href="/writeups/">Writeups</a>
+<a href="/blog/">Blog</a>
+</nav>
+</div>
+</header>
+
+<main class="container">
+
+<div style="font-family: var(--font-mono); font-size: 0.82rem; color: var(--text-3); margin: 1.5rem 0 1rem;">
+<a href="/lab/" style="color: var(--mint-deep); text-decoration: none">&larr; Browser Lab</a>
+</div>
+
+<h1>KQL Builder</h1>
+<p style="color: var(--text-1)">Coming soon.</p>
+
+<p>
+Visual KQL composition tool &mdash; pick a table, an Event ID, a time range, the
+columns you want back, and any filters; the page emits the equivalent KQL and
+lets you copy it (or send it straight to the <a href="/kql/">playground</a>).
+</p>
+
+<h2>What it'll cover</h2>
+<ul>
+    <li>Source table (DeviceLogonEvents, DeviceProcessEvents, SecurityEvent, SigninLogs, etc.)</li>
+    <li>Time range (last 1h / 24h / 7d / custom)</li>
+    <li>EventID and ActionType picker (when the source table has those)</li>
+    <li>Filter rows: column + operator + value, multiple filters AND-ed together</li>
+    <li>Output columns selector (all / pick a subset)</li>
+    <li>Toggle between detailed and summarized output</li>
+    <li>Save and load named queries to local browser storage</li>
+    <li>"Send to playground" button that opens the KQL playground with the query pre-populated</li>
+</ul>
+
+<h2>Origin</h2>
+<p>
+This is a port of my <code>KqlBuilder.ps1</code> WinForms module. The PowerShell
+version uses dropdowns, the same logic; this version replaces the WinForms layer
+with HTML form controls and stores queries in localStorage instead of MS Access.
+</p>
+
+<hr>
+<p style="color: var(--text-3); font-family: var(--font-mono); font-size: 0.85rem">
+Status: not yet built. Underlying source: <a href="https://github.com/brycemaxheimer/cybersecurity-portfolio/blob/main/SOC%20Dashboard/Modules/KqlBuilder.ps1">SOC Dashboard / Modules / KqlBuilder.ps1</a>.
+</p>
+
+</main>
+
+<footer class="site-footer">
+<div class="container-wide">
+&copy; 2026 Bryce Maxheimer &middot;
+<a href="https://github.com/brycemaxheimer">GitHub</a> &middot;
+<a href="/about.html">Contact</a>
+</div>
+</footer>
+
+</body>
+</html>

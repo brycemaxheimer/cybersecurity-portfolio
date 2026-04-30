@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Threat Intel walkthrough - recorded demo of the SecIntel.ThreatIntel PowerShell modules without live API calls.">
+<title>Threat Intel Walkthrough &mdash; Bryce Maxheimer</title>
+<link rel="stylesheet" href="/css/style.css">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<style>
+.ti-page { max-width: 1080px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
+.ti-banner {
+    background: rgba(233, 198, 109, 0.08);
+    border: 1px solid var(--amber);
+    border-radius: var(--radius);
+    padding: 1rem 1.2rem;
+    margin: 1.5rem 0 2rem;
+    color: var(--text-1);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+.ti-banner strong { color: var(--amber); }
+
+.ti-shell {
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+@media (max-width: 800px) { .ti-shell { grid-template-columns: 1fr; } }
+
+.ti-sidebar h4 {
+    font-size: 0.74rem; font-family: var(--font-mono); color: var(--mint-deep);
+    font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+    margin: 0 0 0.6rem; padding: 0; border: none;
+}
+.ti-sidebar h4:not(:first-child) { margin-top: 1.6rem; }
+
+.ti-providers { display: flex; flex-direction: column; gap: 0.4rem; margin: 0; padding: 0; list-style: none; }
+.ti-provider {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.55rem 0.8rem;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    color: var(--text-1);
+    font-size: 0.92rem;
+}
+.ti-provider .ip-name { font-family: var(--font-mono); font-size: 0.85rem; }
+.ti-provider .ip-status {
+    font-family: var(--font-mono); font-size: 0.7rem;
+    color: var(--mint-deep);
+    padding: 0.1rem 0.5rem;
+    background: rgba(70, 208, 154, 0.10);
+    border: 1px solid rgba(70, 208, 154, 0.25);
+    border-radius: 999px;
+}
+
+.ti-form {
+    background: var(--bg-1);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 1.2rem;
+}
+.ti-form label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    color: var(--mint-deep);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.4rem;
+}
+.ti-form input[type="text"] {
+    width: 100%;
+    padding: 0.65rem 0.9rem;
+    background: var(--code-bg); color: var(--text-0);
+    border: 1px solid var(--line); border-radius: var(--radius);
+    font-family: var(--font-mono); font-size: 0.95rem;
+}
+.ti-form input[type="text"]:focus { outline: none; border-color: var(--mint-deep); }
+
+.ti-toolbar {
+    display: flex; gap: 0.6rem; margin-top: 0.8rem;
+    align-items: center; flex-wrap: wrap;
+}
+.ti-toolbar button {
+    font-family: var(--font-sans); font-size: 0.92rem; font-weight: 600;
+    padding: 0.55rem 1.4rem;
+    background: var(--mint-deep); color: var(--bg-0);
+    border: 1px solid var(--mint-deep); border-radius: var(--radius);
+    cursor: pointer;
+}
+.ti-toolbar button:hover { background: var(--mint); border-color: var(--mint); }
+.ti-toolbar button[disabled] { opacity: 0.5; cursor: not-allowed; }
+.ti-toolbar .ti-status { font-family: var(--font-mono); font-size: 0.82rem; color: var(--text-3); }
+
+.ti-recording-slot {
+    margin-top: 2rem;
+    background: var(--surface);
+    border: 2px dashed var(--line-strong);
+    border-radius: var(--radius-lg);
+    padding: 3rem 2rem;
+    text-align: center;
+    color: var(--text-2);
+}
+.ti-recording-slot h3 {
+    margin: 0 0 0.8rem;
+    color: var(--text-0);
+    font-family: var(--font-display);
+}
+.ti-recording-slot .recipe {
+    text-align: left;
+    max-width: 520px;
+    margin: 1.5rem auto 0;
+    font-size: 0.92rem;
+    line-height: 1.7;
+    color: var(--text-1);
+}
+.ti-recording-slot .recipe code {
+    font-size: 0.82rem;
+}
+.ti-recording-slot .recipe ol { padding-left: 1.4rem; }
+.ti-recording-slot .recipe li { margin-bottom: 0.4rem; }
+
+.ti-results-mock {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--text-2);
+    min-height: 120px;
+}
+.ti-results-mock .placeholder {
+    text-align: center;
+    padding: 2rem 0;
+    color: var(--text-3);
+    font-style: italic;
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+<div class="container-wide">
+<a href="/" class="brand">Bryce Maxheimer</a>
+<nav class="nav">
+<a href="/about.html">About</a>
+<a href="/resume/">Resume</a>
+<a href="/certs/">Certs</a>
+<a href="/projects/">Projects</a>
+<a href="/lab/" class="active">Lab</a>
+<a href="/writeups/">Writeups</a>
+<a href="/blog/">Blog</a>
+</nav>
+</div>
+</header>
+
+<main class="ti-page">
+
+<div style="font-family: var(--font-mono); font-size: 0.82rem; color: var(--text-3); margin-bottom: 1rem;">
+<a href="/lab/" style="color: var(--mint-deep); text-decoration: none">&larr; Browser Lab</a>
+</div>
+
+<h1>Threat Intel Walkthrough</h1>
+<p style="color: var(--text-1); max-width: 70ch">
+Recorded demo of the <code>SecIntel.ThreatIntel</code> family of PowerShell
+modules &mdash; a unified wrapper around AbuseIPDB, urlscan.io, NIST NVD,
+Team Cymru hash lookup, and the NSRL hash database.
+</p>
+
+<div class="ti-banner">
+<strong>Why this is recorded, not live.</strong> The PowerShell modules call
+third-party threat-intel APIs that require my private API keys and have rate
+limits. Shipping those keys to a public website is a non-starter, and proxying
+every visitor's lookup through my account would burn the quota in minutes. So
+this page shows the workflow as a recording. The full live tooling is in the
+<a href="https://github.com/brycemaxheimer/cybersecurity-portfolio">GitHub repo</a>;
+clone it, drop in your own API keys, run locally.
+</div>
+
+
+<div class="ti-shell">
+
+<aside class="ti-sidebar">
+<h4>Providers</h4>
+<ul class="ti-providers">
+    <li class="ti-provider"><span class="ip-name">AbuseIPDB</span><span class="ip-status">in module</span></li>
+    <li class="ti-provider"><span class="ip-name">urlscan.io</span><span class="ip-status">in module</span></li>
+    <li class="ti-provider"><span class="ip-name">NIST NVD</span><span class="ip-status">in module</span></li>
+    <li class="ti-provider"><span class="ip-name">Team Cymru</span><span class="ip-status">in module</span></li>
+    <li class="ti-provider"><span class="ip-name">NSRL</span><span class="ip-status">in module</span></li>
+</ul>
+
+<h4>Source</h4>
+<ul class="ti-providers">
+    <li class="ti-provider"><span class="ip-name"><a href="https://github.com/brycemaxheimer/cybersecurity-portfolio/tree/main/SOC%20Dashboard/Modules" style="color: var(--mint-deep); text-decoration: none">SOC Dashboard / Modules</a></span></li>
+</ul>
+</aside>
+
+
+<div>
+
+<div class="ti-form">
+<label for="ti-input">Indicator (IP, URL, or file hash)</label>
+<input type="text" id="ti-input" placeholder="e.g. 8.8.8.8 or 44d88612fea8a8f36de82e1278abb02f" disabled>
+<div class="ti-toolbar">
+<button id="ti-run" disabled>Run lookup</button>
+<span class="ti-status">Live lookup disabled &mdash; see recording below</span>
+</div>
+</div>
+
+<div class="ti-results-mock">
+<div class="placeholder">
+Results would appear here. The recording below shows what a real lookup looks like.
+</div>
+</div>
+
+
+<div class="ti-recording-slot" id="recording-slot">
+    <h3>Walkthrough recording</h3>
+    <p style="margin: 0; color: var(--text-2)">
+        A short screen recording will live here showing a full IP and hash lookup against the live module.
+    </p>
+
+    <div class="recipe">
+        <strong style="color: var(--text-0); font-family: var(--font-display)">Recording recipe</strong>
+        <ol>
+            <li>Run a 30&ndash;60 second capture of <code>Invoke-IpLookup 8.8.8.8</code> followed by <code>Invoke-HashLookup 44d88612fea8a8f36de82e1278abb02f</code> using OBS or ScreenToGif.</li>
+            <li>Save as <code>walkthrough.mp4</code> (or <code>.gif</code>) in <code>/lab/threat-intel/</code>.</li>
+            <li>Replace this entire <code>&lt;div class="ti-recording-slot"&gt;</code> with a <code>&lt;video controls src="/lab/threat-intel/walkthrough.mp4"&gt;</code> tag (or <code>&lt;img&gt;</code> for GIF).</li>
+            <li>If using video, add <code>preload="metadata" muted</code> so it doesn't auto-buffer or auto-play.</li>
+        </ol>
+    </div>
+</div>
+
+
+<h2 style="margin-top: 3rem">What the modules do</h2>
+
+<div style="display: grid; gap: 1rem; margin-top: 1rem;">
+
+<div class="ti-form">
+<label>SecIntel.ThreatIntel.AbuseIPDB</label>
+<p style="margin: 0.5rem 0 0; color: var(--text-1); font-size: 0.95rem; line-height: 1.6">
+Reputation scoring for IPv4 addresses. Returns abuse confidence score, country,
+ISP, usage type, and recent reports. Caches responses to disk to avoid repeated
+calls during an investigation.
+</p>
+</div>
+
+<div class="ti-form">
+<label>SecIntel.ThreatIntel.UrlScan</label>
+<p style="margin: 0.5rem 0 0; color: var(--text-1); font-size: 0.95rem; line-height: 1.6">
+Submit URLs to urlscan.io and read back the verdict (malicious / suspicious /
+benign), screenshot URL, and detected technologies. Async-capable for batched
+submissions.
+</p>
+</div>
+
+<div class="ti-form">
+<label>SecIntel.ThreatIntel.Nist</label>
+<p style="margin: 0.5rem 0 0; color: var(--text-1); font-size: 0.95rem; line-height: 1.6">
+NIST NVD CVE detail lookups. Pulls description, CVSS scores (v2 + v3), affected
+configurations, and references for any CVE ID.
+</p>
+</div>
+
+<div class="ti-form">
+<label>TeamCymru-Hash-Lookup</label>
+<p style="margin: 0.5rem 0 0; color: var(--text-1); font-size: 0.95rem; line-height: 1.6">
+Hash reputation via Team Cymru's Malware Hash Registry. Quick sanity check for
+files you've pulled from a host during an investigation.
+</p>
+</div>
+
+<div class="ti-form">
+<label>SecIntel.ThreatIntel.Nsrl</label>
+<p style="margin: 0.5rem 0 0; color: var(--text-1); font-size: 0.95rem; line-height: 1.6">
+NSRL (NIST RDS) hash lookup &mdash; the inverse: known-good files. Useful for
+filtering benign system files out of large hash sets during forensics triage.
+</p>
+</div>
+
+</div>
+
+
+</div>
+</div>
+
+</main>
+
+<footer class="site-footer">
+<div class="container-wide">
+&copy; 2026 Bryce Maxheimer &middot;
+<a href="https://github.com/brycemaxheimer">GitHub</a> &middot;
+<a href="/about.html">Contact</a>
+</div>
+</footer>
+
+</body>
+</html>

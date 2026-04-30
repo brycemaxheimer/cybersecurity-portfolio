@@ -320,6 +320,7 @@
 <a href="/resume/">Resume</a>
 <a href="/certs/">Certs</a>
 <a href="/projects/">Projects</a>
+<a href="/lab/">Lab</a>
 <a href="/writeups/">Writeups</a>
 <a href="/kql/" class="active">KQL</a>
 <a href="/blog/">Blog</a>
@@ -334,111 +335,4 @@
 <a href="/kql/cheatsheet/" style="font-family: var(--font-mono); font-size: 0.88rem; color: var(--mint-deep); border-bottom: 1px solid var(--mint-deep); padding-bottom: 2px; text-decoration: none">Open the cheatsheet &rarr;</a>
 </div>
 <p style="color: var(--text-1); max-width: 70ch; margin-top: 1rem">
-    A working KQL engine in your browser. Type queries against pre-loaded sample tables &mdash; the same Sentinel-shaped data my <code>Invoke-KqlPS</code> PowerShell module uses for offline practice. Translates KQL to SQLite SQL via a hand-written lexer/parser, executes against <a href="https://github.com/sql-js/sql.js">sql.js</a> (WASM SQLite). No backend, no signup, no telemetry.
-</p>
-
-<div class="pg-shell">
-    <aside class="pg-sidebar">
-        <h4>Tables</h4>
-        <ul id="tables-list"><li style="color: var(--text-3); font-family: var(--font-mono); font-size: 0.78rem">loading...</li></ul>
-
-        <h4>Examples</h4>
-<button class="pg-example" data-q="DeviceLogonEvents
-| where ActionType == 'LogonFailed'
-| summarize attempts = count() by AccountName
-| top 10 by attempts">Failed-logon top 10</button>
-
-<button class="pg-example" data-q="DeviceProcessEvents
-| where InitiatingProcessFileName == 'powershell.exe'
-| project Timestamp, DeviceName, FileName, ProcessCommandLine
-| take 25">PowerShell-spawned procs</button>
-
-<button class="pg-example" data-q="SigninLogs
-| where ResultType != 0
-| summarize failures = count() by UserPrincipalName, IPAddress
-| order by failures desc
-| take 20">Failed sign-ins by user/IP</button>
-
-<button class="pg-example" data-q="SecurityEvent
-| where EventID == 4624
-| summarize logons = count() by Account, LogonType
-| order by logons desc">Successful logons by account</button>
-
-<button class="pg-example" data-q="DeviceNetworkEvents
-| where RemotePort in (22, 3389, 5985, 5986)
-| project Timestamp, DeviceName, RemoteIP, RemotePort, InitiatingProcessFileName
-| take 20">Remote-mgmt port traffic</button>
-
-<button class="pg-example" data-q="DeviceFileEvents
-| where ActionType == 'FileCreated'
-| where FileName endswith '.exe' or FileName endswith '.dll'
-| project Timestamp, DeviceName, FolderPath, FileName, InitiatingProcessFileName
-| take 30">Executable file drops</button>
-    </aside>
-
-    <div>
-<textarea class="pg-editor" id="editor" spellcheck="false">DeviceLogonEvents
-| where ActionType == 'LogonFailed'
-| summarize attempts = count() by AccountName
-| top 10 by attempts</textarea>
-
-<div class="pg-toolbar">
-<button class="pg-run" id="run-btn">Run query &rarr;</button>
-<span class="pg-status" id="status">Initializing engine...</span>
-</div>
-
-<div class="pg-results" id="results">
-<div class="placeholder">Loading sample data...</div>
-</div>
-
-<details class="pg-sql-preview">
-<summary>View translated SQL</summary>
-<pre id="sql-preview"></pre>
-</details>
-    </div>
-</div>
-
-
-<section class="pg-supported">
-<h3>What's supported</h3>
-<p style="color: var(--text-1); margin-bottom: 1rem">
-    Pragmatic subset &mdash; the most common ~80% of real SOC queries. Full faithful parity with the PowerShell module is on the roadmap.
-</p>
-<dl>
-<dt>Operators</dt>
-<dd><code>where</code>, <code>project</code>, <code>project-keep</code>, <code>project-away</code>, <code>extend</code>, <code>summarize ... by</code>, <code>count</code>, <code>top N by</code>, <code>take</code>, <code>limit</code>, <code>distinct</code>, <code>order/sort by</code>, <code>let</code> (scalar)</dd>
-
-<dt>Predicates</dt>
-<dd><code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>contains</code>, <code>!contains</code>, <code>contains_cs</code>, <code>startswith</code>, <code>endswith</code>, <code>has</code>, <code>!has</code>, <code>in (...)</code>, <code>!in (...)</code>, <code>between (a..b)</code>, <code>and</code>, <code>or</code>, <code>not</code></dd>
-
-<dt>Functions</dt>
-<dd><code>ago</code>, <code>now</code>, <code>datetime</code>, <code>bin</code>, <code>tolower</code>, <code>toupper</code>, <code>strlen</code>, <code>strcat</code>, <code>substring</code>, <code>isempty</code>, <code>isnotempty</code>, <code>isnull</code>, <code>isnotnull</code>, <code>iff</code>, <code>tostring</code>, <code>toint</code>, <code>tolong</code>, <code>toreal</code>, <code>todatetime</code>, <code>count</code>, <code>dcount</code>, <code>sum</code>, <code>avg</code>, <code>min</code>, <code>max</code>, <code>countif</code>, <code>sumif</code></dd>
-
-<dt>Tables</dt>
-<dd>16 Sentinel-shaped sample tables (DeviceLogonEvents, DeviceProcessEvents, SigninLogs, SecurityEvent, etc.). See the sidebar.</dd>
-
-<dt>Not yet</dt>
-<dd><code>join</code>, <code>union</code>, <code>parse</code>, <code>mv-expand</code>, <code>render</code>, <code>materialize</code>, regex matchers (<code>=~</code>, <code>matches regex</code>), advanced time-series operators. The engine throws a clear error if you hit one.</dd>
-</dl>
-</section>
-
-</main>
-
-<footer class="site-footer">
-<div class="container-wide">
-&copy; 2026 Bryce Maxheimer &middot;
-<a href="https://github.com/brycemaxheimer">GitHub</a> &middot;
-<a href="/about.html">Contact</a>
-</div>
-</footer>
-
-<!-- sql.js (self-hosted, see /kql/vendor/) -->
-<script src="/kql/vendor/sql-wasm.js"></script>
-<!-- KQL engine (load order matters: schema -> engine -> runtime -> main) -->
-<script src="/kql/engine/schema.js"></script>
-<script src="/kql/engine/engine.js"></script>
-<script src="/kql/engine/runtime.js"></script>
-<script src="/kql/engine/main.js" defer></script>
-
-</body>
-</html>
+    A working KQL engine in your browser. Type queries against pre-loaded sample tables &mdash; the same Sentine

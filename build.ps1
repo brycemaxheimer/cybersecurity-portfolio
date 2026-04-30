@@ -116,6 +116,7 @@ function Render-Page {
             <a href="/resume/">Resume</a>
             <a href="/certs/">Certs</a>
             <a href="/projects/">Projects</a>
+            <a href="/lab/">Lab</a>
             <a href="/writeups/">Writeups</a>
             <a href="/kql/">KQL</a>
             <a href="/blog/" class="active">Blog</a>
@@ -177,10 +178,4 @@ foreach ($file in $mdFiles) {
 
     $slug    = Get-Slug -Path $file.FullName
     $outPath = Join-Path $OutputDir "$slug.html"
-    Set-Content -Path $outPath -Value $page -Encoding UTF8
-
-    Write-Host "  [OK] $($file.Name) -> $outPath"
-}
-
-Write-Host "Done." -ForegroundColor Green
-Write-Host "Reminder: add new posts to blog/index.html manually." -ForegroundColor Yellow
+    Set-Content -Path $outPath -Val

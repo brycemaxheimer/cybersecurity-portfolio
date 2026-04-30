@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Browser Lab - interactive security tools running entirely in your browser. KQL playground, MITRE ATT&CK explorer, CVE/KEV browser, threat intel walkthroughs.">
+<title>Browser Lab &mdash; Bryce Maxheimer</title>
+<link rel="stylesheet" href="/css/style.css">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<style>
+.lab-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+}
+.lab-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 1.4rem 1.5rem;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.2s, background 0.2s, transform 0.2s;
+    border: 1px solid var(--line);
+}
+.lab-card:hover {
+    border-color: var(--mint-deep);
+    background: var(--surface-2);
+    transform: translateY(-2px);
+}
+.lab-card.is-coming { opacity: 0.7; }
+.lab-card.is-coming:hover { transform: none; cursor: default; }
+
+.lab-card .header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.7rem;
+    margin-bottom: 0.6rem;
+}
+.lab-card h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-family: var(--font-display);
+    color: var(--text-0);
+}
+
+.status-badge {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.18rem 0.55rem;
+    border-radius: 3px;
+    flex-shrink: 0;
+}
+.status-live    { background: rgba(70, 208, 154, 0.12);  color: var(--mint-deep);  border: 1px solid rgba(70, 208, 154, 0.30); }
+.status-demo    { background: rgba(233, 198, 109, 0.10); color: var(--amber);     border: 1px solid rgba(233, 198, 109, 0.30); }
+.status-soon    { background: rgba(105, 134, 121, 0.12); color: var(--text-3);    border: 1px solid rgba(105, 134, 121, 0.30); }
+.status-pending { background: rgba(239, 146, 115, 0.10); color: var(--coral);     border: 1px solid rgba(239, 146, 115, 0.30); }
+
+.lab-card .summary {
+    color: var(--text-1);
+    font-size: 0.95rem;
+    line-height: 1.55;
+    margin: 0 0 1rem;
+    flex: 1 1 auto;
+}
+.lab-card .stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    margin-top: auto;
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+}
+.lab-card .stack span {
+    padding: 0.1rem 0.5rem;
+    border-radius: 3px;
+    background: var(--bg-1);
+    border: 1px solid var(--line);
+    color: var(--text-2);
+}
+
+.lab-section {
+    margin: 3rem 0 1.5rem;
+}
+.lab-rationale {
+    background: var(--bg-1);
+    border-left: 3px solid var(--mint-deep);
+    padding: 0.9rem 1.2rem;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    color: var(--text-1);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 1rem 0 0;
+}
+.lab-rationale strong { color: var(--mint); }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+<div class="container-wide">
+<a href="/" class="brand">Bryce Maxheimer</a>
+<nav class="nav">
+<a href="/about.html">About</a>
+<a href="/resume/">Resume</a>
+<a href="/certs/">Certs</a>
+<a href="/projects/">Projects</a>
+<a href="/lab/" class="active">Lab</a>
+<a href="/writeups/">Writeups</a>
+<a href="/blog/">Blog</a>
+</nav>
+</div>
+</header>
+
+<main class="container-wide">
+
+<h1>Browser Lab</h1>
+<p style="color: var(--text-1); max-width: 70ch">
+Interactive security tools running entirely in your browser. Pieces of my SOC
+Dashboard project ported to client-side JavaScript so visitors can poke at them
+without touching a real Sentinel tenant or burning my API quotas.
+</p>
+
+<div class="lab-rationale">
+<strong>How this works.</strong> Where possible, tools run fully in your browser
+&mdash; data is bundled with the page or fetched once on load. For tools that
+ordinarily depend on rate-limited third-party APIs (threat intel lookups), I ship
+a recorded walkthrough instead of live calls, so you can see how the tooling
+behaves without any of us hitting an API limit. The CVE/KEV/EPSS browser is
+backed by a snapshot of the public feeds, refreshed on a schedule.
+</div>
+
+
+<h2 class="lab-section">Live tools</h2>
+
+<div class="lab-grid">
+
+<a class="lab-card" href="/kql/">
+<div class="header-row">
+<h3>KQL Playground</h3>
+<span class="status-badge status-live">Live</span>
+</div>
+<p class="summary">
+Hand-written KQL engine running against a WASM SQLite. Sixteen Sentinel-shaped
+sample tables baked in. Type a query, hit Run, see results. Supports the most
+common ~80% of operators &mdash; <code>where</code>, <code>summarize</code>,
+<code>extend</code>, <code>top</code>, <code>join</code>-free for now.
+</p>
+<div class="stack"><span>kql</span><span>sql.js</span><span>wasm</span><span>javascript</span></div>
+</a>
+
+<a class="lab-card" href="/lab/mitre/">
+<div class="header-row">
+<h3>MITRE ATT&amp;CK Explorer</h3>
+<span class="status-badge status-live">Live</span>
+</div>
+<p class="summary">
+Browse Enterprise ATT&amp;CK techniques, sub-techniques, threat groups, software,
+and mitigations. Search by ID / name / detection text, filter by tactic and
+platform, jump between cross-references. STIX bundle slimmed at build time and
+shipped with the page &mdash; no MITRE API calls.
+</p>
+<div class="stack"><span>mitre</span><span>attack</span><span>stix</span><span>javascript</span></div>
+</a>
+
+</div>
+
+
+<h2 class="lab-section">Coming next</h2>
+
+<div class="lab-grid">
+
+<a class="lab-card is-coming" href="/lab/cve/">
+<div class="header-row">
+<h3>CVE / KEV / EPSS Browser</h3>
+<span class="status-badge status-soon">Coming</span>
+</div>
+<p class="summary">
+Browse recent CVEs alongside CISA Known Exploited Vulnerabilities and FIRST
+EPSS scores. Filter by severity, vendor, exploited-status. Snapshot refreshed
+nightly via a GitHub Action that pulls the public feeds and commits JSON.
+</p>
+<div class="stack"><span>cve</span><span>cisa-kev</span><span>epss</span><span>nightly</span></div>
+</a>
+
+<a class="lab-card is-coming" href="/lab/kql-builder/">
+<div class="header-row">
+<h3>KQL Builder</h3>
+<span class="status-badge status-soon">Coming</span>
+</div>
+<p class="summary">
+Visual query builder &mdash; pick a table, an Event ID, a time range, output
+columns, filters; emit the KQL. Port of my <code>KqlBuilder.ps1</code> WinForms
+module to HTML/JS. Saves &amp; loads to local browser storage.
+</p>
+<div class="stack"><span>kql</span><span>visual-builder</span><span>javascript</span></div>
+</a>
+
+<a class="lab-card is-coming" href="/lab/threat-intel/">
+<div class="header-row">
+<h3>Threat Intel Walkthrough</h3>
+<span class="status-badge status-pending">Recording pending</span>
+</div>
+<p class="summary">
+Mocked-up UI of the threat-intel module (AbuseIPDB, urlscan.io, NIST NVD,
+Team Cymru, NSRL) backed by a recorded walkthrough rather than live API calls.
+Lets visitors see the workflow end-to-end without hitting any rate limits.
+</p>
+<div class="stack"><span>abuseipdb</span><span>urlscan</span><span>nvd</span><span>recording</span></div>
+</a>
+
+</div>
+
+
+<h2 class="lab-section">Why a "lab"?</h2>
+<p>
+Most security portfolios show <em>screenshots</em> of dashboards. Screenshots
+prove nothing &mdash; anyone can take a screenshot. The lab is here so you can
+actually <em>use</em> the tooling. Type real KQL against real data. Click into a
+MITRE technique and see the data sources, mitigations, and threat groups that
+use it. Try to break things.
+</p>
+<p>
+Every tool is fully static (no backend, no analytics, no telemetry). Where a
+tool would ordinarily need a server, I either bake the data in at build time or
+show you a recording &mdash; both are honest about what's happening.
+</p>
+
+<hr>
+<p style="color: var(--text-3); font-family: var(--font-mono); font-size: 0.85rem">
+Source: <a href="https://github.com/brycemaxheimer/cybersecurity-portfolio">github.com/brycemaxheimer/cybersecurity-portfolio</a>
+</p>
+
+</main>
+
+<footer class="site-footer">
+<div class="container-wide">
+&copy; 2026 Bryce Maxheimer &middot;
+<a href="https://github.com/brycemaxheimer">GitHub</a> &middot;
+<a href="/about.html">Contact</a>
+</div>
+</footer>
+
+</body>
+</html>
