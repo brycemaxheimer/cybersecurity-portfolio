@@ -3,6 +3,11 @@
 Thumbs.db
 desktop.ini
 
+# LibreOffice / Word lock and temp files
+.~lock.*#
+*.tmp
+~$*.docx
+
 # Editor / IDE
 .vscode/
 .idea/

@@ -104,6 +104,7 @@ function Render-Page {
     <meta name="description" content="$description">
     <title>$title — Bryce Maxheimer</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 </head>
 <body>
 
@@ -111,10 +112,13 @@ function Render-Page {
     <div class="container">
         <a href="/" class="brand"><span class="prompt">PS&gt;</span> brycemaxheimer</a>
         <nav class="nav">
-            <a href="/">Home</a>
-            <a href="/blog/" class="active">Blog</a>
-            <a href="/scripts/">Scripts</a>
             <a href="/about.html">About</a>
+            <a href="/resume/">Resume</a>
+            <a href="/certs/">Certs</a>
+            <a href="/projects/">Projects</a>
+            <a href="/writeups/">Writeups</a>
+            <a href="/kql/">KQL</a>
+            <a href="/blog/" class="active">Blog</a>
         </nav>
     </div>
 </header>
@@ -138,7 +142,7 @@ $BodyHtml
 <footer class="site-footer">
     <div class="container">
         &copy; 2026 Bryce Maxheimer &middot;
-        <a href="https://github.com/">GitHub</a> &middot;
+        <a href="https://github.com/brycemaxheimer">GitHub</a> &middot;
         <a href="/about.html">Contact</a>
     </div>
 </footer>

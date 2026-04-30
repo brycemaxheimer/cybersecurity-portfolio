@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Writeups, KQL queries, and reference material from Bryce Maxheimer.">
+    <title>Writeups — Bryce Maxheimer</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+</head>
+<body>
+
+<header class="site-header">
+    <div class="container">
+        <a href="/" class="brand"><span class="prompt">PS&gt;</span> brycemaxheimer</a>
+        <nav class="nav">
+            <a href="/about.html">About</a>
+            <a href="/resume/">Resume</a>
+            <a href="/certs/">Certs</a>
+            <a href="/projects/">Projects</a>
+            <a href="/writeups/" class="active">Writeups</a>
+            <a href="/kql/">KQL</a>
+            <a href="/blog/">Blog</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+
+    <h1>Writeups</h1>
+    <p style="color: var(--muted)">
+        Reference material — KQL queries, framework notes, CTF writeups, and
+        anything else that's more lookup table than narrative. The
+        <a href="/blog/">blog</a> is for posts; this is for queries and tables you
+        come back to.
+    </p>
+
+    <section>
+        <h2>KQL queries</h2>
+        <ul class="card-list">
+
+            <li class="card">
+                <h3><a href="/Kusto%20Query%20Language/KQL%20Beginners%20Guide.html">KQL Beginners Guide</a></h3>
+                <div class="meta">guide  &middot;  reference</div>
+                <p class="summary">
+                    Hands-on walkthrough of KQL fundamentals — operators, scalar
+                    functions, aggregations, and the small daily patterns an analyst
+                    actually uses against Sentinel data. Originally drafted as
+                    onboarding material; left here as a public reference.
+                </p>
+                <span class="tag">kql</span><span class="tag">sentinel</span><span class="tag">guide</span>
+            </li>
+
+            <li class="card" style="opacity: 0.6">
+                <h3>Hunting cookbook (coming)</h3>
+                <div class="meta">cookbook  &middot;  in progress</div>
+                <p class="summary">
+                    A growing index of named hunts — what each is looking for, the
+                    underlying KQL, and notes on tuning false positives. Ranged across
+                    DeviceLogonEvents, DeviceProcessEvents, SigninLogs, and friends.
+                </p>
+                <span class="tag">kql</span><span class="tag">hunting</span>
+            </li>
+
+        </ul>
+    </section>
+
+    <section>
+        <h2>Framework notes</h2>
+        <ul class="card-list">
+
+            <li class="card" style="opacity: 0.6">
+                <h3>NIST 800-53 — control mapping cheatsheet (coming)</h3>
+                <div class="meta">framework  &middot;  in progress</div>
+                <p class="summary">
+                    Quick-lookup table for mapping NIST 800-53 controls to detection
+                    sources, audit evidence types, and the GIAC body-of-knowledge areas
+                    they intersect with.
+                </p>
+                <span class="tag">nist</span><span class="tag">compliance</span>
+            </li>
+
+            <li class="card" style="opacity: 0.6">
+                <h3>MITRE ATT&amp;CK — tactic-to-data-source crosswalk (coming)</h3>
+                <div class="meta">framework  &middot;  in progress</div>
+                <p class="summary">
+                    Which ATT&amp;CK tactics show up in which Microsoft Sentinel /
+                    Defender tables, with sample queries. Companion to the
+                    <code>MitreAttackExplorer</code> module.
+                </p>
+                <span class="tag">mitre</span><span class="tag">attack</span><span class="tag">sentinel</span>
+            </li>
+
+        </ul>
+    </section>
+
+    <section>
+        <h2>CTF / competition writeups</h2>
+        <ul class="card-list">
+
+            <li class="card" style="opacity: 0.6">
+                <h3>NCL Fall 2025 — selected challenges (coming)</h3>
+                <div class="meta">ctf  &middot;  ncl  &middot;  in progress</div>
+                <p class="summary">
+                    Walkthroughs of a handful of challenges from the Fall 2025
+                    Individual Game, focused on the ones where the path to the flag had
+                    a transferable lesson — not just the ones I solved fastest.
+                </p>
+                <span class="tag">ctf</span><span class="tag">ncl</span>
+            </li>
+
+        </ul>
+    </section>
+
+    <hr>
+    <p style="color: var(--muted); font-size: 0.9rem">
+        Want to contribute a query or correction? The site is on
+        <a href="https://github.com/brycemaxheimer/cybersecurity-portfolio">GitHub</a>
+        — open an issue or PR.
+    </p>
+
+</main>
+
+<footer class="site-footer">
+    <div class="container">
+        &copy; 2026 Bryce Maxheimer  &middot;
+        <a href="https://github.com/brycemaxheimer">GitHub</a>  &middot;
+        <a href="/about.html">Contact</a>
+    </div>
+</footer>
+
+</body>
+</html>

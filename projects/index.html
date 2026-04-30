@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Cybersecurity projects by Bryce Maxheimer — SOC tooling, KQL engines, threat intel libraries.">
+    <title>Projects — Bryce Maxheimer</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <style>
+        .project {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            transition: border-color 0.15s;
+        }
+        .project:hover { border-color: var(--accent); }
+        .project h3 { margin-top: 0; }
+        .project h3 a { color: var(--text); }
+        .project .stack {
+            font-family: var(--font-mono);
+            color: var(--muted);
+            font-size: 0.85rem;
+            margin: 0.4rem 0 1rem;
+        }
+        .project .why {
+            border-left: 2px solid var(--accent);
+            padding-left: 1rem;
+            color: var(--muted);
+            font-size: 0.95rem;
+            margin: 1rem 0;
+        }
+        .project-actions {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+        .project-actions a {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            padding: 0.3rem 0.8rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            color: var(--muted);
+        }
+        .project-actions a:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    </style>
+</head>
+<body>
+
+<header class="site-header">
+    <div class="container">
+        <a href="/" class="brand"><span class="prompt">PS&gt;</span> brycemaxheimer</a>
+        <nav class="nav">
+            <a href="/about.html">About</a>
+            <a href="/resume/">Resume</a>
+            <a href="/certs/">Certs</a>
+            <a href="/projects/" class="active">Projects</a>
+            <a href="/writeups/">Writeups</a>
+            <a href="/kql/">KQL</a>
+            <a href="/blog/">Blog</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+
+    <h1>Projects</h1>
+    <p style="color: var(--muted)">
+        Things I've built that are big enough to need their own page. For shorter
+        scripts and one-offs, see the <a href="/scripts/">scripts</a> index.
+    </p>
+
+    <article class="project" id="soc-dashboard">
+        <h3>SOC Dashboard</h3>
+        <div class="stack">PowerShell  &middot;  SQLite  &middot;  KQL  &middot;  Microsoft Sentinel patterns</div>
+
+        <p class="why">
+            <strong>Why it exists:</strong> Practicing SOC workflows shouldn't require
+            burning ingest budget against a production Sentinel tenant. The SOC
+            Dashboard is a self-contained lab environment that mirrors the table
+            shapes an analyst sees daily, so you can drill on hunting queries and
+            triage flow without touching real data.
+        </p>
+
+        <p>
+            A PowerShell-based SOC analyst toolkit built around a local SQLite
+            database loaded with realistic sample logs (DeviceLogonEvents,
+            DeviceProcessEvents, SecurityAlert, SigninLogs, etc.). Includes a KQL
+            translator (<code>Invoke-KqlPS</code>), threat-intel enrichment
+            wrappers (AbuseIPDB, urlscan.io, NIST NVD, Team Cymru, NSRL), MITRE
+            ATT&amp;CK lookup, and a daily-brief generator that synthesizes
+            CVE/KEV/EPSS movement.
+        </p>
+
+        <div class="project-actions">
+            <a href="https://github.com/brycemaxheimer/cybersecurity-portfolio/tree/main/SOC%20Dashboard">View on GitHub &rarr;</a>
+            <a href="/scripts/">Module index</a>
+            <a href="/kql/">Try the KQL engine</a>
+        </div>
+    </article>
+
+    <article class="project">
+        <h3>Browser-based KQL engine</h3>
+        <div class="stack">JavaScript  &middot;  SQLite (WASM)  &middot;  In-browser</div>
+
+        <p class="why">
+            <strong>Why it exists:</strong> Demonstrating that the SOC Dashboard's
+            KQL translator works requires running it. This is the engine ported to
+            JavaScript with sample tables loaded into an in-browser SQLite — no
+            backend needed.
+        </p>
+
+        <p>
+            Visitors can type KQL queries against canned sample log tables and see
+            results immediately. Same translation logic as the PowerShell
+            <code>Invoke-KqlPS</code> module, just running entirely client-side.
+            Useful for showcasing the engine without asking visitors to download
+            and run anything.
+        </p>
+
+        <div class="project-actions">
+            <a href="/kql/">Open the playground &rarr;</a>
+        </div>
+
+        <p style="color: var(--muted); font-size: 0.85rem; margin-top: 1rem">
+            Status: shell published; engine porting in progress.
+        </p>
+    </article>
+
+    <article class="project">
+        <h3>National Cyber League — Fall 2025</h3>
+        <div class="stack">CTF  &middot;  Cyber Skyline platform</div>
+
+        <p class="why">
+            <strong>Why it's here:</strong> Competition outcomes are signal — they
+            put your skills against a leaderboard with thousands of other analysts
+            on the same problems.
+        </p>
+
+        <p>
+            Diamond 1 Medal (top 97th percentile) in the Fall 2025 Individual Game.
+            Categories spanned OSINT, cryptography, password cracking, log
+            analysis, network traffic, scanning, web exploitation, and forensics.
+        </p>
+
+        <div class="project-actions">
+            <a href="/Cyber%20Skyline/Bryce%20Maxheimer%20-%20Cyber%20Skyline%20Certificate.pdf">Certificate (PDF)</a>
+            <a href="/Cyber%20Skyline/Bryce%20Maxheimer%20-%20Cyber%20Skyline%20Report.pdf">Performance report (PDF)</a>
+        </div>
+    </article>
+
+    <hr>
+    <p style="color: var(--muted); font-size: 0.9rem">
+        More projects in flight. Check back, or follow the <a href="/blog/">blog</a>
+        for writeups as they ship.
+    </p>
+
+</main>
+
+<footer class="site-footer">
+    <div class="container">
+        &copy; 2026 Bryce Maxheimer  &middot;
+        <a href="https://github.com/brycemaxheimer">GitHub</a>  &middot;
+        <a href="/about.html">Contact</a>
+    </div>
+</footer>
+
+</body>
+</html>

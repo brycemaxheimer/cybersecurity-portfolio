@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Resume of Bryce Maxheimer — cybersecurity professional and U.S. Marine Corps Cyber Warfare Operator veteran.">
+    <title>Resume — Bryce Maxheimer</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <style>
+        /* Resume-specific touches */
+        .resume-actions {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+            margin: 1rem 0 2rem;
+        }
+        .btn {
+            display: inline-block;
+            padding: 0.55rem 1.1rem;
+            border-radius: var(--radius);
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--text);
+            transition: border-color 0.15s, background 0.15s;
+        }
+        .btn:hover { text-decoration: none; border-color: var(--accent); background: var(--surface-2); }
+        .btn-primary { border-color: var(--accent-2); color: var(--accent-2); }
+        .btn-primary:hover { background: rgba(63, 185, 80, 0.08); }
+
+        .resume-section { margin-bottom: 2rem; }
+
+        .role {
+            border-left: 2px solid var(--border);
+            padding-left: 1rem;
+            margin: 1.2rem 0;
+        }
+        .role:hover { border-left-color: var(--accent); }
+        .role-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .role-header h3 { margin: 0; color: var(--text); }
+        .role-header .dates {
+            color: var(--muted);
+            font-family: var(--font-mono);
+            font-size: 0.88rem;
+            white-space: nowrap;
+        }
+        .role .org {
+            color: var(--accent);
+            font-size: 0.95rem;
+            margin: 0.15rem 0 0.6rem;
+        }
+        .role ul { margin: 0.5rem 0 0; padding-left: 1.2rem; }
+        .role li { margin-bottom: 0.4rem; }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: max-content 1fr;
+            gap: 0.4rem 1.2rem;
+            margin: 0.8rem 0;
+        }
+        .skills-grid dt {
+            font-family: var(--font-mono);
+            color: var(--accent-2);
+            font-size: 0.88rem;
+        }
+        .skills-grid dd {
+            margin: 0;
+            color: var(--text);
+        }
+
+        .award {
+            margin: 1rem 0;
+        }
+        .award-title {
+            font-weight: 600;
+            color: var(--text);
+        }
+        .award-date {
+            color: var(--muted);
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+        }
+
+        .clearance-badge {
+            display: inline-block;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--warning);
+            border: 1px solid var(--warning);
+            padding: 0.15rem 0.6rem;
+            border-radius: 4px;
+            margin-left: 0.4rem;
+        }
+    </style>
+</head>
+<body>
+
+<header class="site-header">
+    <div class="container">
+        <a href="/" class="brand"><span class="prompt">PS&gt;</span> brycemaxheimer</a>
+        <nav class="nav">
+            <a href="/about.html">About</a>
+            <a href="/resume/" class="active">Resume</a>
+            <a href="/certs/">Certs</a>
+            <a href="/projects/">Projects</a>
+            <a href="/writeups/">Writeups</a>
+            <a href="/kql/">KQL</a>
+            <a href="/blog/">Blog</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+
+    <h1>Bryce Maxheimer</h1>
+    <p style="color: var(--muted); margin-bottom: 0.4rem">
+        Indianapolis, IN  &middot;  <a href="mailto:brycemaxheimer2@gmail.com">brycemaxheimer2@gmail.com</a>
+    </p>
+    <p style="margin-bottom: 0.4rem">
+        <span class="clearance-badge">TS/SCI w/ CI Polygraph</span>
+    </p>
+    <p style="font-family: var(--font-mono); font-size: 0.9rem">
+        <a href="https://www.linkedin.com/in/bryce-maxheimer">LinkedIn</a>  &middot;
+        <a href="https://github.com/brycemaxheimer">GitHub</a>  &middot;
+        <a href="https://www.giac.org/Bryce-Maxheimer">GIAC verification</a>
+    </p>
+
+    <div class="resume-actions">
+        <a href="/resume/Bryce_Maxheimer_Resume.pdf" class="btn btn-primary" download>Download PDF</a>
+        <a href="/resume/Bryce_Maxheimer_Resume.pdf" class="btn" target="_blank" rel="noopener">View PDF in new tab</a>
+    </div>
+
+    <hr>
+
+    <section class="resume-section">
+        <h2>Professional summary</h2>
+        <p>
+            Cybersecurity professional and U.S. Marine Corps Cyber Warfare Operator
+            veteran with 4+ years of hands-on experience in threat hunting, digital
+            forensics, network defense, and cyber infrastructure management. Adept
+            in tools such as Splunk, Security Onion, Autopsy, and FTK. Proven leader
+            in high-stakes environments with a strong foundation in policy
+            compliance, blue-team operations, and adversary emulation. Currently
+            pursuing a B.S. in Applied Cybersecurity. Active TS/SCI with CI
+            Polygraph.
+        </p>
+    </section>
+
+    <section class="resume-section">
+        <h2>Technical skills</h2>
+        <dl class="skills-grid">
+            <dt>Tools &amp; platforms</dt>
+            <dd>Splunk, Security Onion, Autopsy, FTK, Palo Alto Firewalls, Microsoft Deployment Toolkit, Microsoft Sentinel</dd>
+
+            <dt>Operating systems</dt>
+            <dd>Linux (Red Hat, Ubuntu), Windows Server / Enterprise Workstation</dd>
+
+            <dt>Cyber ops</dt>
+            <dd>Threat hunting, malware analysis, digital forensics, incident response</dd>
+
+            <dt>Frameworks</dt>
+            <dd>STIGs, DoD cybersecurity standards, MITRE ATT&amp;CK, NIST 800-53</dd>
+
+            <dt>Networking</dt>
+            <dd>Network mapping, enumeration, packet analysis (Wireshark), TCP/IP, DNS</dd>
+
+            <dt>Soft skills</dt>
+            <dd>Leadership, team instruction, high-stress decision making, cross-functional collaboration, problem solving, analytical thinking, initiative</dd>
+        </dl>
+    </section>
+
+    <section class="resume-section">
+        <h2>Professional experience</h2>
+
+        <div class="role">
+            <div class="role-header">
+                <h3>Shift Lead</h3>
+                <span class="dates">2025-07 — Present</span>
+            </div>
+            <p class="org">Defense Finance and Accounting Service (DFAS)</p>
+            <ul>
+                <li>Identified suspicious network traffic patterns through Microsoft Sentinel that led to the initiation of formal security incident investigations.</li>
+                <li>Collected and analyzed digital artifacts to support threat hunting operations and incident response activities.</li>
+                <li>Processed and analyzed 30,000+ security alerts while establishing baseline network behavior patterns.</li>
+                <li>Created automated toolsets, developed SOPs, ensured audit requirements were met, and authored SIEM rules to close security gaps and harden infrastructure.</li>
+                <li>Performed digital forensics on systems in response to alerts and in support of investigations.</li>
+            </ul>
+        </div>
+
+        <div class="role">
+            <div class="role-header">
+                <h3>Cyber Security Analyst / Infrastructure Architect</h3>
+                <span class="dates">2022-02 — 2025-05</span>
+            </div>
+            <p class="org">United States Marine Corps — Defensive Cyber Operations</p>
+            <ul>
+                <li>Conducted advanced threat hunting using Splunk and Security Onion, developing custom dashboards and queries to identify anomalous traffic.</li>
+                <li>Led digital forensic investigations using Autopsy and FTK; produced reports on malware behavior, registry artifacts, and file system anomalies.</li>
+                <li>Architected and maintained virtual infrastructure supporting 100+ users, ensuring high availability of mission-critical tools.</li>
+                <li>Enforced STIG compliance across legacy and modernized systems, enhancing cybersecurity resilience of classified infrastructure.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="resume-section">
+        <h2>Education</h2>
+
+        <div class="role">
+            <div class="role-header">
+                <h3>SANS Technology Institute</h3>
+                <span class="dates">Expected 2027-01</span>
+            </div>
+            <p class="org">B.S. in Applied Cybersecurity (BACS) — in progress</p>
+        </div>
+
+        <div class="role">
+            <div class="role-header">
+                <h3>USMC Cyber Operators Specialist Course</h3>
+                <span class="dates">Completed 2023-10</span>
+            </div>
+        </div>
+
+        <div class="role">
+            <div class="role-header">
+                <h3>Joint Cyber Analysis Course (NSA Certified)</h3>
+                <span class="dates">Completed 2023-05</span>
+            </div>
+        </div>
+
+        <div class="role">
+            <div class="role-header">
+                <h3>Alvin Community College</h3>
+                <span class="dates">Graduated 2020-05</span>
+            </div>
+            <p class="org">Associate's Degree, General Studies</p>
+        </div>
+    </section>
+
+    <section class="resume-section">
+        <h2>Certifications</h2>
+        <p style="color: var(--muted)">
+            Full descriptions and PDFs on the <a href="/certs/">Certifications page</a>.
+        </p>
+        <ul>
+            <li><strong>GCFE</strong> — GIAC Certified Forensic Examiner  <span style="color: var(--muted); font-family: var(--font-mono); font-size:0.85rem">2026-04</span></li>
+            <li><strong>GPYC</strong> — GIAC Certified Python Coder  <span style="color: var(--muted); font-family: var(--font-mono); font-size:0.85rem">2026-02</span></li>
+            <li><strong>GCIH</strong> — GIAC Certified Incident Handler  <span style="color: var(--muted); font-family: var(--font-mono); font-size:0.85rem">2025-09</span></li>
+            <li><strong>GSEC</strong> — GIAC Security Essentials  <span style="color: var(--muted); font-family: var(--font-mono); font-size:0.85rem">2025-07</span></li>
+            <li><strong>GFACT</strong> — GIAC Foundational Cybersecurity Technologies  <span style="color: var(--muted); font-family: var(--font-mono); font-size:0.85rem">2025-03</span></li>
+            <li><strong>CompTIA PenTest+</strong>  <span style="color: var(--muted); font-family: var(--font-mono); font-size:0.85rem">2024-08</span></li>
+            <li><strong>Red Team Certified Professional (RTCP)</strong> — Marine Corps Cyberspace Operations Group  <span style="color: var(--muted); font-family: var(--font-mono); font-size:0.85rem">2024-04</span></li>
+        </ul>
+    </section>
+
+    <section class="resume-section">
+        <h2>Awards &amp; recognition</h2>
+
+        <div class="award">
+            <div class="award-title">National Cyber League — Diamond 1 Medal</div>
+            <div class="award-date">2025-11</div>
+            <p>Recognized for scoring in the 97th percentile overall in the Fall 2025 Individual Game for the National Cyber League.</p>
+        </div>
+
+        <div class="award">
+            <div class="award-title">Navy and Marine Corps Achievement Medal</div>
+            <div class="award-date">2024-11</div>
+            <p>Awarded for analyzing 3.5M+ daily packets across critical networks and leading defensive cyberspace operations in Okinawa, JP.</p>
+        </div>
+
+        <div class="award">
+            <div class="award-title">Meritorious Mast</div>
+            <div class="award-date">2023-05</div>
+            <p>Recognized for exemplary leadership of 75 Marines during the Joint Cyber Analysis Course.</p>
+        </div>
+    </section>
+
+    <hr>
+    <p style="color: var(--muted); font-size: 0.9rem">
+        Last updated: 2026-04-30  &middot;  See also: <a href="/certs/">Certifications</a>  &middot;  <a href="/projects/">Projects</a>
+    </p>
+
+</main>
+
+<footer class="site-footer">
+    <div class="container">
+        &copy; 2026 Bryce Maxheimer  &middot;
+        <a href="https://github.com/brycemaxheimer">GitHub</a>  &middot;
+        <a href="/about.html">Contact</a>
+    </div>
+</footer>
+
+</body>
+</html>
