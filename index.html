@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Bryce Maxheimer - cybersecurity professional and U.S. Marine Corps veteran. Threat hunting, digital forensics, and SOC tooling.">
+<meta name="description" content="Bryce Maxheimer - cybersecurity professional and U.S. Marine Corps Cyber Warfare Operator veteran. Threat hunting, digital forensics, SOC tooling.">
 <title>Bryce Maxheimer - Cybersecurity</title>
 <link rel="stylesheet" href="/css/style.css">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -11,8 +11,8 @@
 <body>
 
 <header class="site-header">
-<div class="container">
-<a href="/" class="brand"><span class="prompt">PS&gt;</span> brycemaxheimer</a>
+<div class="container-wide">
+<a href="/" class="brand">Bryce Maxheimer</a>
 <nav class="nav">
 <a href="/about.html">About</a>
 <a href="/resume/">Resume</a>
@@ -25,76 +25,151 @@
 </div>
 </header>
 
-<main class="container">
+<main>
+<div class="dynamic-shell">
 
-<section class="hero">
-<h1>Bryce Maxheimer<span class="cursor">&nbsp;</span></h1>
-<p class="tagline">Cybersecurity professional and U.S. Marine Corps Cyber Warfare Operator veteran. Threat hunting, digital forensics, network defense, and the tooling to support it. Currently a Shift Lead at the Defense Finance and Accounting Service.</p>
-<p style="font-family: var(--font-mono); color: var(--muted); font-size: 0.95rem; margin-top: 1rem">
-<a href="/resume/">Resume</a> &middot;
-<a href="/certs/">Certifications</a> &middot;
-<a href="/projects/">Projects</a> &middot;
-<a href="/kql/">KQL playground</a>
-</p>
+<aside class="hero-sidebar">
+
+<div>
+<h1>Bryce Maxheimer</h1>
+<h2>Cybersecurity practitioner &amp; U.S. Marine Corps veteran</h2>
+<p class="tagline">Threat hunting, digital forensics, network defense, and the tooling to support it. Currently a Shift Lead at the Defense Finance and Accounting Service.</p>
+
+<nav class="section-nav" aria-label="Page sections">
+<a href="#about" data-target="about">About</a>
+<a href="#experience" data-target="experience">Experience</a>
+<a href="#projects" data-target="projects">Projects</a>
+<a href="#recognition" data-target="recognition">Recognition</a>
+</nav>
+</div>
+
+<div class="hero-socials" aria-label="Social links">
+<a href="https://github.com/brycemaxheimer" aria-label="GitHub" title="GitHub">
+<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+</a>
+<a href="https://www.linkedin.com/in/bryce-maxheimer" aria-label="LinkedIn" title="LinkedIn">
+<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+</a>
+<a href="https://www.giac.org/certified-professional/Bryce-Maxheimer/243145" aria-label="GIAC verification" title="GIAC verification">
+<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+</a>
+<a href="mailto:brycemaxheimer2@gmail.com" aria-label="Email" title="Email">
+<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+</a>
+</div>
+
+</aside>
+
+
+<div class="hero-content">
+
+<section id="about">
+<h3 class="section-title">About</h3>
+<p>I'm a cybersecurity professional with 4+ years of hands-on experience across threat hunting, digital forensics, network defense, and cyber infrastructure management. Most of that came through the U.S. Marine Corps as a Cyber Warfare Operator before transitioning to the federal civilian side.</p>
+<p>Today I'm a <strong>Shift Lead at the Defense Finance and Accounting Service</strong> &mdash; running detection workflows in Microsoft Sentinel, building automated toolsets, authoring SIEM rules, and performing digital forensics in support of investigations. I hold an active <strong>TS/SCI clearance with CI Polygraph</strong>.</p>
+<p>I write tools because most SOC work is repetitive and the parts that aren't repetitive deserve more attention than the dashboard usually gives them. The <a href="/projects/#soc-dashboard">SOC Dashboard</a> project on this site is a self-contained lab environment built around that idea &mdash; a place to drill on hunting queries against realistic data without burning ingest budget on a production tenant.</p>
+<p>Currently pursuing a B.S. in Applied Cybersecurity at SANS Technology Institute (expected 2027-01).</p>
 </section>
 
-<section>
-<h2>Featured projects</h2>
-<ul class="card-list">
-<li class="card">
-<h3><a href="/projects/#soc-dashboard">SOC Dashboard</a></h3>
-<div class="meta">PowerShell &middot; SQLite &middot; KQL &middot; threat intel</div>
-<p class="summary">A self-contained lab for practicing SOC workflows - KQL translator, threat-intel enrichment, MITRE ATT&amp;CK lookups, and a daily CVE/KEV/EPSS brief generator.</p>
-<span class="tag">powershell</span><span class="tag">soc</span><span class="tag">kql</span>
-</li>
-<li class="card">
-<h3><a href="/kql/">Browser-based KQL playground</a></h3>
-<div class="meta">JavaScript &middot; SQLite WASM &middot; in progress</div>
-<p class="summary">Run KQL queries against sample log tables entirely in your browser. Same translation logic as the PowerShell module, no backend.</p>
-<span class="tag">kql</span><span class="tag">wasm</span><span class="tag">interactive</span>
-</li>
-</ul>
-<p style="margin-top:1.2rem"><a href="/projects/">All projects &rarr;</a></p>
+
+<section id="experience">
+<h3 class="section-title">Experience</h3>
+
+<article class="exp-entry">
+<div class="date">2025-07 &mdash;<br>Present</div>
+<div>
+<h4>Shift Lead &middot; <span class="role-org">DFAS</span></h4>
+<p class="summary">Lead detection and response on a federal civilian SOC. Identify suspicious traffic patterns through Microsoft Sentinel, drive incident investigations, and process 30,000+ alerts while establishing baseline behavior. Built automated toolsets, authored SIEM rules, and performed digital forensics in support of active investigations.</p>
+<div class="stack">
+<span class="tag">sentinel</span><span class="tag">kql</span><span class="tag">forensics</span><span class="tag">soc</span>
+</div>
+</div>
+</article>
+
+<article class="exp-entry">
+<div class="date">2022-02 &mdash;<br>2025-05</div>
+<div>
+<h4>Cyber Security Analyst / Infrastructure Architect &middot; <span class="role-org">USMC Defensive Cyber Operations</span></h4>
+<p class="summary">Conducted advanced threat hunting using Splunk and Security Onion with custom dashboards and queries to surface anomalous traffic. Led digital forensic investigations using Autopsy and FTK. Architected and maintained virtual infrastructure supporting 100+ users and enforced STIG compliance across legacy and modernized systems.</p>
+<div class="stack">
+<span class="tag">splunk</span><span class="tag">security-onion</span><span class="tag">autopsy</span><span class="tag">ftk</span><span class="tag">stig</span>
+</div>
+</div>
+</article>
+
+<a href="/resume/" class="section-cta">View full resume</a>
 </section>
 
-<section>
-<h2>Latest posts</h2>
-<ul class="card-list">
-<li class="card">
-<h3><a href="/blog/posts/welcome-to-the-lab.html">Welcome to the lab</a></h3>
-<div class="meta">2026-04-30 &middot; meta</div>
-<p class="summary">Why I'm publishing in the open, how this site is built, and what's coming next.</p>
-</li>
-</ul>
-<p style="margin-top:1.2rem"><a href="/blog/">All posts &rarr;</a></p>
+
+<section id="projects">
+<h3 class="section-title">Projects</h3>
+
+<article class="proj-card">
+<div class="label">Featured<br>project</div>
+<div>
+<h4><a href="/projects/#soc-dashboard">SOC Dashboard</a></h4>
+<p class="summary">A self-contained lab environment built around realistic Sentinel-shaped sample data. Includes a KQL translator (<code>Invoke-KqlPS</code>), threat-intel enrichment wrappers (AbuseIPDB, urlscan.io, NIST NVD, Team Cymru, NSRL), MITRE ATT&amp;CK lookups, and a daily CVE/KEV/EPSS brief generator.</p>
+<div class="stack"><span class="tag">powershell</span><span class="tag">sqlite</span><span class="tag">kql</span><span class="tag">soc</span></div>
+</div>
+</article>
+
+<article class="proj-card">
+<div class="label">In<br>progress</div>
+<div>
+<h4><a href="/kql/">Browser-based KQL playground</a></h4>
+<p class="summary">The <code>Invoke-KqlPS</code> translator ported to JavaScript with sample log tables loaded into a WASM SQLite. Type a KQL query, see results, no backend. Most security portfolios show <em>screenshots</em> of dashboards. This shows the engine.</p>
+<div class="stack"><span class="tag">javascript</span><span class="tag">sql.js</span><span class="tag">kql</span></div>
+</div>
+</article>
+
+<a href="/projects/" class="section-cta">All projects</a>
 </section>
 
-<section>
-<h2>Recent recognition</h2>
-<ul class="card-list">
-<li class="card">
-<h3>National Cyber League - Diamond 1 Medal</h3>
-<div class="meta">2025-11 &middot; 97th percentile, Fall 2025 Individual Game</div>
-<p class="summary">Top-tier finish across OSINT, cryptography, log analysis, network traffic, scanning, web exploitation, and forensics.</p>
-</li>
-<li class="card">
-<h3>Navy and Marine Corps Achievement Medal</h3>
-<div class="meta">2024-11 &middot; USMC Defensive Cyber Operations</div>
-<p class="summary">Awarded for analyzing 3.5M+ daily packets across critical networks and leading defensive cyberspace operations in Okinawa.</p>
-</li>
-</ul>
+
+<section id="recognition">
+<h3 class="section-title">Recognition</h3>
+
+<article class="exp-entry">
+<div class="date">2025-11</div>
+<div>
+<h4>National Cyber League &middot; <span class="role-org">Diamond 1 Medal</span></h4>
+<p class="summary">97th percentile in the Fall 2025 Individual Game across OSINT, cryptography, password cracking, log analysis, network traffic analysis, scanning, web exploitation, and forensics.</p>
+</div>
+</article>
+
+<article class="exp-entry">
+<div class="date">2024-11</div>
+<div>
+<h4>Navy and Marine Corps Achievement Medal</h4>
+<p class="summary">Awarded for analyzing 3.5M+ daily packets across critical networks and leading defensive cyberspace operations in Okinawa, JP.</p>
+</div>
+</article>
+
+<article class="exp-entry">
+<div class="date">2023-05</div>
+<div>
+<h4>Meritorious Mast</h4>
+<p class="summary">Recognized for exemplary leadership of 75 Marines during the Joint Cyber Analysis Course.</p>
+</div>
+</article>
+
 </section>
 
+</div>
+
+</div>
 </main>
 
 <footer class="site-footer">
-<div class="container">
+<div class="container-wide">
 &copy; 2026 Bryce Maxheimer &middot;
 <a href="https://github.com/brycemaxheimer">GitHub</a> &middot;
 <a href="https://www.linkedin.com/in/bryce-maxheimer">LinkedIn</a> &middot;
 <a href="/about.html">Contact</a>
 </div>
 </footer>
+
+<script src="/js/sidebar-nav.js" defer></script>
 
 </body>
 </html>
