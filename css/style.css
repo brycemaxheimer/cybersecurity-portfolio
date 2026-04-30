@@ -1,11 +1,6 @@
 /* ============================================================
    brycemaxheimer.com  -  shared stylesheet
-   Adopts the "sage" theme palette from the user's web-app:
-   deep teal-black surfaces, mint accents (mint-deep as primary
-   for darker green), coral and amber for warm punctuation.
-   Layout: classic top nav PLUS Chiang-style sticky-sidebar
-   on the homepage (.dynamic-shell). Sub-pages keep their
-   single-column structure and inherit the new palette.
+   Adopts the "sage" theme palette from my app in progress.
    ============================================================ */
 
 :root {
