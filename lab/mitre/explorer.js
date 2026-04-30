@@ -29,7 +29,10 @@
         });
     }
 
-    function setStatus(msg) { els.status.textContent = msg; }
+    // Status accepts a small bit of HTML (we use <strong>count</strong>).
+    // Setting innerHTML is safe here because the only dynamic value is rows.length,
+    // an integer. No user input ever reaches this function.
+    function setStatus(msg) { els.status.innerHTML = msg; }
 
     /* -------- Data loading -------- */
     fetch('/lab/mitre/data.json')
