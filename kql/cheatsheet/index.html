@@ -439,11 +439,9 @@
                 font-weight: 600;
             }
         
-/* ========================================================
-   Dark theme override — matches brycemaxheimer.com palette.
-   Overrides both CSS-variable values AND hardcoded light
-   colors used in callouts/cards/tables.
-   ======================================================== */
+    /* 
+    Dark theme override — matches palette.
+    */
 :root {
   --bg: #071512;
   --bg-soft: #0f231c;
@@ -532,6 +530,26 @@ h3 { color: var(--accent) !important; }
 .toc { background: var(--bg-soft) !important; border-color: var(--rule) !important; }
 .toc a { color: var(--ink-soft); }
 .toc a:hover { color: var(--accent); }
+
+/* Fix exercise cards in dark mode */
+.exercise {
+    background: var(--bg-soft) !important;
+    color: var(--ink) !important;
+    border-color: var(--rule) !important;
+}
+
+.exercise h3 {
+    color: var(--ink) !important;
+}
+
+.exercise details summary {
+    color: var(--accent) !important;
+}
+
+.exercise .badge {
+    background: var(--accent) !important;
+    color: #071512 !important; /* improves contrast vs white */
+}
 
 /* Print-only adjustments preserved */
 @media print { body { background: white; color: black; } }
