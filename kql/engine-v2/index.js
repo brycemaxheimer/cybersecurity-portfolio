@@ -86,6 +86,76 @@ function rewriteTimePredicates(kql) {
     return kql;
 }
 
+
+// ----------------------------------------------------------------------------
+// v1-compat rewrites
+//
+// The v1 engine doesn't understand certain KQL surface bits. Until those
+// land natively in v2, we string-rewrite them into v1-friendly equivalents
+// before forwarding the query. Each rewrite is conservative -- it leaves
+// non-matching text alone -- so unrelated queries are unaffected.
+// ----------------------------------------------------------------------------
+
+// 1) Raw-string literals  @"..." / @'...'  ->  "..." / '...'
+//    KQL @-prefix means "treat backslashes literally". v1 string literals
+//    don't interpret backslash escapes anyway, so dropping the @ is safe.
+function _rewriteRawStrings(kql) {
+    kql = kql.replace(/@"([^"]*)"/g, '"$1"');
+    kql = kql.replace(/@'([^']*)'/g, "'$1'");
+    return kql;
+}
+
+// 2) Case-insensitive equality   col =~ x   ->   tolower(col) == tolower(x)
+//    Same for !~.  v1 supports tolower; both sides get lowered so equality
+//    is case-insensitive in the same sense KQL =~ defines.
+function _rewriteEqTilde(kql) {
+    const operandRe = '(@?"[^"]*"|@?\'[^\']*\'|[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*)';
+    const lhsRe = '([A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*)';
+    kql = kql.replace(new RegExp(lhsRe + '\\s*=~\\s*' + operandRe, 'g'),
+        (_m, l, r) => /^(where|extend|summarize|project|order|sort|by|asc|desc|let|join|on|kind|union|parse|with|take|top|distinct|render|materialize|and|or|not|in|between|true|false|null)$/.test(l) ? _m : `tolower(${l}) == tolower(${r})`);
+    kql = kql.replace(new RegExp(lhsRe + '\\s*!~\\s*' + operandRe, 'g'),
+        (_m, l, r) => /^(where|extend|summarize|project|order|sort|by|asc|desc|let|join|on|kind|union|parse|with|take|top|distinct|render|materialize|and|or|not|in|between|true|false|null)$/.test(l) ? _m : `tolower(${l}) != tolower(${r})`);
+    return kql;
+}
+
+// 3) Strip type annotations inside `parse ... with` clauses.
+//    Form: User:string  /  Port:int  ->  User  /  Port
+//    Affects parse, parse-where, and the `extract` family. Conservative:
+//    we only strip a known list of KQL types, never guess.
+function _rewriteParseTypes(kql) {
+    return kql.replace(
+        /(\b[A-Za-z_][A-Za-z0-9_]*)\s*:\s*(string|int|long|real|datetime|bool|guid|dynamic|timespan)\b/g,
+        '$1');
+}
+
+// 4) Inline simple `let X = dynamic([...]);`  references in `has_any/has_all/in`.
+//    Q12-style pattern. We don't try to inline lets that bind tabular
+//    expressions (Q16/17/18/21/23/29) -- those need real v2 support.
+function _rewriteDynamicLetInline(kql) {
+    // Find: let NAME = dynamic([ ... ]);
+    const re = /let\s+([A-Za-z_][A-Za-z0-9_]*)\s*=\s*dynamic\(\s*\[([^\]]*)\]\s*\)\s*;\s*/g;
+    let inlines = {};
+    kql = kql.replace(re, (_m, name, items) => {
+        inlines[name] = items.trim();
+        return '';
+    });
+    if (Object.keys(inlines).length === 0) return kql;
+    // Replace `has_any (NAME)` / `has_all (NAME)` / `in (NAME)` with the items list.
+    for (const [name, items] of Object.entries(inlines)) {
+        const refRe = new RegExp('(has_any|has_all|in|!in)\\s*\\(\\s*' + name + '\\s*\\)', 'g');
+        kql = kql.replace(refRe, (_m, op) => `${op} (${items})`);
+    }
+    return kql;
+}
+
+function _v1CompatRewrite(kql) {
+    kql = _rewriteRawStrings(kql);
+    kql = _rewriteEqTilde(kql);
+    kql = _rewriteParseTypes(kql);
+    kql = _rewriteDynamicLetInline(kql);
+    return kql;
+}
+
 // ----------------------------------------------------------------------------
 // Public API
 // ----------------------------------------------------------------------------
@@ -107,7 +177,8 @@ const api = {
         await _initRuntime();
         const t0 = performance.now();
 
-        const rewritten = rewriteTimePredicates(kqlString);
+        let rewritten = rewriteTimePredicates(kqlString);
+        rewritten = _v1CompatRewrite(rewritten);
 
         // Native v2 path (parser stub returns allNative=false today -> always falls through).
         try {
