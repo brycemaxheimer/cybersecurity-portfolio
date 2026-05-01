@@ -555,19 +555,12 @@ async function init() {
         await Promise.all([loadAssets(), loadScoresFromDb(), loadDraftsFromDb()]);
     } catch (e) {
         $('#editor-status').textContent = 'Asset load failed: ' + (e.message || e);
+        $('#q-list').innerHTML = `<li style="color:var(--coral); padding:0.5rem;">Failed to load questions: ${escapeHtml(e.message || String(e))}</li>`;
         return;
     }
 
-    $('#editor-status').textContent = 'Initializing KQL engine...';
-    try {
-        STATE.engine = await resolveEngine();
-    } catch (e) {
-        $('#editor-status').textContent = 'Engine init failed: ' + (e.message || e);
-        return;
-    }
-    $('#editor-status').textContent = 'Ready.';
-
-    // Wire UI
+    // Wire UI + render the question list immediately so the user can see and
+    // navigate questions even if the engine takes a moment (or fails) to init.
     document.querySelectorAll('.filter-btn').forEach(b =>
         b.addEventListener('click', () => setFilter(b.dataset.filter)));
     $('#btn-run').addEventListener('click', () => runQuery(false));
@@ -579,14 +572,25 @@ async function init() {
         if (STATE.activeNum) persistDraft(STATE.activeNum, e.target.value);
     });
 
-    // Render initial state
     renderQuestionList();
     renderQuestionDetail();
     renderEditor();
-
-    // Auto-select question 1 if nothing else
     if (!STATE.activeNum && STATE.questions.length) {
         selectQuestion(STATE.questions[0].number);
+    }
+
+    $('#editor-status').textContent = 'Initializing KQL engine...';
+    $('#btn-run').disabled = true;
+    $('#btn-submit').disabled = true;
+    try {
+        STATE.engine = await resolveEngine();
+        $('#editor-status').textContent = 'Ready.';
+        $('#btn-run').disabled = false;
+        $('#btn-submit').disabled = !!(STATE.activeNum && STATE.scores[String(STATE.activeNum)]);
+    } catch (e) {
+        $('#editor-status').textContent = 'Engine init failed: ' + (e.message || e);
+        // Leave the run buttons disabled but keep the question list usable so
+        // the user can read prompts and at least review the curriculum.
     }
 }
 

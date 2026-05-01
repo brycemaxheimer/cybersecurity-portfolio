@@ -49,7 +49,7 @@ async function getSqlDb() {
         if (!window.initSqlJs) {
             throw new Error('sql.js (window.initSqlJs) not loaded; check the script tag in the page.');
         }
-        const SQL = await window.initSqlJs({ locateFile: () => '/kql/sql-wasm.wasm' });
+        const SQL = await window.initSqlJs({ locateFile: () => '/kql/vendor/sql-wasm.wasm' });
         const db = new SQL.Database();
 
         // Load the same CSVs the playground uses, in the same order.
