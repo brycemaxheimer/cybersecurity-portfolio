@@ -701,3 +701,165 @@ article.post p { margin: 0 0 1.1rem; color: var(--text-1); }
     * { transition: none !important; animation: none !important; }
     html { scroll-behavior: auto; }
 }
+
+/* ============================================================
+   THEMES
+   The default :root above is "Mint Grove" (deep teal + mint).
+   Five additional palettes are selectable by setting
+   data-theme="..." on the <html> element. The /customize/ page
+   provides the picker UI and persists the choice in localStorage.
+   ============================================================ */
+
+/* Tokyo Night - the definitive dark, navy-indigo with violet accent */
+[data-theme="tokyo"] {
+    --bg-0: #10142a;
+    --bg-deep: #0a0c18;
+    --bg-1: #0d1120;
+    --bg-2: #181e3a;
+    --bg-3: #202748;
+    --surface: #0d1120;
+    --surface-2: #202748;
+    --text-0: #d8defc;
+    --text-soft: #b3bee0;
+    --text-1: #b3bee0;
+    --text-2: #9aa5d8;
+    --text-3: #5e6a96;
+    --muted: #9aa5d8;
+    --muted-deep: #5e6a96;
+    --line: rgba(140, 160, 255, 0.13);
+    --line-strong: rgba(140, 160, 255, 0.30);
+    --border: rgba(140, 160, 255, 0.13);
+    --border-strong: rgba(140, 160, 255, 0.30);
+    --mint: #9b8eff;
+    --mint-deep: #7c6dfc;
+    --mint-darker: #5547d4;
+    --coral: #f07088;
+    --amber: #f0c060;
+    --code-bg: #0c1020;
+    --code-text: #b3bee0;
+}
+
+/* Sage Grove - warm amber-earth dark, cozy and grounded */
+[data-theme="sage"] {
+    --bg-0: #28201a;
+    --bg-deep: #1c1510;
+    --bg-1: #211a12;
+    --bg-2: #342b22;
+    --bg-3: #433529;
+    --surface: #211a12;
+    --surface-2: #433529;
+    --text-0: #ede0cc;
+    --text-soft: #d4c5a8;
+    --text-1: #d4c5a8;
+    --text-2: #c8b898;
+    --text-3: #8a7a62;
+    --muted: #c8b898;
+    --muted-deep: #8a7a62;
+    --line: rgba(200, 180, 140, 0.16);
+    --line-strong: rgba(200, 180, 140, 0.32);
+    --border: rgba(200, 180, 140, 0.16);
+    --border-strong: rgba(200, 180, 140, 0.32);
+    --mint: #e0c266;
+    --mint-deep: #d4a84a;
+    --mint-darker: #a37e2c;
+    --coral: #d06858;
+    --amber: #d4a84a;
+    --code-bg: #190f06;
+    --code-text: #c8b898;
+}
+
+/* Pure Dark - true charcoal OLED, premium, no color cast */
+[data-theme="dark"] {
+    --bg-0: #0e0e0e;
+    --bg-deep: #060606;
+    --bg-1: #101010;
+    --bg-2: #181818;
+    --bg-3: #242424;
+    --surface: #101010;
+    --surface-2: #242424;
+    --text-0: #ebebeb;
+    --text-soft: #c4c4c4;
+    --text-1: #c4c4c4;
+    --text-2: #a0a0a0;
+    --text-3: #585858;
+    --muted: #a0a0a0;
+    --muted-deep: #585858;
+    --line: rgba(255, 255, 255, 0.07);
+    --line-strong: rgba(255, 255, 255, 0.18);
+    --border: rgba(255, 255, 255, 0.07);
+    --border-strong: rgba(255, 255, 255, 0.18);
+    --mint: #6dffa8;
+    --mint-deep: #3dd68c;
+    --mint-darker: #28a868;
+    --coral: #ff5f6d;
+    --amber: #ffd166;
+    --code-bg: #080808;
+    --code-text: #c4c4c4;
+}
+
+/* Soft Light - pearl off-white, comfortable for daytime use */
+[data-theme="light"] {
+    --bg-0: #e8eef6;
+    --bg-deep: #d0d8e4;
+    --bg-1: #f4f7fb;
+    --bg-2: #dde5ef;
+    --bg-3: #ccd8e8;
+    --surface: #f4f7fb;
+    --surface-2: #dde5ef;
+    --text-0: #1a2535;
+    --text-soft: #2c3e54;
+    --text-1: #2c3e54;
+    --text-2: #3e5268;
+    --text-3: #70869a;
+    --muted: #3e5268;
+    --muted-deep: #70869a;
+    --line: rgba(28, 46, 72, 0.14);
+    --line-strong: rgba(28, 46, 72, 0.30);
+    --border: rgba(28, 46, 72, 0.14);
+    --border-strong: rgba(28, 46, 72, 0.30);
+    --mint: #2ea88a;
+    --mint-deep: #22876a;
+    --mint-darker: #196350;
+    --coral: #b03c3c;
+    --amber: #907224;
+    --code-bg: #ffffff;
+    --code-text: #2c3e54;
+}
+[data-theme="light"] body {
+    /* The dark-theme radial-gradient washes don't read well on cream;
+       drop them and let the surface color carry the weight. */
+    background-image: none;
+}
+
+/* High Contrast - WCAG AA, pure black with amber accent */
+[data-theme="contrast"] {
+    --bg-0: #000000;
+    --bg-deep: #000000;
+    --bg-1: #040404;
+    --bg-2: #111111;
+    --bg-3: #1e1e1e;
+    --surface: #040404;
+    --surface-2: #1e1e1e;
+    --text-0: #ffffff;
+    --text-soft: #f0f0f0;
+    --text-1: #f0f0f0;
+    --text-2: #e0e0e0;
+    --text-3: #909090;
+    --muted: #e0e0e0;
+    --muted-deep: #909090;
+    --line: rgba(255, 255, 255, 0.55);
+    --line-strong: rgba(255, 255, 255, 0.80);
+    --border: rgba(255, 255, 255, 0.55);
+    --border-strong: rgba(255, 255, 255, 0.80);
+    --mint: #ffea00;
+    --mint-deep: #ffbf00;
+    --mint-darker: #cc9900;
+    --coral: #ff1744;
+    --amber: #ffea00;
+    --code-bg: #000000;
+    --code-text: #ffffff;
+}
+[data-theme="contrast"] body {
+    /* High-contrast mode wants no atmospheric noise. */
+    background-image: none;
+}

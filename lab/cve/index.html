@@ -5,13 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="CVE / KEV / EPSS Browser - browse CISA Known Exploited Vulnerabilities with EPSS exploit-prediction scores. Cached snapshot, no API calls.">
 <title>CVE / KEV / EPSS Browser &mdash; Bryce Maxheimer</title>
+<script>(function(){try{var t=localStorage.getItem('siteTheme');if(t&&t!=='mint')document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 <link rel="stylesheet" href="/css/style.css">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <style>
 .cve-page { max-width: 1240px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
 .cve-page h1 { margin: 0 0 0.4rem; }
 .cve-page .subhead { color: var(--text-1); max-width: 70ch; margin: 0 0 1.5rem; }
-
 .cve-meta {
     display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
     font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-3);
@@ -22,10 +22,8 @@
 .cve-meta .pill strong { color: var(--mint-deep); font-family: var(--font-sans); font-weight: 600; }
 .cve-meta .pill.ransom strong { color: var(--coral); }
 .cve-meta .pill.high   strong { color: var(--amber); }
-
 .cve-shell { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 1.5rem; }
 @media (max-width: 900px) { .cve-shell { grid-template-columns: 1fr; } }
-
 .cve-sidebar { display: flex; flex-direction: column; gap: 1.2rem; align-self: start; }
 @media (min-width: 901px) {
     .cve-sidebar { position: sticky; top: 80px; max-height: calc(100vh - 100px); overflow-y: auto; padding-right: 0.4rem; }
@@ -35,7 +33,6 @@
     font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
     margin: 0 0 0.6rem; padding: 0; border: none;
 }
-
 .cve-search {
     width: 100%; padding: 0.65rem 0.9rem;
     background: var(--code-bg); color: var(--text-0);
@@ -43,14 +40,12 @@
     font-family: var(--font-sans); font-size: 0.95rem;
 }
 .cve-search:focus { outline: none; border-color: var(--mint-deep); box-shadow: 0 0 0 3px rgba(70,208,154,0.15); }
-
 .cve-select {
     width: 100%; padding: 0.5rem 0.7rem;
     background: var(--surface); color: var(--text-0);
     border: 1px solid var(--line); border-radius: var(--radius);
     font-family: var(--font-sans); font-size: 0.88rem;
 }
-
 .cve-toggle {
     display: flex; align-items: center; gap: 0.6rem;
     padding: 0.5rem 0.7rem;
@@ -60,14 +55,12 @@
 }
 .cve-toggle input { margin: 0; cursor: pointer; }
 .cve-toggle:hover { border-color: var(--mint-deep); }
-
 .cve-slider-row {
     display: flex; align-items: center; gap: 0.6rem;
     font-family: var(--font-mono); font-size: 0.82rem; color: var(--text-2);
 }
 .cve-slider-row input[type=range] { flex: 1 1 auto; accent-color: var(--mint-deep); }
 .cve-slider-row .value { color: var(--mint-deep); min-width: 40px; text-align: right; }
-
 .clear-btn {
     font-family: var(--font-sans); font-size: 0.82rem;
     padding: 0.4rem 0.8rem;
@@ -76,10 +69,7 @@
     cursor: pointer;
 }
 .clear-btn:hover { border-color: var(--coral); }
-
-/* Results list */
 .cve-list { display: flex; flex-direction: column; gap: 0.5rem; }
-
 .cve-item {
     background: var(--surface); border: 1px solid var(--line);
     border-radius: var(--radius-lg); padding: 0.9rem 1.2rem;
@@ -88,7 +78,6 @@
 .cve-item:hover { border-color: var(--mint-deep); background: var(--surface-2); }
 .cve-item summary { list-style: none; cursor: pointer; }
 .cve-item summary::-webkit-details-marker { display: none; }
-
 .cve-row {
     display: grid;
     grid-template-columns: 130px 1fr auto auto;
@@ -96,7 +85,6 @@
     align-items: baseline;
 }
 @media (max-width: 700px) { .cve-row { grid-template-columns: 1fr; gap: 0.3rem; } }
-
 .cve-id-badge {
     font-family: var(--font-mono); font-size: 0.82rem;
     color: var(--mint-deep); font-weight: 700;
@@ -130,7 +118,6 @@
 .cve-epss.epss-low    { color: var(--text-3); }
 .cve-epss.epss-med    { color: var(--amber); border-color: rgba(233, 198, 109, 0.3); }
 .cve-epss.epss-high   { color: var(--coral); border-color: rgba(239, 146, 115, 0.4); background: rgba(239, 146, 115, 0.05); }
-
 .ransom-badge {
     display: inline-block;
     font-family: var(--font-mono); font-size: 0.7rem;
@@ -144,7 +131,6 @@
     letter-spacing: 0.05em;
     font-weight: 700;
 }
-
 .cve-detail {
     margin-top: 1rem; padding-top: 1rem;
     border-top: 1px solid var(--line);
@@ -173,7 +159,6 @@
     font-family: var(--font-mono); font-size: 0.86rem;
     color: var(--text-1); word-break: break-word;
 }
-
 .cve-status {
     font-family: var(--font-mono); font-size: 0.82rem;
     color: var(--text-3); padding: 0.4rem 0;
@@ -183,10 +168,7 @@
     padding: 3rem 1rem; text-align: center;
     color: var(--text-2); font-family: var(--font-sans);
 }
-
-.cve-sort {
-    display: flex; gap: 0.3rem; flex-wrap: wrap;
-}
+.cve-sort { display: flex; gap: 0.3rem; flex-wrap: wrap; }
 .cve-sort button {
     flex: 1 1 auto;
     font-family: var(--font-sans); font-size: 0.82rem;
@@ -215,6 +197,7 @@
 <a href="/certs/">Certs</a>
 <a href="/projects/">Projects</a>
 <a href="/lab/" class="active">Lab</a>
+<a href="/customize/">Customize</a>
 <a href="/writeups/">Writeups</a>
 <a href="/blog/">Blog</a>
 </nav>
@@ -246,56 +229,50 @@ with the page; no API calls.
 <div class="cve-shell">
 
 <aside class="cve-sidebar">
-    <input type="search" id="q" class="cve-search" placeholder="Search CVE ID, vendor, product, name&hellip;" autocomplete="off">
+<input type="search" id="q" class="cve-search" placeholder="Search CVE ID, vendor, product, name&hellip;" autocomplete="off">
 
-    <div>
-        <h4>Sort</h4>
-        <div class="cve-sort" id="sort">
-            <button data-sort="dateAdded" class="active">Date added</button>
-            <button data-sort="epss">EPSS</button>
-            <button data-sort="dueDate">Due date</button>
-        </div>
-    </div>
+<div>
+<h4>Sort</h4>
+<div class="cve-sort" id="sort">
+<button data-sort="dateAdded" class="active">Date added</button>
+<button data-sort="epss">EPSS</button>
+<button data-sort="dueDate">Due date</button>
+</div>
+</div>
 
-    <div>
-        <h4>Vendor</h4>
-        <select class="cve-select" id="vendor">
-            <option value="">All vendors</option>
-        </select>
-    </div>
+<div>
+<h4>Vendor</h4>
+<select class="cve-select" id="vendor">
+<option value="">All vendors</option>
+</select>
+</div>
 
-    <div>
-        <h4>Filters</h4>
-        <label class="cve-toggle">
-            <input type="checkbox" id="ransom-only">
-            <span>Ransomware-linked only</span>
-        </label>
-        <label class="cve-toggle" style="margin-top: 0.4rem">
-            <input type="checkbox" id="recent-only">
-            <span>Added in last 90 days</span>
-        </label>
-    </div>
+<div>
+<h4>Filters</h4>
+<label class="cve-toggle"><input type="checkbox" id="ransom-only"><span>Ransomware-linked only</span></label>
+<label class="cve-toggle" style="margin-top: 0.4rem"><input type="checkbox" id="recent-only"><span>Added in last 90 days</span></label>
+</div>
 
-    <div>
-        <h4>EPSS minimum</h4>
-        <div class="cve-slider-row">
-            <input type="range" id="epss-min" min="0" max="100" value="0">
-            <span class="value" id="epss-min-val">0%</span>
-        </div>
-    </div>
+<div>
+<h4>EPSS minimum</h4>
+<div class="cve-slider-row">
+<input type="range" id="epss-min" min="0" max="100" value="0">
+<span class="value" id="epss-min-val">0%</span>
+</div>
+</div>
 
-    <button class="clear-btn" id="clear">Clear filters</button>
+<button class="clear-btn" id="clear">Clear filters</button>
 
-    <p style="font-size:0.78rem; color: var(--text-3); font-family: var(--font-mono); line-height: 1.5; margin: 0;">
+<p style="font-size:0.78rem; color: var(--text-3); font-family: var(--font-mono); line-height: 1.5; margin: 0;">
 Sources: <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" style="color: var(--text-2)">CISA KEV catalog</a> &middot;
 <a href="https://www.first.org/epss/" style="color: var(--text-2)">FIRST EPSS</a>.
 Refreshed at build time via <code>refresh-feeds.ps1</code>.
-    </p>
+</p>
 </aside>
 
 <div>
-    <div class="cve-status" id="status">Loading data&hellip;</div>
-    <div class="cve-list" id="list"></div>
+<div class="cve-status" id="status">Loading data&hellip;</div>
+<div class="cve-list" id="list"></div>
 </div>
 
 </div>

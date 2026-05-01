@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Browser Lab - interactive security tools running entirely in your browser. KQL playground, MITRE ATT&CK explorer, CVE/KEV browser, threat intel walkthroughs.">
-<title>Browser Lab &mdash; Bryce Maxheimer</title>
+<title>Browser Lab - Bryce Maxheimer</title>
+<script>(function(){try{var t=localStorage.getItem('siteTheme');if(t&&t!=='mint')document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 <link rel="stylesheet" href="/css/style.css">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <style>
@@ -15,88 +16,51 @@
     margin: 2rem 0;
 }
 .lab-card {
-    display: flex;
-    flex-direction: column;
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-lg);
-    padding: 1.4rem 1.5rem;
-    text-decoration: none;
-    color: inherit;
+    display: flex; flex-direction: column;
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius-lg); padding: 1.4rem 1.5rem;
+    text-decoration: none; color: inherit;
     transition: border-color 0.2s, background 0.2s, transform 0.2s;
-    border: 1px solid var(--line);
 }
 .lab-card:hover {
-    border-color: var(--mint-deep);
-    background: var(--surface-2);
-    transform: translateY(-2px);
+    border-color: var(--mint-deep); background: var(--surface-2); transform: translateY(-2px);
 }
 .lab-card.is-coming { opacity: 0.7; }
 .lab-card.is-coming:hover { transform: none; cursor: default; }
-
 .lab-card .header-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.7rem;
-    margin-bottom: 0.6rem;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 0.7rem; margin-bottom: 0.6rem;
 }
 .lab-card h3 {
-    margin: 0;
-    font-size: 1.1rem;
-    font-family: var(--font-display);
-    color: var(--text-0);
+    margin: 0; font-size: 1.1rem;
+    font-family: var(--font-display); color: var(--text-0);
 }
-
 .status-badge {
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding: 0.18rem 0.55rem;
-    border-radius: 3px;
-    flex-shrink: 0;
+    font-family: var(--font-mono); font-size: 0.7rem; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 0.18rem 0.55rem; border-radius: 3px; flex-shrink: 0;
 }
 .status-live    { background: rgba(70, 208, 154, 0.12);  color: var(--mint-deep);  border: 1px solid rgba(70, 208, 154, 0.30); }
 .status-demo    { background: rgba(233, 198, 109, 0.10); color: var(--amber);     border: 1px solid rgba(233, 198, 109, 0.30); }
 .status-soon    { background: rgba(105, 134, 121, 0.12); color: var(--text-3);    border: 1px solid rgba(105, 134, 121, 0.30); }
 .status-pending { background: rgba(239, 146, 115, 0.10); color: var(--coral);     border: 1px solid rgba(239, 146, 115, 0.30); }
-
 .lab-card .summary {
-    color: var(--text-1);
-    font-size: 0.95rem;
-    line-height: 1.55;
-    margin: 0 0 1rem;
-    flex: 1 1 auto;
+    color: var(--text-1); font-size: 0.95rem; line-height: 1.55;
+    margin: 0 0 1rem; flex: 1 1 auto;
 }
 .lab-card .stack {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.3rem;
-    margin-top: auto;
-    font-family: var(--font-mono);
-    font-size: 0.74rem;
+    display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: auto;
+    font-family: var(--font-mono); font-size: 0.74rem;
 }
 .lab-card .stack span {
-    padding: 0.1rem 0.5rem;
-    border-radius: 3px;
-    background: var(--bg-1);
-    border: 1px solid var(--line);
-    color: var(--text-2);
+    padding: 0.1rem 0.5rem; border-radius: 3px;
+    background: var(--bg-1); border: 1px solid var(--line); color: var(--text-2);
 }
-
-.lab-section {
-    margin: 3rem 0 1.5rem;
-}
+.lab-section { margin: 3rem 0 1.5rem; }
 .lab-rationale {
-    background: var(--bg-1);
-    border-left: 3px solid var(--mint-deep);
-    padding: 0.9rem 1.2rem;
-    border-radius: 0 var(--radius) var(--radius) 0;
-    color: var(--text-1);
-    font-size: 0.95rem;
-    line-height: 1.6;
+    background: var(--bg-1); border-left: 3px solid var(--mint-deep);
+    padding: 0.9rem 1.2rem; border-radius: 0 var(--radius) var(--radius) 0;
+    color: var(--text-1); font-size: 0.95rem; line-height: 1.6;
     margin: 1rem 0 0;
 }
 .lab-rationale strong { color: var(--mint); }
@@ -113,6 +77,7 @@
 <a href="/certs/">Certs</a>
 <a href="/projects/">Projects</a>
 <a href="/lab/" class="active">Lab</a>
+<a href="/customize/">Customize</a>
 <a href="/writeups/">Writeups</a>
 <a href="/blog/">Blog</a>
 </nav>
@@ -132,8 +97,7 @@ without touching a real Sentinel tenant or burning my API quotas.
 <strong>How this works.</strong> Where possible, tools run fully in your browser
 &mdash; data is bundled with the page or fetched once on load. For tools that
 ordinarily depend on rate-limited third-party APIs (threat intel lookups), I ship
-a recorded walkthrough instead of live calls, so you can see how the tooling
-behaves without any of us hitting an API limit. The CVE/KEV/EPSS browser is
+a recorded walkthrough instead of live calls. The CVE/KEV/EPSS browser is
 backed by a snapshot of the public feeds, refreshed on a schedule.
 </div>
 
@@ -164,8 +128,7 @@ common ~80% of operators &mdash; <code>where</code>, <code>summarize</code>,
 <p class="summary">
 Browse Enterprise ATT&amp;CK techniques, sub-techniques, threat groups, software,
 and mitigations. Search by ID / name / detection text, filter by tactic and
-platform, jump between cross-references. STIX bundle slimmed at build time and
-shipped with the page &mdash; no MITRE API calls.
+platform, jump between cross-references. STIX bundle slimmed at build time.
 </p>
 <div class="stack"><span>mitre</span><span>attack</span><span>stix</span><span>javascript</span></div>
 </a>
@@ -203,8 +166,8 @@ storage. "Send to playground" passes the query straight to the engine.
 </div>
 <p class="summary">
 Browser shell for a curated catalog of pre-built KQL hunts. Search, click to
-expand, copy or send to the playground. The catalog itself is empty for now &mdash;
-shape is wired up; entries land in <code>/lab/templates/data.json</code> later.
+expand, copy or send to the playground. Shape is wired up; entries land in
+<code>/lab/templates/data.json</code> later.
 </p>
 <div class="stack"><span>kql</span><span>catalog</span><span>hunting</span></div>
 </a>
