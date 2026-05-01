@@ -103,7 +103,7 @@ function Render-Page {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="$description">
     <title>$title — Bryce Maxheimer</title>
-    <script>(function(){try{var t=localStorage.getItem('siteTheme');if(t&&t!=='mint')document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+    <script>(function(){try{var t=localStorage.getItem('siteTheme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 </head>
@@ -118,10 +118,10 @@ function Render-Page {
             <a href="/certs/">Certs</a>
             <a href="/projects/">Projects</a>
             <a href="/lab/">Lab</a>
-            <a href="/customize/">Customize</a>
             <a href="/writeups/">Writeups</a>
             <a href="/kql/">KQL</a>
             <a href="/blog/" class="active">Blog</a>
+            <a href="/customize/">Customize</a>
         </nav>
     </div>
 </header>

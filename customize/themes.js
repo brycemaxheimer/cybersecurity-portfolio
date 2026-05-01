@@ -8,12 +8,20 @@
 
     var STORAGE_KEY = 'siteTheme';
 
+    var DEFAULT_THEME = 'dark';
+
     var THEMES = [
+        {
+            id: 'dark',
+            name: 'Pure Dark',
+            desc: 'The default. True charcoal OLED, no color cast, crisp contrast. Easy on the eyes and on AMOLED screens.',
+            palette: ['#0e0e0e', '#101010', '#3dd68c', '#ff5f6d', '#ffd166', '#ebebeb'],
+            mini: { bg: '#101010', text: '#c4c4c4', accent: '#3dd68c', heading: '#ebebeb', border: 'rgba(255,255,255,0.07)', code: '#080808' },
+        },
         {
             id: 'mint',
             name: 'Mint Grove',
-            desc: 'The default. Deep teal-mint surfaces, warm parchment text, mint accents. Reads best in low ambient light.',
-            // Six swatches: bg-0, surface, mint-deep, coral, amber, text-0
+            desc: 'Deep teal-mint surfaces, warm parchment text, mint accents. The original site palette.',
             palette: ['#071512', '#0f231c', '#46d09a', '#ef9273', '#e9c66d', '#f4fbf6'],
             mini: { bg: '#0f231c', text: '#d4e5dc', accent: '#46d09a', heading: '#f4fbf6', border: 'rgba(157,223,199,0.20)', code: '#050f0d' },
         },
@@ -32,18 +40,11 @@
             mini: { bg: '#211a12', text: '#d4c5a8', accent: '#d4a84a', heading: '#ede0cc', border: 'rgba(200,180,140,0.16)', code: '#190f06' },
         },
         {
-            id: 'dark',
-            name: 'Pure Dark',
-            desc: 'True charcoal OLED. No color cast, crisp contrast, neutral. Easy on AMOLED screens.',
-            palette: ['#0e0e0e', '#101010', '#3dd68c', '#ff5f6d', '#ffd166', '#ebebeb'],
-            mini: { bg: '#101010', text: '#c4c4c4', accent: '#3dd68c', heading: '#ebebeb', border: 'rgba(255,255,255,0.07)', code: '#080808' },
-        },
-        {
             id: 'light',
             name: 'Soft Light',
-            desc: 'Pearl off-white with warm depth. Comfortable, not clinical. For daylight viewing.',
-            palette: ['#e8eef6', '#f4f7fb', '#22876a', '#b03c3c', '#907224', '#1a2535'],
-            mini: { bg: '#f4f7fb', text: '#2c3e54', accent: '#22876a', heading: '#1a2535', border: 'rgba(28,46,72,0.14)', code: '#ffffff' },
+            desc: 'Off-white with warm depth. Darkened bg + ink for better contrast in bright environments.',
+            palette: ['#d4dbe5', '#e0e6ee', '#176048', '#92291f', '#6a5114', '#08111e'],
+            mini: { bg: '#e0e6ee', text: '#182232', accent: '#176048', heading: '#08111e', border: 'rgba(8,17,30,0.20)', code: '#f1f4fa' },
         },
         {
             id: 'contrast',
@@ -67,13 +68,14 @@
 
     function getActive() {
         try {
-            return localStorage.getItem(STORAGE_KEY) || 'mint';
-        } catch (e) { return 'mint'; }
+            return localStorage.getItem(STORAGE_KEY) || DEFAULT_THEME;
+        } catch (e) { return DEFAULT_THEME; }
     }
 
     function setActive(id) {
         try {
-            if (id === 'mint') {
+            if (id === DEFAULT_THEME) {
+                // Default is in :root - no attribute needed.
                 localStorage.removeItem(STORAGE_KEY);
                 document.documentElement.removeAttribute('data-theme');
             } else {
@@ -146,7 +148,7 @@
             });
         });
 
-        resetBtn.addEventListener('click', function () { setActive('mint'); });
+        resetBtn.addEventListener('click', function () { setActive(DEFAULT_THEME); });
     }
 
     init();

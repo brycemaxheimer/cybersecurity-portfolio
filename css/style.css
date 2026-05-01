@@ -4,28 +4,28 @@
    ============================================================ */
 
 :root {
-    /* Surface - deep teal-tinted black */
-    --bg-0:         #071512;
-    --bg-1:         #091813;
-    --bg-2:         #0f231c;
-    --bg-3:         #183229;
+    /* Surface - Pure Dark default (was Mint Grove; swapped 2026-04-30) */
+    --bg-0:         #0e0e0e;
+    --bg-1:         #101010;
+    --bg-2:         #181818;
+    --bg-3:         #242424;
 
     --bg:           var(--bg-0);
-    --bg-deep:      #050f0d;
-    --surface:      var(--bg-2);
+    --bg-deep:      #060606;
+    --surface:      var(--bg-1);
     --surface-2:    var(--bg-3);
 
-    /* Lines - subtle mint-tinted borders */
-    --line:         rgba(157, 223, 199, 0.16);
-    --line-strong: rgba(157, 223, 199, 0.30);
+    /* Lines - subtle white-tinted borders */
+    --line:         rgba(255, 255, 255, 0.07);
+    --line-strong:  rgba(255, 255, 255, 0.18);
     --border:       var(--line);
     --border-strong:var(--line-strong);
 
     /* Ink */
-    --text-0:       #f4fbf6;
-    --text-1:       #d4e5dc;
-    --text-2:       #90ac9d;
-    --text-3:       #688679;
+    --text-0:       #ebebeb;
+    --text-1:       #c4c4c4;
+    --text-2:       #a0a0a0;
+    --text-3:       #585858;
 
     --text:         var(--text-0);
     --text-soft:    var(--text-1);
@@ -33,16 +33,19 @@
     --muted-deep:   var(--text-3);
 
     /* Accents */
-    --mint:         #8bf0c3;
-    --mint-deep:    #46d09a;
-    --mint-darker:  #2a9b71;
-    --amber:        #e9c66d;
-    --coral:        #ef9273;
+    --mint:         #6dffa8;
+    --mint-deep:    #3dd68c;
+    --mint-darker:  #28a868;
+    --amber:        #ffd166;
+    --coral:        #ff5f6d;
     --lava-deep:    #a02a1e;
 
     /* Code */
-    --code-bg:      var(--bg-deep);
-    --code-text:    #c4e5d5;
+    --code-bg:      #080808;
+    --code-text:    #c4c4c4;
+
+    /* Header background - per-theme override */
+    --header-bg:    rgba(6, 6, 6, 0.88);
 
     /* Type */
     --font-sans:    -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -137,8 +140,9 @@ main { padding: 2rem 0 5rem; }
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-top: 0.85rem;
-    padding-bottom: 0.85rem;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0.85rem 1.5rem;
 }
 
 .brand {
@@ -770,64 +774,64 @@ article.post p { margin: 0 0 1.1rem; color: var(--text-1); }
     --code-text: #c8b898;
 }
 
-/* Pure Dark - true charcoal OLED, premium, no color cast */
-[data-theme="dark"] {
-    --header-bg: rgba(6, 6, 6, 0.88);
-    --bg-0: #0e0e0e;
-    --bg-deep: #060606;
-    --bg-1: #101010;
-    --bg-2: #181818;
-    --bg-3: #242424;
-    --surface: #101010;
-    --surface-2: #242424;
-    --text-0: #ebebeb;
-    --text-soft: #c4c4c4;
-    --text-1: #c4c4c4;
-    --text-2: #a0a0a0;
-    --text-3: #585858;
-    --muted: #a0a0a0;
-    --muted-deep: #585858;
-    --line: rgba(255, 255, 255, 0.07);
-    --line-strong: rgba(255, 255, 255, 0.18);
-    --border: rgba(255, 255, 255, 0.07);
-    --border-strong: rgba(255, 255, 255, 0.18);
-    --mint: #6dffa8;
-    --mint-deep: #3dd68c;
-    --mint-darker: #28a868;
-    --coral: #ff5f6d;
-    --amber: #ffd166;
-    --code-bg: #080808;
-    --code-text: #c4c4c4;
+/* Mint Grove - the original site palette (was default; now opt-in) */
+[data-theme="mint"] {
+    --header-bg: rgba(7, 21, 18, 0.78);
+    --bg-0:         #071512;
+    --bg-1:         #091813;
+    --bg-2:         #0f231c;
+    --bg-3:         #183229;
+    --bg-deep:      #050f0d;
+    --surface:      #0f231c;
+    --surface-2:    #183229;
+    --line:         rgba(157, 223, 199, 0.16);
+    --line-strong:  rgba(157, 223, 199, 0.30);
+    --border:       rgba(157, 223, 199, 0.16);
+    --border-strong:rgba(157, 223, 199, 0.30);
+    --text-0:       #f4fbf6;
+    --text-1:       #d4e5dc;
+    --text-2:       #90ac9d;
+    --text-3:       #688679;
+    --text-soft:    #d4e5dc;
+    --muted:        #90ac9d;
+    --muted-deep:   #688679;
+    --mint:         #8bf0c3;
+    --mint-deep:    #46d09a;
+    --mint-darker:  #2a9b71;
+    --coral:        #ef9273;
+    --amber:        #e9c66d;
+    --code-bg:      #050f0d;
+    --code-text:    #c4e5d5;
 }
 
-/* Soft Light - pearl off-white, comfortable for daytime use */
+/* Soft Light - off-white with darker bg + ink for higher contrast */
 [data-theme="light"] {
-    --header-bg: rgba(244, 247, 251, 0.90);
-    --bg-0: #e8eef6;
-    --bg-deep: #d0d8e4;
-    --bg-1: #f4f7fb;
-    --bg-2: #dde5ef;
-    --bg-3: #ccd8e8;
-    --surface: #f4f7fb;
-    --surface-2: #dde5ef;
-    --text-0: #1a2535;
-    --text-soft: #2c3e54;
-    --text-1: #2c3e54;
-    --text-2: #3e5268;
-    --text-3: #70869a;
-    --muted: #3e5268;
-    --muted-deep: #70869a;
-    --line: rgba(28, 46, 72, 0.14);
-    --line-strong: rgba(28, 46, 72, 0.30);
-    --border: rgba(28, 46, 72, 0.14);
-    --border-strong: rgba(28, 46, 72, 0.30);
-    --mint: #2ea88a;
-    --mint-deep: #22876a;
-    --mint-darker: #196350;
-    --coral: #b03c3c;
-    --amber: #907224;
-    --code-bg: #ffffff;
-    --code-text: #2c3e54;
+    --header-bg: rgba(212, 219, 229, 0.92);
+    --bg-0: #d4dbe5;
+    --bg-deep: #c4cdd8;
+    --bg-1: #e0e6ee;
+    --bg-2: #cfd6e0;
+    --bg-3: #bec7d3;
+    --surface: #e0e6ee;
+    --surface-2: #cfd6e0;
+    --text-0: #08111e;
+    --text-soft: #182232;
+    --text-1: #182232;
+    --text-2: #2c3a50;
+    --text-3: #4d617a;
+    --muted: #2c3a50;
+    --muted-deep: #4d617a;
+    --line: rgba(8, 17, 30, 0.20);
+    --line-strong: rgba(8, 17, 30, 0.36);
+    --border: rgba(8, 17, 30, 0.20);
+    --border-strong: rgba(8, 17, 30, 0.36);
+    --mint: #1e7a5c;
+    --mint-deep: #176048;
+    --mint-darker: #104533;
+    --coral: #92291f;
+    --amber: #6a5114;
+    --code-bg: #f1f4fa;
+    --code-text: #182232;
 }
 [data-theme="light"] body {
     /* The dark-theme radial-gradient washes don't read well on cream;
