@@ -584,6 +584,12 @@ async function init() {
     $('#btn-submit').disabled = true;
     try {
         STATE.engine = await resolveEngine();
+        // Pin the engine's now() to the gold contract's anchor so `ago(24h)`
+        // resolves against the storyline window instead of the user's wall
+        // clock. Without this, every ago()/now() query returns 0 rows.
+        if (STATE.goldMeta && STATE.goldMeta.anchor && typeof STATE.engine.setAnchor === 'function') {
+            STATE.engine.setAnchor(STATE.goldMeta.anchor);
+        }
         $('#editor-status').textContent = 'Ready.';
         $('#btn-run').disabled = false;
         $('#btn-submit').disabled = !!(STATE.activeNum && STATE.scores[String(STATE.activeNum)]);
