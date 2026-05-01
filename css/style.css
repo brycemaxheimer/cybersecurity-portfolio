@@ -125,7 +125,7 @@ main { padding: 2rem 0 5rem; }
    Top nav (kept across all pages)
    ------------------------------------------------------------ */
 .site-header {
-    background: rgba(7, 21, 18, 0.78);
+    background: var(--header-bg, rgba(7, 21, 18, 0.78));
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--line);
     position: sticky;
@@ -712,6 +712,7 @@ article.post p { margin: 0 0 1.1rem; color: var(--text-1); }
 
 /* Tokyo Night - the definitive dark, navy-indigo with violet accent */
 [data-theme="tokyo"] {
+    --header-bg: rgba(10, 12, 24, 0.82);
     --bg-0: #10142a;
     --bg-deep: #0a0c18;
     --bg-1: #0d1120;
@@ -741,6 +742,7 @@ article.post p { margin: 0 0 1.1rem; color: var(--text-1); }
 
 /* Sage Grove - warm amber-earth dark, cozy and grounded */
 [data-theme="sage"] {
+    --header-bg: rgba(28, 21, 16, 0.85);
     --bg-0: #28201a;
     --bg-deep: #1c1510;
     --bg-1: #211a12;
@@ -770,6 +772,7 @@ article.post p { margin: 0 0 1.1rem; color: var(--text-1); }
 
 /* Pure Dark - true charcoal OLED, premium, no color cast */
 [data-theme="dark"] {
+    --header-bg: rgba(6, 6, 6, 0.88);
     --bg-0: #0e0e0e;
     --bg-deep: #060606;
     --bg-1: #101010;
@@ -799,6 +802,7 @@ article.post p { margin: 0 0 1.1rem; color: var(--text-1); }
 
 /* Soft Light - pearl off-white, comfortable for daytime use */
 [data-theme="light"] {
+    --header-bg: rgba(244, 247, 251, 0.90);
     --bg-0: #e8eef6;
     --bg-deep: #d0d8e4;
     --bg-1: #f4f7fb;
@@ -833,6 +837,7 @@ article.post p { margin: 0 0 1.1rem; color: var(--text-1); }
 
 /* High Contrast - WCAG AA, pure black with amber accent */
 [data-theme="contrast"] {
+    --header-bg: rgba(0, 0, 0, 0.98);
     --bg-0: #000000;
     --bg-deep: #000000;
     --bg-1: #040404;
