@@ -183,11 +183,23 @@ function rowSignature(row) {
     return row.map(normalizeCell).join('');
 }
 
+// PowerShell 5.1's ConvertTo-Json serializes nested arrays as
+// `{value: [...], Count: N}` envelopes instead of bare arrays. Build-GoldResults.ps1
+// emits the gold file through ConvertTo-Json so most rows look like:
+//     { "value": ["2026-04-29T04:00:40Z","SVR-WEB-01",...], "Count": 4 }
+// Detect that shape and unwrap to the bare positional array.
+function _unwrapRow(r) {
+    if (r && !Array.isArray(r) && Array.isArray(r.value) && (typeof r.Count === 'number' || 'Count' in r)) {
+        return r.value;
+    }
+    return r;
+}
+
 function compareResults(userResult, goldRecord) {
     const userCols = userResult.columns || [];
     const userRows = userResult.rows    || [];
     const goldCols = (goldRecord.columns || []).map(c => c.name || c);
-    const goldRows = goldRecord.rows || [];
+    const goldRows = (goldRecord.rows || []).map(_unwrapRow);
 
     const sharedCols = goldCols.filter(c => userCols.includes(c));
     const userIdx = new Map(userCols.map((c, i) => [c, i]));
