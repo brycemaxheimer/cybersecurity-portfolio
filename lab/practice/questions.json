@@ -1,0 +1,242 @@
+[
+  {
+    "number": 1,
+    "title": "Last successful logons",
+    "type": "GEN",
+    "difficulty": "easy",
+    "prompt": "On `SecurityEvent`, return the 10 most recent successful interactive logons (EventID 4624, LogonType 2) over the last 24 hours. Project just `TimeGenerated`, `Computer`, `Account`, `IpAddress`. Most recent first.",
+    "sampleQuery": null
+  },
+  {
+    "number": 2,
+    "title": "SSH activity from the last hour",
+    "type": "GEN",
+    "difficulty": "easy",
+    "prompt": "On `Syslog`, return all rows from the last hour where `ProcessName` is exactly `sshd-session`. Project `TimeGenerated`, `Computer`, `SyslogMessage`. Sort oldest first.",
+    "sampleQuery": null
+  },
+  {
+    "number": 3,
+    "title": "Bad timestamp comparison",
+    "type": "FIX",
+    "difficulty": "easy",
+    "prompt": "This query was supposed to return SecurityEvents from after April 25 2026. The analyst is getting a confusing error. Explain the problem and fix it.",
+    "sampleQuery": "SecurityEvent\n| where TimeGenerated > \"2026-04-25\"\n| take 50"
+  },
+  {
+    "number": 4,
+    "title": "Failed logons by account, exclude machines",
+    "type": "GEN",
+    "difficulty": "easy",
+    "prompt": "On `SecurityEvent`, count `EventID 4625` rows in the last 24 hours by `Account`. Exclude machine accounts (those that end in `$`) and any empty Account. Show only accounts with **5 or more** failures, descending.",
+    "sampleQuery": null
+  },
+  {
+    "number": 5,
+    "title": "Devices that ran chrome.exe",
+    "type": "GEN",
+    "difficulty": "easy",
+    "prompt": "On `DeviceProcessEvents`, list the **distinct** device names in the last 24 hours where `FileName` is `chrome.exe`. Treat case loosely.",
+    "sampleQuery": null
+  },
+  {
+    "number": 6,
+    "title": "EventID on the wrong table",
+    "type": "BOTH",
+    "difficulty": "easy",
+    "prompt": "The analyst wrote this and is confused that it returns zero rows even though there are known logons on `WS-FINANCE-01`:",
+    "sampleQuery": "DeviceLogonEvents\n| where TimeGenerated > ago(1h)\n| where EventID == 4624"
+  },
+  {
+    "number": 7,
+    "title": "5-minute timeline of failed logons",
+    "type": "GEN",
+    "difficulty": "easy",
+    "prompt": "On `SecurityEvent`, build a 5-minute timeline of `EventID 4625` over the last 6 hours. One row per bucket with a count, sorted oldest to newest.",
+    "sampleQuery": null
+  },
+  {
+    "number": 8,
+    "title": "Top devices by process volume",
+    "type": "GEN",
+    "difficulty": "easy",
+    "prompt": "On `DeviceProcessEvents` over the last 24 hours, return the top 5 devices by number of process events. Use whichever operator combines sort and limit cleanly.",
+    "sampleQuery": null
+  },
+  {
+    "number": 9,
+    "title": "`has` does not match a substring",
+    "type": "FIX",
+    "difficulty": "easy",
+    "prompt": "The analyst wants any command line that mentions any kind of shell, including embedded in `powershell.exe`. They wrote:",
+    "sampleQuery": "DeviceProcessEvents\n| where TimeGenerated > ago(1d)\n| where ProcessCommandLine has \"shell\""
+  },
+  {
+    "number": 10,
+    "title": "Distinct outbound destinations",
+    "type": "GEN",
+    "difficulty": "easy",
+    "prompt": "On `DeviceNetworkEvents` over the last 1 hour, list the distinct `RemoteIP` values where `RemoteIPType == \"Public\"`. Sort alphabetically.\n\n---",
+    "sampleQuery": null
+  },
+  {
+    "number": 11,
+    "title": "Brute-force candidates",
+    "type": "GEN",
+    "difficulty": "medium",
+    "prompt": "On `SecurityEvent`, find candidates for brute-force in the last 24 hours: group `EventID 4625` rows by both `Account` and `IpAddress`, exclude machine accounts, return groups with \u2265 3 failures, sorted by failure count descending. Include the first and last fail times per group.",
+    "sampleQuery": null
+  },
+  {
+    "number": 12,
+    "title": "Suspicious tool execution via let-list",
+    "type": "GEN",
+    "difficulty": "medium",
+    "prompt": "Use a `let` statement to define a list of suspicious tool names: `mimikatz`, `rubeus`, `impacket`, `bloodhound`. Search `DeviceProcessEvents.ProcessCommandLine` for any of them in the last 24 hours. Project `TimeGenerated`, `DeviceName`, `AccountName`, `FileName`, `ProcessCommandLine`.",
+    "sampleQuery": null
+  },
+  {
+    "number": 13,
+    "title": "Most recent network info per device",
+    "type": "GEN",
+    "difficulty": "medium",
+    "prompt": "From `DeviceNetworkInfo`, for each `DeviceName`, return the entire most-recent row (within the last 7 days). Use `arg_max`.",
+    "sampleQuery": null
+  },
+  {
+    "number": 14,
+    "title": "Mismatched union",
+    "type": "BOTH",
+    "difficulty": "medium",
+    "prompt": "The analyst wants a unified view of \"successful logons\" across `SecurityEvent` (4624) and `DeviceLogonEvents`. They wrote:",
+    "sampleQuery": "union\n    (SecurityEvent | where TimeGenerated > ago(1h) and EventID == 4624),\n    (DeviceLogonEvents | where TimeGenerated > ago(1h) and ActionType == \"LogonSuccess\")\n| project TimeGenerated, Account, IpAddress, Computer"
+  },
+  {
+    "number": 15,
+    "title": "Parse SSH failure messages",
+    "type": "GEN",
+    "difficulty": "medium",
+    "prompt": "On `Syslog` from the last hour, where `ProcessName == \"sshd-session\"` and the message starts with \"Failed password\", use `parse` to extract the **User**, **SourceIP**, and **Port** from messages like:\n```\nFailed password for invalid user test from 198.51.100.55 port 41688 ssh2\n```\nHint: think about how to handle the optional `\"invalid user \"` prefix. Project `TimeGenerated`, `Computer`, `User`, `SourceIP`, `Port`.",
+    "sampleQuery": null
+  },
+  {
+    "number": 16,
+    "title": "Password guess then success",
+    "type": "GEN",
+    "difficulty": "medium",
+    "prompt": "On `SecurityEvent` over the last 24 hours, find pairs where the **same** `Account`, `IpAddress`, and `Computer` had **at least 3 failures (4625) followed within 5 minutes by a success (4624)**. This is the walkthrough pattern from the guide. Return one row per `(Account, IpAddress, Computer)` with `FailCount`, `FirstFail`, `Success`. Order by `Success` desc.",
+    "sampleQuery": null
+  },
+  {
+    "number": 17,
+    "title": "Default join silently drops rows",
+    "type": "FIX",
+    "difficulty": "medium",
+    "prompt": "The analyst is enriching DeviceLogonEvents with DeviceNetworkInfo and getting fewer rows than expected:",
+    "sampleQuery": "let Info = DeviceNetworkInfo\n    | summarize arg_max(TimeGenerated, *) by DeviceName\n    | project DeviceName, IPAddresses, MacAddress;\nDeviceLogonEvents\n| where TimeGenerated > ago(1h) and ActionType == \"LogonSuccess\"\n| join (Info) on DeviceName\n| project TimeGenerated, DeviceName, AccountName, IPAddresses"
+  },
+  {
+    "number": 18,
+    "title": "Cross-table correlation",
+    "type": "GEN",
+    "difficulty": "medium",
+    "prompt": "Find devices that, in the last hour, **both**: (a) had a process executed whose `ProcessCommandLine` contains the term `EncodedCommand`, **and** (b) had an outbound `ConnectionSuccess` to a public RemoteIP. Return one row per device with the count of each.",
+    "sampleQuery": null
+  },
+  {
+    "number": 19,
+    "title": "Severity buckets with case()",
+    "type": "GEN",
+    "difficulty": "medium",
+    "prompt": "On `Syslog` over the last 24 hours, use `extend` with `case()` to add a column `Band` based on `SeverityLevel`: `info` and `notice` \u2192 `\"low\"`; `warning` \u2192 `\"medium\"`; `err`, `crit`, `alert`, `emerg` \u2192 `\"high\"`; anything else \u2192 `\"unknown\"`. Then summarize a count by `Computer` and `Band`.",
+    "sampleQuery": null
+  },
+  {
+    "number": 20,
+    "title": "tolower kills index use",
+    "type": "BOTH",
+    "difficulty": "medium",
+    "prompt": "Microsoft's KQL best-practice docs say this query is slow:",
+    "sampleQuery": "SecurityEvent\n| where TimeGenerated > ago(1h)\n| where tolower(Account) == \"corp\\\\bryce\""
+  },
+  {
+    "number": 21,
+    "title": "First-time-seen process hash",
+    "type": "GEN",
+    "difficulty": "hard",
+    "prompt": "On `DeviceProcessEvents`, find process executions in the last 1 hour whose `(DeviceName, FileName, SHA256)` triplet did **not** appear anywhere in the prior 30 days (excluding the recent 1-hour window itself). Project `TimeGenerated`, `DeviceName`, `AccountName`, `FileName`, `SHA256`, `ProcessCommandLine`. This is the `leftanti` baseline pattern from the guide.",
+    "sampleQuery": null
+  },
+  {
+    "number": 22,
+    "title": "Long base64-ish tokens in PowerShell",
+    "type": "GEN",
+    "difficulty": "hard",
+    "prompt": "On `DeviceProcessEvents` over the last 24 hours where `FileName =~ \"powershell.exe\"`, split each `ProcessCommandLine` on whitespace, expand to one token per row, and keep only tokens that match the regex `^[A-Za-z0-9+/=]{100,}$` (long base64-ish blobs). Project `TimeGenerated`, `DeviceName`, the matched `Token`, and the original `ProcessCommandLine`.",
+    "sampleQuery": null
+  },
+  {
+    "number": 23,
+    "title": "Double-materialize",
+    "type": "BOTH",
+    "difficulty": "hard",
+    "prompt": "Audit the following query. It runs but it is slower than it should be \u2014 it works the same `SecurityEvent` scan twice. Identify the issue (calling out the operator that is being misused) and rewrite it.",
+    "sampleQuery": "let LogonEvents = materialize(\n    SecurityEvent\n    | where TimeGenerated > ago(24h)\n    | where Account !endswith \"$\" and isnotempty(Account)\n    | where EventID in (4624, 4625, 4634)\n);\nlet ProcessEvents = materialize(\n    SecurityEvent\n    | where TimeGenerated > ago(24h)\n    | where Account !endswith \"$\" and isnotempty(Account)\n    | where EventID == 4688\n);\nunion LogonEvents, ProcessEvents\n| summarize count() by Account, EventID"
+  },
+  {
+    "number": 24,
+    "title": "Incidents containing a given alert",
+    "type": "GEN",
+    "difficulty": "hard",
+    "prompt": "On `SecurityIncident`, the column `AlertIds` is `dynamic` and holds a JSON array of alert IDs. Find incidents whose `AlertIds` array contains the value `\"alert-002\"`. Hint: use `mv-expand` (or the `array_index_of` style if you prefer). Project `IncidentNumber`, `Title`, `Severity`, `AlertIds`.",
+    "sampleQuery": null
+  },
+  {
+    "number": 25,
+    "title": "Hourly success/failure counts side by side",
+    "type": "GEN",
+    "difficulty": "hard",
+    "prompt": "On `SecurityEvent` over the last 24 hours, build one row per `(Computer, hourly bucket)` with two columns: `Successes = countif(EventID == 4624)` and `Failures = countif(EventID == 4625)`. Exclude machine accounts. Sort by `Computer` then time.",
+    "sampleQuery": null
+  },
+  {
+    "number": 26,
+    "title": "Dynamic field returning zero rows",
+    "type": "BOTH",
+    "difficulty": "hard",
+    "prompt": "The analyst wants risky sign-ins from Russia (`countryOrRegion == \"RU\"`) inside `LocationDetails` (which is `dynamic` JSON) and wrote:",
+    "sampleQuery": "SigninLogs\n| where TimeGenerated > ago(1d)\n| where LocationDetails.countryOrRegion == \"RU\""
+  },
+  {
+    "number": 27,
+    "title": "The most recent process per device, with everything",
+    "type": "GEN",
+    "difficulty": "hard",
+    "prompt": "On `DeviceProcessEvents` over the last 24 hours, return one row per `DeviceName` showing the most recent process: include all columns from that row, not just the timestamp. Then `project` down to just `TimeGenerated`, `DeviceName`, `AccountName`, `FileName`, `ProcessCommandLine`.",
+    "sampleQuery": null
+  },
+  {
+    "number": 28,
+    "title": "Password spray",
+    "type": "GEN",
+    "difficulty": "hard",
+    "prompt": "On `SecurityEvent` over the last 24 hours, detect possible password-spray: a single source `IpAddress` causing `EventID 4625` failures against **3 or more distinct accounts** (excluding machine accounts) in any 1-hour bin. Return `IpAddress`, the time bucket, the distinct-account count, and a sample list of up to 10 of the targeted accounts.",
+    "sampleQuery": null
+  },
+  {
+    "number": 29,
+    "title": "First-seen file path on a device today",
+    "type": "GEN",
+    "difficulty": "hard",
+    "prompt": "Define a 7-day baseline (excluding today's 1-hour window) of `(DeviceName, FolderPath, FileName)` from `DeviceFileEvents`. Then find file-creation events in the last 1 hour that are not in the baseline. Project `TimeGenerated`, `DeviceName`, `FolderPath`, `FileName`, `InitiatingProcessFileName`. Order by time desc.",
+    "sampleQuery": null
+  },
+  {
+    "number": 30,
+    "title": "Brittle parse pattern",
+    "type": "BOTH",
+    "difficulty": "hard",
+    "prompt": "The analyst is using this parse to extract the user from sshd-session \"Failed password\" lines:",
+    "sampleQuery": "Syslog\n| where ProcessName == \"sshd-session\" and SyslogMessage startswith \"Failed password\"\n| parse SyslogMessage with \"Failed password for \" User \" from \" SourceIP \" port \" Port:int *\n| project TimeGenerated, User, SourceIP, Port"
+  }
+]

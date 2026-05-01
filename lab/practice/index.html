@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="KQL Practice - 30 hand-authored questions, dual-engine validated against Azure Data Explorer. Submit once, get scored on correctness, refinement, and speed.">
+<title>KQL Practice &mdash; Bryce Maxheimer</title>
+<script>(function(){try{var t=localStorage.getItem('siteTheme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/lab/practice/practice.css">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+</head>
+<body>
+
+<header class="site-header">
+<div class="container-wide">
+<a href="/" class="brand">Bryce Maxheimer</a>
+<nav class="nav">
+<a href="/about.html">About</a>
+<a href="/resume/">Resume</a>
+<a href="/certs/">Certs</a>
+<a href="/projects/">Projects</a>
+<a href="/lab/" class="active">Lab</a>
+<a href="/writeups/">Writeups</a>
+<a href="/kql/">KQL</a>
+<a href="/blog/">Blog</a>
+<a href="/customize/">Customize</a>
+</nav>
+</div>
+</header>
+
+<main class="container-wide practice-main">
+
+    <div class="practice-header">
+        <h1>KQL Practice</h1>
+        <p class="practice-tagline">
+            30 hand-authored questions, dual-engine validated against Azure Data
+            Explorer. Submit once per question. Graded on correctness, refinement,
+            and speed.
+        </p>
+    </div>
+
+    <div class="practice-shell">
+
+        <!-- LEFT PANE: question list -->
+        <aside class="practice-sidebar" id="question-list">
+            <div class="sidebar-header">
+                <h3>Questions</h3>
+                <div class="score-summary" id="score-summary">0 / 30</div>
+            </div>
+            <div class="filter-row">
+                <button class="filter-btn is-active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="easy">Easy</button>
+                <button class="filter-btn" data-filter="medium">Medium</button>
+                <button class="filter-btn" data-filter="hard">Hard</button>
+            </div>
+            <ol class="q-list" id="q-list"></ol>
+        </aside>
+
+        <!-- RIGHT PANE: question detail + editor + results -->
+        <section class="practice-main-pane">
+
+            <div class="q-detail" id="q-detail">
+                <div class="placeholder">
+                    Pick a question on the left to begin.
+                </div>
+            </div>
+
+            <div class="editor-wrap">
+                <div class="editor-toolbar">
+                    <span class="toolbar-label">Your KQL</span>
+                    <div class="toolbar-actions">
+                        <button class="btn btn-secondary" id="btn-reset" type="button" title="Restore the question's starter (or empty if none)">Reset</button>
+                        <button class="btn btn-secondary" id="btn-run"   type="button" title="Run without locking your score">Test Run</button>
+                        <button class="btn btn-primary"   id="btn-submit" type="button" title="Lock your final score for this question">Submit</button>
+                    </div>
+                </div>
+                <textarea class="editor" id="editor" spellcheck="false"
+                    placeholder="// type your KQL here..."></textarea>
+                <div class="editor-status" id="editor-status">Ready.</div>
+            </div>
+
+            <div class="results-panel" id="results-panel">
+                <div class="results-empty">
+                    <em>No run yet. Hit Test Run when you've got a query worth checking.</em>
+                </div>
+            </div>
+
+        </section>
+    </div>
+
+    <hr style="margin-top: 3rem;">
+    <p style="color: var(--muted); font-size: 0.9rem; max-width: 70ch;">
+        These questions and their gold answers are dual-validated against
+        Azure Data Explorer using the harness at
+        <a href="https://github.com/brycemaxheimer/cybersecurity-portfolio/tree/main/SOC%20Dashboard">SOC Dashboard / KQL Test Lab</a>.
+        The grading engine running in your browser is a port of <code>Invoke-KqlPS.ps1</code> &mdash;
+        the same interpreter that produced the gold contract.
+        See the <a href="/kql/">KQL playground</a> for free-form exploration.
+    </p>
+</main>
+
+<footer class="site-footer">
+<div class="container-wide">
+&copy; 2026 Bryce Maxheimer &middot;
+<a href="https://github.com/brycemaxheimer">GitHub</a> &middot;
+<a href="/about.html">Contact</a>
+</div>
+</footer>
+
+<!-- sql.js for the underlying SQLite (already on the site at /kql/sql-wasm.js) -->
+<script src="/kql/sql-wasm.js"></script>
+<!-- Engine v2: KQL interpreter ported from Invoke-KqlPS.ps1 -->
+<script type="module" src="/kql/engine-v2/index.js"></script>
+<!-- Practice page controller -->
+<script type="module" src="/lab/practice/practice.js"></script>
+
+</body>
+</html>
