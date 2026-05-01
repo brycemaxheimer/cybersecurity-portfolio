@@ -3,10 +3,144 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Visual KQL Builder - dropdown-driven KQL composition tool.">
+<meta name="description" content="Visual KQL Builder - dropdown-driven KQL composition tool. Generates queries you can copy or send straight to the playground.">
 <title>KQL Builder &mdash; Bryce Maxheimer</title>
 <link rel="stylesheet" href="/css/style.css">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<style>
+.kb-page { max-width: 1240px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
+.kb-page h1 { margin: 0 0 0.4rem; }
+.kb-page .subhead { color: var(--text-1); max-width: 70ch; margin: 0 0 1.5rem; }
+
+.kb-shell { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 1.5rem; }
+@media (max-width: 1000px) { .kb-shell { grid-template-columns: 1fr; } }
+
+.kb-form-card,
+.kb-output-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 1.4rem 1.5rem;
+}
+.kb-form-card h3,
+.kb-output-card h3 {
+    font-size: 0.78rem; font-family: var(--font-mono); color: var(--mint-deep);
+    font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+    margin: 0 0 0.8rem;
+}
+.kb-form-card h3:not(:first-child) { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--line); }
+
+.kb-field { margin: 0 0 0.8rem; }
+.kb-field label {
+    display: block; margin-bottom: 0.3rem;
+    color: var(--text-1); font-size: 0.88rem;
+}
+.kb-field label .hint { color: var(--text-3); font-family: var(--font-mono); font-size: 0.78rem; }
+
+.kb-input, .kb-select {
+    width: 100%; padding: 0.5rem 0.7rem;
+    background: var(--code-bg); color: var(--text-0);
+    border: 1px solid var(--line); border-radius: var(--radius);
+    font-family: var(--font-sans); font-size: 0.92rem;
+}
+.kb-input:focus, .kb-select:focus { outline: none; border-color: var(--mint-deep); box-shadow: 0 0 0 2px rgba(70,208,154,0.18); }
+.kb-input.mono { font-family: var(--font-mono); font-size: 0.86rem; }
+
+.kb-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr) minmax(0, 1.2fr) auto;
+    gap: 0.4rem;
+    margin: 0 0 0.4rem;
+}
+.kb-row .kb-input, .kb-row .kb-select {
+    padding: 0.4rem 0.55rem; font-size: 0.86rem;
+}
+.kb-remove {
+    padding: 0.3rem 0.5rem;
+    background: transparent; color: var(--coral);
+    border: 1px solid var(--line); border-radius: var(--radius);
+    font-family: var(--font-mono); font-size: 0.78rem; cursor: pointer;
+}
+.kb-remove:hover { border-color: var(--coral); }
+
+.kb-add-btn {
+    font-family: var(--font-mono); font-size: 0.82rem;
+    padding: 0.35rem 0.8rem;
+    background: transparent; color: var(--mint-deep);
+    border: 1px dashed var(--line-strong); border-radius: var(--radius);
+    cursor: pointer; margin-top: 0.3rem;
+}
+.kb-add-btn:hover { border-color: var(--mint-deep); border-style: solid; }
+
+.kb-checkbox-group { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.kb-checkbox {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    padding: 0.3rem 0.6rem;
+    background: var(--bg-1); color: var(--text-1);
+    border: 1px solid var(--line); border-radius: 999px;
+    font-family: var(--font-mono); font-size: 0.78rem;
+    cursor: pointer; user-select: none;
+}
+.kb-checkbox input { margin: 0; cursor: pointer; }
+.kb-checkbox.is-checked {
+    color: var(--mint-deep);
+    background: rgba(70, 208, 154, 0.10);
+    border-color: rgba(70, 208, 154, 0.30);
+}
+
+.kb-output {
+    width: 100%; min-height: 320px;
+    background: var(--code-bg); color: var(--code-text);
+    border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 1rem;
+    font-family: var(--font-mono); font-size: 0.92rem;
+    line-height: 1.6; tab-size: 4; resize: vertical;
+}
+.kb-output:focus { outline: none; border-color: var(--mint-deep); }
+
+.kb-output-actions {
+    display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.7rem;
+}
+.kb-btn {
+    font-family: var(--font-sans); font-size: 0.88rem; font-weight: 500;
+    padding: 0.5rem 1rem;
+    background: var(--surface); color: var(--text-1);
+    border: 1px solid var(--line); border-radius: var(--radius);
+    cursor: pointer; transition: all 0.15s;
+    text-decoration: none;
+    display: inline-flex; align-items: center; gap: 0.4rem;
+}
+.kb-btn:hover { border-color: var(--mint-deep); color: var(--mint); text-decoration: none; }
+.kb-btn-primary {
+    background: var(--mint-deep); color: var(--bg-0);
+    border-color: var(--mint-deep); font-weight: 600;
+}
+.kb-btn-primary:hover { background: var(--mint); border-color: var(--mint); color: var(--bg-0); }
+
+.kb-saved {
+    margin-top: 1.2rem; padding-top: 1rem;
+    border-top: 1px solid var(--line);
+}
+.kb-saved-list {
+    list-style: none; padding: 0; margin: 0.5rem 0 0;
+    display: flex; flex-direction: column; gap: 0.3rem;
+    max-height: 180px; overflow-y: auto;
+}
+.kb-saved-list li {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 0.5rem; padding: 0.4rem 0.7rem;
+    background: var(--bg-1); border: 1px solid var(--line); border-radius: var(--radius);
+    font-family: var(--font-mono); font-size: 0.82rem;
+}
+.kb-saved-list .name { color: var(--text-1); cursor: pointer; flex: 1 1 auto; }
+.kb-saved-list .name:hover { color: var(--mint); }
+.kb-saved-list .meta { color: var(--text-3); font-size: 0.74rem; }
+.kb-saved-empty {
+    padding: 0.8rem;
+    color: var(--text-3); font-family: var(--font-mono); font-size: 0.82rem;
+    text-align: center; font-style: italic;
+}
+</style>
 </head>
 <body>
 
@@ -25,44 +159,113 @@
 </div>
 </header>
 
-<main class="container">
+<main class="kb-page">
 
-<div style="font-family: var(--font-mono); font-size: 0.82rem; color: var(--text-3); margin: 1.5rem 0 1rem;">
+<div style="font-family: var(--font-mono); font-size: 0.82rem; color: var(--text-3); margin-bottom: 1rem;">
 <a href="/lab/" style="color: var(--mint-deep); text-decoration: none">&larr; Browser Lab</a>
 </div>
 
 <h1>KQL Builder</h1>
-<p style="color: var(--text-1)">Coming soon.</p>
-
-<p>
-Visual KQL composition tool &mdash; pick a table, an Event ID, a time range, the
-columns you want back, and any filters; the page emits the equivalent KQL and
-lets you copy it (or send it straight to the <a href="/kql/">playground</a>).
+<p class="subhead">
+Pick a table, a time range, and any filters or output columns. The query updates
+live in the box on the right. Copy it, save it, or send it straight to the
+<a href="/kql/">playground</a> for execution against the lab data. Port of my
+<code>KqlBuilder.ps1</code> WinForms module.
 </p>
 
-<h2>What it'll cover</h2>
-<ul>
-    <li>Source table (DeviceLogonEvents, DeviceProcessEvents, SecurityEvent, SigninLogs, etc.)</li>
-    <li>Time range (last 1h / 24h / 7d / custom)</li>
-    <li>EventID and ActionType picker (when the source table has those)</li>
-    <li>Filter rows: column + operator + value, multiple filters AND-ed together</li>
-    <li>Output columns selector (all / pick a subset)</li>
-    <li>Toggle between detailed and summarized output</li>
-    <li>Save and load named queries to local browser storage</li>
-    <li>"Send to playground" button that opens the KQL playground with the query pre-populated</li>
-</ul>
+<div class="kb-shell">
 
-<h2>Origin</h2>
-<p>
-This is a port of my <code>KqlBuilder.ps1</code> WinForms module. The PowerShell
-version uses dropdowns, the same logic; this version replaces the WinForms layer
-with HTML form controls and stores queries in localStorage instead of MS Access.
-</p>
+<div class="kb-form-card">
 
-<hr>
-<p style="color: var(--text-3); font-family: var(--font-mono); font-size: 0.85rem">
-Status: not yet built. Underlying source: <a href="https://github.com/brycemaxheimer/cybersecurity-portfolio/blob/main/SOC%20Dashboard/Modules/KqlBuilder.ps1">SOC Dashboard / Modules / KqlBuilder.ps1</a>.
-</p>
+<h3>Source</h3>
+<div class="kb-field">
+    <label for="kb-table">Table</label>
+    <select class="kb-select" id="kb-table"></select>
+</div>
+
+<h3>Time range</h3>
+<div class="kb-field">
+    <label for="kb-time">Filter on TimeGenerated <span class="hint">(or similar timestamp column if present)</span></label>
+    <select class="kb-select" id="kb-time">
+        <option value="">No time filter</option>
+        <option value="1h">Last 1 hour</option>
+        <option value="24h" selected>Last 24 hours</option>
+        <option value="7d">Last 7 days</option>
+        <option value="30d">Last 30 days</option>
+        <option value="90d">Last 90 days</option>
+    </select>
+</div>
+
+<h3>Filters</h3>
+<div id="kb-filters"></div>
+<button class="kb-add-btn" id="kb-add-filter">+ Add filter</button>
+
+<h3>Output columns</h3>
+<div class="kb-field">
+    <label>Select columns to <code>project</code> <span class="hint">(none = all)</span></label>
+    <div class="kb-checkbox-group" id="kb-columns"></div>
+</div>
+
+<h3>Aggregate / summarize</h3>
+<div class="kb-field">
+    <label class="kb-checkbox" style="background:transparent;border:none;padding:0">
+        <input type="checkbox" id="kb-summarize">
+        <span style="font-family: var(--font-sans); font-size: 0.92rem; color: var(--text-1)">Summarize results by a column</span>
+    </label>
+</div>
+<div id="kb-summarize-options" style="display:none">
+    <div class="kb-field">
+        <label for="kb-agg">Aggregation</label>
+        <select class="kb-select" id="kb-agg">
+            <option value="count()">count()</option>
+            <option value="dcount">dcount(column)</option>
+            <option value="sum">sum(column)</option>
+            <option value="avg">avg(column)</option>
+            <option value="min">min(column)</option>
+            <option value="max">max(column)</option>
+        </select>
+    </div>
+    <div class="kb-field">
+        <label for="kb-agg-col">Aggregate column <span class="hint">(ignored for count())</span></label>
+        <select class="kb-select" id="kb-agg-col"></select>
+    </div>
+    <div class="kb-field">
+        <label for="kb-by">Group by</label>
+        <select class="kb-select" id="kb-by"></select>
+    </div>
+</div>
+
+<h3>Limit</h3>
+<div class="kb-field">
+    <label for="kb-limit">Max rows returned <span class="hint">(via <code>take</code>)</span></label>
+    <input type="number" class="kb-input" id="kb-limit" min="1" max="10000" value="50">
+</div>
+
+</div>
+
+
+<div class="kb-output-card">
+
+<h3>Generated KQL</h3>
+<textarea class="kb-output" id="kb-output" readonly spellcheck="false"></textarea>
+
+<div class="kb-output-actions">
+    <button class="kb-btn kb-btn-primary" id="kb-send">Send to playground &rarr;</button>
+    <button class="kb-btn" id="kb-copy">Copy</button>
+    <button class="kb-btn" id="kb-save">Save&hellip;</button>
+    <button class="kb-btn" id="kb-reset">Reset form</button>
+</div>
+
+<div class="kb-saved">
+    <h3 style="border:none;padding:0;margin-top:0">Saved queries <span style="color:var(--text-3);font-weight:400;letter-spacing:0;text-transform:none;font-family:var(--font-mono);font-size:0.78rem">stored in this browser</span></h3>
+    <ul class="kb-saved-list" id="kb-saved-list">
+        <li class="kb-saved-empty">No saved queries yet.</li>
+    </ul>
+</div>
+
+</div>
+
+</div>
 
 </main>
 
@@ -73,6 +276,10 @@ Status: not yet built. Underlying source: <a href="https://github.com/brycemaxhe
 <a href="/about.html">Contact</a>
 </div>
 </footer>
+
+<!-- Reuses the playground's schema definitions for table/column lookups -->
+<script src="/kql/engine/schema.js"></script>
+<script src="/lab/kql-builder/builder.js" defer></script>
 
 </body>
 </html>

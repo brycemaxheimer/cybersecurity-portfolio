@@ -170,38 +170,51 @@ shipped with the page &mdash; no MITRE API calls.
 <div class="stack"><span>mitre</span><span>attack</span><span>stix</span><span>javascript</span></div>
 </a>
 
+<a class="lab-card" href="/lab/cve/">
+<div class="header-row">
+<h3>CVE / KEV / EPSS Browser</h3>
+<span class="status-badge status-live">Live</span>
+</div>
+<p class="summary">
+Browse the CISA Known Exploited Vulnerabilities catalog with FIRST EPSS scores
+attached. Filter by vendor, ransomware-linkage, EPSS minimum, recency. Snapshot
+shipped with the page; refresh manually via <code>refresh-feeds.ps1</code>.
+</p>
+<div class="stack"><span>cve</span><span>cisa-kev</span><span>epss</span><span>kev</span></div>
+</a>
+
+<a class="lab-card" href="/lab/kql-builder/">
+<div class="header-row">
+<h3>KQL Builder</h3>
+<span class="status-badge status-live">Live</span>
+</div>
+<p class="summary">
+Visual query builder &mdash; pick a table, time range, filters, output
+columns; emit live KQL. Save &amp; load named queries via local browser
+storage. "Send to playground" passes the query straight to the engine.
+</p>
+<div class="stack"><span>kql</span><span>visual-builder</span><span>javascript</span></div>
+</a>
+
+<a class="lab-card" href="/lab/templates/">
+<div class="header-row">
+<h3>KQL Templates</h3>
+<span class="status-badge status-demo">Empty catalog</span>
+</div>
+<p class="summary">
+Browser shell for a curated catalog of pre-built KQL hunts. Search, click to
+expand, copy or send to the playground. The catalog itself is empty for now &mdash;
+shape is wired up; entries land in <code>/lab/templates/data.json</code> later.
+</p>
+<div class="stack"><span>kql</span><span>catalog</span><span>hunting</span></div>
+</a>
+
 </div>
 
 
 <h2 class="lab-section">Coming next</h2>
 
 <div class="lab-grid">
-
-<a class="lab-card is-coming" href="/lab/cve/">
-<div class="header-row">
-<h3>CVE / KEV / EPSS Browser</h3>
-<span class="status-badge status-soon">Coming</span>
-</div>
-<p class="summary">
-Browse recent CVEs alongside CISA Known Exploited Vulnerabilities and FIRST
-EPSS scores. Filter by severity, vendor, exploited-status. Snapshot refreshed
-nightly via a GitHub Action that pulls the public feeds and commits JSON.
-</p>
-<div class="stack"><span>cve</span><span>cisa-kev</span><span>epss</span><span>nightly</span></div>
-</a>
-
-<a class="lab-card is-coming" href="/lab/kql-builder/">
-<div class="header-row">
-<h3>KQL Builder</h3>
-<span class="status-badge status-soon">Coming</span>
-</div>
-<p class="summary">
-Visual query builder &mdash; pick a table, an Event ID, a time range, output
-columns, filters; emit the KQL. Port of my <code>KqlBuilder.ps1</code> WinForms
-module to HTML/JS. Saves &amp; loads to local browser storage.
-</p>
-<div class="stack"><span>kql</span><span>visual-builder</span><span>javascript</span></div>
-</a>
 
 <a class="lab-card is-coming" href="/lab/threat-intel/">
 <div class="header-row">

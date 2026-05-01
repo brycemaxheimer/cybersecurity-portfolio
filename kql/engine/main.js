@@ -181,6 +181,22 @@
         }
     });
 
+    // If the user arrived from the KQL Builder via "Send to playground",
+    // pull the pending query out of sessionStorage and pre-fill the editor.
+    // The Builder sets the hash to #fromBuilder so we know it's intentional.
+    (function pickUpFromBuilder() {
+        if (window.location.hash !== '#fromBuilder') return;
+        try {
+            var pending = sessionStorage.getItem('kqlBuilder.pendingQuery');
+            if (pending) {
+                editor.value = pending;
+                sessionStorage.removeItem('kqlBuilder.pendingQuery');
+                // Clear the hash so refresh doesn't repeat
+                history.replaceState(null, '', window.location.pathname);
+            }
+        } catch (e) { /* private mode etc. */ }
+    })();
+
     wireExamples();
     setStatus('Initializing engine...', 'busy');
     renderEmpty('Loading sample data...');

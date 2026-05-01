@@ -3,10 +3,206 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="CVE / KEV / EPSS browser - cached snapshot of public vulnerability feeds.">
+<meta name="description" content="CVE / KEV / EPSS Browser - browse CISA Known Exploited Vulnerabilities with EPSS exploit-prediction scores. Cached snapshot, no API calls.">
 <title>CVE / KEV / EPSS Browser &mdash; Bryce Maxheimer</title>
 <link rel="stylesheet" href="/css/style.css">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<style>
+.cve-page { max-width: 1240px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
+.cve-page h1 { margin: 0 0 0.4rem; }
+.cve-page .subhead { color: var(--text-1); max-width: 70ch; margin: 0 0 1.5rem; }
+
+.cve-meta {
+    display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-3);
+    margin: 0 0 2rem; padding: 0.6rem 0.8rem;
+    background: var(--bg-1); border: 1px solid var(--line); border-radius: var(--radius);
+}
+.cve-meta .pill { display: inline-flex; align-items: center; gap: 0.4rem; color: var(--text-1); }
+.cve-meta .pill strong { color: var(--mint-deep); font-family: var(--font-sans); font-weight: 600; }
+.cve-meta .pill.ransom strong { color: var(--coral); }
+.cve-meta .pill.high   strong { color: var(--amber); }
+
+.cve-shell { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 1.5rem; }
+@media (max-width: 900px) { .cve-shell { grid-template-columns: 1fr; } }
+
+.cve-sidebar { display: flex; flex-direction: column; gap: 1.2rem; align-self: start; }
+@media (min-width: 901px) {
+    .cve-sidebar { position: sticky; top: 80px; max-height: calc(100vh - 100px); overflow-y: auto; padding-right: 0.4rem; }
+}
+.cve-sidebar h4 {
+    font-size: 0.74rem; font-family: var(--font-mono); color: var(--mint-deep);
+    font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+    margin: 0 0 0.6rem; padding: 0; border: none;
+}
+
+.cve-search {
+    width: 100%; padding: 0.65rem 0.9rem;
+    background: var(--code-bg); color: var(--text-0);
+    border: 1px solid var(--line); border-radius: var(--radius);
+    font-family: var(--font-sans); font-size: 0.95rem;
+}
+.cve-search:focus { outline: none; border-color: var(--mint-deep); box-shadow: 0 0 0 3px rgba(70,208,154,0.15); }
+
+.cve-select {
+    width: 100%; padding: 0.5rem 0.7rem;
+    background: var(--surface); color: var(--text-0);
+    border: 1px solid var(--line); border-radius: var(--radius);
+    font-family: var(--font-sans); font-size: 0.88rem;
+}
+
+.cve-toggle {
+    display: flex; align-items: center; gap: 0.6rem;
+    padding: 0.5rem 0.7rem;
+    background: var(--surface); color: var(--text-1);
+    border: 1px solid var(--line); border-radius: var(--radius);
+    font-size: 0.88rem; cursor: pointer; user-select: none;
+}
+.cve-toggle input { margin: 0; cursor: pointer; }
+.cve-toggle:hover { border-color: var(--mint-deep); }
+
+.cve-slider-row {
+    display: flex; align-items: center; gap: 0.6rem;
+    font-family: var(--font-mono); font-size: 0.82rem; color: var(--text-2);
+}
+.cve-slider-row input[type=range] { flex: 1 1 auto; accent-color: var(--mint-deep); }
+.cve-slider-row .value { color: var(--mint-deep); min-width: 40px; text-align: right; }
+
+.clear-btn {
+    font-family: var(--font-sans); font-size: 0.82rem;
+    padding: 0.4rem 0.8rem;
+    background: transparent; color: var(--coral);
+    border: 1px solid var(--line); border-radius: var(--radius);
+    cursor: pointer;
+}
+.clear-btn:hover { border-color: var(--coral); }
+
+/* Results list */
+.cve-list { display: flex; flex-direction: column; gap: 0.5rem; }
+
+.cve-item {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius-lg); padding: 0.9rem 1.2rem;
+    transition: border-color 0.15s, background 0.15s;
+}
+.cve-item:hover { border-color: var(--mint-deep); background: var(--surface-2); }
+.cve-item summary { list-style: none; cursor: pointer; }
+.cve-item summary::-webkit-details-marker { display: none; }
+
+.cve-row {
+    display: grid;
+    grid-template-columns: 130px 1fr auto auto;
+    gap: 1rem;
+    align-items: baseline;
+}
+@media (max-width: 700px) { .cve-row { grid-template-columns: 1fr; gap: 0.3rem; } }
+
+.cve-id-badge {
+    font-family: var(--font-mono); font-size: 0.82rem;
+    color: var(--mint-deep); font-weight: 700;
+    padding: 0.15rem 0.5rem;
+    background: rgba(70, 208, 154, 0.10);
+    border: 1px solid rgba(70, 208, 154, 0.30);
+    border-radius: 3px;
+    flex-shrink: 0;
+    text-align: center;
+}
+.cve-name {
+    font-family: var(--font-sans); font-size: 0.95rem;
+    color: var(--text-0); line-height: 1.4;
+}
+.cve-name .vendor {
+    color: var(--text-2); font-size: 0.82rem;
+    margin-right: 0.5rem; font-family: var(--font-mono);
+}
+.cve-date {
+    color: var(--text-3); font-family: var(--font-mono);
+    font-size: 0.78rem; white-space: nowrap;
+}
+.cve-epss {
+    font-family: var(--font-mono); font-size: 0.78rem;
+    text-align: right; min-width: 72px;
+    padding: 0.1rem 0.5rem;
+    border-radius: 3px;
+    border: 1px solid var(--line);
+    background: var(--bg-1);
+}
+.cve-epss.epss-low    { color: var(--text-3); }
+.cve-epss.epss-med    { color: var(--amber); border-color: rgba(233, 198, 109, 0.3); }
+.cve-epss.epss-high   { color: var(--coral); border-color: rgba(239, 146, 115, 0.4); background: rgba(239, 146, 115, 0.05); }
+
+.ransom-badge {
+    display: inline-block;
+    font-family: var(--font-mono); font-size: 0.7rem;
+    padding: 0.05rem 0.4rem;
+    color: var(--coral);
+    background: rgba(239, 146, 115, 0.08);
+    border: 1px solid rgba(239, 146, 115, 0.30);
+    border-radius: 3px;
+    margin-left: 0.4rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+}
+
+.cve-detail {
+    margin-top: 1rem; padding-top: 1rem;
+    border-top: 1px solid var(--line);
+    display: grid; grid-template-columns: 1fr 240px; gap: 1.5rem;
+    color: var(--text-1); font-size: 0.94rem; line-height: 1.6;
+}
+@media (max-width: 700px) { .cve-detail { grid-template-columns: 1fr; } }
+.cve-detail h5 {
+    margin: 0 0 0.4rem;
+    font-family: var(--font-mono); font-size: 0.74rem;
+    color: var(--mint-deep); font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+}
+.cve-detail .block { margin-bottom: 1rem; }
+.cve-detail .block:last-child { margin: 0; }
+.cve-detail .block .value { color: var(--text-1); }
+.cve-detail .block.full .value { font-size: 0.92rem; }
+.cve-detail .meta-list dt {
+    font-family: var(--font-mono); font-size: 0.74rem;
+    color: var(--mint-deep); margin-top: 0.6rem;
+    letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700;
+}
+.cve-detail .meta-list dt:first-child { margin-top: 0; }
+.cve-detail .meta-list dd {
+    margin: 0.2rem 0 0;
+    font-family: var(--font-mono); font-size: 0.86rem;
+    color: var(--text-1); word-break: break-word;
+}
+
+.cve-status {
+    font-family: var(--font-mono); font-size: 0.82rem;
+    color: var(--text-3); padding: 0.4rem 0;
+}
+.cve-status strong { color: var(--mint-deep); font-weight: 600; }
+.cve-empty {
+    padding: 3rem 1rem; text-align: center;
+    color: var(--text-2); font-family: var(--font-sans);
+}
+
+.cve-sort {
+    display: flex; gap: 0.3rem; flex-wrap: wrap;
+}
+.cve-sort button {
+    flex: 1 1 auto;
+    font-family: var(--font-sans); font-size: 0.82rem;
+    padding: 0.4rem 0.5rem;
+    background: var(--surface); color: var(--text-1);
+    border: 1px solid var(--line); border-radius: var(--radius);
+    cursor: pointer; transition: all 0.15s;
+}
+.cve-sort button:hover { border-color: var(--mint-deep); color: var(--mint); }
+.cve-sort button.active {
+    background: rgba(70, 208, 154, 0.12);
+    border-color: var(--mint-deep);
+    color: var(--mint-deep);
+    font-weight: 600;
+}
+</style>
 </head>
 <body>
 
@@ -25,46 +221,84 @@
 </div>
 </header>
 
-<main class="container">
+<main class="cve-page">
 
-<div style="font-family: var(--font-mono); font-size: 0.82rem; color: var(--text-3); margin: 1.5rem 0 1rem;">
+<div style="font-family: var(--font-mono); font-size: 0.82rem; color: var(--text-3); margin-bottom: 1rem;">
 <a href="/lab/" style="color: var(--mint-deep); text-decoration: none">&larr; Browser Lab</a>
 </div>
 
 <h1>CVE / KEV / EPSS Browser</h1>
-<p style="color: var(--text-1)">Coming soon.</p>
-
-<p>
-A snapshot-backed browser for three public vulnerability feeds:
-</p>
-<ul>
-    <li><strong>NVD CVE feed</strong> &mdash; the canonical CVE catalog with CVSS scoring, affected configurations, and references.</li>
-    <li><strong>CISA KEV</strong> &mdash; Known Exploited Vulnerabilities. The "actually being used in the wild" subset of CVE.</li>
-    <li><strong>FIRST EPSS</strong> &mdash; Exploit Prediction Scoring System. Probability that a CVE will be exploited in the next 30 days.</li>
-</ul>
-
-<h2>Refresh model</h2>
-<p>
-The feeds are pulled by a GitHub Action on a nightly schedule, slimmed to the
-fields the browser needs, committed back to the repo, and redeployed by
-Cloudflare Pages on the next push. The Action's source will live at
-<code>.github/workflows/refresh-cve-feeds.yml</code> once built. No client-side
-API calls; no rate-limit risk.
+<p class="subhead">
+The CISA Known Exploited Vulnerabilities catalog &mdash; CVEs that are
+actively being exploited in the wild &mdash; cross-referenced with FIRST.org's
+EPSS scoring (probability of exploitation in the next 30 days). All data shipped
+with the page; no API calls.
 </p>
 
-<h2>Planned features</h2>
-<ul>
-    <li>Filter by severity (low/medium/high/critical), KEV-listed, EPSS &gt; threshold.</li>
-    <li>Sort by published date / EPSS score / CVSS / KEV-add date.</li>
-    <li>Click into a CVE for full description, CVSS vector, references.</li>
-    <li>Cross-link to the MITRE ATT&amp;CK Explorer when the CVE is mapped to a technique.</li>
-    <li>"Last refreshed" timestamp visible at the top of the page.</li>
-</ul>
+<div class="cve-meta" id="meta">
+<span class="pill"><strong id="m-total">&mdash;</strong> KEV entries</span>
+<span class="pill ransom"><strong id="m-ransom">&mdash;</strong> ransomware-linked</span>
+<span class="pill high"><strong id="m-high">&mdash;</strong> EPSS &ge; 0.7</span>
+<span class="pill"><strong id="m-recent">&mdash;</strong> added in last 90 days</span>
+<span class="pill" style="margin-left:auto">KEV ver <strong id="m-kev-ver">&mdash;</strong> &middot; EPSS <strong id="m-epss-date">&mdash;</strong></span>
+</div>
 
-<hr>
-<p style="color: var(--text-3); font-family: var(--font-mono); font-size: 0.85rem">
-Status: not yet built. Underlying source: <a href="https://github.com/brycemaxheimer/cybersecurity-portfolio/tree/main/SOC%20Dashboard/Modules">SOC Dashboard / Modules / Update-Cve*.ps1</a>.
-</p>
+<div class="cve-shell">
+
+<aside class="cve-sidebar">
+    <input type="search" id="q" class="cve-search" placeholder="Search CVE ID, vendor, product, name&hellip;" autocomplete="off">
+
+    <div>
+        <h4>Sort</h4>
+        <div class="cve-sort" id="sort">
+            <button data-sort="dateAdded" class="active">Date added</button>
+            <button data-sort="epss">EPSS</button>
+            <button data-sort="dueDate">Due date</button>
+        </div>
+    </div>
+
+    <div>
+        <h4>Vendor</h4>
+        <select class="cve-select" id="vendor">
+            <option value="">All vendors</option>
+        </select>
+    </div>
+
+    <div>
+        <h4>Filters</h4>
+        <label class="cve-toggle">
+            <input type="checkbox" id="ransom-only">
+            <span>Ransomware-linked only</span>
+        </label>
+        <label class="cve-toggle" style="margin-top: 0.4rem">
+            <input type="checkbox" id="recent-only">
+            <span>Added in last 90 days</span>
+        </label>
+    </div>
+
+    <div>
+        <h4>EPSS minimum</h4>
+        <div class="cve-slider-row">
+            <input type="range" id="epss-min" min="0" max="100" value="0">
+            <span class="value" id="epss-min-val">0%</span>
+        </div>
+    </div>
+
+    <button class="clear-btn" id="clear">Clear filters</button>
+
+    <p style="font-size:0.78rem; color: var(--text-3); font-family: var(--font-mono); line-height: 1.5; margin: 0;">
+Sources: <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" style="color: var(--text-2)">CISA KEV catalog</a> &middot;
+<a href="https://www.first.org/epss/" style="color: var(--text-2)">FIRST EPSS</a>.
+Refreshed at build time via <code>refresh-feeds.ps1</code>.
+    </p>
+</aside>
+
+<div>
+    <div class="cve-status" id="status">Loading data&hellip;</div>
+    <div class="cve-list" id="list"></div>
+</div>
+
+</div>
 
 </main>
 
@@ -75,6 +309,8 @@ Status: not yet built. Underlying source: <a href="https://github.com/brycemaxhe
 <a href="/about.html">Contact</a>
 </div>
 </footer>
+
+<script src="/lab/cve/explorer.js" defer></script>
 
 </body>
 </html>
