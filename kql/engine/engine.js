@@ -750,7 +750,14 @@
             case 'toreal':
             case 'todouble': return 'CAST(' + args[0] + ' AS REAL)';
             case 'tobool':   return '(CASE WHEN ' + args[0] + ' THEN 1 ELSE 0 END)';
-            case 'todatetime': return "DATETIME(" + args[0] + ")";
+            case 'todatetime':
+                // CSV TimeGenerated is stored as ISO text ('2026-04-29T12:50:00Z').
+                // SQLite's DATETIME() would normalize to '2026-04-29 12:52:40'
+                // (space, no T, no Z), which fails lexicographic comparison
+                // against the stored 'T...Z' format -- 'T' (84) > ' ' (32) makes
+                // every row pass the filter. Pass the string through so both
+                // sides stay in matching ISO form. Mirrors datetime() above.
+                return args[0];
 
             default:
                 throw KqlError("unsupported function: " + node.name + "()");
