@@ -957,6 +957,5 @@ article.post p { margin: 0 0 1.1rem; color: var(--text-1); }
 .lead,
 p.lab-rationale {
     text-wrap: pretty;
-    max-width: 70ch;
     line-height: 1.55;
 }
