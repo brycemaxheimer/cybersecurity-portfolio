@@ -135,14 +135,18 @@
         els.list.innerHTML = matched.map(function (t) {
             return renderItem(t, tpls.indexOf(t));
         }).join('');
-
-        // Wire up action buttons
-        els.list.addEventListener('click', onAction, { once: true });
+        // Click listener is attached ONCE in init() via event delegation -- not
+        // re-attached per render. Earlier code attached a {once:true} listener
+        // here that consumed clicks on <details> summaries, swallowing the
+        // browser's native expand/collapse and forcing a full re-render.
     }
 
+    // Persistent delegated handler -- attached once below. Only acts on the
+    // tpl-btn buttons; lets every other click (<details> summary, links, etc)
+    // bubble through to the browser's default behavior.
     function onAction(e) {
         var btn = e.target.closest('.tpl-btn');
-        if (!btn) { render(); return; } // re-attach handler
+        if (!btn) return;
         var idx = parseInt(btn.dataset.idx, 10);
         var act = btn.dataset.act;
         var t = (DATA.templates || [])[idx];
@@ -158,11 +162,11 @@
                 navigator.clipboard.writeText(t.kql || '').then(function () {
                     var orig = btn.textContent;
                     btn.textContent = 'Copied';
-                    setTimeout(function () { btn.textContent = orig; render(); }, 1200);
+                    setTimeout(function () { btn.textContent = orig; }, 1200);
                 });
             }
             return;
         }
-        render();
     }
+    els.list.addEventListener('click', onAction);
 })();
