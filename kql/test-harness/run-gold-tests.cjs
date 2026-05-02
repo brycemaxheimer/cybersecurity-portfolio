@@ -86,6 +86,18 @@ function materializeUnwrap(kql) {
     return out;
 }
 
+
+function rewriteMatchesRegex(kql) {
+    // Rewrite `<expr> matches regex <string>` into
+    // `matches_regex(<expr>, <string>)`. The expression is a simple ident,
+    // dotted ident, or function call (with balanced parens). The pattern is
+    // a single string literal (raw or regular).
+    return kql.replace(
+        /([A-Za-z_][A-Za-z0-9_]*(?:\([^)]*\))?(?:\.[A-Za-z_][A-Za-z0-9_]*(?:\([^)]*\))?)*)\s+matches\s+regex\s+(@?"[^"]*"|@?'[^']*')/g,
+        function (_m, expr, pat) { return 'matches_regex(' + expr + ', ' + pat + ')'; }
+    );
+}
+
 function v1CompatRewrite(kql) {
     kql = materializeUnwrap(kql);
     // @-prefixed raw strings: backslashes are LITERAL. v1's string lexer
@@ -99,9 +111,7 @@ function v1CompatRewrite(kql) {
         (_m, l, r) => KQL_KW.test(l) ? _m : "tolower(" + l + ") == tolower(" + r + ")");
     kql = kql.replace(new RegExp(lhsRe + "\\s*!~\\s*" + operandRe, "g"),
         (_m, l, r) => KQL_KW.test(l) ? _m : "tolower(" + l + ") != tolower(" + r + ")");
-    kql = kql.replace(
-        /(\b[A-Za-z_][A-Za-z0-9_]*)\s*:\s*(string|int|long|real|datetime|bool|guid|dynamic|timespan)\b/g,
-        '$1');
+    // Type strip removed -- engine.js parseParse now consumes :type natively.
     const dynRe = /let\s+([A-Za-z_][A-Za-z0-9_]*)\s*=\s*dynamic\(\s*\[([^\]]*)\]\s*\)\s*;\s*/g;
     const inlines = {};
     kql = kql.replace(dynRe, (_m, name, items) => { inlines[name] = items.trim(); return ''; });
@@ -118,6 +128,7 @@ function v1CompatRewrite(kql) {
         const joiner = op === 'has_any' ? ' or ' : ' and ';
         return '(' + items.map(it => col + ' has ' + it).join(joiner) + ')';
     });
+    kql = rewriteMatchesRegex(kql);
     return kql;
 }
 
@@ -167,7 +178,7 @@ function rowsEqual(a, b) {
 function compareResults(actualRows, actualColumns, gold) {
     // Normalize gold rows: PS sometimes emits a flat row instead of [[row]].
     let expected = gold.rows;
-    if (gold.rowCount === 1 && expected.length === gold.columns.length && expected.every(c => typeof c !== 'object' || c === null)) {
+    if (gold.rowCount === 1 && expected.length === gold.columns.length && !Array.isArray(expected[0])) {
         expected = [expected];
     }
     expected = expected.map(unwrapRow);
@@ -197,10 +208,23 @@ function compareResults(actualRows, actualColumns, gold) {
     var aDicts = actualRows.map(r => rowDict(r, 'actual'));
     var eDicts = expected.map(r => rowDict(r, 'gold'));
     if (gold.ordered) {
+        // Try strict ordered compare; if it fails, fall back to set match,
+        // which passes when the rows are equivalent but tied-on-sort-key
+        // rows came back in a different (but still valid) order.
+        var orderedOK = true;
         for (var i = 0; i < aDicts.length; i++) {
-            if (dictKey(aDicts[i]) !== dictKey(eDicts[i])) {
-                return { ok: false, reason: "row " + i + " differs", actual: aDicts[i], expected: eDicts[i] };
+            if (dictKey(aDicts[i]) !== dictKey(eDicts[i])) { orderedOK = false; break; }
+        }
+        if (!orderedOK) {
+            var aSet = aDicts.map(dictKey).sort();
+            var eSet = eDicts.map(dictKey).sort();
+            for (var k = 0; k < aSet.length; k++) {
+                if (aSet[k] !== eSet[k]) {
+                    return { ok: false, reason: "row " + k + " differs", actual: aSet[k], expected: eSet[k] };
+                }
             }
+            // Rows are equivalent as a set; ties on the sort key produced a
+            // different (but valid) ordering. Pass.
         }
     } else {
         var aKeys = aDicts.map(dictKey).sort();

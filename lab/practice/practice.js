@@ -233,7 +233,7 @@ function compareResults(userResult, goldRecord) {
     let goldRows = goldRecord.rows || [];
     if (goldRecord.rowCount === 1
             && goldRows.length === goldCols.length
-            && goldRows.every(c => typeof c !== 'object' || c === null)) {
+            && !Array.isArray(goldRows[0])) {
         goldRows = [goldRows];
     }
     goldRows = goldRows.map(_unwrapRow);
@@ -305,8 +305,12 @@ function gradeRefinement(userKql, goldRecord) {
         else                          checks.push({ pass: false, msg: 'Consider =~ for case-insensitive equality' });
     }
 
-    // Encourage filter-before-project
-    const tokens = userKql.split('|').map(s => s.trim().toLowerCase());
+    // Encourage filter-before-project. Only check the MAIN pipeline so let-bound
+    // sub-pipelines (which legitimately end with `| project ... ;`) don't trigger
+    // a false positive. The main pipeline starts after the last `;` if any.
+    const lastSemi = userKql.lastIndexOf(';');
+    const mainKql = lastSemi >= 0 ? userKql.slice(lastSemi + 1) : userKql;
+    const tokens = mainKql.split('|').map(s => s.trim().toLowerCase());
     const projectIdx = tokens.findIndex(t => t.startsWith('project '));
     const lastWhere  = tokens.lastIndexOf(tokens.find(t => t.startsWith('where ')));
     if (projectIdx >= 0 && lastWhere > projectIdx) {

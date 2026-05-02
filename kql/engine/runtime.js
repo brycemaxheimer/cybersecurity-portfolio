@@ -134,6 +134,20 @@
             // i.e. the bytes before/after must be non-word or string edge.
             // SQLite LIKE can't express this; the previous space-padding hack
             // failed for tokens like `-EncodedCommand` or `mimikatz.exe`.
+            db.create_function('kql_split', function (text, sep) {
+                if (text == null) return JSON.stringify([]);
+                var t = String(text);
+                var s = sep == null ? '' : String(sep);
+                if (!s) return JSON.stringify([t]);
+                return JSON.stringify(t.split(s));
+            });
+            db.create_function('kql_regex', function (text, pat) {
+                if (text == null || pat == null) return 0;
+                try {
+                    var re = new RegExp(String(pat));
+                    return re.test(String(text)) ? 1 : 0;
+                } catch (_) { return 0; }
+            });
             db.create_function('kql_has', function (haystack, needle) {
                 if (haystack == null || needle == null) return 0;
                 var h = String(haystack).toLowerCase();

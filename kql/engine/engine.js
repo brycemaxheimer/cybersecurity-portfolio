@@ -42,13 +42,13 @@
         extend: 1, summarize: 1, by: 1, top: 1, take: 1,
         limit: 1, distinct: 1, order: 1, sort: 1, asc: 1, desc: 1,
         let: 1, true: 1, false: 1, null: 1, and: 1, or: 1, not: 1,
-        between: 1, on: 1, in: 1
+        between: 1, on: 1, in: 1, 'mv-expand': 1
     };
 
     // Pipeline operators that lex as IDENT. parseOp() consults this when it
     // can't find a KEYWORD operator. Currently just 'count', but more dual-
     // use names can be added here without breaking expression parsing.
-    var IDENT_OPS = { count: 1, join: 1 };
+    var IDENT_OPS = { count: 1, join: 1, parse: 1 };
 
     // Word-shaped operators (lex as IDENT, then promote to OP).
     var WORD_OPS = {
@@ -138,11 +138,11 @@
                 while (i < n && /[a-zA-Z0-9_]/.test(src[i])) i++;
                 // Look ahead for hyphenated keywords (project-keep / project-away)
                 var raw = src.slice(istart, i);
-                if (raw === 'project' && src[i] === '-') {
+                if ((raw === 'project' || raw === 'mv') && src[i] === '-') {
                     var j = i + 1;
                     while (j < n && /[a-zA-Z]/.test(src[j])) j++;
                     var hy = src.slice(istart, j);
-                    if (hy === 'project-keep' || hy === 'project-away') {
+                    if (hy === 'project-keep' || hy === 'project-away' || hy === 'mv-expand' || hy === 'mv-apply') {
                         i = j;
                         pushTok('KEYWORD', hy, istart);
                         continue;
@@ -174,7 +174,7 @@
             if (matched) continue;
 
             // Single-char punctuation
-            if ('|(),;[]{}='.indexOf(ch) >= 0) {
+            if ('|(),;[]{}=:'.indexOf(ch) >= 0) {
                 pushTok('PUNCT', ch, i);
                 i++;
                 continue;
@@ -284,10 +284,11 @@
 
         function parseOp() {
             var t = peek();
-            // Dual-use IDENT-as-operator (e.g., 'count', 'join').
+            // Dual-use IDENT-as-operator (e.g., 'count', 'join', 'parse').
             if (t.kind === 'IDENT' && IDENT_OPS[t.value]) {
                 if (t.value === 'count') { consume(); return { kind: 'count' }; }
                 if (t.value === 'join')  { consume(); return parseJoin(); }
+                if (t.value === 'parse') { consume(); return parseParse(); }
             }
             if (t.kind !== 'KEYWORD') throw KqlError("expected an operator after '|', got '" + t.value + "'", t.pos);
             switch (t.value) {
@@ -303,6 +304,7 @@
                 case 'distinct':      consume(); return { kind: 'distinct', cols: parseIdentList() };
                 case 'order':
                 case 'sort':          consume(); expect('KEYWORD', 'by'); return { kind: 'order', cols: parseOrderList() };
+                case 'mv-expand':     consume(); return parseMvExpand();
                 default:
                     throw KqlError("unsupported operator: " + t.value, t.pos);
             }
@@ -330,6 +332,76 @@
             var cols = [];
             do { cols.push(expect('IDENT').value); } while (eat('PUNCT', ','));
             return { kind: 'join', joinKind: jkind, rhs: rhs, cols: cols };
+        }
+
+        function parseParse() {
+            // parse <srcCol> with [kind=...] "lit1" Var1 "lit2" Var2 ... [*]
+            // Optional leading 'kind=simple|relaxed|regex' is ignored here.
+            var srcCol = expect('IDENT').value;
+            // `with` lexes as IDENT (not in KEYWORDS); accept either form.
+            var w = peek();
+            if (w && (w.kind === 'IDENT' || w.kind === 'KEYWORD') && w.value === 'with') consume();
+            else throw KqlError("parse: expected 'with' after column name, got '" + (w && w.value) + "'", w && w.pos);
+            // Optional `kind=simple|relaxed|regex`
+            if (check('IDENT') && peek().value === 'kind') {
+                consume();
+                expect('PUNCT', '=');
+                if (check('IDENT')) consume();
+            }
+            // Sequence: alternating string literal then ident (with optional :type stripped
+            // already by the rewriter). Final element may be '*' meaning "swallow rest".
+            var parts = [];   // [{kind:'lit', value}|{kind:'var', name}|{kind:'star'}]
+            while (true) {
+                var tk = peek();
+                if (tk.kind === 'STRING') {
+                    consume();
+                    parts.push({ kind: 'lit', value: tk.value });
+                } else if (tk.kind === 'IDENT') {
+                    consume();
+                    var typ = null;
+                    if (check('PUNCT', ':')) {
+                        consume();
+                        // type ident: string|int|long|real|datetime|bool|guid|dynamic|timespan
+                        var tt = peek();
+                        if (tt && tt.kind === 'IDENT') { consume(); typ = tt.value.toLowerCase(); }
+                    }
+                    parts.push({ kind: 'var', name: tk.value, type: typ });
+                } else if (tk.kind === 'OP' && tk.value === '*') {
+                    consume();
+                    parts.push({ kind: 'star' });
+                    break;
+                } else {
+                    break;
+                }
+            }
+            return { kind: 'parse', srcCol: srcCol, parts: parts };
+        }
+
+        function parseMvExpand() {
+            // mv-expand [Var =] SrcCol [to typeof(...)]   (we ignore the to-typeof clause)
+            // First IDENT may be either the var name (with `=`) or the source column.
+            var firstName = expect('IDENT').value;
+            var varName, srcExpr;
+            if (check('PUNCT', '=')) {
+                consume();
+                varName = firstName;
+                // Source can be an expression (most often an ident, occasionally a function call).
+                srcExpr = parseExpr();
+            } else {
+                varName = firstName;
+                srcExpr = { kind: 'ident', name: firstName };
+            }
+            // Optional `to typeof(<type>)` -- consume and discard.
+            if (check('IDENT') && peek().value === 'to') {
+                consume();
+                if (check('IDENT') && peek().value === 'typeof') { consume(); }
+                if (check('PUNCT', '(')) {
+                    consume();
+                    if (check('IDENT')) consume();
+                    expect('PUNCT', ')');
+                }
+            }
+            return { kind: 'mv-expand', varName: varName, srcExpr: srcExpr };
         }
 
         function parseProjectList() {
@@ -558,11 +630,24 @@
                         } while (eat('PUNCT', ','));
                     }
                     expect('PUNCT', ')');
-                    return { kind: 'call', name: t.value, args: args };
+                    return _applyFields({ kind: 'call', name: t.value, args: args });
                 }
-                return { kind: 'ident', name: t.value };
+                return _applyFields({ kind: 'ident', name: t.value });
             }
             throw KqlError("unexpected token '" + t.value + "'", t.pos);
+        }
+
+        // Post-fix dotted accessors: turn `LocationDetails.countryOrRegion`
+        // into a `field` AST node that the translator emits as json_extract.
+        // The lexer treats '.' as an OP token (used elsewhere for floats /
+        // ranges); we only consume it when it's followed by an IDENT here.
+        function _applyFields(node) {
+            while (check('OP', '.') && peek(1) && peek(1).kind === 'IDENT') {
+                consume();              // '.'
+                var nm = consume().value;
+                node = { kind: 'field', expr: node, name: nm };
+            }
+            return node;
         }
 
         return parseScript();
@@ -703,6 +788,70 @@
                     sql = 'SELECT * FROM (' + sql + ') AS ' + a + ' ORDER BY ' + ord;
                     break;
                 }
+                case 'mv-expand': {
+                    // Cross-join with json_each over the dynamic column.
+                    // SQLite json_each yields rows {key, value, type, ...} for each
+                    // array/object element. We project the original row's columns
+                    // plus j.value AS <varName>. If the var is the same name as the
+                    // source column, KQL semantics REPLACE the source with the
+                    // expanded element rather than adding a new column.
+                    var srcSql = exprSql(op.srcExpr, scope);
+                    sql = "SELECT t.*, j.value AS " + quoteIdent(op.varName) +
+                          " FROM (" + sql + ") AS t, json_each(" + srcSql + ") AS j";
+                    break;
+                }
+                case 'parse': {
+                    // Build a SQL expression for each var by carving the source column.
+                    // For each Var with leading lit `L_before` and trailing lit `L_after`:
+                    //   start = INSTR(src, L_before) + LEN(L_before)
+                    //   if L_after present: len = INSTR(SUBSTR(src, start), L_after) - 1
+                    //   else: take rest of string (NULL length to end)
+                    var src1 = quoteIdent(op.srcCol);
+                    var assigns = [];
+                    var prevLit = null;
+                    for (var pi = 0; pi < op.parts.length; pi++) {
+                        var part = op.parts[pi];
+                        if (part.kind === 'lit') { prevLit = part.value; continue; }
+                        if (part.kind === 'star') break;
+                        if (part.kind !== 'var') continue;
+                        // find next lit (lookahead)
+                        var nextLit = null;
+                        for (var pj = pi + 1; pj < op.parts.length; pj++) {
+                            if (op.parts[pj].kind === 'lit') { nextLit = op.parts[pj].value; break; }
+                            if (op.parts[pj].kind === 'star') break;
+                        }
+                        var litB = prevLit == null ? '' : prevLit;
+                        var litBSql = escapeStr(litB);
+                        var startExpr = 'INSTR(' + src1 + ', ' + litBSql + ') + ' + litB.length;
+                        var bodySql;
+                        if (nextLit != null) {
+                            var litASql = escapeStr(nextLit);
+                            bodySql =
+                                'CASE WHEN INSTR(' + src1 + ', ' + litBSql + ')=0 THEN NULL ELSE ' +
+                                'SUBSTR(SUBSTR(' + src1 + ', ' + startExpr + '), 1, ' +
+                                'NULLIF(INSTR(SUBSTR(' + src1 + ', ' + startExpr + '), ' + litASql + ') - 1, -1)) END';
+                        } else {
+                            bodySql = 'CASE WHEN INSTR(' + src1 + ', ' + litBSql + ')=0 THEN NULL ELSE ' +
+                                      'SUBSTR(' + src1 + ', ' + startExpr + ') END';
+                        }
+                        // Apply type cast if a `:type` annotation was present.
+                        // SQLite CAST AS INTEGER parses leading digit prefix, so
+                        // `Port:int` extracts "40738" from "40738 ssh2".
+                        if (part.type === 'int' || part.type === 'long') {
+                            bodySql = 'CAST(' + bodySql + ' AS INTEGER)';
+                        } else if (part.type === 'real' || part.type === 'double') {
+                            bodySql = 'CAST(' + bodySql + ' AS REAL)';
+                        }
+                        assigns.push(bodySql + ' AS ' + quoteIdent(part.name));
+                    }
+                    if (assigns.length === 0) {
+                        // Nothing to extract; pass-through.
+                        sql = 'SELECT * FROM (' + sql + ') AS ' + a;
+                    } else {
+                        sql = 'SELECT *, ' + assigns.join(', ') + ' FROM (' + sql + ') AS ' + a;
+                    }
+                    break;
+                }
                 case 'join': {
                     var rhsSql = translate({ lets: [], pipeline: op.rhs }, scope);
                     var colList = op.cols.map(quoteIdent).join(', ');
@@ -761,6 +910,18 @@
                 throw KqlError('unsupported unary op ' + node.op);
             case 'binop':    return binopSql(node, scope);
             case 'call':     return callSql(node, scope);
+            case 'field': {
+                // Build a json_extract path. Handle chained .a.b.c by walking
+                // back through nested 'field' nodes.
+                var path = [];
+                var cur = node;
+                while (cur.kind === 'field') {
+                    path.unshift(cur.name);
+                    cur = cur.expr;
+                }
+                var base = exprSql(cur, scope);
+                return "json_extract(" + base + ", '$." + path.join('.') + "')";
+            }
             case 'in':       return inSql(node, scope);
             case 'between':
                 return '(' + exprSql(node.expr, scope) + ' BETWEEN ' + exprSql(node.lo, scope) +
@@ -778,6 +939,15 @@
         var op = node.op;
         var L = exprSql(node.left, scope);
         var R = exprSql(node.right, scope);
+        // Datetime subtraction: text-stored TimeGenerated columns can't be
+        // subtracted directly (SQLite returns 0 for non-numeric strings).
+        // Heuristic: if both operands are idents (column refs), assume both
+        // are datetime-text and convert via JULIANDAY -> seconds delta. KQL
+        // duration values are also represented in seconds in our subset,
+        // so `<a> - <b> <= 5m` lines up because 5m -> 300 seconds.
+        if (op === '-' && node.left.kind === 'ident' && node.right.kind === 'ident') {
+            return '((JULIANDAY(' + L + ') - JULIANDAY(' + R + ')) * 86400)';
+        }
         if (KQL2SQL_OP[op]) return '(' + L + ' ' + KQL2SQL_OP[op] + ' ' + R + ')';
 
         // String predicates - case-insensitive by default in KQL
@@ -904,6 +1074,17 @@
             case 'isnotnull':  return '(' + args[0] + ' IS NOT NULL)';
             case 'iff': case 'iif':
                 return '(CASE WHEN ' + args[0] + ' THEN ' + args[1] + ' ELSE ' + args[2] + ' END)';
+            case 'replace_string':
+                return 'REPLACE(' + args[0] + ', ' + args[1] + ', ' + args[2] + ')';
+            case 'split':
+                // KQL split(text, sep [, idx]) -> JSON array string. Custom JS
+                // function (registered in runtime.js) so mv-expand can feed
+                // its output into json_each().
+                return 'kql_split(' + args[0] + ', ' + args[1] + ')';
+            case 'matches_regex':
+                // Bridge for `<col> matches regex "pat"`. The parser turns
+                // it into matches_regex(col, "pat") via the rewriter below.
+                return 'kql_regex(' + args[0] + ', ' + args[1] + ')';
             case 'case': {
                 // case(p1, v1, p2, v2, ..., default)
                 if (args.length < 3 || args.length % 2 === 0) {

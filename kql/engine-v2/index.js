@@ -121,15 +121,10 @@ function _rewriteEqTilde(kql) {
     return kql;
 }
 
-// 3) Strip type annotations inside `parse ... with` clauses.
-//    Form: User:string  /  Port:int  ->  User  /  Port
-//    Affects parse, parse-where, and the `extract` family. Conservative:
-//    we only strip a known list of KQL types, never guess.
-function _rewriteParseTypes(kql) {
-    return kql.replace(
-        /(\b[A-Za-z_][A-Za-z0-9_]*)\s*:\s*(string|int|long|real|datetime|bool|guid|dynamic|timespan)\b/g,
-        '$1');
-}
+// 3) (removed) Type strip used to drop `:type` annotations to keep v1 happy.
+//    The engine now parses `:type` natively in parseParse() and uses it to
+//    cast extracted parse fields (e.g. Port:int -> CAST AS INTEGER).
+function _rewriteParseTypes(kql) { return kql; }
 
 // 4) Inline simple `let X = dynamic([...]);`  references in `has_any/has_all/in`.
 //    Q12-style pattern. We don't try to inline lets that bind tabular
@@ -165,12 +160,25 @@ function _rewriteHasAnyAll(kql) {
     });
 }
 
+
+function _rewriteMatchesRegex(kql) {
+    // Rewrite `<expr> matches regex <string>` into
+    // `matches_regex(<expr>, <string>)`. The expression is a simple ident,
+    // dotted ident, or function call (with balanced parens). The pattern is
+    // a single string literal (raw or regular).
+    return kql.replace(
+        /([A-Za-z_][A-Za-z0-9_]*(?:\([^)]*\))?(?:\.[A-Za-z_][A-Za-z0-9_]*(?:\([^)]*\))?)*)\s+matches\s+regex\s+(@?"[^"]*"|@?'[^']*')/g,
+        function (_m, expr, pat) { return 'matches_regex(' + expr + ', ' + pat + ')'; }
+    );
+}
+
 function _v1CompatRewrite(kql) {
     kql = _rewriteRawStrings(kql);
     kql = _rewriteEqTilde(kql);
     kql = _rewriteParseTypes(kql);
     kql = _rewriteDynamicLetInline(kql);
     kql = _rewriteHasAnyAll(kql);
+    kql = _rewriteMatchesRegex(kql);
     return kql;
 }
 
