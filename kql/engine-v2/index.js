@@ -173,9 +173,10 @@ function _rewriteMatchesRegex(kql) {
 }
 
 function _v1CompatRewrite(kql) {
+    kql = _rewriteMaterializeUnwrap(kql);  // strip materialize() wrappers first so let bodies become plain pipelines
     kql = _rewriteRawStrings(kql);
     kql = _rewriteEqTilde(kql);
-    kql = _rewriteParseTypes(kql);
+    kql = _rewriteParseTypes(kql);         // now a no-op; engine.js parseParse handles :type natively
     kql = _rewriteDynamicLetInline(kql);
     kql = _rewriteHasAnyAll(kql);
     kql = _rewriteMatchesRegex(kql);

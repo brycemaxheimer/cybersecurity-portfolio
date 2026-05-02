@@ -465,8 +465,10 @@ function renderResultTable(cols, rows, opts) {
     const shown = rows.slice(0, cap);
     const headers = cols.map(c => `<th>${escapeHtml(c)}</th>`).join('');
     const body = shown.map(r => {
+        // Defensive: if r isn't an array (came in as a flat scalar), wrap it.
+        const row = Array.isArray(r) ? r : [r];
         const cells = cols.map((_, i) => {
-            const v = r[i];
+            const v = row[i];
             const s = v == null ? '' : (typeof v === 'object' ? JSON.stringify(v) : String(v));
             return `<td>${escapeHtml(s)}</td>`;
         }).join('');
@@ -483,9 +485,12 @@ function renderResultTable(cols, rows, opts) {
 function unwrapGoldRowsForRender(goldRecord) {
     let rows = goldRecord.rows || [];
     const cols = goldRecord.columns || [];
+    // PS sometimes emits a single row as a flat array (rowCount=1, rows=[c1,c2,c3])
+    // including array/object cells (Q24's AlertIds). Detect by length match
+    // and the first cell NOT itself being an array.
     if (goldRecord.rowCount === 1
             && rows.length === cols.length
-            && rows.every(c => typeof c !== 'object' || c === null)) {
+            && !Array.isArray(rows[0])) {
         rows = [rows];
     }
     return rows.map(_unwrapRow);
