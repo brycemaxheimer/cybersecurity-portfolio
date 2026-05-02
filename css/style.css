@@ -872,3 +872,75 @@ article.post p { margin: 0 0 1.1rem; color: var(--text-1); }
     /* High-contrast mode wants no atmospheric noise. */
     background-image: none;
 }
+
+/* ------------------------------------------------------------
+   Top-nav dropdown (Lab -> tools menu). Click the parent anchor
+   to navigate to /lab/; hover (or focus the parent) to expand
+   the menu of tools.
+   ------------------------------------------------------------ */
+.nav-dropdown {
+    position: relative;
+    display: inline-block;
+}
+.nav-dropdown > a .caret {
+    font-size: 0.75em;
+    margin-left: 0.18em;
+    color: var(--text-3);
+    transition: color 0.15s, transform 0.15s;
+    display: inline-block;
+}
+.nav-dropdown:hover > a .caret,
+.nav-dropdown:focus-within > a .caret {
+    color: var(--mint-deep);
+    transform: translateY(1px);
+}
+
+.nav-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 0.5rem;
+    min-width: 12rem;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 0.35rem 0;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.32);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-3px);
+    transition: opacity 0.12s, transform 0.12s, visibility 0.12s;
+    z-index: 100;
+}
+.nav-dropdown:hover > .nav-dropdown-menu,
+.nav-dropdown:focus-within > .nav-dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Bridge a tiny invisible region between the anchor and the menu so the
+   menu doesn't disappear when the cursor crosses the gap. */
+.nav-dropdown-menu::before {
+    content: "";
+    position: absolute;
+    top: -0.5rem;
+    left: 0;
+    right: 0;
+    height: 0.5rem;
+}
+
+.nav-dropdown-menu a {
+    display: block;
+    padding: 0.4rem 0.9rem;
+    border: none;
+    border-bottom: 1px solid transparent;
+    color: var(--text-1);
+    font-size: 0.88rem;
+    white-space: nowrap;
+}
+.nav-dropdown-menu a:hover {
+    color: var(--mint-deep);
+    background: var(--bg-1);
+    border-bottom-color: transparent;
+}
