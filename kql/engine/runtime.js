@@ -129,6 +129,20 @@
         return initSqlJs({ locateFile: function (f) { return '/kql/vendor/' + f; } }).then(function (mod) {
             SQL = mod;
             db = new SQL.Database();
+            // Register custom KQL `has` term-match. KQL `has` is true when
+            // needle appears as a maximal alphanumeric/underscore run --
+            // i.e. the bytes before/after must be non-word or string edge.
+            // SQLite LIKE can't express this; the previous space-padding hack
+            // failed for tokens like `-EncodedCommand` or `mimikatz.exe`.
+            db.create_function('kql_has', function (haystack, needle) {
+                if (haystack == null || needle == null) return 0;
+                var h = String(haystack).toLowerCase();
+                var n = String(needle).toLowerCase();
+                if (!n) return 0;
+                var esc = n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                var re = new RegExp('(^|[^A-Za-z0-9_])' + esc + '($|[^A-Za-z0-9_])');
+                return re.test(h) ? 1 : 0;
+            });
             onProgress({ phase: 'loading-data' });
             var tables = Schema.tableNames();
             return Promise.all(tables.map(function (t) {

@@ -100,8 +100,11 @@ function rewriteTimePredicates(kql) {
 //    KQL @-prefix means "treat backslashes literally". v1 string literals
 //    don't interpret backslash escapes anyway, so dropping the @ is safe.
 function _rewriteRawStrings(kql) {
-    kql = kql.replace(/@"([^"]*)"/g, '"$1"');
-    kql = kql.replace(/@'([^']*)'/g, "'$1'");
+    // @-prefixed raw strings: backslashes are LITERAL. v1's string lexer turns
+    // '\b' into 'b'; pre-double the backslashes so the lexer's swallow-
+    // backslash behavior reproduces the literal char. (Q20 'corp\bryce'.)
+    kql = kql.replace(/@"([^"]*)"/g, function(_m, body) { return '"' + body.replace(/\\/g, '\\\\') + '"'; });
+    kql = kql.replace(/@'([^']*)'/g, function(_m, body) { return "'" + body.replace(/\\/g, '\\\\') + "'"; });
     return kql;
 }
 
@@ -148,11 +151,26 @@ function _rewriteDynamicLetInline(kql) {
     return kql;
 }
 
+
+// 5) has_any / has_all -> chained `has` with or/and. v1 doesn't support these
+//    operators natively; expand `<col> has_any (a, b, c)` into
+//    `(<col> has a or <col> has b or <col> has c)`. Run AFTER dynamic let
+//    inlining so the items list is a literal-only.
+function _rewriteHasAnyAll(kql) {
+    var haRe = /([A-Za-z_][A-Za-z0-9_]*(?:\.[A-Za-z_][A-Za-z0-9_]*)*)\s+(has_any|has_all)\s*\(([^)]+)\)/g;
+    return kql.replace(haRe, function(_m, col, op, list) {
+        var items = list.split(',').map(function(s){ return s.trim(); }).filter(Boolean);
+        var joiner = op === 'has_any' ? ' or ' : ' and ';
+        return '(' + items.map(function(it){ return col + ' has ' + it; }).join(joiner) + ')';
+    });
+}
+
 function _v1CompatRewrite(kql) {
     kql = _rewriteRawStrings(kql);
     kql = _rewriteEqTilde(kql);
     kql = _rewriteParseTypes(kql);
     kql = _rewriteDynamicLetInline(kql);
+    kql = _rewriteHasAnyAll(kql);
     return kql;
 }
 

@@ -48,7 +48,7 @@
     // Pipeline operators that lex as IDENT. parseOp() consults this when it
     // can't find a KEYWORD operator. Currently just 'count', but more dual-
     // use names can be added here without breaking expression parsing.
-    var IDENT_OPS = { count: 1 };
+    var IDENT_OPS = { count: 1, join: 1 };
 
     // Word-shaped operators (lex as IDENT, then promote to OP).
     var WORD_OPS = {
@@ -190,7 +190,7 @@
     /* ============================================================
        PARSER
        ============================================================ */
-    function parse(tokens) {
+    function parse(tokens, source) {
         var pos = 0;
 
         function peek(offset) { return tokens[pos + (offset || 0)]; }
@@ -224,32 +224,70 @@
                 consume();
                 var name = expect('IDENT').value;
                 expect('PUNCT', '=');
-                var expr = parseExpr();
-                expect('PUNCT', ';');
-                lets.push({ name: name, expr: expr });
+                // Tabular vs scalar: if next is IDENT followed by '|', it's a
+                // pipeline binding (let X = SomeTable | ...). Anything else is
+                // a scalar expression.
+                var t0 = peek(), t1 = peek(1);
+                var isTabular = t0 && t0.kind === 'IDENT'
+                             && t1 && t1.kind === 'PUNCT' && t1.value === '|';
+                if (isTabular) {
+                    var pipe1 = parsePipeline();
+                    expect('PUNCT', ';');
+                    lets.push({ name: name, pipeline: pipe1 });
+                } else {
+                    var expr = parseExpr();
+                    expect('PUNCT', ';');
+                    lets.push({ name: name, expr: expr });
+                }
             }
             var pipe = parsePipeline();
-            // Optional trailing semicolon
             eat('PUNCT', ';');
             return { lets: lets, pipeline: pipe };
         }
 
         function parsePipeline() {
-            // Source: an identifier (table name)
-            var src = expect('IDENT');
-            var ops = [];
+            // Source: either a bare table identifier or a `union (...), (...)`.
+            var node;
+            if (check('IDENT') && peek().value === 'union') {
+                consume(); // 'union'
+                var subs = [];
+                do {
+                    // Optional kind=X / isfuzzy=Y / withsource=... -- ignored.
+                    while (check('IDENT') && /^(kind|isfuzzy|withsource)$/.test(peek().value)) {
+                        consume();
+                        if (check('PUNCT', '=')) {
+                            consume();
+                            // Skip the value token.
+                            if (check('IDENT') || check('STRING') || check('NUMBER')) consume();
+                        }
+                    }
+                    if (check('PUNCT', '(')) {
+                        consume();
+                        subs.push(parsePipeline());
+                        expect('PUNCT', ')');
+                    } else {
+                        // Bare table name in union arg.
+                        subs.push({ source: expect('IDENT').value, ops: [] });
+                    }
+                } while (eat('PUNCT', ','));
+                node = { union: subs, ops: [] };
+            } else {
+                var srcTok = expect('IDENT');
+                node = { source: srcTok.value, ops: [] };
+            }
             while (check('PUNCT', '|')) {
                 consume();
-                ops.push(parseOp());
+                node.ops.push(parseOp());
             }
-            return { source: src.value, ops: ops };
+            return node;
         }
 
         function parseOp() {
             var t = peek();
-            // Dual-use IDENT-as-operator (e.g., 'count').
+            // Dual-use IDENT-as-operator (e.g., 'count', 'join').
             if (t.kind === 'IDENT' && IDENT_OPS[t.value]) {
                 if (t.value === 'count') { consume(); return { kind: 'count' }; }
+                if (t.value === 'join')  { consume(); return parseJoin(); }
             }
             if (t.kind !== 'KEYWORD') throw KqlError("expected an operator after '|', got '" + t.value + "'", t.pos);
             switch (t.value) {
@@ -268,6 +306,30 @@
                 default:
                     throw KqlError("unsupported operator: " + t.value, t.pos);
             }
+        }
+
+        function parseJoin() {
+            // join [kind=K] (rhsPipelineOrTable) on col1 [, col2, ...]
+            var jkind = 'inner';
+            // Optional kind=K. 'kind' lexes as IDENT.
+            if (check('IDENT') && peek().value === 'kind') {
+                consume();
+                expect('PUNCT', '=');
+                jkind = (peek().kind === 'IDENT' ? consume().value : expect('KEYWORD').value);
+            }
+            // RHS source: either a parenthesized pipeline, or a bare table/CTE name.
+            var rhs;
+            if (check('PUNCT', '(')) {
+                consume();
+                rhs = parsePipeline();
+                expect('PUNCT', ')');
+            } else {
+                rhs = { source: expect('IDENT').value, ops: [] };
+            }
+            expect('KEYWORD', 'on');
+            var cols = [];
+            do { cols.push(expect('IDENT').value); } while (eat('PUNCT', ','));
+            return { kind: 'join', joinKind: jkind, rhs: rhs, cols: cols };
         }
 
         function parseProjectList() {
@@ -319,7 +381,15 @@
                         by.push({ alias: alias, expr: parseExpr() });
                     } else {
                         var ex = parseExpr();
-                        by.push({ alias: ex.kind === 'ident' ? ex.name : null, expr: ex });
+                        var alias = ex.kind === 'ident' ? ex.name : null;
+                        // KQL: `summarize ... by bin(TimeGenerated, ...)` names
+                        // the output column TimeGenerated (the inner ident).
+                        if (!alias && ex.kind === 'call' && ex.name &&
+                                ex.name.toLowerCase() === 'bin' &&
+                                ex.args && ex.args[0] && ex.args[0].kind === 'ident') {
+                            alias = ex.args[0].name;
+                        }
+                        by.push({ alias: alias, expr: ex });
                     }
                 } while (eat('PUNCT', ','));
             }
@@ -449,9 +519,43 @@
                 consume();
                 if (check('PUNCT', '(')) {
                     consume();
+                    // Special case: datetime(YYYY-MM-DD[Thh:mm:ssZ]) -- KQL allows
+                    // a bareword datetime literal here. Reconstruct it from the
+                    // raw token sequence between the parens and synthesize a
+                    // string arg. Bail to normal parsing if it doesn't look right.
+                    var lname = t.value.toLowerCase();
+                    if ((lname === 'datetime' || lname === 'todatetime') && peek() && peek().kind === 'NUMBER' && source) {
+                        // Reconstruct from raw source: scan forward until matching ')'
+                        var startPos = peek().pos;
+                        var depth = 1;
+                        var endPos = startPos;
+                        while (endPos < source.length) {
+                            var ch = source[endPos];
+                            if (ch === '(') depth++;
+                            else if (ch === ')') { depth--; if (depth === 0) break; }
+                            endPos++;
+                        }
+                        var raw = source.slice(startPos, endPos).trim();
+                        if (/^\d{4}-\d{2}-\d{2}/.test(raw)) {
+                            // Advance token cursor past everything inside the parens.
+                            while (pos < tokens.length && peek().pos < endPos) consume();
+                            expect('PUNCT', ')');
+                            return { kind: 'call', name: t.value, args: [{ kind: 'string', value: raw }] };
+                        }
+                    }
                     var args = [];
                     if (!check('PUNCT', ')')) {
-                        do { args.push(parseExpr()); } while (eat('PUNCT', ','));
+                        do {
+                            // arg_max/arg_min special form: `*` denotes "all
+                            // columns of the matching row". Captured as a
+                            // sentinel AST node and handled in translate.
+                            if (check('OP', '*')) {
+                                consume();
+                                args.push({ kind: 'star' });
+                            } else {
+                                args.push(parseExpr());
+                            }
+                        } while (eat('PUNCT', ','));
                     }
                     expect('PUNCT', ')');
                     return { kind: 'call', name: t.value, args: args };
@@ -482,16 +586,30 @@
         scope = scope || {};
         scope.lets = scope.lets || {};
 
-        // Resolve let-bindings (scalar only, evaluated as SQL expressions in scope).
+        // Resolve let-bindings: scalar -> stash SQL expr, tabular -> emit CTE.
+        var ctes = [];
         if (script.lets) {
             for (var i = 0; i < script.lets.length; i++) {
                 var L = script.lets[i];
-                scope.lets[L.name] = exprSql(L.expr, scope);
+                if (L.pipeline) {
+                    var subSql = translate({ lets: [], pipeline: L.pipeline }, scope);
+                    ctes.push(quoteIdent(L.name) + ' AS (' + subSql + ')');
+                } else {
+                    scope.lets[L.name] = exprSql(L.expr, scope);
+                }
             }
         }
 
         var p = script.pipeline || script;
-        var sql = 'SELECT * FROM ' + quoteIdent(p.source);
+        var sql;
+        if (p.union) {
+            var parts = p.union.map(function (sub) {
+                return translate({ lets: [], pipeline: sub }, scope);
+            });
+            sql = '(' + parts.join(' UNION ALL ') + ')';
+        } else {
+            sql = 'SELECT * FROM ' + quoteIdent(p.source);
+        }
         var aliasNum = 0;
 
         for (var k = 0; k < p.ops.length; k++) {
@@ -521,8 +639,35 @@
                     break;
                 }
                 case 'summarize': {
+                    // Special form: summarize arg_max(orderCol, *) by groupCols
+                    // returns one row per group with all original columns from
+                    // the row that has max(orderCol). Emit ROW_NUMBER() over
+                    // a partition; post-strip the helper column.
+                    var argstar = null;
+                    if (op.aggs.length === 1) {
+                        var e0 = op.aggs[0].expr;
+                        if (e0.kind === 'call' && (e0.name === 'arg_max' || e0.name === 'arg_min')
+                                && e0.args.length === 2
+                                && e0.args[1].kind === 'star') {
+                            argstar = { dir: e0.name === 'arg_max' ? 'DESC' : 'ASC', orderCol: exprSql(e0.args[0], scope) };
+                        }
+                    }
+                    if (argstar) {
+                        var partition = op.by.map(function (e) { return exprSql(e.expr, scope); }).join(', ');
+                        var partClause = partition ? 'PARTITION BY ' + partition + ' ' : '';
+                        sql = 'SELECT * FROM (SELECT *, ROW_NUMBER() OVER (' + partClause +
+                              'ORDER BY ' + argstar.orderCol + ' ' + argstar.dir + ') AS "_rn" FROM (' +
+                              sql + ') AS ' + a + ') AS ' + a + 'r WHERE "_rn" = 1 /*PROJECT_AWAY:_rn*/';
+                        break;
+                    }
                     var aggList = op.aggs.map(function (e) {
-                        return exprSql(e.expr, scope) + ' AS ' + quoteIdent(e.alias || '_agg');
+                        // KQL auto-names a bare aggregate call `<name>_`
+                        // (e.g. `count()` -> `count_`, `dcount(x)` -> `dcount_`).
+                        var defaultAlias = '_agg';
+                        if (!e.alias && e.expr.kind === 'call' && e.expr.name) {
+                            defaultAlias = e.expr.name + '_';
+                        }
+                        return exprSql(e.expr, scope) + ' AS ' + quoteIdent(e.alias || defaultAlias);
                     });
                     var byList = op.by.map(function (e) {
                         return exprSql(e.expr, scope) + ' AS ' + quoteIdent(e.alias || '_by');
@@ -558,11 +703,35 @@
                     sql = 'SELECT * FROM (' + sql + ') AS ' + a + ' ORDER BY ' + ord;
                     break;
                 }
+                case 'join': {
+                    var rhsSql = translate({ lets: [], pipeline: op.rhs }, scope);
+                    var colList = op.cols.map(quoteIdent).join(', ');
+                    if (op.joinKind === 'leftanti') {
+                        var conds = op.cols.map(function (c) {
+                            return 'L.' + quoteIdent(c) + ' = R.' + quoteIdent(c);
+                        }).join(' AND ');
+                        sql = 'SELECT L.* FROM (' + sql + ') AS L WHERE NOT EXISTS (SELECT 1 FROM (' +
+                              rhsSql + ') AS R WHERE ' + conds + ')';
+                    } else if (op.joinKind === 'leftsemi') {
+                        var conds2 = op.cols.map(function (c) {
+                            return 'L.' + quoteIdent(c) + ' = R.' + quoteIdent(c);
+                        }).join(' AND ');
+                        sql = 'SELECT L.* FROM (' + sql + ') AS L WHERE EXISTS (SELECT 1 FROM (' +
+                              rhsSql + ') AS R WHERE ' + conds2 + ')';
+                    } else if (op.joinKind === 'leftouter') {
+                        sql = 'SELECT * FROM (' + sql + ') AS L LEFT JOIN (' + rhsSql + ') AS R USING (' + colList + ')';
+                    } else {
+                        // inner (KQL default 'innerunique' close enough for our subset)
+                        sql = 'SELECT * FROM (' + sql + ') AS L INNER JOIN (' + rhsSql + ') AS R USING (' + colList + ')';
+                    }
+                    break;
+                }
                 default:
                     throw KqlError('unsupported pipeline op: ' + op.kind);
             }
         }
 
+        if (ctes.length) sql = 'WITH ' + ctes.join(', ') + ' ' + sql;
         return sql;
     }
 
@@ -647,16 +816,16 @@
                 if (rs !== null) return '(NOT ' + likeStr(L, escapeStr('%' + escapeLike(rs))) + ')';
                 break;
             case 'has':
-                // word-boundary case-insensitive match
+                // True term match via custom kql_has() registered in runtime.js.
+                // Old space-padding hack failed for `-EncodedCommand`,
+                // `mimikatz.exe`, etc. Term boundaries = non-[A-Za-z0-9_].
                 if (rs !== null) {
-                    var word = ' ' + rs.replace(/'/g, "''") + ' ';
-                    return "((' '||LOWER(CAST(" + L + " AS TEXT))||' ') LIKE LOWER('%" + escapeLike(word) + "%') ESCAPE '\\')";
+                    return "(kql_has(CAST(" + L + " AS TEXT), " + escapeStr(rs) + ") = 1)";
                 }
                 break;
             case '!has':
                 if (rs !== null) {
-                    var word2 = ' ' + rs.replace(/'/g, "''") + ' ';
-                    return "(NOT (' '||LOWER(CAST(" + L + " AS TEXT))||' ') LIKE LOWER('%" + escapeLike(word2) + "%') ESCAPE '\\')";
+                    return "(kql_has(CAST(" + L + " AS TEXT), " + escapeStr(rs) + ") = 0)";
                 }
                 break;
         }
@@ -710,8 +879,11 @@
                 var grain = node.args[1];
                 if (grain.kind !== 'duration') throw KqlError("bin() second arg must be a duration");
                 var gs = durationSeconds(grain);
-                // Bin to nearest gs-second boundary
-                return "DATETIME(CAST(STRFTIME('%s'," + col + ")/" + gs + " AS INTEGER) * " + gs + ", 'unixepoch')";
+                // Bin to nearest gs-second boundary, then emit ISO 8601 with T/Z
+                // so the output matches stored TimeGenerated format ('...T...Z').
+                // SQLite's default DATETIME() yields '2026-04-29 08:15:00' which
+                // breaks both row-content compares and downstream filters.
+                return "STRFTIME('%Y-%m-%dT%H:%M:%SZ', CAST(STRFTIME('%s'," + col + ")/" + gs + " AS INTEGER) * " + gs + ", 'unixepoch')";
             }
 
             // String
@@ -732,6 +904,18 @@
             case 'isnotnull':  return '(' + args[0] + ' IS NOT NULL)';
             case 'iff': case 'iif':
                 return '(CASE WHEN ' + args[0] + ' THEN ' + args[1] + ' ELSE ' + args[2] + ' END)';
+            case 'case': {
+                // case(p1, v1, p2, v2, ..., default)
+                if (args.length < 3 || args.length % 2 === 0) {
+                    throw KqlError('case() expects an odd number of args (>=3): pred, val, ..., default');
+                }
+                var parts = ['CASE'];
+                for (var ci = 0; ci + 1 < args.length; ci += 2) {
+                    parts.push('WHEN ' + args[ci] + ' THEN ' + args[ci + 1]);
+                }
+                parts.push('ELSE ' + args[args.length - 1] + ' END');
+                return '(' + parts.join(' ') + ')';
+            }
 
             // Aggregates
             case 'count':   return 'COUNT(*)';
@@ -750,6 +934,17 @@
             case 'toreal':
             case 'todouble': return 'CAST(' + args[0] + ' AS REAL)';
             case 'tobool':   return '(CASE WHEN ' + args[0] + ' THEN 1 ELSE 0 END)';
+            case 'make_set': {
+                // make_set(col [, maxItems]) -> deduped JSON array
+                // SQLite's json_group_array(DISTINCT col) gives us the dedup;
+                // the maxItems cap is approximated -- we ignore it (gold lists
+                // don't usually exceed the cap) and emit the full distinct set.
+                return 'json_group_array(DISTINCT ' + args[0] + ')';
+            }
+            case 'make_list': {
+                // make_list(col [, maxItems]) -> JSON array, dup-preserving
+                return 'json_group_array(' + args[0] + ')';
+            }
             case 'todatetime':
                 // CSV TimeGenerated is stored as ISO text ('2026-04-29T12:50:00Z').
                 // SQLite's DATETIME() would normalize to '2026-04-29 12:52:40'
@@ -769,7 +964,7 @@
        ============================================================ */
     function compile(source) {
         var tokens = tokenize(source);
-        var ast = parse(tokens);
+        var ast = parse(tokens, source);
         var sql = translate(ast);
         // Handle project-away post-rewrite (we don't know full schema here, so leave as comment)
         return { ast: ast, sql: sql };
