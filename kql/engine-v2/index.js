@@ -99,6 +99,27 @@ function rewriteTimePredicates(kql) {
 // 1) Raw-string literals  @"..." / @'...'  ->  "..." / '...'
 //    KQL @-prefix means "treat backslashes literally". v1 string literals
 //    don't interpret backslash escapes anyway, so dropping the @ is safe.
+function _rewriteMaterializeUnwrap(kql) {
+    // Drop `materialize(...)` wrappers; in real KQL it's a caching hint, in
+    // our subset it's identity. Strip with paren-balance scan so nested
+    // parens inside the wrapped pipeline are preserved.
+    var i = 0, out = '';
+    while (i < kql.length) {
+        var idx = kql.indexOf('materialize(', i);
+        if (idx < 0) { out += kql.slice(i); break; }
+        out += kql.slice(i, idx);
+        var depth = 1, j = idx + 'materialize('.length;
+        while (j < kql.length && depth > 0) {
+            if (kql[j] === '(') depth++;
+            else if (kql[j] === ')') { depth--; if (depth === 0) break; }
+            j++;
+        }
+        out += kql.slice(idx + 'materialize('.length, j);
+        i = j + 1;
+    }
+    return out;
+}
+
 function _rewriteRawStrings(kql) {
     // @-prefixed raw strings: backslashes are LITERAL. v1's string lexer turns
     // '\b' into 'b'; pre-double the backslashes so the lexer's swallow-
