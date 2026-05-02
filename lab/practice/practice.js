@@ -348,6 +348,8 @@ function grade(userResult, userKql, goldRecord) {
         speed,
         cmp,
         total: correctness + refinement.value + speed.value,
+        userResult,    // {columns, rows, elapsedMs, rewrittenKql}
+        goldRecord,    // gold contract entry {columns, rows, ordered, ...}
     };
 }
 
@@ -446,6 +448,45 @@ function renderEmptyResults() {
     $('#results-panel').innerHTML = `<div class="results-empty"><em>No run yet. Hit Test Run when you've got a query worth checking.</em></div>`;
 }
 
+function renderResultTable(cols, rows, opts) {
+    opts = opts || {};
+    const cap = opts.cap == null ? 50 : opts.cap;
+    const cls = opts.cls || '';
+    if (!cols || !cols.length) {
+        return '<div class="results-empty"><em>(no columns)</em></div>';
+    }
+    if (!rows || !rows.length) {
+        return `<table class="results-table ${cls}"><thead><tr>${cols.map(c => `<th>${escapeHtml(c)}</th>`).join('')}</tr></thead><tbody><tr><td colspan="${cols.length}" class="results-empty">no rows</td></tr></tbody></table>`;
+    }
+    const shown = rows.slice(0, cap);
+    const headers = cols.map(c => `<th>${escapeHtml(c)}</th>`).join('');
+    const body = shown.map(r => {
+        const cells = cols.map((_, i) => {
+            const v = r[i];
+            const s = v == null ? '' : (typeof v === 'object' ? JSON.stringify(v) : String(v));
+            return `<td>${escapeHtml(s)}</td>`;
+        }).join('');
+        return `<tr>${cells}</tr>`;
+    }).join('');
+    const more = rows.length > cap
+        ? `<tfoot><tr><td colspan="${cols.length}" class="results-more">+${rows.length - cap} more rows (showing first ${cap})</td></tr></tfoot>`
+        : '';
+    return `<table class="results-table ${cls}"><thead><tr>${headers}</tr></thead><tbody>${body}</tbody>${more}</table>`;
+}
+
+// Unwrap gold rows into bare positional arrays in the same shape v1 returns
+// (PS 5.1 ConvertTo-Json wraps as {value, Count}). Mirrors _unwrapRow above.
+function unwrapGoldRowsForRender(goldRecord) {
+    let rows = goldRecord.rows || [];
+    const cols = goldRecord.columns || [];
+    if (goldRecord.rowCount === 1
+            && rows.length === cols.length
+            && rows.every(c => typeof c !== 'object' || c === null)) {
+        rows = [rows];
+    }
+    return rows.map(_unwrapRow);
+}
+
 function showResult(grade, isSubmit) {
     const cmp = grade.cmp;
     const axisCorr = grade.correctness === 1 ? 'is-perfect' : 'is-zero';
@@ -492,6 +533,20 @@ function showResult(grade, isSubmit) {
         <ul class="results-notes">
             ${notes.map(n => `<li class="note-${n.kind}">${escapeHtml(n.msg)}</li>`).join('')}
         </ul>
+        <div class="results-tables">
+            <div class="results-table-block">
+                <div class="results-table-title">Your result <span class="results-table-meta">${grade.userResult.rows ? grade.userResult.rows.length : 0} rows &middot; ${(grade.userResult.elapsedMs || 0).toFixed(0)} ms</span></div>
+                ${renderResultTable(grade.userResult.columns || [], grade.userResult.rows || [], { cls: 'is-user', cap: 50 })}
+            </div>
+            <div class="results-table-block">
+                <div class="results-table-title">Expected (gold) <span class="results-table-meta">${grade.goldRecord.rowCount} rows</span></div>
+                ${renderResultTable(
+                    (grade.goldRecord.columns || []).map(c => c.name || c),
+                    unwrapGoldRowsForRender(grade.goldRecord),
+                    { cls: 'is-gold', cap: 50 }
+                )}
+            </div>
+        </div>
         ${isSubmit
             ? `<div class="submit-banner"><strong>Submitted.</strong> Score locked for this question.</div>`
             : `<div class="submit-banner">Test Run only. Hit <strong>Submit</strong> when you're ready to lock the score.</div>`

@@ -392,3 +392,92 @@
     color: var(--text-2);
 }
 .submit-banner strong { color: var(--text-1); }
+
+/* ========================================================================== */
+/* User-result + gold tables shown after Test Run / Submit                    */
+/* ========================================================================== */
+
+.results-tables {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.9rem;
+    margin-top: 1rem;
+}
+@media (min-width: 1100px) {
+    .results-tables { grid-template-columns: 1fr 1fr; }
+}
+
+.results-table-block {
+    background: var(--bg-1);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 0.6rem 0.7rem 0.4rem;
+    overflow: hidden;
+}
+
+.results-table-title {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-2);
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+.results-table-meta {
+    font-size: 0.72rem;
+    color: var(--text-3);
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    display: block;
+    overflow-x: auto;
+    max-height: 360px;
+}
+.results-table thead th {
+    position: sticky;
+    top: 0;
+    background: var(--surface);
+    color: var(--text-1);
+    text-align: left;
+    padding: 0.35rem 0.6rem;
+    border-bottom: 1px solid var(--line);
+    font-weight: 600;
+    white-space: nowrap;
+}
+.results-table tbody td {
+    padding: 0.3rem 0.6rem;
+    border-bottom: 1px solid var(--line);
+    color: var(--text-1);
+    vertical-align: top;
+    max-width: 28ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.results-table tbody td:hover {
+    white-space: normal;
+    overflow: visible;
+    background: var(--surface-2);
+}
+.results-table tbody tr:last-child td { border-bottom: none; }
+.results-table tfoot td {
+    padding: 0.3rem 0.6rem;
+    color: var(--text-3);
+    font-style: italic;
+    text-align: center;
+    border-top: 1px solid var(--line);
+}
+.results-table .results-empty { padding: 0.4rem 0.6rem; }
+
+/* Subtle accent so user-vs-gold is visually distinguishable */
+.results-table.is-user thead th { color: var(--mint-deep); }
+.results-table.is-gold thead th { color: var(--amber); }
