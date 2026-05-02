@@ -944,3 +944,19 @@ article.post p { margin: 0 0 1.1rem; color: var(--text-1); }
     background: var(--bg-1);
     border-bottom-color: transparent;
 }
+
+/* ------------------------------------------------------------
+   Lead-paragraph / subhead wrapping. Use modern text-wrap so the
+   browser avoids orphan words and balances line lengths across
+   the whole site without per-page tweaks. text-wrap is gracefully
+   ignored on older browsers.
+   ------------------------------------------------------------ */
+.subhead,
+.tagline,
+.practice-tagline,
+.lead,
+p.lab-rationale {
+    text-wrap: pretty;
+    max-width: 70ch;
+    line-height: 1.55;
+}
