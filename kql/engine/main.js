@@ -13,7 +13,23 @@
     var resultsEl = document.getElementById('results');
     var sqlPreview = document.getElementById('sql-preview');
     var tablesList = document.getElementById('tables-list');
+    var datasetSelect = document.getElementById('dataset-select');
     if (!editor || !runBtn || !statusEl || !resultsEl) return;
+
+    var DATASETS = {
+        storyline: { basePath: '/kql/data/',       label: 'Storyline (default)' },
+        expanded:  { basePath: '/kql/data-large/', label: 'Expanded' }
+    };
+    var DATASET_KEY = 'kqlPlayground.dataset';
+    function getSavedDataset() {
+        try {
+            var v = localStorage.getItem(DATASET_KEY);
+            return DATASETS[v] ? v : 'storyline';
+        } catch (e) { return 'storyline'; }
+    }
+    function saveDataset(v) {
+        try { localStorage.setItem(DATASET_KEY, v); } catch (e) {}
+    }
 
     function setStatus(text, kind) {
         statusEl.textContent = text;
@@ -201,16 +217,61 @@
     setStatus('Initializing engine...', 'busy');
     renderEmpty('Loading sample data...');
 
+    function rowsLoadedSummary(tables) {
+        var total = Object.values(tables).reduce(function (a, b) { return a + b; }, 0);
+        var tableCount = Object.keys(tables).filter(function (k) { return tables[k] > 0; }).length;
+        return total + ' rows across ' + tableCount + ' tables';
+    }
+
+    function reloadDataset(name) {
+        var ds = DATASETS[name];
+        if (!ds) return Promise.reject(new Error('Unknown dataset: ' + name));
+        setStatus('Loading ' + ds.label + ' dataset...', 'busy');
+        renderEmpty('Re-ingesting CSVs from ' + ds.basePath + '...');
+        if (datasetSelect) datasetSelect.disabled = true;
+        runBtn.disabled = true;
+        var t0 = performance.now();
+        return Runtime.reload({ basePath: ds.basePath }).then(function (tables) {
+            var dt = (performance.now() - t0).toFixed(0);
+            fillTables(tables);
+            saveDataset(name);
+            setStatus('Ready (' + ds.label + '). ' + rowsLoadedSummary(tables) + ' in ' + dt + ' ms.', 'ok');
+            renderEmpty('Dataset switched. Click <strong>Run query</strong> or press <kbd>Ctrl</kbd>+<kbd>Enter</kbd>.');
+        }).catch(function (err) {
+            console.error(err);
+            setStatus('Dataset load failed: ' + err.message, 'err');
+            renderEmpty('Failed to load ' + ds.label + ' dataset. Check the browser console.');
+        }).then(function () {
+            if (datasetSelect) datasetSelect.disabled = false;
+            runBtn.disabled = false;
+        });
+    }
+
+    if (datasetSelect) {
+        datasetSelect.value = getSavedDataset();
+        datasetSelect.addEventListener('change', function () {
+            var v = datasetSelect.value;
+            if (v === 'expanded') {
+                if (!confirm('Loading the Expanded dataset (~10 MB). First ingest takes 5-15 seconds.\n\nProceed?')) {
+                    datasetSelect.value = Runtime.getDataset && Runtime.getDataset() === DATASETS.expanded.basePath ? 'expanded' : 'storyline';
+                    return;
+                }
+            }
+            reloadDataset(v);
+        });
+    }
+
     Runtime.initialize({
         onProgress: function (info) {
             if (info.phase === 'loading-wasm')  setStatus('Loading WASM SQLite...', 'busy');
             if (info.phase === 'loading-data') setStatus('Loading sample tables...', 'busy');
             if (info.phase === 'ready') {
                 fillTables(info.tables);
-                var total = Object.values(info.tables).reduce(function (a, b) { return a + b; }, 0);
-                var tableCount = Object.keys(info.tables).filter(function (k) { return info.tables[k] > 0; }).length;
-                setStatus('Ready. ' + total + ' rows across ' + tableCount + ' tables.', 'ok');
+                setStatus('Ready. ' + rowsLoadedSummary(info.tables) + '.', 'ok');
                 renderEmpty('Click <strong>Run query</strong> or press <kbd>Ctrl</kbd>+<kbd>Enter</kbd>.');
+                // If the user previously chose expanded, auto-load it after init.
+                var saved = getSavedDataset();
+                if (saved === 'expanded') reloadDataset('expanded');
             }
         }
     }).catch(function (err) {

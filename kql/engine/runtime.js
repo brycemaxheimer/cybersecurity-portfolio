@@ -102,10 +102,15 @@
         return ingested;
     }
 
-    // Fetch + load a single table.
+    // Current data base path. Mutable so reload() can swap datasets without
+    // re-creating sql.js / re-registering custom functions.
+    var basePath = '/kql/data/';
+
+    // Fetch + load a single table from the active basePath.
     function fetchAndLoad(tableName) {
-        return fetch('/kql/data/' + tableName + '.csv').then(function (resp) {
-            if (!resp.ok) throw new Error('Failed to fetch ' + tableName + ': HTTP ' + resp.status);
+        var url = basePath + tableName + '.csv';
+        return fetch(url).then(function (resp) {
+            if (!resp.ok) throw new Error('Failed to fetch ' + tableName + ' from ' + url + ': HTTP ' + resp.status);
             return resp.text();
         }).then(function (text) {
             createTable(tableName);
@@ -204,11 +209,37 @@
     }
 
     function getLoadedTables() { return Object.assign({}, tableLoaded); }
+    function getDataset() { return basePath; }
+
+    // Swap to a different data directory (e.g. '/kql/data-large/') without
+    // rebuilding sql.js or re-registering functions. Drops the existing
+    // tables and re-ingests every schema-defined table from the new path.
+    function reload(opts) {
+        opts = opts || {};
+        var onProgress = opts.onProgress || function () {};
+        var newBase = opts.basePath || basePath;
+        if (newBase.slice(-1) !== '/') newBase += '/';
+        basePath = newBase;
+        tableLoaded = {};
+        onProgress({ phase: 'reload-start', basePath: basePath });
+        var tables = Schema.tableNames();
+        return Promise.all(tables.map(function (t) {
+            return fetchAndLoad(t).catch(function (e) {
+                console.warn('skipping table ' + t + ': ' + e.message);
+                return 0;
+            });
+        })).then(function () {
+            onProgress({ phase: 'reload-done', basePath: basePath, tables: tableLoaded });
+            return tableLoaded;
+        });
+    }
 
     global.KqlRuntime = {
         initialize: initialize,
         query: query,
+        reload: reload,
         getLoadedTables: getLoadedTables,
+        getDataset: getDataset,
     };
 
 })(window);

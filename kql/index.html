@@ -151,6 +151,17 @@
 }
 .pg-supported dd { margin: 0; color: var(--text-1); font-size: 0.93rem; }
 .pg-supported code { font-size: 0.82rem; }
+.pg-dataset {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-family: var(--font-mono); font-size: 0.78rem;
+    color: var(--text-2);
+}
+.pg-dataset select {
+    background: var(--bg-1); color: var(--text-1);
+    border: 1px solid var(--line); border-radius: 3px;
+    padding: 0.2rem 0.4rem; font: inherit;
+}
+.pg-dataset select:hover { border-color: var(--mint-deep); }
 </style>
 </head>
 <body>
@@ -240,6 +251,13 @@ A working KQL engine in your browser. Type queries against pre-loaded sample tab
 
 <div class="pg-toolbar">
 <button class="pg-run" id="run-btn">Run query &rarr;</button>
+<label class="pg-dataset" title="Storyline = small (default, fast). Expanded = ~10 MB; first ingest takes 5-15 sec.">
+    <span class="pg-dataset-label">Dataset:</span>
+    <select id="dataset-select">
+        <option value="storyline">Storyline (default, fast)</option>
+        <option value="expanded">Expanded (~10 MB, slower)</option>
+    </select>
+</label>
 <span class="pg-status" id="status">Initializing engine...</span>
 </div>
 

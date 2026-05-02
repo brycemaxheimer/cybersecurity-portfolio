@@ -1,0 +1,2 @@
+TimeGenerated,UserPrincipalName,UserDisplayName,UserId,IPAddress,AppDisplayName,AppId,ClientAppUsed,ResultType,ResultDescription,ConditionalAccessStatus,IsRisky,RiskLevelDuringSignIn,RiskState,RiskEventTypes,LocationDetails,DeviceDetail,AuthenticationRequirement,IsInteractive,UserAgent,Type
+1970-01-01T00:00:00Z,,,,,,,,,,,,,,,,,,,,
