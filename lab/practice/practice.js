@@ -161,33 +161,61 @@ async function resolveEngine() {
 // 4. Result comparison + grading
 // ----------------------------------------------------------------------------
 
+// Canonicalize a JS value to a stable JSON string (sorted keys, no whitespace)
+// so 'true'/'false' vs 1/0, '{"a":1}' vs '{"a": 1}', and similar PS-vs-JS
+// serialization quirks compare equal.
+function _canonJson(v) {
+    if (v == null) return 'null';
+    if (typeof v !== 'object') return JSON.stringify(v);
+    if (Array.isArray(v)) return '[' + v.map(_canonJson).join(',') + ']';
+    const keys = Object.keys(v).sort();
+    return '{' + keys.map(k => JSON.stringify(k) + ':' + _canonJson(v[k])).join(',') + '}';
+}
+
+// Normalize a single cell to a comparable string form. Mirrors the test
+// harness's normCell in kql/test-harness/run-gold-tests.cjs so the browser
+// grades the same way the harness does.
 function normalizeCell(v) {
-    if (v === null || v === undefined) return '';
-    if (v instanceof Date) return v.toISOString().replace(/\.\d+Z$/, 'Z').replace(/\.\d+$/, '');
-    if (typeof v === 'boolean') return v ? 'true' : 'false';
-    if (Array.isArray(v) || (typeof v === 'object')) {
-        try { return JSON.stringify(v); } catch { return String(v); }
+    if (v == null) return '';
+    if (v instanceof Date) return v.toISOString().replace(/\.\d+Z$/, 'Z');
+    if (typeof v === 'number') {
+        if (!Number.isFinite(v)) return '';
+        return String(v);
     }
-    const s = String(v);
-    // ISO datetime → second precision
+    if (typeof v === 'boolean') return v ? '1' : '0';
+    if (typeof v === 'object') {
+        // Unwrap PS 5.1's `{value: [...], Count: N}` array envelope
+        if (Array.isArray(v.value) && 'Count' in v) return _canonJson(v.value);
+        return _canonJson(v);
+    }
+    let s = String(v);
+    // JSON-shaped strings -> canonical JSON so PS-vs-JS spacing compares equal
+    if (/^[\[{]/.test(s.trim())) {
+        try { return _canonJson(JSON.parse(s)); } catch (_) { /* fall through */ }
+    }
+    // Bool serialization: PS gold has "true"/"false" strings while v1 stores 0/1.
+    if (s === 'true')  return '1';
+    if (s === 'false') return '0';
+    if (/^-?\d+$/.test(s)) return s;
+    // ISO datetime -> second precision
     if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z?$/.test(s)) {
         try {
             const d = new Date(s);
             return d.toISOString().replace(/\.\d+Z$/, 'Z');
-        } catch {}
+        } catch (_) {}
     }
     return s;
 }
 
 function rowSignature(row) {
-    return row.map(normalizeCell).join('');
+    return row.map(normalizeCell).join('\u001f');
 }
 
-// PowerShell 5.1's ConvertTo-Json serializes nested arrays as
-// `{value: [...], Count: N}` envelopes instead of bare arrays. Build-GoldResults.ps1
-// emits the gold file through ConvertTo-Json so most rows look like:
-//     { "value": ["2026-04-29T04:00:40Z","SVR-WEB-01",...], "Count": 4 }
-// Detect that shape and unwrap to the bare positional array.
+// PowerShell 5.1 ConvertTo-Json wraps nested arrays as
+// `{value: [...], Count: N}` envelopes. The gold file goes through that
+// pipeline, so most rows look like
+//     { "value": ["2026-04-29T...","SVR-WEB-01",...], "Count": 4 }
+// Detect and unwrap.
 function _unwrapRow(r) {
     if (r && !Array.isArray(r) && Array.isArray(r.value) && (typeof r.Count === 'number' || 'Count' in r)) {
         return r.value;
@@ -199,34 +227,50 @@ function compareResults(userResult, goldRecord) {
     const userCols = userResult.columns || [];
     const userRows = userResult.rows    || [];
     const goldCols = (goldRecord.columns || []).map(c => c.name || c);
-    const goldRows = (goldRecord.rows || []).map(_unwrapRow);
 
-    const sharedCols = goldCols.filter(c => userCols.includes(c));
+    // PS sometimes emits a single row as a flat array (rowCount=1, rows=[c1,c2,c3])
+    // instead of [[c1,c2,c3]]. Detect and re-wrap.
+    let goldRows = goldRecord.rows || [];
+    if (goldRecord.rowCount === 1
+            && goldRows.length === goldCols.length
+            && goldRows.every(c => typeof c !== 'object' || c === null)) {
+        goldRows = [goldRows];
+    }
+    goldRows = goldRows.map(_unwrapRow);
+
     const userIdx = new Map(userCols.map((c, i) => [c, i]));
-    const goldIdx = new Map(goldCols.map((c, i) => [c, i]));
-
     const missingFromUser = goldCols.filter(c => !userCols.includes(c));
-
-    // Column shape
-    const colsMatch = missingFromUser.length === 0 && sharedCols.length === goldCols.length;
-
-    // Row count
+    const colsMatch = missingFromUser.length === 0;
     const rowCountMatch = userRows.length === goldRows.length;
 
-    // Row content over shared cols
-    const userSigs = new Set(
-        userRows.map(r => rowSignature(sharedCols.map(c => r[userIdx.get(c)])))
-    );
-    const goldSigs = new Set(
-        goldRows.map(r => rowSignature(sharedCols.map(c => r[goldIdx.get(c)])))
-    );
-    let rowsMatch = userSigs.size === goldSigs.size;
+    // Build column-name-keyed dicts for each row so column ORDER differences
+    // (e.g. summarize arg_max(*, *) putting by-col first) don't matter.
+    function userDict(row) {
+        const d = {};
+        for (const c of goldCols) {
+            const i = userIdx.get(c);
+            d[c] = i === undefined ? '__missing__' : normalizeCell(row[i]);
+        }
+        return d;
+    }
+    function goldDict(row) {
+        const d = {};
+        goldCols.forEach((c, i) => { d[c] = normalizeCell(row[i]); });
+        return d;
+    }
+    function dictKey(d) {
+        return JSON.stringify(Object.keys(d).sort().map(k => [k, d[k]]));
+    }
+
+    const userKeys = userRows.map(r => dictKey(userDict(r))).sort();
+    const goldKeys = goldRows.map(r => dictKey(goldDict(r))).sort();
+
+    let rowsMatch = userKeys.length === goldKeys.length;
     if (rowsMatch) {
-        for (const s of goldSigs) {
-            if (!userSigs.has(s)) { rowsMatch = false; break; }
+        for (let i = 0; i < userKeys.length; i++) {
+            if (userKeys[i] !== goldKeys[i]) { rowsMatch = false; break; }
         }
     }
-    // Tolerate empty-result schema gap (engine returns rows but no metadata)
     if (userRows.length === 0 && goldRows.length === 0) rowsMatch = true;
 
     return {
