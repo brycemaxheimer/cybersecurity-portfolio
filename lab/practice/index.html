@@ -2,16 +2,26 @@
 <html lang="en">
 <head>
 <script>
-  // Catch standard JavaScript errors
+  // 1. Catch standard JavaScript execution errors
   window.onerror = function(message, source, lineno, colno, error) {
-      alert("Application Error: " + message + "\nLine: " + lineno);
+      alert("Execution Error: " + message);
       return true; 
   };
-
-  // Catch failed network requests (like dropped .wasm or .json files)
+  // 2. Catch failed background requests (like the .wasm binary or JSON files)
   window.onunhandledrejection = function(event) {
-      alert("Network/Promise Error: " + (event.reason.message || event.reason));
+      var msg = event.reason ? (event.reason.message || event.reason) : "Unknown promise rejection";
+      alert("Background Fetch Error: " + msg);
   };
+  // 3. Catch blocked/dropped external files (This is what you need)
+  window.addEventListener('error', function(e) {
+      // Resource loading errors don't bubble, so we must catch them on the way down
+      if (e.target && e.target.tagName === 'SCRIPT') {
+          alert("FIREWALL BLOCKED SCRIPT: " + e.target.src);
+      } else if (e.target && e.target.tagName === 'LINK') {
+          alert("FIREWALL BLOCKED CSS: " + e.target.href);
+      }
+  }, true); // 'true' enables the capture phase
+</script>
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
