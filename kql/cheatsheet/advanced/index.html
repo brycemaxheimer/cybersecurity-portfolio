@@ -481,17 +481,21 @@ h3 { color: var(--accent) !important; }
 <a href="/certs/">Certs</a>
 <a href="/projects/">Projects</a>
 <span class="nav-dropdown">
-<a href="/lab/" class="active">Lab <span class="caret">&#9662;</span></a>
-<div class="nav-dropdown-menu">
-<a href="/kql/">KQL Playground</a>
-<a href="/lab/practice/">KQL Practice</a>
-<a href="/lab/mitre/">MITRE ATT&amp;CK</a>
-<a href="/lab/cve/">CVE / KEV / EPSS</a>
-<a href="/lab/kql-builder/">KQL Builder</a>
-<a href="/lab/templates/">KQL Templates</a>
-<a href="/lab/threat-intel/">Threat Intel</a>
-<a href="/kql/cheatsheet/">KQL Cheatsheet</a>
-</div>
+    <a href="/lab/" class="active">Lab <span class="caret">&#9662;</span></a>
+    <div class="nav-dropdown-menu">
+        <div class="nested-dropdown">
+            <a href="#" class="nested-dropbtn">KQL Tools <span class="caret-right">&#9656;</span></a>
+            <div class="nested-dropdown-menu">
+                <a href="/kql/">KQL Playground</a>
+                <a href="/lab/practice/">KQL Practice</a>
+                <a href="/lab/kql-builder/">KQL Builder</a>
+                <a href="/lab/templates/">KQL Templates</a>
+            </div>
+        </div>
+        <a href="/lab/mitre/">MITRE ATT&amp;CK</a>
+        <a href="/lab/cve/">CVE / KEV / EPSS</a>
+        <a href="/lab/threat-intel/">Threat Intel</a>
+    </div>
 </span>
 <a href="/writeups/">Writeups</a>
 <a href="/blog/">Blog</a>
