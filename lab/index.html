@@ -1,18 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script>
-  // Catch standard JavaScript errors
-  window.onerror = function(message, source, lineno, colno, error) {
-      alert("Application Error: " + message + "\nLine: " + lineno);
-      return true; 
-  };
-
-  // Catch failed network requests (like dropped .wasm or .json files)
-  window.onunhandledrejection = function(event) {
-      alert("Network/Promise Error: " + (event.reason.message || event.reason));
-  };
-</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Browser Lab - interactive security tools running entirely in your browser. KQL playground, MITRE ATT&CK explorer, CVE/KEV browser, threat intel walkthroughs.">
