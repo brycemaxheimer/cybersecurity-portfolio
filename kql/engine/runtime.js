@@ -162,6 +162,22 @@
                 var re = new RegExp('(^|[^A-Za-z0-9_])' + esc + '($|[^A-Za-z0-9_])');
                 return re.test(h) ? 1 : 0;
             });
+            // make_set / make_list cap. SQLite's json_group_array doesn't
+            // support a row cap directly, so the engine wraps the aggregate
+            // call in kql_cap_json(arr, N) and we slice the produced JSON
+            // array post-aggregation. Returns the input unchanged when n is
+            // null or the array is already short enough.
+            db.create_function('kql_cap_json', function (jsonStr, n) {
+                if (jsonStr == null || n == null) return jsonStr;
+                try {
+                    var arr = JSON.parse(String(jsonStr));
+                    if (!Array.isArray(arr)) return jsonStr;
+                    var cap = parseInt(n, 10);
+                    if (!isFinite(cap) || cap < 0) return jsonStr;
+                    if (arr.length > cap) return JSON.stringify(arr.slice(0, cap));
+                    return jsonStr;
+                } catch (_) { return jsonStr; }
+            });
             onProgress({ phase: 'loading-data' });
             var tables = Schema.tableNames();
             return Promise.all(tables.map(function (t) {
@@ -181,10 +197,17 @@
         var compiled = Engine.compile(kqlSource);
         var sql = compiled.sql;
 
-        // Handle project-away by post-filtering columns
+        // Handle project-away by post-filtering columns. The translator can
+        // emit multiple PROJECT_AWAY markers in one SQL string (e.g. an
+        // arg_max helper col stripped, plus a user-specified project-away on
+        // top). Collect every marker, not just the first.
         var awayCols = null;
-        var m = sql.match(/\/\*PROJECT_AWAY:([^*]+)\*\//);
-        if (m) awayCols = m[1].split(',');
+        var pawayRe = /\/\*PROJECT_AWAY:([^*]+)\*\//g;
+        var pawayMatch;
+        while ((pawayMatch = pawayRe.exec(sql)) !== null) {
+            if (!awayCols) awayCols = [];
+            awayCols = awayCols.concat(pawayMatch[1].split(','));
+        }
 
         var stmt = db.prepare(sql);
         var rows = [];

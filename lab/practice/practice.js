@@ -240,7 +240,11 @@ function compareResults(userResult, goldRecord) {
 
     const userIdx = new Map(userCols.map((c, i) => [c, i]));
     const missingFromUser = goldCols.filter(c => !userCols.includes(c));
-    const colsMatch = missingFromUser.length === 0;
+    const extraInUser     = userCols.filter(c => !goldCols.includes(c));
+    // Strict column match: gold column SET must equal user column set. Old
+    // grader allowed extras silently, which let "no project" or
+    // `extend Bonus = ...` queries pass with full correctness.
+    const colsMatch = missingFromUser.length === 0 && extraInUser.length === 0;
     const rowCountMatch = userRows.length === goldRows.length;
 
     // Build column-name-keyed dicts for each row so column ORDER differences
@@ -262,13 +266,23 @@ function compareResults(userResult, goldRecord) {
         return JSON.stringify(Object.keys(d).sort().map(k => [k, d[k]]));
     }
 
-    const userKeys = userRows.map(r => dictKey(userDict(r))).sort();
-    const goldKeys = goldRows.map(r => dictKey(goldDict(r))).sort();
+    const userDicts = userRows.map(userDict);
+    const goldDicts = goldRows.map(goldDict);
 
-    let rowsMatch = userKeys.length === goldKeys.length;
+    let rowsMatch = userDicts.length === goldDicts.length;
     if (rowsMatch) {
-        for (let i = 0; i < userKeys.length; i++) {
-            if (userKeys[i] !== goldKeys[i]) { rowsMatch = false; break; }
+        if (goldRecord.ordered) {
+            // Strict positional compare. Old grader sorted both sides even
+            // when `ordered: true`, which silently hid sort-direction errors.
+            for (let i = 0; i < userDicts.length; i++) {
+                if (dictKey(userDicts[i]) !== dictKey(goldDicts[i])) { rowsMatch = false; break; }
+            }
+        } else {
+            const userKeys = userDicts.map(dictKey).sort();
+            const goldKeys = goldDicts.map(dictKey).sort();
+            for (let i = 0; i < userKeys.length; i++) {
+                if (userKeys[i] !== goldKeys[i]) { rowsMatch = false; break; }
+            }
         }
     }
     if (userRows.length === 0 && goldRows.length === 0) rowsMatch = true;
@@ -278,6 +292,8 @@ function compareResults(userResult, goldRecord) {
         rowCountMatch,
         rowsMatch,
         missingFromUser,
+        extraInUser,
+        ordered: !!goldRecord.ordered,
         userRowCount: userRows.length,
         goldRowCount: goldRows.length,
     };
@@ -340,9 +356,28 @@ function gradeSpeed(userMs, goldMs) {
     return { value, ratio };
 }
 
-function grade(userResult, userKql, goldRecord) {
+function _normWS(s) {
+    return String(s == null ? '' : s).replace(/\s+/g, ' ').trim();
+}
+
+function grade(userResult, userKql, goldRecord, question) {
     const cmp = compareResults(userResult, goldRecord);
-    const correctness = cmp.colsMatch && cmp.rowCountMatch && cmp.rowsMatch ? 1.0 : 0.0;
+    let correctness = cmp.colsMatch && cmp.rowCountMatch && cmp.rowsMatch ? 1.0 : 0.0;
+
+    // Anti-cheat: FIX/BOTH questions show an intentionally-buggy sampleQuery
+    // and ask for the FIX. The local engine is only an approximation of
+    // Kusto, so several buggy snippets happen to return the same rows as the
+    // canonical fix (Q3 string-vs-datetime compare, Q20 tolower==,
+    // Q23 missing materialize, Q26 dynamic-field eq). Submitting the bug
+    // verbatim must not score full correctness.
+    if (correctness > 0 && question
+            && (question.type === 'FIX' || question.type === 'BOTH')
+            && question.sampleQuery
+            && _normWS(userKql) === _normWS(question.sampleQuery)) {
+        correctness = 0;
+        cmp.bugSubmittedVerbatim = true;
+    }
+
     const refinement  = gradeRefinement(userKql, goldRecord);
     const speed       = gradeSpeed(userResult.elapsedMs, goldRecord.adxMs ?? 100);
 
@@ -503,12 +538,24 @@ function showResult(grade, isSubmit) {
     const axisSpd  = grade.speed.value      >= 0.99 ? 'is-perfect' : grade.speed.value      >= 0.5 ? 'is-partial' : 'is-zero';
 
     const notes = [];
-    if (cmp.colsMatch) notes.push({ kind: 'good', msg: `Columns match (${cmp.userRowCount} rows)` });
-    else notes.push({ kind: 'bad',  msg: `Columns differ. Missing: ${cmp.missingFromUser.join(', ') || '(none)'}` });
+    if (cmp.bugSubmittedVerbatim) {
+        notes.push({ kind: 'bad', msg: 'You submitted the buggy sample verbatim. The question wants the FIX, not the original snippet.' });
+    }
+    if (cmp.colsMatch) {
+        notes.push({ kind: 'good', msg: `Columns match (${cmp.userRowCount} rows)` });
+    } else {
+        const parts = [];
+        if (cmp.missingFromUser && cmp.missingFromUser.length) parts.push('missing: ' + cmp.missingFromUser.join(', '));
+        if (cmp.extraInUser     && cmp.extraInUser.length)     parts.push('extra: '   + cmp.extraInUser.join(', '));
+        notes.push({ kind: 'bad', msg: 'Columns differ. ' + (parts.join('; ') || '(none)') });
+    }
     if (cmp.rowCountMatch) notes.push({ kind: 'good', msg: `Row count matches (${cmp.goldRowCount})` });
     else notes.push({ kind: 'bad',  msg: `Row count: yours=${cmp.userRowCount}, gold=${cmp.goldRowCount}` });
-    if (cmp.rowsMatch) notes.push({ kind: 'good', msg: 'Row content matches gold' });
-    else notes.push({ kind: 'bad', msg: 'Row content differs from gold' });
+    if (cmp.rowsMatch) {
+        notes.push({ kind: 'good', msg: cmp.ordered ? 'Row content matches gold (in order)' : 'Row content matches gold' });
+    } else {
+        notes.push({ kind: 'bad', msg: cmp.ordered ? 'Row content or order differs from gold' : 'Row content differs from gold' });
+    }
     for (const c of grade.refinement.checks) {
         notes.push({ kind: c.pass ? 'good' : 'bad', msg: c.msg });
     }
@@ -631,7 +678,8 @@ async function runQuery(isSubmit) {
         return;
     }
 
-    const g = grade(result, userKql, goldRecord);
+    const question = STATE.questions.find(x => x.number === num);
+    const g = grade(result, userKql, goldRecord, question);
     STATE.lastRun = { questionNum: num, result: g, isSubmit };
     showResult(g, isSubmit);
     $('#editor-status').textContent = `${result.rows.length} rows, ${result.elapsedMs.toFixed(0)} ms`;
