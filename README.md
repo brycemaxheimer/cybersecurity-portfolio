@@ -21,7 +21,7 @@ This site is a working notebook and portfolio. The main sections:
 
 ## Stack
 
-This site is HTML and CSS, with blog posts authored in Markdown and converted to HTML via a small PowerShell build script. It's hosted on Cloudflare Pages and the source lives on [GitHub](https://github.com/brycemaxheimer/cybersecurity-portfolio).
+This site is HTML and CSS, with blog posts authored in Markdown and converted to HTML via a small PowerShell build script. It's hosted on Cloudflare Pages and the source lives here.
 
 ## Contact
 
