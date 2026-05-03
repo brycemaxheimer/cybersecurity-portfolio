@@ -1,5 +1,5 @@
 **PS>** brycemaxheimer
-[About](/about.html) | [Resume](/resume/) | [Certs](/certs/) | [Projects](/projects/) | [Lab](/lab/) | [Writeups](/writeups/) | [Blog](/blog/) | [Customize](/customize/)
+[About](www.brycemaxheimer.com/about.html) | [Resume](/resume/) | [Certs](/certs/) | [Projects](/projects/) | [Lab](/lab/) | [Writeups](/writeups/) | [Blog](/blog/) | [Customize](/customize/)
 
 ---
 
