@@ -1,8 +1,3 @@
-**PS>** brycemaxheimer
-[About](www.brycemaxheimer.com/about.html) | [Resume](/resume/) | [Certs](/certs/) | [Projects](/projects/) | [Lab](/lab/) | [Writeups](/writeups/) | [Blog](/blog/) | [Customize](/customize/)
-
----
-
 # About
 
 I'm Bryce Maxheimer - cybersecurity analyst and U.S. Marine Corps Cyber Warfare Operator veteran with 4+ years of hands-on experience in threat hunting, digital forensics, network defense, and cyber infrastructure management. I currently work as a Shift Lead at the Defense Finance and Accounting Service (DFAS) and hold a DOD Clearance.
