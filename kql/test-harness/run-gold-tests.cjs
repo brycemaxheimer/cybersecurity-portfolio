@@ -182,12 +182,21 @@ function compareResults(actualRows, actualColumns, gold) {
         expected = [expected];
     }
     expected = expected.map(unwrapRow);
+    var goldNames = gold.columns.map(c => c.name);
+    // Column SET must match exactly. Old grader only checked gold ⊆ user,
+    // which silently accepted "no project" / extra-extend submissions.
+    var missing = goldNames.filter(n => actualColumns.indexOf(n) < 0);
+    var extra   = actualColumns.filter(n => goldNames.indexOf(n) < 0);
+    if (missing.length || extra.length) {
+        return { ok: false, reason: "columns differ" +
+            (missing.length ? "; missing: " + missing.join(",") : "") +
+            (extra.length   ? "; extra: "   + extra.join(",")   : "") };
+    }
     if (actualRows.length !== expected.length) {
         return { ok: false, reason: "row count: got " + actualRows.length + ", expected " + expected.length };
     }
     // Build column-name -> index for both sides. Compare by column name so
     // column order differences (e.g. arg_max putting by-col first) don't matter.
-    var goldNames = gold.columns.map(c => c.name);
     var actNameIdx = {};
     actualColumns.forEach((n, i) => { actNameIdx[n] = i; });
     function rowDict(row, namesOrIdx) {

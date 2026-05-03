@@ -935,8 +935,39 @@
         return quoteIdent(name);
     }
 
+    // Heuristic: walk every schema-defined table and ask whether `name` is
+    // registered as a datetime column anywhere. Used by binopSql to reject
+    // 'datetime > "..."' style accidents that SQLite would silently lex-
+    // compare and pass.
+    function _isDatetimeColumn(name) {
+        var Sch = (typeof window !== 'undefined' && window.KqlSchema)
+               || (typeof global !== 'undefined' && global && global.KqlSchema)
+               || null;
+        if (!Sch) return false;
+        var names = Object.keys(Sch);
+        for (var i = 0; i < names.length; i++) {
+            var t = Sch[names[i]];
+            if (!t || !t.columns) continue;
+            for (var j = 0; j < t.columns.length; j++) {
+                if (t.columns[j].name === name && t.columns[j].type === 'datetime') return true;
+            }
+        }
+        return false;
+    }
+
     function binopSql(node, scope) {
         var op = node.op;
+        // Reject comparing a datetime-typed column to a bare string literal.
+        // Real Kusto raises a type error; SQLite would silently lex-compare
+        // TEXT and "succeed" for the wrong reason -- e.g. TimeGenerated >
+        // "2026-04-25" passes every '2026-04-29T...Z' row because 'T' (84)
+        // > '-' lexicographically. Force an explicit datetime() wrap.
+        if ((op === '>' || op === '<' || op === '>=' || op === '<=' || op === '==' || op === '!=') &&
+                node.left  && node.left.kind  === 'ident' &&
+                node.right && node.right.kind === 'string' &&
+                _isDatetimeColumn(node.left.name)) {
+            throw KqlError("type error: '" + node.left.name + "' is datetime; wrap the right-hand side in datetime(...) (e.g. datetime(" + node.right.value + "))");
+        }
         var L = exprSql(node.left, scope);
         var R = exprSql(node.right, scope);
         // Datetime subtraction: text-stored TimeGenerated columns can't be
@@ -1116,15 +1147,20 @@
             case 'todouble': return 'CAST(' + args[0] + ' AS REAL)';
             case 'tobool':   return '(CASE WHEN ' + args[0] + ' THEN 1 ELSE 0 END)';
             case 'make_set': {
-                // make_set(col [, maxItems]) -> deduped JSON array
-                // SQLite's json_group_array(DISTINCT col) gives us the dedup;
-                // the maxItems cap is approximated -- we ignore it (gold lists
-                // don't usually exceed the cap) and emit the full distinct set.
-                return 'json_group_array(DISTINCT ' + args[0] + ')';
+                // make_set(col [, maxItems]) -> deduped JSON array.
+                // SQLite json_group_array(DISTINCT col) handles the dedup;
+                // the optional cap is applied via kql_cap_json (registered
+                // in runtime.js) which slices the JSON array after the
+                // aggregate finishes.
+                var ms = 'json_group_array(DISTINCT ' + args[0] + ')';
+                if (args.length >= 2) return 'kql_cap_json(' + ms + ', ' + args[1] + ')';
+                return ms;
             }
             case 'make_list': {
-                // make_list(col [, maxItems]) -> JSON array, dup-preserving
-                return 'json_group_array(' + args[0] + ')';
+                // make_list(col [, maxItems]) -> JSON array, dup-preserving.
+                var ml = 'json_group_array(' + args[0] + ')';
+                if (args.length >= 2) return 'kql_cap_json(' + ml + ', ' + args[1] + ')';
+                return ml;
             }
             case 'todatetime':
                 // CSV TimeGenerated is stored as ISO text ('2026-04-29T12:50:00Z').
