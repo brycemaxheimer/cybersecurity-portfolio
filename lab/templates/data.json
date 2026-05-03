@@ -1,5 +1,62 @@
 {
-  "version": 1,
-  "updated": "",
-  "templates": []
+    "version": 1,
+    "updated": "2026-05-03T06:11:03Z",
+    "templates": [
+        {
+            "name": "System Power Log Review",
+            "description": "Gathers and standardizes Kernel-Power logs to review system sleep, shutdown, and uptime activity.",
+            "tags": [
+                "power",
+                "kernel",
+                "uptime",
+                "windows",
+                "troubleshooting"
+            ],
+            "kql": "// Creation:            28 March 2026\n// Created By:          Bryce Maxheimer\n// Use Case:            Gather and standardize power logs for system review\n// Actionable Results:  None; purely informational to understand user/system activity\n//\n// Variable Assignment:\nlet Hostname  = \"\";\nlet startTime = datetime();\nlet endTime   = datetime();\n//\nlet KernelPowerEvents = SecurityEvent\n| where Computer has (Hostname)\n| where TimeGenerated between (startTime .. endTime)\n| where EventSourceName == \"Microsoft-Windows-Kernel-Power\"\n| where EventID in (42, 105, 107, 109, 172, 506, 507, 521, 566, 577, 40)\n| extend EventData_XML = parse_xml(EventData)\n| extend\n    // EID 42 - System entering sleep/shutdown\n    TargetState_42       = tostring(EventData_XML.EventData.Data[0][\"#text\"]),\n    EffectiveState_42    = tostring(EventData_XML.EventData.Data[1][\"#text\"]),\n    SleepReason_42       = tostring(EventData_XML.EventData.Data[2][\"#text\"]),\n    TransitionsToOn      = tostring(EventData_XML.EventData.Data[4][\"#text\"])\n| extend\n    // human-readable descriptions\n    EventDescription = case(\n        EventID == 42 and TargetState_42 == \"4\",  \"System Entering Sleep (S4 Hibernate)\",\n        EventID == 42 and TargetState_42 == \"5\",  \"System Entering Shutdown (S5 Off)\",\n        EventID == 42,                             strcat(\"System Power Transition → S\", TargetState_42),\n        \"Unknown Kernel-Power Event\"\n    );\n// Power On/Off pairing with uptime calculation\nlet PowerOnOff = KernelPowerEvents\n| where PowerAction in (\"POWER_ON / WAKE\", \"POWER_OFF\", \"SLEEP / HIBERNATE\")\n| project TimeGenerated, Computer, EventID, PowerAction, EventDescription\n| sort by Computer asc, TimeGenerated asc\n| serialize;\nPowerOnOff;"
+        },
+        {
+            "name": "Sysmon 255 Drop Counter",
+            "description": "Monitors for Sysmon Event ID 255, which indicates that events are being dropped, to diagnose logging gaps.",
+            "tags": [
+                "sysmon",
+                "performance",
+                "monitoring",
+                "diagnostics"
+            ],
+            "kql": "let start = ago(1d);\nlet end = now();\nlet host = 'workstation-1';\nEvent\n| where TimeGenerated between (start .. end)\n| where Computer has (host)\n| where Source == \"Microsoft-Windows-Sysmon\"\n| where EventID == 255\n| project\n    TimeGenerated,\n    Computer,\n    ParameterXml"
+        },
+        {
+            "name": "Logon Frequency Analysis Outside Working Hours",
+            "description": "Analyzes logon frequency outside of standard working hours to identify potentially anomalous account activity.",
+            "tags": [
+                "security",
+                "logon",
+                "hunting",
+                "identity"
+            ],
+            "kql": "let start = ago(30d);\nlet end = now();\nlet workingHoursStart = 8;\nlet workingHoursEnd = 18;\nSecurityEvent\n| where TimeGenerated between (start .. end)\n| where EventID == 4624 // Successful Logon\n| extend LogonHour = hourofday(TimeGenerated)\n| where LogonHour < workingHoursStart or LogonHour > workingHoursEnd\n| summarize LogonCount = count() by Account, AccountType\n| sort by LogonCount desc"
+        },
+        {
+            "name": "Critical Process Cloning",
+            "description": "Identifies instances where critical Windows processes (like lsass.exe) are cloned or forked, a common technique used by malware.",
+            "tags": [
+                "security",
+                "process",
+                "hunting",
+                "malware"
+            ],
+            "kql": "let criticalProcesses = dynamic([\"lsass.exe\", \"wininit.exe\", \"services.exe\"]);\nSecurityEvent\n| where EventID == 4688 // Process Creation\n| extend ParentProcessName = tostring(split(NewProcessName, '\\\\')[-1])\n| where ParentProcessName in~ (criticalProcesses)\n| project\n    TimeGenerated,\n    Computer,\n    ParentProcessName,\n    NewProcessName,\n    CommandLine"
+        },
+        {
+            "name": "Package Loading Rarity Determination",
+            "description": "Identifies infrequently loaded security, authentication, or notification packages to spot potential outliers and suspicious activity.",
+            "tags": [
+                "security",
+                "authentication",
+                "hunting",
+                "windows"
+            ],
+            "kql": "let Hostname  = \"CIN-FRT49R3SHD\";\nlet startTime = datetime(2026-04-01);\nlet endTime   = datetime(2026-04-30);\nlet rarityThreshold = 10;\nlet allPackageLoads = SecurityEvent\n| where TimeGenerated between (startTime .. endTime)\n| where Computer has (Hostname)\n| where EventID in (4610, 4611, 4614, 4622)\n| extend RawPackageName = case(\n    isnotempty(extract(@'<Data Name=\\\"AuthenticationPackageName\\\">(.*?)</Data>', 1, EventData)), extract(@'<Data Name=\\\"AuthenticationPackageName\\\">(.*?)</Data>', 1, EventData),\n    isnotempty(extract(@'<Data Name=\\\"SecurityPackageName\\\">(.*?)</Data>', 1, EventData)), extract(@'<Data Name=\\\"SecurityPackageName\\\">(.*?)</Data>', 1, EventData),\n    isnotempty(extract(@'<Data Name=\\\"NotificationPackageName\\\">(.*?)</Data>', 1, EventData)), extract(@'<Data Name=\\\"NotificationPackageName\\\">(.*?)</Data>', 1, EventData),\n    AuthenticationPackageName\n)\n| where isnotempty(RawPackageName);\nlet packageCounts = allPackageLoads\n| summarize\n    LoadCount = count(),\n    Users = make_set(SubjectUserName),\n    FirstSeen = min(TimeGenerated),\n    LastSeen = max(TimeGenerated)\n  by\n    PackageName = RawPackageName,\n    EventID;\npackageCounts\n| where LoadCount < rarityThreshold\n| sort by LoadCount asc"
+        }
+    ]
 }
