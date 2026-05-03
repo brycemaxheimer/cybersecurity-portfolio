@@ -1,8 +1,3 @@
-**PS>** brycemaxheimer
-[About](/about.html) | [Resume](/resume/) | [Certs](/certs/) | [Projects](/projects/) | [Lab](/lab/) | [Writeups](/writeups/) | [Blog](/blog/) | [Customize](/customize/)
-
----
-
 # About
 
 I'm Bryce Maxheimer - cybersecurity analyst and U.S. Marine Corps Cyber Warfare Operator veteran with 4+ years of hands-on experience in threat hunting, digital forensics, network defense, and cyber infrastructure management. I currently work as a Shift Lead at the Defense Finance and Accounting Service (DFAS) and hold a DOD Clearance.
@@ -26,7 +21,7 @@ This site is a working notebook and portfolio. The main sections:
 
 ## Stack
 
-This site is HTML and CSS, with blog posts authored in Markdown and converted to HTML via a small PowerShell build script. It's hosted on Cloudflare Pages and the source lives on [GitHub](https://github.com/brycemaxheimer/cybersecurity-portfolio).
+This site is HTML and CSS, with blog posts authored in Markdown and converted to HTML via a small PowerShell build script. It's hosted on Cloudflare Pages and the source lives here.
 
 ## Contact
 
