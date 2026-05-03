@@ -945,6 +945,61 @@ article.post p { margin: 0 0 1.1rem; color: var(--text-1); }
     border-bottom-color: transparent;
 }
 
+/* Container for the nested menu item */
+.nested-dropdown {
+    position: relative;
+}
+
+/* The sub-menu itself (hidden by default) */
+.nested-dropdown-menu {
+    display: none;
+    position: absolute;
+    /* Position it to the right of the parent menu */
+    left: 100%; 
+    top: 0;
+    
+    /* Match your site's existing dropdown styling */
+    background: var(--surface);
+    min-width: 12rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 0.35rem 0;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.32);
+    z-index: 101;
+}
+
+/* Show the nested menu when hovering over the parent item */
+.nested-dropdown:hover > .nested-dropdown-menu,
+.nested-dropdown:focus-within > .nested-dropdown-menu {
+    display: block;
+}
+
+.nested-dropdown-menu a {
+    display: block;
+    padding: 0.4rem 0.9rem;
+    border: none;
+    border-bottom: 1px solid transparent;
+    color: var(--text-1);
+    font-size: 0.88rem;
+    white-space: nowrap;
+}
+
+.nested-dropdown-menu a:hover {
+    color: var(--mint-deep);
+    background: var(--bg-1);
+}
+
+/* Right-facing caret for the sub-menu indicator */
+.caret-right {
+    float: right;
+    font-size: 0.9em;
+    margin-top: 2px;
+    color: var(--text-3);
+}
+.nested-dropdown:hover .caret-right {
+    color: var(--mint-deep);
+}
+
 /* ------------------------------------------------------------
    Lead-paragraph / subhead wrapping. Use modern text-wrap so the
    browser avoids orphan words and balances line lengths across
