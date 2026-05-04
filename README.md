@@ -29,7 +29,7 @@ Best ways to reach me:
 
 | Method | Link |
 |---|---|
-| Email | [brycemaxheimer2@gmail.com](mailto:brycemaxheimer2@gmail.com) |
+| Email | [contact@brycemaxheimer.com](mailto:contact@brycemaxheimer.com) |
 | LinkedIn | [linkedin.com/in/bryce-maxheimer](https://www.linkedin.com/in/bryce-maxheimer) |
 | GitHub | [github.com/brycemaxheimer](https://github.com/brycemaxheimer) |
 
