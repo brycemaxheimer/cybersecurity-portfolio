@@ -151,6 +151,17 @@
 }
 .pg-supported dd { margin: 0; color: var(--text-1); font-size: 0.93rem; }
 .pg-supported code { font-size: 0.82rem; }
+.pg-dataset {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-family: var(--font-mono); font-size: 0.78rem;
+    color: var(--text-2);
+}
+.pg-dataset select {
+    background: var(--bg-1); color: var(--text-1);
+    border: 1px solid var(--line); border-radius: 3px;
+    padding: 0.2rem 0.4rem; font: inherit;
+}
+.pg-dataset select:hover { border-color: var(--mint-deep); }
 </style>
 </head>
 <body>
@@ -195,6 +206,15 @@
 </div>
 <p style="color: var(--text-1); margin-top: 1rem">
 A working KQL engine in your browser. Type queries against pre-loaded sample tables &mdash; the same Sentinel-shaped data my <code>Invoke-KqlPS</code> PowerShell module uses for offline practice. Translates KQL to SQLite SQL via a hand-written lexer/parser, executes against <a href="https://github.com/sql-js/sql.js">sql.js</a> (WASM SQLite). No backend, no signup, no telemetry.
+</p>
+<p style="color: var(--text-2); margin-top: 0.6rem; font-size: 0.85rem">
+The <strong>Expanded</strong> dataset is built by a PowerShell pipeline whose design borrows from
+<a href="https://github.com/cruikshank25/Security-Log-Generator">Sean Cruikshank&rsquo;s Security-Log-Generator</a>:
+weighted field selection, a sine-wave volume curve, and a tiered filename taxonomy
+(legit / doppelg&auml;nger / double-extension / obvious-malicious).
+This site adapts those concepts &mdash; reimplemented in PowerShell, output as Sentinel/Defender-shaped CSVs,
+with per-table generators that preserve the small-set storyline rows verbatim and hold noise out of the
+last hour so practice questions stay deterministic.
 </p>
 
 <div class="pg-shell">
@@ -244,6 +264,13 @@ A working KQL engine in your browser. Type queries against pre-loaded sample tab
 
 <div class="pg-toolbar">
 <button class="pg-run" id="run-btn">Run query &rarr;</button>
+<label class="pg-dataset" title="Storyline = small (default, fast). Expanded = ~25k rows; first ingest takes a few seconds.">
+    <span class="pg-dataset-label">Dataset:</span>
+    <select id="dataset-select">
+        <option value="storyline">Storyline (default, fast)</option>
+        <option value="expanded">Expanded (slower, more noise)</option>
+    </select>
+</label>
 <span class="pg-status" id="status">Initializing engine...</span>
 </div>
 

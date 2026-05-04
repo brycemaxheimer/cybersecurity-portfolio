@@ -9,6 +9,7 @@ desktop.ini
 ~$*.docx
 
 # Editor / IDE
+.claude/
 .vscode/
 .idea/
 *.swp

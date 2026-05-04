@@ -51,32 +51,25 @@ param(
 $ErrorActionPreference = 'Stop'
 $rng = [System.Random]::new(42)   # deterministic; bump seed if you want fresh noise
 
+# Layer 1+2: shared field libraries, weighted-pick, wave timestamper.
+. (Join-Path $PSScriptRoot 'LabFields.ps1')
+
 function Write-Csv {
     param(
         [string]$Path,
         [string]$Header,
         [string[]]$Rows
     )
-    Set-Content -Path $Path -Value $Header -Encoding UTF8
-    Add-Content -Path $Path -Value $Rows -Encoding UTF8
+    # PS5.1 Set-Content -Encoding UTF8 emits a BOM; the JS CSV parser doesn't
+    # strip BOMs, so the first column header would become "﻿TimeGenerated"
+    # and break schema mapping. Force UTF-8 *without* BOM.
+    $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
+    $all = New-Object 'System.Collections.Generic.List[string]' ($Rows.Count + 1)
+    $all.Add($Header)
+    foreach ($r in $Rows) { $all.Add($r) }
+    [System.IO.File]::WriteAllLines($Path, $all.ToArray(), $utf8NoBom)
     Write-Host ("  wrote {0,-32}  {1,8} rows" -f (Split-Path $Path -Leaf), $Rows.Count)
 }
-
-function New-NoiseTimestamp {
-    param([datetime]$Anchor, [int]$WindowDays)
-    # Skewed -- 60% of noise lands in the last 24h around the anchor, 40% across
-    # the broader window. That mimics real SOC volume curves where today is
-    # always denser than two weeks ago.
-    $r = $rng.NextDouble()
-    if ($r -lt 0.6) {
-        $secs = $rng.Next(-86400, 86400)
-    } else {
-        $secs = $rng.Next(-86400 * $WindowDays, -86400)
-    }
-    return $Anchor.AddSeconds($secs).ToUniversalTime()
-}
-
-function To-IsoZ { param([datetime]$Dt) $Dt.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ") }
 
 # ------------------------------------------------------------
 # Per-table generators. Each receives the small CSV (verbatim
@@ -86,32 +79,284 @@ function To-IsoZ { param([datetime]$Dt) $Dt.ToUniversalTime().ToString("yyyy-MM-
 
 function Build-SecurityEvent {
     param([string]$smallPath, [string]$outPath)
-    # TODO: Layer in spray rows (4625), normal logons (4624), service installs
-    # (4697), and process audit (4688). Aim for ~8000 rows.
-    Copy-Item $smallPath $outPath -Force
-    Write-Host "  TODO: SecurityEvent expansion -- copied small-set verbatim for now"
+    # Layered output:
+    #   1. Verbatim copy of every small-set row (storyline preservation -- the
+    #      gold-results contract pins to these rows).
+    #   2. ~7800 noise rows distributed across [Anchor-14d, Anchor-1h] with a
+    #      sine-bump density. Holdout of 1h keeps noise out of the recent
+    #      window every "ago(1h)" practice question filters on.
+    #   3. Noise users/hosts/IPs are drawn from disjoint pools (no storyline
+    #      collisions) so 4625-against-bryce-from-198.51.100.55 stays unique.
+
+    $smallLines = Get-Content $smallPath
+    $header = $smallLines[0]
+    $kept = @($smallLines | Select-Object -Skip 1)
+
+    $targetTotal = 8000
+    $noiseCount  = $targetTotal - $kept.Count
+    if ($noiseCount -lt 0) { $noiseCount = 0 }
+
+    Write-Host ("  SecurityEvent: keeping {0} small-set rows, generating {1} noise rows..." -f $kept.Count, $noiseCount)
+
+    $timestamps = New-WaveTimestamps -Count $noiseCount -Anchor $Anchor `
+                                     -WindowDays $WindowDays -HoldoutSeconds 3600 `
+                                     -Frequency ([double]$WindowDays) -Baseline 0.2 -Rng $rng
+
+    # Prepare buffers
+    $noiseRows = New-Object 'System.Collections.Generic.List[string]' $noiseCount
+
+    foreach ($ts in $timestamps) {
+        $eid     = Get-Weighted -Field $script:F_NoiseEventID -Rng $rng
+        $computer = Get-Weighted -Field $script:F_NoiseHosts -Rng $rng
+        $user    = Get-Weighted -Field $script:F_NoiseUsers   -Rng $rng
+        $account = "CORP\$user"
+
+        # Per-EID column population -- match the small-set's null patterns.
+        $activity=''; $accountType='User'; $accountDomain='CORP'
+        $accountName=$user; $targetUserName=$user; $targetDomainName='CORP'
+        $ipAddress=''; $ipPort=''; $logonType=''; $logonProcessName=''
+        $failureReason=''; $processName=''; $newProcessName=''
+        $parentProcessName=''; $commandLine=''; $serviceName=''; $serviceFileName=''
+        $eventSource='Microsoft-Windows-Security-Auditing'
+
+        switch ($eid) {
+            4624 {
+                $logonType        = Get-Weighted -Field $script:F_NoiseLogonType -Rng $rng
+                $logonProcessName = Get-Weighted -Field $script:F_LogonProcessName -Rng $rng
+                $ipAddress        = Get-NoiseRfc1918Ip -Rng $rng
+                $ipPort           = Get-EphemeralPort -Rng $rng
+            }
+            4625 {
+                $logonType        = Get-Weighted -Field $script:F_NoiseLogonType -Rng $rng
+                $logonProcessName = Get-Weighted -Field $script:F_LogonProcessName -Rng $rng
+                $failureReason    = Get-Weighted -Field $script:F_FailureReason -Rng $rng
+                $ipAddress        = Get-NoiseRfc1918Ip -Rng $rng
+                $ipPort           = Get-EphemeralPort -Rng $rng
+            }
+            4634 {
+                $logonType        = Get-Weighted -Field $script:F_NoiseLogonType -Rng $rng
+                $logonProcessName = Get-Weighted -Field $script:F_LogonProcessName -Rng $rng
+            }
+            4672 {
+                $accountType = 'Admin'
+            }
+            4688 {
+                $proc        = Get-Weighted -Field $script:F_LegitProcess -Rng $rng
+                $parent      = Get-Weighted -Field $script:F_LegitProcess -Rng $rng
+                $processName = "C:\Windows\System32\$proc"
+                $newProcessName = $processName
+                $parentProcessName = "C:\Windows\System32\$parent"
+                $commandLine = """$processName"""
+            }
+            4697 {
+                $serviceName     = "svc-$([guid]::NewGuid().ToString().Substring(0,8))"
+                $serviceFileName = "C:\Program Files\$serviceName\$serviceName.exe"
+            }
+            4720 {
+                # New user account created (rare). Account = creator, Target = the new user.
+                $targetUserName = "newuser$($rng.Next(100,999))"
+            }
+            4732 {
+                # Member added to local group.
+                $targetUserName = "newuser$($rng.Next(100,999))"
+            }
+            default { }
+        }
+
+        # CSV-escape: only quote fields containing commas or quotes.
+        $row = @(
+            (To-IsoZ $ts),
+            $computer,
+            $eid,
+            $activity,
+            $account,
+            $accountType,
+            $accountDomain,
+            $accountName,
+            $targetUserName,
+            $targetDomainName,
+            $ipAddress,
+            $ipPort,
+            $logonType,
+            $logonProcessName,
+            $failureReason,
+            $processName,
+            $newProcessName,
+            $parentProcessName,
+            $commandLine,
+            $serviceName,
+            $serviceFileName,
+            $eventSource,
+            'Security',
+            'SecurityEvent'
+        ) | ForEach-Object {
+            $s = [string]$_
+            if ($s -match '[,"\r\n]') { '"' + $s.Replace('"','""') + '"' } else { $s }
+        }
+
+        $noiseRows.Add(($row -join ','))
+    }
+
+    # Combine: small-set rows first (no sort -- preserve their exact order
+    # and grouping), then noise. Keeps the storyline reading top-of-file.
+    $allRows = New-Object 'System.Collections.Generic.List[string]' ($kept.Count + $noiseRows.Count)
+    foreach ($r in $kept)      { $allRows.Add($r) }
+    foreach ($r in $noiseRows) { $allRows.Add($r) }
+
+    Write-Csv -Path $outPath -Header $header -Rows $allRows.ToArray()
+}
+
+function ConvertTo-CsvRow {
+    param([object[]]$Cells)
+    $out = New-Object 'System.Collections.Generic.List[string]' $Cells.Count
+    foreach ($c in $Cells) {
+        $s = [string]$c
+        if ($s -match '[,"\r\n]') { $out.Add(('"' + $s.Replace('"','""') + '"')) }
+        else { $out.Add($s) }
+    }
+    return ($out -join ',')
 }
 
 function Build-DeviceProcessEvents {
     param([string]$smallPath, [string]$outPath)
-    # TODO: Background process noise (svchost, chrome, code.exe), with
-    # storyline mimikatz/rubeus rows kept. Target ~12000 rows.
-    Copy-Item $smallPath $outPath -Force
-    Write-Host "  TODO: DeviceProcessEvents expansion -- copied small-set verbatim for now"
+    # ~5000 noise rows: legit Windows process spawns from explorer/svchost/etc
+    # under noise users on noise hosts. No storyline file collisions
+    # (mimikatz/rubeus etc stay unique to small-set).
+    $smallLines = Get-Content $smallPath
+    $header = $smallLines[0]
+    $kept = @($smallLines | Select-Object -Skip 1)
+    $targetTotal = 5000
+    $noiseCount = [math]::Max(0, $targetTotal - $kept.Count)
+    Write-Host ("  DeviceProcessEvents: keeping {0}, generating {1} noise..." -f $kept.Count, $noiseCount)
+
+    $timestamps = New-WaveTimestamps -Count $noiseCount -Anchor $Anchor `
+                                     -WindowDays $WindowDays -HoldoutSeconds 3600 `
+                                     -Frequency ([double]$WindowDays) -Baseline 0.2 -Rng $rng
+
+    $noiseRows = New-Object 'System.Collections.Generic.List[string]' $noiseCount
+    foreach ($ts in $timestamps) {
+        $computer = Get-Weighted -Field $script:F_NoiseHosts -Rng $rng
+        $user     = Get-Weighted -Field $script:F_NoiseUsers -Rng $rng
+        $file     = Get-Weighted -Field $script:F_DPE_FileName   -Rng $rng
+        $parent   = Get-Weighted -Field $script:F_DPE_ParentName -Rng $rng
+        $signer   = Get-Weighted -Field $script:F_SignerType -Rng $rng
+        $integ    = Get-Weighted -Field $script:F_IntegrityLevel -Rng $rng
+        $folder   = if ($file -match '^(chrome|msedge|firefox|OUTLOOK|Teams|code|OneDrive)') { 'C:\Program Files' } else { 'C:\Windows\System32' }
+        $tsIso = To-IsoZ $ts
+        $row = ConvertTo-CsvRow @(
+            $tsIso, $tsIso, $computer, "dev-$([string]$computer.ToLower())",
+            $user, 'CORP',
+            $file, $folder, $file,
+            $rng.Next(1000,9999),
+            (New-Sha256 $rng), (New-Sha1 $rng), (New-Md5 $rng),
+            $rng.Next(50000, 5000000),
+            $parent, 'C:\Windows', "C:\Windows\$parent",
+            $rng.Next(100,9999),
+            $user,
+            (New-Sha256 $rng),
+            $signer, 'Microsoft', $integ, 'TokenElevationTypeDefault',
+            'DeviceProcessEvents'
+        )
+        $noiseRows.Add($row)
+    }
+    $all = New-Object 'System.Collections.Generic.List[string]' ($kept.Count + $noiseRows.Count)
+    foreach ($r in $kept)      { $all.Add($r) }
+    foreach ($r in $noiseRows) { $all.Add($r) }
+    Write-Csv -Path $outPath -Header $header -Rows $all.ToArray()
 }
 
 function Build-DeviceLogonEvents {
     param([string]$smallPath, [string]$outPath)
-    # TODO: Normal interactive logons across ~10 hosts; keep storyline rows.
-    Copy-Item $smallPath $outPath -Force
-    Write-Host "  TODO: DeviceLogonEvents expansion -- copied small-set verbatim for now"
+    # ~3000 noise rows: mostly successful logons across hosts/users via RFC1918
+    # IPs. Failed-logon noise uses noise users only (NEVER bryce, the
+    # storyline brute-force target).
+    $smallLines = Get-Content $smallPath
+    $header = $smallLines[0]
+    $kept = @($smallLines | Select-Object -Skip 1)
+    $targetTotal = 3000
+    $noiseCount = [math]::Max(0, $targetTotal - $kept.Count)
+    Write-Host ("  DeviceLogonEvents: keeping {0}, generating {1} noise..." -f $kept.Count, $noiseCount)
+
+    $timestamps = New-WaveTimestamps -Count $noiseCount -Anchor $Anchor `
+                                     -WindowDays $WindowDays -HoldoutSeconds 3600 `
+                                     -Frequency ([double]$WindowDays) -Baseline 0.2 -Rng $rng
+
+    $noiseRows = New-Object 'System.Collections.Generic.List[string]' $noiseCount
+    foreach ($ts in $timestamps) {
+        $computer = Get-Weighted -Field $script:F_NoiseHosts -Rng $rng
+        $user     = Get-Weighted -Field $script:F_NoiseUsers -Rng $rng
+        $action   = Get-Weighted -Field $script:F_DLE_Action -Rng $rng
+        $logonType= Get-Weighted -Field $script:F_DLE_LogonType -Rng $rng
+        $initProc = Get-Weighted -Field $script:F_DLE_InitProc -Rng $rng
+        $sid      = "S-1-5-21-1-2-3-{0}" -f $rng.Next(1100, 9999)
+        $logonId  = $rng.Next(100000, 999999)
+        $remoteIp = Get-NoiseRfc1918Ip -Rng $rng
+        $remotePort = $rng.Next(49152, 65535)
+        $failReason = ''
+        if ($action -eq 'LogonFailed') {
+            $failReason = Get-Weighted -Field $script:F_DLE_FailReason -Rng $rng
+        }
+        $tsIso = To-IsoZ $ts
+        $row = ConvertTo-CsvRow @(
+            $tsIso, $tsIso, $computer, $action,
+            $user, 'CORP', $sid, $logonType, $failReason,
+            0, $logonId, $remoteIp, 'Private', $remotePort, 'Kerberos',
+            $initProc, 'SYSTEM',
+            'DeviceLogonEvents'
+        )
+        $noiseRows.Add($row)
+    }
+    $all = New-Object 'System.Collections.Generic.List[string]' ($kept.Count + $noiseRows.Count)
+    foreach ($r in $kept)      { $all.Add($r) }
+    foreach ($r in $noiseRows) { $all.Add($r) }
+    Write-Csv -Path $outPath -Header $header -Rows $all.ToArray()
 }
 
 function Build-DeviceNetworkEvents {
     param([string]$smallPath, [string]$outPath)
-    # TODO: Browser noise (HTTPS to public IPs/domains); keep storyline rows.
-    Copy-Item $smallPath $outPath -Force
-    Write-Host "  TODO: DeviceNetworkEvents expansion -- copied small-set verbatim for now"
+    # ~6000 noise rows: browser/Outlook/Teams HTTPS to public IPs from
+    # known-good processes. Storyline (powershell.exe to 198.51.100.55 from
+    # WS-DEV-02) stays unique because noise IPs come from a disjoint pool
+    # and noise process pool excludes powershell.exe.
+    $smallLines = Get-Content $smallPath
+    $header = $smallLines[0]
+    $kept = @($smallLines | Select-Object -Skip 1)
+    $targetTotal = 6000
+    $noiseCount = [math]::Max(0, $targetTotal - $kept.Count)
+    Write-Host ("  DeviceNetworkEvents: keeping {0}, generating {1} noise..." -f $kept.Count, $noiseCount)
+
+    $timestamps = New-WaveTimestamps -Count $noiseCount -Anchor $Anchor `
+                                     -WindowDays $WindowDays -HoldoutSeconds 3600 `
+                                     -Frequency ([double]$WindowDays) -Baseline 0.2 -Rng $rng
+
+    $noiseRows = New-Object 'System.Collections.Generic.List[string]' $noiseCount
+    foreach ($ts in $timestamps) {
+        $computer = Get-Weighted -Field $script:F_NoiseHosts -Rng $rng
+        $user     = Get-Weighted -Field $script:F_NoiseUsers -Rng $rng
+        $action   = Get-Weighted -Field $script:F_DNE_Action -Rng $rng
+        $proc     = Get-Weighted -Field $script:F_DNE_Process -Rng $rng
+        $rport    = Get-Weighted -Field $script:F_DNE_RemotePort -Rng $rng
+        $localIp  = "10.0.{0}.{1}" -f $rng.Next(1,30), $rng.Next(2,254)
+        $localPort= $rng.Next(49152, 65535)
+        $remoteIp = Get-NoisePublicIp -Rng $rng
+        $tsIso = To-IsoZ $ts
+        $folder = if ($proc -match '^(chrome|msedge|firefox|OUTLOOK|Teams|OneDrive|code)') { 'C:\Program Files' } else { 'C:\Windows\System32' }
+        $row = ConvertTo-CsvRow @(
+            $tsIso, $tsIso, $computer, $action,
+            $localIp, 'Private', $localPort,
+            $remoteIp, 'Public', $rport,
+            '', 'Tcp',
+            $proc, $folder, $proc,
+            $user,
+            (New-Sha256 $rng),
+            'DeviceNetworkEvents'
+        )
+        $noiseRows.Add($row)
+    }
+    $all = New-Object 'System.Collections.Generic.List[string]' ($kept.Count + $noiseRows.Count)
+    foreach ($r in $kept)      { $all.Add($r) }
+    foreach ($r in $noiseRows) { $all.Add($r) }
+    Write-Csv -Path $outPath -Header $header -Rows $all.ToArray()
 }
 
 function Build-DeviceFileEvents {
@@ -122,9 +367,46 @@ function Build-DeviceFileEvents {
 
 function Build-Syslog {
     param([string]$smallPath, [string]$outPath)
-    # TODO: Cron noise, normal sshd-session logins, package update lines.
-    Copy-Item $smallPath $outPath -Force
-    Write-Host "  TODO: Syslog expansion -- copied small-set verbatim for now"
+    # ~3000 noise rows: cron jobs, normal sshd publickey logins, systemd unit
+    # transitions, kernel UFW blocks, package upgrades. Storyline
+    # (sshd-session "Failed password for test from 198.51.100.55" on
+    # SVR-LINUX-01) stays unique because noise sshd messages use the
+    # publickey-accept template, not failed-password.
+    $smallLines = Get-Content $smallPath
+    $header = $smallLines[0]
+    $kept = @($smallLines | Select-Object -Skip 1)
+    $targetTotal = 3000
+    $noiseCount = [math]::Max(0, $targetTotal - $kept.Count)
+    Write-Host ("  Syslog: keeping {0}, generating {1} noise..." -f $kept.Count, $noiseCount)
+
+    $timestamps = New-WaveTimestamps -Count $noiseCount -Anchor $Anchor `
+                                     -WindowDays $WindowDays -HoldoutSeconds 3600 `
+                                     -Frequency ([double]$WindowDays) -Baseline 0.2 -Rng $rng
+
+    $noiseRows = New-Object 'System.Collections.Generic.List[string]' $noiseCount
+    foreach ($ts in $timestamps) {
+        $computer = Get-Weighted -Field $script:F_SyslogHosts -Rng $rng
+        $hostIp   = $script:F_SyslogHostIps[$computer]
+        $facility = Get-Weighted -Field $script:F_SyslogFacility -Rng $rng
+        $severity = Get-Weighted -Field $script:F_SyslogSeverity -Rng $rng
+        $proc     = Get-Weighted -Field $script:F_SyslogProcess -Rng $rng
+        $procId   = $rng.Next(100, 65535)
+        $templates = $script:F_SyslogMsgs[$proc]
+        if (-not $templates) { $templates = @('Service log entry') }
+        $tmpl = $templates[$rng.Next(0, $templates.Count)]
+        $msg = Format-SyslogMessage -Template $tmpl -Rng $rng
+        $tsIso = To-IsoZ $ts
+        $row = ConvertTo-CsvRow @(
+            $tsIso, $tsIso, $computer, $computer, $hostIp,
+            $facility, $severity, $proc, $procId, $msg,
+            'syslog-collector-01', 'Syslog'
+        )
+        $noiseRows.Add($row)
+    }
+    $all = New-Object 'System.Collections.Generic.List[string]' ($kept.Count + $noiseRows.Count)
+    foreach ($r in $kept)      { $all.Add($r) }
+    foreach ($r in $noiseRows) { $all.Add($r) }
+    Write-Csv -Path $outPath -Header $header -Rows $all.ToArray()
 }
 
 function Build-AuditLogs                { param($s,$o) Copy-Item $s $o -Force; Write-Host "  TODO: AuditLogs"                 }
