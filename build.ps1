@@ -180,4 +180,10 @@ foreach ($file in $mdFiles) {
 
     $slug    = Get-Slug -Path $file.FullName
     $outPath = Join-Path $OutputDir "$slug.html"
-    Set-Content -Path $outPath -Val
+    
+    # The fix is here: completing the Set-Content command and closing the loop
+    Set-Content -Path $outPath -Value $page
+    Write-Host "  -> Built $slug.html" -ForegroundColor Green
+}
+
+Write-Host "Build complete!" -ForegroundColor Cyan
