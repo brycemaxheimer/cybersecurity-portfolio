@@ -15,7 +15,7 @@
  *   - Strings: single OR double quoted, with backslash escapes.
  *   - Numbers: integer + decimal; negative-sign handling deferred to parser.
  *   - Datetime literals like `datetime(2026-04-25)` are LEXED as
- *     KEYWORD 'datetime' + LPAREN + IDENT '2026-04-25' + RPAREN — the parser
+ *     KEYWORD 'datetime' + LPAREN + IDENT '2026-04-25' + RPAREN - the parser
  *     reassembles them. The harness rewrites time predicates to `todatetime('...')`
  *     form which lexes as a normal function call, so this works out.
  * ========================================================================== */

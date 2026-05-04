@@ -33,3 +33,5 @@ CODEBASE_REVIEW.md
 !.dev.vars.example
 .env*
 !.env.example
+
+lab/ctf/

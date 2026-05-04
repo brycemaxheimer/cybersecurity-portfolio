@@ -1,5 +1,5 @@
 /* ==========================================================================
- * KQL engine v2 — public API
+ * KQL engine v2 - public API
  *
  * Public API (window.KqlEngineV2):
  *   ready()              -> Promise<void>

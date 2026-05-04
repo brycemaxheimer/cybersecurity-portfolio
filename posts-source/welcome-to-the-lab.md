@@ -7,7 +7,7 @@ tags: meta, soc
 
 ## Why publish in the open
 
-Most of the cybersecurity work I do lives behind authentication walls — internal
+Most of the cybersecurity work I do lives behind authentication walls - internal
 runbooks, ticket comments, query libraries that are tied to a specific tenant.
 That's fine for the day job, but it means the *general* lessons get buried with
 the *specific* incidents.
@@ -20,7 +20,7 @@ script writeups, and the occasional rabbit hole.
 
 Rough backlog, no committed schedule:
 
-- A walkthrough of the `Invoke-KqlPS` lab harness — practicing KQL hunts against
+- A walkthrough of the `Invoke-KqlPS` lab harness - practicing KQL hunts against
   a local SQLite copy of common Sentinel tables.
 - Notes on mapping the SOC Dashboard's threat-intel modules to MITRE ATT&CK data
   sources.

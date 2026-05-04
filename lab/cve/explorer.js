@@ -1,4 +1,4 @@
-/* explorer.js — CVE / KEV / EPSS Browser.
+/* explorer.js - CVE / KEV / EPSS Browser.
  * Loads /lab/cve/data.json (KEV catalog with EPSS scores) and powers
  * the search / filter / sort / detail UI. No external API calls.
  */
@@ -186,7 +186,7 @@
             '<dl class="meta-list">' +
                 '<dt>CVE</dt><dd><a href="https://nvd.nist.gov/vuln/detail/' + encodeURIComponent(v.id) + '" target="_blank" rel="noopener">' + escapeHtml(v.id) + ' &nearr;</a></dd>' +
                 '<dt>Date added</dt><dd>' + escapeHtml(fmtDate(v.dateAdded)) + '</dd>' +
-                '<dt>Federal due date</dt><dd>' + escapeHtml(fmtDate(v.dueDate) || '—') + '</dd>' +
+                '<dt>Federal due date</dt><dd>' + escapeHtml(fmtDate(v.dueDate) || '-') + '</dd>' +
                 (v.epss != null
                     ? '<dt>EPSS score</dt><dd>' + (v.epss * 100).toFixed(2) + '% (' + ((v.epssPercentile || 0) * 100).toFixed(1) + 'th percentile)</dd>'
                     : '<dt>EPSS</dt><dd>not scored</dd>') +

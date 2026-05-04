@@ -111,7 +111,7 @@ without touching a real Sentinel tenant or burning my API quotas.
 
 <div class="lab-rationale">
 <strong>How this works.</strong> Where possible, tools run fully in your browser
-&mdash; data is bundled with the page or fetched once on load. For tools that
+- data is bundled with the page or fetched once on load. For tools that
 ordinarily depend on rate-limited third-party APIs (threat intel lookups), I ship
 a recorded walkthrough instead of live calls. The CVE/KEV/EPSS browser is
 backed by a snapshot of the public feeds, refreshed on a schedule.
@@ -130,7 +130,7 @@ backed by a snapshot of the public feeds, refreshed on a schedule.
 <p class="summary">
 Hand-written KQL engine running against a WASM SQLite. Sixteen Sentinel-shaped
 sample tables baked in. Type a query, hit Run, see results. Supports the most
-common ~80% of operators &mdash; <code>where</code>, <code>summarize</code>,
+common ~80% of operators - <code>where</code>, <code>summarize</code>,
 <code>extend</code>, <code>top</code>, <code>join</code>-free for now.
 </p>
 <div class="stack"><span>kql</span><span>sql.js</span><span>wasm</span><span>javascript</span></div>
@@ -182,7 +182,7 @@ shipped with the page; refresh manually via <code>refresh-feeds.ps1</code>.
 <span class="status-badge status-live">Live</span>
 </div>
 <p class="summary">
-Visual query builder &mdash; pick a table, time range, filters, output
+Visual query builder - pick a table, time range, filters, output
 columns; emit live KQL. Save &amp; load named queries via local browser
 storage. "Send to playground" passes the query straight to the engine.
 </p>
@@ -228,7 +228,7 @@ Lets visitors see the workflow end-to-end without hitting any rate limits.
 <h2 class="lab-section">Why a "lab"?</h2>
 <p>
 Most security portfolios show <em>screenshots</em> of dashboards. Screenshots
-prove nothing &mdash; anyone can take a screenshot. The lab is here so you can
+prove nothing - anyone can take a screenshot. The lab is here so you can
 actually <em>use</em> the tooling. Type real KQL against real data. Click into a
 MITRE technique and see the data sources, mitigations, and threat groups that
 use it. Try to break things.
@@ -236,7 +236,7 @@ use it. Try to break things.
 <p>
 Every tool is fully static (no backend, no analytics, no telemetry). Where a
 tool would ordinarily need a server, I either bake the data in at build time or
-show you a recording &mdash; both are honest about what's happening.
+show you a recording - both are honest about what's happening.
 </p>
 
 <hr>

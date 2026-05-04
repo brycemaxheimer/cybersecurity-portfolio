@@ -1,4 +1,4 @@
-/* builder.js — KQL Builder UI logic.
+/* builder.js - KQL Builder UI logic.
  * Reads schema from KqlSchema (loaded ahead of this script). Generates a
  * KQL query string live as the user adjusts form fields. Saves named queries
  * to localStorage. "Send to playground" stashes the query in sessionStorage
@@ -87,7 +87,7 @@
         function refreshColumns() {
             var current = els.table.value;
             var cols = columnNames(current);
-            colSel.innerHTML = '<option value="">— column —</option>' +
+            colSel.innerHTML = '<option value="">- column -</option>' +
                 cols.map(function (c) { return '<option value="' + c + '">' + c + '</option>'; }).join('');
             if (initial.col && cols.indexOf(initial.col) >= 0) colSel.value = initial.col;
         }
@@ -150,7 +150,7 @@
     }
     function rebuildAggColumns() {
         var cols = columnNames(els.table.value);
-        var opts = '<option value="">— column —</option>' +
+        var opts = '<option value="">- column -</option>' +
             cols.map(function (c) { return '<option value="' + c + '">' + c + '</option>'; }).join('');
         els.by.innerHTML = opts;
         els.aggCol.innerHTML = opts;

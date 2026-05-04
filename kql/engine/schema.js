@@ -1,4 +1,4 @@
-/* schema.js — column type definitions for the lab tables.
+/* schema.js - column type definitions for the lab tables.
  *
  * Each table is defined as { columns: [ { name, type } ] }.
  * Types map to SQLite affinities:

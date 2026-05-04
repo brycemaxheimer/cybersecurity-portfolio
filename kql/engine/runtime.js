@@ -1,4 +1,4 @@
-/* runtime.js — KQL playground runtime.
+/* runtime.js - KQL playground runtime.
  *
  * Loads sql.js (WASM SQLite), creates tables from KqlSchema, fetches the
  * CSV files in /kql/data/*.csv, ingests them, and exposes a query()
@@ -128,7 +128,7 @@
         opts = opts || {};
         var onProgress = opts.onProgress || function () {};
         if (typeof initSqlJs !== 'function') {
-            return Promise.reject(new Error('initSqlJs not loaded — check /kql/vendor/sql-wasm.js'));
+            return Promise.reject(new Error('initSqlJs not loaded - check /kql/vendor/sql-wasm.js'));
         }
         onProgress({ phase: 'loading-wasm' });
         return initSqlJs({ locateFile: function (f) { return '/kql/vendor/' + f; } }).then(function (mod) {

@@ -1,4 +1,4 @@
-/* themes.js — Customize page logic.
+/* themes.js - Customize page logic.
  * Renders 6 theme cards with palette previews. Clicking a card sets the
  * data-theme attribute on <html> and persists to localStorage. The bootstrap
  * script in every page's <head> picks up the stored value on next load.

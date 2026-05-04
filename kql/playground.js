@@ -1,4 +1,4 @@
-/* KQL Playground — preview-mode interactivity.
+/* KQL Playground - preview-mode interactivity.
  * Loads canned example queries into the editor. Until the in-browser KQL
  * engine ships, the Run button shows a placeholder result.
  */
@@ -28,11 +28,11 @@
         results.innerHTML =
             '<div class="placeholder">' +
             '<p style="margin-bottom:0.5rem; color: var(--text)">' +
-            'Query received — but the in-browser KQL engine isn\'t wired up yet.' +
+            'Query received - but the in-browser KQL engine isn\'t wired up yet.' +
             '</p>' +
             '<p style="color: var(--muted); font-size: 0.85rem">' +
             'When the engine ships, you\'ll see a results table here. ' +
-            'Until then, you can run this query against the PowerShell module locally — ' +
+            'Until then, you can run this query against the PowerShell module locally - ' +
             'see the link below.' +
             '</p>' +
             '</div>';

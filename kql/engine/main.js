@@ -1,4 +1,4 @@
-/* main.js — KQL playground UI controller.
+/* main.js - KQL playground UI controller.
  * Initializes KqlRuntime, wires up editor / run button / examples / results.
  */
 (function () {

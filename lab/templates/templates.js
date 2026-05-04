@@ -1,4 +1,4 @@
-/* templates.js — KQL Templates browser.
+/* templates.js - KQL Templates browser.
  * Loads /lab/templates/data.json and renders a searchable / tag-filterable
  * catalog. Empty data is the steady-state until the catalog is populated.
  *
@@ -108,15 +108,15 @@
     function emptyState() {
         return '<div class="tpl-empty">' +
             '<h3>Catalog is empty</h3>' +
-            '<p>This page is the browser shell &mdash; no templates ship with the public site yet.</p>' +
+            '<p>This page is the browser shell - no templates ship with the public site yet.</p>' +
             '<p>The same UI also serves as a recipe for populating it: edit ' +
             '<code>/lab/templates/data.json</code> and add entries to the <code>templates</code> array.</p>' +
             '<div class="recipe"><strong>Entry shape:</strong>' +
             '<ol>' +
-                '<li><code>name</code> &mdash; short title</li>' +
-                '<li><code>description</code> &mdash; one or two sentences</li>' +
-                '<li><code>tags</code> &mdash; array of strings (used for filter chips)</li>' +
-                '<li><code>kql</code> &mdash; the query body, multi-line OK</li>' +
+                '<li><code>name</code> - short title</li>' +
+                '<li><code>description</code> - one or two sentences</li>' +
+                '<li><code>tags</code> - array of strings (used for filter chips)</li>' +
+                '<li><code>kql</code> - the query body, multi-line OK</li>' +
             '</ol></div></div>';
     }
 

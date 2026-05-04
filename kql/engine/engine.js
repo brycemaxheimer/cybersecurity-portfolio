@@ -1,4 +1,4 @@
-/* engine.js — KQL engine for the lab playground.
+/* engine.js - KQL engine for the lab playground.
  *
  * Pragmatic subset of KQL, translated to SQLite SQL and executed via sql.js.
  *
@@ -18,7 +18,7 @@
  *   avg, min, max, countif, sumif.
  *
  * Anything outside this surface throws KqlError("unsupported: ...") with
- * a clear message — better than silently returning wrong results.
+ * a clear message - better than silently returning wrong results.
  */
 (function (global) {
     'use strict';
@@ -125,7 +125,7 @@
                         pushTok('DURATION', { num: parseFloat(num), unit: suf.toLowerCase() }, nstart);
                         continue;
                     }
-                    // Not a recognized suffix — back up
+                    // Not a recognized suffix - back up
                     i -= suf.length;
                 }
                 pushTok('NUMBER', parseFloat(num), nstart);
@@ -654,7 +654,7 @@
     }
 
     /* ============================================================
-       TRANSLATOR — KQL AST -> SQLite SQL
+       TRANSLATOR - KQL AST -> SQLite SQL
        ============================================================ */
     var KQL2SQL_OP = {
         '==': '=',  '!=': '!=',  '<': '<',  '>': '>',  '<=': '<=',  '>=': '>=',
@@ -711,7 +711,7 @@
                     sql = 'SELECT ' + op.cols.map(quoteIdent).join(', ') + ' FROM (' + sql + ') AS ' + a;
                     break;
                 case 'projectAway':
-                    // Resolve via "SELECT * minus columns" — we don't know full columns without schema,
+                    // Resolve via "SELECT * minus columns" - we don't know full columns without schema,
                     // so we emit a comment. The runtime handles this by post-filtering.
                     sql = 'SELECT * FROM (' + sql + ') AS ' + a + ' /*PROJECT_AWAY:' + op.cols.join(',') + '*/';
                     break;
@@ -890,7 +890,7 @@
             if (e.alias && e.alias !== ex.replace(/^"|"$/g, '')) {
                 return ex + ' AS ' + quoteIdent(e.alias);
             }
-            // bare ident — emit as ident, no AS needed
+            // bare ident - emit as ident, no AS needed
             if (e.expr.kind === 'ident') return quoteIdent(e.expr.name);
             return ex + (e.alias ? ' AS ' + quoteIdent(e.alias) : '');
         }).join(', ');

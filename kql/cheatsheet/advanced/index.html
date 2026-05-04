@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KQL Detection Engineering — Reference &amp; Challenges</title>
+<title>KQL Detection Engineering - Reference &amp; Challenges</title>
 <style>
 /* =========================================================
-   KQL Cheat Sheet — Light Mode, Print-First
+   KQL Cheat Sheet - Light Mode, Print-First
    No external dependencies. System fonts only.
    ========================================================= */
 
@@ -229,7 +229,7 @@ th {
 }
 tbody tr:nth-child(even) td { background: #fbfaf6; }
 
-/* Image / diagram slot — drop your own <img> in to replace */
+/* Image / diagram slot - drop your own <img> in to replace */
 .image-slot {
   border: 1.5px dashed #b8b6ae;
   background: repeating-linear-gradient(45deg, #fafaf6, #fafaf6 8px, #f3f2ec 8px, #f3f2ec 16px);
@@ -368,7 +368,7 @@ hr.thin { border: 0; border-top: 1px solid var(--rule); margin: 18px 0; }
 
 
 /* ========================================================
-   Dark theme override — matches brycemaxheimer.com palette.
+   Dark theme override - matches brycemaxheimer.com palette.
    Overrides both CSS-variable values AND hardcoded light
    colors used in callouts/cards/tables.
    ======================================================== */
@@ -429,7 +429,7 @@ table {
 table td, table th { border-color: var(--rule) !important; color: var(--ink) !important; }
 tbody tr:nth-child(even) td { background: rgba(15, 35, 28, 0.4) !important; }
 
-/* Syntax highlight tokens — make them readable on dark */
+/* Syntax highlight tokens - make them readable on dark */
 .fn { color: var(--story) !important; }
 .t  { color: var(--num) !important; }
 
@@ -512,7 +512,7 @@ h3 { color: var(--accent) !important; }
 <div class="wrap">
 
 <header class="cover">
-  <h1>KQL Detection Engineering — Reference &amp; Challenges</h1>
+  <h1>KQL Detection Engineering - Reference &amp; Challenges</h1>
   <div class="sub">A working reference for hunting, parsing, correlation, and time-series detection in Microsoft Sentinel / ADX, with 20 graded challenges.</div>
   <div class="meta">Audience: SOC / DFIR &nbsp;·&nbsp; Scope: Sysmon, SecurityEvent, DeviceEvents, custom tables &nbsp;·&nbsp; Light-mode, print-ready, single file.</div>
 </header>
@@ -521,7 +521,7 @@ h3 { color: var(--accent) !important; }
   <button onclick="document.querySelectorAll('details').forEach(d=>d.open=true)">Expand all solutions</button>
   <button onclick="document.querySelectorAll('details').forEach(d=>d.open=false)">Collapse all solutions</button>
   <button onclick="window.print()">Print / Save PDF</button>
-  <span class="small">&nbsp;Tip: image slots are <code>&lt;div class="image-slot"&gt;</code> — drop an <code>&lt;img&gt;</code> inside to replace.</span>
+  <span class="small">&nbsp;Tip: image slots are <code>&lt;div class="image-slot"&gt;</code> - drop an <code>&lt;img&gt;</code> inside to replace.</span>
 </div>
 
 <nav class="toc">
@@ -544,11 +544,11 @@ h3 { color: var(--accent) !important; }
 </nav>
 
 <!-- =================================================================== -->
-<!-- PART 1 — PIPELINE MODEL                                               -->
+<!-- PART 1 - PIPELINE MODEL                                               -->
 <!-- =================================================================== -->
 <h2 id="part1">1. Pipeline model &amp; flow control</h2>
 
-<p>KQL is a left-to-right pipeline: each tabular operator consumes the row-set produced by the previous one. Order matters for both correctness and cost — operators that reduce row count or column width should run first.</p>
+<p>KQL is a left-to-right pipeline: each tabular operator consumes the row-set produced by the previous one. Order matters for both correctness and cost - operators that reduce row count or column width should run first.</p>
 
 <h3>let, materialize, toscalar</h3>
 
@@ -586,11 +586,11 @@ FailedLogonsByUser(<span class="n">24h</span>, <span class="s">"CORP\\bryce"</sp
 
 <div class="mscompare">
   <span class="label">vs. Microsoft docs</span>
-  Microsoft's reference shows <code>let</code> only as a name binding. In practice, treat your <code>let</code> block as a small standard library at the top of every saved hunt — function definitions, named constants (lookback windows, suppression lists), and materialized subqueries — so the body of the query is the actual logic.
+  Microsoft's reference shows <code>let</code> only as a name binding. In practice, treat your <code>let</code> block as a small standard library at the top of every saved hunt - function definitions, named constants (lookback windows, suppression lists), and materialized subqueries - so the body of the query is the actual logic.
 </div>
 
 <!-- =================================================================== -->
-<!-- PART 2 — FILTERING                                                    -->
+<!-- PART 2 - FILTERING                                                    -->
 <!-- =================================================================== -->
 <h2 id="part2">2. Filtering &amp; shaping</h2>
 
@@ -604,7 +604,7 @@ FailedLogonsByUser(<span class="n">24h</span>, <span class="s">"CORP\\bryce"</sp
 <tr><td><code>has_any</code> / <code>has_all</code></td><td>Yes</td><td>Multi-term OR / AND</td><td><code>CommandLine has_any (lolbins)</code></td></tr>
 <tr><td><code>startswith</code> / <code>endswith</code></td><td>Partial</td><td>Prefix / suffix</td><td><code>FileName endswith ".dll"</code></td></tr>
 <tr><td><code>contains</code></td><td>No (scan)</td><td>Substring inside a term</td><td><code>Image contains "syswow"</code></td></tr>
-<tr><td><code>matches regex</code></td><td>No (scan)</td><td>Pattern match — last resort</td><td><code>cmd matches regex @"\\b[a-f0-9]{32}\\b"</code></td></tr>
+<tr><td><code>matches regex</code></td><td>No (scan)</td><td>Pattern match - last resort</td><td><code>cmd matches regex @"\\b[a-f0-9]{32}\\b"</code></td></tr>
 <tr><td><code>in</code> / <code>in~</code> / <code>!in</code></td><td>Yes</td><td>Membership against literal or dynamic set</td><td><code>EventID in (4624,4625,4634)</code></td></tr>
 </tbody></table>
 
@@ -622,7 +622,7 @@ FailedLogonsByUser(<span class="n">24h</span>, <span class="s">"CORP\\bryce"</sp
 | <span class="k">project-rename</span> Host = DeviceName, User = AccountName                         <span class="c">// rename in place</span>
 | <span class="k">project-reorder</span> TimeGenerated, Host, User, ProcessCommandLine                <span class="c">// reorder, keep rest</span></code></pre>
 
-<h3>extend — derive columns</h3>
+<h3>extend - derive columns</h3>
 
 <pre><code><span class="t">SecurityEvent</span>
 | <span class="k">where</span> EventID == <span class="n">4688</span>
@@ -636,7 +636,7 @@ FailedLogonsByUser(<span class="n">24h</span>, <span class="s">"CORP\\bryce"</sp
 
 <h3>distinct vs. summarize-by</h3>
 
-<p>Use <code>distinct</code> when you want unique combinations and nothing else. Use <code>summarize ... by</code> when you also need an aggregate. <code>distinct</code> is implemented as a shuffle and is generally fine, but on huge cardinality it can be expensive — consider <code>summarize hint.shufflekey=Key by Key</code>.</p>
+<p>Use <code>distinct</code> when you want unique combinations and nothing else. Use <code>summarize ... by</code> when you also need an aggregate. <code>distinct</code> is implemented as a shuffle and is generally fine, but on huge cardinality it can be expensive - consider <code>summarize hint.shufflekey=Key by Key</code>.</p>
 
 <pre><code><span class="t">DeviceProcessEvents</span> | <span class="k">distinct</span> DeviceName, AccountName
 
@@ -644,11 +644,11 @@ FailedLogonsByUser(<span class="n">24h</span>, <span class="s">"CORP\\bryce"</sp
 <span class="t">DeviceProcessEvents</span> | <span class="k">summarize</span> firstSeen = <span class="fn">min</span>(TimeGenerated) <span class="k">by</span> DeviceName, AccountName</code></pre>
 
 <!-- =================================================================== -->
-<!-- PART 3 — PARSING                                                      -->
+<!-- PART 3 - PARSING                                                      -->
 <!-- =================================================================== -->
 <h2 id="part3">3. Parsing &amp; type coercion</h2>
 
-<h3>parse — declarative pattern parsing</h3>
+<h3>parse - declarative pattern parsing</h3>
 
 <pre><code><span class="c">// Sysmon EID 1 (Process Create) is often shipped as a single Message blob</span>
 <span class="t">Event</span>
@@ -666,14 +666,14 @@ FailedLogonsByUser(<span class="n">24h</span>, <span class="s">"CORP\\bryce"</sp
   The <code>*</code> in a <code>parse</code> pattern is "skip everything up to the next literal." Use <code>parse-where</code> to discard rows that don't match instead of returning empty strings, and <code>parse kind=regex</code> for regex captures. Use <code>parse-kv</code> for <code>key=value, key=value</code> blobs (firewall logs, Linux audit, etc.).
 </div>
 
-<h3>parse-kv — when log lines are key=value soup</h3>
+<h3>parse-kv - when log lines are key=value soup</h3>
 
 <pre><code><span class="t">Syslog</span>
 | <span class="k">where</span> ProcessName == <span class="s">"sshd"</span>
 | <span class="k">parse-kv</span> SyslogMessage <span class="k">as</span> (user:<span class="k">string</span>, rhost:<span class="k">string</span>, port:<span class="k">int</span>) <span class="k">with</span> (pair_delimiter=<span class="s">" "</span>, kv_delimiter=<span class="s">"="</span>)
 | <span class="k">project</span> TimeGenerated, Computer, user, rhost, port</code></pre>
 
-<h3>extract / extract_all — regex captures</h3>
+<h3>extract / extract_all - regex captures</h3>
 
 <pre><code><span class="t">DeviceNetworkEvents</span>
 | <span class="k">where</span> RemoteUrl <span class="k">matches regex</span> <span class="s">@"https?://[^/]+"</span>
@@ -694,7 +694,7 @@ FailedLogonsByUser(<span class="n">24h</span>, <span class="s">"CORP\\bryce"</sp
 
 <div class="callout warn">
   <span class="label">Gotcha</span>
-  Dynamic columns are loosely typed. <code>tostring</code>, <code>tolong</code>, <code>todatetime</code> on JSON-extracted values is not optional — without it, downstream <code>where</code> clauses will silently fail to match because you're comparing string vs dynamic.
+  Dynamic columns are loosely typed. <code>tostring</code>, <code>tolong</code>, <code>todatetime</code> on JSON-extracted values is not optional - without it, downstream <code>where</code> clauses will silently fail to match because you're comparing string vs dynamic.
 </div>
 
 <h3>split, strcat, replace_string, replace_regex</h3>
@@ -721,7 +721,7 @@ FailedLogonsByUser(<span class="n">24h</span>, <span class="s">"CORP\\bryce"</sp
 </tbody></table>
 
 <!-- =================================================================== -->
-<!-- PART 4 — TIME                                                         -->
+<!-- PART 4 - TIME                                                         -->
 <!-- =================================================================== -->
 <h2 id="part4">4. Time, bins &amp; date math</h2>
 
@@ -760,11 +760,11 @@ FailedLogonsByUser(<span class="n">24h</span>, <span class="s">"CORP\\bryce"</sp
 
 <div class="callout warn">
   <span class="label">Pitfall</span>
-  Sysmon's <code>UtcTime</code> field is a string, not a datetime. Always wrap it: <code>todatetime(UtcTime)</code>. Worse, on some collectors the value is rendered with a trailing space — <code>trim_end()</code> first.
+  Sysmon's <code>UtcTime</code> field is a string, not a datetime. Always wrap it: <code>todatetime(UtcTime)</code>. Worse, on some collectors the value is rendered with a trailing space - <code>trim_end()</code> first.
 </div>
 
 <!-- =================================================================== -->
-<!-- PART 5 — AGGREGATION                                                  -->
+<!-- PART 5 - AGGREGATION                                                  -->
 <!-- =================================================================== -->
 <h2 id="part5">5. Aggregation &amp; <code>summarize</code></h2>
 
@@ -784,14 +784,14 @@ FailedLogonsByUser(<span class="n">24h</span>, <span class="s">"CORP\\bryce"</sp
 <tr><td><code>hll(x)</code> / <code>tdigest(x)</code></td><td>Composable distinct counts / quantiles</td><td>Aggregate per shard, then <code>hll_merge</code> / <code>tdigest_merge</code></td></tr>
 </tbody></table>
 
-<h3>arg_max — the operator you'll use weekly</h3>
+<h3>arg_max - the operator you'll use weekly</h3>
 
 <pre><code><span class="c">// Latest known IP per device (and any other column you want to keep)</span>
 <span class="t">DeviceNetworkInfo</span>
 | <span class="k">summarize</span> <span class="fn">arg_max</span>(TimeGenerated, *) <span class="k">by</span> DeviceName
 | <span class="k">project</span> DeviceName, IPAddresses, MacAddress, NetworkAdapterName, TimeGenerated</code></pre>
 
-<h3>make_list with order — the serialize trick</h3>
+<h3>make_list with order - the serialize trick</h3>
 
 <pre><code><span class="c">// Per-host process tree in order of appearance</span>
 <span class="t">DeviceProcessEvents</span>
@@ -815,7 +815,7 @@ FailedLogonsByUser(<span class="n">24h</span>, <span class="s">"CORP\\bryce"</sp
 | <span class="k">evaluate</span> bag_unpack(bag)</code></pre>
 
 <!-- =================================================================== -->
-<!-- PART 6 — JOINS                                                        -->
+<!-- PART 6 - JOINS                                                        -->
 <!-- =================================================================== -->
 <h2 id="part6">6. Joins, lookups, unions</h2>
 
@@ -835,7 +835,7 @@ FailedLogonsByUser(<span class="n">24h</span>, <span class="s">"CORP\\bryce"</sp
     <circle class="ring" cx="80" cy="60" r="36"/>
     <path class="fill" d="M 60 32 a 36 36 0 0 1 0 56 a 36 36 0 0 1 0 -56 z"/>
     <text class="ttl" x="0" y="120">L de-duped on key, then inner</text>
-    <text class="ttl" x="0" y="135">DEFAULT — surprises everyone</text>
+    <text class="ttl" x="0" y="135">DEFAULT - surprises everyone</text>
   </g>
   <!-- inner -->
   <g transform="translate(220,30)">
@@ -862,7 +862,7 @@ FailedLogonsByUser(<span class="n">24h</span>, <span class="s">"CORP\\bryce"</sp
     <text class="ttl" x="0" y="120">L rows with NO match in R</text>
   </g>
 </svg>
-<figcaption>Join kinds at a glance. <code>innerunique</code> is the default — and the source of most surprise duplicates / missing rows.</figcaption>
+<figcaption>Join kinds at a glance. <code>innerunique</code> is the default - and the source of most surprise duplicates / missing rows.</figcaption>
 </figure>
 
 <h3>The eight kinds, with the trap explained</h3>
@@ -870,7 +870,7 @@ FailedLogonsByUser(<span class="n">24h</span>, <span class="s">"CORP\\bryce"</sp
 <table>
 <thead><tr><th>kind=</th><th>What it returns</th><th>Default?</th></tr></thead>
 <tbody>
-<tr><td><code>innerunique</code></td><td>Left de-duplicated on key, then inner-joined to right. Fast, but means duplicate <em>left</em> rows are silently dropped.</td><td>Yes — this is the default if you omit <code>kind=</code>.</td></tr>
+<tr><td><code>innerunique</code></td><td>Left de-duplicated on key, then inner-joined to right. Fast, but means duplicate <em>left</em> rows are silently dropped.</td><td>Yes - this is the default if you omit <code>kind=</code>.</td></tr>
 <tr><td><code>inner</code></td><td>Cartesian of all matching pairs. The "SQL inner join" most analysts expect.</td><td>No</td></tr>
 <tr><td><code>leftouter</code></td><td>All L, matched R or <code>null</code>.</td><td>No</td></tr>
 <tr><td><code>rightouter</code></td><td>All R, matched L or <code>null</code>.</td><td>No</td></tr>
@@ -896,7 +896,7 @@ FailedLogonsByUser(<span class="n">24h</span>, <span class="s">"CORP\\bryce"</sp
 | <span class="k">join</span> kind=leftanti Baseline <span class="k">on</span> DeviceName, FileName, SHA256
 | <span class="k">project</span> TimeGenerated, DeviceName, FileName, SHA256, ProcessCommandLine, AccountName</code></pre>
 
-<h3>lookup — optimized one-sided join</h3>
+<h3>lookup - optimized one-sided join</h3>
 
 <pre><code><span class="k">let</span> AdminUsers = <span class="fn">externaldata</span>(SamAccountName:<span class="k">string</span>, IsAdmin:<span class="k">bool</span>)
     [<span class="s">@"https://watchlist.example/admins.csv"</span>] <span class="k">with</span>(format=<span class="s">"csv"</span>, ignoreFirstRecord=<span class="k">true</span>);
@@ -905,7 +905,7 @@ FailedLogonsByUser(<span class="n">24h</span>, <span class="s">"CORP\\bryce"</sp
 | <span class="k">lookup</span> kind=leftouter AdminUsers <span class="k">on</span> $left.Account == $right.SamAccountName
 | <span class="k">where</span> IsAdmin == <span class="k">true</span></code></pre>
 
-<h3>union — across tables and workspaces</h3>
+<h3>union - across tables and workspaces</h3>
 
 <pre><code><span class="k">union</span> isfuzzy=<span class="k">true</span>
     (<span class="t">SecurityEvent</span> | <span class="k">where</span> EventID == <span class="n">4624</span> | <span class="k">project</span> TimeGenerated, Computer, Account, IpAddress, _Source = <span class="s">"WinSec"</span>),
@@ -919,7 +919,7 @@ FailedLogonsByUser(<span class="n">24h</span>, <span class="s">"CORP\\bryce"</sp
 </div>
 
 <!-- =================================================================== -->
-<!-- PART 7 — MULTI-VALUE                                                  -->
+<!-- PART 7 - MULTI-VALUE                                                  -->
 <!-- =================================================================== -->
 <h2 id="part7">7. Multi-value: <code>mv-expand</code> vs <code>mv-apply</code></h2>
 
@@ -945,7 +945,7 @@ FailedLogonsByUser(<span class="n">24h</span>, <span class="s">"CORP\\bryce"</sp
 <path class="arr" d="M 165 55 L 197 32"/>
 <path class="arr" d="M 165 55 L 197 54"/>
 <path class="arr" d="M 165 55 L 197 76"/>
-<text class="small" x="200" y="100">Cardinality multiplied — each element becomes its own row</text>
+<text class="small" x="200" y="100">Cardinality multiplied - each element becomes its own row</text>
 
 <text class="ttl" x="60" y="130">mv-apply</text>
 <rect class="box" x="20" y="140" width="140" height="50"/>
@@ -958,7 +958,7 @@ FailedLogonsByUser(<span class="n">24h</span>, <span class="s">"CORP\\bryce"</sp
 <text class="small" x="400" y="160">Use when you need a where/order/take INSIDE the array</text>
 <text class="small" x="400" y="178">Row count preserved (unless subquery filters)</text>
 </svg>
-<figcaption><code>mv-expand</code> explodes one row into many. <code>mv-apply</code> runs a subquery per row over the array and projects the result back — preserving the parent row.</figcaption>
+<figcaption><code>mv-expand</code> explodes one row into many. <code>mv-apply</code> runs a subquery per row over the array and projects the result back - preserving the parent row.</figcaption>
 </figure>
 
 <h3>mv-expand</h3>
@@ -970,7 +970,7 @@ FailedLogonsByUser(<span class="n">24h</span>, <span class="s">"CORP\\bryce"</sp
 | <span class="k">where</span> Token <span class="k">matches regex</span> <span class="s">@"^[A-Za-z0-9+/=]{200,}$"</span>          <span class="c">// long base64-ish tokens</span>
 | <span class="k">project</span> TimeGenerated, DeviceName, ProcessCommandLine, Token</code></pre>
 
-<h3>mv-apply — when you need where/order inside the array</h3>
+<h3>mv-apply - when you need where/order inside the array</h3>
 
 <pre><code><span class="c">// Per host: keep only DLL load events whose ImageLoaded matches your watch-list</span>
 <span class="k">let</span> watch = <span class="fn">dynamic</span>([<span class="s">"samlib.dll"</span>,<span class="s">"vaultcli.dll"</span>,<span class="s">"wdigest.dll"</span>]);
@@ -989,7 +989,7 @@ FailedLogonsByUser(<span class="n">24h</span>, <span class="s">"CORP\\bryce"</sp
   Use <code>mv-expand</code> when you want a row per array element and don't care about the parent. Use <code>mv-apply</code> when you want to filter / sort / aggregate inside the array but keep one row per parent. <code>mv-apply</code> is also where you do "first N elements matching predicate," which is otherwise awkward.
 </div>
 
-<h3>pack / bag_unpack — building and flattening property bags</h3>
+<h3>pack / bag_unpack - building and flattening property bags</h3>
 
 <pre><code>| <span class="k">extend</span> Evt = <span class="fn">pack</span>(<span class="s">"id"</span>, EventID, <span class="s">"src"</span>, IpAddress, <span class="s">"acct"</span>, Account)
 | <span class="k">summarize</span> Events = <span class="fn">make_list</span>(Evt) <span class="k">by</span> Computer
@@ -997,11 +997,11 @@ FailedLogonsByUser(<span class="n">24h</span>, <span class="s">"CORP\\bryce"</sp
 | <span class="k">evaluate</span> bag_unpack(Properties)</code></pre>
 
 <!-- =================================================================== -->
-<!-- PART 8 — ADVANCED                                                     -->
+<!-- PART 8 - ADVANCED                                                     -->
 <!-- =================================================================== -->
 <h2 id="part8">8. Advanced: <code>partition</code>, <code>evaluate</code>, <code>serialize</code></h2>
 
-<h3>partition — run a sub-pipeline per key</h3>
+<h3>partition - run a sub-pipeline per key</h3>
 
 <pre><code><span class="c">// For each device, keep only the top 5 commandlines by frequency in the last day.</span>
 <span class="t">DeviceProcessEvents</span>
@@ -1019,7 +1019,7 @@ FailedLogonsByUser(<span class="n">24h</span>, <span class="s">"CORP\\bryce"</sp
 <tr><td><code>hint.strategy=legacy</code></td><td>Default; processes per-key serially. Fine for low cardinality.</td></tr>
 </tbody></table>
 
-<h3>evaluate plugins — the power tools</h3>
+<h3>evaluate plugins - the power tools</h3>
 
 <table>
 <thead><tr><th>Plugin</th><th>Purpose</th></tr></thead>
@@ -1029,7 +1029,7 @@ FailedLogonsByUser(<span class="n">24h</span>, <span class="s">"CORP\\bryce"</sp
 <tr><td><code>diffpatterns</code></td><td>Compares two sub-populations (e.g. anomaly vs baseline) and surfaces columns that differentiate them.</td></tr>
 <tr><td><code>pivot</code></td><td>Excel-style pivot: turn distinct values of a column into columns.</td></tr>
 <tr><td><code>bag_unpack</code></td><td>Flattens a dynamic property bag into individual columns.</td></tr>
-<tr><td><code>narrow</code></td><td>Inverse of pivot — collapses many columns into <code>(Column, Value)</code> pairs.</td></tr>
+<tr><td><code>narrow</code></td><td>Inverse of pivot - collapses many columns into <code>(Column, Value)</code> pairs.</td></tr>
 <tr><td><code>infer_storage_schema</code></td><td>Reads sample data to infer schema for <code>externaldata</code>.</td></tr>
 </tbody></table>
 
@@ -1061,7 +1061,7 @@ FailedLogonsByUser(<span class="n">24h</span>, <span class="s">"CORP\\bryce"</sp
 | <span class="k">where</span> <span class="fn">isnotnull</span>(Gap) <span class="k">and</span> Gap &lt; <span class="n">1s</span>
 | <span class="k">project</span> DeviceName, TimeGenerated, FileName, Gap</code></pre>
 
-<h3>row_window_session — sessionize without joining</h3>
+<h3>row_window_session - sessionize without joining</h3>
 
 <pre><code><span class="c">// Group events into sessions per device when gap &gt; 5 minutes</span>
 <span class="t">DeviceProcessEvents</span>
@@ -1070,7 +1070,7 @@ FailedLogonsByUser(<span class="n">24h</span>, <span class="s">"CORP\\bryce"</sp
 | <span class="k">extend</span> SessionStart = <span class="fn">row_window_session</span>(TimeGenerated, <span class="n">5m</span>, <span class="n">5m</span>, DeviceName != <span class="fn">prev</span>(DeviceName))
 | <span class="k">summarize</span> Events = <span class="fn">count</span>(), Files = <span class="fn">make_set</span>(FileName, <span class="n">100</span>) <span class="k">by</span> DeviceName, SessionStart</code></pre>
 
-<h3>range — synthesize rows</h3>
+<h3>range - synthesize rows</h3>
 
 <pre><code><span class="c">// Build a continuous 1-min spine to left-join sparse counts against</span>
 <span class="k">range</span> ts <span class="k">from</span> <span class="fn">ago</span>(<span class="n">1d</span>) <span class="k">to</span> <span class="fn">now</span>() <span class="k">step</span> <span class="n">1m</span>
@@ -1083,11 +1083,11 @@ FailedLogonsByUser(<span class="n">24h</span>, <span class="s">"CORP\\bryce"</sp
 | <span class="k">order by</span> ts <span class="k">asc</span></code></pre>
 
 <!-- =================================================================== -->
-<!-- PART 9 — TIME SERIES                                                  -->
+<!-- PART 9 - TIME SERIES                                                  -->
 <!-- =================================================================== -->
 <h2 id="part9">9. Time series &amp; the <code>step</code> parameter</h2>
 
-<h3>make-series — vectorized time series construction</h3>
+<h3>make-series - vectorized time series construction</h3>
 
 <pre><code><span class="t">DeviceNetworkEvents</span>
 | <span class="k">where</span> TimeGenerated &gt; <span class="fn">ago</span>(<span class="n">7d</span>) <span class="k">and</span> ActionType == <span class="s">"ConnectionSuccess"</span>
@@ -1095,7 +1095,7 @@ FailedLogonsByUser(<span class="n">24h</span>, <span class="s">"CORP\\bryce"</sp
     <span class="k">on</span> TimeGenerated <span class="k">from</span> <span class="fn">ago</span>(<span class="n">7d</span>) <span class="k">to</span> <span class="fn">now</span>() <span class="k">step</span> <span class="n">15m</span>
     <span class="k">by</span> DeviceName, RemoteIP</code></pre>
 
-<p><code>step</code> is the bucket size. <code>default=0</code> fills empty buckets with zero — critical, because gaps in the series will break <code>series_decompose</code>.</p>
+<p><code>step</code> is the bucket size. <code>default=0</code> fills empty buckets with zero - critical, because gaps in the series will break <code>series_decompose</code>.</p>
 
 <h3>Anomalies and forecasts</h3>
 
@@ -1112,10 +1112,10 @@ FailedLogonsByUser(<span class="n">24h</span>, <span class="s">"CORP\\bryce"</sp
 <tr><td><code>series_decompose_anomalies</code></td><td>Above + flags points exceeding σ threshold.</td></tr>
 <tr><td><code>series_decompose_forecast</code></td><td>Above + projects forward N points.</td></tr>
 <tr><td><code>series_outliers</code></td><td>Tukey-style outlier flagging (no seasonal model).</td></tr>
-<tr><td><code>series_periods_detect</code></td><td>Detects dominant periodicities — useful for beaconing.</td></tr>
+<tr><td><code>series_periods_detect</code></td><td>Detects dominant periodicities - useful for beaconing.</td></tr>
 <tr><td><code>series_fit_line</code> / <code>series_fit_2lines</code></td><td>Linear regression / piecewise; returns slope, intercept, RSquare. <code>2lines</code> finds the breakpoint.</td></tr>
 <tr><td><code>series_fir</code> / <code>series_iir</code></td><td>Filters: moving avg / exponential smoothing.</td></tr>
-<tr><td><code>series_pearson_correlation</code></td><td>Correlation between two series — find hosts behaving alike.</td></tr>
+<tr><td><code>series_pearson_correlation</code></td><td>Correlation between two series - find hosts behaving alike.</td></tr>
 </tbody></table>
 
 <h3>Beaconing detection (period detection)</h3>
@@ -1137,11 +1137,11 @@ FailedLogonsByUser(<span class="n">24h</span>, <span class="s">"CORP\\bryce"</sp
 </div>
 
 <!-- =================================================================== -->
-<!-- PART 10 — DETECTION PATTERNS                                          -->
+<!-- PART 10 - DETECTION PATTERNS                                          -->
 <!-- =================================================================== -->
 <h2 id="part10">10. Detection-engineering patterns</h2>
 
-<h3>A then B within Δt — the sequence pattern</h3>
+<h3>A then B within Δt - the sequence pattern</h3>
 
 <pre><code><span class="c">// Failed logon followed by a successful logon for the same account from the same IP within 5 minutes</span>
 <span class="k">let</span> Window = <span class="n">5m</span>;
@@ -1193,19 +1193,19 @@ WerSpawn
 | <span class="k">project</span> DeviceName, SpawnTime, WerCmd, AccessTime, AccessMask</code></pre>
 
 <!-- =================================================================== -->
-<!-- PART 11 — PERFORMANCE                                                 -->
+<!-- PART 11 - PERFORMANCE                                                 -->
 <!-- =================================================================== -->
 <h2 id="part11">11. Performance &amp; idioms</h2>
 
 <table>
 <thead><tr><th>Do</th><th>Don't</th></tr></thead>
 <tbody>
-<tr><td>Filter by time first, then by indexed columns, then derive.</td><td>Don't <code>extend</code> first and filter on the derived column — defeats index use.</td></tr>
+<tr><td>Filter by time first, then by indexed columns, then derive.</td><td>Don't <code>extend</code> first and filter on the derived column - defeats index use.</td></tr>
 <tr><td>Use <code>has</code> on tokenized text columns.</td><td>Don't reach for <code>contains</code> or <code>matches regex</code> by reflex.</td></tr>
-<tr><td>Use <code>=~</code> for case-insensitive equality.</td><td>Don't <code>tolower(col) == "x"</code> — kills indexing.</td></tr>
+<tr><td>Use <code>=~</code> for case-insensitive equality.</td><td>Don't <code>tolower(col) == "x"</code> - kills indexing.</td></tr>
 <tr><td>Use <code>countif</code> / <code>dcountif</code> with a predicate.</td><td>Don't run two <code>summarize</code> branches and join them.</td></tr>
 <tr><td>Use <code>arg_max(t, *)</code> for "latest row per group."</td><td>Don't <code>top 1 by t desc</code> inside a <code>partition</code> if a single <code>summarize arg_max</code> works.</td></tr>
-<tr><td>Use <code>materialize()</code> on subqueries referenced 2+ times.</td><td>Don't materialize huge results "just in case" — memory cost.</td></tr>
+<tr><td>Use <code>materialize()</code> on subqueries referenced 2+ times.</td><td>Don't materialize huge results "just in case" - memory cost.</td></tr>
 <tr><td>For "first-time-seen": <code>join kind=leftanti</code> against a baseline.</td><td>Don't <code>!in</code> against a giant dynamic list.</td></tr>
 <tr><td>For unbounded distinct counts: <code>dcount(x, 3)</code> (HLL).</td><td>Don't reach for <code>count_distinct()</code> on hundreds of millions of rows.</td></tr>
 </tbody></table>
@@ -1224,7 +1224,7 @@ WerSpawn
 | <span class="k">where</span> ProcessCommandLine has <span class="s">"mimikatz"</span></code></pre>
 
 <!-- =================================================================== -->
-<!-- PART 12 — SENTINEL                                                    -->
+<!-- PART 12 - SENTINEL                                                    -->
 <!-- =================================================================== -->
 <h2 id="part12">12. Sentinel-specifics</h2>
 
@@ -1259,11 +1259,11 @@ WerSpawn
 <tr><td><code>SecurityAlert</code> / <code>SecurityIncident</code></td><td>Built-in alert &amp; incident tables.</td></tr>
 <tr><td><code>geo_info_from_ip_address(ip)</code></td><td>Built-in GeoIP enrichment (country, city, lat/long).</td></tr>
 <tr><td><code>iff(EventID == 4624, ...)</code></td><td>Branchy column derivation; nests cleanly.</td></tr>
-<tr><td><code>_ResourceId</code></td><td>Hidden column — useful for cross-tenant queries.</td></tr>
+<tr><td><code>_ResourceId</code></td><td>Hidden column - useful for cross-tenant queries.</td></tr>
 </tbody></table>
 
 <div class="image-slot">
-  [ Slot for screenshot: Sentinel "Analytics rule wizard — Set rule logic" tab showing entity mapping for a custom rule. ]
+  [ Slot for screenshot: Sentinel "Analytics rule wizard - Set rule logic" tab showing entity mapping for a custom rule. ]
   <div class="caption">Replace this slot with: <code>&lt;img src="entity-mapping.png" alt="..."&gt;</code></div>
 </div>
 
@@ -1304,7 +1304,7 @@ WerSpawn
 | <span class="k">extend</span> UtcTime = <span class="fn">todatetime</span>(<span class="fn">trim</span>(<span class="s">@"\s"</span>, UtcTimeRaw))
 | <span class="k">project</span> UtcTime, Computer, Image, CommandLine
 | <span class="k">order by</span> UtcTime <span class="k">desc</span></code></pre>
-<p class="small"><strong>Notes:</strong> <code>trim</code> handles the trailing-whitespace artifact from some collectors. If your Sysmon arrives via AMA / DCR, fields are already split out — use the dedicated columns directly.</p>
+<p class="small"><strong>Notes:</strong> <code>trim</code> handles the trailing-whitespace artifact from some collectors. If your Sysmon arrives via AMA / DCR, fields are already split out - use the dedicated columns directly.</p>
 </details>
 </div>
 
@@ -1428,7 +1428,7 @@ Fails
 </div>
 
 <div class="challenge lvl-med">
-<h3><span class="badge">09 · Medium</span> Office spawning shell — parent/child anomaly</h3>
+<h3><span class="badge">09 · Medium</span> Office spawning shell - parent/child anomaly</h3>
 <div class="scenario">Detect <code>winword.exe / excel.exe / outlook.exe / powerpnt.exe</code> spawning <code>powershell.exe</code>, <code>cmd.exe</code>, <code>wscript.exe</code>, or <code>cscript.exe</code> in the last day. Decode the command line if it's base64, and join to <code>DeviceLogonEvents</code> to attach the most recent interactive logon for that device.</div>
 <details><summary>Show solution</summary>
 <pre><code><span class="k">let</span> Office = <span class="fn">dynamic</span>([<span class="s">"winword.exe"</span>,<span class="s">"excel.exe"</span>,<span class="s">"outlook.exe"</span>,<span class="s">"powerpnt.exe"</span>]);
@@ -1447,7 +1447,7 @@ Fails
           Parent = InitiatingProcessFileName, Child = FileName,
           ProcessCommandLine, Decoded, LastInteractiveLogon = TimeGenerated1
 | <span class="k">order by</span> TimeGenerated <span class="k">desc</span></code></pre>
-<p class="small">The base64 in PowerShell <code>-EncodedCommand</code> is UTF-16LE — for a fully clean decode use <code>extract</code> + a small Python script in your runbook, or <code>base64_decode_tostring()</code> if your cluster supports it. The pattern above is good enough to triage.</p>
+<p class="small">The base64 in PowerShell <code>-EncodedCommand</code> is UTF-16LE - for a fully clean decode use <code>extract</code> + a small Python script in your runbook, or <code>base64_decode_tostring()</code> if your cluster supports it. The pattern above is good enough to triage.</p>
 </details>
 </div>
 
@@ -1488,7 +1488,7 @@ Fails
   <span class="k">by</span> Account, WindowStart
 | <span class="k">where</span> DestCount &gt;= <span class="n">5</span>
 | <span class="k">order by</span> DestCount <span class="k">desc</span></code></pre>
-<p class="small"><code>row_window_session(timestamp, lookback, idle_timeout, reset_predicate)</code> — assigns a session id (the start time) per account, breaking on either an account change or a 5-minute idle gap.</p>
+<p class="small"><code>row_window_session(timestamp, lookback, idle_timeout, reset_predicate)</code> - assigns a session id (the start time) per account, breaking on either an account change or a 5-minute idle gap.</p>
 </details>
 </div>
 
@@ -1502,7 +1502,7 @@ Fails
           Parent = <span class="fn">tostring</span>(<span class="fn">split</span>(InitiatingProcessFolderPath, <span class="s">"\\"</span>)[-<span class="n">1</span>]),
           CmdHead = <span class="fn">substring</span>(ProcessCommandLine, <span class="n">0</span>, <span class="n">120</span>)
 | <span class="k">evaluate</span> autocluster(<span class="n">0.7</span>, <span class="n">5</span>, <span class="n">2</span>)</code></pre>
-<p class="small"><code>autocluster(SizeWeight, WeightFactor, NumSeeds)</code>. With <code>0.7</code> we cover ~70% of rows. Pre-projecting to a small column set and trimming long strings gives the algorithm clean signal — feeding it raw <code>ProcessCommandLine</code> tends to produce one cluster per row.</p>
+<p class="small"><code>autocluster(SizeWeight, WeightFactor, NumSeeds)</code>. With <code>0.7</code> we cover ~70% of rows. Pre-projecting to a small column set and trimming long strings gives the algorithm clean signal - feeding it raw <code>ProcessCommandLine</code> tends to produce one cluster per row.</p>
 </details>
 </div>
 
@@ -1546,7 +1546,7 @@ Fails
 </div>
 
 <div class="challenge lvl-hard">
-<h3><span class="badge">15 · Hard</span> The full one — admin user, evil.exe, then specific DLLs ~10 min later, with N events between, jitter tolerance</h3>
+<h3><span class="badge">15 · Hard</span> The full one - admin user, evil.exe, then specific DLLs ~10 min later, with N events between, jitter tolerance</h3>
 <div class="scenario">
 On hosts where the logged-on user is in the admin watchlist, find the device where <code>evil.exe</code> ran and was followed (≈10 minutes ± 90 seconds of jitter) by image-loads of all of <code>{samlib.dll, vaultcli.dll, wdigest.dll}</code>, with at least 5 unrelated process events in between. Return the host, the user, the evil.exe instance, the timing, and the matched DLLs.
 </div>
@@ -1614,7 +1614,7 @@ Evil
 (1) materialize the evil.exe trigger restricted to admin users;
 (2) pull DLL loads in the window;
 (3) require all three target DLLs in the matched set;
-(4) verify the aggregate delay falls inside the jitter band — this is what gives you "≈10 min ± 90s";
+(4) verify the aggregate delay falls inside the jitter band - this is what gives you "≈10 min ± 90s";
 (5) re-join unrelated process events and use <code>mv-apply</code> with a <code>where</code> on the array to count noise events between the trigger and the first DLL load.<br>
 <strong>Real-world note:</strong> if your environment has tight IR-style memory budgets, replace step (5) with a <code>summarize</code> that pre-buckets per host into a property bag and avoids the second join entirely.
 </p>
@@ -1705,7 +1705,7 @@ Evil
 | <span class="k">extend</span> Priority = <span class="fn">iff</span>(<span class="fn">isnotempty</span>(Sam), <span class="s">"HIGH"</span>, <span class="s">"NORMAL"</span>)
 | <span class="k">project</span> TimeGenerated, Account, From = PrevCity, To = City, KM = <span class="fn">round</span>(KM, <span class="n">0</span>), Gap = TimeGenerated - PrevTime, NeededKmh = <span class="fn">round</span>(NeededKmh, <span class="n">0</span>), Priority
 | <span class="k">order by</span> Priority <span class="k">asc</span>, NeededKmh <span class="k">desc</span></code></pre>
-<p class="small"><code>geo_distance_2points</code> takes (lon1, lat1, lon2, lat2) — note longitude first; getting this backwards is a classic bug.</p>
+<p class="small"><code>geo_distance_2points</code> takes (lon1, lat1, lon2, lat2) - note longitude first; getting this backwards is a classic bug.</p>
 </details>
 </div>
 
@@ -1822,7 +1822,7 @@ ago · arg_max · arg_min · array_length · array_sum · bag_pack · bag_unpack
 </div>
 
 <p class="small" style="margin-top:30px; color: var(--ink-faint); border-top: 1px solid var(--rule); padding-top: 14px;">
-End of document. To regenerate or extend: edit this single .html file. All styling, code samples, diagrams, and image slots are inline — no external dependencies. For air-gapped sharing, copy the file as-is.
+End of document. To regenerate or extend: edit this single .html file. All styling, code samples, diagrams, and image slots are inline - no external dependencies. For air-gapped sharing, copy the file as-is.
 </p>
 
 </div>

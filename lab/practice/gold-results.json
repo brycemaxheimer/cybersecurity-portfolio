@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "createdAt": "2026-05-04T18:00:21.203Z",
+  "createdAt": "2026-05-04T18:45:46.738Z",
   "anchor": "2026-04-29T13:52:40.0000000Z",
   "anchorMode": "local-db-max-securityevent-timegenerated",
   "adxCluster": "https://kvc-k7mfsksmg88ybfffr6.southcentralus.kusto.windows.net",
@@ -5651,7 +5651,7 @@
       "difficulty": "medium",
       "type": "GEN",
       "ordered": false,
-      "rowCount": 5,
+      "rowCount": 23,
       "columns": [
         {
           "name": "TimeGenerated",
@@ -5708,6 +5708,81 @@
       ],
       "rows": [
         [
+          "2026-04-29T13:02:59Z",
+          "2026-04-29T13:02:59Z",
+          "LAP-DEV-05",
+          "dev-lap-dev-05",
+          "BB-38-DF-02-41-4C",
+          "[{\"IPAddress\": \"172.23.70.34\"}]",
+          "[\"10.0.0.1\"]",
+          "[\"10.0.0.1\"]",
+          "[\"CORP\"]",
+          "Wi-Fi",
+          "Up",
+          "IEEE80211",
+          "DeviceNetworkInfo"
+        ],
+        [
+          "2026-04-29T07:25:48Z",
+          "2026-04-29T07:25:48Z",
+          "LAP-DEV-06",
+          "dev-lap-dev-06",
+          "9F-51-48-05-B9-B0",
+          "[{\"IPAddress\": \"172.28.236.236\"}]",
+          "[\"10.0.0.1\"]",
+          "[\"10.0.0.1\"]",
+          "[\"CORP\"]",
+          "vEthernet",
+          "Up",
+          "Ethernet",
+          "DeviceNetworkInfo"
+        ],
+        [
+          "2026-04-28T14:00:25Z",
+          "2026-04-28T14:00:25Z",
+          "LAP-EXEC-01",
+          "dev-lap-exec-01",
+          "40-81-FC-37-8F-29",
+          "[{\"IPAddress\": \"10.36.68.239\"}]",
+          "[\"10.0.0.1\"]",
+          "[\"10.0.0.1\"]",
+          "[\"CORP\"]",
+          "Wi-Fi",
+          "Up",
+          "IEEE80211",
+          "DeviceNetworkInfo"
+        ],
+        [
+          "2026-04-29T03:58:06Z",
+          "2026-04-29T03:58:06Z",
+          "LAP-SALES-03",
+          "dev-lap-sales-03",
+          "16-CA-FF-DD-29-9D",
+          "[{\"IPAddress\": \"172.29.156.88\"}]",
+          "[\"10.0.0.1\"]",
+          "[\"10.0.0.1\"]",
+          "[\"CORP\"]",
+          "Ethernet",
+          "Up",
+          "Ethernet",
+          "DeviceNetworkInfo"
+        ],
+        [
+          "2026-04-29T12:40:58Z",
+          "2026-04-29T12:40:58Z",
+          "LAP-SALES-04",
+          "dev-lap-sales-04",
+          "61-AC-4E-EA-6F-D1",
+          "[{\"IPAddress\": \"172.22.232.223\"}]",
+          "[\"10.0.0.1\"]",
+          "[\"10.0.0.1\"]",
+          "[\"CORP\"]",
+          "vEthernet",
+          "Up",
+          "Ethernet",
+          "DeviceNetworkInfo"
+        ],
+        [
           "2026-04-29T13:00:00Z",
           "2026-04-29T13:00:00Z",
           "SVR-DC-01",
@@ -5753,6 +5828,66 @@
           "DeviceNetworkInfo"
         ],
         [
+          "2026-04-29T02:40:05Z",
+          "2026-04-29T02:40:05Z",
+          "WS-ENG-01",
+          "dev-ws-eng-01",
+          "07-65-32-16-93-DA",
+          "[{\"IPAddress\": \"10.95.143.45\"}]",
+          "[\"10.0.0.1\"]",
+          "[\"10.0.0.1\"]",
+          "[\"CORP\"]",
+          "Ethernet",
+          "Up",
+          "Ethernet",
+          "DeviceNetworkInfo"
+        ],
+        [
+          "2026-04-29T00:18:02Z",
+          "2026-04-29T00:18:02Z",
+          "WS-ENG-02",
+          "dev-ws-eng-02",
+          "A6-0C-2B-9F-D8-7F",
+          "[{\"IPAddress\": \"10.76.224.29\"}]",
+          "[\"10.0.0.1\"]",
+          "[\"10.0.0.1\"]",
+          "[\"CORP\"]",
+          "Wi-Fi",
+          "Up",
+          "IEEE80211",
+          "DeviceNetworkInfo"
+        ],
+        [
+          "2026-04-29T08:54:48Z",
+          "2026-04-29T08:54:48Z",
+          "WS-FIN-02",
+          "dev-ws-fin-02",
+          "07-FA-3E-6B-D5-A2",
+          "[{\"IPAddress\": \"172.23.1.206\"}]",
+          "[\"10.0.0.1\"]",
+          "[\"10.0.0.1\"]",
+          "[\"CORP\"]",
+          "Ethernet",
+          "Up",
+          "Ethernet",
+          "DeviceNetworkInfo"
+        ],
+        [
+          "2026-04-29T09:29:32Z",
+          "2026-04-29T09:29:32Z",
+          "WS-FIN-03",
+          "dev-ws-fin-03",
+          "03-55-FC-5E-4A-39",
+          "[{\"IPAddress\": \"10.190.232.217\"}]",
+          "[\"10.0.0.1\"]",
+          "[\"10.0.0.1\"]",
+          "[\"CORP\"]",
+          "vEthernet",
+          "Up",
+          "Ethernet",
+          "DeviceNetworkInfo"
+        ],
+        [
           "2026-04-29T13:00:00Z",
           "2026-04-29T13:00:00Z",
           "WS-FINANCE-01",
@@ -5774,6 +5909,141 @@
           "dev-ws-hr-03",
           "00-11-22-33-44-A6",
           "[{\"IPAddress\": \"10.0.10.12\"}]",
+          "[\"10.0.0.1\"]",
+          "[\"10.0.0.1\"]",
+          "[\"CORP\"]",
+          "Ethernet",
+          "Up",
+          "Ethernet",
+          "DeviceNetworkInfo"
+        ],
+        [
+          "2026-04-29T10:13:39Z",
+          "2026-04-29T10:13:39Z",
+          "WS-IT-01",
+          "dev-ws-it-01",
+          "4F-AA-D1-AE-81-DD",
+          "[{\"IPAddress\": \"192.168.75.52\"}]",
+          "[\"10.0.0.1\"]",
+          "[\"10.0.0.1\"]",
+          "[\"CORP\"]",
+          "Ethernet",
+          "Up",
+          "Ethernet",
+          "DeviceNetworkInfo"
+        ],
+        [
+          "2026-04-29T06:47:52Z",
+          "2026-04-29T06:47:52Z",
+          "WS-IT-02",
+          "dev-ws-it-02",
+          "20-B3-00-82-8C-FB",
+          "[{\"IPAddress\": \"172.27.59.245\"}]",
+          "[\"10.0.0.1\"]",
+          "[\"10.0.0.1\"]",
+          "[\"CORP\"]",
+          "Wi-Fi",
+          "Up",
+          "IEEE80211",
+          "DeviceNetworkInfo"
+        ],
+        [
+          "2026-04-28T20:35:43Z",
+          "2026-04-28T20:35:43Z",
+          "WS-LEGAL-01",
+          "dev-ws-legal-01",
+          "17-68-12-C6-C2-CF",
+          "[{\"IPAddress\": \"172.22.201.86\"}]",
+          "[\"10.0.0.1\"]",
+          "[\"10.0.0.1\"]",
+          "[\"CORP\"]",
+          "Ethernet",
+          "Up",
+          "Ethernet",
+          "DeviceNetworkInfo"
+        ],
+        [
+          "2026-04-29T07:07:05Z",
+          "2026-04-29T07:07:05Z",
+          "WS-MKT-01",
+          "dev-ws-mkt-01",
+          "D8-4E-95-1B-2D-88",
+          "[{\"IPAddress\": \"172.27.111.121\"}]",
+          "[\"10.0.0.1\"]",
+          "[\"10.0.0.1\"]",
+          "[\"CORP\"]",
+          "Ethernet",
+          "Up",
+          "Ethernet",
+          "DeviceNetworkInfo"
+        ],
+        [
+          "2026-04-29T04:57:48Z",
+          "2026-04-29T04:57:48Z",
+          "WS-MKT-02",
+          "dev-ws-mkt-02",
+          "40-31-36-47-38-C8",
+          "[{\"IPAddress\": \"10.202.247.56\"}]",
+          "[\"10.0.0.1\"]",
+          "[\"10.0.0.1\"]",
+          "[\"CORP\"]",
+          "vEthernet",
+          "Up",
+          "Ethernet",
+          "DeviceNetworkInfo"
+        ],
+        [
+          "2026-04-29T01:08:43Z",
+          "2026-04-29T01:08:43Z",
+          "WS-OPS-01",
+          "dev-ws-ops-01",
+          "06-46-5E-EF-38-46",
+          "[{\"IPAddress\": \"172.16.30.19\"}]",
+          "[\"10.0.0.1\"]",
+          "[\"10.0.0.1\"]",
+          "[\"CORP\"]",
+          "Ethernet",
+          "Up",
+          "Ethernet",
+          "DeviceNetworkInfo"
+        ],
+        [
+          "2026-04-28T14:46:39Z",
+          "2026-04-28T14:46:39Z",
+          "WS-OPS-02",
+          "dev-ws-ops-02",
+          "C3-FB-B0-0B-F9-BB",
+          "[{\"IPAddress\": \"192.168.155.68\"}]",
+          "[\"10.0.0.1\"]",
+          "[\"10.0.0.1\"]",
+          "[\"CORP\"]",
+          "vEthernet",
+          "Up",
+          "Ethernet",
+          "DeviceNetworkInfo"
+        ],
+        [
+          "2026-04-28T18:17:59Z",
+          "2026-04-28T18:17:59Z",
+          "WS-RECEPTION-01",
+          "dev-ws-reception-01",
+          "0D-AB-F0-38-3D-76",
+          "[{\"IPAddress\": \"10.123.236.244\"}]",
+          "[\"10.0.0.1\"]",
+          "[\"10.0.0.1\"]",
+          "[\"CORP\"]",
+          "Wi-Fi",
+          "Up",
+          "IEEE80211",
+          "DeviceNetworkInfo"
+        ],
+        [
+          "2026-04-28T18:44:44Z",
+          "2026-04-28T18:44:44Z",
+          "WS-SUPPORT-01",
+          "dev-ws-support-01",
+          "5D-4C-DF-10-3D-93",
+          "[{\"IPAddress\": \"10.45.153.16\"}]",
           "[\"10.0.0.1\"]",
           "[\"10.0.0.1\"]",
           "[\"CORP\"]",
@@ -6717,7 +6987,7 @@
           "2026-04-29T12:52:55Z",
           "WS-IT-02",
           "kpatel",
-          null
+          "[{\"IPAddress\": \"172.27.59.245\"}]"
         ],
         [
           "2026-04-29T12:55:21Z",
@@ -6729,7 +6999,7 @@
           "2026-04-29T12:55:47Z",
           "WS-MKT-01",
           "jharris",
-          null
+          "[{\"IPAddress\": \"172.27.111.121\"}]"
         ],
         [
           "2026-04-29T12:55:55Z",
@@ -6759,25 +7029,25 @@
           "2026-04-29T13:00:20Z",
           "LAP-SALES-03",
           "tnguyen",
-          null
+          "[{\"IPAddress\": \"172.29.156.88\"}]"
         ],
         [
           "2026-04-29T13:01:05Z",
           "LAP-EXEC-01",
           "kpatel",
-          null
+          "[{\"IPAddress\": \"10.36.68.239\"}]"
         ],
         [
           "2026-04-29T13:01:31Z",
           "LAP-SALES-03",
           "bsato",
-          null
+          "[{\"IPAddress\": \"172.29.156.88\"}]"
         ],
         [
           "2026-04-29T13:01:49Z",
           "WS-MKT-01",
           "mwhite",
-          null
+          "[{\"IPAddress\": \"172.27.111.121\"}]"
         ],
         [
           "2026-04-29T13:02:10Z",
@@ -6789,7 +7059,7 @@
           "2026-04-29T13:03:50Z",
           "WS-OPS-02",
           "rmorales",
-          null
+          "[{\"IPAddress\": \"192.168.155.68\"}]"
         ],
         [
           "2026-04-29T13:04:01Z",
@@ -6801,7 +7071,7 @@
           "2026-04-29T13:04:04Z",
           "WS-IT-02",
           "lwoods",
-          null
+          "[{\"IPAddress\": \"172.27.59.245\"}]"
         ],
         [
           "2026-04-29T13:06:50Z",
@@ -6825,7 +7095,7 @@
           "2026-04-29T13:13:21Z",
           "WS-IT-01",
           "mwhite",
-          null
+          "[{\"IPAddress\": \"192.168.75.52\"}]"
         ],
         [
           "2026-04-29T13:14:02Z",
@@ -6843,19 +7113,19 @@
           "2026-04-29T13:17:19Z",
           "WS-OPS-01",
           "tnguyen",
-          null
+          "[{\"IPAddress\": \"172.16.30.19\"}]"
         ],
         [
           "2026-04-29T13:19:00Z",
           "WS-MKT-02",
           "sthompson",
-          null
+          "[{\"IPAddress\": \"10.202.247.56\"}]"
         ],
         [
           "2026-04-29T13:19:08Z",
           "WS-OPS-01",
           "rmorales",
-          null
+          "[{\"IPAddress\": \"172.16.30.19\"}]"
         ],
         [
           "2026-04-29T13:23:51Z",
@@ -6879,7 +7149,7 @@
           "2026-04-29T13:29:25Z",
           "WS-IT-01",
           "sthompson",
-          null
+          "[{\"IPAddress\": \"192.168.75.52\"}]"
         ],
         [
           "2026-04-29T13:29:47Z",
@@ -6903,19 +7173,19 @@
           "2026-04-29T13:33:25Z",
           "WS-MKT-01",
           "jharris",
-          null
+          "[{\"IPAddress\": \"172.27.111.121\"}]"
         ],
         [
           "2026-04-29T13:35:06Z",
           "WS-MKT-02",
           "mwhite",
-          null
+          "[{\"IPAddress\": \"10.202.247.56\"}]"
         ],
         [
           "2026-04-29T13:42:08Z",
           "WS-MKT-02",
           "sthompson",
-          null
+          "[{\"IPAddress\": \"10.202.247.56\"}]"
         ],
         [
           "2026-04-29T13:43:17Z",
@@ -10051,7 +10321,7 @@
       "difficulty": "hard",
       "type": "GEN",
       "ordered": true,
-      "rowCount": 9,
+      "rowCount": 70,
       "columns": [
         {
           "name": "TimeGenerated",
@@ -10076,6 +10346,62 @@
       ],
       "rows": [
         [
+          "2026-04-29T13:52:05Z",
+          "SVR-WEB-01",
+          "C:\\Users\\ssmith\\Downloads",
+          "file_3152.pdf",
+          "code.exe"
+        ],
+        [
+          "2026-04-29T13:50:59Z",
+          "WS-LEGAL-01",
+          "C:\\Users\\kpatel\\Downloads",
+          "file_7918.pdf",
+          "OUTLOOK.EXE"
+        ],
+        [
+          "2026-04-29T13:50:35Z",
+          "WS-MKT-02",
+          "C:\\Users\\bsato\\Pictures",
+          "file_2101.png",
+          "OneDrive.exe"
+        ],
+        [
+          "2026-04-29T13:48:51Z",
+          "LAP-DEV-06",
+          "C:\\Users\\ssmith\\Documents",
+          "file_1680.xlsx",
+          "OUTLOOK.EXE"
+        ],
+        [
+          "2026-04-29T13:48:18Z",
+          "WS-OPS-02",
+          "C:\\Users\\agarcia\\Documents",
+          "file_8326.docx",
+          "explorer.exe"
+        ],
+        [
+          "2026-04-29T13:47:50Z",
+          "LAP-EXEC-01",
+          "C:\\Users\\phopkins\\AppData\\Local\\Temp",
+          "file_6191.tmp",
+          "code.exe"
+        ],
+        [
+          "2026-04-29T13:46:43Z",
+          "LAP-DEV-05",
+          "C:\\Users\\phopkins\\Downloads",
+          "file_2223.zip",
+          "chrome.exe"
+        ],
+        [
+          "2026-04-29T13:46:27Z",
+          "LAP-EXEC-01",
+          "C:\\Users\\fortega\\AppData\\Local\\Temp",
+          "file_4511.tmp",
+          "code.exe"
+        ],
+        [
           "2026-04-29T13:44:40Z",
           "WS-IT-01",
           "C:\\Users\\jharris\\AppData\\Local\\Temp\\stage-001",
@@ -10083,11 +10409,116 @@
           "powershell.exe"
         ],
         [
+          "2026-04-29T13:43:17Z",
+          "LAP-DEV-05",
+          "C:\\Users\\phopkins\\Downloads",
+          "file_4070.pdf",
+          "svchost.exe"
+        ],
+        [
+          "2026-04-29T13:42:55Z",
+          "WS-OPS-01",
+          "C:\\Users\\vchen\\Documents",
+          "file_6450.xlsx",
+          "OneDrive.exe"
+        ],
+        [
+          "2026-04-29T13:42:15Z",
+          "WS-MKT-02",
+          "C:\\Users\\agarcia\\AppData\\Local\\Temp",
+          "file_1125.tmp",
+          "OneDrive.exe"
+        ],
+        [
+          "2026-04-29T13:40:37Z",
+          "SVR-DC-01",
+          "C:\\Users\\mevans\\Documents",
+          "file_4412.docx",
+          "chrome.exe"
+        ],
+        [
+          "2026-04-29T13:40:01Z",
+          "WS-OPS-01",
+          "C:\\Users\\gnorris\\Documents",
+          "file_4993.docx",
+          "OneDrive.exe"
+        ],
+        [
+          "2026-04-29T13:38:21Z",
+          "WS-OPS-01",
+          "C:\\Users\\lwoods\\AppData\\Roaming",
+          "file_2159.json",
+          "OneDrive.exe"
+        ],
+        [
           "2026-04-29T13:37:40Z",
           "WS-MKT-01",
           "C:\\Users\\kpatel\\AppData\\Roaming\\.cache",
           "beacon.dll",
           "powershell.exe"
+        ],
+        [
+          "2026-04-29T13:37:16Z",
+          "WS-IT-01",
+          "C:\\Users\\tnguyen\\Documents",
+          "file_5721.xlsx",
+          "chrome.exe"
+        ],
+        [
+          "2026-04-29T13:37:03Z",
+          "LAP-SALES-04",
+          "C:\\Users\\jharris\\AppData\\Local\\Temp",
+          "file_6276.tmp",
+          "chrome.exe"
+        ],
+        [
+          "2026-04-29T13:36:43Z",
+          "SVR-WEB-01",
+          "C:\\Users\\agarcia\\Documents",
+          "file_4145.docx",
+          "code.exe"
+        ],
+        [
+          "2026-04-29T13:36:05Z",
+          "WS-OPS-01",
+          "C:\\Users\\sthompson\\Downloads",
+          "file_1344.zip",
+          "code.exe"
+        ],
+        [
+          "2026-04-29T13:33:12Z",
+          "LAP-SALES-04",
+          "C:\\Users\\lwoods\\Downloads",
+          "file_5204.pdf",
+          "OneDrive.exe"
+        ],
+        [
+          "2026-04-29T13:32:23Z",
+          "WS-HR-03",
+          "C:\\Users\\kdoyle\\Documents",
+          "file_4106.docx",
+          "explorer.exe"
+        ],
+        [
+          "2026-04-29T13:31:44Z",
+          "WS-FINANCE-01",
+          "C:\\Users\\iyamamoto\\Downloads",
+          "file_1207.zip",
+          "explorer.exe"
+        ],
+        [
+          "2026-04-29T13:31:25Z",
+          "LAP-DEV-05",
+          "C:\\Users\\sthompson\\Downloads",
+          "file_9568.zip",
+          "code.exe"
+        ],
+        [
+          "2026-04-29T13:31:09Z",
+          "WS-LEGAL-01",
+          "C:\\Users\\kpatel\\AppData\\Local\\Temp",
+          "file_9140.tmp",
+          "svchost.exe"
         ],
         [
           "2026-04-29T13:31:00Z",
@@ -10111,11 +10542,109 @@
           "powershell.exe"
         ],
         [
+          "2026-04-29T13:30:20Z",
+          "LAP-EXEC-01",
+          "C:\\Users\\olopez\\AppData\\Roaming",
+          "file_5194.json",
+          "chrome.exe"
+        ],
+        [
+          "2026-04-29T13:30:11Z",
+          "WS-FIN-03",
+          "C:\\Windows\\Temp",
+          "file_7190.log",
+          "chrome.exe"
+        ],
+        [
+          "2026-04-29T13:30:03Z",
+          "LAP-EXEC-01",
+          "C:\\Users\\bsato\\Documents",
+          "file_7425.docx",
+          "chrome.exe"
+        ],
+        [
+          "2026-04-29T13:29:46Z",
+          "LAP-SALES-04",
+          "C:\\Windows\\Temp",
+          "file_1705.log",
+          "OneDrive.exe"
+        ],
+        [
+          "2026-04-29T13:28:51Z",
+          "WS-HR-03",
+          "C:\\Users\\kpatel\\Downloads",
+          "file_2850.pdf",
+          "explorer.exe"
+        ],
+        [
+          "2026-04-29T13:27:55Z",
+          "WS-ENG-02",
+          "C:\\Users\\rmorales\\AppData\\Roaming",
+          "file_9429.json",
+          "OUTLOOK.EXE"
+        ],
+        [
+          "2026-04-29T13:27:44Z",
+          "WS-FINANCE-01",
+          "C:\\Users\\bsato\\Downloads",
+          "file_5629.zip",
+          "OUTLOOK.EXE"
+        ],
+        [
+          "2026-04-29T13:27:17Z",
+          "WS-FINANCE-01",
+          "C:\\Users\\sthompson\\AppData\\Local\\Microsoft\\Windows\\INetCache",
+          "file_9960.cache",
+          "chrome.exe"
+        ],
+        [
+          "2026-04-29T13:26:25Z",
+          "WS-ENG-02",
+          "C:\\Users\\jharris\\Documents",
+          "file_6180.docx",
+          "chrome.exe"
+        ],
+        [
+          "2026-04-29T13:25:18Z",
+          "WS-SUPPORT-01",
+          "C:\\Users\\pjohnston\\AppData\\Local\\Temp",
+          "file_6161.tmp",
+          "svchost.exe"
+        ],
+        [
+          "2026-04-29T13:25:11Z",
+          "LAP-DEV-06",
+          "C:\\Users\\dkim\\Pictures",
+          "file_2897.png",
+          "svchost.exe"
+        ],
+        [
+          "2026-04-29T13:25:04Z",
+          "WS-ENG-01",
+          "C:\\Windows\\Temp",
+          "file_1727.log",
+          "chrome.exe"
+        ],
+        [
+          "2026-04-29T13:25:02Z",
+          "WS-MKT-01",
+          "C:\\Users\\ehernandez\\Downloads",
+          "file_5613.zip",
+          "svchost.exe"
+        ],
+        [
           "2026-04-29T13:25:00Z",
           "WS-FINANCE-01",
           "C:\\Windows\\Temp",
           "credhelper.dll",
           "rundll32.exe"
+        ],
+        [
+          "2026-04-29T13:24:00Z",
+          "SVR-WEB-01",
+          "C:\\Users\\bcarter\\AppData\\Local\\Temp",
+          "file_5401.tmp",
+          "OUTLOOK.EXE"
         ],
         [
           "2026-04-29T13:23:40Z",
@@ -10125,6 +10654,34 @@
           "powershell.exe"
         ],
         [
+          "2026-04-29T13:21:57Z",
+          "WS-OPS-02",
+          "C:\\Users\\rrivera\\AppData\\Local\\Temp",
+          "file_9952.tmp",
+          "OneDrive.exe"
+        ],
+        [
+          "2026-04-29T13:19:13Z",
+          "LAP-SALES-03",
+          "C:\\Windows\\Temp",
+          "file_1487.log",
+          "explorer.exe"
+        ],
+        [
+          "2026-04-29T13:17:22Z",
+          "WS-OPS-02",
+          "C:\\Users\\mwhite\\Documents",
+          "file_5733.xlsx",
+          "code.exe"
+        ],
+        [
+          "2026-04-29T13:17:21Z",
+          "WS-IT-02",
+          "C:\\Users\\vchen\\Downloads",
+          "file_7234.zip",
+          "OUTLOOK.EXE"
+        ],
+        [
           "2026-04-29T13:16:40Z",
           "WS-IT-02",
           "C:\\Users\\sthompson\\AppData\\Local\\Temp\\.tools",
@@ -10132,11 +10689,151 @@
           "powershell.exe"
         ],
         [
+          "2026-04-29T13:15:58Z",
+          "WS-FINANCE-01",
+          "C:\\Users\\rmorales\\AppData\\Roaming",
+          "file_9898.json",
+          "OneDrive.exe"
+        ],
+        [
+          "2026-04-29T13:15:56Z",
+          "LAP-DEV-06",
+          "C:\\Windows\\Temp",
+          "file_4813.log",
+          "chrome.exe"
+        ],
+        [
+          "2026-04-29T13:14:20Z",
+          "WS-DEV-02",
+          "C:\\Windows\\Temp",
+          "file_9452.log",
+          "code.exe"
+        ],
+        [
+          "2026-04-29T13:10:13Z",
+          "WS-DEV-02",
+          "C:\\Users\\rmorales\\Downloads",
+          "file_8728.pdf",
+          "code.exe"
+        ],
+        [
           "2026-04-29T13:09:40Z",
           "WS-MKT-02",
           "C:\\Users\\rmorales\\AppData\\Local\\Temp\\.dump",
           "creds.txt",
           "powershell.exe"
+        ],
+        [
+          "2026-04-29T13:06:45Z",
+          "WS-FINANCE-01",
+          "C:\\Users\\vchen\\AppData\\Local\\Microsoft\\Windows\\INetCache",
+          "file_8961.cache",
+          "svchost.exe"
+        ],
+        [
+          "2026-04-29T13:06:04Z",
+          "LAP-DEV-05",
+          "C:\\Users\\rmorales\\Pictures",
+          "file_6191.png",
+          "chrome.exe"
+        ],
+        [
+          "2026-04-29T13:04:29Z",
+          "LAP-EXEC-01",
+          "C:\\Users\\olopez\\AppData\\Local\\Microsoft\\Windows\\INetCache",
+          "file_3579.cache",
+          "OUTLOOK.EXE"
+        ],
+        [
+          "2026-04-29T13:03:46Z",
+          "WS-IT-02",
+          "C:\\Windows\\Temp",
+          "file_6312.log",
+          "svchost.exe"
+        ],
+        [
+          "2026-04-29T13:03:02Z",
+          "WS-HR-03",
+          "C:\\Windows\\Temp",
+          "file_8561.log",
+          "explorer.exe"
+        ],
+        [
+          "2026-04-29T13:02:55Z",
+          "WS-SUPPORT-01",
+          "C:\\Users\\kpatel\\AppData\\Roaming",
+          "file_4670.json",
+          "OUTLOOK.EXE"
+        ],
+        [
+          "2026-04-29T13:02:20Z",
+          "WS-DEV-02",
+          "C:\\Users\\gnorris\\AppData\\Local\\Microsoft\\Windows\\INetCache",
+          "file_6673.cache",
+          "chrome.exe"
+        ],
+        [
+          "2026-04-29T13:01:53Z",
+          "LAP-EXEC-01",
+          "C:\\Users\\mevans\\Downloads",
+          "file_7601.pdf",
+          "svchost.exe"
+        ],
+        [
+          "2026-04-29T13:00:19Z",
+          "WS-RECEPTION-01",
+          "C:\\Users\\agarcia\\Documents",
+          "file_5229.docx",
+          "OneDrive.exe"
+        ],
+        [
+          "2026-04-29T12:59:23Z",
+          "WS-SUPPORT-01",
+          "C:\\Users\\pjohnston\\Pictures",
+          "file_8005.png",
+          "explorer.exe"
+        ],
+        [
+          "2026-04-29T12:57:51Z",
+          "WS-OPS-02",
+          "C:\\Users\\fortega\\Documents",
+          "file_8233.xlsx",
+          "svchost.exe"
+        ],
+        [
+          "2026-04-29T12:57:51Z",
+          "WS-IT-02",
+          "C:\\Users\\iyamamoto\\Documents",
+          "file_9547.xlsx",
+          "OneDrive.exe"
+        ],
+        [
+          "2026-04-29T12:56:39Z",
+          "WS-ENG-02",
+          "C:\\Windows\\Temp",
+          "file_4350.log",
+          "explorer.exe"
+        ],
+        [
+          "2026-04-29T12:56:06Z",
+          "LAP-DEV-06",
+          "C:\\Users\\jharris\\Documents",
+          "file_9098.xlsx",
+          "OUTLOOK.EXE"
+        ],
+        [
+          "2026-04-29T12:55:56Z",
+          "LAP-SALES-03",
+          "C:\\Users\\olopez\\Downloads",
+          "file_4971.zip",
+          "code.exe"
+        ],
+        [
+          "2026-04-29T12:53:45Z",
+          "LAP-DEV-05",
+          "C:\\Users\\vchen\\Documents",
+          "file_7419.docx",
+          "OneDrive.exe"
         ]
       ],
       "canonicalKql": "let Baseline = DeviceFileEvents\n    | where TimeGenerated between (ago(7d) .. ago(1h))\n    | distinct DeviceName, FolderPath, FileName;\nDeviceFileEvents\n| where TimeGenerated > ago(1h)\n| where ActionType == \"FileCreated\"\n| join kind=leftanti (Baseline) on DeviceName, FolderPath, FileName\n| project TimeGenerated, DeviceName, FolderPath, FileName, InitiatingProcessFileName\n| order by TimeGenerated desc",
@@ -10539,5 +11236,5 @@
       "rewrittenKql": "Syslog\n| where ProcessName == \"sshd-session\" and SyslogMessage startswith \"Failed password\"\n| extend Cleaned = replace_string(SyslogMessage, \"invalid user \", \"\")\n| parse Cleaned with \"Failed password for \" User:string \" from \" SourceIP:string \" port \" Port:int *\n| project TimeGenerated, User, SourceIP, Port"
     }
   },
-  "regeneratedFrom": "kql/data + kql/engine (local v1) at 2026-05-04T18:00:21.203Z"
+  "regeneratedFrom": "kql/data + kql/engine (local v1) at 2026-05-04T18:45:46.738Z"
 }

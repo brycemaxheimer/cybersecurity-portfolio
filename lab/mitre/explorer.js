@@ -1,4 +1,4 @@
-/* explorer.js — MITRE ATT&CK Explorer.
+/* explorer.js - MITRE ATT&CK Explorer.
  * Loads /lab/mitre/data.json and powers the search / filter / detail UI.
  * No external deps, no API calls; all data shipped with the page.
  */

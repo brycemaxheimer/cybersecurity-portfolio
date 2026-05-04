@@ -1,6 +1,6 @@
 # /kql/vendor/
 
-This folder holds **sql.js** — the WebAssembly build of SQLite that powers
+This folder holds **sql.js** - the WebAssembly build of SQLite that powers
 the KQL playground. Two files are required:
 
 - `sql-wasm.js`   (~800 KB JS loader)
