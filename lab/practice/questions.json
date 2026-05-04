@@ -84,7 +84,7 @@
     "title": "Brute-force candidates",
     "type": "GEN",
     "difficulty": "medium",
-    "prompt": "On `SecurityEvent`, find candidates for brute-force in the last 24 hours: group `EventID 4625` rows by both `Account` and `IpAddress`, exclude machine accounts, return groups with \u2265 3 failures, sorted by failure count descending. Include the first and last fail times per group.",
+    "prompt": "On `SecurityEvent`, find candidates for brute-force in the last 24 hours: group `EventID 4625` rows by both `Account` and `IpAddress`, exclude machine accounts, return groups with \u2265 3 failures, sorted by failure count descending. Include the first and last fail times per group.\n\n*Hunt tip:* Once you have candidate IPs, validate them against [AbuseIPDB](https://www.abuseipdb.com/), [VirusTotal](https://www.virustotal.com/), and [Shodan](https://www.shodan.io/) before escalating. A high-confidence brute-force source is usually already known to one of them.",
     "sampleQuery": null
   },
   {
@@ -108,7 +108,7 @@
     "title": "Mismatched union",
     "type": "BOTH",
     "difficulty": "medium",
-    "prompt": "The analyst wants a unified view of \"successful logons\" across `SecurityEvent` (4624) and `DeviceLogonEvents`. They wrote:",
+    "prompt": "The analyst wants a unified view of \"successful logons\" across `SecurityEvent` (4624) and `DeviceLogonEvents`. They wrote:\n\n*Hunt tip:* The point of unifying SecurityEvent + DeviceLogonEvents is so you can pivot from a single suspicious `IpAddress` to *every* successful logon it produced, regardless of which sensor saw it. Run any IP that surprises you through AbuseIPDB / GreyNoise.",
     "sampleQuery": "union\n    (SecurityEvent | where TimeGenerated > ago(1h) and EventID == 4624),\n    (DeviceLogonEvents | where TimeGenerated > ago(1h) and ActionType == \"LogonSuccess\")\n| project TimeGenerated, Account, IpAddress, Computer"
   },
   {
@@ -116,7 +116,7 @@
     "title": "Parse SSH failure messages",
     "type": "GEN",
     "difficulty": "medium",
-    "prompt": "On `Syslog` from the last hour, where `ProcessName == \"sshd-session\"` and the message starts with \"Failed password\", use `parse` to extract the **User**, **SourceIP**, and **Port** from messages like:\n```\nFailed password for invalid user test from 198.51.100.55 port 41688 ssh2\n```\nHint: think about how to handle the optional `\"invalid user \"` prefix. Project `TimeGenerated`, `Computer`, `User`, `SourceIP`, `Port`.",
+    "prompt": "On `Syslog` from the last hour, where `ProcessName == \"sshd-session\"` and the message starts with \"Failed password\", use `parse` to extract the **User**, **SourceIP**, and **Port** from messages like:\n```\nFailed password for invalid user test from 198.51.100.55 port 41688 ssh2\n```\nHint: think about how to handle the optional `\"invalid user \"` prefix. Project `TimeGenerated`, `Computer`, `User`, `SourceIP`, `Port`.\n\n*Hunt tip:* Real sshd brute force comes from the open internet. Take the `SourceIP` values you extract and check them against [AbuseIPDB](https://www.abuseipdb.com/) \u2014 most will already be flagged.",
     "sampleQuery": null
   },
   {
@@ -124,7 +124,7 @@
     "title": "Password guess then success",
     "type": "GEN",
     "difficulty": "medium",
-    "prompt": "On `SecurityEvent` over the last 24 hours, find pairs where the **same** `Account`, `IpAddress`, and `Computer` had **at least 3 failures (4625) followed within 5 minutes by a success (4624)**. This is the walkthrough pattern from the guide. Return one row per `(Account, IpAddress, Computer)` with `FailCount`, `FirstFail`, `Success`. Order by `Success` desc.",
+    "prompt": "On `SecurityEvent` over the last 24 hours, find pairs where the **same** `Account`, `IpAddress`, and `Computer` had **at least 3 failures (4625) followed within 5 minutes by a success (4624)**. This is the walkthrough pattern from the guide. Return one row per `(Account, IpAddress, Computer)` with `FailCount`, `FirstFail`, `Success`. Order by `Success` desc.\n\n*Hunt tip:* A 4625-then-4624 pattern from the same `IpAddress` is your strongest single signal of credential compromise. Validate the IP via AbuseIPDB and VirusTotal; if either flags it, treat the success as confirmed compromise and rotate creds before doing anything else.",
     "sampleQuery": null
   },
   {
@@ -140,7 +140,7 @@
     "title": "Cross-table correlation",
     "type": "GEN",
     "difficulty": "medium",
-    "prompt": "Find devices that, in the last hour, **both**: (a) had a process executed whose `ProcessCommandLine` contains the term `EncodedCommand`, **and** (b) had an outbound `ConnectionSuccess` to a public RemoteIP. Return one row per device with the count of each.",
+    "prompt": "Find devices that, in the last hour, **both**: (a) had a process executed whose `ProcessCommandLine` contains the term `EncodedCommand`, **and** (b) had an outbound `ConnectionSuccess` to a public RemoteIP. Return one row per device with the count of each.\n\n*Hunt tip:* The outbound `RemoteIP` is the C2 candidate. Pivot to [VirusTotal](https://www.virustotal.com/) (URL/IP search) and [AbuseIPDB](https://www.abuseipdb.com/); if it's flagged in a known C2 family, contain the device immediately.",
     "sampleQuery": null
   },
   {
@@ -164,7 +164,7 @@
     "title": "First-time-seen process hash",
     "type": "GEN",
     "difficulty": "hard",
-    "prompt": "On `DeviceProcessEvents`, find process executions in the last 1 hour whose `(DeviceName, FileName, SHA256)` triplet did **not** appear anywhere in the prior 30 days (excluding the recent 1-hour window itself). Project `TimeGenerated`, `DeviceName`, `AccountName`, `FileName`, `SHA256`, `ProcessCommandLine`. This is the `leftanti` baseline pattern from the guide.",
+    "prompt": "On `DeviceProcessEvents`, find process executions in the last 1 hour whose `(DeviceName, FileName, SHA256)` triplet did **not** appear anywhere in the prior 30 days (excluding the recent 1-hour window itself). Project `TimeGenerated`, `DeviceName`, `AccountName`, `FileName`, `SHA256`, `ProcessCommandLine`. This is the `leftanti` baseline pattern from the guide.\n\n*Hunt tip:* The new SHA256 values are your primary IOCs \u2014 [VirusTotal](https://www.virustotal.com/) hash search will tell you if it's known good (Microsoft-signed system binary), known bad (malware family), or unknown (the interesting case).",
     "sampleQuery": null
   },
   {
@@ -172,7 +172,7 @@
     "title": "Long base64-ish tokens in PowerShell",
     "type": "GEN",
     "difficulty": "hard",
-    "prompt": "On `DeviceProcessEvents` over the last 24 hours where `FileName =~ \"powershell.exe\"`, split each `ProcessCommandLine` on whitespace, expand to one token per row, and keep only tokens that match the regex `^[A-Za-z0-9+/=]{100,}$` (long base64-ish blobs). Project `TimeGenerated`, `DeviceName`, the matched `Token`, and the original `ProcessCommandLine`.",
+    "prompt": "On `DeviceProcessEvents` over the last 24 hours where `FileName =~ \"powershell.exe\"`, split each `ProcessCommandLine` on whitespace, expand to one token per row, and keep only tokens that match the regex `^[A-Za-z0-9+/=]{100,}$` (long base64-ish blobs). Project `TimeGenerated`, `DeviceName`, the matched `Token`, and the original `ProcessCommandLine`.\n\n*Hunt tip:* Decode the captured base64 strings (`certutil -decode` or CyberChef). If a decoded blob contains an IP or URL, run that indicator through [AbuseIPDB](https://www.abuseipdb.com/) / [URLhaus](https://urlhaus.abuse.ch/) before closing.",
     "sampleQuery": null
   },
   {
@@ -188,7 +188,7 @@
     "title": "Incidents containing a given alert",
     "type": "GEN",
     "difficulty": "hard",
-    "prompt": "On `SecurityIncident`, the column `AlertIds` is `dynamic` and holds a JSON array of alert IDs. Find incidents whose `AlertIds` array contains the value `\"alert-002\"`. Hint: use `mv-expand` (or the `array_index_of` style if you prefer). Project `IncidentNumber`, `Title`, `Severity`, `AlertIds`.",
+    "prompt": "On `SecurityIncident`, the column `AlertIds` is `dynamic` and holds a JSON array of alert IDs. Find incidents whose `AlertIds` array contains the value `\"alert-002\"`. Hint: use `mv-expand` (or the `array_index_of` style if you prefer). Project `IncidentNumber`, `Title`, `Severity`, `AlertIds`.\n\n*Hunt tip:* When pivoting from alert \u2192 incident, also pull the alert's IOCs (file hashes, IPs, URLs) into [VirusTotal](https://www.virustotal.com/) for community context \u2014 it often shortens triage by hours.",
     "sampleQuery": null
   },
   {
@@ -204,7 +204,7 @@
     "title": "Dynamic field returning zero rows",
     "type": "BOTH",
     "difficulty": "hard",
-    "prompt": "The analyst wants risky sign-ins from Russia (`countryOrRegion == \"RU\"`) inside `LocationDetails` (which is `dynamic` JSON) and wrote:",
+    "prompt": "The analyst wants risky sign-ins from Russia (`countryOrRegion == \"RU\"`) inside `LocationDetails` (which is `dynamic` JSON) and wrote:\n\n*Hunt tip:* Geo-anomalous sign-ins are noisy on their own. Strengthen the signal by checking the `IPAddress` against [AbuseIPDB](https://www.abuseipdb.com/) and [GreyNoise](https://www.greynoise.io/); a known-malicious VPN or Tor exit is far more actionable than just \"unfamiliar location.\"",
     "sampleQuery": "SigninLogs\n| where TimeGenerated > ago(1d)\n| where LocationDetails.countryOrRegion == \"RU\""
   },
   {
@@ -220,7 +220,7 @@
     "title": "Password spray",
     "type": "GEN",
     "difficulty": "hard",
-    "prompt": "On `SecurityEvent` over the last 24 hours, detect possible password-spray: a single source `IpAddress` causing `EventID 4625` failures against **3 or more distinct accounts** (excluding machine accounts) in any 1-hour bin. Return `IpAddress`, the time bucket, the distinct-account count, and a sample list of up to 10 of the targeted accounts.",
+    "prompt": "On `SecurityEvent` over the last 24 hours, detect possible password-spray: a single source `IpAddress` causing `EventID 4625` failures against **3 or more distinct accounts** (excluding machine accounts) in any 1-hour bin. Return `IpAddress`, the time bucket, the distinct-account count, and a sample list of up to 10 of the targeted accounts.\n\n*Hunt tip:* Spray sources are commonly residential proxies or compromised VPS \u2014 validate the `IpAddress` set against [AbuseIPDB](https://www.abuseipdb.com/), [VirusTotal](https://www.virustotal.com/), and [Spur](https://spur.us/) (proxy/VPN attribution). One IP hitting 3+ accounts in an hour from a known proxy is a high-confidence block.",
     "sampleQuery": null
   },
   {
@@ -236,7 +236,7 @@
     "title": "Brittle parse pattern",
     "type": "BOTH",
     "difficulty": "hard",
-    "prompt": "The analyst is using this parse to extract the user from sshd-session \"Failed password\" lines:",
+    "prompt": "The analyst is using this parse to extract the user from sshd-session \"Failed password\" lines:\n\n*Hunt tip:* When parsing breaks down, fall back to `extract_all` with a regex you can read. Then take the `SourceIP` values to AbuseIPDB \u2014 sshd Failed-password sources from the open internet are almost always already flagged.",
     "sampleQuery": "Syslog\n| where ProcessName == \"sshd-session\" and SyslogMessage startswith \"Failed password\"\n| parse SyslogMessage with \"Failed password for \" User \" from \" SourceIP \" port \" Port:int *\n| project TimeGenerated, User, SourceIP, Port"
   }
 ]

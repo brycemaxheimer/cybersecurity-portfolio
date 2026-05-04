@@ -43,8 +43,9 @@ param(
     [string]$SmallDataDir   = (Join-Path (Join-Path $PSScriptRoot '..') 'data'),
     [string]$OutputDir      = $PSScriptRoot,
     [datetime]$Anchor       = '2026-04-29T13:52:40Z',
-    [int]$WindowDays        = 14,
+    [int]$WindowDays        = 1,
     [int]$MaxRowsPerTable   = 12000,
+    [int]$HoldoutSeconds    = 0,
     [switch]$SeedFromExisting = $true
 )
 
@@ -99,7 +100,7 @@ function Build-SecurityEvent {
     Write-Host ("  SecurityEvent: keeping {0} small-set rows, generating {1} noise rows..." -f $kept.Count, $noiseCount)
 
     $timestamps = New-WaveTimestamps -Count $noiseCount -Anchor $Anchor `
-                                     -WindowDays $WindowDays -HoldoutSeconds 3600 `
+                                     -WindowDays $WindowDays -HoldoutSeconds $HoldoutSeconds `
                                      -Frequency ([double]$WindowDays) -Baseline 0.2 -Rng $rng
 
     # Prepare buffers
@@ -230,7 +231,7 @@ function Build-DeviceProcessEvents {
     Write-Host ("  DeviceProcessEvents: keeping {0}, generating {1} noise..." -f $kept.Count, $noiseCount)
 
     $timestamps = New-WaveTimestamps -Count $noiseCount -Anchor $Anchor `
-                                     -WindowDays $WindowDays -HoldoutSeconds 3600 `
+                                     -WindowDays $WindowDays -HoldoutSeconds $HoldoutSeconds `
                                      -Frequency ([double]$WindowDays) -Baseline 0.2 -Rng $rng
 
     $noiseRows = New-Object 'System.Collections.Generic.List[string]' $noiseCount
@@ -278,7 +279,7 @@ function Build-DeviceLogonEvents {
     Write-Host ("  DeviceLogonEvents: keeping {0}, generating {1} noise..." -f $kept.Count, $noiseCount)
 
     $timestamps = New-WaveTimestamps -Count $noiseCount -Anchor $Anchor `
-                                     -WindowDays $WindowDays -HoldoutSeconds 3600 `
+                                     -WindowDays $WindowDays -HoldoutSeconds $HoldoutSeconds `
                                      -Frequency ([double]$WindowDays) -Baseline 0.2 -Rng $rng
 
     $noiseRows = New-Object 'System.Collections.Generic.List[string]' $noiseCount
@@ -326,7 +327,7 @@ function Build-DeviceNetworkEvents {
     Write-Host ("  DeviceNetworkEvents: keeping {0}, generating {1} noise..." -f $kept.Count, $noiseCount)
 
     $timestamps = New-WaveTimestamps -Count $noiseCount -Anchor $Anchor `
-                                     -WindowDays $WindowDays -HoldoutSeconds 3600 `
+                                     -WindowDays $WindowDays -HoldoutSeconds $HoldoutSeconds `
                                      -Frequency ([double]$WindowDays) -Baseline 0.2 -Rng $rng
 
     $noiseRows = New-Object 'System.Collections.Generic.List[string]' $noiseCount
@@ -380,7 +381,7 @@ function Build-Syslog {
     Write-Host ("  Syslog: keeping {0}, generating {1} noise..." -f $kept.Count, $noiseCount)
 
     $timestamps = New-WaveTimestamps -Count $noiseCount -Anchor $Anchor `
-                                     -WindowDays $WindowDays -HoldoutSeconds 3600 `
+                                     -WindowDays $WindowDays -HoldoutSeconds $HoldoutSeconds `
                                      -Frequency ([double]$WindowDays) -Baseline 0.2 -Rng $rng
 
     $noiseRows = New-Object 'System.Collections.Generic.List[string]' $noiseCount

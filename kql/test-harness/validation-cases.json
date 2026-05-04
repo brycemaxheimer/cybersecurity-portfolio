@@ -1,0 +1,781 @@
+{
+  "version": 1,
+  "note": "Validation matrix for the KQL practice grader. See run-validation.cjs.",
+  "caseCount": 129,
+  "cases": [
+    {
+      "number": 1,
+      "kind": "good",
+      "expect": "pass",
+      "kql": "SecurityEvent\n| where TimeGenerated > ago(24h)\n| where EventID == 4624 and LogonType == 2\n| project TimeGenerated, Computer, Account, IpAddress\n| order by TimeGenerated desc\n| take 10"
+    },
+    {
+      "number": 1,
+      "kind": "possible",
+      "expect": "pass",
+      "kql": "SecurityEvent\n| where TimeGenerated > ago(24h)\n| where EventID == 4624 and LogonType == 2\n| project TimeGenerated, Computer, Account, IpAddress\n| top 10 by TimeGenerated desc"
+    },
+    {
+      "number": 1,
+      "kind": "partial",
+      "expect": "fail",
+      "kql": "SecurityEvent\n| where TimeGenerated > ago(24h)\n| where EventID == 4624\n| project TimeGenerated, Computer, Account, IpAddress\n| order by TimeGenerated desc\n| take 10"
+    },
+    {
+      "number": 1,
+      "kind": "bad",
+      "expect": "fail",
+      "kql": "SecurityEvent\n| where TimeGenerated > ago(24h)\n| where EventID == 4625 and LogonType == 2\n| project TimeGenerated, Computer, Account, IpAddress\n| order by TimeGenerated desc\n| take 10"
+    },
+    {
+      "number": 2,
+      "kind": "good",
+      "expect": "pass",
+      "kql": "Syslog\n| where TimeGenerated > ago(1h)\n| where ProcessName == \"sshd-session\"\n| project TimeGenerated, Computer, SyslogMessage\n| order by TimeGenerated asc"
+    },
+    {
+      "number": 2,
+      "kind": "possible",
+      "expect": "pass",
+      "kql": "Syslog\n| where TimeGenerated > ago(1h)\n| where ProcessName =~ \"sshd-session\"\n| project TimeGenerated, Computer, SyslogMessage\n| order by TimeGenerated asc"
+    },
+    {
+      "number": 2,
+      "kind": "partial",
+      "expect": "fail",
+      "kql": "Syslog\n| where ProcessName == \"sshd-session\"\n| project TimeGenerated, Computer, SyslogMessage\n| order by TimeGenerated asc"
+    },
+    {
+      "number": 2,
+      "kind": "bad",
+      "expect": "fail",
+      "kql": "Syslog\n| where TimeGenerated > ago(1h)\n| where ProcessName == \"sshd\"\n| project TimeGenerated, Computer, SyslogMessage\n| order by TimeGenerated asc"
+    },
+    {
+      "number": 3,
+      "kind": "good",
+      "expect": "pass",
+      "kql": "SecurityEvent\n| where TimeGenerated > datetime(2026-04-25)\n| take 50"
+    },
+    {
+      "number": 3,
+      "kind": "possible",
+      "expect": "pass",
+      "kql": "SecurityEvent\n| where TimeGenerated > todatetime(\"2026-04-25\")\n| take 50"
+    },
+    {
+      "number": 3,
+      "kind": "partial",
+      "expect": "fail",
+      "kql": "SecurityEvent\n| where TimeGenerated > datetime(2026-04-25)\n| take 30"
+    },
+    {
+      "number": 3,
+      "kind": "bad",
+      "expect": "fail",
+      "kql": "SecurityEvent\n| where TimeGenerated < datetime(2026-04-25)\n| take 50"
+    },
+    {
+      "number": 3,
+      "kind": "verbatim",
+      "expect": "fail",
+      "kql": "SecurityEvent\n| where TimeGenerated > \"2026-04-25\"\n| take 50"
+    },
+    {
+      "number": 4,
+      "kind": "good",
+      "expect": "pass",
+      "kql": "SecurityEvent\n| where TimeGenerated > ago(24h) and EventID == 4625\n| where Account !endswith \"$\" and isnotempty(Account)\n| summarize Failures = count() by Account\n| where Failures >= 5\n| order by Failures desc"
+    },
+    {
+      "number": 4,
+      "kind": "possible",
+      "expect": "pass",
+      "kql": "SecurityEvent\n| where TimeGenerated > ago(24h) and EventID == 4625\n| where not(Account endswith \"$\") and Account != \"\"\n| summarize Failures = count() by Account\n| where Failures >= 5\n| order by Failures desc"
+    },
+    {
+      "number": 4,
+      "kind": "partial",
+      "expect": "fail",
+      "kql": "SecurityEvent\n| where TimeGenerated > ago(24h) and EventID == 4625\n| where Account !endswith \"$\" and isnotempty(Account)\n| summarize Failures = count() by Account\n| extend ExtraCol = 1\n| where Failures >= 5\n| order by Failures desc"
+    },
+    {
+      "number": 4,
+      "kind": "bad",
+      "expect": "fail",
+      "kql": "SecurityEvent\n| where TimeGenerated > ago(24h) and EventID == 4624\n| where Account !endswith \"$\" and isnotempty(Account)\n| summarize Failures = count() by Account\n| where Failures >= 5\n| order by Failures desc"
+    },
+    {
+      "number": 5,
+      "kind": "good",
+      "expect": "pass",
+      "kql": "DeviceProcessEvents\n| where TimeGenerated > ago(24h)\n| where FileName =~ \"chrome.exe\"\n| distinct DeviceName"
+    },
+    {
+      "number": 5,
+      "kind": "possible",
+      "expect": "pass",
+      "kql": "DeviceProcessEvents\n| where TimeGenerated > ago(24h)\n| where tolower(FileName) == \"chrome.exe\"\n| distinct DeviceName"
+    },
+    {
+      "number": 5,
+      "kind": "partial",
+      "expect": "fail",
+      "kql": "DeviceProcessEvents\n| where TimeGenerated > ago(24h)\n| where FileName =~ \"chrome.exe\"\n| distinct DeviceName\n| take 2"
+    },
+    {
+      "number": 5,
+      "kind": "bad",
+      "expect": "fail",
+      "kql": "DeviceProcessEvents\n| where TimeGenerated > ago(24h)\n| where FileName =~ \"firefox.exe\"\n| distinct DeviceName"
+    },
+    {
+      "number": 6,
+      "kind": "good",
+      "expect": "pass",
+      "kql": "DeviceLogonEvents\n| where TimeGenerated > ago(1h)\n| where ActionType == \"LogonSuccess\""
+    },
+    {
+      "number": 6,
+      "kind": "possible",
+      "expect": "pass",
+      "kql": "DeviceLogonEvents\n| where TimeGenerated > ago(1h)\n| where ActionType =~ \"LogonSuccess\""
+    },
+    {
+      "number": 6,
+      "kind": "partial",
+      "expect": "fail",
+      "kql": "DeviceLogonEvents\n| where TimeGenerated > ago(1h)\n| where ActionType == \"LogonSuccess\"\n| project TimeGenerated, DeviceName, AccountName"
+    },
+    {
+      "number": 6,
+      "kind": "bad",
+      "expect": "fail",
+      "kql": "DeviceLogonEvents\n| where TimeGenerated > ago(1h)\n| where ActionType == \"LogonFailed\""
+    },
+    {
+      "number": 6,
+      "kind": "verbatim",
+      "expect": "fail",
+      "kql": "DeviceLogonEvents\n| where TimeGenerated > ago(1h)\n| where EventID == 4624"
+    },
+    {
+      "number": 7,
+      "kind": "good",
+      "expect": "pass",
+      "kql": "SecurityEvent\n| where TimeGenerated > ago(6h) and EventID == 4625\n| summarize Failures = count() by bin(TimeGenerated, 5m)\n| order by TimeGenerated asc"
+    },
+    {
+      "number": 7,
+      "kind": "possible",
+      "expect": "pass",
+      "kql": "SecurityEvent\n| where EventID == 4625 and TimeGenerated > ago(6h)\n| summarize Failures = count() by bin(TimeGenerated, 5m)\n| order by TimeGenerated asc"
+    },
+    {
+      "number": 7,
+      "kind": "partial",
+      "expect": "fail",
+      "kql": "SecurityEvent\n| where TimeGenerated > ago(6h) and EventID == 4625\n| summarize Failures = count() by bin(TimeGenerated, 1m)\n| order by TimeGenerated asc"
+    },
+    {
+      "number": 7,
+      "kind": "bad",
+      "expect": "fail",
+      "kql": "SecurityEvent\n| where TimeGenerated > ago(6h) and EventID == 4624\n| summarize Failures = count() by bin(TimeGenerated, 5m)\n| order by TimeGenerated asc"
+    },
+    {
+      "number": 8,
+      "kind": "good",
+      "expect": "pass",
+      "kql": "DeviceProcessEvents\n| where TimeGenerated > ago(24h)\n| summarize Events = count() by DeviceName\n| top 5 by Events desc"
+    },
+    {
+      "number": 8,
+      "kind": "possible",
+      "expect": "pass",
+      "kql": "DeviceProcessEvents\n| where TimeGenerated > ago(24h)\n| summarize Events = count() by DeviceName\n| order by Events desc\n| take 5"
+    },
+    {
+      "number": 8,
+      "kind": "partial",
+      "expect": "fail",
+      "kql": "DeviceProcessEvents\n| where TimeGenerated > ago(24h)\n| summarize Events = count() by DeviceName\n| top 2 by Events desc"
+    },
+    {
+      "number": 8,
+      "kind": "bad",
+      "expect": "fail",
+      "kql": "DeviceProcessEvents\n| where TimeGenerated > ago(24h)\n| summarize Events = count() by DeviceName\n| top 1 by Events desc"
+    },
+    {
+      "number": 9,
+      "kind": "good",
+      "expect": "pass",
+      "kql": "DeviceProcessEvents\n| where TimeGenerated > ago(1d)\n| where ProcessCommandLine contains \"shell\""
+    },
+    {
+      "number": 9,
+      "kind": "possible",
+      "expect": "pass",
+      "kql": "DeviceProcessEvents\n| where TimeGenerated > ago(1d)\n| where ProcessCommandLine matches regex \"shell\""
+    },
+    {
+      "number": 9,
+      "kind": "partial",
+      "expect": "fail",
+      "kql": "DeviceProcessEvents\n| where TimeGenerated > ago(1d)\n| where ProcessCommandLine contains \"nonexistenttokenxyz\""
+    },
+    {
+      "number": 9,
+      "kind": "bad",
+      "expect": "fail",
+      "kql": "DeviceProcessEvents\n| where TimeGenerated > ago(1d)\n| where ProcessCommandLine !contains \"shell\""
+    },
+    {
+      "number": 9,
+      "kind": "verbatim",
+      "expect": "fail",
+      "kql": "DeviceProcessEvents\n| where TimeGenerated > ago(1d)\n| where ProcessCommandLine has \"shell\""
+    },
+    {
+      "number": 10,
+      "kind": "good",
+      "expect": "pass",
+      "kql": "DeviceNetworkEvents\n| where TimeGenerated > ago(1h) and RemoteIPType == \"Public\"\n| distinct RemoteIP\n| order by RemoteIP asc"
+    },
+    {
+      "number": 10,
+      "kind": "possible",
+      "expect": "pass",
+      "kql": "DeviceNetworkEvents\n| where TimeGenerated > ago(1h) and RemoteIPType == \"Public\"\n| project RemoteIP\n| distinct RemoteIP\n| order by RemoteIP asc"
+    },
+    {
+      "number": 10,
+      "kind": "partial",
+      "expect": "fail",
+      "kql": "DeviceNetworkEvents\n| where TimeGenerated > ago(1h) and RemoteIPType == \"Public\"\n| distinct RemoteIP\n| order by RemoteIP asc\n| take 1"
+    },
+    {
+      "number": 10,
+      "kind": "bad",
+      "expect": "fail",
+      "kql": "DeviceNetworkEvents\n| where TimeGenerated > ago(1h) and RemoteIPType == \"Private\"\n| distinct RemoteIP\n| order by RemoteIP asc"
+    },
+    {
+      "number": 11,
+      "kind": "good",
+      "expect": "pass",
+      "kql": "SecurityEvent\n| where TimeGenerated > ago(24h) and EventID == 4625\n| where Account !endswith \"$\" and isnotempty(Account)\n| summarize\n    Failures  = count(),\n    FirstFail = min(TimeGenerated),\n    LastFail  = max(TimeGenerated)\n  by Account, IpAddress\n| where Failures >= 3\n| order by Failures desc"
+    },
+    {
+      "number": 11,
+      "kind": "possible",
+      "expect": "pass",
+      "kql": "SecurityEvent\n| where TimeGenerated > ago(24h) and EventID == 4625\n| where not(Account endswith \"$\") and Account != \"\"\n| summarize\n    Failures  = count(),\n    FirstFail = min(TimeGenerated),\n    LastFail  = max(TimeGenerated)\n  by Account, IpAddress\n| where Failures >= 3\n| order by Failures desc"
+    },
+    {
+      "number": 11,
+      "kind": "partial",
+      "expect": "fail",
+      "kql": "SecurityEvent\n| where TimeGenerated > ago(24h) and EventID == 4625\n| where Account !endswith \"$\" and isnotempty(Account)\n| summarize\n    Failures  = count(),\n    FirstFail = min(TimeGenerated),\n    LastFail  = max(TimeGenerated)\n  by Account, IpAddress\n| where Failures >= 100\n| order by Failures desc"
+    },
+    {
+      "number": 11,
+      "kind": "bad",
+      "expect": "fail",
+      "kql": "SecurityEvent\n| where TimeGenerated > ago(24h) and EventID == 4624\n| where Account !endswith \"$\" and isnotempty(Account)\n| summarize\n    Failures  = count(),\n    FirstFail = min(TimeGenerated),\n    LastFail  = max(TimeGenerated)\n  by Account, IpAddress\n| where Failures >= 3\n| order by Failures desc"
+    },
+    {
+      "number": 12,
+      "kind": "good",
+      "expect": "pass",
+      "kql": "let SuspiciousTools = dynamic([\"mimikatz\", \"rubeus\", \"impacket\", \"bloodhound\"]);\nDeviceProcessEvents\n| where TimeGenerated > ago(24h)\n| where ProcessCommandLine has_any (SuspiciousTools)\n| project TimeGenerated, DeviceName, AccountName, FileName, ProcessCommandLine\n| order by TimeGenerated desc"
+    },
+    {
+      "number": 12,
+      "kind": "possible",
+      "expect": "pass",
+      "kql": "DeviceProcessEvents\n| where TimeGenerated > ago(24h)\n| where ProcessCommandLine has_any (\"mimikatz\", \"rubeus\", \"impacket\", \"bloodhound\")\n| project TimeGenerated, DeviceName, AccountName, FileName, ProcessCommandLine\n| order by TimeGenerated desc"
+    },
+    {
+      "number": 12,
+      "kind": "partial",
+      "expect": "fail",
+      "kql": "let SuspiciousTools = dynamic([\"mimikatz\", \"rubeus\", \"impacket\", \"bloodhound\"]);\nDeviceProcessEvents\n| where TimeGenerated > ago(24h)\n| where ProcessCommandLine has_any (SuspiciousTools)\n| project TimeGenerated, DeviceName, AccountName, FileName\n| order by TimeGenerated desc"
+    },
+    {
+      "number": 12,
+      "kind": "bad",
+      "expect": "fail",
+      "kql": "let SuspiciousTools = dynamic([\"mimikatz\", \"rubeus\", \"impacket\", \"bloodhound\"]);\nDeviceProcessEvents\n| where TimeGenerated > ago(24h)\n| where DeviceName has_any (SuspiciousTools)\n| project TimeGenerated, DeviceName, AccountName, FileName, ProcessCommandLine\n| order by TimeGenerated desc"
+    },
+    {
+      "number": 13,
+      "kind": "good",
+      "expect": "pass",
+      "kql": "DeviceNetworkInfo\n| where TimeGenerated > ago(7d)\n| summarize arg_max(TimeGenerated, *) by DeviceName"
+    },
+    {
+      "number": 13,
+      "kind": "possible",
+      "expect": "pass",
+      "kql": "DeviceNetworkInfo\n| where TimeGenerated > ago(7d)\n| summarize arg_max(TimeGenerated,*) by DeviceName"
+    },
+    {
+      "number": 13,
+      "kind": "partial",
+      "expect": "fail",
+      "kql": "DeviceNetworkInfo\n| where TimeGenerated > ago(7d)\n| summarize arg_max(TimeGenerated, *) by DeviceName\n| extend ExtraCol = 1"
+    },
+    {
+      "number": 13,
+      "kind": "bad",
+      "expect": "fail",
+      "kql": "DeviceNetworkInfo\n| where TimeGenerated > ago(7d)\n| summarize arg_max(TimeGenerated, *) by Type"
+    },
+    {
+      "number": 14,
+      "kind": "good",
+      "expect": "pass",
+      "kql": "union\n    (SecurityEvent\n        | where TimeGenerated > ago(1h) and EventID == 4624\n        | project TimeGenerated, Computer, Account, IpAddress, Source = \"SecEvent\"),\n    (DeviceLogonEvents\n        | where TimeGenerated > ago(1h) and ActionType == \"LogonSuccess\"\n        | project TimeGenerated, Computer = DeviceName, Account = AccountName,\n                  IpAddress = RemoteIP, Source = \"DefenderEDR\")\n| order by TimeGenerated desc"
+    },
+    {
+      "number": 14,
+      "kind": "possible",
+      "expect": "pass",
+      "kql": "union\n    (SecurityEvent\n        | where TimeGenerated > ago(1h) and EventID == 4624\n        | extend Source = \"SecEvent\"\n        | project TimeGenerated, Computer, Account, IpAddress, Source),\n    (DeviceLogonEvents\n        | where TimeGenerated > ago(1h) and ActionType == \"LogonSuccess\"\n        | extend Source = \"DefenderEDR\"\n        | project TimeGenerated, Computer = DeviceName, Account = AccountName,\n                  IpAddress = RemoteIP, Source)\n| order by TimeGenerated desc"
+    },
+    {
+      "number": 14,
+      "kind": "partial",
+      "expect": "fail",
+      "kql": "SecurityEvent\n| where TimeGenerated > ago(1h) and EventID == 4624\n| project TimeGenerated, Computer, Account, IpAddress, Source = \"SecEvent\"\n| order by TimeGenerated desc"
+    },
+    {
+      "number": 14,
+      "kind": "bad",
+      "expect": "fail",
+      "kql": "union\n    (SecurityEvent\n        | where TimeGenerated > ago(1h) and EventID == 4625\n        | project TimeGenerated, Computer, Account, IpAddress, Source = \"SecEvent\"),\n    (DeviceLogonEvents\n        | where TimeGenerated > ago(1h) and ActionType == \"LogonFailed\"\n        | project TimeGenerated, Computer = DeviceName, Account = AccountName,\n                  IpAddress = RemoteIP, Source = \"DefenderEDR\")\n| order by TimeGenerated desc"
+    },
+    {
+      "number": 14,
+      "kind": "verbatim",
+      "expect": "fail",
+      "kql": "union\n    (SecurityEvent | where TimeGenerated > ago(1h) and EventID == 4624),\n    (DeviceLogonEvents | where TimeGenerated > ago(1h) and ActionType == \"LogonSuccess\")\n| project TimeGenerated, Account, IpAddress, Computer"
+    },
+    {
+      "number": 15,
+      "kind": "good",
+      "expect": "pass",
+      "kql": "Syslog\n| where TimeGenerated > ago(1h)\n| where ProcessName == \"sshd-session\" and SyslogMessage startswith \"Failed password\"\n| extend Cleaned = replace_string(SyslogMessage, \"invalid user \", \"\")\n| parse Cleaned with \"Failed password for \" User:string \" from \" SourceIP:string \" port \" Port:int *\n| project TimeGenerated, Computer, User, SourceIP, Port"
+    },
+    {
+      "number": 15,
+      "kind": "possible",
+      "expect": "pass",
+      "kql": "Syslog\n| where TimeGenerated > ago(1h)\n| where ProcessName == \"sshd-session\" and SyslogMessage startswith \"Failed password\"\n| extend Cleaned = replace_string(SyslogMessage, \"invalid user \", \"\")\n| parse Cleaned with \"Failed password for \" User \" from \" SourceIP \" port \" Port:int *\n| project TimeGenerated, Computer, User, SourceIP, Port"
+    },
+    {
+      "number": 15,
+      "kind": "partial",
+      "expect": "fail",
+      "kql": "Syslog\n| where TimeGenerated > ago(1h)\n| where ProcessName == \"sshd-session\" and SyslogMessage startswith \"Failed password\"\n| extend Cleaned = replace_string(SyslogMessage, \"invalid user \", \"\")\n| parse Cleaned with \"Failed password for \" User:string \" from \" SourceIP:string \" port \" Port:int *\n| project TimeGenerated, Computer, SourceIP, Port"
+    },
+    {
+      "number": 15,
+      "kind": "bad",
+      "expect": "fail",
+      "kql": "Syslog\n| where TimeGenerated > ago(1h)\n| where ProcessName == \"sshd-session\" and SyslogMessage startswith \"Accepted password\"\n| parse SyslogMessage with \"Accepted password for \" User:string \" from \" SourceIP:string \" port \" Port:int *\n| project TimeGenerated, Computer, User, SourceIP, Port"
+    },
+    {
+      "number": 16,
+      "kind": "good",
+      "expect": "pass",
+      "kql": "let Window = 5m;\nlet Fails = SecurityEvent\n    | where TimeGenerated > ago(24h) and EventID == 4625\n    | where Account !endswith \"$\"\n    | project FailTime = TimeGenerated, Account, IpAddress, Computer;\nlet Wins = SecurityEvent\n    | where TimeGenerated > ago(24h) and EventID == 4624\n    | project WinTime = TimeGenerated, Account, IpAddress, Computer;\nFails\n| join kind=inner Wins on Account, IpAddress, Computer\n| where WinTime > FailTime and WinTime - FailTime <= Window\n| summarize\n    FailCount = count(),\n    FirstFail = min(FailTime),\n    Success   = min(WinTime)\n  by Account, IpAddress, Computer\n| where FailCount >= 3\n| order by Success desc"
+    },
+    {
+      "number": 16,
+      "kind": "possible",
+      "expect": "pass",
+      "kql": "let W = 5m;\nlet F = SecurityEvent\n    | where TimeGenerated > ago(24h) and EventID == 4625\n    | where Account !endswith \"$\"\n    | project FailTime = TimeGenerated, Account, IpAddress, Computer;\nlet S = SecurityEvent\n    | where TimeGenerated > ago(24h) and EventID == 4624\n    | project WinTime = TimeGenerated, Account, IpAddress, Computer;\nF\n| join kind=inner S on Account, IpAddress, Computer\n| where WinTime > FailTime and WinTime - FailTime <= W\n| summarize\n    FailCount = count(),\n    FirstFail = min(FailTime),\n    Success   = min(WinTime)\n  by Account, IpAddress, Computer\n| where FailCount >= 3\n| order by Success desc"
+    },
+    {
+      "number": 16,
+      "kind": "partial",
+      "expect": "fail",
+      "kql": "let Window = 5m;\nlet Fails = SecurityEvent\n    | where TimeGenerated > ago(24h) and EventID == 4625\n    | where Account !endswith \"$\"\n    | project FailTime = TimeGenerated, Account, IpAddress, Computer;\nlet Wins = SecurityEvent\n    | where TimeGenerated > ago(24h) and EventID == 4624\n    | project WinTime = TimeGenerated, Account, IpAddress, Computer;\nFails\n| join kind=inner Wins on Account, IpAddress, Computer\n| where WinTime > FailTime and WinTime - FailTime <= Window\n| summarize\n    FailCount = count(),\n    FirstFail = min(FailTime),\n    Success   = min(WinTime)\n  by Account, IpAddress, Computer\n| where FailCount >= 100\n| order by Success desc"
+    },
+    {
+      "number": 16,
+      "kind": "bad",
+      "expect": "fail",
+      "kql": "let Window = 5m;\nlet Fails = SecurityEvent\n    | where TimeGenerated > ago(24h) and EventID == 4625\n    | project FailTime = TimeGenerated, Account, IpAddress, Computer;\nlet Wins = SecurityEvent\n    | where TimeGenerated > ago(24h) and EventID == 4624\n    | project WinTime = TimeGenerated, Account, IpAddress, Computer;\nFails\n| join kind=inner Wins on Account, IpAddress, Computer\n| where FailTime > WinTime and FailTime - WinTime <= Window\n| summarize\n    FailCount = count(),\n    FirstFail = min(FailTime),\n    Success   = min(WinTime)\n  by Account, IpAddress, Computer\n| where FailCount >= 3\n| order by Success desc"
+    },
+    {
+      "number": 17,
+      "kind": "good",
+      "expect": "pass",
+      "kql": "let Info = DeviceNetworkInfo\n    | summarize arg_max(TimeGenerated, *) by DeviceName\n    | project DeviceName, IPAddresses, MacAddress;\nDeviceLogonEvents\n| where TimeGenerated > ago(1h) and ActionType == \"LogonSuccess\"\n| join kind=leftouter (Info) on DeviceName\n| project TimeGenerated, DeviceName, AccountName, IPAddresses"
+    },
+    {
+      "number": 17,
+      "kind": "possible",
+      "expect": "pass",
+      "kql": "let Info = DeviceNetworkInfo\n    | summarize arg_max(TimeGenerated, *) by DeviceName\n    | project DeviceName, IPAddresses, MacAddress;\nDeviceLogonEvents\n| where TimeGenerated > ago(1h) and ActionType == \"LogonSuccess\"\n| join kind=leftouter (Info) on DeviceName\n| project TimeGenerated, DeviceName, AccountName, IPAddresses\n| order by TimeGenerated asc\n| order by TimeGenerated desc"
+    },
+    {
+      "number": 17,
+      "kind": "partial",
+      "expect": "fail",
+      "kql": "let Info = DeviceNetworkInfo\n    | summarize arg_max(TimeGenerated, *) by DeviceName\n    | project DeviceName, IPAddresses, MacAddress;\nDeviceLogonEvents\n| where TimeGenerated > ago(1h) and ActionType == \"LogonSuccess\"\n| join kind=leftouter (Info) on DeviceName\n| project TimeGenerated, DeviceName, AccountName, IPAddresses\n| extend ExtraCol = 1"
+    },
+    {
+      "number": 17,
+      "kind": "bad",
+      "expect": "fail",
+      "kql": "let Info = DeviceNetworkInfo\n    | summarize arg_max(TimeGenerated, *) by DeviceName\n    | project DeviceName, IPAddresses, MacAddress;\nDeviceLogonEvents\n| where TimeGenerated > ago(1h) and ActionType == \"LogonSuccess\"\n| join kind=leftanti (Info) on DeviceName\n| project TimeGenerated, DeviceName, AccountName, IPAddresses"
+    },
+    {
+      "number": 17,
+      "kind": "verbatim",
+      "expect": "fail",
+      "kql": "let Info = DeviceNetworkInfo\n    | summarize arg_max(TimeGenerated, *) by DeviceName\n    | project DeviceName, IPAddresses, MacAddress;\nDeviceLogonEvents\n| where TimeGenerated > ago(1h) and ActionType == \"LogonSuccess\"\n| join (Info) on DeviceName\n| project TimeGenerated, DeviceName, AccountName, IPAddresses"
+    },
+    {
+      "number": 18,
+      "kind": "good",
+      "expect": "pass",
+      "kql": "let EncodedPS = DeviceProcessEvents\n    | where TimeGenerated > ago(1h)\n    | where ProcessCommandLine has \"EncodedCommand\"\n    | summarize PsCount = count() by DeviceName;\nlet Outbound = DeviceNetworkEvents\n    | where TimeGenerated > ago(1h)\n    | where ActionType == \"ConnectionSuccess\" and RemoteIPType == \"Public\"\n    | summarize NetCount = count() by DeviceName;\nEncodedPS\n| join kind=inner (Outbound) on DeviceName\n| project DeviceName, PsCount, NetCount"
+    },
+    {
+      "number": 18,
+      "kind": "possible",
+      "expect": "pass",
+      "kql": "let A = DeviceProcessEvents\n    | where TimeGenerated > ago(1h)\n    | where ProcessCommandLine has \"EncodedCommand\"\n    | summarize PsCount = count() by DeviceName;\nlet B = DeviceNetworkEvents\n    | where TimeGenerated > ago(1h)\n    | where ActionType == \"ConnectionSuccess\" and RemoteIPType == \"Public\"\n    | summarize NetCount = count() by DeviceName;\nA\n| join kind=inner (B) on DeviceName\n| project DeviceName, PsCount, NetCount"
+    },
+    {
+      "number": 18,
+      "kind": "partial",
+      "expect": "fail",
+      "kql": "DeviceProcessEvents\n| where TimeGenerated > ago(1h)\n| where ProcessCommandLine has \"EncodedCommand\"\n| summarize PsCount = count() by DeviceName\n| extend NetCount = 0"
+    },
+    {
+      "number": 18,
+      "kind": "bad",
+      "expect": "fail",
+      "kql": "let EncodedPS = DeviceProcessEvents\n    | where TimeGenerated > ago(1h)\n    | where FileName has \"EncodedCommand\"\n    | summarize PsCount = count() by DeviceName;\nlet Outbound = DeviceNetworkEvents\n    | where TimeGenerated > ago(1h)\n    | where ActionType == \"ConnectionSuccess\" and RemoteIPType == \"Public\"\n    | summarize NetCount = count() by DeviceName;\nEncodedPS\n| join kind=inner (Outbound) on DeviceName\n| project DeviceName, PsCount, NetCount"
+    },
+    {
+      "number": 19,
+      "kind": "good",
+      "expect": "pass",
+      "kql": "Syslog\n| where TimeGenerated > ago(24h)\n| extend Band = case(\n    SeverityLevel in (\"info\", \"notice\"),                \"low\",\n    SeverityLevel == \"warning\",                          \"medium\",\n    SeverityLevel in (\"err\", \"crit\", \"alert\", \"emerg\"), \"high\",\n    \"unknown\")\n| summarize Events = count() by Computer, Band\n| order by Computer asc, Band asc"
+    },
+    {
+      "number": 19,
+      "kind": "possible",
+      "expect": "pass",
+      "kql": "Syslog\n| where TimeGenerated > ago(24h)\n| extend Band = iff(SeverityLevel in (\"info\", \"notice\"), \"low\",\n                  iff(SeverityLevel == \"warning\", \"medium\",\n                  iff(SeverityLevel in (\"err\", \"crit\", \"alert\", \"emerg\"), \"high\", \"unknown\")))\n| summarize Events = count() by Computer, Band\n| order by Computer asc, Band asc"
+    },
+    {
+      "number": 19,
+      "kind": "partial",
+      "expect": "fail",
+      "kql": "Syslog\n| where TimeGenerated > ago(24h)\n| extend Band = case(\n    SeverityLevel in (\"info\", \"notice\"),                \"low\",\n    SeverityLevel == \"warning\",                          \"medium\",\n    SeverityLevel in (\"err\", \"crit\", \"alert\", \"emerg\"), \"high\",\n    \"unknown\")\n| summarize Events = count() by Computer, Band\n| extend ExtraCol = 1\n| order by Computer asc, Band asc"
+    },
+    {
+      "number": 19,
+      "kind": "bad",
+      "expect": "fail",
+      "kql": "Syslog\n| where TimeGenerated > ago(24h)\n| extend Band = case(\n    SeverityLevel in (\"info\", \"notice\"),                \"high\",\n    SeverityLevel == \"warning\",                          \"medium\",\n    SeverityLevel in (\"err\", \"crit\", \"alert\", \"emerg\"), \"low\",\n    \"unknown\")\n| summarize Events = count() by Computer, Band\n| order by Computer asc, Band asc"
+    },
+    {
+      "number": 20,
+      "kind": "good",
+      "expect": "pass",
+      "kql": "SecurityEvent\n| where TimeGenerated > ago(1h)\n| where Account =~ @\"corp\\bryce\""
+    },
+    {
+      "number": 20,
+      "kind": "possible",
+      "expect": "pass",
+      "kql": "SecurityEvent\n| where TimeGenerated > ago(1h)\n| where tolower(Account) == tolower(@\"corp\\bryce\")"
+    },
+    {
+      "number": 20,
+      "kind": "partial",
+      "expect": "fail",
+      "kql": "SecurityEvent\n| where TimeGenerated > ago(1h)\n| where Account == @\"corp\\bryce\""
+    },
+    {
+      "number": 20,
+      "kind": "bad",
+      "expect": "fail",
+      "kql": "SecurityEvent\n| where TimeGenerated > ago(1h)"
+    },
+    {
+      "number": 20,
+      "kind": "verbatim",
+      "expect": "fail",
+      "kql": "SecurityEvent\n| where TimeGenerated > ago(1h)\n| where tolower(Account) == \"corp\\\\bryce\""
+    },
+    {
+      "number": 21,
+      "kind": "good",
+      "expect": "pass",
+      "kql": "let Baseline = DeviceProcessEvents\n    | where TimeGenerated between (ago(30d) .. ago(1h))\n    | distinct DeviceName, FileName, SHA256;\nDeviceProcessEvents\n| where TimeGenerated > ago(1h)\n| join kind=leftanti (Baseline) on DeviceName, FileName, SHA256\n| project TimeGenerated, DeviceName, AccountName, FileName, SHA256, ProcessCommandLine\n| order by TimeGenerated desc"
+    },
+    {
+      "number": 21,
+      "kind": "possible",
+      "expect": "pass",
+      "kql": "let Hist = DeviceProcessEvents\n    | where TimeGenerated between (ago(30d) .. ago(1h))\n    | distinct DeviceName, FileName, SHA256;\nDeviceProcessEvents\n| where TimeGenerated > ago(1h)\n| join kind=leftanti (Hist) on DeviceName, FileName, SHA256\n| project TimeGenerated, DeviceName, AccountName, FileName, SHA256, ProcessCommandLine\n| order by TimeGenerated desc"
+    },
+    {
+      "number": 21,
+      "kind": "partial",
+      "expect": "fail",
+      "kql": "let Baseline = DeviceProcessEvents\n    | where TimeGenerated between (ago(30d) .. ago(1h))\n    | distinct DeviceName, FileName, SHA256;\nDeviceProcessEvents\n| where TimeGenerated > ago(1h)\n| join kind=leftanti (Baseline) on DeviceName, FileName, SHA256\n| project TimeGenerated, DeviceName, AccountName, FileName, SHA256, ProcessCommandLine\n| extend ExtraCol = 1\n| order by TimeGenerated desc"
+    },
+    {
+      "number": 21,
+      "kind": "bad",
+      "expect": "fail",
+      "kql": "let Baseline = DeviceProcessEvents\n    | where TimeGenerated between (ago(30d) .. ago(1h))\n    | distinct DeviceName, FileName, SHA256;\nDeviceProcessEvents\n| where TimeGenerated > ago(1h)\n| join kind=leftsemi (Baseline) on DeviceName, FileName, SHA256\n| project TimeGenerated, DeviceName, AccountName, FileName, SHA256, ProcessCommandLine\n| order by TimeGenerated desc"
+    },
+    {
+      "number": 22,
+      "kind": "good",
+      "expect": "pass",
+      "kql": "DeviceProcessEvents\n| where TimeGenerated > ago(24h)\n| where FileName =~ \"powershell.exe\"\n| extend Tokens = split(ProcessCommandLine, \" \")\n| mv-expand Token = Tokens\n| where tostring(Token) matches regex @\"^[A-Za-z0-9+/=]{100,}$\"\n| project TimeGenerated, DeviceName, Token = tostring(Token), ProcessCommandLine\n| order by TimeGenerated desc"
+    },
+    {
+      "number": 22,
+      "kind": "possible",
+      "expect": "pass",
+      "kql": "DeviceProcessEvents\n| where TimeGenerated > ago(24h)\n| where FileName =~ \"powershell.exe\"\n| extend Toks = split(ProcessCommandLine, \" \")\n| mv-expand Token = Toks\n| where tostring(Token) matches regex @\"^[A-Za-z0-9+/=]{100,}$\"\n| project TimeGenerated, DeviceName, Token = tostring(Token), ProcessCommandLine\n| order by TimeGenerated desc"
+    },
+    {
+      "number": 22,
+      "kind": "partial",
+      "expect": "fail",
+      "kql": "DeviceProcessEvents\n| where TimeGenerated > ago(24h)\n| where FileName =~ \"powershell.exe\"\n| extend Tokens = split(ProcessCommandLine, \" \")\n| mv-expand Token = Tokens\n| where tostring(Token) matches regex @\"^[A-Za-z0-9+/=]{200,}$\"\n| project TimeGenerated, DeviceName, Token = tostring(Token), ProcessCommandLine\n| order by TimeGenerated desc"
+    },
+    {
+      "number": 22,
+      "kind": "bad",
+      "expect": "fail",
+      "kql": "DeviceProcessEvents\n| where TimeGenerated > ago(24h)\n| where FileName =~ \"cmd.exe\"\n| extend Tokens = split(ProcessCommandLine, \" \")\n| mv-expand Token = Tokens\n| where tostring(Token) matches regex @\"^[A-Za-z0-9+/=]{100,}$\"\n| project TimeGenerated, DeviceName, Token = tostring(Token), ProcessCommandLine\n| order by TimeGenerated desc"
+    },
+    {
+      "number": 23,
+      "kind": "good",
+      "expect": "pass",
+      "kql": "let Baseline = materialize(\n    SecurityEvent\n    | where TimeGenerated > ago(24h)\n    | where Account !endswith \"$\" and isnotempty(Account)\n);\nlet LogonEvents   = Baseline | where EventID in (4624, 4625, 4634);\nlet ProcessEvents = Baseline | where EventID == 4688;\nunion LogonEvents, ProcessEvents\n| summarize count() by Account, EventID"
+    },
+    {
+      "number": 23,
+      "kind": "possible",
+      "expect": "pass",
+      "kql": "let Baseline = SecurityEvent\n    | where TimeGenerated > ago(24h)\n    | where Account !endswith \"$\" and isnotempty(Account);\nlet LogonEvents   = Baseline | where EventID in (4624, 4625, 4634);\nlet ProcessEvents = Baseline | where EventID == 4688;\nunion LogonEvents, ProcessEvents\n| summarize count() by Account, EventID"
+    },
+    {
+      "number": 23,
+      "kind": "partial",
+      "expect": "fail",
+      "kql": "let Baseline = materialize(\n    SecurityEvent\n    | where TimeGenerated > ago(24h)\n    | where Account !endswith \"$\" and isnotempty(Account)\n);\nlet LogonEvents = Baseline | where EventID in (4624, 4625, 4634);\nLogonEvents\n| summarize count() by Account, EventID"
+    },
+    {
+      "number": 23,
+      "kind": "bad",
+      "expect": "fail",
+      "kql": "let Baseline = materialize(\n    SecurityEvent\n    | where TimeGenerated > ago(24h)\n);\nlet LogonEvents   = Baseline | where EventID in (4624, 4625, 4634);\nlet ProcessEvents = Baseline | where EventID == 4688;\nunion LogonEvents, ProcessEvents\n| summarize count() by Account, EventID"
+    },
+    {
+      "number": 23,
+      "kind": "verbatim",
+      "expect": "fail",
+      "kql": "let LogonEvents = materialize(\n    SecurityEvent\n    | where TimeGenerated > ago(24h)\n    | where Account !endswith \"$\" and isnotempty(Account)\n    | where EventID in (4624, 4625, 4634)\n);\nlet ProcessEvents = materialize(\n    SecurityEvent\n    | where TimeGenerated > ago(24h)\n    | where Account !endswith \"$\" and isnotempty(Account)\n    | where EventID == 4688\n);\nunion LogonEvents, ProcessEvents\n| summarize count() by Account, EventID"
+    },
+    {
+      "number": 24,
+      "kind": "good",
+      "expect": "pass",
+      "kql": "SecurityIncident\n| where TimeGenerated > ago(7d)\n| mv-expand AlertId = AlertIds\n| where tostring(AlertId) == \"alert-002\"\n| project IncidentNumber, Title, Severity, AlertIds"
+    },
+    {
+      "number": 24,
+      "kind": "possible",
+      "expect": "pass",
+      "kql": "SecurityIncident\n| where TimeGenerated > ago(7d)\n| where AlertIds has \"alert-002\"\n| project IncidentNumber, Title, Severity, AlertIds"
+    },
+    {
+      "number": 24,
+      "kind": "partial",
+      "expect": "fail",
+      "kql": "SecurityIncident\n| where TimeGenerated > ago(7d)\n| mv-expand AlertId = AlertIds\n| where tostring(AlertId) == \"alert-zzzz\"\n| project IncidentNumber, Title, Severity, AlertIds"
+    },
+    {
+      "number": 24,
+      "kind": "bad",
+      "expect": "fail",
+      "kql": "SecurityIncident\n| where TimeGenerated > ago(7d)\n| mv-expand AlertId = Title\n| where tostring(AlertId) == \"alert-002\"\n| project IncidentNumber, Title, Severity, AlertIds"
+    },
+    {
+      "number": 25,
+      "kind": "good",
+      "expect": "pass",
+      "kql": "SecurityEvent\n| where TimeGenerated > ago(24h)\n| where Account !endswith \"$\" and isnotempty(Account)\n| where EventID in (4624, 4625)\n| summarize\n    Successes = countif(EventID == 4624),\n    Failures  = countif(EventID == 4625)\n  by Computer, bin(TimeGenerated, 1h)\n| order by Computer asc, TimeGenerated asc"
+    },
+    {
+      "number": 25,
+      "kind": "possible",
+      "expect": "pass",
+      "kql": "SecurityEvent\n| where TimeGenerated > ago(24h)\n| where Account !endswith \"$\" and isnotempty(Account)\n| where EventID in (4624, 4625)\n| summarize\n    Successes = countif(EventID == 4624),\n    Failures  = countif(EventID == 4625)\n  by Computer, TimeGenerated = bin(TimeGenerated, 1h)\n| order by Computer asc, TimeGenerated asc"
+    },
+    {
+      "number": 25,
+      "kind": "partial",
+      "expect": "fail",
+      "kql": "SecurityEvent\n| where TimeGenerated > ago(24h)\n| where Account !endswith \"$\" and isnotempty(Account)\n| where EventID in (4624, 4625)\n| summarize\n    Successes = countif(EventID == 4624),\n    Failures  = countif(EventID == 4625)\n  by Computer, bin(TimeGenerated, 5m)\n| order by Computer asc, TimeGenerated asc"
+    },
+    {
+      "number": 25,
+      "kind": "bad",
+      "expect": "fail",
+      "kql": "SecurityEvent\n| where TimeGenerated > ago(24h)\n| where EventID in (4624, 4625)\n| summarize\n    Successes = countif(EventID == 4624),\n    Failures  = countif(EventID == 4625)\n  by Computer, bin(TimeGenerated, 1h)\n| order by Computer asc, TimeGenerated asc"
+    },
+    {
+      "number": 26,
+      "kind": "good",
+      "expect": "pass",
+      "kql": "SigninLogs\n| where TimeGenerated > ago(1d)\n| where LocationDetails has \"RU\"\n| where tostring(LocationDetails.countryOrRegion) == \"RU\""
+    },
+    {
+      "number": 26,
+      "kind": "possible",
+      "expect": "pass",
+      "kql": "SigninLogs\n| where TimeGenerated > ago(1d)\n| where tostring(LocationDetails.countryOrRegion) == \"RU\""
+    },
+    {
+      "number": 26,
+      "kind": "partial",
+      "expect": "fail",
+      "kql": "SigninLogs\n| where TimeGenerated > ago(1d)\n| where tostring(LocationDetails.countryOrRegion) == \"US\""
+    },
+    {
+      "number": 26,
+      "kind": "bad",
+      "expect": "fail",
+      "kql": "SigninLogs\n| where TimeGenerated > ago(1d)"
+    },
+    {
+      "number": 26,
+      "kind": "verbatim",
+      "expect": "fail",
+      "kql": "SigninLogs\n| where TimeGenerated > ago(1d)\n| where LocationDetails.countryOrRegion == \"RU\""
+    },
+    {
+      "number": 27,
+      "kind": "good",
+      "expect": "pass",
+      "kql": "DeviceProcessEvents\n| where TimeGenerated > ago(24h)\n| summarize arg_max(TimeGenerated, *) by DeviceName\n| project TimeGenerated, DeviceName, AccountName, FileName, ProcessCommandLine"
+    },
+    {
+      "number": 27,
+      "kind": "possible",
+      "expect": "pass",
+      "kql": "DeviceProcessEvents\n| where TimeGenerated > ago(24h)\n| summarize arg_max(TimeGenerated,*) by DeviceName\n| project TimeGenerated, DeviceName, AccountName, FileName, ProcessCommandLine"
+    },
+    {
+      "number": 27,
+      "kind": "partial",
+      "expect": "fail",
+      "kql": "DeviceProcessEvents\n| where TimeGenerated > ago(24h)\n| summarize arg_max(TimeGenerated, *) by DeviceName"
+    },
+    {
+      "number": 27,
+      "kind": "bad",
+      "expect": "fail",
+      "kql": "DeviceProcessEvents\n| where TimeGenerated > ago(24h)\n| summarize arg_min(TimeGenerated, *) by DeviceName\n| project TimeGenerated, DeviceName, AccountName, FileName, ProcessCommandLine"
+    },
+    {
+      "number": 28,
+      "kind": "good",
+      "expect": "pass",
+      "kql": "SecurityEvent\n| where TimeGenerated > ago(24h) and EventID == 4625\n| where Account !endswith \"$\" and isnotempty(Account)\n| summarize\n    DistinctAccounts = dcount(Account),\n    SampleAccounts   = make_set(Account, 10)\n  by IpAddress, bin(TimeGenerated, 1h)\n| where DistinctAccounts >= 3\n| order by DistinctAccounts desc"
+    },
+    {
+      "number": 28,
+      "kind": "possible",
+      "expect": "pass",
+      "kql": "SecurityEvent\n| where EventID == 4625 and TimeGenerated > ago(24h)\n| where isnotempty(Account) and Account !endswith \"$\"\n| summarize\n    SampleAccounts   = make_set(Account, 10),\n    DistinctAccounts = dcount(Account)\n  by IpAddress, bin(TimeGenerated, 1h)\n| where DistinctAccounts >= 3\n| order by DistinctAccounts desc"
+    },
+    {
+      "number": 28,
+      "kind": "partial",
+      "expect": "fail",
+      "kql": "SecurityEvent\n| where TimeGenerated > ago(24h) and EventID == 4625\n| where Account !endswith \"$\" and isnotempty(Account)\n| summarize\n    DistinctAccounts = dcount(Account),\n    SampleAccounts   = make_set(Account, 10)\n  by IpAddress, bin(TimeGenerated, 1h)\n| where DistinctAccounts >= 1\n| order by DistinctAccounts desc"
+    },
+    {
+      "number": 28,
+      "kind": "bad",
+      "expect": "fail",
+      "kql": "SecurityEvent\n| where TimeGenerated > ago(24h) and EventID == 4625\n| summarize\n    DistinctAccounts = dcount(Account),\n    SampleAccounts   = make_set(Account, 10)\n  by IpAddress, bin(TimeGenerated, 1h)\n| where DistinctAccounts >= 1\n| order by DistinctAccounts desc"
+    },
+    {
+      "number": 29,
+      "kind": "good",
+      "expect": "pass",
+      "kql": "let Baseline = DeviceFileEvents\n    | where TimeGenerated between (ago(7d) .. ago(1h))\n    | distinct DeviceName, FolderPath, FileName;\nDeviceFileEvents\n| where TimeGenerated > ago(1h)\n| where ActionType == \"FileCreated\"\n| join kind=leftanti (Baseline) on DeviceName, FolderPath, FileName\n| project TimeGenerated, DeviceName, FolderPath, FileName, InitiatingProcessFileName\n| order by TimeGenerated desc"
+    },
+    {
+      "number": 29,
+      "kind": "possible",
+      "expect": "pass",
+      "kql": "let Hist = DeviceFileEvents\n    | where TimeGenerated between (ago(7d) .. ago(1h))\n    | distinct DeviceName, FolderPath, FileName;\nDeviceFileEvents\n| where TimeGenerated > ago(1h)\n| where ActionType == \"FileCreated\"\n| join kind=leftanti (Hist) on DeviceName, FolderPath, FileName\n| project TimeGenerated, DeviceName, FolderPath, FileName, InitiatingProcessFileName\n| order by TimeGenerated desc"
+    },
+    {
+      "number": 29,
+      "kind": "partial",
+      "expect": "fail",
+      "kql": "let Baseline = DeviceFileEvents\n    | where TimeGenerated between (ago(7d) .. ago(1h))\n    | distinct DeviceName, FolderPath, FileName;\nDeviceFileEvents\n| where TimeGenerated > ago(1h)\n| where ActionType == \"FileCreated\"\n| join kind=leftanti (Baseline) on DeviceName, FolderPath, FileName\n| project TimeGenerated, DeviceName, FolderPath, FileName, InitiatingProcessFileName\n| extend ExtraCol = 1\n| order by TimeGenerated desc"
+    },
+    {
+      "number": 29,
+      "kind": "bad",
+      "expect": "fail",
+      "kql": "let Baseline = DeviceFileEvents\n    | where TimeGenerated between (ago(7d) .. ago(1h))\n    | distinct DeviceName, FolderPath, FileName;\nDeviceFileEvents\n| where TimeGenerated > ago(1h)\n| where ActionType == \"FileDeleted\"\n| join kind=leftanti (Baseline) on DeviceName, FolderPath, FileName\n| project TimeGenerated, DeviceName, FolderPath, FileName, InitiatingProcessFileName\n| order by TimeGenerated desc"
+    },
+    {
+      "number": 30,
+      "kind": "good",
+      "expect": "pass",
+      "kql": "Syslog\n| where ProcessName == \"sshd-session\" and SyslogMessage startswith \"Failed password\"\n| extend Cleaned = replace_string(SyslogMessage, \"invalid user \", \"\")\n| parse Cleaned with \"Failed password for \" User:string \" from \" SourceIP:string \" port \" Port:int *\n| project TimeGenerated, User, SourceIP, Port"
+    },
+    {
+      "number": 30,
+      "kind": "possible",
+      "expect": "pass",
+      "kql": "Syslog\n| where ProcessName == \"sshd-session\" and SyslogMessage startswith \"Failed password\"\n| extend M = replace_string(SyslogMessage, \"invalid user \", \"\")\n| parse M with \"Failed password for \" User:string \" from \" SourceIP:string \" port \" Port:int *\n| project TimeGenerated, User, SourceIP, Port"
+    },
+    {
+      "number": 30,
+      "kind": "partial",
+      "expect": "fail",
+      "kql": "Syslog\n| where ProcessName == \"sshd-session\" and SyslogMessage startswith \"Failed password\"\n| extend Cleaned = replace_string(SyslogMessage, \"invalid user \", \"\")\n| parse Cleaned with \"Failed password for \" User:string \" from \" SourceIP:string \" port \" Port:int *\n| project TimeGenerated, SourceIP, Port"
+    },
+    {
+      "number": 30,
+      "kind": "bad",
+      "expect": "fail",
+      "kql": "Syslog\n| where ProcessName == \"sshd-session\" and SyslogMessage startswith \"Accepted password\"\n| parse SyslogMessage with \"Accepted password for \" User:string \" from \" SourceIP:string \" port \" Port:int *\n| project TimeGenerated, User, SourceIP, Port"
+    },
+    {
+      "number": 30,
+      "kind": "verbatim",
+      "expect": "fail",
+      "kql": "Syslog\n| where ProcessName == \"sshd-session\" and SyslogMessage startswith \"Failed password\"\n| parse SyslogMessage with \"Failed password for \" User \" from \" SourceIP \" port \" Port:int *\n| project TimeGenerated, User, SourceIP, Port"
+    }
+  ]
+}
