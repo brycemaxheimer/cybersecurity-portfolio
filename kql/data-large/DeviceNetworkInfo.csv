@@ -1,2 +1,6 @@
 TimeGenerated,Timestamp,DeviceName,DeviceId,MacAddress,IPAddresses,DnsAddresses,DefaultGateways,ConnectedNetworks,NetworkAdapterName,NetworkAdapterStatus,NetworkAdapterType,Type
-1970-01-01T00:00:00Z,1970-01-01T00:00:00Z,,,,,,,,,,,
+2026-04-29T13:00:00Z,2026-04-29T13:00:00Z,WS-FINANCE-01,dev-ws-finance-01,00-11-22-33-44-F7,"[{""IPAddress"": ""10.0.10.10""}]","[""10.0.0.1""]","[""10.0.0.1""]","[""CORP""]",Ethernet,Up,Ethernet,DeviceNetworkInfo
+2026-04-29T13:00:00Z,2026-04-29T13:00:00Z,WS-DEV-02,dev-ws-dev-02,00-11-22-33-44-2F,"[{""IPAddress"": ""10.0.10.11""}]","[""10.0.0.1""]","[""10.0.0.1""]","[""CORP""]",Ethernet,Up,Ethernet,DeviceNetworkInfo
+2026-04-29T13:00:00Z,2026-04-29T13:00:00Z,WS-HR-03,dev-ws-hr-03,00-11-22-33-44-A6,"[{""IPAddress"": ""10.0.10.12""}]","[""10.0.0.1""]","[""10.0.0.1""]","[""CORP""]",Ethernet,Up,Ethernet,DeviceNetworkInfo
+2026-04-29T13:00:00Z,2026-04-29T13:00:00Z,SVR-DC-01,dev-svr-dc-01,00-11-22-33-44-7A,"[{""IPAddress"": ""10.0.20.5""}]","[""10.0.0.1""]","[""10.0.0.1""]","[""CORP""]",Ethernet,Up,Ethernet,DeviceNetworkInfo
+2026-04-29T13:00:00Z,2026-04-29T13:00:00Z,SVR-WEB-01,dev-svr-web-01,00-11-22-33-44-3D,"[{""IPAddress"": ""10.0.20.10""}]","[""10.0.0.1""]","[""10.0.0.1""]","[""CORP""]",Ethernet,Up,Ethernet,DeviceNetworkInfo

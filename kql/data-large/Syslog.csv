@@ -1,2 +1,48 @@
 TimeGenerated,EventTime,Computer,HostName,HostIP,Facility,SeverityLevel,ProcessName,ProcessID,SyslogMessage,CollectorHostName,Type
-1970-01-01T00:00:00Z,1970-01-01T00:00:00Z,,,,,,,,,,
+2026-04-29T12:50:00Z,2026-04-29T12:50:00Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,auth,info,sshd-session,9960,Failed password for test from 198.51.100.55 port 41688 ssh2,syslog-collector-01,Syslog
+2026-04-29T12:50:24Z,2026-04-29T12:50:24Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,auth,info,sshd-session,9858,Failed password for test from 198.51.100.55 port 59519 ssh2,syslog-collector-01,Syslog
+2026-04-29T12:50:48Z,2026-04-29T12:50:48Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,auth,info,sshd-session,2629,Failed password for admin from 198.51.100.55 port 58801 ssh2,syslog-collector-01,Syslog
+2026-04-29T12:51:12Z,2026-04-29T12:51:12Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,auth,info,sshd-session,2429,Failed password for admin from 198.51.100.55 port 40618 ssh2,syslog-collector-01,Syslog
+2026-04-29T12:51:36Z,2026-04-29T12:51:36Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,auth,info,sshd-session,4483,Failed password for root from 198.51.100.55 port 42766 ssh2,syslog-collector-01,Syslog
+2026-04-29T12:52:00Z,2026-04-29T12:52:00Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,auth,info,sshd-session,5147,Failed password for bryce from 198.51.100.55 port 48789 ssh2,syslog-collector-01,Syslog
+2026-04-29T12:52:24Z,2026-04-29T12:52:24Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,auth,info,sshd-session,1660,Failed password for test from 198.51.100.55 port 47526 ssh2,syslog-collector-01,Syslog
+2026-04-29T12:52:48Z,2026-04-29T12:52:48Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,auth,info,sshd-session,9600,Failed password for test from 198.51.100.55 port 46137 ssh2,syslog-collector-01,Syslog
+2026-04-29T12:53:12Z,2026-04-29T12:53:12Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,auth,info,sshd-session,2292,Failed password for test from 198.51.100.55 port 52909 ssh2,syslog-collector-01,Syslog
+2026-04-29T12:53:36Z,2026-04-29T12:53:36Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,auth,info,sshd-session,6282,Failed password for bryce from 198.51.100.55 port 40738 ssh2,syslog-collector-01,Syslog
+2026-04-29T12:54:00Z,2026-04-29T12:54:00Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,auth,info,sshd-session,7681,Failed password for test from 198.51.100.55 port 44431 ssh2,syslog-collector-01,Syslog
+2026-04-29T12:54:24Z,2026-04-29T12:54:24Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,auth,info,sshd-session,5285,Failed password for admin from 198.51.100.55 port 47615 ssh2,syslog-collector-01,Syslog
+2026-04-29T12:54:48Z,2026-04-29T12:54:48Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,auth,info,sshd-session,2928,Failed password for admin from 198.51.100.55 port 56076 ssh2,syslog-collector-01,Syslog
+2026-04-29T12:55:12Z,2026-04-29T12:55:12Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,auth,info,sshd-session,8164,Failed password for admin from 198.51.100.55 port 55241 ssh2,syslog-collector-01,Syslog
+2026-04-29T12:55:36Z,2026-04-29T12:55:36Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,auth,info,sshd-session,8774,Failed password for test from 198.51.100.55 port 53636 ssh2,syslog-collector-01,Syslog
+2026-04-29T13:05:48Z,2026-04-29T13:05:48Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,auth,info,sshd-session,2150,Accepted publickey for root from 198.51.100.55 port 51234 ssh2: RSA SHA256:AbCdEfGhIjKlMnOpQrStUvWxYz0123456789abcdefg,syslog-collector-01,Syslog
+2026-04-29T13:05:55Z,2026-04-29T13:05:55Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,auth,info,sshd-session,6071,pam_unix(sshd:session): session opened for user root by (uid=0),syslog-collector-01,Syslog
+2026-04-29T01:56:27Z,2026-04-29T01:56:27Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,cron,info,CRON,1608,(root) CMD (logrotate),syslog-collector-01,Syslog
+2026-04-28T10:07:58Z,2026-04-28T10:07:58Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,cron,info,CRON,6340,(root) CMD (logrotate),syslog-collector-01,Syslog
+2026-04-29T03:01:46Z,2026-04-29T03:01:46Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,cron,info,CRON,5340,(root) CMD (/usr/bin/check.sh),syslog-collector-01,Syslog
+2026-04-28T12:36:49Z,2026-04-28T12:36:49Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,cron,info,CRON,6082,(root) CMD (find /tmp -mtime +7 -delete),syslog-collector-01,Syslog
+2026-04-28T17:13:18Z,2026-04-28T17:13:18Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,cron,info,CRON,4054,(root) CMD (logrotate),syslog-collector-01,Syslog
+2026-04-29T13:16:53Z,2026-04-29T13:16:53Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,cron,info,CRON,2549,(root) CMD (/usr/bin/check.sh),syslog-collector-01,Syslog
+2026-04-29T03:20:27Z,2026-04-29T03:20:27Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,cron,info,CRON,4148,(root) CMD (/usr/bin/check.sh),syslog-collector-01,Syslog
+2026-04-28T23:28:45Z,2026-04-28T23:28:45Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,cron,info,CRON,6145,(root) CMD (find /tmp -mtime +7 -delete),syslog-collector-01,Syslog
+2026-04-28T21:57:38Z,2026-04-28T21:57:38Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,cron,info,CRON,6882,(root) CMD (logrotate),syslog-collector-01,Syslog
+2026-04-29T06:49:39Z,2026-04-29T06:49:39Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,cron,info,CRON,5955,(root) CMD (find /tmp -mtime +7 -delete),syslog-collector-01,Syslog
+2026-04-28T16:45:28Z,2026-04-28T16:45:28Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,cron,info,CRON,2277,(root) CMD (find /tmp -mtime +7 -delete),syslog-collector-01,Syslog
+2026-04-29T09:26:52Z,2026-04-29T09:26:52Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,cron,info,CRON,6598,(root) CMD (logrotate),syslog-collector-01,Syslog
+2026-04-28T14:48:59Z,2026-04-28T14:48:59Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,cron,info,CRON,6291,(root) CMD (find /tmp -mtime +7 -delete),syslog-collector-01,Syslog
+2026-04-29T03:06:07Z,2026-04-29T03:06:07Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,cron,info,CRON,8450,(root) CMD (find /tmp -mtime +7 -delete),syslog-collector-01,Syslog
+2026-04-29T11:16:28Z,2026-04-29T11:16:28Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,cron,info,CRON,3036,(root) CMD (/usr/bin/check.sh),syslog-collector-01,Syslog
+2026-04-28T12:51:25Z,2026-04-28T12:51:25Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,cron,info,CRON,4344,(root) CMD (logrotate),syslog-collector-01,Syslog
+2026-04-29T11:38:56Z,2026-04-29T11:38:56Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,cron,info,CRON,8872,(root) CMD (find /tmp -mtime +7 -delete),syslog-collector-01,Syslog
+2026-04-28T14:34:55Z,2026-04-28T14:34:55Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,cron,info,CRON,4959,(root) CMD (logrotate),syslog-collector-01,Syslog
+2026-04-29T07:48:26Z,2026-04-29T07:48:26Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,cron,info,CRON,1261,(root) CMD (/usr/bin/check.sh),syslog-collector-01,Syslog
+2026-04-29T05:22:19Z,2026-04-29T05:22:19Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,cron,info,CRON,1419,(root) CMD (/usr/bin/check.sh),syslog-collector-01,Syslog
+2026-04-28T18:40:41Z,2026-04-28T18:40:41Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,cron,info,CRON,5895,(root) CMD (/usr/bin/check.sh),syslog-collector-01,Syslog
+2026-04-29T00:54:52Z,2026-04-29T00:54:52Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,cron,info,CRON,9073,(root) CMD (logrotate),syslog-collector-01,Syslog
+2026-04-29T02:19:55Z,2026-04-29T02:19:55Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,cron,info,CRON,8323,(root) CMD (/usr/bin/check.sh),syslog-collector-01,Syslog
+2026-04-29T07:06:40Z,2026-04-29T07:06:40Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,cron,info,CRON,1779,(root) CMD (find /tmp -mtime +7 -delete),syslog-collector-01,Syslog
+2026-04-28T17:27:10Z,2026-04-28T17:27:10Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,cron,info,CRON,1912,(root) CMD (find /tmp -mtime +7 -delete),syslog-collector-01,Syslog
+2026-04-29T08:34:36Z,2026-04-29T08:34:36Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,cron,info,CRON,2315,(root) CMD (find /tmp -mtime +7 -delete),syslog-collector-01,Syslog
+2026-04-29T10:30:24Z,2026-04-29T10:30:24Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,cron,info,CRON,6661,(root) CMD (logrotate),syslog-collector-01,Syslog
+2026-04-29T10:12:28Z,2026-04-29T10:12:28Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,cron,info,CRON,7520,(root) CMD (find /tmp -mtime +7 -delete),syslog-collector-01,Syslog
+2026-04-28T19:33:36Z,2026-04-28T19:33:36Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,cron,info,CRON,4180,(root) CMD (logrotate),syslog-collector-01,Syslog
+2026-04-29T11:52:00Z,2026-04-29T11:52:00Z,SVR-LINUX-01,SVR-LINUX-01,10.0.20.20,cron,info,CRON,8841,(root) CMD (find /tmp -mtime +7 -delete),syslog-collector-01,Syslog

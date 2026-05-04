@@ -40,7 +40,7 @@
 
 [CmdletBinding()]
 param(
-    [string]$SmallDataDir   = (Join-Path $PSScriptRoot '..' 'data'),
+    [string]$SmallDataDir   = (Join-Path (Join-Path $PSScriptRoot '..') 'data'),
     [string]$OutputDir      = $PSScriptRoot,
     [datetime]$Anchor       = '2026-04-29T13:52:40Z',
     [int]$WindowDays        = 14,
