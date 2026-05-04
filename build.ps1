@@ -14,7 +14,7 @@
     Requires: PowerShell 7.0 or later (for ConvertFrom-Markdown).
 
 .NOTES
-    This script does NOT auto-update blog/index.html — add new posts to the
+    This script does NOT auto-update blog/index.html - add new posts to the
     listing manually. That's a deliberate choice: it keeps the build dumb and
     the listing fully under your control.
 #>
@@ -102,7 +102,7 @@ function Render-Page {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="$description">
-    <title>$title — Bryce Maxheimer</title>
+    <title>$title - Bryce Maxheimer</title>
     <script>(function(){try{var t=localStorage.getItem('siteTheme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">

@@ -1493,7 +1493,7 @@ SecurityEvent
 '@
     'Hunting Pack §2: Sysmon process autocluster (DeviceProcessEvents)' = @'
 // -----------------------------------------------------------------------------
-// 2. autocluster — unsupervised triage of Sysmon process events
+// 2. autocluster - unsupervised triage of Sysmon process events
 // -----------------------------------------------------------------------------
 // Point this at a noisy day of Sysmon EID 1 and it returns the
 // dominant (Image, ParentImage, User, CommandLine-prefix) clusters
@@ -1509,7 +1509,7 @@ DeviceProcessEvents
 '@
     'Hunting Pack §3: diffpatterns - incident vs baseline (DeviceNetworkEvents)' = @'
 // -----------------------------------------------------------------------------
-// 3. diffpatterns — "what changed?" surface finder
+// 3. diffpatterns - "what changed?" surface finder
 // -----------------------------------------------------------------------------
 // Compare a known-good window to an incident window and get the
 // attribute combos that differ most. Pure gold for IR triage.

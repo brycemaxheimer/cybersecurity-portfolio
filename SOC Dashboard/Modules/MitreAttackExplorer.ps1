@@ -488,7 +488,7 @@ public static extern int DwmSetWindowAttribute(System.IntPtr hwnd, int attr, ref
     }
 
     # ============================================================
-    # Dashboard landing tab (first tab — analyst home view)
+    # Dashboard landing tab (first tab - analyst home view)
     # ============================================================
     $dashTab = New-Object System.Windows.Forms.TabPage 'Dashboard'
     $tabs.TabPages.Add($dashTab)
@@ -726,7 +726,7 @@ public static extern int DwmSetWindowAttribute(System.IntPtr hwnd, int attr, ref
 
             $db = $script:DbPath
             if (-not (Test-Path $db)) {
-                $lastRefreshLbl.Text = 'DB not found — run feed scripts first'
+                $lastRefreshLbl.Text = 'DB not found - run feed scripts first'
                 return
             }
 
@@ -764,7 +764,7 @@ public static extern int DwmSetWindowAttribute(System.IntPtr hwnd, int attr, ref
             }
             $feedGrid.DataSource = $feedTable
 
-            # KPI 1 — feed status
+            # KPI 1 - feed status
             $tot = $feedTable.Rows.Count
             $okCount = [Math]::Max(0, $tot - $stale)
             $kpiFeed.Controls['Value'].Text      = if ($tot -gt 0) { "$okCount/$tot OK" } else { '--' }
@@ -773,19 +773,19 @@ public static extern int DwmSetWindowAttribute(System.IntPtr hwnd, int attr, ref
                                                     else { 'all feeds fresh' }
             $kpiFeed.Controls['Value'].ForeColor = if ($stale -gt 0 -or $tot -eq 0) { [System.Drawing.Color]::FromArgb(0xff, 0xa6, 0x57) } else { $t.AccentAlt }
 
-            # KPI 2 — KEV total
+            # KPI 2 - KEV total
             $kev = (Invoke-SqliteQuery -DataSource $db -Query "SELECT COUNT(*) AS C FROM KEVs").C
             $kpiKev.Controls['Value'].Text      = "$kev"
             $kpiKev.Controls['Value'].ForeColor = $t.Accent
             $kpiKev.Controls['Sub'].Text        = 'CISA known-exploited'
 
-            # KPI 3 — critical CVEs (CVSS >= 9.0)
+            # KPI 3 - critical CVEs (CVSS >= 9.0)
             $crit = (Invoke-SqliteQuery -DataSource $db -Query "SELECT COUNT(*) AS C FROM CVEs WHERE CvssScore >= 9.0").C
             $kpiCve.Controls['Value'].Text      = "$crit"
             $kpiCve.Controls['Value'].ForeColor = if ($crit -gt 0) { [System.Drawing.Color]::FromArgb(0xff, 0xa6, 0x57) } else { $t.Accent }
             $kpiCve.Controls['Sub'].Text        = 'CVSS >= 9.0 in cache'
 
-            # KPI 4 — ransomware-linked KEVs
+            # KPI 4 - ransomware-linked KEVs
             $ran = (Invoke-SqliteQuery -DataSource $db -Query "SELECT COUNT(*) AS C FROM KEVs WHERE KnownRansomware = 'Known'").C
             $kpiRan.Controls['Value'].Text      = "$ran"
             $kpiRan.Controls['Value'].ForeColor = if ($ran -gt 0) { [System.Drawing.Color]::FromArgb(0xff, 0x6b, 0x6b) } else { $t.Accent }
@@ -854,7 +854,7 @@ public static extern int DwmSetWindowAttribute(System.IntPtr hwnd, int attr, ref
                 '-Command', $cmd
             )
             $proc = Start-Process -FilePath $psExe -ArgumentList $argsList -PassThru -WorkingDirectory $PSScriptRoot
-            $jobStatusLbl.Text      = "Started: $Caption (pid $($proc.Id)) — refresh view when done"
+            $jobStatusLbl.Text      = "Started: $Caption (pid $($proc.Id)) - refresh view when done"
             $jobStatusLbl.ForeColor = $script:Theme.AccentAlt
         } catch {
             $jobStatusLbl.Text      = "Failed to launch: $_"

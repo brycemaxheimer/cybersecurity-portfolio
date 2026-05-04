@@ -208,7 +208,7 @@
                             },
                       "3":  {
                                 "number":  3,
-                                "title":  "Bad timestamp comparison — FIX",
+                                "title":  "Bad timestamp comparison - FIX",
                                 "difficulty":  "easy",
                                 "type":  "FIX",
                                 "ordered":  false,
@@ -1828,7 +1828,7 @@
                             },
                       "6":  {
                                 "number":  6,
-                                "title":  "EventID on the wrong table — BOTH",
+                                "title":  "EventID on the wrong table - BOTH",
                                 "difficulty":  "easy",
                                 "type":  "BOTH",
                                 "ordered":  false,
@@ -2078,7 +2078,7 @@
                             },
                       "9":  {
                                 "number":  9,
-                                "title":  "`has` doesn\u0027t substring-match — FIX",
+                                "title":  "`has` doesn\u0027t substring-match - FIX",
                                 "difficulty":  "easy",
                                 "type":  "FIX",
                                 "ordered":  false,
@@ -3112,7 +3112,7 @@
                              },
                       "14":  {
                                  "number":  14,
-                                 "title":  "Mismatched union — BOTH",
+                                 "title":  "Mismatched union - BOTH",
                                  "difficulty":  "medium",
                                  "type":  "BOTH",
                                  "ordered":  true,
@@ -3367,7 +3367,7 @@
                              },
                       "17":  {
                                  "number":  17,
-                                 "title":  "Default join silently drops rows — FIX",
+                                 "title":  "Default join silently drops rows - FIX",
                                  "difficulty":  "medium",
                                  "type":  "FIX",
                                  "ordered":  false,
@@ -3507,7 +3507,7 @@
                              },
                       "20":  {
                                  "number":  20,
-                                 "title":  "tolower kills index use — BOTH",
+                                 "title":  "tolower kills index use - BOTH",
                                  "difficulty":  "medium",
                                  "type":  "BOTH",
                                  "ordered":  false,
@@ -4206,7 +4206,7 @@
                              },
                       "23":  {
                                  "number":  23,
-                                 "title":  "Double-materialize — BOTH",
+                                 "title":  "Double-materialize - BOTH",
                                  "difficulty":  "hard",
                                  "type":  "BOTH",
                                  "ordered":  false,
@@ -4641,7 +4641,7 @@
                              },
                       "26":  {
                                  "number":  26,
-                                 "title":  "Dynamic field returning zero rows — BOTH",
+                                 "title":  "Dynamic field returning zero rows - BOTH",
                                  "difficulty":  "hard",
                                  "type":  "BOTH",
                                  "ordered":  false,
@@ -4917,7 +4917,7 @@
                              },
                       "30":  {
                                  "number":  30,
-                                 "title":  "Brittle parse pattern — BOTH",
+                                 "title":  "Brittle parse pattern - BOTH",
                                  "difficulty":  "hard",
                                  "type":  "BOTH",
                                  "ordered":  false,
