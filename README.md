@@ -19,6 +19,8 @@ This site is a working notebook and portfolio. The main sections:
 | **[Customize](/customize/)** | pick a theme that fits your eyes; persists across the site. |
 | **[Blog](/blog/)** | narrative posts about investigations, tools, and rabbit holes. |
 
+The Browser Lab is the active build target. Phase 1 and Phase 2 added an in-browser KQL engine (sql.js + a custom KQL→SQL translator, with a UMD rewrite layer at `kql/engine/rewrite.js`), a 30-question practice harness at `/lab/practice/` backed by a 129-case validation matrix (`kql/test-harness/run-validation.cjs`), and a capability probe (`kql/engine/diagnose.js`) that detects WebAssembly / fetch / IndexedDB availability and renders a graceful banner on isolated browsers (Menlo, Zscaler CBI, etc.) instead of failing silently. The live Intel Lookup demo at `/lab/threat-intel/demo.html` is wired to a Cloudflare Worker route (`functions/api/intel/{lookup,health}.js`) so API keys stay server-side.
+
 ## Stack
 
 This site is HTML and CSS, with blog posts authored in Markdown and converted to HTML via a small PowerShell build script. It's hosted on Cloudflare Pages and the source lives here.

@@ -64,20 +64,15 @@
     --accent:       var(--mint-deep);
     --accent-2:     var(--coral);
     --warning:      var(--amber);
-    --forest:       var(--mint-darker);
     --forest-light: var(--mint-deep);
     --forest-deep:  var(--mint-deep);
     --terra:        var(--coral);
     --terra-soft:   var(--coral);
     --terra-deep:   var(--coral);
-    --gold:         var(--amber);
-    --blue:         var(--mint-deep);
     --blue-deep:    var(--mint-darker);
     --blue-bright:  var(--mint);
-    --sage:         var(--mint-deep);
     --sage-deep:    var(--mint-darker);
     --sage-bright:  var(--mint);
-    --clay:         var(--coral);
 }
 
 * { box-sizing: border-box; }
@@ -271,7 +266,6 @@ hr { border: none; height: 1px; background: var(--line); margin: 2rem 0; }
     margin: 0 0 0.6rem;
     letter-spacing: -0.02em;
 }
-.hero h1 .cursor { display: none; }
 .hero .tagline {
     color: var(--text-1);
     font-size: 1.08rem;
@@ -818,7 +812,7 @@ article.post p { margin: 0 0 1.1rem; color: var(--text-1); }
     --text-soft: #182232;
     --text-1: #182232;
     --text-2: #2c3a50;
-    --text-3: #4d617a;
+    --text-3: #3d4f63;
     --muted: #2c3a50;
     --muted-deep: #4d617a;
     --line: rgba(8, 17, 30, 0.20);

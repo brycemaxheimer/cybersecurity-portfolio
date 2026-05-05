@@ -65,6 +65,12 @@ runs the 129-case good/possible/partial/bad/verbatim matrix from
 They are not version-pinned in package metadata; if you upgrade, drop the
 new files in place and re-run both harnesses.
 
+Current pinned version: **sql.js v1.10.3** (upstream tag `v1.10.3`; banner
+not present in the dist file itself, version tracked in `kql/vendor/README.md`).
+Recompute hashes after any upgrade with `sha256sum kql/vendor/sql-wasm.*`:
+- `sql-wasm.js`   sha256:`558a72c3ab3415d0e6d243cfd23f9d61543600d59054b4b7b8da3cd65f6b9fd4`
+- `sql-wasm.wasm` sha256:`d7e61b828523001f26ce0b3f88dabcf6c12e5e6edf80eb4f08b26ac7b946ff88`
+
 ## Remote browser isolation (Menlo, Zscaler CBI, etc.)
 
 The KQL engine runs entirely in the user's browser via WebAssembly (sql.js).

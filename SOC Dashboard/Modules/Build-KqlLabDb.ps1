@@ -34,7 +34,7 @@
     .\Build-KqlLabDb.ps1 -Force
     .\Build-KqlLabDb.ps1 -SchemaPath .\CommonTableSchema.txt -DatabasePath .\kql_lab.db
 #>
-[CmdletBinding()]
+[CmdletBinding(SupportsShouldProcess)]
 param(
     [string] $SchemaPath   = (Join-Path $PSScriptRoot 'CommonTableSchema.txt'),
     [string] $DatabasePath = (Join-Path $PSScriptRoot 'kql_lab.db'),
@@ -145,7 +145,9 @@ if (Test-Path -LiteralPath $DatabasePath) {
             return
         }
     }
-    Remove-Item -LiteralPath $DatabasePath -Force
+    if ($PSCmdlet.ShouldProcess($DatabasePath, 'Remove-Item')) {
+        Remove-Item -LiteralPath $DatabasePath -Force
+    }
 }
 
 # Open one connection for the entire build.  Faster, and avoids the

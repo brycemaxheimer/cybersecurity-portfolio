@@ -1,7 +1,8 @@
 /* themes.js - Customize page logic.
  * Renders 6 theme cards with palette previews. Clicking a card sets the
- * data-theme attribute on <html> and persists to localStorage. The bootstrap
- * script in every page's <head> picks up the stored value on next load.
+ * data-theme attribute on <html> and persists via window.SafeStorage (which
+ * wraps localStorage). The pre-paint bootstrap script in every page's <head>
+ * picks up the stored value on next load.
  */
 (function () {
     'use strict';
@@ -59,6 +60,7 @@
     var resetBtn= document.getElementById('reset-btn');
     var nameEl  = document.getElementById('active-name');
     var statusEl= document.getElementById('status');
+    var noticeEl = null;  // lazily created on first persistence failure
 
     function escapeHtml(s) {
         return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
@@ -66,23 +68,41 @@
         });
     }
 
+    // Customize is the page where the user actively chose a theme. Silent
+    // persistence failure here is misleading -- the palette flips for the
+    // current tab but reverts on next load. Surface the storage block inline.
+    function showStorageBlockedNotice() {
+        if (!noticeEl) {
+            noticeEl = document.createElement('p');
+            noticeEl.id = 'theme-notice';
+            noticeEl.setAttribute('role', 'status');
+            noticeEl.style.cssText =
+                'margin:0.75rem 0;padding:0.5rem 0.75rem;border:1px solid var(--coral,#d06858);' +
+                'color:var(--coral,#d06858);background:rgba(208,104,88,0.08);border-radius:4px;' +
+                'font-size:0.9rem;';
+            noticeEl.textContent = 'Theme not saved — your browser blocked storage.';
+            var anchor = document.querySelector('.cu-actions') || document.body;
+            anchor.parentNode.insertBefore(noticeEl, anchor.nextSibling);
+        }
+        noticeEl.hidden = false;
+    }
+
     function getActive() {
-        try {
-            return localStorage.getItem(STORAGE_KEY) || DEFAULT_THEME;
-        } catch (e) { return DEFAULT_THEME; }
+        return window.SafeStorage.get(STORAGE_KEY, DEFAULT_THEME);
     }
 
     function setActive(id) {
-        try {
-            if (id === DEFAULT_THEME) {
-                // Default is in :root - no attribute needed.
-                localStorage.removeItem(STORAGE_KEY);
-                document.documentElement.removeAttribute('data-theme');
-            } else {
-                localStorage.setItem(STORAGE_KEY, id);
-                document.documentElement.setAttribute('data-theme', id);
-            }
-        } catch (e) { /* private mode */ }
+        if (id === DEFAULT_THEME) {
+            // Default is in :root - no attribute needed.
+            window.SafeStorage.remove(STORAGE_KEY);
+            document.documentElement.removeAttribute('data-theme');
+        } else {
+            var ok = window.SafeStorage.set(STORAGE_KEY, id, function () {
+                showStorageBlockedNotice();
+            });
+            document.documentElement.setAttribute('data-theme', id);
+            if (ok && noticeEl) noticeEl.hidden = true;
+        }
 
         // Update UI
         var theme = THEMES.find(function (t) { return t.id === id; });

@@ -64,11 +64,28 @@ try {
     Invoke-WebRequest -Uri $FeedUrl -OutFile $tmpGz -UseBasicParsing
     Write-Host ("Downloaded {0:N1} KB" -f ((Get-Item $tmpGz).Length / 1KB)) -ForegroundColor DarkGray
 
-    $in  = [System.IO.File]::OpenRead($tmpGz)
-    $gz  = New-Object System.IO.Compression.GZipStream($in, [System.IO.Compression.CompressionMode]::Decompress)
-    $out = [System.IO.File]::Create($tmpCsv)
-    $gz.CopyTo($out)
-    $out.Close(); $gz.Close(); $in.Close()
+    $in  = $null
+    $gz  = $null
+    $out = $null
+    try {
+        $in  = [System.IO.File]::OpenRead($tmpGz)
+        $gz  = New-Object System.IO.Compression.GZipStream($in, [System.IO.Compression.CompressionMode]::Decompress)
+        $out = [System.IO.File]::Create($tmpCsv)
+        $gz.CopyTo($out)
+    } finally {
+        if ($out) {
+            try { $out.Close()   } catch {}
+            try { $out.Dispose() } catch {}
+        }
+        if ($gz) {
+            try { $gz.Close()   } catch {}
+            try { $gz.Dispose() } catch {}
+        }
+        if ($in) {
+            try { $in.Close()   } catch {}
+            try { $in.Dispose() } catch {}
+        }
+    }
 
     # ---------- Parse ----------
     # File format: optional comment line(s) starting with '#', then header

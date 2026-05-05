@@ -183,12 +183,17 @@ VALUES ('NVD-CVE', @d, @c)
         Write-Host "CVE ingest complete: $($allCves.Count) records." -ForegroundColor Green
     }
     finally {
-        $conn.Close()
+        if ($conn) {
+            try { $conn.Close()   } catch {}
+            try { $conn.Dispose() } catch {}
+        }
     }
 }
 
 # ---------- CISA KEV ingest ----------
 function Update-Kevs {
+    [CmdletBinding(SupportsShouldProcess)]
+    param()
     Write-Host "Pulling CISA KEV catalog from GitHub mirror..." -ForegroundColor Cyan
 
     # Create a .NET WebClient object
@@ -225,7 +230,9 @@ function Update-Kevs {
 
     $conn = New-SQLiteConnection -DataSource $script:DbPath
     try {
-        Invoke-SqliteQuery -SQLiteConnection $conn -Query "DELETE FROM KEVs;"
+        if ($PSCmdlet.ShouldProcess("KEVs table in $script:DbPath", 'DELETE FROM KEVs')) {
+            Invoke-SqliteQuery -SQLiteConnection $conn -Query "DELETE FROM KEVs;"
+        }
         Invoke-SqliteQuery -SQLiteConnection $conn -Query "BEGIN TRANSACTION;"
         foreach ($k in $vulns) {
             Invoke-SqliteQuery -SQLiteConnection $conn -Query @"
@@ -252,7 +259,10 @@ VALUES ('CISA-KEV', @d, @c)
         Write-Host "KEV ingest complete: $($vulns.Count) records." -ForegroundColor Green
     }
     finally {
-        $conn.Close()
+        if ($conn) {
+            try { $conn.Close()   } catch {}
+            try { $conn.Dispose() } catch {}
+        }
     }
 }
 

@@ -137,12 +137,14 @@ function Get-Watchlist {
 }
 
 function Remove-Watchlist {
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     param([Parameter(Mandatory)][string]$Name)
     $wl = Get-Watchlist -Name $Name
     if (-not $wl) { return }
-    Invoke-SqliteQuery -DataSource $script:DbPath -Query "DELETE FROM WatchlistItems WHERE WatchlistId=@id" -SqlParameters @{ id=$wl.WatchlistId }
-    Invoke-SqliteQuery -DataSource $script:DbPath -Query "DELETE FROM Watchlists     WHERE WatchlistId=@id" -SqlParameters @{ id=$wl.WatchlistId }
+    if ($PSCmdlet.ShouldProcess($Name, 'Remove')) {
+        Invoke-SqliteQuery -DataSource $script:DbPath -Query "DELETE FROM WatchlistItems WHERE WatchlistId=@id" -SqlParameters @{ id=$wl.WatchlistId }
+        Invoke-SqliteQuery -DataSource $script:DbPath -Query "DELETE FROM Watchlists     WHERE WatchlistId=@id" -SqlParameters @{ id=$wl.WatchlistId }
+    }
 }
 
 function Get-WatchlistItems {

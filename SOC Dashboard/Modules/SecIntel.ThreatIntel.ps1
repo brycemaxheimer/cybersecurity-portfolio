@@ -31,11 +31,20 @@
 . (Join-Path $PSScriptRoot 'SecIntel.Settings.ps1')
 . (Join-Path $PSScriptRoot 'SecIntel.Http.ps1')
 . (Join-Path $PSScriptRoot 'SecIntel.ThreatIntel.Core.ps1')
-. (Join-Path $PSScriptRoot 'SecIntel.HashLookup.ps1')         -ErrorAction SilentlyContinue
-. (Join-Path $PSScriptRoot 'SecIntel.ThreatIntel.AbuseIPDB.ps1') -ErrorAction SilentlyContinue
-. (Join-Path $PSScriptRoot 'SecIntel.ThreatIntel.UrlScan.ps1')   -ErrorAction SilentlyContinue
-. (Join-Path $PSScriptRoot 'SecIntel.ThreatIntel.Nsrl.ps1')      -ErrorAction SilentlyContinue
-. (Join-Path $PSScriptRoot 'SecIntel.ThreatIntel.Nist.ps1')      -ErrorAction SilentlyContinue
+try { . (Join-Path $PSScriptRoot 'SecIntel.HashLookup.ps1') }
+catch { Write-Warning ("Provider SecIntel.HashLookup.ps1 failed to load: {0}" -f $_.Exception.Message) }
+
+try { . (Join-Path $PSScriptRoot 'SecIntel.ThreatIntel.AbuseIPDB.ps1') }
+catch { Write-Warning ("Provider SecIntel.ThreatIntel.AbuseIPDB.ps1 failed to load: {0}" -f $_.Exception.Message) }
+
+try { . (Join-Path $PSScriptRoot 'SecIntel.ThreatIntel.UrlScan.ps1') }
+catch { Write-Warning ("Provider SecIntel.ThreatIntel.UrlScan.ps1 failed to load: {0}" -f $_.Exception.Message) }
+
+try { . (Join-Path $PSScriptRoot 'SecIntel.ThreatIntel.Nsrl.ps1') }
+catch { Write-Warning ("Provider SecIntel.ThreatIntel.Nsrl.ps1 failed to load: {0}" -f $_.Exception.Message) }
+
+try { . (Join-Path $PSScriptRoot 'SecIntel.ThreatIntel.Nist.ps1') }
+catch { Write-Warning ("Provider SecIntel.ThreatIntel.Nist.ps1 failed to load: {0}" -f $_.Exception.Message) }
 
 # ============================================================
 # Map IoC type -> ordered list of provider invocations.

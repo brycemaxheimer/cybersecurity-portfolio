@@ -1,8 +1,8 @@
 /* builder.js - KQL Builder UI logic.
  * Reads schema from KqlSchema (loaded ahead of this script). Generates a
  * KQL query string live as the user adjusts form fields. Saves named queries
- * to localStorage. "Send to playground" stashes the query in sessionStorage
- * and redirects to /kql/ where main.js picks it up.
+ * via window.SafeStorage (wraps localStorage). "Send to playground" stashes
+ * the query in sessionStorage and redirects to /kql/ where main.js picks it up.
  */
 (function () {
     'use strict';
@@ -285,13 +285,16 @@
         els.output.value = generate();
     }
 
-    /* ----- Save / load (localStorage) ----- */
+    /* ----- Save / load (localStorage via SafeStorage) ----- */
     function readSaved() {
-        try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
+        var raw = window.SafeStorage.get(STORAGE_KEY, '[]');
+        try { return JSON.parse(raw); }
         catch (e) { return []; }
     }
     function writeSaved(list) {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+        window.SafeStorage.set(STORAGE_KEY, JSON.stringify(list), function () {
+            alert('Saved queries could not be persisted — your browser blocked storage.');
+        });
     }
     function renderSavedList() {
         var list = readSaved();
@@ -413,14 +416,22 @@
     });
     els.copy.addEventListener('click', function () {
         if (!els.output.value) return;
-        if (navigator.clipboard) {
+        // navigator.clipboard is available in every modern browser. The old
+        // execCommand-based fallback is deprecated and was removed.
+        try {
+            if (!navigator.clipboard) {
+                alert('Copy blocked: clipboard API unavailable in this browser.');
+                return;
+            }
             navigator.clipboard.writeText(els.output.value).then(function () {
                 var orig = els.copy.textContent;
                 els.copy.textContent = 'Copied';
                 setTimeout(function () { els.copy.textContent = orig; }, 1500);
+            }).catch(function () {
+                alert('Copy blocked by browser.');
             });
-        } else {
-            els.output.select(); document.execCommand('copy');
+        } catch (e) {
+            alert('Copy blocked by browser.');
         }
     });
     els.save.addEventListener('click', saveCurrent);

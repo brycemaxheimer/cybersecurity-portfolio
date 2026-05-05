@@ -16,29 +16,30 @@
     var SQL = null;     // sql.js module
     var db = null;      // sqlite3 Database
     var tableLoaded = {}; // tableName -> rowCount
+    var tableLoadErrors = {}; // tableName -> error message (for tables that failed to load)
 
     // ---- CSV parser (minimal RFC 4180-ish) ----
     function parseCSV(text) {
         var rows = [];
         var i = 0, n = text.length;
-        var field = '', row = [];
+        var fieldChars = [], row = [];
         var inQ = false;
         while (i < n) {
             var c = text[i];
             if (inQ) {
                 if (c === '"') {
-                    if (text[i + 1] === '"') { field += '"'; i += 2; continue; }
+                    if (text[i + 1] === '"') { fieldChars.push('"'); i += 2; continue; }
                     inQ = false; i++; continue;
                 }
-                field += c; i++; continue;
+                fieldChars.push(c); i++; continue;
             }
             if (c === '"') { inQ = true; i++; continue; }
-            if (c === ',') { row.push(field); field = ''; i++; continue; }
+            if (c === ',') { row.push(fieldChars.join('')); fieldChars = []; i++; continue; }
             if (c === '\r') { i++; continue; }
-            if (c === '\n') { row.push(field); rows.push(row); field = ''; row = []; i++; continue; }
-            field += c; i++;
+            if (c === '\n') { row.push(fieldChars.join('')); rows.push(row); fieldChars = []; row = []; i++; continue; }
+            fieldChars.push(c); i++;
         }
-        if (field !== '' || row.length > 0) { row.push(field); rows.push(row); }
+        if (fieldChars.length > 0 || row.length > 0) { row.push(fieldChars.join('')); rows.push(row); }
         return rows;
     }
 
@@ -182,6 +183,7 @@
             var tables = Schema.tableNames();
             return Promise.all(tables.map(function (t) {
                 return fetchAndLoad(t).catch(function (e) {
+                    tableLoadErrors[t] = e.message;
                     console.warn('skipping table ' + t + ': ' + e.message);
                     return 0;
                 });
@@ -244,10 +246,12 @@
         if (newBase.slice(-1) !== '/') newBase += '/';
         basePath = newBase;
         tableLoaded = {};
+        Object.keys(tableLoadErrors).forEach(function (k) { delete tableLoadErrors[k]; });
         onProgress({ phase: 'reload-start', basePath: basePath });
         var tables = Schema.tableNames();
         return Promise.all(tables.map(function (t) {
             return fetchAndLoad(t).catch(function (e) {
+                tableLoadErrors[t] = e.message;
                 console.warn('skipping table ' + t + ': ' + e.message);
                 return 0;
             });
@@ -262,6 +266,7 @@
         query: query,
         reload: reload,
         getLoadedTables: getLoadedTables,
+        tableLoadErrors: tableLoadErrors,
         getDataset: getDataset,
     };
 

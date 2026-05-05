@@ -36,13 +36,13 @@
     };
     var DATASET_KEY = 'kqlPlayground.dataset';
     function getSavedDataset() {
-        try {
-            var v = localStorage.getItem(DATASET_KEY);
-            return DATASETS[v] ? v : 'storyline';
-        } catch (e) { return 'storyline'; }
+        var v = window.SafeStorage.get(DATASET_KEY, 'storyline');
+        return DATASETS[v] ? v : 'storyline';
     }
     function saveDataset(v) {
-        try { localStorage.setItem(DATASET_KEY, v); } catch (e) {}
+        // Silent failure is fine here: the dataset toggle just won't persist
+        // across reloads. Functional impact is zero.
+        window.SafeStorage.set(DATASET_KEY, v);
     }
 
     function setStatus(text, kind) {

@@ -5,6 +5,17 @@ summary: Why I'm publishing in the open, how this site is built, and what's comi
 tags: meta, soc
 ---
 
+<!--
+  Maintenance note: this Markdown is the canonical prose source. The published
+  copy at blog/posts/welcome-to-the-lab.html has been hand-enhanced with
+  Open Graph / Twitter Card meta tags and the site-wide nav dropdown that
+  build.ps1's Render-Page template does not emit. If you regenerate this post
+  via build.ps1 you will lose those additions, so either (a) re-apply them by
+  hand after the build, or (b) update Render-Page in build.ps1 to match the
+  enriched template before regenerating. Prose changes belong here; chrome
+  changes belong in build.ps1's Render-Page.
+-->
+
 ## Why publish in the open
 
 Most of the cybersecurity work I do lives behind authentication walls - internal
@@ -25,7 +36,7 @@ Rough backlog, no committed schedule:
 - Notes on mapping the SOC Dashboard's threat-intel modules to MITRE ATT&CK data
   sources.
 - A short post on running NIST CSF self-assessments out of an MS Access backend
-  (yes, really. It's not amazing but barrier to entry is low and use case is high; I like it at least).
+  (yes, really - it's the right tool for some shops).
 
 If a topic here is useful to you, the best feedback channel is the email on the
 About page.
