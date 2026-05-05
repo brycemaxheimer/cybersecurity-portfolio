@@ -264,3 +264,25 @@ function Format-SyslogMessage {
     if ($msg -match '\{H8\}') { $msg = $msg -replace '\{H8\}', (New-HexString 8 $Rng) }
     return $msg
 }
+
+# ---------- Networking helpers used by the ported Build-* generators ----------
+function New-MacAddress {
+    param([System.Random]$Rng)
+    $parts = for ($i = 0; $i -lt 6; $i++) { '{0:X2}' -f $Rng.Next(0, 256) }
+    return ($parts -join '-')
+}
+
+# Random user pick (non-weighted) -- used by AuditLogs / DRE / DFE noise.
+function Get-NoiseUser { param([System.Random]$Rng) return $script:NoiseUsers[$Rng.Next(0, $script:NoiseUsers.Count)] }
+function Get-AnyHost   { param([System.Random]$Rng) return $script:AllHosts[$Rng.Next(0, $script:AllHosts.Count)] }
+
+# Read a small CSV into ($header, [string[]]$rows) preserving raw lines.
+function Read-SeedCsv {
+    param([string]$Path)
+    $lines = Get-Content -LiteralPath $Path
+    if (-not $lines) { return @('', @()) }
+    $h = $lines[0]
+    $r = @()
+    if ($lines.Count -gt 1) { $r = $lines[1..($lines.Count - 1)] }
+    return @($h, $r)
+}

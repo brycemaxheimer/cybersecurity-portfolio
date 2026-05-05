@@ -1,12 +1,20 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "cybersecurity-portfolio",
+  "main": "worker.js",
   "compatibility_date": "2026-04-30",
   "observability": {
     "enabled": true
   },
   "assets": {
-    "directory": "."
+    "directory": ".",
+    "binding": "ASSETS",
+    // Worker code runs first; only paths NOT served by static assets fall
+    // through to it. Set to "force" so /api/intel/* always reaches worker.js
+    // even if a same-named static file ever appears.
+    "run_worker_first": [
+      "/api/intel/*"
+    ]
   },
   "compatibility_flags": [
     "nodejs_compat"

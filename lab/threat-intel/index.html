@@ -193,13 +193,20 @@ Team Cymru hash lookup, and the NSRL hash database.
 </p>
 
 <div class="ti-banner">
-<strong>Why this is recorded, not live.</strong> The PowerShell modules call
-third-party threat-intel APIs that require my private API keys and have rate
-limits. Shipping those keys to a public website is a non-starter, and proxying
-every visitor's lookup through my account would burn the quota in minutes. So
-this page shows the workflow as a recording. The full live tooling is in the
+<strong>Why this page is recorded, not live.</strong> The PowerShell modules
+call third-party threat-intel APIs that require my private API keys and have
+rate limits. Shipping those keys to a public website is a non-starter, and
+proxying every visitor's lookup through my account would burn the quota in
+minutes. So this page shows the workflow as a recording. The full live
+tooling is in the
 <a href="https://github.com/brycemaxheimer/cybersecurity-portfolio">GitHub repo</a>;
 clone it, drop in your own API keys, run locally.
+<br><br>
+<strong>Want to try a live lookup?</strong> The
+<a href="/lab/threat-intel/demo.html" style="color: var(--mint-deep)">Intel Lookup demo</a>
+runs a rate-limited, key-protected backend route on this site &mdash;
+browser form in, server-held API key out &mdash; so you can hit AbuseIPDB
++ ip-api enrichment without any setup.
 </div>
 
 

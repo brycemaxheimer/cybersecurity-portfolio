@@ -15,9 +15,8 @@
  *   Refinement   query uses canonical KQL idioms (=~, top, named aggs, ...)
  *   Speed        user_time / canonical_time ratio
  *
- * The engine itself is loaded as window.KqlEngineV2 from /kql/engine-v2/index.js .
- * That module is currently a thin shim over the existing v1 engine; it will be
- * swapped in piece by piece as Invoke-KqlPS.ps1 is ported to JS.
+ * The engine itself is loaded as window.KqlEngineApi from /kql/engine/api.js,
+ * which wraps the v1 KqlRuntime + the shared rewrite layer (kql/engine/rewrite.js).
  * ========================================================================== */
 
 // ----------------------------------------------------------------------------
@@ -138,23 +137,20 @@ async function loadAssets() {
 // Resolves an object of the form:
 //     { run(kqlString) -> Promise<{ columns: string[], rows: any[][], elapsedMs: number }> }
 //
-// In production this is /kql/engine-v2/index.js (the new ported interpreter).
-// While porting, engine-v2 falls back internally to the v1 engine for
-// operators it hasn't implemented yet.
+// Loaded from /kql/engine/api.js as window.KqlEngineApi.
 // ----------------------------------------------------------------------------
 
 async function resolveEngine() {
-    // engine-v2 module sets window.KqlEngineV2 on load.
     let attempts = 0;
-    while (!window.KqlEngineV2 && attempts < 50) {
+    while (!window.KqlEngineApi && attempts < 50) {
         await new Promise(r => setTimeout(r, 100));
         attempts++;
     }
-    if (!window.KqlEngineV2) {
-        throw new Error('KQL engine failed to initialize (window.KqlEngineV2 missing).');
+    if (!window.KqlEngineApi) {
+        throw new Error('KQL engine failed to initialize (window.KqlEngineApi missing).');
     }
-    await window.KqlEngineV2.ready();
-    return window.KqlEngineV2;
+    await window.KqlEngineApi.ready();
+    return window.KqlEngineApi;
 }
 
 // ----------------------------------------------------------------------------

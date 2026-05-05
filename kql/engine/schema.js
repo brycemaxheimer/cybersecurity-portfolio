@@ -12,6 +12,21 @@
  *
  * Column names match the CSV headers exactly. Order matters for the SQL
  * INSERT statements that the runtime generates.
+ *
+ * Schema flavor: these tables model the **Sentinel-projected** view of
+ * Microsoft Defender XDR data, not raw Defender XDR Advanced Hunting.
+ * Practical implications:
+ *   - Defender tables (Device*) carry BOTH `Timestamp` and `TimeGenerated`.
+ *     `Timestamp`     = when the event happened (Defender XDR canonical).
+ *     `TimeGenerated` = when Log Analytics ingested the row (Sentinel side).
+ *     Microsoft documents this dual-column reality and notes the two can
+ *     diverge if data arrives late:
+ *     https://learn.microsoft.com/defender-xdr/advanced-hunting-microsoft-defender#known-issues
+ *     Cheatsheet/practice questions consistently use `TimeGenerated` for the
+ *     filter-by-time pattern, matching the Sentinel idiom.
+ *   - `DeviceLogonEvents.ActionType` (LogonSuccess / LogonFailed / ...) AND
+ *     `LogonType` (Interactive / Network / ...) are both real Defender columns.
+ *     They describe different things and both exist on the live table.
  */
 
 (function (global) {

@@ -147,14 +147,15 @@
 
 <!-- sql.js for the underlying SQLite (vendored at /kql/vendor/) -->
 <script src="/kql/vendor/sql-wasm.js"></script>
-<!-- v1 KQL runtime: provides KqlSchema / KqlEngine / KqlRuntime. The order
-     matters -- runtime.js depends on engine.js which depends on schema.js. -->
-<script src="/kql/engine/schema.js"></script>
-<script src="/kql/engine/engine.js"></script>
-<script src="/kql/engine/runtime.js"></script>
-<!-- Engine v2: thin wrapper over KqlRuntime today; native operator paths
-     land incrementally and short-circuit ahead of the v1 fallback. -->
-<script type="module" src="/kql/engine-v2/index.js"></script>
+<!-- KQL runtime: provides KqlSchema / KqlEngine / KqlRuntime. Load order
+     matters -- runtime depends on engine depends on schema. -->
+<script defer src="/kql/engine/schema.js"></script>
+<script defer src="/kql/engine/engine.js"></script>
+<script defer src="/kql/engine/runtime.js"></script>
+<!-- Shared KQL surface-syntax rewriter (UMD; also require()d by harnesses). -->
+<script defer src="/kql/engine/rewrite.js"></script>
+<!-- Public engine surface consumed by the practice page. -->
+<script defer src="/kql/engine/api.js"></script>
 <!-- Practice page controller -->
 <script type="module" src="/lab/practice/practice.js"></script>
 

@@ -55,80 +55,8 @@ loadIntoSandbox(path.join(ENGINE_DIR, 'schema.js'));
 loadIntoSandbox(path.join(ENGINE_DIR, 'engine.js'));
 loadIntoSandbox(path.join(ENGINE_DIR, 'runtime.js'));
 
+const { rewriteTimePredicates, v1CompatRewrite, setAnchor } = require('../engine/rewrite.js');
 let ANCHOR_ISO = null;
-
-function fmtKqlDatetime(d) {
-    return "todatetime('" + d.toISOString().replace(/\.\d+Z$/, '.000Z') + "')";
-}
-function offsetSeconds(num, unit) {
-    const n = parseFloat(num);
-    return ({ ms: n / 1000, s: n, m: n * 60, h: n * 3600, d: n * 86400 })[unit];
-}
-function rewriteTimePredicates(kql) {
-    if (!ANCHOR_ISO) return kql;
-    const anchor = new Date(ANCHOR_ISO);
-    kql = kql.replace(/ago\(\s*(\d+(?:\.\d+)?)\s*(ms|s|m|h|d)\s*\)/g, (_m, num, unit) => {
-        const secs = offsetSeconds(num, unit);
-        if (secs == null) return _m;
-        return fmtKqlDatetime(new Date(anchor.getTime() - secs * 1000));
-    });
-    kql = kql.replace(/now\(\s*\)/g, () => fmtKqlDatetime(anchor));
-    return kql;
-}
-
-const KQL_KW = /^(where|extend|summarize|project|order|sort|by|asc|desc|let|join|on|kind|union|parse|with|take|top|distinct|render|materialize|and|or|not|in|between|true|false|null)$/;
-
-function materializeUnwrap(kql) {
-    let i = 0, out = '';
-    while (i < kql.length) {
-        const idx = kql.indexOf('materialize(', i);
-        if (idx < 0) { out += kql.slice(i); break; }
-        out += kql.slice(i, idx);
-        let depth = 1, j = idx + 'materialize('.length;
-        while (j < kql.length && depth > 0) {
-            if (kql[j] === '(') depth++;
-            else if (kql[j] === ')') { depth--; if (depth === 0) break; }
-            j++;
-        }
-        out += kql.slice(idx + 'materialize('.length, j);
-        i = j + 1;
-    }
-    return out;
-}
-
-function rewriteMatchesRegex(kql) {
-    return kql.replace(
-        /([A-Za-z_][A-Za-z0-9_]*(?:\([^)]*\))?(?:\.[A-Za-z_][A-Za-z0-9_]*(?:\([^)]*\))?)*)\s+matches\s+regex\s+(@?"[^"]*"|@?'[^']*')/g,
-        (_m, expr, pat) => 'matches_regex(' + expr + ', ' + pat + ')'
-    );
-}
-
-function v1CompatRewrite(kql) {
-    kql = materializeUnwrap(kql);
-    kql = kql.replace(/@"([^"]*)"/g, (_m, body) => '"' + body.replace(/\\/g, '\\\\') + '"');
-    kql = kql.replace(/@'([^']*)'/g, (_m, body) => "'" + body.replace(/\\/g, '\\\\') + "'");
-    const operandRe = "(@?\"[^\"]*\"|@?'[^']*'|[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*)";
-    const lhsRe     = "([A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*)";
-    kql = kql.replace(new RegExp(lhsRe + "\\s*=~\\s*" + operandRe, "g"),
-        (_m, l, r) => KQL_KW.test(l) ? _m : "tolower(" + l + ") == tolower(" + r + ")");
-    kql = kql.replace(new RegExp(lhsRe + "\\s*!~\\s*" + operandRe, "g"),
-        (_m, l, r) => KQL_KW.test(l) ? _m : "tolower(" + l + ") != tolower(" + r + ")");
-    const dynRe = /let\s+([A-Za-z_][A-Za-z0-9_]*)\s*=\s*dynamic\(\s*\[([^\]]*)\]\s*\)\s*;\s*/g;
-    const inlines = {};
-    kql = kql.replace(dynRe, (_m, name, items) => { inlines[name] = items.trim(); return ''; });
-    for (const [name, items] of Object.entries(inlines)) {
-        const refRe = new RegExp('(has_any|has_all|in|!in)\\s*\\(\\s*' + name + '\\s*\\)', 'g');
-        kql = kql.replace(refRe, (_m, op) => op + ' (' + items + ')');
-    }
-    const haRe = /([A-Za-z_][A-Za-z0-9_]*(?:\.[A-Za-z_][A-Za-z0-9_]*)*)\s+(has_any|has_all)\s*\(([^)]+)\)/g;
-    kql = kql.replace(haRe, (_m, col, op, list) => {
-        const items = list.split(',').map(s => s.trim()).filter(Boolean);
-        const joiner = op === 'has_any' ? ' or ' : ' and ';
-        return '(' + items.map(it => col + ' has ' + it).join(joiner) + ')';
-    });
-    kql = rewriteMatchesRegex(kql);
-    return kql;
-}
 
 function unwrapRow(r) {
     if (Array.isArray(r)) return r;
@@ -262,6 +190,7 @@ function normWS(s) { return String(s == null ? '' : s).replace(/\s+/g, ' ').trim
         return null;
     };
     ANCHOR_ISO = seek(gold);
+    setAnchor(ANCHOR_ISO);
     process.stderr.write('Anchor: ' + ANCHOR_ISO + '\n\n');
 
     const goldByNum = {};
