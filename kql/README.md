@@ -64,3 +64,29 @@ runs the 129-case good/possible/partial/bad/verbatim matrix from
 `kql/vendor/sql-wasm.js` + `sql-wasm.wasm` are the upstream sql.js dist.
 They are not version-pinned in package metadata; if you upgrade, drop the
 new files in place and re-run both harnesses.
+
+## Remote browser isolation (Menlo, Zscaler CBI, etc.)
+
+The KQL engine runs entirely in the user's browser via WebAssembly (sql.js).
+Some enterprise web-isolation products run user sessions in a remote
+container and either strip WebAssembly support, restrict `fetch()`, or
+disable IndexedDB on the local browser.
+
+Two failure profiles to be aware of:
+
+- **Pixel-streaming / Full-Isolation mode** (Menlo Full Isolation, Cloudflare
+  Browser Isolation default). JavaScript executes in the remote container,
+  not on the user's machine. From the user's side everything works; from
+  ours, we don't even know the session is isolated. No mitigation needed.
+- **DOM-mirror mode with API restrictions** (Menlo Read-Only Isolation,
+  Symantec WSS, Zscaler CBI in selective modes). Local JS still runs, but
+  WASM, IndexedDB, or downloads may be blocked. `kql/engine/diagnose.js`
+  probes for these capabilities at page load, sets `window.KqlEnv` with
+  per-feature flags, and exposes `KqlEnv.renderBanner(el, opts)` so the
+  practice page and playground show an actionable error instead of a blank
+  panel. The cheatsheet and walkthrough text stay readable; only
+  query execution is disabled.
+
+There is no "bypass" — if the policy on a network forbids client-side WASM,
+the engine genuinely cannot run there. The diagnostics make the limitation
+visible and point users to running the repo locally.

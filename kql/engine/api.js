@@ -24,6 +24,15 @@
     function _initRuntime() {
         if (_readyPromise) return _readyPromise;
         _readyPromise = (async function () {
+            // Bail out early on isolated browsers (Menlo / Zscaler CBI / etc.)
+            // that strip WASM. window.KqlEnv is set by /kql/engine/diagnose.js
+            // and may be absent on pages that don't load it -- treat that as
+            // permissive (match prior behavior).
+            if (window.KqlEnv && !window.KqlEnv.allReady) {
+                var err = new Error(window.KqlEnv.blockingReason || 'KQL engine prerequisites unavailable.');
+                err.code = 'KQL_ENV_BLOCKED';
+                throw err;
+            }
             var attempts = 0;
             while ((!window.KqlRuntime || !window.KqlEngine || !window.KqlSchema) && attempts < 50) {
                 await new Promise(function (r) { setTimeout(r, 100); });

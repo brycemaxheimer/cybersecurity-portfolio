@@ -3,199 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="MITRE ATT&CK Explorer - browse techniques, groups, software, and mitigations from the Enterprise ATT&CK matrix. Static data, no API calls, no rate limits.">
+<meta name="description" content="MITRE ATT&CK Explorer - browse techniques, groups, software, and mitigations from the Enterprise ATT&CK matrix. Static data, no API calls, no rate limits."><link rel="canonical" href="https://brycemaxheimer.com/lab/mitre/">
+<meta property="og:title" content="MITRE ATT&amp;CK Explorer - Bryce Maxheimer">
+<meta property="og:description" content="MITRE ATT&amp;CK Explorer - browse techniques, groups, software, and mitigations from the Enterprise ATT&amp;CK matrix. Static data, no API calls, no rate limits.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://brycemaxheimer.com/lab/mitre/">
+<meta property="og:image" content="https://brycemaxheimer.com/og/default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="Bryce Maxheimer">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="MITRE ATT&amp;CK Explorer - Bryce Maxheimer">
+<meta name="twitter:description" content="MITRE ATT&amp;CK Explorer - browse techniques, groups, software, and mitigations from the Enterprise ATT&amp;CK matrix. Static data, no API calls, no rate limits.">
+<meta name="twitter:image" content="https://brycemaxheimer.com/og/default.png">
 <title>MITRE ATT&amp;CK Explorer - Bryce Maxheimer</title>
 <script>(function(){try{var t=localStorage.getItem('siteTheme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 <link rel="stylesheet" href="/css/style.css">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<style>
-.mitre-page { max-width: 1240px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
-.mitre-page h1 { margin: 0 0 0.4rem; }
-.mitre-page .subhead { color: var(--text-1); margin: 0 0 1.5rem; }
-
-.mitre-meta {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    flex-wrap: wrap;
-    font-family: var(--font-mono);
-    font-size: 0.78rem;
-    color: var(--text-3);
-    margin: 0 0 2rem;
-    padding: 0.6rem 0.8rem;
-    background: var(--bg-1);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-}
-.mitre-meta .pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    color: var(--text-1);
-}
-.mitre-meta .pill strong { color: var(--mint-deep); font-family: var(--font-sans); font-weight: 600; }
-
-.mitre-shell {
-    display: grid;
-    grid-template-columns: 280px minmax(0, 1fr);
-    gap: 1.5rem;
-}
-@media (max-width: 900px) { .mitre-shell { grid-template-columns: 1fr; } }
-
-.mitre-sidebar { display: flex; flex-direction: column; gap: 1.2rem; align-self: start; }
-@media (min-width: 901px) {
-    .mitre-sidebar { position: sticky; top: 80px; max-height: calc(100vh - 100px); overflow-y: auto; padding-right: 0.4rem; }
-}
-.mitre-sidebar h4 {
-    font-size: 0.74rem; font-family: var(--font-mono); color: var(--mint-deep);
-    font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
-    margin: 0 0 0.6rem; padding: 0; border: none;
-}
-
-.mitre-search {
-    width: 100%; padding: 0.65rem 0.9rem;
-    background: var(--code-bg); color: var(--text-0);
-    border: 1px solid var(--line); border-radius: var(--radius);
-    font-family: var(--font-sans); font-size: 0.95rem;
-}
-.mitre-search:focus { outline: none; border-color: var(--mint-deep); box-shadow: 0 0 0 3px rgba(70,208,154,0.15); }
-
-.view-tabs { display: flex; gap: 0.3rem; flex-wrap: wrap; }
-.view-tabs button {
-    flex: 1 1 auto; min-width: 0;
-    font-family: var(--font-sans); font-size: 0.85rem;
-    padding: 0.45rem 0.6rem;
-    background: var(--surface); color: var(--text-1);
-    border: 1px solid var(--line); border-radius: var(--radius);
-    cursor: pointer; transition: all 0.15s;
-}
-.view-tabs button:hover { border-color: var(--mint-deep); color: var(--mint); }
-.view-tabs button.active {
-    background: var(--mint-deep); color: var(--bg-0); border-color: var(--mint-deep);
-    font-weight: 600;
-}
-
-.tactic-chips { display: flex; flex-wrap: wrap; gap: 0.3rem; }
-.tactic-chip {
-    font-family: var(--font-mono); font-size: 0.75rem;
-    padding: 0.2rem 0.55rem;
-    background: var(--surface); color: var(--text-2);
-    border: 1px solid var(--line); border-radius: 999px;
-    cursor: pointer; transition: all 0.15s;
-}
-.tactic-chip:hover { border-color: var(--mint-deep); color: var(--mint); }
-.tactic-chip.active {
-    background: rgba(70, 208, 154, 0.15);
-    border-color: var(--mint-deep);
-    color: var(--mint);
-}
-
-.mitre-platform {
-    width: 100%; padding: 0.5rem 0.7rem;
-    background: var(--surface); color: var(--text-0);
-    border: 1px solid var(--line); border-radius: var(--radius);
-    font-family: var(--font-sans); font-size: 0.88rem;
-}
-
-.clear-btn {
-    font-family: var(--font-sans); font-size: 0.82rem;
-    padding: 0.4rem 0.8rem;
-    background: transparent; color: var(--coral);
-    border: 1px solid var(--line); border-radius: var(--radius);
-    cursor: pointer;
-}
-.clear-btn:hover { border-color: var(--coral); }
-
-/* Result list */
-.mitre-list { display: flex; flex-direction: column; gap: 0.6rem; }
-.mitre-item {
-    background: var(--surface); border: 1px solid var(--line);
-    border-radius: var(--radius-lg); padding: 1rem 1.2rem;
-    transition: border-color 0.15s, background 0.15s;
-}
-.mitre-item:hover { border-color: var(--mint-deep); background: var(--surface-2); }
-.mitre-item summary {
-    list-style: none; cursor: pointer;
-    display: flex; align-items: baseline; gap: 0.7rem;
-    flex-wrap: wrap;
-}
-.mitre-item summary::-webkit-details-marker { display: none; }
-.mitre-item .id-badge {
-    font-family: var(--font-mono); font-size: 0.78rem;
-    color: var(--mint-deep); font-weight: 700;
-    padding: 0.15rem 0.5rem;
-    background: rgba(70, 208, 154, 0.10);
-    border: 1px solid rgba(70, 208, 154, 0.30);
-    border-radius: 3px;
-    flex-shrink: 0;
-}
-.mitre-item .name {
-    font-family: var(--font-sans); font-size: 1rem; font-weight: 600;
-    color: var(--text-0); flex: 1 1 auto;
-}
-.mitre-item .meta-row {
-    margin-top: 0.4rem;
-    font-family: var(--font-mono); font-size: 0.78rem;
-    color: var(--text-2);
-    display: flex; flex-wrap: wrap; gap: 0.6rem;
-}
-.mitre-item .tactic-tag {
-    color: var(--coral);
-    background: rgba(239, 146, 115, 0.08);
-    border: 1px solid rgba(239, 146, 115, 0.25);
-    border-radius: 3px; padding: 0 0.4rem;
-}
-.mitre-item .platform-tag {
-    color: var(--text-2);
-    background: var(--bg-1);
-    border: 1px solid var(--line);
-    border-radius: 3px; padding: 0 0.4rem;
-}
-
-/* Expanded detail */
-.mitre-item[open] { border-color: var(--mint-deep); }
-.mitre-detail {
-    margin-top: 1rem; padding-top: 1rem;
-    border-top: 1px solid var(--line);
-    display: grid;
-    grid-template-columns: 1fr 280px;
-    gap: 1.5rem;
-}
-@media (max-width: 700px) { .mitre-detail { grid-template-columns: 1fr; } }
-.mitre-detail .description, .mitre-detail .detection {
-    color: var(--text-1); font-size: 0.94rem; line-height: 1.65;
-}
-.mitre-detail h5 {
-    margin: 1rem 0 0.4rem;
-    font-family: var(--font-mono); font-size: 0.74rem;
-    color: var(--mint-deep); font-weight: 700;
-    letter-spacing: 0.1em; text-transform: uppercase;
-}
-.mitre-detail h5:first-child { margin-top: 0; }
-.mitre-detail .ref-list {
-    display: flex; flex-wrap: wrap; gap: 0.3rem;
-}
-.mitre-detail .ref-list a {
-    font-family: var(--font-mono); font-size: 0.78rem;
-    padding: 0.18rem 0.5rem;
-    color: var(--mint-deep);
-    background: var(--bg-1);
-    border: 1px solid var(--line); border-radius: 3px;
-    text-decoration: none;
-}
-.mitre-detail .ref-list a:hover { border-color: var(--mint-deep); background: var(--surface-2); }
-
-.mitre-empty {
-    padding: 3rem 1rem; text-align: center;
-    color: var(--text-2); font-family: var(--font-sans);
-}
-
-.mitre-status {
-    font-family: var(--font-mono); font-size: 0.82rem;
-    color: var(--text-3); padding: 0.4rem 0;
-}
-.mitre-status strong { color: var(--mint-deep); font-weight: 600; }
-</style>
+<link rel="stylesheet" href="/lab/mitre/mitre.css">
 </head>
 <body>
 

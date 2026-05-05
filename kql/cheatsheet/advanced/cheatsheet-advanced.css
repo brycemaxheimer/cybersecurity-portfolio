@@ -1,0 +1,472 @@
+/* =========================================================
+   KQL Cheat Sheet - Light Mode, Print-First
+   No external dependencies. System fonts only.
+   ========================================================= */
+
+:root {
+  --bg: #ffffff;
+  --bg-soft: #f7f7f5;
+  --bg-code: #f4f4f1;
+  --bg-code-inline: #eceae3;
+  --ink: #1a1a1a;
+  --ink-soft: #4a4a4a;
+  --ink-faint: #6e6e6e;
+  --rule: #d8d6cf;
+  --rule-soft: #e8e6df;
+  --accent: #1f4e79;          /* deep blue, professional */
+  --accent-soft: #e6eef5;
+  --warn: #8a5a00;            /* amber */
+  --warn-soft: #fbf2dc;
+  --danger: #8b1a1a;          /* red, for pitfalls */
+  --danger-soft: #f9e6e6;
+  --good: #1f5e3f;            /* green, for performant */
+  --good-soft: #e3efe7;
+  --kw: #1f4e79;              /* KQL keyword color */
+  --str: #6a3b00;             /* strings */
+  --num: #2a4d2a;             /* numbers */
+  --com: #6e6e6e;             /* comments */
+  --op:  #1a1a1a;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Charter", "Georgia", "Cambria", "Times New Roman", Times, serif;
+  font-size: 14.5px;
+  line-height: 1.55;
+}
+
+.wrap {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 28px 36px 80px;
+}
+
+header.cover {
+  border-bottom: 2px solid var(--ink);
+  padding-bottom: 18px;
+  margin-bottom: 28px;
+}
+
+header.cover h1 {
+  font-size: 30px;
+  margin: 0 0 4px;
+  letter-spacing: -0.01em;
+}
+
+header.cover .sub {
+  color: var(--ink-soft);
+  font-style: italic;
+  font-size: 14px;
+}
+
+header.cover .meta {
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--ink-faint);
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+h2 {
+  font-size: 22px;
+  margin: 36px 0 6px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--rule);
+  letter-spacing: -0.005em;
+}
+
+h3 {
+  font-size: 17px;
+  margin: 22px 0 4px;
+  color: var(--accent);
+}
+
+h4 {
+  font-size: 14.5px;
+  margin: 14px 0 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink-soft);
+  font-weight: 600;
+}
+
+p { margin: 6px 0 10px; }
+ul, ol { margin: 6px 0 10px; padding-left: 22px; }
+li { margin-bottom: 3px; }
+
+code, kbd, pre, .mono {
+  font-family: ui-monospace, "SF Mono", "Menlo", "Consolas", "DejaVu Sans Mono", monospace;
+  font-size: 12.5px;
+}
+
+code {
+  background: var(--bg-code-inline);
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 12.2px;
+}
+
+pre {
+  background: var(--bg-code);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--accent);
+  padding: 12px 14px;
+  border-radius: 3px;
+  overflow-x: auto;
+  margin: 8px 0 14px;
+  line-height: 1.5;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+pre code {
+  background: transparent;
+  padding: 0;
+  font-size: 12.5px;
+}
+
+/* Manual KQL syntax tinting via spans (no JS highlighter to keep this self-contained) */
+.k  { color: var(--kw); font-weight: 600; }    /* keyword/operator */
+.s  { color: var(--str); }                     /* string */
+.n  { color: var(--num); }                     /* number */
+.c  { color: var(--com); font-style: italic; } /* comment */
+.fn { color: #5b3a86; }                        /* function name */
+.t  { color: #2c4d2a; font-weight: 600; }      /* table */
+
+/* TOC */
+.toc {
+  background: var(--bg-soft);
+  border: 1px solid var(--rule);
+  padding: 14px 20px;
+  border-radius: 4px;
+  margin: 18px 0 28px;
+  column-count: 2;
+  column-gap: 28px;
+  font-size: 13px;
+}
+.toc h4 { margin-top: 0; column-span: all; }
+.toc ol { padding-left: 18px; }
+.toc a { color: var(--accent); text-decoration: none; }
+.toc a:hover { text-decoration: underline; }
+
+/* Callouts */
+.callout {
+  border: 1px solid var(--rule);
+  border-left: 4px solid var(--accent);
+  background: var(--accent-soft);
+  padding: 10px 14px;
+  margin: 10px 0 14px;
+  border-radius: 0 3px 3px 0;
+  font-size: 13.5px;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+.callout.warn   { border-left-color: var(--warn);   background: var(--warn-soft); }
+.callout.danger { border-left-color: var(--danger); background: var(--danger-soft); }
+.callout.good   { border-left-color: var(--good);   background: var(--good-soft); }
+.callout .label {
+  display: inline-block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  color: var(--accent);
+  margin-right: 6px;
+}
+.callout.warn .label   { color: var(--warn);   }
+.callout.danger .label { color: var(--danger); }
+.callout.good .label   { color: var(--good);   }
+
+/* "Compare to Microsoft's docs" boxes */
+.mscompare {
+  border: 1px dashed var(--rule);
+  background: #fcfcfa;
+  padding: 10px 14px;
+  margin: 10px 0 14px;
+  font-size: 13px;
+  border-radius: 3px;
+}
+.mscompare .label {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--ink-faint);
+  margin-bottom: 4px;
+  display: block;
+}
+
+/* Tables */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 8px 0 14px;
+  font-size: 13px;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+th, td {
+  border: 1px solid var(--rule);
+  padding: 6px 9px;
+  text-align: left;
+  vertical-align: top;
+}
+th {
+  background: var(--bg-soft);
+  font-weight: 600;
+  font-size: 12.5px;
+}
+tbody tr:nth-child(even) td { background: #fbfaf6; }
+
+/* Image / diagram slot - drop your own <img> in to replace */
+.image-slot {
+  border: 1.5px dashed #b8b6ae;
+  background: repeating-linear-gradient(45deg, #fafaf6, #fafaf6 8px, #f3f2ec 8px, #f3f2ec 16px);
+  padding: 18px;
+  margin: 12px 0 16px;
+  text-align: center;
+  color: var(--ink-faint);
+  font-size: 13px;
+  border-radius: 3px;
+  page-break-inside: avoid;
+}
+.image-slot .caption {
+  margin-top: 6px;
+  font-style: italic;
+  font-size: 12px;
+}
+.image-slot img { max-width: 100%; height: auto; }
+
+/* SVG diagrams */
+figure.diagram {
+  margin: 10px 0 14px;
+  text-align: center;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+figure.diagram svg { max-width: 100%; height: auto; }
+figure.diagram figcaption {
+  font-size: 12px;
+  color: var(--ink-faint);
+  margin-top: 4px;
+  font-style: italic;
+}
+
+/* Challenge cards */
+.challenge {
+  border: 1px solid var(--rule);
+  border-left: 5px solid var(--accent);
+  border-radius: 3px;
+  padding: 14px 18px;
+  margin: 14px 0 18px;
+  background: #fdfdfb;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+.challenge.lvl-easy   { border-left-color: var(--good);   }
+.challenge.lvl-med    { border-left-color: var(--accent); }
+.challenge.lvl-hard   { border-left-color: var(--warn);   }
+.challenge.lvl-expert { border-left-color: var(--danger); }
+
+.challenge h3 { color: var(--ink); margin: 0 0 4px; }
+.challenge .badge {
+  display: inline-block;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 2px 7px;
+  border-radius: 10px;
+  margin-right: 8px;
+  vertical-align: 2px;
+  color: white;
+}
+.lvl-easy   .badge { background: var(--good); }
+.lvl-med    .badge { background: var(--accent); }
+.lvl-hard   .badge { background: var(--warn); }
+.lvl-expert .badge { background: var(--danger); }
+
+.challenge .scenario {
+  margin: 6px 0 8px;
+}
+.challenge details {
+  margin-top: 10px;
+  border-top: 1px dashed var(--rule);
+  padding-top: 8px;
+}
+.challenge details summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--accent);
+  list-style: revert;
+}
+.challenge details[open] summary { margin-bottom: 6px; }
+
+/* Print styling */
+@media print {
+  body { font-size: 11pt; }
+  .wrap { max-width: 100%; padding: 0 12mm; }
+  pre { font-size: 9pt; }
+  h2 { page-break-before: auto; break-before: auto; }
+  h2.page-break { page-break-before: always; break-before: page; }
+  details { display: block; }
+  details > summary { display: none; }
+  details > *:not(summary) { display: revert !important; }
+  .toc { column-count: 2; }
+  .no-print { display: none !important; }
+  a { color: var(--ink); text-decoration: none; }
+  .callout, .mscompare, .challenge, pre, table, figure { page-break-inside: avoid; }
+}
+
+/* Screen-only helper bar for opening/closing all challenge solutions */
+.toolbar {
+  position: sticky;
+  top: 0;
+  background: rgba(255,255,255,0.96);
+  border-bottom: 1px solid var(--rule);
+  padding: 8px 0;
+  margin: -10px 0 10px;
+  font-size: 12.5px;
+  z-index: 10;
+}
+.toolbar button {
+  font-family: inherit;
+  font-size: 12px;
+  padding: 4px 10px;
+  border: 1px solid var(--rule);
+  background: var(--bg-soft);
+  border-radius: 3px;
+  cursor: pointer;
+  margin-right: 6px;
+}
+.toolbar button:hover { background: #ebe9e0; }
+
+/* utility */
+.small { font-size: 12px; color: var(--ink-faint); }
+.kbd-key {
+  display: inline-block;
+  padding: 0 5px;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  background: var(--bg-soft);
+  font-family: ui-monospace, monospace;
+  font-size: 11.5px;
+}
+hr.thin { border: 0; border-top: 1px solid var(--rule); margin: 18px 0; }
+
+
+/* ========================================================
+   Dark theme override - matches brycemaxheimer.com palette.
+   Overrides both CSS-variable values AND hardcoded light
+   colors used in callouts/cards/tables.
+   ======================================================== */
+:root {
+  --bg: #071512;
+  --bg-soft: #0f231c;
+  --bg-code: #050f0d;
+  --bg-code-inline: #183229;
+  --ink: #f4fbf6;
+  --ink-soft: #d4e5dc;
+  --ink-faint: #90ac9d;
+  --rule: rgba(157, 223, 199, 0.20);
+  --rule-soft: rgba(157, 223, 199, 0.10);
+  --accent: #46d09a;
+  --accent-soft: rgba(70, 208, 154, 0.10);
+  --warn: #e9c66d;
+  --warn-soft: rgba(233, 198, 109, 0.08);
+  --danger: #ef9273;
+  --danger-soft: rgba(239, 146, 115, 0.08);
+  --good: #46d09a;
+  --good-soft: rgba(70, 208, 154, 0.08);
+  --story: #c8a8e0;
+  --story-soft: rgba(200, 168, 224, 0.08);
+  --kw: #46d09a;
+  --str: #e9c66d;
+  --num: #8bf0c3;
+  --com: #688679;
+  --op: #d4e5dc;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", Roboto, sans-serif;
+  background-image:
+    radial-gradient(720px 480px at 8% 0%,    rgba(139, 240, 195, 0.06), transparent 60%),
+    radial-gradient(540px 320px at 96% 12%,  rgba(160, 42, 30, 0.07),   transparent 58%);
+  background-attachment: fixed;
+  font-size: 15.5px;
+  line-height: 1.65;
+}
+
+/* Override hardcoded light values from both cheatsheets */
+.challenge,
+.callout,
+.mscompare,
+pre.story,
+.read-aloud,
+.toolbar,
+.toolbar button,
+table {
+  background: var(--bg-soft) !important;
+  color: var(--ink) !important;
+  border-color: var(--rule) !important;
+}
+.toolbar { background: rgba(7, 21, 18, 0.92) !important; backdrop-filter: blur(8px); }
+.toolbar button { color: var(--ink-soft) !important; border: 1px solid var(--rule) !important; }
+.toolbar button:hover { background: var(--bg-code-inline) !important; color: var(--accent) !important; }
+
+table td, table th { border-color: var(--rule) !important; color: var(--ink) !important; }
+tbody tr:nth-child(even) td { background: rgba(15, 35, 28, 0.4) !important; }
+
+/* Syntax highlight tokens - make them readable on dark */
+.fn { color: var(--story) !important; }
+.t  { color: var(--num) !important; }
+
+/* Callouts */
+.read-aloud {
+  background: var(--warn-soft) !important;
+  border-left-color: var(--warn) !important;
+  color: var(--ink-soft) !important;
+  font-style: italic;
+}
+.read-aloud strong { color: var(--warn) !important; }
+
+/* Code blocks already use --bg-code via :root, plus borders */
+pre { border: 1px solid var(--rule) !important; border-left-color: var(--accent) !important; }
+code { background: var(--bg-code-inline) !important; color: var(--ink) !important; border: 1px solid var(--rule) !important; }
+pre code { background: transparent !important; border: none !important; }
+
+/* Headings + accent */
+h1, h2, h3, h4 { color: var(--ink) !important; }
+h2 { border-bottom-color: var(--rule) !important; }
+h3 { color: var(--accent) !important; }
+
+/* Links inside the cheatsheet content area */
+.wrap a { color: var(--accent); }
+.wrap a:hover { color: #8bf0c3; }
+
+/* TOC styling */
+.toc { background: var(--bg-soft) !important; border-color: var(--rule) !important; }
+.toc a { color: var(--ink-soft); }
+.toc a:hover { color: var(--accent); }
+
+/* Print-only adjustments preserved */
+@media print { body { background: white; color: black; } }
+
+/* SVG diagram styles -- previously inline <style> inside <svg>, moved here so
+ * CSP `style-src 'self'` (no 'unsafe-inline') accepts them. Scoped under
+ * `.diagram svg` to avoid clashing with page-level class names. */
+.diagram svg .ring   { fill: none; stroke: #1f4e79; stroke-width: 1.6; }
+.diagram svg .fill   { fill: #cfe0ee; stroke: #1f4e79; stroke-width: 1.4; }
+.diagram svg .label  { font: 11px ui-sans-serif, system-ui; fill: #1a1a1a; }
+.diagram svg .title  { font: 12px ui-sans-serif, system-ui; font-weight: 700; fill: #1a1a1a; }
+.diagram svg .ttl    { font: 10px ui-sans-serif, system-ui; fill: #4a4a4a; }
+.diagram svg .box    { fill: #f4f4f1; stroke: #d8d6cf; }
+.diagram svg .row    { fill: #ffffff; stroke: #d8d6cf; }
+.diagram svg .arr    { fill: none; stroke: #1f4e79; stroke-width: 1.4; marker-end: url(#tri); }
+.diagram svg .lbl    { font: 11px ui-sans-serif, system-ui; fill: #1a1a1a; }
+.diagram svg .small  { font: 10px ui-sans-serif, system-ui; fill: #4a4a4a; }

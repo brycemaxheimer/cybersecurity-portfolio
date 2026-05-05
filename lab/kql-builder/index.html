@@ -3,125 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Visual KQL Builder - dropdown-driven KQL composition tool. Generates queries you can copy or send straight to the playground.">
+<meta name="description" content="Visual KQL Builder - dropdown-driven KQL composition tool. Generates queries you can copy or send straight to the playground."><link rel="canonical" href="https://brycemaxheimer.com/lab/kql-builder/">
+<meta property="og:title" content="KQL Builder - Bryce Maxheimer">
+<meta property="og:description" content="Visual KQL Builder - dropdown-driven KQL composition tool. Generates queries you can copy or send straight to the playground.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://brycemaxheimer.com/lab/kql-builder/">
+<meta property="og:image" content="https://brycemaxheimer.com/og/default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="Bryce Maxheimer">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="KQL Builder - Bryce Maxheimer">
+<meta name="twitter:description" content="Visual KQL Builder - dropdown-driven KQL composition tool. Generates queries you can copy or send straight to the playground.">
+<meta name="twitter:image" content="https://brycemaxheimer.com/og/default.png">
 <title>KQL Builder - Bryce Maxheimer</title>
 <script>(function(){try{var t=localStorage.getItem('siteTheme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 <link rel="stylesheet" href="/css/style.css">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<style>
-.kb-page { max-width: 1240px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
-.kb-page h1 { margin: 0 0 0.4rem; }
-.kb-page .subhead { color: var(--text-1); margin: 0 0 1.5rem; }
-.kb-shell { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 1.5rem; }
-@media (max-width: 1000px) { .kb-shell { grid-template-columns: 1fr; } }
-.kb-form-card,
-.kb-output-card {
-    background: var(--surface); border: 1px solid var(--line);
-    border-radius: var(--radius-lg); padding: 1.4rem 1.5rem;
-}
-.kb-form-card h3,
-.kb-output-card h3 {
-    font-size: 0.78rem; font-family: var(--font-mono); color: var(--mint-deep);
-    font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
-    margin: 0 0 0.8rem;
-}
-.kb-form-card h3:not(:first-child) { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--line); }
-.kb-field { margin: 0 0 0.8rem; }
-.kb-field label {
-    display: block; margin-bottom: 0.3rem;
-    color: var(--text-1); font-size: 0.88rem;
-}
-.kb-field label .hint { color: var(--text-3); font-family: var(--font-mono); font-size: 0.78rem; }
-.kb-input, .kb-select {
-    width: 100%; padding: 0.5rem 0.7rem;
-    background: var(--code-bg); color: var(--text-0);
-    border: 1px solid var(--line); border-radius: var(--radius);
-    font-family: var(--font-sans); font-size: 0.92rem;
-}
-.kb-input:focus, .kb-select:focus { outline: none; border-color: var(--mint-deep); box-shadow: 0 0 0 2px rgba(70,208,154,0.18); }
-.kb-input.mono { font-family: var(--font-mono); font-size: 0.86rem; }
-.kb-row {
-    display: grid;
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr) minmax(0, 1.2fr) auto;
-    gap: 0.4rem; margin: 0 0 0.4rem;
-}
-.kb-row .kb-input, .kb-row .kb-select { padding: 0.4rem 0.55rem; font-size: 0.86rem; }
-.kb-remove {
-    padding: 0.3rem 0.5rem;
-    background: transparent; color: var(--coral);
-    border: 1px solid var(--line); border-radius: var(--radius);
-    font-family: var(--font-mono); font-size: 0.78rem; cursor: pointer;
-}
-.kb-remove:hover { border-color: var(--coral); }
-.kb-add-btn {
-    font-family: var(--font-mono); font-size: 0.82rem;
-    padding: 0.35rem 0.8rem;
-    background: transparent; color: var(--mint-deep);
-    border: 1px dashed var(--line-strong); border-radius: var(--radius);
-    cursor: pointer; margin-top: 0.3rem;
-}
-.kb-add-btn:hover { border-color: var(--mint-deep); border-style: solid; }
-.kb-checkbox-group { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-.kb-checkbox {
-    display: inline-flex; align-items: center; gap: 0.4rem;
-    padding: 0.3rem 0.6rem;
-    background: var(--bg-1); color: var(--text-1);
-    border: 1px solid var(--line); border-radius: 999px;
-    font-family: var(--font-mono); font-size: 0.78rem;
-    cursor: pointer; user-select: none;
-}
-.kb-checkbox input { margin: 0; cursor: pointer; }
-.kb-checkbox.is-checked {
-    color: var(--mint-deep);
-    background: rgba(70, 208, 154, 0.10);
-    border-color: rgba(70, 208, 154, 0.30);
-}
-.kb-output {
-    width: 100%; min-height: 320px;
-    background: var(--code-bg); color: var(--code-text);
-    border: 1px solid var(--line); border-radius: var(--radius);
-    padding: 1rem;
-    font-family: var(--font-mono); font-size: 0.92rem;
-    line-height: 1.6; tab-size: 4; resize: vertical;
-}
-.kb-output:focus { outline: none; border-color: var(--mint-deep); }
-.kb-output-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.7rem; }
-.kb-btn {
-    font-family: var(--font-sans); font-size: 0.88rem; font-weight: 500;
-    padding: 0.5rem 1rem;
-    background: var(--surface); color: var(--text-1);
-    border: 1px solid var(--line); border-radius: var(--radius);
-    cursor: pointer; transition: all 0.15s;
-    text-decoration: none;
-    display: inline-flex; align-items: center; gap: 0.4rem;
-}
-.kb-btn:hover { border-color: var(--mint-deep); color: var(--mint); text-decoration: none; }
-.kb-btn-primary {
-    background: var(--mint-deep); color: var(--bg-0);
-    border-color: var(--mint-deep); font-weight: 600;
-}
-.kb-btn-primary:hover { background: var(--mint); border-color: var(--mint); color: var(--bg-0); }
-.kb-saved { margin-top: 1.2rem; padding-top: 1rem; border-top: 1px solid var(--line); }
-.kb-saved-list {
-    list-style: none; padding: 0; margin: 0.5rem 0 0;
-    display: flex; flex-direction: column; gap: 0.3rem;
-    max-height: 180px; overflow-y: auto;
-}
-.kb-saved-list li {
-    display: flex; align-items: center; justify-content: space-between;
-    gap: 0.5rem; padding: 0.4rem 0.7rem;
-    background: var(--bg-1); border: 1px solid var(--line); border-radius: var(--radius);
-    font-family: var(--font-mono); font-size: 0.82rem;
-}
-.kb-saved-list .name { color: var(--text-1); cursor: pointer; flex: 1 1 auto; }
-.kb-saved-list .name:hover { color: var(--mint); }
-.kb-saved-list .meta { color: var(--text-3); font-size: 0.74rem; }
-.kb-saved-empty {
-    padding: 0.8rem;
-    color: var(--text-3); font-family: var(--font-mono); font-size: 0.82rem;
-    text-align: center; font-style: italic;
-}
-</style>
+<link rel="stylesheet" href="/lab/kql-builder/builder.css">
 </head>
 <body>
 

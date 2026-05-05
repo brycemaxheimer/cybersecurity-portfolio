@@ -29,6 +29,7 @@
 
 . (Join-Path $PSScriptRoot 'SecIntel.Schema.ps1')
 . (Join-Path $PSScriptRoot 'SecIntel.Settings.ps1')
+. (Join-Path $PSScriptRoot 'SecIntel.Http.ps1')
 . (Join-Path $PSScriptRoot 'SecIntel.ThreatIntel.Core.ps1')
 . (Join-Path $PSScriptRoot 'SecIntel.HashLookup.ps1')         -ErrorAction SilentlyContinue
 . (Join-Path $PSScriptRoot 'SecIntel.ThreatIntel.AbuseIPDB.ps1') -ErrorAction SilentlyContinue

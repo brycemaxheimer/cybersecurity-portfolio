@@ -1,31 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script>
-  // 1. Catch standard JavaScript execution errors
-  window.onerror = function(message, source, lineno, colno, error) {
-      alert("Execution Error: " + message);
-      return true; 
-  };
-  // 2. Catch failed background requests (like the .wasm binary or JSON files)
-  window.onunhandledrejection = function(event) {
-      var msg = event.reason ? (event.reason.message || event.reason) : "Unknown promise rejection";
-      alert("Background Fetch Error: " + msg);
-  };
-  // 3. Catch blocked/dropped external files (This is what you need)
-  window.addEventListener('error', function(e) {
-      // Resource loading errors don't bubble, so we must catch them on the way down
-      if (e.target && e.target.tagName === 'SCRIPT') {
-          alert("FIREWALL BLOCKED SCRIPT: " + e.target.src);
-      } else if (e.target && e.target.tagName === 'LINK') {
-          alert("FIREWALL BLOCKED CSS: " + e.target.href);
-      }
-  }, true); // 'true' enables the capture phase
-</script>
-</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="KQL Practice - 30 hand-authored questions, dual-engine validated against Azure Data Explorer. Submit once, get scored on correctness, refinement, and speed.">
+<meta name="description" content="KQL Practice - 30 hand-authored questions, dual-engine validated against Azure Data Explorer. Submit once, get scored on correctness, refinement, and speed."><link rel="canonical" href="https://brycemaxheimer.com/lab/practice/">
+<meta property="og:title" content="KQL Practice - Bryce Maxheimer">
+<meta property="og:description" content="KQL Practice - 30 hand-authored questions, dual-engine validated against Azure Data Explorer. Submit once, get scored on correctness, refinement, and speed.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://brycemaxheimer.com/lab/practice/">
+<meta property="og:image" content="https://brycemaxheimer.com/og/default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="Bryce Maxheimer">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="KQL Practice - Bryce Maxheimer">
+<meta name="twitter:description" content="KQL Practice - 30 hand-authored questions, dual-engine validated against Azure Data Explorer. Submit once, get scored on correctness, refinement, and speed.">
+<meta name="twitter:image" content="https://brycemaxheimer.com/og/default.png">
 <title>KQL Practice - Bryce Maxheimer</title>
 <script>(function(){try{var t=localStorage.getItem('siteTheme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 <link rel="stylesheet" href="/css/style.css">
@@ -146,6 +136,9 @@
 </footer>
 
 <!-- sql.js for the underlying SQLite (vendored at /kql/vendor/) -->
+<!-- Capability probe runs FIRST so we can short-circuit the 1MB+ WASM
+     download on isolated browsers (Menlo / Zscaler CBI / etc.) that strip it. -->
+<script src="/kql/engine/diagnose.js"></script>
 <script src="/kql/vendor/sql-wasm.js"></script>
 <!-- KQL runtime: provides KqlSchema / KqlEngine / KqlRuntime. Load order
      matters -- runtime depends on engine depends on schema. -->

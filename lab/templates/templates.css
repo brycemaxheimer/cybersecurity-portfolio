@@ -1,0 +1,112 @@
+.tpl-page { max-width: 1080px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
+.tpl-page h1 { margin: 0 0 0.4rem; }
+.tpl-page .subhead { color: var(--text-1); margin: 0 0 1.5rem; }
+
+.tpl-meta {
+    display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-3);
+    margin: 0 0 1.5rem; padding: 0.6rem 0.8rem;
+    background: var(--bg-1); border: 1px solid var(--line); border-radius: var(--radius);
+}
+.tpl-meta strong { color: var(--mint-deep); font-family: var(--font-sans); font-weight: 600; }
+
+.tpl-controls { display: flex; gap: 0.5rem; align-items: center; margin-bottom: 1.2rem; }
+.tpl-search {
+    flex: 1 1 auto; padding: 0.6rem 0.9rem;
+    background: var(--code-bg); color: var(--text-0);
+    border: 1px solid var(--line); border-radius: var(--radius);
+    font-family: var(--font-sans); font-size: 0.95rem;
+}
+.tpl-search:focus { outline: none; border-color: var(--mint-deep); box-shadow: 0 0 0 2px rgba(70,208,154,0.18); }
+
+.tpl-tag-filter { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-bottom: 1.2rem; }
+.tpl-tag {
+    font-family: var(--font-mono); font-size: 0.74rem;
+    padding: 0.2rem 0.55rem;
+    background: var(--surface); color: var(--text-2);
+    border: 1px solid var(--line); border-radius: 999px;
+    cursor: pointer; transition: all 0.15s;
+}
+.tpl-tag:hover { border-color: var(--mint-deep); color: var(--mint); }
+.tpl-tag.active {
+    background: rgba(70, 208, 154, 0.15);
+    border-color: var(--mint-deep); color: var(--mint);
+}
+
+.tpl-list { display: flex; flex-direction: column; gap: 0.6rem; }
+.tpl-item {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius-lg); padding: 1rem 1.2rem;
+    transition: border-color 0.15s, background 0.15s;
+}
+.tpl-item:hover { border-color: var(--mint-deep); }
+.tpl-item summary { list-style: none; cursor: pointer; }
+.tpl-item summary::-webkit-details-marker { display: none; }
+
+.tpl-summary-row {
+    display: flex; gap: 1rem; align-items: baseline; flex-wrap: wrap;
+}
+.tpl-name {
+    font-family: var(--font-display); font-size: 1.05rem;
+    font-weight: 600; color: var(--text-0);
+    flex: 1 1 auto;
+}
+.tpl-tags {
+    display: flex; gap: 0.3rem; flex-wrap: wrap;
+}
+.tpl-tags .tag {
+    font-family: var(--font-mono); font-size: 0.7rem;
+    padding: 0.05rem 0.4rem;
+    background: rgba(70, 208, 154, 0.10);
+    border: 1px solid rgba(70, 208, 154, 0.25);
+    color: var(--mint-deep);
+    border-radius: 3px;
+}
+.tpl-desc {
+    color: var(--text-1); font-size: 0.9rem; line-height: 1.55;
+    margin: 0.3rem 0 0;
+}
+
+.tpl-detail { margin-top: 0.8rem; padding-top: 0.8rem; border-top: 1px solid var(--line); }
+.tpl-detail pre {
+    margin: 0;
+    background: var(--code-bg); color: var(--code-text);
+    border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 0.9rem 1rem; overflow-x: auto;
+    font-family: var(--font-mono); font-size: 0.86rem; line-height: 1.55;
+    white-space: pre-wrap; word-break: break-word;
+}
+.tpl-actions {
+    display: flex; gap: 0.5rem; margin-top: 0.7rem; flex-wrap: wrap;
+}
+.tpl-btn {
+    font-family: var(--font-sans); font-size: 0.86rem; font-weight: 500;
+    padding: 0.4rem 0.9rem;
+    background: var(--surface); color: var(--text-1);
+    border: 1px solid var(--line); border-radius: var(--radius);
+    cursor: pointer; transition: all 0.15s;
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    text-decoration: none;
+}
+.tpl-btn:hover { border-color: var(--mint-deep); color: var(--mint); text-decoration: none; }
+.tpl-btn-primary {
+    background: var(--mint-deep); color: var(--bg-0);
+    border-color: var(--mint-deep); font-weight: 600;
+}
+.tpl-btn-primary:hover { background: var(--mint); border-color: var(--mint); color: var(--bg-0); }
+
+.tpl-empty {
+    padding: 4rem 1rem; text-align: center;
+    color: var(--text-2); font-family: var(--font-sans);
+}
+.tpl-empty h3 { color: var(--text-0); margin: 0 0 0.6rem; }
+.tpl-empty p { margin: 0 0 0.5rem; max-width: 50ch; margin-left: auto; margin-right: auto; }
+.tpl-empty code { font-size: 0.82rem; }
+.tpl-empty .recipe {
+    text-align: left; max-width: 540px; margin: 1.5rem auto 0;
+    padding: 1rem 1.2rem;
+    background: var(--bg-1); border-left: 3px solid var(--mint-deep); border-radius: 0 var(--radius) var(--radius) 0;
+    color: var(--text-1); font-size: 0.92rem; line-height: 1.65;
+}
+.tpl-empty .recipe ol { padding-left: 1.4rem; margin: 0.6rem 0 0; }
+.tpl-empty .recipe li { margin-bottom: 0.4rem; }

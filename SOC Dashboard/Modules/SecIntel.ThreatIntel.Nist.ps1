@@ -32,6 +32,7 @@
 
 . (Join-Path $PSScriptRoot 'SecIntel.Schema.ps1')
 . (Join-Path $PSScriptRoot 'SecIntel.Settings.ps1')
+. (Join-Path $PSScriptRoot 'SecIntel.Http.ps1')
 . (Join-Path $PSScriptRoot 'SecIntel.ThreatIntel.Core.ps1')
 
 function Get-NistProductIntel {
@@ -68,7 +69,10 @@ function Get-NistProductIntel {
     $now = (Get-Date).ToUniversalTime().ToString('o')
 
     try {
-        $resp = Invoke-RestMethod -Uri $url -Headers $headers -Method GET -TimeoutSec 60 -ErrorAction Stop
+        # NVD throttles aggressively (especially without a key); 4 attempts
+        # with 10s base backoff matches the documented 30s window.
+        $resp = Invoke-RestMethodWithRetry -Uri $url -Headers $headers -Method GET `
+                    -TimeoutSec 60 -MaxAttempts 4 -InitialDelaySeconds 10
     } catch {
         Write-Warning "NIST NVD lookup failed for $key : $($_.Exception.Message)"
         return $null

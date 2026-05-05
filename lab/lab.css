@@ -1,0 +1,55 @@
+.lab-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+}
+.lab-card {
+    display: flex; flex-direction: column;
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius-lg); padding: 1.4rem 1.5rem;
+    text-decoration: none; color: inherit;
+    transition: border-color 0.2s, background 0.2s, transform 0.2s;
+}
+.lab-card:hover {
+    border-color: var(--mint-deep); background: var(--surface-2); transform: translateY(-2px);
+}
+.lab-card.is-coming { opacity: 0.7; }
+.lab-card.is-coming:hover { transform: none; cursor: default; }
+.lab-card .header-row {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 0.7rem; margin-bottom: 0.6rem;
+}
+.lab-card h3 {
+    margin: 0; font-size: 1.1rem;
+    font-family: var(--font-display); color: var(--text-0);
+}
+.status-badge {
+    font-family: var(--font-mono); font-size: 0.7rem; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 0.18rem 0.55rem; border-radius: 3px; flex-shrink: 0;
+}
+.status-live    { background: rgba(70, 208, 154, 0.12);  color: var(--mint-deep);  border: 1px solid rgba(70, 208, 154, 0.30); }
+.status-demo    { background: rgba(233, 198, 109, 0.10); color: var(--amber);     border: 1px solid rgba(233, 198, 109, 0.30); }
+.status-soon    { background: rgba(105, 134, 121, 0.12); color: var(--text-3);    border: 1px solid rgba(105, 134, 121, 0.30); }
+.status-pending { background: rgba(239, 146, 115, 0.10); color: var(--coral);     border: 1px solid rgba(239, 146, 115, 0.30); }
+.lab-card .summary {
+    color: var(--text-1); font-size: 0.95rem; line-height: 1.55;
+    margin: 0 0 1rem; flex: 1 1 auto;
+}
+.lab-card .stack {
+    display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: auto;
+    font-family: var(--font-mono); font-size: 0.74rem;
+}
+.lab-card .stack span {
+    padding: 0.1rem 0.5rem; border-radius: 3px;
+    background: var(--bg-1); border: 1px solid var(--line); color: var(--text-2);
+}
+.lab-section { margin: 3rem 0 1.5rem; }
+.lab-rationale {
+    background: var(--bg-1); border-left: 3px solid var(--mint-deep);
+    padding: 0.9rem 1.2rem; border-radius: 0 var(--radius) var(--radius) 0;
+    color: var(--text-1); font-size: 0.95rem; line-height: 1.6;
+    margin: 1rem 0 0;
+}
+.lab-rationale strong { color: var(--mint); }

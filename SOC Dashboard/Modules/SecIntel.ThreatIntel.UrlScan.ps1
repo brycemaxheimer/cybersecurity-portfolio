@@ -27,6 +27,7 @@
 
 . (Join-Path $PSScriptRoot 'SecIntel.Schema.ps1')
 . (Join-Path $PSScriptRoot 'SecIntel.Settings.ps1')
+. (Join-Path $PSScriptRoot 'SecIntel.Http.ps1')
 . (Join-Path $PSScriptRoot 'SecIntel.ThreatIntel.Core.ps1')
 
 function Get-UrlScanIntel {
@@ -56,7 +57,8 @@ function Get-UrlScanIntel {
     $searchUrl = "https://urlscan.io/api/v1/search/?q=$([uri]::EscapeDataString($q))&size=1"
     $hit       = $null
     try {
-        $resp = Invoke-RestMethod -Uri $searchUrl -Headers $headers -Method GET -ErrorAction Stop -TimeoutSec 20
+        $resp = Invoke-RestMethodWithRetry -Uri $searchUrl -Headers $headers -Method GET `
+                    -TimeoutSec 20 -MaxAttempts 3 -InitialDelaySeconds 3
         if ($resp.results -and $resp.results.Count -gt 0) {
             $hit = $resp.results[0]
         }
@@ -70,25 +72,31 @@ function Get-UrlScanIntel {
         # Submit a new scan
         $body = @{ url = $Url; visibility = 'public' } | ConvertTo-Json -Compress
         try {
-            $sub = Invoke-RestMethod -Uri 'https://urlscan.io/api/v1/scan/' `
-                -Headers @{ 'API-Key' = $apikey; 'Content-Type' = 'application/json' } `
-                -Method POST -Body $body -TimeoutSec 30 -ErrorAction Stop
+            $sub = Invoke-RestMethodWithRetry -Uri 'https://urlscan.io/api/v1/scan/' `
+                        -Headers @{ 'API-Key' = $apikey } -Method POST -Body $body `
+                        -ContentType 'application/json' -TimeoutSec 30 `
+                        -MaxAttempts 2 -InitialDelaySeconds 5
         } catch {
             Write-Warning "URLScan submit failed: $($_.Exception.Message)"
             return $null
         }
 
-        # Poll for the result (urlscan typical completion ~10-20s)
-        $deadline = (Get-Date).AddSeconds($PollTimeoutSeconds)
+        # Poll for the result (urlscan typical completion ~10-20s).
+        # 404 is expected while the scan is in progress; we don't want the
+        # retry helper treating it as transient, so each poll is a single
+        # bare call with our own loop driving the cadence.
+        $deadline  = (Get-Date).AddSeconds($PollTimeoutSeconds)
         $resultUrl = "https://urlscan.io/api/v1/result/$($sub.uuid)/"
         while ((Get-Date) -lt $deadline) {
             Start-Sleep -Seconds 5
             try {
-                $hit = Invoke-RestMethod -Uri $resultUrl -Headers $headers -Method GET -TimeoutSec 20 -ErrorAction Stop
+                $hit = Invoke-RestMethodWithRetry -Uri $resultUrl -Headers $headers `
+                            -Method GET -TimeoutSec 20 -MaxAttempts 1
                 break
             } catch {
                 # 404 expected while scan is in progress; keep polling
-                if ($_.Exception.Response.StatusCode.value__ -ne 404) { throw }
+                $status = Get-HttpStatusCode $_.Exception
+                if ($status -ne 404) { throw }
             }
         }
     }

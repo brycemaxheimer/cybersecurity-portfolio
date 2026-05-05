@@ -743,6 +743,20 @@ async function init() {
         selectQuestion(STATE.questions[0].number);
     }
 
+    // If KqlEnv (set by /kql/engine/diagnose.js) reports the browser can't
+    // run WASM/fetch (e.g. RBI session), short-circuit the init and render
+    // an actionable banner in the results pane. Question list stays usable.
+    if (window.KqlEnv && !window.KqlEnv.allReady) {
+        $('#editor-status').textContent = 'KQL engine unavailable in this browser';
+        var resultsPane = document.querySelector('#results') || document.querySelector('.editor-pane');
+        if (resultsPane && typeof window.KqlEnv.renderBanner === 'function') {
+            window.KqlEnv.renderBanner(resultsPane, {
+                fallbackHtml: 'You can still browse the questions and read the prompts; only Test Run / Submit are disabled.',
+            });
+        }
+        return;
+    }
+
     $('#editor-status').textContent = 'Initializing KQL engine...';
     $('#btn-run').disabled = true;
     $('#btn-submit').disabled = true;
@@ -758,7 +772,17 @@ async function init() {
         $('#btn-run').disabled = false;
         $('#btn-submit').disabled = !!(STATE.activeNum && STATE.scores[String(STATE.activeNum)]);
     } catch (e) {
-        $('#editor-status').textContent = 'Engine init failed: ' + (e.message || e);
+        // KQL_ENV_BLOCKED would have been caught above; this branch is for
+        // late-discovered failures (e.g. WASM compile rejected after probe).
+        if (e && e.code === 'KQL_ENV_BLOCKED') {
+            $('#editor-status').textContent = 'KQL engine unavailable in this browser';
+            var pane = document.querySelector('#results') || document.querySelector('.editor-pane');
+            if (pane && window.KqlEnv && typeof window.KqlEnv.renderBanner === 'function') {
+                window.KqlEnv.renderBanner(pane);
+            }
+        } else {
+            $('#editor-status').textContent = 'Engine init failed: ' + (e.message || e);
+        }
         // Leave the run buttons disabled but keep the question list usable so
         // the user can read prompts and at least review the curriculum.
     }

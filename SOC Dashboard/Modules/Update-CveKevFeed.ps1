@@ -54,6 +54,7 @@ if (-not $NvdApiKey -and $env:NVD_API_KEY) { $NvdApiKey = $env:NVD_API_KEY }
 
 # ---------- Shared schema / paths / dependency bootstrap ----------
 . (Join-Path $PSScriptRoot 'SecIntel.Schema.ps1')
+. (Join-Path $PSScriptRoot 'SecIntel.Http.ps1')
 Ensure-PSSQLite
 Initialize-SecIntelSchema
 
@@ -102,14 +103,10 @@ function Update-Cves {
     do {
         $uri = "$NvdBaseUrl`?pubStartDate=$startStr&pubEndDate=$endStr&resultsPerPage=$resultsPerPage&startIndex=$startIndex"
         Write-Host "  GET $uri" -ForegroundColor DarkGray
-        try {
-            $resp = Invoke-RestMethod -Uri $uri -Headers $headers -Method Get -TimeoutSec 60
-        } catch {
-            Write-Warning "NVD request failed: $_"
-            # NVD throttles aggressively without a key; back off and retry once
-            Start-Sleep -Seconds 10
-            $resp = Invoke-RestMethod -Uri $uri -Headers $headers -Method Get -TimeoutSec 60
-        }
+        # NVD throttles aggressively without a key; the shared helper handles
+        # 408/429/5xx with exponential backoff + jitter and honors Retry-After.
+        $resp = Invoke-RestMethodWithRetry -Uri $uri -Headers $headers -Method Get `
+                    -TimeoutSec 60 -MaxAttempts 4 -InitialDelaySeconds 10
         if ($null -eq $totalResults) { $totalResults = [int]$resp.totalResults }
         foreach ($item in $resp.vulnerabilities) { [void]$allCves.Add($item) }
         $startIndex += $resultsPerPage

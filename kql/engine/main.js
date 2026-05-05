@@ -4,9 +4,6 @@
 (function () {
     'use strict';
 
-    var Runtime = window.KqlRuntime;
-    if (!Runtime) { console.error('KqlRuntime missing'); return; }
-
     var editor = document.getElementById('editor');
     var runBtn = document.getElementById('run-btn');
     var statusEl = document.getElementById('status');
@@ -15,6 +12,23 @@
     var tablesList = document.getElementById('tables-list');
     var datasetSelect = document.getElementById('dataset-select');
     if (!editor || !runBtn || !statusEl || !resultsEl) return;
+
+    // Short-circuit on isolated browsers (Menlo / Zscaler CBI / etc.) that
+    // strip WASM. KqlEnv is set by /kql/engine/diagnose.js BEFORE this file.
+    if (window.KqlEnv && !window.KqlEnv.allReady) {
+        if (typeof window.KqlEnv.renderBanner === 'function') {
+            window.KqlEnv.renderBanner(resultsEl, {
+                fallbackHtml: 'The cheatsheet, examples, and reference docs still work; only query execution is disabled.',
+            });
+        }
+        statusEl.textContent = 'engine unavailable in this browser';
+        runBtn.disabled = true;
+        editor.setAttribute('readonly', 'readonly');
+        return;
+    }
+
+    var Runtime = window.KqlRuntime;
+    if (!Runtime) { console.error('KqlRuntime missing'); return; }
 
     var DATASETS = {
         storyline: { basePath: '/kql/data/',       label: 'Storyline' },

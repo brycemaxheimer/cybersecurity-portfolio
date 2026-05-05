@@ -20,6 +20,7 @@
 
 . (Join-Path $PSScriptRoot 'SecIntel.Schema.ps1')
 . (Join-Path $PSScriptRoot 'SecIntel.Settings.ps1')
+. (Join-Path $PSScriptRoot 'SecIntel.Http.ps1')
 . (Join-Path $PSScriptRoot 'SecIntel.ThreatIntel.Core.ps1')
 
 function Get-AbuseIpIntel {
@@ -48,7 +49,8 @@ function Get-AbuseIpIntel {
     $now     = (Get-Date).ToUniversalTime().ToString('o')
 
     try {
-        $resp = Invoke-RestMethod -Uri $url -Headers $headers -Method GET -ErrorAction Stop -TimeoutSec 30
+        $resp = Invoke-RestMethodWithRetry -Uri $url -Headers $headers -Method GET `
+                    -TimeoutSec 30 -MaxAttempts 2 -InitialDelaySeconds 5
     } catch {
         Write-Warning "AbuseIPDB lookup failed for $Ip : $($_.Exception.Message)"
         return $null

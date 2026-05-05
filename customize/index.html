@@ -3,178 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Customize the site theme - pick from six palettes for different viewing preferences and lighting conditions.">
+<meta name="description" content="Customize the site theme - pick from six palettes for different viewing preferences and lighting conditions."><link rel="canonical" href="https://brycemaxheimer.com/customize/">
+<meta property="og:title" content="Customize - Bryce Maxheimer">
+<meta property="og:description" content="Customize the site theme - pick from six palettes for different viewing preferences and lighting conditions.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://brycemaxheimer.com/customize/">
+<meta property="og:image" content="https://brycemaxheimer.com/og/default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="Bryce Maxheimer">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Customize - Bryce Maxheimer">
+<meta name="twitter:description" content="Customize the site theme - pick from six palettes for different viewing preferences and lighting conditions.">
+<meta name="twitter:image" content="https://brycemaxheimer.com/og/default.png">
 <title>Customize - Bryce Maxheimer</title>
 <script>(function(){try{var t=localStorage.getItem('siteTheme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 <link rel="stylesheet" href="/css/style.css">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<style>
-.cu-page { max-width: 1080px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
-.cu-page h1 { margin: 0 0 0.4rem; }
-.cu-page .subhead { color: var(--text-1); margin: 0 0 2rem; }
-
-.cu-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1rem;
-}
-
-.cu-card {
-    background: var(--surface);
-    border: 2px solid var(--line);
-    border-radius: var(--radius-lg);
-    padding: 1.2rem 1.4rem;
-    cursor: pointer;
-    transition: all 0.15s;
-    text-align: left;
-    font-family: inherit;
-    color: var(--text-0);
-    width: 100%;
-}
-.cu-card:hover {
-    border-color: var(--mint-deep);
-    background: var(--surface-2);
-}
-.cu-card.is-active {
-    border-color: var(--mint-deep);
-    background: var(--surface-2);
-    box-shadow: 0 0 0 4px rgba(70, 208, 154, 0.10);
-}
-
-.cu-card-header {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 0.6rem;
-    margin-bottom: 0.3rem;
-}
-.cu-card h3 {
-    margin: 0;
-    font-family: var(--font-display);
-    font-size: 1.1rem;
-}
-.cu-card .active-mark {
-    display: none;
-    font-family: var(--font-mono);
-    font-size: 0.74rem;
-    color: var(--mint-deep);
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-}
-.cu-card.is-active .active-mark { display: inline; }
-
-.cu-card .desc {
-    color: var(--text-1);
-    font-size: 0.92rem;
-    line-height: 1.55;
-    margin: 0 0 1rem;
-}
-
-.cu-swatch-row {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 0.3rem;
-    margin: 0 0 0.8rem;
-}
-.cu-swatch {
-    height: 32px;
-    border-radius: 4px;
-    border: 1px solid var(--line);
-    position: relative;
-    overflow: hidden;
-}
-.cu-swatch span {
-    display: none;
-    position: absolute;
-    bottom: 2px; left: 3px;
-    font-family: var(--font-mono);
-    font-size: 0.62rem;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-}
-
-.cu-mini {
-    border-radius: var(--radius);
-    padding: 0.7rem 0.9rem;
-    font-family: var(--font-sans);
-    font-size: 0.82rem;
-    line-height: 1.5;
-    margin-top: 0.6rem;
-    border: 1px solid;
-}
-.cu-mini .mini-h {
-    font-family: var(--font-display);
-    font-weight: 700;
-    margin-bottom: 0.2rem;
-    font-size: 0.95rem;
-}
-.cu-mini .mini-pill {
-    display: inline-block;
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    padding: 0.05rem 0.45rem;
-    border-radius: 999px;
-    margin-left: 0.4rem;
-    border: 1px solid;
-}
-.cu-mini .mini-link { text-decoration: underline; }
-
-.cu-actions {
-    display: flex;
-    gap: 0.6rem;
-    align-items: center;
-    flex-wrap: wrap;
-    padding: 1rem 1.2rem;
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-lg);
-    margin-top: 2rem;
-}
-.cu-actions .label {
-    font-family: var(--font-mono);
-    font-size: 0.82rem;
-    color: var(--text-3);
-}
-.cu-btn {
-    font-family: var(--font-sans);
-    font-size: 0.88rem; font-weight: 500;
-    padding: 0.45rem 1rem;
-    background: var(--surface);
-    color: var(--text-1);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    cursor: pointer;
-    transition: all 0.15s;
-}
-.cu-btn:hover { border-color: var(--mint-deep); color: var(--mint); }
-.cu-btn-primary {
-    background: var(--mint-deep); color: var(--bg-0);
-    border-color: var(--mint-deep); font-weight: 600;
-}
-.cu-btn-primary:hover { background: var(--mint); border-color: var(--mint); color: var(--bg-0); }
-
-.cu-note {
-    margin-top: 1.5rem;
-    padding: 0.9rem 1.1rem;
-    background: var(--bg-1);
-    border-left: 3px solid var(--mint-deep);
-    border-radius: 0 var(--radius) var(--radius) 0;
-    color: var(--text-1);
-    font-size: 0.92rem;
-    line-height: 1.6;
-}
-.cu-note strong { color: var(--mint); }
-
-.cu-status {
-    font-family: var(--font-mono); font-size: 0.82rem;
-    color: var(--mint-deep);
-    margin-left: auto;
-    opacity: 0;
-    transition: opacity 0.2s;
-}
-.cu-status.visible { opacity: 1; }
-</style>
+<link rel="stylesheet" href="/customize/customize.css">
 </head>
 <body>
 

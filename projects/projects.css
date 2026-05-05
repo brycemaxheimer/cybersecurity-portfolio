@@ -1,0 +1,36 @@
+.project {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius-lg); padding: 1.6rem 1.8rem;
+    margin: 1.5rem 0; transition: border-color 0.2s, box-shadow 0.2s;
+}
+.project:hover { border-color: var(--mint-deep); box-shadow: 0 4px 16px rgba(70, 208, 154, 0.08); }
+.project h3 { margin-top: 0; color: var(--mint-deep); }
+.project h3 a { color: var(--mint-deep); text-decoration: none; }
+.project h3 a:hover { color: var(--mint); text-decoration: underline; }
+.project .stack {
+    font-family: var(--font-mono); color: var(--text-2);
+    font-size: 0.85rem; margin: 0.4rem 0 1rem; letter-spacing: 0.02em;
+}
+.project .why {
+    border-left: 3px solid var(--coral);
+    background: rgba(239, 146, 115, 0.05);
+    padding: 0.5rem 1rem; color: var(--text-1);
+    font-size: 1rem; margin: 1rem 0;
+    border-radius: 0 var(--radius) var(--radius) 0;
+}
+.project .why strong { color: var(--coral); }
+.project-actions {
+    display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 1.2rem;
+}
+.project-actions a {
+    font-family: var(--font-sans); font-size: 0.88rem;
+    padding: 0.4rem 0.9rem;
+    border: 1px solid var(--line); border-radius: var(--radius);
+    color: var(--text-1); background: var(--bg-1);
+    text-decoration: none; letter-spacing: 0.02em;
+    transition: all 0.15s;
+}
+.project-actions a:hover {
+    border-color: var(--mint-deep); color: var(--mint-deep);
+    background: var(--surface);
+}

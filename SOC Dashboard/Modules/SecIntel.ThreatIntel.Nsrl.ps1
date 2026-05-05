@@ -18,6 +18,7 @@
 #>
 
 . (Join-Path $PSScriptRoot 'SecIntel.Schema.ps1')
+. (Join-Path $PSScriptRoot 'SecIntel.Http.ps1')
 . (Join-Path $PSScriptRoot 'SecIntel.ThreatIntel.Core.ps1')
 
 function Get-NsrlIntel {
@@ -42,10 +43,13 @@ function Get-NsrlIntel {
 
     $hit = $null
     try {
-        $hit = Invoke-RestMethod -Uri $url -Method GET -TimeoutSec 20 -ErrorAction Stop
+        # 404 means "not in NSRL" -- it's expected, not transient. Strip 404
+        # from RetryStatusCodes so we don't waste budget retrying it.
+        $hit = Invoke-RestMethodWithRetry -Uri $url -Method GET -TimeoutSec 20 `
+                    -MaxAttempts 3 -InitialDelaySeconds 2 `
+                    -RetryStatusCodes @(408, 429, 500, 502, 503, 504)
     } catch {
-        $status = $null
-        try { $status = $_.Exception.Response.StatusCode.value__ } catch {}
+        $status = Get-HttpStatusCode $_.Exception
         if ($status -ne 404) {
             Write-Warning "NSRL/CIRCL lookup failed for $Hash : $($_.Exception.Message)"
             return $null

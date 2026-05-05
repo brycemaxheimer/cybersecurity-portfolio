@@ -1,0 +1,88 @@
+/* Resume page-specific layout. Buttons inherit from /css/style.css. */
+.resume-actions {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    margin: 1rem 0 2rem;
+}
+
+.resume-section { margin-bottom: 2rem; }
+
+.role {
+    border-left: 2px solid var(--border);
+    padding-left: 1rem;
+    margin: 1.2rem 0;
+}
+.role:hover { border-left-color: var(--terra); }
+.role-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+.role-header h3 { margin: 0; color: var(--text); }
+.role-header .dates {
+    color: var(--muted);
+    font-family: var(--font-sans);
+    font-size: 0.88rem;
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+}
+.role .org {
+    color: var(--forest-deep);
+    font-style: italic;
+    font-size: 1.02rem;
+    margin: 0.15rem 0 0.6rem;
+}
+.role ul { margin: 0.5rem 0 0; padding-left: 1.2rem; }
+.role li { margin-bottom: 0.4rem; }
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 0.5rem 1.4rem;
+    margin: 0.8rem 0;
+}
+.skills-grid dt {
+    font-family: var(--font-sans);
+    color: var(--forest-deep);
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+.skills-grid dd {
+    margin: 0;
+    color: var(--text);
+}
+
+.award {
+    margin: 1rem 0;
+    padding: 0.4rem 0;
+}
+.award-title {
+    font-weight: 700;
+    color: var(--text);
+    font-size: 1.05rem;
+}
+.award-date {
+    color: var(--muted);
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    letter-spacing: 0.02em;
+}
+
+.clearance-badge {
+    display: inline-block;
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--terra-deep);
+    background: rgba(184, 90, 54, 0.08);
+    border: 1px solid var(--terra);
+    padding: 0.2rem 0.7rem;
+    border-radius: 3px;
+    margin-left: 0.4rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
