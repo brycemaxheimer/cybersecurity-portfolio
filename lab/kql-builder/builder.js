@@ -293,7 +293,7 @@
     }
     function writeSaved(list) {
         window.SafeStorage.set(STORAGE_KEY, JSON.stringify(list), function () {
-            alert('Saved queries could not be persisted — your browser blocked storage.');
+            alert('Saved queries could not be persisted - your browser blocked storage.');
         });
     }
     function renderSavedList() {
@@ -349,7 +349,7 @@
         });
 
         els.summarize.checked = !!st.summarize;
-        els.sumOpts.style.display = st.summarize ? '' : 'none';
+        els.sumOpts.classList.toggle('hidden', !st.summarize);
         els.agg.value = st.agg || 'count()';
         els.aggCol.value = st.aggCol || '';
         els.by.value = st.by || '';
@@ -381,7 +381,7 @@
             cb.parentNode.classList.remove('is-checked');
         });
         els.summarize.checked = false;
-        els.sumOpts.style.display = 'none';
+        els.sumOpts.classList.add('hidden');
         els.limit.value = 50;
         render();
     }
@@ -404,7 +404,7 @@
     els.time.addEventListener('change', render);
     els.limit.addEventListener('input', render);
     els.summarize.addEventListener('change', function () {
-        els.sumOpts.style.display = els.summarize.checked ? '' : 'none';
+        els.sumOpts.classList.toggle('hidden', !els.summarize.checked);
         render();
     });
     els.agg.addEventListener('change', render);

@@ -15,7 +15,7 @@
     Built to run on a stock user-level PowerShell session. The only optional
     dependency is the Microsoft Access Database Engine (ACE OLEDB provider),
     which ships with any Office install that includes Access. If ACE isn't
-    present, the script falls back to JSON file storage automatically — no
+    present, the script falls back to JSON file storage automatically - no
     install required, no admin rights needed either way.
 
 .PARAMETER ResetDb
@@ -23,7 +23,7 @@
 
 .NOTES
     PLACEHOLDERS to customize for your environment are marked with the
-    string "<<ENV>>" — search for it after first run. Includes things like
+    string "<<ENV>>" - search for it after first run. Includes things like
     your default workspace name, default time range, custom table list,
     and any org-specific filters you want pre-populated.
 
@@ -474,7 +474,7 @@ function Build-KqlQuery {
 # GUI CONSTRUCTION
 # ================================================================
 $form               = New-Object System.Windows.Forms.Form
-$form.Text          = "KQL Query Builder  —  Storage: $($script:StorageMode.ToUpper())"
+$form.Text          = "KQL Query Builder  -  Storage: $($script:StorageMode.ToUpper())"
 $form.Size          = New-Object System.Drawing.Size(1280, 900)
 $form.StartPosition = 'CenterScreen'
 $form.MinimumSize   = New-Object System.Drawing.Size(1100, 800)

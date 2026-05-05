@@ -53,7 +53,7 @@
             (t.tags || []).forEach(function (tag) { counts[tag] = (counts[tag] || 0) + 1; });
         });
         var tags = Object.keys(counts).sort();
-        if (tags.length === 0) { els.tagFilter.style.display = 'none'; return; }
+        if (tags.length === 0) { els.tagFilter.classList.add('hidden'); return; }
         els.tagFilter.innerHTML = tags.map(function (t) {
             return '<button class="tpl-tag" data-tag="' + escapeHtml(t) + '">' +
                 escapeHtml(t) + ' &middot; ' + counts[t] + '</button>';

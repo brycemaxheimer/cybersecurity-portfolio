@@ -1,4 +1,4 @@
-# /api/intel/* — backend Threat-Intel Lookup
+# /api/intel/* - backend Threat-Intel Lookup
 
 Two route handlers (imported by `worker.js` at the repo root) that power
 [/lab/threat-intel/demo.html](../../../lab/threat-intel/demo.html):
@@ -16,7 +16,7 @@ Worker secrets and are read inside the handler as `env.<NAME>`.
 | Name                       | Purpose                                                  | Get one |
 |----------------------------|----------------------------------------------------------|---------|
 | `ABUSEIPDB_KEY`            | AbuseIPDB API key (free tier 1000 checks/day).           | https://www.abuseipdb.com/account/api |
-| `INTEL_RATE_LIMIT_PER_MIN` | Optional. Per-IP rate limit (default `10`).              | — |
+| `INTEL_RATE_LIMIT_PER_MIN` | Optional. Per-IP rate limit (default `10`).              | - |
 
 ip-api.com is wired with no key (45 req/min from a single source IP).
 
@@ -28,7 +28,7 @@ optionally `INTEL_RATE_LIMIT_PER_MIN` as a plaintext **Variable**.
 
 > If the dashboard still says *"Variables cannot be added to a Worker that
 > only has static assets"*, your Worker is missing a `main` entry. Confirm
-> `wrangler.jsonc` has `"main": "worker.js"` and redeploy — once any code
+> `wrangler.jsonc` has `"main": "worker.js"` and redeploy - once any code
 > is bound, the Variables tab unlocks.
 
 ### Set in local dev

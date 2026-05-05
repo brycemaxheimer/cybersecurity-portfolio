@@ -56,16 +56,16 @@
 </div>
 </header>
 
-<main class="container-wide" style="padding-top: 2rem; padding-bottom: 4rem;">
+<main class="container-wide section-pad">
 
-<div style="display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
-<h1 style="margin: 0">KQL Playground</h1>
-<a href="/kql/cheatsheet/" style="font-family: var(--font-mono); font-size: 0.88rem; color: var(--mint-deep); border-bottom: 1px solid var(--mint-deep); padding-bottom: 2px; text-decoration: none">Open the cheatsheet &rarr;</a>
+<div class="flex-between">
+<h1 class="m-0">KQL Playground</h1>
+<a href="/kql/cheatsheet/" class="cheatsheet-link">Open the cheatsheet &rarr;</a>
 </div>
-<p style="color: var(--text-1); margin-top: 1rem">
+<p class="text-soft mt-md">
 A working KQL engine in your browser. Type queries against pre-loaded sample tables - the same Sentinel-shaped data my <code>Invoke-KqlPS</code> PowerShell module uses for offline practice. Translates KQL to SQLite SQL via a hand-written lexer/parser, executes against <a href="https://github.com/sql-js/sql.js">sql.js</a> (WASM SQLite). No backend, no signup, no telemetry.
 </p>
-<p style="color: var(--text-2); margin-top: 0.6rem; font-size: 0.85rem">
+<p class="text-muted mt-06 fs-xs">
 The <strong>Expanded</strong> dataset is built by a PowerShell pipeline whose design borrows from
 <a href="https://github.com/cruikshank25/Security-Log-Generator">Sean Cruikshank&rsquo;s Security-Log-Generator</a>:
 weighted field selection, a sine-wave volume curve, and a tiered filename taxonomy
@@ -78,7 +78,7 @@ last hour so practice questions stay deterministic.
 <div class="pg-shell">
 <aside class="pg-sidebar" role="region" aria-labelledby="pg-tables-h">
 <h4 id="pg-tables-h">Tables</h4>
-<ul id="tables-list"><li style="color: var(--text-3); font-family: var(--font-mono); font-size: 0.78rem">loading...</li></ul>
+<ul id="tables-list"><li class="text-faded mono-xs">loading...</li></ul>
 
 <h4>Examples</h4>
 <button class="pg-example" data-q="DeviceLogonEvents
@@ -151,7 +151,7 @@ last hour so practice questions stay deterministic.
 
 <section class="pg-supported">
 <h3>What's supported</h3>
-<p style="color: var(--text-1); margin-bottom: 1rem">
+<p class="text-soft mb-md">
 Pragmatic subset - the most common ~80% of real SOC queries.
 </p>
 <dl>

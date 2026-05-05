@@ -1,7 +1,7 @@
 # In-browser KQL engine
 
 A small KQL-over-SQLite interpreter that powers the cheatsheet, playground,
-and the practice page. All execution is local to the browser — no Azure
+and the practice page. All execution is local to the browser - no Azure
 cluster is contacted.
 
 ## Layout
@@ -93,6 +93,6 @@ Two failure profiles to be aware of:
   panel. The cheatsheet and walkthrough text stay readable; only
   query execution is disabled.
 
-There is no "bypass" — if the policy on a network forbids client-side WASM,
+There is no "bypass" - if the policy on a network forbids client-side WASM,
 the engine genuinely cannot run there. The diagnostics make the limitation
 visible and point users to running the repo locally.

@@ -58,12 +58,12 @@
 
 <main class="ti-page">
 
-<div style="font-family: var(--font-mono); font-size: 0.82rem; color: var(--text-3); margin-bottom: 1rem;">
-<a href="/lab/" style="color: var(--mint-deep); text-decoration: none">&larr; Browser Lab</a>
+<div class="nav-back">
+<a href="/lab/">&larr; Browser Lab</a>
 </div>
 
 <h1>Threat Intel Walkthrough</h1>
-<p style="color: var(--text-1); ">
+<p class="text-soft">
 Recorded demo of the <code>SecIntel.ThreatIntel</code> family of PowerShell
 modules - a unified wrapper around AbuseIPDB, urlscan.io, NIST NVD,
 Team Cymru hash lookup, and the NSRL hash database.
@@ -80,9 +80,9 @@ tooling is in the
 clone it, drop in your own API keys, run locally.
 <br><br>
 <strong>Want to try a live lookup?</strong> The
-<a href="/lab/threat-intel/demo.html" style="color: var(--mint-deep)">Intel Lookup demo</a>
-runs a rate-limited, key-protected backend route on this site &mdash;
-browser form in, server-held API key out &mdash; so you can hit AbuseIPDB
+<a href="/lab/threat-intel/demo.html" class="text-mint">Intel Lookup demo</a>
+runs a rate-limited, key-protected backend route on this site -
+browser form in, server-held API key out - so you can hit AbuseIPDB
 + ip-api enrichment without any setup.
 </div>
 
@@ -101,7 +101,7 @@ browser form in, server-held API key out &mdash; so you can hit AbuseIPDB
 
 <h4>Source</h4>
 <ul class="ti-providers">
-    <li class="ti-provider"><span class="ip-name"><a href="https://github.com/brycemaxheimer/cybersecurity-portfolio/tree/main/SOC%20Dashboard/Modules" style="color: var(--mint-deep); text-decoration: none">SOC Dashboard / Modules</a></span></li>
+    <li class="ti-provider"><span class="ip-name"><a href="https://github.com/brycemaxheimer/cybersecurity-portfolio/tree/main/SOC%20Dashboard/Modules" class="text-mint no-deco">SOC Dashboard / Modules</a></span></li>
 </ul>
 </aside>
 
@@ -126,14 +126,14 @@ Results would appear here. The recording below shows what a real lookup looks li
 
 <div class="ti-recording-slot" id="recording-slot">
     <h3>Walkthrough recording</h3>
-    <p style="margin: 0; color: var(--text-2)">
+    <p class="m-0 text-muted">
         A short screen recording will live here showing a full IP and hash lookup against the live module.
     </p>
 
     <div class="recipe">
-        <strong style="color: var(--text-0); font-family: var(--font-display)">Recording recipe</strong>
+        <strong class="text-strong font-display">Recording recipe</strong>
         <ol>
-            <li>Run a 30&ndash;60 second capture of <code>Invoke-IpLookup 8.8.8.8</code> followed by <code>Invoke-HashLookup 44d88612fea8a8f36de82e1278abb02f</code> using OBS or ScreenToGif.</li>
+            <li>Run a 30-60 second capture of <code>Invoke-IpLookup 8.8.8.8</code> followed by <code>Invoke-HashLookup 44d88612fea8a8f36de82e1278abb02f</code> using OBS or ScreenToGif.</li>
             <li>Save as <code>walkthrough.mp4</code> (or <code>.gif</code>) in <code>/lab/threat-intel/</code>.</li>
             <li>Replace this entire <code>&lt;div class="ti-recording-slot"&gt;</code> with a <code>&lt;video controls src="/lab/threat-intel/walkthrough.mp4"&gt;</code> tag (or <code>&lt;img&gt;</code> for GIF).</li>
             <li>If using video, add <code>preload="metadata" muted</code> so it doesn't auto-buffer or auto-play.</li>
@@ -142,13 +142,13 @@ Results would appear here. The recording below shows what a real lookup looks li
 </div>
 
 
-<h2 style="margin-top: 3rem">What the modules do</h2>
+<h2 class="mt-xl">What the modules do</h2>
 
-<div style="display: grid; gap: 1rem; margin-top: 1rem;">
+<div class="grid-gap-md mt-md">
 
 <div class="ti-form">
 <label>SecIntel.ThreatIntel.AbuseIPDB</label>
-<p style="margin: 0.5rem 0 0; color: var(--text-1); font-size: 0.95rem; line-height: 1.6">
+<p class="m-top-only text-soft fs-95">
 Reputation scoring for IPv4 addresses. Returns abuse confidence score, country,
 ISP, usage type, and recent reports. Caches responses to disk to avoid repeated
 calls during an investigation.
@@ -157,7 +157,7 @@ calls during an investigation.
 
 <div class="ti-form">
 <label>SecIntel.ThreatIntel.UrlScan</label>
-<p style="margin: 0.5rem 0 0; color: var(--text-1); font-size: 0.95rem; line-height: 1.6">
+<p class="m-top-only text-soft fs-95">
 Submit URLs to urlscan.io and read back the verdict (malicious / suspicious /
 benign), screenshot URL, and detected technologies. Async-capable for batched
 submissions.
@@ -166,7 +166,7 @@ submissions.
 
 <div class="ti-form">
 <label>SecIntel.ThreatIntel.Nist</label>
-<p style="margin: 0.5rem 0 0; color: var(--text-1); font-size: 0.95rem; line-height: 1.6">
+<p class="m-top-only text-soft fs-95">
 NIST NVD CVE detail lookups. Pulls description, CVSS scores (v2 + v3), affected
 configurations, and references for any CVE ID.
 </p>
@@ -174,7 +174,7 @@ configurations, and references for any CVE ID.
 
 <div class="ti-form">
 <label>TeamCymru-Hash-Lookup</label>
-<p style="margin: 0.5rem 0 0; color: var(--text-1); font-size: 0.95rem; line-height: 1.6">
+<p class="m-top-only text-soft fs-95">
 Hash reputation via Team Cymru's Malware Hash Registry. Quick sanity check for
 files you've pulled from a host during an investigation.
 </p>
@@ -182,7 +182,7 @@ files you've pulled from a host during an investigation.
 
 <div class="ti-form">
 <label>SecIntel.ThreatIntel.Nsrl</label>
-<p style="margin: 0.5rem 0 0; color: var(--text-1); font-size: 0.95rem; line-height: 1.6">
+<p class="m-top-only text-soft fs-95">
 NSRL (NIST RDS) hash lookup - the inverse: known-good files. Useful for
 filtering benign system files out of large hash sets during forensics triage.
 </p>

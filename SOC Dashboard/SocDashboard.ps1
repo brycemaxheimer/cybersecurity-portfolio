@@ -916,7 +916,7 @@ Add-Type -AssemblyName System.Xaml
                                     </TextBlock>
                                     <TextBlock Foreground="{StaticResource FgDimBrush}" FontSize="11"
                                                TextWrapping="Wrap" LineHeight="20" Margin="0,12,0,0">
-                                        <Run>The builder enforces this order regardless of which sub-tab you fill in first. "filter early" is the most consequential KQL performance rule — the builder always emits time and where filters before any reshape.</Run>
+                                        <Run>The builder enforces this order regardless of which sub-tab you fill in first. "filter early" is the most consequential KQL performance rule - the builder always emits time and where filters before any reshape.</Run>
                                     </TextBlock>
                                 </StackPanel>
                             </ScrollViewer>
@@ -968,7 +968,7 @@ Add-Type -AssemblyName System.Xaml
                                     <TextBlock Text="OPERATORS (PIPELINE ORDER)" Style="{StaticResource SectionHeader}"
                                                Background="Transparent" Padding="0,0,0,8"/>
                                     <TextBlock Foreground="{StaticResource FgBrush}" FontFamily="Consolas" FontSize="12"
-                                               TextWrapping="Wrap" LineHeight="22" xml:space="preserve"><Run Foreground="#58A6FF">where</Run><Run>  —  filter rows. Apply earliest. Cheapest predicates first.</Run><LineBreak/><Run Foreground="#58A6FF">parse / parse-kv</Run><Run>  —  extract structured fields from a string column.</Run><LineBreak/><Run Foreground="#58A6FF">extract / extract_all</Run><Run>  —  regex captures.</Run><LineBreak/><Run Foreground="#58A6FF">extend</Run><Run>  —  compute new columns.</Run><LineBreak/><Run Foreground="#58A6FF">project / project-away / project-keep / project-rename / project-reorder</Run><Run>  —  shape the column set.</Run><LineBreak/><Run Foreground="#58A6FF">distinct</Run><Run>  —  de-duplicate rows on the listed columns.</Run><LineBreak/><Run Foreground="#58A6FF">summarize</Run><Run>  —  aggregations. arg_max(*, key) returns the latest row per key.</Run><LineBreak/><Run Foreground="#58A6FF">join / lookup / union</Run><Run>  —  combine multiple tables.</Run><LineBreak/><Run Foreground="#58A6FF">mv-expand / mv-apply</Run><Run>  —  flatten/iterate over array columns.</Run><LineBreak/><Run Foreground="#58A6FF">order by / sort by</Run><Run>  —  sorting. Avoid early; expensive.</Run><LineBreak/><Run Foreground="#58A6FF">take / top</Run><Run>  —  row limits. take is non-deterministic; top is sorted.</Run></TextBlock>
+                                               TextWrapping="Wrap" LineHeight="22" xml:space="preserve"><Run Foreground="#58A6FF">where</Run><Run>  -  filter rows. Apply earliest. Cheapest predicates first.</Run><LineBreak/><Run Foreground="#58A6FF">parse / parse-kv</Run><Run>  -  extract structured fields from a string column.</Run><LineBreak/><Run Foreground="#58A6FF">extract / extract_all</Run><Run>  -  regex captures.</Run><LineBreak/><Run Foreground="#58A6FF">extend</Run><Run>  -  compute new columns.</Run><LineBreak/><Run Foreground="#58A6FF">project / project-away / project-keep / project-rename / project-reorder</Run><Run>  -  shape the column set.</Run><LineBreak/><Run Foreground="#58A6FF">distinct</Run><Run>  -  de-duplicate rows on the listed columns.</Run><LineBreak/><Run Foreground="#58A6FF">summarize</Run><Run>  -  aggregations. arg_max(*, key) returns the latest row per key.</Run><LineBreak/><Run Foreground="#58A6FF">join / lookup / union</Run><Run>  -  combine multiple tables.</Run><LineBreak/><Run Foreground="#58A6FF">mv-expand / mv-apply</Run><Run>  -  flatten/iterate over array columns.</Run><LineBreak/><Run Foreground="#58A6FF">order by / sort by</Run><Run>  -  sorting. Avoid early; expensive.</Run><LineBreak/><Run Foreground="#58A6FF">take / top</Run><Run>  -  row limits. take is non-deterministic; top is sorted.</Run></TextBlock>
 
                                     <TextBlock Text="SCALAR FUNCTIONS" Style="{StaticResource SectionHeader}"
                                                Background="Transparent" Padding="0,20,0,8"/>
@@ -978,12 +978,12 @@ Add-Type -AssemblyName System.Xaml
                                     <TextBlock Text="AGGREGATION FUNCTIONS" Style="{StaticResource SectionHeader}"
                                                Background="Transparent" Padding="0,20,0,8"/>
                                     <TextBlock Foreground="{StaticResource FgBrush}" FontFamily="Consolas" FontSize="12"
-                                               TextWrapping="Wrap" LineHeight="22" xml:space="preserve"><Run>count(), countif(predicate), dcount(col), dcountif(col, pred), sum(col), avg(col), min(col), max(col),</Run><LineBreak/><Run>percentile(col, p), percentiles(col, p1, p2, ...), stdev(col), variance(col),</Run><LineBreak/><Run>make_set(col), make_set_if(col, pred), make_list(col), make_list_if(col, pred),</Run><LineBreak/><Run Foreground="#58A6FF">arg_min(expr, *) / arg_max(expr, *)</Run><Run>  —  return the row with min/max expr. The operator you'll use weekly.</Run><LineBreak/><Run Foreground="#58A6FF">take_any(col)</Run><Run>  —  pick any value (cheap, non-deterministic).</Run></TextBlock>
+                                               TextWrapping="Wrap" LineHeight="22" xml:space="preserve"><Run>count(), countif(predicate), dcount(col), dcountif(col, pred), sum(col), avg(col), min(col), max(col),</Run><LineBreak/><Run>percentile(col, p), percentiles(col, p1, p2, ...), stdev(col), variance(col),</Run><LineBreak/><Run>make_set(col), make_set_if(col, pred), make_list(col), make_list_if(col, pred),</Run><LineBreak/><Run Foreground="#58A6FF">arg_min(expr, *) / arg_max(expr, *)</Run><Run>  -  return the row with min/max expr. The operator you'll use weekly.</Run><LineBreak/><Run Foreground="#58A6FF">take_any(col)</Run><Run>  -  pick any value (cheap, non-deterministic).</Run></TextBlock>
 
                                     <TextBlock Text="DATATABLE / EXTERNALDATA" Style="{StaticResource SectionHeader}"
                                                Background="Transparent" Padding="0,20,0,8"/>
                                     <TextBlock Foreground="{StaticResource FgBrush}" FontFamily="Consolas" FontSize="12"
-                                               TextWrapping="Wrap" LineHeight="22" xml:space="preserve"><Run Foreground="#58A6FF">datatable</Run><Run>  —  inline reference data, e.g. a watchlist:</Run><LineBreak/><Run>    let HighValueAccts = datatable(Account:string, Tier:int)["ADMIN-DBA",0,"SVC-BACKUP",1];</Run><LineBreak/><Run Foreground="#58A6FF">externaldata</Run><Run>  —  read CSV/TSV from a URL at query time.</Run><LineBreak/><Run Foreground="#58A6FF">_GetWatchlist("Name")</Run><Run>  —  Sentinel-managed watchlists.</Run>
+                                               TextWrapping="Wrap" LineHeight="22" xml:space="preserve"><Run Foreground="#58A6FF">datatable</Run><Run>  -  inline reference data, e.g. a watchlist:</Run><LineBreak/><Run>    let HighValueAccts = datatable(Account:string, Tier:int)["ADMIN-DBA",0,"SVC-BACKUP",1];</Run><LineBreak/><Run Foreground="#58A6FF">externaldata</Run><Run>  -  read CSV/TSV from a URL at query time.</Run><LineBreak/><Run Foreground="#58A6FF">_GetWatchlist("Name")</Run><Run>  -  Sentinel-managed watchlists.</Run>
                                     </TextBlock>
                                 </StackPanel>
                             </ScrollViewer>
@@ -1444,7 +1444,7 @@ foreach ($cfg in $gridTabConfigs) {
 }
 
 # ============================================================
-# IoC / Global Search tab — UNION ALL across every textual table
+# IoC / Global Search tab - UNION ALL across every textual table
 # ============================================================
 $iocSearch = {
     $term = $IocSearchTxt.Text
@@ -1513,7 +1513,7 @@ $IocSearchTxt.Add_KeyDown({
 . (Join-Path $script:ModulesDir 'SecIntel.ThreatIntel.ps1')
 
 # Show provider configuration on tab activation. Implemented inline against
-# the AppSettings table directly — WPF event handler closures can't reliably
+# the AppSettings table directly - WPF event handler closures can't reliably
 # see dot-sourced functions like Get-IntelProviderStatus or Get-AppSecret,
 # but Invoke-SqliteQuery is from a binary-imported module and is always
 # globally visible. Result is the same status table without the indirection.
@@ -2127,7 +2127,7 @@ $buildKqlQuery = {
         }
         [void]$sb.AppendLine($table)
 
-        # 1. Time filter (always emitted before user filters — "filter early")
+        # 1. Time filter (always emitted before user filters - "filter early")
         $tr = if ($KqlTimeCombo.SelectedItem) { $KqlTimeCombo.SelectedItem.ToString() } else { '' }
         if ($tr -and $tr -ne 'Custom...') {
             $ago = ($tr -replace '^Last\s+', '').ToLower()

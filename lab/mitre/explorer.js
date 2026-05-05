@@ -105,8 +105,8 @@
         });
         var showTactic = view === 'techniques';
         var showPlat = view === 'techniques' || view === 'software';
-        els.filterTactics.style.display   = showTactic ? '' : 'none';
-        els.filterPlatforms.style.display = showPlat   ? '' : 'none';
+        els.filterTactics.classList.toggle('hidden', !showTactic);
+        els.filterPlatforms.classList.toggle('hidden', !showPlat);
         render();
     });
 
@@ -305,8 +305,8 @@
             els.tabs.querySelectorAll('button').forEach(function (b) {
                 b.classList.toggle('active', b.dataset.view === view);
             });
-            els.filterTactics.style.display = view === 'techniques' ? '' : 'none';
-            els.filterPlatforms.style.display = (view === 'techniques' || view === 'software') ? '' : 'none';
+            els.filterTactics.classList.toggle('hidden', view !== 'techniques');
+            els.filterPlatforms.classList.toggle('hidden', !(view === 'techniques' || view === 'software'));
         }
         render();
 

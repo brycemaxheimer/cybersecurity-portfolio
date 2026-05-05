@@ -40,12 +40,12 @@
 
 <main class="ild-page">
 
-<div style="font-family: var(--font-mono); font-size: 0.82rem; color: var(--text-3); margin-bottom: 1rem;">
-<a href="/lab/threat-intel/" style="color: var(--mint-deep); text-decoration: none" aria-label="Back to Threat Intel walkthrough"><span aria-hidden="true">&larr;</span> Threat Intel Walkthrough</a>
+<div class="nav-back">
+<a href="/lab/threat-intel/" aria-label="Back to Threat Intel walkthrough"><span aria-hidden="true">&larr;</span> Threat Intel Walkthrough</a>
 </div>
 
 <h1>Intel Lookup Demo</h1>
-<p style="color: var(--text-1);">
+<p class="text-soft">
 Browser-side form, server-side keys. The form below POSTs to
 <code>/api/intel/lookup</code>, a Cloudflare Pages Function that adds the
 provider API key from a Worker secret and forwards to the upstream service.
@@ -57,7 +57,7 @@ The browser never sees the key.
 by default). Currently wired: <em>AbuseIPDB</em> for IP reputation and
 <em>ip-api.com</em> for geo/ASN enrichment (no key required). The full
 PowerShell stack on the
-<a href="/lab/threat-intel/" style="color: var(--mint-deep); text-decoration: none">walkthrough page</a>
+<a href="/lab/threat-intel/" class="text-mint no-deco">walkthrough page</a>
 covers more providers and runs against your own keys when cloned.
 </div>
 

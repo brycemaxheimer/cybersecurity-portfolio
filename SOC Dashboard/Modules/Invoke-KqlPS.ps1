@@ -70,7 +70,7 @@
 Set-StrictMode -Off
 
 # =====================================================================
-# SECTION 1 — Lexer
+# SECTION 1 - Lexer
 # =====================================================================
 #
 # Tokens produced (each token is a [pscustomobject] with Kind / Value /
@@ -78,7 +78,7 @@ Set-StrictMode -Off
 #   IDENT       a bareword that is not a reserved keyword
 #   STRING      string literal (raw or escaped)
 #   NUMBER      integer or floating point
-#   DURATION    1h, 5m, 30s, 7d, 200ms — value is a [TimeSpan]
+#   DURATION    1h, 5m, 30s, 7d, 200ms - value is a [TimeSpan]
 #   PIPE        |
 #   COMMA       ,
 #   SEMI        ;
@@ -302,7 +302,7 @@ function Get-KqlTokens {
 }
 
 # =====================================================================
-# SECTION 2 — Parser
+# SECTION 2 - Parser
 # =====================================================================
 #
 # The parser is recursive descent.  It maintains an index into the token
@@ -920,7 +920,7 @@ function _ParsePrimary {
                 'dynamic' {
                     [void] (_Take $state)
                     [void] (_Expect $state 'LPAREN')
-                    # dynamic([1,2,3]) or dynamic({"a":1}) — we only support the array form for now
+                    # dynamic([1,2,3]) or dynamic({"a":1}) - we only support the array form for now
                     if ((_Peek $state).Kind -eq 'LBRACK') {
                         [void] (_Take $state)
                         $items = New-Object System.Collections.Generic.List[object]
@@ -985,7 +985,7 @@ function _ParsePrimary {
 function _RewriteParseTypes {
     param([string] $Query)
     # Matches `IDENT:type_word` not preceded by '/' (avoiding URLs in strings is hard
-    # — but strings are quoted, and inside string literals our regex won't match unquoted patterns).
+    # - but strings are quoted, and inside string literals our regex won't match unquoted patterns).
     # Conservative: only inside likely-parse contexts we accept the rewrite,
     # but the rewrite is also harmless elsewhere because there's no other use of 'X:int' in KQL syntax.
     return [regex]::Replace(
@@ -996,7 +996,7 @@ function _RewriteParseTypes {
 }
 
 # =====================================================================
-# SECTION 3 — Expression evaluator
+# SECTION 3 - Expression evaluator
 # =====================================================================
 #
 # Two evaluation modes:
@@ -1229,7 +1229,7 @@ function _HasTerm {
 }
 
 # =====================================================================
-# SECTION 4 — Built-in functions
+# SECTION 4 - Built-in functions
 # =====================================================================
 
 function Invoke-KqlFunction { param([string] $Name, [object[]] $ArgList, $Env)
@@ -1553,7 +1553,7 @@ function Invoke-KqlFunction { param([string] $Name, [object[]] $ArgList, $Env)
 }
 
 # =====================================================================
-# SECTION 5 — Tabular operators
+# SECTION 5 - Tabular operators
 # =====================================================================
 
 function Invoke-KqlAst {
@@ -1788,7 +1788,7 @@ function Invoke-KqlAst {
                 foreach ($a in $Node.Aggs) {
                     $v = Invoke-KqlExpr $a.Expr $sub
                     if ($v -is [pscustomobject] -and $v.PSObject.Properties['__ArgMaxStar']) {
-                        # arg_max(col, *) — copy all columns from winning row
+                        # arg_max(col, *) - copy all columns from winning row
                         if ($null -ne $v.Row) {
                             foreach ($p in $v.Row.PSObject.Properties) { $row[$p.Name] = $p.Value }
                         }
@@ -2035,7 +2035,7 @@ function _MergeRows {
 }
 
 # =====================================================================
-# SECTION 6 — Context / data loading / public cmdlets
+# SECTION 6 - Context / data loading / public cmdlets
 # =====================================================================
 
 function New-KqlContext {

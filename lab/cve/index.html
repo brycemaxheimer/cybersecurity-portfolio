@@ -58,8 +58,8 @@
 
 <main class="cve-page">
 
-<div style="font-family: var(--font-mono); font-size: 0.82rem; color: var(--text-3); margin-bottom: 1rem;">
-<a href="/lab/" style="color: var(--mint-deep); text-decoration: none">&larr; Browser Lab</a>
+<div class="nav-back">
+<a href="/lab/">&larr; Browser Lab</a>
 </div>
 
 <h1>CVE / KEV / EPSS Browser</h1>
@@ -75,7 +75,7 @@ with the page; no API calls.
 <span class="pill ransom"><strong id="m-ransom">-</strong> ransomware-linked</span>
 <span class="pill high"><strong id="m-high">-</strong> EPSS &ge; 0.7</span>
 <span class="pill"><strong id="m-recent">-</strong> added in last 90 days</span>
-<span class="pill" style="margin-left:auto">KEV ver <strong id="m-kev-ver">-</strong> &middot; EPSS <strong id="m-epss-date">-</strong></span>
+<span class="pill ml-auto">KEV ver <strong id="m-kev-ver">-</strong> &middot; EPSS <strong id="m-epss-date">-</strong></span>
 </div>
 
 <div class="cve-shell">
@@ -102,7 +102,7 @@ with the page; no API calls.
 <div>
 <h4>Filters</h4>
 <label class="cve-toggle"><input type="checkbox" id="ransom-only"><span>Ransomware-linked only</span></label>
-<label class="cve-toggle" style="margin-top: 0.4rem"><input type="checkbox" id="recent-only"><span>Added in last 90 days</span></label>
+<label class="cve-toggle mt-xs"><input type="checkbox" id="recent-only"><span>Added in last 90 days</span></label>
 </div>
 
 <div>
@@ -115,9 +115,9 @@ with the page; no API calls.
 
 <button class="clear-btn" id="clear">Clear filters</button>
 
-<p style="font-size:0.78rem; color: var(--text-3); font-family: var(--font-mono); line-height: 1.5; margin: 0;">
-Sources: <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" style="color: var(--text-2)">CISA KEV catalog</a> &middot;
-<a href="https://www.first.org/epss/" style="color: var(--text-2)">FIRST EPSS</a>.
+<p class="mono-xs text-faded lh-15 m-0">
+Sources: <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" class="text-muted">CISA KEV catalog</a> &middot;
+<a href="https://www.first.org/epss/" class="text-muted">FIRST EPSS</a>.
 Refreshed at build time via <code>refresh-feeds.ps1</code>.
 </p>
 </aside>

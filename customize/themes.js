@@ -75,12 +75,9 @@
         if (!noticeEl) {
             noticeEl = document.createElement('p');
             noticeEl.id = 'theme-notice';
+            noticeEl.className = 'theme-notice';
             noticeEl.setAttribute('role', 'status');
-            noticeEl.style.cssText =
-                'margin:0.75rem 0;padding:0.5rem 0.75rem;border:1px solid var(--coral,#d06858);' +
-                'color:var(--coral,#d06858);background:rgba(208,104,88,0.08);border-radius:4px;' +
-                'font-size:0.9rem;';
-            noticeEl.textContent = 'Theme not saved — your browser blocked storage.';
+            noticeEl.textContent = 'Theme not saved - your browser blocked storage.';
             var anchor = document.querySelector('.cu-actions') || document.body;
             anchor.parentNode.insertBefore(noticeEl, anchor.nextSibling);
         }

@@ -10,4 +10,4 @@ The SecIntel modules store API keys via DPAPI (`Set-AppSecret`,
 **Windows user profile** that wrote it. A secret set on machine A under
 user X cannot be read on machine B, or under user Y on machine A. Roaming
 profiles partially mitigate this; cross-platform usage (WSL, Linux) does
-not work — re-run `Set-AppSecret` from the target environment.
+not work - re-run `Set-AppSecret` from the target environment.

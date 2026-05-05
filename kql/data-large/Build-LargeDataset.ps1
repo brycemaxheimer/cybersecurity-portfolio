@@ -160,7 +160,10 @@ function Build-SecurityEvent {
                 $commandLine = """$processName"""
             }
             4697 {
-                $serviceName     = "svc-$([guid]::NewGuid().ToString().Substring(0,8))"
+                # Deterministic hex from the seeded $rng so re-runs produce
+                # byte-identical output. Previously used [guid]::NewGuid() which
+                # ignored the seed and caused 8000-row CSV churn per build.
+                $serviceName     = "svc-$(New-HexString 8 $rng)"
                 $serviceFileName = "C:\Program Files\$serviceName\$serviceName.exe"
             }
             4720 {

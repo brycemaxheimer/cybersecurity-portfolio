@@ -58,9 +58,9 @@
 </nav>
 </div>
 </header>
-<div style="padding: 0.7rem 1.5rem; font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 0.82rem; color: var(--ink-faint); border-bottom: 1px solid var(--rule); background: rgba(7,21,18,0.5);">
-  <div style="max-width: 1080px; margin: 0 auto;">
-    <a href="/kql/" style="color: var(--accent); text-decoration: none">&larr; Back to KQL Playground</a>
+<div class="cheatsheet-topbar">
+  <div class="cheatsheet-topbar-inner">
+    <a href="/kql/">&larr; Back to KQL Playground</a>
   </div>
 </div>
 
@@ -817,7 +817,7 @@ WerSpawn
 <p class="small">Solutions are collapsed by default. In print they expand automatically. Each solution is one valid approach; there are usually several. Where a challenge depends on a table you don't have (e.g. <code>IdentityInfo</code> is UEBA-licensed), an inline note shows a substitute.</p>
 
 <!-- ============= EASY ============= -->
-<h3 style="margin-top:24px">Easy (warm-up: single table, one or two operators)</h3>
+<h3 class="mt-24">Easy (warm-up: single table, one or two operators)</h3>
 
 <div class="challenge lvl-easy">
 <h3><span class="badge">01 · Easy</span> Firewall-related EventIDs</h3>
@@ -896,7 +896,7 @@ WerSpawn
 </div>
 
 <!-- ============= MEDIUM ============= -->
-<h3 style="margin-top:24px">Medium (joins, parsing, sequences)</h3>
+<h3 class="mt-24">Medium (joins, parsing, sequences)</h3>
 
 <div class="challenge lvl-med">
 <h3><span class="badge">06 · Medium</span> Failed-then-successful logon, same account, same source IP, within 5 min</h3>
@@ -1010,7 +1010,7 @@ Fails
 </div>
 
 <!-- ============= HARD ============= -->
-<h3 style="margin-top:24px">Hard (multi-stage logic, windowing, evaluate plugins)</h3>
+<h3 class="mt-24">Hard (multi-stage logic, windowing, evaluate plugins)</h3>
 
 <div class="challenge lvl-hard">
 <h3><span class="badge">11 · Hard</span> Lateral movement spread (4624 type 3 fan-out)</h3>
@@ -1164,7 +1164,7 @@ Evil
 </div>
 
 <!-- ============= EXPERT ============= -->
-<h3 style="margin-top:24px">Expert (partition + mv-apply + windowing + cross-table)</h3>
+<h3 class="mt-24">Expert (partition + mv-apply + windowing + cross-table)</h3>
 
 <div class="challenge lvl-expert">
 <h3><span class="badge">16 · Expert</span> Per-host rare-DLL hunt with partition + mv-apply</h3>
@@ -1363,13 +1363,13 @@ ago · arg_max · arg_min · array_length · array_sum · bag_pack · bag_unpack
   [ Slot for cheat sheet image: KQL operator pipeline diagram (left-to-right). Replace with your own diagram or screenshot. ]
 </div>
 
-<p class="small" style="margin-top:30px; color: var(--ink-faint); border-top: 1px solid var(--rule); padding-top: 14px;">
+<p class="small cheatsheet-end">
 End of document. To regenerate or extend: edit this single .html file. All styling, code samples, diagrams, and image slots are inline - no external dependencies. For air-gapped sharing, copy the file as-is.
 </p>
 
 </div>
 
-<footer class="site-footer" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;">
+<footer class="site-footer cheatsheet-footer-sans">
 <div class="container-wide">
 &copy; 2026 Bryce Maxheimer &middot;
 <a href="https://github.com/brycemaxheimer">GitHub</a> &middot;

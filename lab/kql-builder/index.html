@@ -58,8 +58,8 @@
 
 <main class="kb-page">
 
-<div style="font-family: var(--font-mono); font-size: 0.82rem; color: var(--text-3); margin-bottom: 1rem;">
-<a href="/lab/" style="color: var(--mint-deep); text-decoration: none" aria-label="Back to Browser Lab"><span aria-hidden="true">&larr;</span> Browser Lab</a>
+<div class="nav-back">
+<a href="/lab/" aria-label="Back to Browser Lab"><span aria-hidden="true">&larr;</span> Browser Lab</a>
 </div>
 
 <h1>KQL Builder</h1>
@@ -105,12 +105,12 @@ live in the box on the right. Copy it, save it, or send it straight to the
 
 <h3>Aggregate / summarize</h3>
 <div class="kb-field">
-<label class="kb-checkbox" style="background:transparent;border:none;padding:0">
+<label class="kb-checkbox reset-box">
 <input type="checkbox" id="kb-summarize">
-<span style="font-family: var(--font-sans); font-size: 0.92rem; color: var(--text-1)">Summarize results by a column</span>
+<span class="kb-summary-label">Summarize results by a column</span>
 </label>
 </div>
-<div id="kb-summarize-options" style="display:none">
+<div id="kb-summarize-options" class="hidden">
 <div class="kb-field">
 <label for="kb-agg">Aggregation</label>
 <select class="kb-select" id="kb-agg">
@@ -155,7 +155,7 @@ live in the box on the right. Copy it, save it, or send it straight to the
 </div>
 
 <div class="kb-saved">
-<h3 style="border:none;padding:0;margin-top:0">Saved queries <span style="color:var(--text-3);font-weight:400;letter-spacing:0;text-transform:none;font-family:var(--font-mono);font-size:0.78rem">stored in this browser</span></h3>
+<h3 class="h3-reset">Saved queries <span class="h3-side">stored in this browser</span></h3>
 <ul class="kb-saved-list" id="kb-saved-list">
 <li class="kb-saved-empty">No saved queries yet.</li>
 </ul>
