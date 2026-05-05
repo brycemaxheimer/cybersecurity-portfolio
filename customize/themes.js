@@ -108,7 +108,9 @@
         var theme = THEMES.find(function (t) { return t.id === id; });
         if (theme) nameEl.textContent = theme.name;
         Array.prototype.forEach.call(grid.querySelectorAll('.cu-card'), function (c) {
-            c.classList.toggle('is-active', c.dataset.theme === id);
+            var isActive = c.dataset.theme === id;
+            c.classList.toggle('is-active', isActive);
+            c.setAttribute('aria-pressed', isActive ? 'true' : 'false');
         });
 
         flashStatus('Theme applied');
@@ -140,7 +142,7 @@
         var headStyle = 'color:' + mini.heading + ';';
         var linkStyle = 'color:' + mini.accent + ';';
 
-        return '<button class="cu-card" data-theme="' + escapeHtml(t.id) + '" type="button">' +
+        return '<button class="cu-card" data-theme="' + escapeHtml(t.id) + '" type="button" aria-pressed="false">' +
             '<div class="cu-card-header">' +
                 '<h3>' + escapeHtml(t.name) + '</h3>' +
                 '<span class="active-mark">Active</span>' +
@@ -162,7 +164,9 @@
         if (theme) nameEl.textContent = theme.name;
 
         Array.prototype.forEach.call(grid.querySelectorAll('.cu-card'), function (c) {
-            if (c.dataset.theme === active) c.classList.add('is-active');
+            var isActive = c.dataset.theme === active;
+            if (isActive) c.classList.add('is-active');
+            c.setAttribute('aria-pressed', isActive ? 'true' : 'false');
             c.addEventListener('click', function () {
                 setActive(c.dataset.theme);
             });

@@ -33,10 +33,10 @@
 <a href="/certs/">Certs</a>
 <a href="/projects/">Projects</a>
         <span class="nav-dropdown">
-            <a href="/lab/" class="active">Lab <span class="caret">&#9662;</span></a>
+            <a href="/lab/" class="active" aria-label="Lab menu">Lab <span class="caret" aria-hidden="true">&#9662;</span></a>
             <div class="nav-dropdown-menu">
                 <div class="nested-dropdown">
-                    <a href="#" class="nested-dropbtn">KQL Tools <span class="caret-right">&#9656;</span></a>
+                    <a href="#" class="nested-dropbtn" aria-label="Toggle KQL Tools menu">KQL Tools <span class="caret-right" aria-hidden="true">&#9656;</span></a>
                     <div class="nested-dropdown-menu">
                         <a href="/kql/">KQL Playground</a>
                         <a href="/lab/practice/">KQL Practice</a>
@@ -58,7 +58,7 @@
 
 <main class="cu-page">
 
-<h1>Customize</h1>
+<h1 id="cu-h">Customize</h1>
 <p class="subhead">
 Pick a theme that fits your eyes. The choice persists across the site - if
 you're going to spend time in the <a href="/lab/">Lab</a>, the <a href="/kql/">playground</a>,
@@ -66,7 +66,7 @@ or reading writeups, this is the lever. Stored locally in your browser, never
 sent anywhere.
 </p>
 
-<div class="cu-grid" id="theme-grid"></div>
+<div class="cu-grid" id="theme-grid" role="region" aria-labelledby="cu-h"></div>
 
 <div class="cu-actions">
     <span class="label">Active theme:</span>

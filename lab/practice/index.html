@@ -33,10 +33,10 @@
 <a href="/certs/">Certs</a>
 <a href="/projects/">Projects</a>
 <span class="nav-dropdown">
-    <a href="/lab/" class="active">Lab <span class="caret">&#9662;</span></a>
+    <a href="/lab/" class="active" aria-label="Lab menu">Lab <span class="caret" aria-hidden="true">&#9662;</span></a>
     <div class="nav-dropdown-menu">
         <div class="nested-dropdown">
-            <a href="#" class="nested-dropbtn">KQL Tools <span class="caret-right">&#9656;</span></a>
+            <a href="#" class="nested-dropbtn" aria-label="Toggle KQL Tools menu">KQL Tools <span class="caret-right" aria-hidden="true">&#9656;</span></a>
             <div class="nested-dropdown-menu">
                 <a href="/kql/">KQL Playground</a>
                 <a href="/lab/practice/">KQL Practice</a>
@@ -70,9 +70,9 @@
     <div class="practice-shell">
 
         <!-- LEFT PANE: question list -->
-        <aside class="practice-sidebar" id="question-list">
+        <aside class="practice-sidebar" id="question-list" role="region" aria-labelledby="ql-h">
             <div class="sidebar-header">
-                <h3>Questions</h3>
+                <h3 id="ql-h">Questions</h3>
                 <div class="score-summary" id="score-summary">0 / 30</div>
             </div>
             <div class="filter-row">
@@ -93,7 +93,8 @@
                 </div>
             </div>
 
-            <div class="editor-wrap">
+            <div class="editor-wrap" role="region" aria-labelledby="ed-h">
+                <h2 id="ed-h" class="sr-only">KQL editor</h2>
                 <div class="editor-toolbar">
                     <span class="toolbar-label">Your KQL</span>
                     <div class="toolbar-actions">
@@ -107,7 +108,8 @@
                 <div class="editor-status" id="editor-status">Ready.</div>
             </div>
 
-            <div class="results-panel" id="results-panel">
+            <h2 id="res-h" class="sr-only">Query results</h2>
+            <div class="results-panel" id="results-panel" role="region" aria-labelledby="res-h">
                 <div class="results-empty">
                     <em>No run yet. Hit Test Run when you've got a query worth checking.</em>
                 </div>

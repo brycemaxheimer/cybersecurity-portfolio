@@ -33,10 +33,10 @@
 <a href="/certs/">Certs</a>
 <a href="/projects/">Projects</a>
 <span class="nav-dropdown">
-    <a href="/lab/" class="active">Lab <span class="caret">&#9662;</span></a>
+    <a href="/lab/" class="active" aria-label="Lab menu">Lab <span class="caret" aria-hidden="true">&#9662;</span></a>
     <div class="nav-dropdown-menu">
         <div class="nested-dropdown">
-            <a href="#" class="nested-dropbtn">KQL Tools <span class="caret-right">&#9656;</span></a>
+            <a href="#" class="nested-dropbtn" aria-label="Toggle KQL Tools menu">KQL Tools <span class="caret-right" aria-hidden="true">&#9656;</span></a>
             <div class="nested-dropdown-menu">
                 <a href="/kql/">KQL Playground</a>
                 <a href="/lab/practice/">KQL Practice</a>
@@ -59,7 +59,7 @@
 <main class="kb-page">
 
 <div style="font-family: var(--font-mono); font-size: 0.82rem; color: var(--text-3); margin-bottom: 1rem;">
-<a href="/lab/" style="color: var(--mint-deep); text-decoration: none">&larr; Browser Lab</a>
+<a href="/lab/" style="color: var(--mint-deep); text-decoration: none" aria-label="Back to Browser Lab"><span aria-hidden="true">&larr;</span> Browser Lab</a>
 </div>
 
 <h1>KQL Builder</h1>
@@ -71,7 +71,8 @@ live in the box on the right. Copy it, save it, or send it straight to the
 
 <div class="kb-shell">
 
-<div class="kb-form-card">
+<div class="kb-form-card" role="region" aria-labelledby="kb-form-h">
+<h2 id="kb-form-h" class="sr-only">Builder form</h2>
 
 <h3>Source</h3>
 <div class="kb-field">
@@ -140,7 +141,8 @@ live in the box on the right. Copy it, save it, or send it straight to the
 </div>
 
 
-<div class="kb-output-card">
+<div class="kb-output-card" role="region" aria-labelledby="kb-out-h">
+<h2 id="kb-out-h" class="sr-only">Generated KQL output</h2>
 
 <h3>Generated KQL</h3>
 <textarea class="kb-output" id="kb-output" readonly spellcheck="false"></textarea>

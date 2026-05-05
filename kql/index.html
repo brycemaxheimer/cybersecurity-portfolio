@@ -33,10 +33,10 @@
 <a href="/certs/">Certs</a>
 <a href="/projects/">Projects</a>
         <span class="nav-dropdown">
-            <a href="/lab/" class="active">Lab <span class="caret">&#9662;</span></a>
+            <a href="/lab/" class="active" aria-label="Lab menu">Lab <span class="caret" aria-hidden="true">&#9662;</span></a>
             <div class="nav-dropdown-menu">
                 <div class="nested-dropdown">
-                    <a href="#" class="nested-dropbtn">KQL Tools <span class="caret-right">&#9656;</span></a>
+                    <a href="#" class="nested-dropbtn" aria-label="Toggle KQL Tools menu">KQL Tools <span class="caret-right" aria-hidden="true">&#9656;</span></a>
                     <div class="nested-dropdown-menu">
                         <a href="/kql/">KQL Playground</a>
                         <a href="/lab/practice/">KQL Practice</a>
@@ -76,8 +76,8 @@ last hour so practice questions stay deterministic.
 </p>
 
 <div class="pg-shell">
-<aside class="pg-sidebar">
-<h4>Tables</h4>
+<aside class="pg-sidebar" role="region" aria-labelledby="pg-tables-h">
+<h4 id="pg-tables-h">Tables</h4>
 <ul id="tables-list"><li style="color: var(--text-3); font-family: var(--font-mono); font-size: 0.78rem">loading...</li></ul>
 
 <h4>Examples</h4>
@@ -115,6 +115,8 @@ last hour so practice questions stay deterministic.
 </aside>
 
 <div>
+<section role="region" aria-labelledby="pg-ed-h">
+<h2 id="pg-ed-h" class="sr-only">KQL editor</h2>
 <textarea class="pg-editor" id="editor" spellcheck="false">DeviceLogonEvents
 | where ActionType == 'LogonFailed'
 | summarize attempts = count() by AccountName
@@ -131,7 +133,10 @@ last hour so practice questions stay deterministic.
 </label>
 <span class="pg-status" id="status">Initializing engine...</span>
 </div>
+</section>
 
+<section role="region" aria-labelledby="pg-res-h">
+<h2 id="pg-res-h" class="sr-only">Query results</h2>
 <div class="pg-results" id="results">
 <div class="placeholder">Loading sample data...</div>
 </div>
@@ -140,6 +145,7 @@ last hour so practice questions stay deterministic.
 <summary>View translated SQL</summary>
 <pre id="sql-preview"></pre>
 </details>
+</section>
 </div>
 </div>
 
