@@ -24,6 +24,54 @@
 if (-not $script:SecIntelHttpInitialized) {
     $script:SecIntelHttpInitialized = $true
     $script:SecIntelHttpRng = [System.Random]::new()
+
+    # ----- TLS protocol floor -----
+    # STIG-aligned environments require TLS 1.2+. PS 5.1's default
+    # SecurityProtocol still includes SSL3 / TLS 1.0 on some hosts,
+    # which DoD egress proxies refuse. OR Tls13 in when the runtime
+    # supports it (PS 7+ on Win10+, .NET >= 4.8).
+    try {
+        $proto = [Net.ServicePointManager]::SecurityProtocol -bor `
+                 [Net.SecurityProtocolType]::Tls12
+        try { $proto = $proto -bor ([Net.SecurityProtocolType]::Tls13) } catch { }
+        [Net.ServicePointManager]::SecurityProtocol = $proto
+    } catch { }
+
+    # ----- Proxy credentials (DoD / enterprise networks) -----
+    # PowerShell auto-discovers the proxy URL from WinHTTP / IE
+    # settings, but the runtime does not pass the logged-in Windows
+    # identity to the proxy by default - the result is 407 Proxy
+    # Authentication Required against every endpoint behind the
+    # gateway. Forwarding DefaultNetworkCredentials makes web requests
+    # work transparently behind authenticated proxies.
+    try {
+        $proxy = [System.Net.WebRequest]::DefaultWebProxy
+        if ($proxy) {
+            $proxy.Credentials = [System.Net.CredentialCache]::DefaultNetworkCredentials
+        }
+    } catch { }
+
+    # ----- User-Agent -----
+    # Single source of truth for outbound UA. abuse.ch (MalwareBazaar)
+    # rejects the default PS UA outright; NVD and MITRE ask consumers
+    # to identify themselves; corporate WAFs frequently block requests
+    # without a UA. The contact URL satisfies the "identify yourself"
+    # asks. Override per-call by passing 'User-Agent' in Headers.
+    $psVer = if ($PSVersionTable -and $PSVersionTable.PSVersion) {
+        $PSVersionTable.PSVersion.ToString()
+    } else { 'unknown' }
+    $script:SecIntelUserAgent =
+        "SOC-Dashboard/1.0 (+https://github.com/brycemaxheimer/cybersecurity-portfolio; PowerShell/$psVer; Windows)"
+}
+
+# ============================================================
+# Public accessor for the shared UA so call sites that bypass
+# Invoke-RestMethodWithRetry (Invoke-WebRequest, WebClient,
+# HttpClient) can stamp the same string.
+# ============================================================
+function Get-SecIntelUserAgent {
+    [CmdletBinding()] param()
+    return $script:SecIntelUserAgent
 }
 
 function Get-HttpStatusCode {
@@ -95,7 +143,23 @@ function Invoke-RestMethodWithRetry {
     )
 
     $params = @{ Uri = $Uri; Method = $Method; TimeoutSec = $TimeoutSec; ErrorAction = 'Stop' }
-    if ($Headers)      { $params['Headers']     = $Headers }
+
+    # Default UA from the shared constant. A caller-supplied User-Agent
+    # in Headers wins: we strip it out of Headers and route it through
+    # the -UserAgent parameter so Invoke-RestMethod handles UA as a
+    # first-class field (avoids 'header already set' warnings on PS 7+).
+    $ua = $script:SecIntelUserAgent
+    $cleanHeaders = $null
+    if ($Headers) {
+        $cleanHeaders = @{}
+        foreach ($k in $Headers.Keys) {
+            if ($k -match '^user-agent$') { $ua = [string]$Headers[$k] }
+            else { $cleanHeaders[$k] = $Headers[$k] }
+        }
+    }
+    $params['UserAgent'] = $ua
+    if ($cleanHeaders -and $cleanHeaders.Count -gt 0) { $params['Headers'] = $cleanHeaders }
+
     if ($PSBoundParameters.ContainsKey('Body'))  { $params['Body']        = $Body }
     if ($ContentType)  { $params['ContentType'] = $ContentType }
 

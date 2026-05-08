@@ -35,6 +35,7 @@ param(
 )
 
 . (Join-Path $PSScriptRoot 'SecIntel.Schema.ps1')
+. (Join-Path $PSScriptRoot 'SecIntel.Http.ps1')
 Ensure-PSSQLite
 Initialize-SecIntelSchema
 
@@ -61,7 +62,12 @@ $tmpGz  = Join-Path $env:TEMP "epss_$([guid]::NewGuid()).csv.gz"
 $tmpCsv = Join-Path $env:TEMP "epss_$([guid]::NewGuid()).csv"
 
 try {
-    Invoke-WebRequest -Uri $FeedUrl -OutFile $tmpGz -UseBasicParsing
+    # -OutFile streams binary (the .csv.gz) so we can't route this
+    # through Invoke-RestMethodWithRetry. Stamp the shared UA directly
+    # so corporate WAFs / abuse-prevention layers don't 403 the
+    # PowerShell default UA.
+    Invoke-WebRequest -Uri $FeedUrl -OutFile $tmpGz -UseBasicParsing `
+        -UserAgent (Get-SecIntelUserAgent)
     Write-Host ("Downloaded {0:N1} KB" -f ((Get-Item $tmpGz).Length / 1KB)) -ForegroundColor DarkGray
 
     $in  = $null

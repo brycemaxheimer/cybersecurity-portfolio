@@ -26,6 +26,7 @@
 
 . (Join-Path $PSScriptRoot 'SecIntel.Schema.ps1')
 . (Join-Path $PSScriptRoot 'SecIntel.Settings.ps1')
+. (Join-Path $PSScriptRoot 'SecIntel.Http.ps1')
 
 # ============================================================
 # Verdict-driven TTL policy (seconds)
@@ -117,7 +118,7 @@ function Invoke-VtHashLookup {
     $now     = (Get-Date).ToUniversalTime().ToString('o')
 
     try {
-        $resp = Invoke-RestMethod -Uri $url -Headers $headers -Method GET -ErrorAction Stop
+        $resp = Invoke-RestMethodWithRetry -Uri $url -Headers $headers -Method GET -TimeoutSec 30
     } catch {
         $status = $null
         try { $status = $_.Exception.Response.StatusCode.value__ } catch {}
@@ -178,17 +179,16 @@ function Invoke-MalwareBazaarLookup {
     $now  = (Get-Date).ToUniversalTime().ToString('o')
     $body = @{ query = 'get_info'; hash = $Hash.Trim() }
 
-    # abuse.ch added a User-Agent requirement in 2024 - requests without
-    # one come back 403 / 429 with no useful body. Set one explicitly.
-    $headers = @{ 'User-Agent' = 'SocDashboard-SecIntel/1.0 (+local lab)' }
-
-    # Optional auth key (not required for get_info, but lifts rate limits)
+    # abuse.ch enforces a UA requirement - the wrapper supplies the
+    # shared SOC-Dashboard UA automatically. Optional auth key (not
+    # required for get_info, but lifts rate limits).
+    $headers = @{}
     $authKey = Get-AppSecret 'apikey.malwarebazaar'
     if ($authKey) { $headers['Auth-Key'] = $authKey }
 
     try {
-        $resp = Invoke-RestMethod -Uri 'https://mb-api.abuse.ch/api/v1/' `
-            -Method POST -Body $body -Headers $headers -TimeoutSec 30 -ErrorAction Stop
+        $resp = Invoke-RestMethodWithRetry -Uri 'https://mb-api.abuse.ch/api/v1/' `
+            -Method POST -Body $body -Headers $headers -TimeoutSec 30
     } catch {
         Write-Warning "MalwareBazaar lookup failed for $Hash : $($_.Exception.Message)"
         return $null
@@ -238,7 +238,7 @@ function Invoke-OtxHashLookup {
     $url     = "https://otx.alienvault.com/api/v1/indicators/file/$($Hash.Trim())/general"
 
     try {
-        $resp = Invoke-RestMethod -Uri $url -Headers $headers -Method GET -ErrorAction Stop
+        $resp = Invoke-RestMethodWithRetry -Uri $url -Headers $headers -Method GET -TimeoutSec 30
     } catch {
         return $null
     }

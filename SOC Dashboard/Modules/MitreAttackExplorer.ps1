@@ -45,6 +45,7 @@ $ErrorActionPreference = 'Stop'
 
 # ---------- Shared schema / paths / dependency bootstrap ----------
 . (Join-Path $PSScriptRoot 'SecIntel.Schema.ps1')
+. (Join-Path $PSScriptRoot 'SecIntel.Http.ps1')
 Ensure-PSSQLite
 
 # ---------- Script-specific URL ----------
@@ -54,7 +55,11 @@ $script:MitreUrl = 'https://raw.githubusercontent.com/mitre/cti/master/enterpris
 function Update-MitreData {
     Write-Host "Downloading MITRE ATT&CK Enterprise dataset..." -ForegroundColor Cyan
     $tempFile = Join-Path $env:TEMP 'enterprise-attack.json'
-    Invoke-WebRequest -Uri $script:MitreUrl -OutFile $tempFile -UseBasicParsing
+    # -OutFile streams the ~30 MB JSON. Stamp the shared UA so MITRE/
+    # GitHub raw.githubusercontent.com doesn't get a default PS UA
+    # (some corporate WAFs throttle/block based on UA heuristics).
+    Invoke-WebRequest -Uri $script:MitreUrl -OutFile $tempFile -UseBasicParsing `
+        -UserAgent (Get-SecIntelUserAgent)
 
     Write-Host "Parsing STIX bundle (this can take ~30-60s on PS 5.1)..." -ForegroundColor Cyan
     $raw = Get-Content $tempFile -Raw

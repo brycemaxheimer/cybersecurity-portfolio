@@ -196,11 +196,13 @@ function Update-Kevs {
     param()
     Write-Host "Pulling CISA KEV catalog from GitHub mirror..." -ForegroundColor Cyan
 
-    # Create a .NET WebClient object
+    # WebClient is used here (instead of Invoke-RestMethodWithRetry) so
+    # the JSON arrives as a string we can stream into ConvertFrom-Json
+    # without Invoke-RestMethod's auto-deserialize cap. Stamp the shared
+    # UA so corporate WAFs and GitHub raw both see the same identifier
+    # the rest of the toolkit uses.
     $webClient = New-Object System.Net.WebClient
-
-    # A User-Agent header is still a good practice, even for GitHub
-    $webClient.Headers.Add('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36')
+    $webClient.Headers.Add('User-Agent', (Get-SecIntelUserAgent))
 
     try {
         # Use the WebClient to download the content as a string
