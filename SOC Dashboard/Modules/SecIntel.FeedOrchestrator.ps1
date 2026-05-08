@@ -57,7 +57,11 @@ $script:FeedDefinitions = [ordered]@{
         DisplayName  = 'CISA KEV'
         Script       = 'Update-CveKevFeed.ps1'
         Arguments    = @{ SkipCves = $true }
-        FeedMetaName = 'KEV'
+        # FeedMetaName MUST match the literal string the underlying
+        # script writes to FeedMeta.FeedName. Mismatches make
+        # Test-FeedTtlExpired always return $true, so every launch
+        # re-runs the feed regardless of TTL.
+        FeedMetaName = 'CISA-KEV'
         Wave         = 1
     }
     epss = @{
@@ -73,14 +77,14 @@ $script:FeedDefinitions = [ordered]@{
         DisplayName  = 'NVD CVE'
         Script       = 'Update-CveKevFeed.ps1'
         Arguments    = @{ SkipKevs = $true }
-        FeedMetaName = 'CVEs'
+        FeedMetaName = 'NVD-CVE'
         Wave         = 2
     }
     mitre = @{
         DisplayName  = 'MITRE ATT&CK'
         Script       = 'MitreAttackExplorer.ps1'
         Arguments    = @{ Update = $true; NoGui = $true }
-        FeedMetaName = 'MITRE'
+        FeedMetaName = 'MITRE-ATTACK'
         Wave         = 2
     }
 }
@@ -229,6 +233,17 @@ function Start-FeedRefresh {
     $wave1 = @($toRefresh | Where-Object { $script:FeedDefinitions[$_].Wave -eq 1 })
     $wave2 = @($toRefresh | Where-Object { $script:FeedDefinitions[$_].Wave -eq 2 })
 
+    # Pre-resolve every feed's TTL hours (Get-FeedTtlHours hits AppSettings,
+    # which is fine here in the synchronous dispatcher path) so the timer
+    # callback below doesn't need to call functions by name. PowerShell
+    # function-table lookup fails inside DispatcherTimer.Tick callbacks
+    # (same gotcha as the Phase 2.2 IoC closure), so the orchestrator
+    # exposes Build-Final-Status as a captured scriptblock instead.
+    $ttlByKey = @{}
+    foreach ($k in $script:FeedDefinitions.Keys) {
+        $ttlByKey[$k] = Get-FeedTtlHours -FeedKey $k
+    }
+
     # Shared mutable state for the timer closure. Hashtable is a
     # reference type so writes inside the closure are visible outside.
     $state = @{
@@ -237,13 +252,43 @@ function Start-FeedRefresh {
         Wave2Started     = $false
         ModulesDir       = $ModulesDir
         Definitions      = $script:FeedDefinitions
+        DbPath           = $script:DbPath
+        TtlByKey         = $ttlByKey
         Inner            = $script:FeedRunInner
         Dispatcher       = $Window.Dispatcher
         Callback         = $OnStatusUpdate
         Handles          = New-Object System.Collections.Generic.List[object]
         Pool             = $null
         Timer            = $null
+        BuildFinalStatus = $null   # set below once $state exists
     }
+
+    # Self-contained scriptblock: builds a FeedStatus PSCustomObject
+    # using only $state (captured by closure) + the Invoke-SqliteQuery
+    # cmdlet (cmdlets resolve fine in dispatcher context, only PS-defined
+    # functions get masked). The timer body invokes this via &.
+    $state.BuildFinalStatus = {
+        param([string]$Key)
+        $def = $state.Definitions[$Key]
+        if (-not $def) { return $null }
+        $row = $null
+        try {
+            $row = Invoke-SqliteQuery -DataSource $state.DbPath `
+                -Query "SELECT LastUpdated, RecordCount FROM FeedMeta WHERE FeedName=@n" `
+                -SqlParameters @{ n = $def.FeedMetaName } | Select-Object -First 1
+        } catch { }
+        [pscustomobject]@{
+            FeedKey     = $Key
+            DisplayName = $def.DisplayName
+            LastUpdated = if ($row) { $row.LastUpdated } else { $null }
+            RecordCount = if ($row) { $row.RecordCount } else { $null }
+            TtlHours    = $state.TtlByKey[$Key]
+            Wave        = $def.Wave
+            State       = $null
+            Message     = $null
+            DurationSec = $null
+        }
+    }.GetNewClosure()
 
     $iss   = [System.Management.Automation.Runspaces.InitialSessionState]::CreateDefault()
     $maxRs = [Math]::Max(2, ($wave1.Count + $wave2.Count))
@@ -306,17 +351,21 @@ function Start-FeedRefresh {
                 $state.Handles.RemoveAt($i)
 
                 if ($state.Callback) {
-                    $final = Get-FeedStatus -FeedKey $h.Key
-                    if ($r -and $r.Success) {
-                        $final.State       = 'completed'
-                        $final.Message     = 'done in {0}s' -f $r.DurationSec
-                        $final.DurationSec = $r.DurationSec
-                    } else {
-                        $final.State       = 'error'
-                        $final.Message     = if ($r) { $r.ErrorMessage } else { 'unknown error' }
-                        $final.DurationSec = if ($r) { $r.DurationSec } else { 0 }
+                    # Use the captured scriptblock, NOT Get-FeedStatus by name -
+                    # function-table lookup fails inside dispatcher callbacks.
+                    $final = & $state.BuildFinalStatus $h.Key
+                    if ($null -ne $final) {
+                        if ($r -and $r.Success) {
+                            $final.State       = 'completed'
+                            $final.Message     = 'done in {0}s' -f $r.DurationSec
+                            $final.DurationSec = $r.DurationSec
+                        } else {
+                            $final.State       = 'error'
+                            $final.Message     = if ($r) { $r.ErrorMessage } else { 'unknown error' }
+                            $final.DurationSec = if ($r) { $r.DurationSec } else { 0 }
+                        }
+                        & $state.Callback $final
                     }
-                    & $state.Callback $final
                 }
             } else {
                 $stillRunning++
