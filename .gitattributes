@@ -1,0 +1,41 @@
+# Default: let Git decide based on content, normalize text to LF in repo
+* text=auto
+
+# PowerShell scripts execute on Windows; keep CRLF in working tree
+*.ps1   text eol=crlf
+*.psm1  text eol=crlf
+*.psd1  text eol=crlf
+
+# Windows batch / cmd
+*.bat   text eol=crlf
+*.cmd   text eol=crlf
+
+# Shell scripts always LF, even on Windows
+*.sh    text eol=lf
+
+# Web assets - normalize to LF
+*.js    text eol=lf
+*.cjs   text eol=lf
+*.mjs   text eol=lf
+*.ts    text eol=lf
+*.tsx   text eol=lf
+*.jsx   text eol=lf
+*.css   text eol=lf
+*.html  text eol=lf
+*.json  text eol=lf
+*.md    text eol=lf
+*.yml   text eol=lf
+*.yaml  text eol=lf
+
+# Binary - never normalize
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.ico   binary
+*.pdf   binary
+*.zip   binary
+*.gz    binary
+*.db    binary
+*.sqlite binary
+*.accdb binary
