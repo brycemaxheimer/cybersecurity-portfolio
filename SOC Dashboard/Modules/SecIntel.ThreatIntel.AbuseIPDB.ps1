@@ -41,8 +41,7 @@ function Get-AbuseIpIntel {
         if ($cached) { return $cached }
     }
 
-    $key = Get-AppSecret 'apikey.abuseipdb'
-    if (-not $key) { throw "AbuseIPDB API key not set. Use: Set-AppSecret 'apikey.abuseipdb' '<KEY>'" }
+    $key = Get-AppSecret 'apikey.abuseipdb' -Strict
 
     $headers = @{ Key = $key; Accept = 'application/json' }
     $url     = "https://api.abuseipdb.com/api/v2/check?ipAddress=$([uri]::EscapeDataString($Ip))&maxAgeInDays=$MaxAgeDays&verbose"

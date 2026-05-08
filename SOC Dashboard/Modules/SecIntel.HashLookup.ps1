@@ -110,8 +110,7 @@ function Invoke-VtHashLookup {
     [CmdletBinding()]
     param([Parameter(Mandatory)][string]$Hash)
 
-    $key = Get-AppSecret 'apikey.virustotal'
-    if (-not $key) { throw "VirusTotal API key not set. Use: Set-AppSecret 'apikey.virustotal' '<KEY>'" }
+    $key = Get-AppSecret 'apikey.virustotal' -Strict
 
     $headers = @{ 'x-apikey' = $key }
     $url     = "https://www.virustotal.com/api/v3/files/$($Hash.Trim())"

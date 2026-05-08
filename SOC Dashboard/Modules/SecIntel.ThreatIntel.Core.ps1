@@ -27,34 +27,39 @@ $script:IntelTtl = @{
 }
 
 # ============================================================
+# IoC type patterns. Single source of truth shared by:
+#   - Resolve-IocType (below)
+#   - $tiAutoDetect closure in SocDashboard.ps1 (Threat Intel tab)
+# Ordered: most specific first; the first matching regex wins.
+#
+# 'product' (vendor:product, e.g. 'cisco:asa') follows ipv6
+# deliberately so values with hex-only labels (e.g. 'aa:bb')
+# resolve to ipv6 first, matching the previous behaviour.
+# ============================================================
+$script:IocTypePatterns = @(
+    [pscustomobject]@{ Type='sha256';  Pattern='^[a-fA-F0-9]{64}$' }
+    [pscustomobject]@{ Type='sha1';    Pattern='^[a-fA-F0-9]{40}$' }
+    [pscustomobject]@{ Type='md5';     Pattern='^[a-fA-F0-9]{32}$' }
+    [pscustomobject]@{ Type='url';     Pattern='^[a-zA-Z][a-zA-Z0-9+\-.]*://' }
+    [pscustomobject]@{ Type='ip';      Pattern='^(?:(?:25[0-5]|2[0-4]\d|[01]?\d?\d)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d?\d)$' }
+    [pscustomobject]@{ Type='ipv6';    Pattern='^(?=.*:)[0-9a-fA-F:]{2,39}$' }
+    [pscustomobject]@{ Type='product'; Pattern='^[a-z0-9_\-]+:[a-z0-9_\-]+$' }
+    [pscustomobject]@{ Type='domain';  Pattern='^([a-zA-Z0-9](?:[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$' }
+)
+
+# ============================================================
 # Auto-detect IoC type from a free-text input. Returns:
-#   ip | ipv6 | domain | url | sha256 | sha1 | md5 | $null
-# Order matters: hash-by-length first (most specific), then URL,
-# then IP, then domain.
+#   ip | ipv6 | domain | url | sha256 | sha1 | md5 | product | $null
+# Order is encoded in $script:IocTypePatterns above.
 # ============================================================
 function Resolve-IocType {
     [CmdletBinding()]
     param([Parameter(Mandatory)][string]$Value)
     $v = $Value.Trim()
     if (-not $v) { return $null }
-
-    # Hash by length and content
-    if ($v -match '^[a-fA-F0-9]{64}$') { return 'sha256' }
-    if ($v -match '^[a-fA-F0-9]{40}$') { return 'sha1'   }
-    if ($v -match '^[a-fA-F0-9]{32}$') { return 'md5'    }
-
-    # URL: must have scheme
-    if ($v -match '^[a-zA-Z][a-zA-Z0-9+\-.]*://') { return 'url' }
-
-    # IPv4
-    if ($v -match '^(?:(?:25[0-5]|2[0-4]\d|[01]?\d?\d)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d?\d)$') { return 'ip' }
-
-    # IPv6 (loose)
-    if ($v -match '^[0-9a-fA-F:]+$' -and $v -match ':' -and $v.Length -le 39) { return 'ipv6' }
-
-    # Domain (one or more labels with TLD)
-    if ($v -match '^([a-zA-Z0-9](?:[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$') { return 'domain' }
-
+    foreach ($p in $script:IocTypePatterns) {
+        if ($v -match $p.Pattern) { return $p.Type }
+    }
     return $null
 }
 

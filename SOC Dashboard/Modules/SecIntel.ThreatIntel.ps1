@@ -96,6 +96,21 @@ function Get-IntelProviderPlan {
 }
 
 # ============================================================
+# Names-only view of Get-IntelProviderPlan, derived once at
+# module-load time. The dashboard's WPF closure uses this to
+# decide which providers to fan out for a given IoC type
+# without having to re-implement the switch above.
+#
+# Single source of truth = the switch in Get-IntelProviderPlan.
+# Adding a new type or provider in the switch above
+# automatically updates this hashtable on next module load.
+# ============================================================
+$script:ProviderNamesByType = @{}
+foreach ($t in @('ip','ipv6','domain','url','sha256','sha1','md5','product')) {
+    $script:ProviderNamesByType[$t] = @((Get-IntelProviderPlan -IocType $t) | ForEach-Object Name)
+}
+
+# ============================================================
 # Synchronous dispatcher - calls every compatible provider in turn,
 # returns the list of result rows.  The dashboard uses the parallel
 # wrapper below; CLI users can call this directly.

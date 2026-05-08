@@ -99,12 +99,75 @@ INSERT OR REPLACE INTO AppSettings (Name, Value, IsSecret, Updated) VALUES (@n,@
 
 function Get-AppSecret {
     [CmdletBinding()]
-    param([Parameter(Mandatory)][string]$Name)
+    param(
+        [Parameter(Mandatory)][string]$Name,
+        # When -Strict, missing rows AND DPAPI failures throw instead
+        # of returning $null. Use -Strict in providers that need the
+        # secret to function so the failure surfaces in the UI rather
+        # than as "no result returned" three layers deeper.
+        [switch]$Strict
+    )
     $r = Invoke-SqliteQuery -DataSource $script:DbPath `
         -Query "SELECT Value, IsSecret FROM AppSettings WHERE Name=@n" `
         -SqlParameters @{ n=$Name } | Select-Object -First 1
-    if (-not $r -or [int]$r.IsSecret -ne 1) { return $null }
+    if (-not $r -or [int]$r.IsSecret -ne 1) {
+        if ($Strict) {
+            throw "Secret '$Name' is not configured. Use: Set-AppSecret -Name '$Name' -Value '<VALUE>'"
+        }
+        return $null
+    }
+    if ($Strict) {
+        # Bypass Unprotect-DpapiString so a CryptographicException
+        # (e.g. DB copied from another user/machine) propagates to
+        # the caller instead of being swallowed by Write-Warning + null.
+        $enc   = [Convert]::FromBase64String([string]$r.Value)
+        $bytes = [System.Security.Cryptography.ProtectedData]::Unprotect(
+                    $enc, $null,
+                    [System.Security.Cryptography.DataProtectionScope]::CurrentUser)
+        return [System.Text.Encoding]::UTF8.GetString($bytes)
+    }
     return Unprotect-DpapiString $r.Value
+}
+
+# ============================================================
+# DPAPI health probe. Picks the most-recently-updated secret row
+# in AppSettings and tries to decrypt it with the CurrentUser
+# DPAPI scope. Used by the dashboard at launch to detect the
+# "DB copied from another user/machine" footgun before secret
+# reads start failing silently.
+#
+# Returns a PSCustomObject with:
+#   Status: 'ok' | 'no-secrets' | 'failed'
+#   Name:   the secret row tested (null when no-secrets)
+#   Reason: exception message when Status='failed'
+# Never throws.
+# ============================================================
+function Test-DpapiSecretsHealth {
+    [CmdletBinding()]
+    param([string]$DbPath = $script:DbPath)
+
+    $row = Invoke-SqliteQuery -DataSource $DbPath `
+        -Query "SELECT Name, Value FROM AppSettings WHERE IsSecret=1 ORDER BY Updated DESC LIMIT 1" |
+        Select-Object -First 1
+    if (-not $row) {
+        return [pscustomobject]@{ Status='no-secrets'; Name=$null; Reason=$null }
+    }
+    try {
+        # Bypass Unprotect-DpapiString so we can trap the exception
+        # cleanly (it Write-Warnings + returns $null, which collapses
+        # 'CryptographicException' and 'no secret in DB' into one signal).
+        $enc = [Convert]::FromBase64String([string]$row.Value)
+        [void][System.Security.Cryptography.ProtectedData]::Unprotect(
+                    $enc, $null,
+                    [System.Security.Cryptography.DataProtectionScope]::CurrentUser)
+        return [pscustomobject]@{ Status='ok'; Name=$row.Name; Reason=$null }
+    } catch {
+        return [pscustomobject]@{
+            Status = 'failed'
+            Name   = $row.Name
+            Reason = $_.Exception.Message
+        }
+    }
 }
 
 # ============================================================

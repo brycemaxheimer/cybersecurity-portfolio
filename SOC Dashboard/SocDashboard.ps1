@@ -4,11 +4,12 @@
 
 .DESCRIPTION
     Modern WPF rendering of the SOC analyst console with smooth animations,
-    consistent dark theming, hardware-accelerated compositing, rounded panels,
-    and draggable splitters between dashboard panes.
+    consistent dark theming, hardware-accelerated compositing, and rounded
+    panels.
 
     Top-level tabs:
-        Dashboard       - KPI tiles + Newest KEVs / Feed Health / Critical CVEs
+        Dashboard       - KPI tiles + sub-tabs: Newest KEVs / Feed Health /
+                          Critical CVEs
         MITRE ATT&CK    - sub-tabs: Tactics / Techniques / Sub-techniques /
                           Groups / Software / Mitigations
         CVEs            - last-30d NVD CVE cache, filterable
@@ -68,7 +69,7 @@ Add-Type -AssemblyName System.Xaml
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="SOC Operations Dashboard"
         Height="860" Width="1320"
-        MinHeight="700" MinWidth="1200"
+        MinHeight="600" MinWidth="960"
         Background="#0D1117"
         WindowStartupLocation="CenterScreen"
         FontFamily="Consolas"
@@ -412,6 +413,7 @@ Add-Type -AssemblyName System.Xaml
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>  <!-- Persistent header -->
+            <RowDefinition Height="Auto"/>  <!-- DPAPI health banner (collapsed by default) -->
             <RowDefinition Height="*"/>     <!-- Tab content       -->
         </Grid.RowDefinitions>
 
@@ -463,8 +465,39 @@ Add-Type -AssemblyName System.Xaml
             </Grid>
         </Border>
 
+        <!-- ===== DPAPI health banner =====
+             Visibility flipped to Visible at launch when
+             Test-DpapiSecretsHealth returns 'failed' (most often a DB
+             copied between users/machines, where DPAPI CurrentUser keys
+             cannot decrypt). Dismissible per session. -->
+        <Border x:Name="DpapiBanner" Grid.Row="1"
+                Visibility="Collapsed"
+                Background="#3D2B1F"
+                BorderBrush="{StaticResource WarnBrush}"
+                BorderThickness="0,0,0,1"
+                Padding="16,8,16,8">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0"
+                           x:Name="DpapiBannerText"
+                           Foreground="{StaticResource WarnBrush}"
+                           FontSize="11"
+                           TextWrapping="Wrap"
+                           VerticalAlignment="Center"/>
+                <Button Grid.Column="1"
+                        x:Name="DpapiBannerCloseBtn"
+                        Content="Dismiss"
+                        Style="{StaticResource DarkButton}"
+                        MinWidth="80"
+                        Margin="14,0,0,0"/>
+            </Grid>
+        </Border>
+
         <!-- ===== Top-level TabControl ===== -->
-        <TabControl Grid.Row="1" x:Name="MainTabs">
+        <TabControl Grid.Row="2" x:Name="MainTabs">
 
             <!-- ============= Dashboard tab ============= -->
             <TabItem Header="Dashboard" x:Name="DashboardTab">
@@ -506,72 +539,34 @@ Add-Type -AssemblyName System.Xaml
                         </Border>
                     </UniformGrid>
 
-                    <!-- Body with splitters -->
-                    <Grid Grid.Row="1" Margin="10,8,10,10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"  MinWidth="240"/>
-                            <ColumnDefinition Width="6"/>
-                            <ColumnDefinition Width="*"  MinWidth="240"/>
-                        </Grid.ColumnDefinitions>
+                    <!-- Body: tabbed lists (replaces resizable splitters) -->
+                    <TabControl Grid.Row="1" x:Name="DashboardSubTabs" Margin="10,8,10,10">
 
-                        <Border Grid.Column="0"
-                                Background="{StaticResource BgPanelBrush}"
-                                BorderBrush="{StaticResource BorderBrush}"
-                                BorderThickness="1" CornerRadius="6">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
-                                <TextBlock Grid.Row="0" Text="NEWEST KEVS" Style="{StaticResource SectionHeader}"/>
-                                <DataGrid Grid.Row="1" x:Name="NewKevGrid"/>
-                            </Grid>
-                        </Border>
-
-                        <GridSplitter Grid.Column="1" Width="6"
-                                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                                      ResizeBehavior="PreviousAndNext" ResizeDirection="Columns" Cursor="SizeWE"/>
-
-                        <Grid Grid.Column="2">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"  MinHeight="120"/>
-                                <RowDefinition Height="6"/>
-                                <RowDefinition Height="2*" MinHeight="120"/>
-                            </Grid.RowDefinitions>
-
-                            <Border Grid.Row="0"
-                                    Background="{StaticResource BgPanelBrush}"
+                        <TabItem Header="Newest KEVs" x:Name="DashNewKevTab">
+                            <Border Background="{StaticResource BgPanelBrush}"
                                     BorderBrush="{StaticResource BorderBrush}"
                                     BorderThickness="1" CornerRadius="6">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="*"/>
-                                    </Grid.RowDefinitions>
-                                    <TextBlock Grid.Row="0" Text="FEED HEALTH" Style="{StaticResource SectionHeader}"/>
-                                    <DataGrid Grid.Row="1" x:Name="FeedGrid"/>
-                                </Grid>
+                                <DataGrid x:Name="NewKevGrid"/>
                             </Border>
+                        </TabItem>
 
-                            <GridSplitter Grid.Row="1" Height="6"
-                                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                                          ResizeBehavior="PreviousAndNext" ResizeDirection="Rows" Cursor="SizeNS"/>
-
-                            <Border Grid.Row="2"
-                                    Background="{StaticResource BgPanelBrush}"
+                        <TabItem Header="Feed Health" x:Name="DashFeedTab">
+                            <Border Background="{StaticResource BgPanelBrush}"
                                     BorderBrush="{StaticResource BorderBrush}"
                                     BorderThickness="1" CornerRadius="6">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="*"/>
-                                    </Grid.RowDefinitions>
-                                    <TextBlock Grid.Row="0" Text="CRITICAL CVES (CVSS &gt;= 9.0)" Style="{StaticResource SectionHeader}"/>
-                                    <DataGrid Grid.Row="1" x:Name="CritCveGrid"/>
-                                </Grid>
+                                <DataGrid x:Name="FeedGrid"/>
                             </Border>
-                        </Grid>
-                    </Grid>
+                        </TabItem>
+
+                        <TabItem Header="Critical CVEs (CVSS &gt;= 9.0)" x:Name="DashCritCveTab">
+                            <Border Background="{StaticResource BgPanelBrush}"
+                                    BorderBrush="{StaticResource BorderBrush}"
+                                    BorderThickness="1" CornerRadius="6">
+                                <DataGrid x:Name="CritCveGrid"/>
+                            </Border>
+                        </TabItem>
+
+                    </TabControl>
                 </Grid>
             </TabItem>
 
@@ -1178,6 +1173,8 @@ $elementNames = @(
     # Persistent header
     'LastRefreshLbl','RefreshBtn',
     'BtnUpdateKev','BtnUpdateCve','BtnUpdateEpss','BtnUpdateMitre','JobStatusLbl',
+    # DPAPI health banner (collapsed unless Test-DpapiSecretsHealth fails at launch)
+    'DpapiBanner','DpapiBannerText','DpapiBannerCloseBtn',
     # TabControls and TabItems
     'MainTabs','MitreSubTabs',
     'DashboardTab','MitreTab','TacticsTab','TechniquesTab','SubTechniquesTab',
@@ -1550,21 +1547,15 @@ $updateProvidersLabel = {
 
 $tiAutoDetect = {
     param([string]$value)
-    # Inlined type detection. The dispatcher's Resolve-IocType isn't always
-    # visible from inside a WPF-dispatched click handler closure (cross-scope
-    # function lookup gets flaky in that path), so we duplicate the regex here.
-    # Order matters: most specific patterns first.
+    # Reads $script:IocTypePatterns set by SecIntel.ThreatIntel.Core.ps1
+    # (dot-sourced through SecIntel.ThreatIntel.ps1 above). Single source of
+    # truth shared with Resolve-IocType so the regex set never desyncs.
     if (-not $value) { return $null }
     $v = $value.Trim()
     if (-not $v) { return $null }
-    if ($v -match '^[a-fA-F0-9]{64}$') { return 'sha256' }
-    if ($v -match '^[a-fA-F0-9]{40}$') { return 'sha1'   }
-    if ($v -match '^[a-fA-F0-9]{32}$') { return 'md5'    }
-    if ($v -match '^[a-zA-Z][a-zA-Z0-9+\-.]*://') { return 'url' }
-    if ($v -match '^(?:(?:25[0-5]|2[0-4]\d|[01]?\d?\d)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d?\d)$') { return 'ip' }
-    if ($v -match '^[0-9a-fA-F:]+$' -and $v -match ':' -and $v.Length -le 39) { return 'ipv6' }
-    if ($v -match '^[a-z0-9_\-]+:[a-z0-9_\-]+$') { return 'product' }
-    if ($v -match '^([a-zA-Z0-9](?:[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$') { return 'domain' }
+    foreach ($p in $script:IocTypePatterns) {
+        if ($v -match $p.Pattern) { return $p.Type }
+    }
     return $null
 }.GetNewClosure()
 
@@ -1606,19 +1597,11 @@ $TiAddIocBtn.Add_Click($tiAddIoc)
 $tiPool = $null
 $tiHandles = New-Object System.Collections.Generic.List[object]
 
-# Provider plan lookup table - inlined here so the WPF closure has no
-# cross-scope function dependency. Must match Get-IntelProviderPlan in
-# Modules\SecIntel.ThreatIntel.ps1; if you add a provider, update both.
-$tiPlanByType = @{
-    'ip'      = @('abuseipdb')
-    'ipv6'    = @('abuseipdb')
-    'domain'  = @()
-    'url'     = @('urlscan')
-    'sha256'  = @('nsrl','virustotal','malwarebazaar','otx')
-    'sha1'    = @('nsrl')
-    'md5'     = @('nsrl')
-    'product' = @('nist')
-}
+# Provider plan lookup. Reads $script:ProviderNamesByType set by
+# SecIntel.ThreatIntel.ps1 (dot-sourced at the top of the threat-intel
+# section). Single source of truth = Get-IntelProviderPlan; this is the
+# names-only projection for the WPF closure.
+$tiPlanByType = $script:ProviderNamesByType
 
 $tiLookup = {
     if ($tiPool) {
@@ -2769,6 +2752,30 @@ $MitreSubTabs.Add_SelectionChanged({
 if (-not $NoLoad) {
     $window.Add_ContentRendered({ & $refreshDash })
 }
+
+# ============================================================
+# DPAPI first-run check. If a recently-saved secret cannot be
+# decrypted (most often: DB copied between users/machines),
+# surface a dismissible banner pointing the user at Set-AppSecret.
+# Status='no-secrets' (fresh DB) and Status='ok' do nothing.
+# ============================================================
+try {
+    $dpapiHealth = Test-DpapiSecretsHealth
+} catch {
+    $dpapiHealth = [pscustomobject]@{
+        Status = 'failed'; Name = '?'; Reason = $_.Exception.Message
+    }
+}
+if ($dpapiHealth.Status -eq 'failed') {
+    $DpapiBannerText.Text = (
+        "DPAPI decryption failed for secret '$($dpapiHealth.Name)'. " +
+        "Secrets are tied to your Windows profile (CurrentUser scope), so a " +
+        "database copied from another user or machine cannot decrypt them. " +
+        "Re-enter API keys with: Set-AppSecret -Name 'apikey.<name>' -Value '<KEY>'"
+    )
+    $DpapiBanner.Visibility = 'Visible'
+}
+$DpapiBannerCloseBtn.Add_Click({ $DpapiBanner.Visibility = 'Collapsed' })
 
 # ============================================================
 # Show modal

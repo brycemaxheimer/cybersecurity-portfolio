@@ -68,9 +68,10 @@ function Initialize-Storage {
             $catalog.Create("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=$script:AccdbPath;")
             [System.Runtime.InteropServices.Marshal]::ReleaseComObject($catalog) | Out-Null
         } catch {
-            # ACE not present - fall through to JSON
+            # ACE OLEDB not present (no Access install) - fall through to JSON.
             $script:StorageMode = 'json'
             if (-not (Test-Path $script:JsonPath)) { '[]' | Set-Content $script:JsonPath -Encoding UTF8 }
+            Write-Host ("KqlBuilder: ACE OLEDB provider not found - saved queries will use {0} (JSON) instead of {1} (.accdb). Install Microsoft Access Database Engine to switch to Access storage." -f $script:JsonPath, $script:AccdbPath) -ForegroundColor Yellow
             return
         }
     }
@@ -106,8 +107,11 @@ CREATE TABLE SavedQueries (
         $conn.Close()
         $script:StorageMode = 'access'
     } catch {
+        # OleDb open or schema check failed despite ACE being installed -
+        # fall back to JSON and tell the user why.
         $script:StorageMode = 'json'
         if (-not (Test-Path $script:JsonPath)) { '[]' | Set-Content $script:JsonPath -Encoding UTF8 }
+        Write-Host ("KqlBuilder: ACE OLEDB present but failed to open {0} ({1}). Saved queries will use {2} (JSON) instead." -f $script:AccdbPath, $_.Exception.Message, $script:JsonPath) -ForegroundColor Yellow
     }
 }
 Initialize-Storage
