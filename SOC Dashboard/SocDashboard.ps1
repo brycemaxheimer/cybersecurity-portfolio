@@ -2085,12 +2085,19 @@ $kqlAggFuncs        = @('count()','countif({col} != "")','dcount({col})','dcount
 $kqlOrderDirections = @('desc','asc')
 $kqlTakeModes       = @('take (any N)','top N by order')
 
-# --- Templates: curated hunting query collection from KqlTemplates.ps1 ---
-# This module file holds the full ~1900-line template library (Mega Query
-# framework rev 3.0.0 + 3.0.1, per-tactic subqueries, APT-Hunt-CN-RU,
-# InitialAccess-Anomaly, hunting-pack §1-§3). Edit it directly to add or
-# tweak templates without touching the dashboard.
+# --- Templates: DB-backed library (KqlTemplates table) ---
+# The 5 built-in templates ship in lab/templates/data.json and are
+# seeded into the KqlTemplates table by Initialize-SecIntelSchema on
+# first run. User-authored templates are added via the right-click
+# context menu on the templates list and stored in the same table.
+# CRUD: Get-KqlTemplate / Set-KqlTemplate / Remove-KqlTemplate /
+# Import-KqlTemplatesFromJson (see Modules/KqlTemplates.ps1).
 . (Join-Path $script:ModulesDir 'KqlTemplates.ps1')
+
+# Microsoft.VisualBasic.Interaction.InputBox is used for simple
+# single-field prompts in the templates context menu; loading once
+# here so the module is available when the user opens the menu.
+try { Add-Type -AssemblyName Microsoft.VisualBasic -ErrorAction Stop } catch {}
 
 # --- Populate static dropdowns ---
 $KqlTableCombo.ItemsSource    = @($kqlTables.Keys)
@@ -2103,13 +2110,55 @@ $KqlOrderDirCombo.SelectedIndex = 0                        # desc
 $KqlTakeMode.ItemsSource      = $kqlTakeModes
 $KqlTakeMode.SelectedIndex    = 0                          # take
 
-# Populate templates list
-foreach ($k in $kqlTemplates.Keys) {
-    $li = New-Object System.Windows.Controls.ListBoxItem
-    $li.Content = $k
-    $li.Tag     = $kqlTemplates[$k]
-    [void]$KqlTemplatesList.Items.Add($li)
+# Populate templates list (DB-backed). Wrapped in a script block so
+# the context menu can re-call it after add / edit / delete without
+# duplicating the population logic.
+$refreshKqlTemplatesList = {
+    $previousSelected = $null
+    if ($KqlTemplatesList.SelectedItem) {
+        $previousSelected = [string]$KqlTemplatesList.SelectedItem.Content
+    }
+    $KqlTemplatesList.Items.Clear()
+    try {
+        $rows = Get-KqlTemplate -All
+    } catch {
+        Write-Warning ("Templates: could not load from DB: {0}" -f $_.Exception.Message)
+        $rows = @()
+    }
+    foreach ($row in $rows) {
+        $li = New-Object System.Windows.Controls.ListBoxItem
+        # Display name with a leading lock glyph for built-ins; the
+        # underlying .Tag.Name (set below) is always the unprefixed
+        # template name so Set-/Remove-KqlTemplate keys correctly.
+        if ($row.IsBuiltIn) {
+            $li.Content = "[BI] " + $row.Name
+        } else {
+            $li.Content = $row.Name
+        }
+        $li.Tag = [pscustomobject]@{
+            Name        = $row.Name
+            Kql         = $row.Kql
+            Description = $row.Description
+            Tags        = $row.Tags
+            IsBuiltIn   = $row.IsBuiltIn
+            Author      = $row.Author
+        }
+        if ($row.Description) {
+            $li.ToolTip = $row.Description
+        }
+        [void]$KqlTemplatesList.Items.Add($li)
+    }
+    # Restore selection by Name if we still have it
+    if ($previousSelected) {
+        foreach ($it in $KqlTemplatesList.Items) {
+            if ($it.Tag.Name -eq $previousSelected) {
+                $KqlTemplatesList.SelectedItem = $it
+                break
+            }
+        }
+    }
 }
+& $refreshKqlTemplatesList
 
 # State: columns of the currently-selected table
 $script:KqlCurrentColumns = @()
@@ -2449,15 +2498,172 @@ $KqlResetBtn.Add_Click({
 
 $KqlTemplatesList.Add_SelectionChanged({
     if ($KqlTemplatesList.SelectedItem) {
-        $KqlTemplatePreviewTxt.Text = $KqlTemplatesList.SelectedItem.Tag
+        $KqlTemplatePreviewTxt.Text = $KqlTemplatesList.SelectedItem.Tag.Kql
     }
 })
 $KqlApplyTemplateBtn.Add_Click({
     if ($KqlTemplatesList.SelectedItem) {
-        $KqlOutputTxt.Text       = $KqlTemplatesList.SelectedItem.Tag
-        $KqlOutputStatusLbl.Text = "Loaded template: " + $KqlTemplatesList.SelectedItem.Content
+        $sel = $KqlTemplatesList.SelectedItem
+        $KqlOutputTxt.Text       = $sel.Tag.Kql
+        $KqlOutputStatusLbl.Text = "Loaded template: " + $sel.Tag.Name
     }
 })
+
+# ----------------------------------------------------------------
+# Templates context menu (right-click on KqlTemplatesList)
+# All CRUD goes through Set-/Remove-KqlTemplate and refreshes the
+# list. Save uses a 3-prompt sequence (Name / Description / Tags)
+# via Microsoft.VisualBasic.InputBox to avoid a new XAML dialog.
+# ----------------------------------------------------------------
+$kqlTplGetSelected = {
+    if (-not $KqlTemplatesList.SelectedItem) { return $null }
+    return $KqlTemplatesList.SelectedItem.Tag
+}
+
+$kqlTplPrompt = {
+    param([string]$Title, [string]$Prompt, [string]$Default = '')
+    return [Microsoft.VisualBasic.Interaction]::InputBox($Prompt, $Title, $Default)
+}
+
+$kqlTplMenu = New-Object System.Windows.Controls.ContextMenu
+
+$miApply = New-Object System.Windows.Controls.MenuItem
+$miApply.Header = "Apply (load to output)"
+$miApply.Add_Click({
+    if ($KqlTemplatesList.SelectedItem) {
+        $sel = $KqlTemplatesList.SelectedItem.Tag
+        $KqlOutputTxt.Text       = $sel.Kql
+        $KqlOutputStatusLbl.Text = "Loaded template: " + $sel.Name
+    }
+})
+[void]$kqlTplMenu.Items.Add($miApply)
+
+$miCopy = New-Object System.Windows.Controls.MenuItem
+$miCopy.Header = "Copy KQL to clipboard"
+$miCopy.Add_Click({
+    $sel = & $kqlTplGetSelected
+    if ($sel) {
+        [System.Windows.Clipboard]::SetText($sel.Kql)
+        $KqlOutputStatusLbl.Text = "Copied template KQL to clipboard."
+    }
+})
+[void]$kqlTplMenu.Items.Add($miCopy)
+
+$miInfo = New-Object System.Windows.Controls.MenuItem
+$miInfo.Header = "Show details..."
+$miInfo.Add_Click({
+    $sel = & $kqlTplGetSelected
+    if (-not $sel) { return }
+    $msg = "Name: $($sel.Name)`n" +
+           "Built-in: $($sel.IsBuiltIn)`n" +
+           "Author: $($sel.Author)`n" +
+           "Tags: $($sel.Tags -join ', ')`n`n" +
+           "Description:`n$($sel.Description)"
+    [void][System.Windows.MessageBox]::Show($msg, "Template details", 'OK', 'Information')
+})
+[void]$kqlTplMenu.Items.Add($miInfo)
+
+[void]$kqlTplMenu.Items.Add((New-Object System.Windows.Controls.Separator))
+
+$miSave = New-Object System.Windows.Controls.MenuItem
+$miSave.Header = "Save current output as new template..."
+$miSave.Add_Click({
+    $body = [string]$KqlOutputTxt.Text
+    if (-not $body.Trim()) {
+        [void][System.Windows.MessageBox]::Show("KQL output is empty - build or paste a query first.", "Save template", 'OK', 'Warning')
+        return
+    }
+    $name = & $kqlTplPrompt "Save template (1/3)" "Template name (required, must be unique):"
+    if (-not $name) { return }
+    $existing = Get-KqlTemplate -Name $name
+    if ($existing) {
+        $confirm = [System.Windows.MessageBox]::Show(
+            "A template named '$name' already exists. Overwrite?",
+            "Save template", 'YesNo', 'Question')
+        if ($confirm -ne 'Yes') { return }
+        if ($existing.IsBuiltIn) {
+            [void][System.Windows.MessageBox]::Show("'$name' is a built-in template and cannot be overwritten this way. Pick a different name.", "Save template", 'OK', 'Warning')
+            return
+        }
+    }
+    $desc = & $kqlTplPrompt "Save template (2/3)" "Description (optional):"
+    $tagStr = & $kqlTplPrompt "Save template (3/3)" "Tags (optional, comma-separated):"
+    $tags = if ($tagStr) {
+        @($tagStr -split ',' | ForEach-Object { $_.Trim() } | Where-Object { $_ })
+    } else { @() }
+
+    try {
+        $null = Set-KqlTemplate -Name $name -Kql $body -Description $desc -Tags $tags
+        & $refreshKqlTemplatesList
+        $KqlOutputStatusLbl.Text = "Saved template: $name"
+    } catch {
+        [void][System.Windows.MessageBox]::Show("Save failed: $_", "Save template", 'OK', 'Error')
+    }
+})
+[void]$kqlTplMenu.Items.Add($miSave)
+
+$miEditDesc = New-Object System.Windows.Controls.MenuItem
+$miEditDesc.Header = "Edit selected: description..."
+$miEditDesc.Add_Click({
+    $sel = & $kqlTplGetSelected
+    if (-not $sel) { return }
+    $newDesc = & $kqlTplPrompt "Edit description" "Description for '$($sel.Name)':" $sel.Description
+    if ($null -eq $newDesc) { return }
+    try {
+        $null = Set-KqlTemplate -Name $sel.Name -Kql $sel.Kql -Description $newDesc -Tags $sel.Tags -BuiltIn:$sel.IsBuiltIn
+        & $refreshKqlTemplatesList
+    } catch {
+        [void][System.Windows.MessageBox]::Show("Edit failed: $_", "Edit template", 'OK', 'Error')
+    }
+})
+[void]$kqlTplMenu.Items.Add($miEditDesc)
+
+$miEditTags = New-Object System.Windows.Controls.MenuItem
+$miEditTags.Header = "Edit selected: tags..."
+$miEditTags.Add_Click({
+    $sel = & $kqlTplGetSelected
+    if (-not $sel) { return }
+    $current = ($sel.Tags -join ', ')
+    $newStr = & $kqlTplPrompt "Edit tags" "Tags for '$($sel.Name)' (comma-separated):" $current
+    if ($null -eq $newStr) { return }
+    $tags = if ($newStr) {
+        @($newStr -split ',' | ForEach-Object { $_.Trim() } | Where-Object { $_ })
+    } else { @() }
+    try {
+        $null = Set-KqlTemplate -Name $sel.Name -Kql $sel.Kql -Description $sel.Description -Tags $tags -BuiltIn:$sel.IsBuiltIn
+        & $refreshKqlTemplatesList
+    } catch {
+        [void][System.Windows.MessageBox]::Show("Edit failed: $_", "Edit template", 'OK', 'Error')
+    }
+})
+[void]$kqlTplMenu.Items.Add($miEditTags)
+
+[void]$kqlTplMenu.Items.Add((New-Object System.Windows.Controls.Separator))
+
+$miDelete = New-Object System.Windows.Controls.MenuItem
+$miDelete.Header = "Delete selected"
+$miDelete.Add_Click({
+    $sel = & $kqlTplGetSelected
+    if (-not $sel) { return }
+    if ($sel.IsBuiltIn) {
+        [void][System.Windows.MessageBox]::Show("'$($sel.Name)' is a built-in template and cannot be deleted from the UI.`n`nUse Remove-KqlTemplate -Name '$($sel.Name)' -Force from the PowerShell console if you really want it gone.", "Delete template", 'OK', 'Warning')
+        return
+    }
+    $confirm = [System.Windows.MessageBox]::Show(
+        "Delete user template '$($sel.Name)'? This cannot be undone.",
+        "Delete template", 'YesNo', 'Question')
+    if ($confirm -ne 'Yes') { return }
+    try {
+        $null = Remove-KqlTemplate -Name $sel.Name -Confirm:$false
+        & $refreshKqlTemplatesList
+        $KqlOutputStatusLbl.Text = "Deleted template: $($sel.Name)"
+    } catch {
+        [void][System.Windows.MessageBox]::Show("Delete failed: $_", "Delete template", 'OK', 'Error')
+    }
+})
+[void]$kqlTplMenu.Items.Add($miDelete)
+
+$KqlTemplatesList.ContextMenu = $kqlTplMenu
 
 # Initial state
 $KqlTableCombo.SelectedIndex = 0

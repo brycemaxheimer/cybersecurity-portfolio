@@ -246,6 +246,27 @@ CREATE TABLE IF NOT EXISTS KqlQueries (
 CREATE INDEX IF NOT EXISTS IX_KqlQ_Name ON KqlQueries(Name);
 CREATE INDEX IF NOT EXISTS IX_KqlQ_Tags ON KqlQueries(Tags);
 
+-- ===== Built-in + user KQL template library =====
+-- Distinct from KqlQueries (which is the runtime log of executed
+-- queries with timestamps and run counts). KqlTemplates is the
+-- reusable starting-point library: 5 built-in templates seeded from
+-- lab/templates/data.json (IsBuiltIn=1) plus any analyst-authored
+-- templates (IsBuiltIn=0). Tags are stored as a JSON array string,
+-- matching the pattern used by KqlQueries.Tags and Iocs.Tags.
+CREATE TABLE IF NOT EXISTS KqlTemplates (
+    TemplateId    INTEGER PRIMARY KEY AUTOINCREMENT,
+    Name          TEXT NOT NULL UNIQUE,
+    Description   TEXT,
+    Tags          TEXT,
+    Kql           TEXT NOT NULL,
+    Author        TEXT,
+    IsBuiltIn     INTEGER DEFAULT 0,
+    Created       TEXT,
+    LastModified  TEXT
+);
+CREATE INDEX IF NOT EXISTS IX_KqlTmpl_Name ON KqlTemplates(Name);
+CREATE INDEX IF NOT EXISTS IX_KqlTmpl_Tags ON KqlTemplates(Tags);
+
 -- ===== Watchlists =====
 CREATE TABLE IF NOT EXISTS Watchlists (
     WatchlistId INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -316,9 +337,99 @@ function Add-CveEpssColumnsIfMissing {
     if ($cols -notcontains 'EpssDate')       { Invoke-SqliteQuery -DataSource $DbPath -Query "ALTER TABLE CVEs ADD COLUMN EpssDate TEXT" }
 }
 
+# Builds a JSON array string from a [string[]]. Required because
+# `@('one') | ConvertTo-Json -Compress` returns '"one"' (the inner
+# string) not '["one"]' (a one-element array) on PS 5.1, which would
+# corrupt the Tags column for any single-tag template. Manual build is
+# reliable across all PS versions.
+function ConvertTo-SecIntelTagsJson {
+    [CmdletBinding()]
+    param([string[]]$Tags)
+    if (-not $Tags) { return '[]' }
+    $arr = @($Tags) | Where-Object { $_ -ne $null -and $_ -ne '' }
+    if ($arr.Count -eq 0) { return '[]' }
+    # Use plain String.Replace (not -replace) to avoid PowerShell's
+    # regex replacement semantics, where '\\\\' would expand to four
+    # literal backslashes instead of two. Bind to the
+    # Replace(string,string) overload by passing string args on both
+    # sides; Replace(char,char) would reject the 2-char '\r' / '\n'.
+    $parts = foreach ($t in $arr) {
+        $s = [string]$t
+        $s = $s.Replace('\', '\\').Replace('"', '\"')
+        $s = $s.Replace("`r", '\r').Replace("`n", '\n').Replace("`t", '\t')
+        '"' + $s + '"'
+    }
+    return '[' + ($parts -join ',') + ']'
+}
+
+function Import-KqlTemplatesFromJsonIfEmpty {
+    [CmdletBinding()]
+    param([string]$DbPath = $script:DbPath)
+
+    $count = (Invoke-SqliteQuery -DataSource $DbPath `
+                -Query "SELECT COUNT(*) AS N FROM KqlTemplates").N
+    if ($count -gt 0) { return }
+
+    # Resolve lab/templates/data.json relative to this script:
+    # SOC Dashboard/Modules/SecIntel.Schema.ps1 -> ../../lab/templates/data.json
+    $jsonPath = Join-Path $PSScriptRoot '..\..\lab\templates\data.json'
+    $resolved = Resolve-Path $jsonPath -ErrorAction SilentlyContinue
+    if (-not $resolved) {
+        Write-Verbose "lab/templates/data.json not found; skipping built-in KQL template seed."
+        return
+    }
+
+    try {
+        $data = Get-Content -Raw $resolved.Path | ConvertFrom-Json
+    } catch {
+        Write-Warning ("Failed to parse {0}: {1}" -f $resolved.Path, $_.Exception.Message)
+        return
+    }
+
+    $now     = (Get-Date).ToString('o')
+    $created = if ($data.updated) { $data.updated } else { $now }
+    $tplList = @($data.templates)
+    $inserted = 0
+
+    foreach ($t in $tplList) {
+        if (-not $t.name -or -not $t.kql) { continue }
+        $tagsJson = ConvertTo-SecIntelTagsJson -Tags $t.tags
+        Invoke-SqliteQuery -DataSource $DbPath -Query @"
+INSERT OR IGNORE INTO KqlTemplates
+    (Name, Description, Tags, Kql, Author, IsBuiltIn, Created, LastModified)
+VALUES
+    (@n, @d, @tg, @k, @a, 1, @c, @m)
+"@ -SqlParameters @{
+            n  = $t.name
+            d  = $t.description
+            tg = $tagsJson
+            k  = $t.kql
+            a  = 'lab/templates/data.json'
+            c  = $created
+            m  = $now
+        }
+        $inserted++
+    }
+    if ($inserted -gt 0) {
+        Write-Host ("Seeded {0} built-in KQL templates from {1}" -f $inserted, $resolved.Path) -ForegroundColor Cyan
+    }
+}
+
 function Initialize-SecIntelSchema {
     [CmdletBinding()]
     param([string]$DbPath = $script:DbPath)
+    # WAL is a database-level setting that persists in the DB file
+    # header, so setting it once here applies to every future
+    # connection. Required for the parallel feed orchestrator
+    # (Phase 3) which writes KEV and EPSS simultaneously.
+    #
+    # PRAGMA busy_timeout is intentionally NOT set here: it is a
+    # per-connection setting that does not persist, and PSSQLite
+    # opens a fresh connection per Invoke-SqliteQuery call. Phase 3
+    # will introduce a connection wrapper that sets busy_timeout
+    # on each acquired connection.
+    Invoke-SqliteQuery -DataSource $DbPath -Query "PRAGMA journal_mode=WAL" | Out-Null
     Invoke-SqliteQuery -DataSource $DbPath -Query $script:SecIntelSchemaDdl
     Add-CveEpssColumnsIfMissing -DbPath $DbPath
+    Import-KqlTemplatesFromJsonIfEmpty -DbPath $DbPath
 }
