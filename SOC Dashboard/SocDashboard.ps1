@@ -64,6 +64,11 @@ Initialize-SecIntelSchema
 . (Join-Path $script:ModulesDir 'SecIntel.AutoStart.ps1')
 # Feed orchestrator powers the launch-time refresh + status panel.
 . (Join-Path $script:ModulesDir 'SecIntel.FeedOrchestrator.ps1')
+# KQL practice harness (lab DB + 30-question grader). Dot-sourced
+# eagerly so Invoke-KqlPS lands in script scope and isn't lost
+# when the practice tab calls run-time helpers.
+. (Join-Path $script:ModulesDir 'SecIntel.KqlLab.ps1')
+. (Join-Path $script:ModulesDir 'SecIntel.KqlPractice.ps1')
 
 # ---------- WPF assemblies ----------
 Add-Type -AssemblyName PresentationFramework
@@ -1186,6 +1191,159 @@ Add-Type -AssemblyName System.Xaml
                 </DockPanel>
             </TabItem>
 
+            <!-- ============= KQL Practice tab =============
+                 30 hand-authored questions, gold-validated against ADX.
+                 Native PowerShell + SQLite > browser sql.js / WebAssembly:
+                 indexed reads, full-fat row counts, no memory cap. -->
+            <TabItem Header="KQL Practice" x:Name="PracticeTab">
+                <Grid Margin="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="320" MinWidth="240"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- LEFT: question list + filter -->
+                    <Border Grid.Column="0"
+                            Background="{StaticResource BgAltBrush}"
+                            BorderBrush="{StaticResource BorderBrush}"
+                            BorderThickness="0,0,1,0">
+                        <DockPanel LastChildFill="True" Margin="10,10,10,10">
+                            <StackPanel DockPanel.Dock="Top">
+                                <TextBlock Text="QUESTIONS"
+                                           Foreground="{StaticResource AccentBrush}"
+                                           FontSize="11" FontWeight="Bold" Margin="0,0,0,4"/>
+                                <TextBlock x:Name="PracticeProgressLbl"
+                                           Foreground="{StaticResource FgDimBrush}"
+                                           FontSize="11" Margin="0,0,0,8"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                    <Button x:Name="PracticeFilterAll"     Content="All"    Style="{StaticResource DarkButton}" MinWidth="50" Margin="0,0,4,0"/>
+                                    <Button x:Name="PracticeFilterEasy"   Content="Easy"   Style="{StaticResource DarkButton}" MinWidth="50" Margin="0,0,4,0"/>
+                                    <Button x:Name="PracticeFilterMedium" Content="Medium" Style="{StaticResource DarkButton}" MinWidth="60" Margin="0,0,4,0"/>
+                                    <Button x:Name="PracticeFilterHard"   Content="Hard"   Style="{StaticResource DarkButton}" MinWidth="50"/>
+                                </StackPanel>
+                            </StackPanel>
+                            <ListBox x:Name="PracticeQuestionList"
+                                     Background="{StaticResource BgPanelBrush}"
+                                     Foreground="{StaticResource FgBrush}"
+                                     BorderBrush="{StaticResource BorderBrush}"
+                                     FontSize="11">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="2,4,2,4">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="36"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text="{Binding NumberLabel}"
+                                                       Foreground="{StaticResource FgDimBrush}"/>
+                                            <TextBlock Grid.Column="1" Text="{Binding Title}"
+                                                       Foreground="{StaticResource FgBrush}"
+                                                       TextTrimming="CharacterEllipsis"/>
+                                            <TextBlock Grid.Column="2" Text="{Binding StatusBadge}"
+                                                       Margin="6,0,0,0"
+                                                       FontWeight="Bold"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </DockPanel>
+                    </Border>
+
+                    <!-- RIGHT: prompt + editor + results -->
+                    <Grid Grid.Column="1" Margin="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Prompt header -->
+                        <Border Grid.Row="0"
+                                Background="{StaticResource BgAltBrush}"
+                                BorderBrush="{StaticResource BorderBrush}"
+                                BorderThickness="0,0,0,1"
+                                Padding="14,10,14,10">
+                            <StackPanel>
+                                <TextBlock x:Name="PracticeQTitleLbl"
+                                           Foreground="{StaticResource AccentBrush}"
+                                           FontSize="13" FontWeight="Bold"
+                                           Text="Pick a question to begin."/>
+                                <TextBlock x:Name="PracticeQMetaLbl"
+                                           Foreground="{StaticResource FgDimBrush}"
+                                           FontSize="11" Margin="0,2,0,0"/>
+                                <TextBlock x:Name="PracticeQPromptLbl"
+                                           Foreground="{StaticResource FgBrush}"
+                                           FontSize="12"
+                                           TextWrapping="Wrap"
+                                           Margin="0,8,0,0"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Editor -->
+                        <Grid Grid.Row="1" Margin="14,10,14,4">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="YOUR KQL"
+                                           Foreground="{StaticResource AccentBrush}"
+                                           FontSize="11" FontWeight="Bold"
+                                           VerticalAlignment="Center"/>
+                                <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                    <Button x:Name="PracticeResetBtn"  Content="Reset"     Style="{StaticResource DarkButton}" MinWidth="70" Margin="0,0,6,0"/>
+                                    <Button x:Name="PracticeRunBtn"    Content="Test Run"  Style="{StaticResource DarkButton}" MinWidth="80" Margin="0,0,6,0"/>
+                                    <Button x:Name="PracticeSubmitBtn" Content="Submit"    Style="{StaticResource DarkButton}" MinWidth="80"/>
+                                </StackPanel>
+                            </Grid>
+                            <TextBox Grid.Row="1" x:Name="PracticeEditor"
+                                     Background="{StaticResource BgPanelBrush}"
+                                     Foreground="{StaticResource FgBrush}"
+                                     BorderBrush="{StaticResource BorderBrush}"
+                                     FontFamily="Consolas" FontSize="12"
+                                     AcceptsReturn="True" AcceptsTab="True"
+                                     TextWrapping="NoWrap"
+                                     VerticalScrollBarVisibility="Auto"
+                                     HorizontalScrollBarVisibility="Auto"
+                                     Margin="0,6,0,0"/>
+                            <TextBlock Grid.Row="2" x:Name="PracticeStatusLbl"
+                                       Foreground="{StaticResource FgDimBrush}"
+                                       FontSize="11" Margin="0,4,0,0"
+                                       Text="Ready."/>
+                        </Grid>
+
+                        <!-- Results -->
+                        <Grid Grid.Row="2" Margin="14,4,14,10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Text="RESULTS"
+                                       Foreground="{StaticResource AccentBrush}"
+                                       FontSize="11" FontWeight="Bold"
+                                       Margin="0,0,0,4"/>
+                            <DataGrid Grid.Row="1" x:Name="PracticeResultsGrid"
+                                      AutoGenerateColumns="True"
+                                      IsReadOnly="True"
+                                      Background="{StaticResource BgPanelBrush}"
+                                      Foreground="{StaticResource FgBrush}"
+                                      BorderBrush="{StaticResource BorderBrush}"
+                                      RowBackground="{StaticResource BgPanelBrush}"
+                                      AlternatingRowBackground="{StaticResource BgAltBrush}"
+                                      GridLinesVisibility="None"
+                                      HeadersVisibility="Column"/>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </TabItem>
+
         </TabControl>
 
         <!-- ===== Feed status expander (Phase 3.4) =====
@@ -1299,6 +1457,14 @@ $elementNames = @(
     'ThreatIntelTab',
     'TiInputTxt','TiLookupBtn','TiAddIocBtn','TiClearBtn',
     'TiTypeLbl','TiProvidersLbl','TiStatusLbl','TiGrid',
+    # KQL Practice tab
+    'PracticeTab',
+    'PracticeProgressLbl','PracticeQuestionList',
+    'PracticeFilterAll','PracticeFilterEasy','PracticeFilterMedium','PracticeFilterHard',
+    'PracticeQTitleLbl','PracticeQMetaLbl','PracticeQPromptLbl',
+    'PracticeEditor','PracticeStatusLbl',
+    'PracticeResetBtn','PracticeRunBtn','PracticeSubmitBtn',
+    'PracticeResultsGrid',
     # KQL Builder
     'KqlTab','KqlSubTabs',
     'KqlTableCombo','KqlTimeCombo','KqlCustomTimeTxt',
@@ -3067,6 +3233,243 @@ if (-not $NoUpdate -and -not $NoLoad) {
             -ModulesDir $script:ModulesDir `
             -OnStatusUpdate ${function:Update-FeedStatusItem}
     })
+}
+
+# ============================================================
+# KQL Practice tab (P-5..P-7)
+# ============================================================
+# Backing collection for the question list. PSCustomObject items
+# bind cleanly to the ItemTemplate; we replace-by-index when state
+# changes since PSCustomObject doesn't fire INotifyPropertyChanged.
+$script:PracticeAllItems = New-Object System.Collections.ObjectModel.ObservableCollection[object]
+$script:PracticeFilter   = 'all'
+$script:PracticeLabReady = $false
+$PracticeQuestionList.ItemsSource = $script:PracticeAllItems
+
+function _PracticeStatusBadge {
+    param([string]$Status)
+    switch ($Status) {
+        'locked-pass' { 'PASS' ; break }
+        'locked-fail' { 'FAIL' ; break }
+        'attempted'   { '...'  ; break }
+        default       { ''     ; break }
+    }
+}
+
+function Refresh-PracticeList {
+    $script:PracticeAllItems.Clear()
+    foreach ($q in Get-PracticeQuestions) {
+        if ($script:PracticeFilter -ne 'all' -and $q.difficulty -ne $script:PracticeFilter) { continue }
+        $st = Get-PracticeQuestionState -Number ([int]$q.number)
+        $script:PracticeAllItems.Add([pscustomobject]@{
+            Number       = [int]$q.number
+            NumberLabel  = ('{0:D2}.' -f [int]$q.number)
+            Title        = $q.title
+            Difficulty   = $q.difficulty
+            QType        = $q.type
+            Status       = $st.Status
+            StatusBadge  = _PracticeStatusBadge $st.Status
+        }) | Out-Null
+    }
+    $sum = Get-PracticeProgressSummary
+    $PracticeProgressLbl.Text = '{0}/{1} passed | {2} failed | {3} attempted | {4} untouched' -f `
+        $sum.Passed, $sum.Total, $sum.Failed, $sum.Attempted, $sum.Untouched
+}
+
+function Load-PracticeQuestion {
+    param([int]$Number)
+    if ($Number -le 0) { return }
+    $q  = Get-PracticeQuestion -Number $Number
+    if (-not $q) { return }
+    $st = Get-PracticeQuestionState -Number $Number
+
+    $PracticeQTitleLbl.Text  = "Q{0}. {1}" -f $q.number, $q.title
+    $PracticeQMetaLbl.Text   = "type: {0} | difficulty: {1} | status: {2}" -f $q.type, $q.difficulty, $st.Status
+    $PracticeQPromptLbl.Text = [string]$q.prompt
+
+    $isLocked = $st.Status -in @('locked-pass','locked-fail')
+    if ($st.LastQuery)      { $PracticeEditor.Text = [string]$st.LastQuery }
+    elseif ($q.sampleQuery) { $PracticeEditor.Text = [string]$q.sampleQuery }
+    else                    { $PracticeEditor.Text = '' }
+
+    $PracticeEditor.IsReadOnly   = $isLocked
+    if ($script:PracticeLabReady) {
+        $PracticeRunBtn.IsEnabled    = -not $isLocked
+        $PracticeSubmitBtn.IsEnabled = -not $isLocked
+    }
+    $PracticeStatusLbl.Text = if ($isLocked) {
+        "LOCKED ({0}). Submitted: {1}." -f $st.Status, $st.SubmittedAt
+    } elseif (-not $script:PracticeLabReady) {
+        "Lab DB not ready - waiting for first-run build."
+    } else {
+        'Ready.'
+    }
+}
+
+function Update-PracticeUiForLabState {
+    $r = Test-KqlLabReady
+    if ($r.Ready) {
+        if (-not $script:PracticeLabReady) {
+            $script:PracticeLabReady = $true
+            $PracticeStatusLbl.Text = "Lab DB ready ({0:N0} rows). Pick a question to begin." -f [int]$r.TotalRows
+            $sel = $PracticeQuestionList.SelectedItem
+            $isLocked = $sel -and ($sel.Status -in @('locked-pass','locked-fail'))
+            $PracticeRunBtn.IsEnabled    = -not $isLocked
+            $PracticeSubmitBtn.IsEnabled = -not $isLocked
+        }
+    } else {
+        $script:PracticeLabReady = $false
+        $PracticeStatusLbl.Text = "Lab DB not built yet ($($r.Note))."
+        $PracticeRunBtn.IsEnabled    = $false
+        $PracticeSubmitBtn.IsEnabled = $false
+    }
+}
+
+# ----- difficulty filter buttons -----
+$PracticeFilterAll.Add_Click(   { $script:PracticeFilter = 'all';    Refresh-PracticeList })
+$PracticeFilterEasy.Add_Click(  { $script:PracticeFilter = 'easy';   Refresh-PracticeList })
+$PracticeFilterMedium.Add_Click({ $script:PracticeFilter = 'medium'; Refresh-PracticeList })
+$PracticeFilterHard.Add_Click(  { $script:PracticeFilter = 'hard';   Refresh-PracticeList })
+
+# ----- list selection -----
+$PracticeQuestionList.Add_SelectionChanged({
+    $sel = $PracticeQuestionList.SelectedItem
+    if ($sel) { Load-PracticeQuestion -Number $sel.Number }
+})
+
+# ----- Reset / Run / Submit -----
+$PracticeResetBtn.Add_Click({
+    $sel = $PracticeQuestionList.SelectedItem
+    if (-not $sel) { return }
+    $q = Get-PracticeQuestion -Number $sel.Number
+    Reset-PracticeQuestionState -Number $sel.Number
+    if ($q.sampleQuery) { $PracticeEditor.Text = [string]$q.sampleQuery }
+    else                { $PracticeEditor.Text = '' }
+    Refresh-PracticeList
+    Load-PracticeQuestion -Number $sel.Number
+    $PracticeStatusLbl.Text = "Reset Q$($sel.Number)."
+})
+
+$PracticeRunBtn.Add_Click({
+    $sel = $PracticeQuestionList.SelectedItem
+    if (-not $sel) { return }
+    $kql = $PracticeEditor.Text
+    if (-not $kql -or -not $kql.Trim()) { $PracticeStatusLbl.Text = 'Editor is empty.'; return }
+    $PracticeStatusLbl.Text = 'Running...'
+    try {
+        $sw = [System.Diagnostics.Stopwatch]::StartNew()
+        $rows = @(Invoke-PracticeQuery -Query $kql)
+        $sw.Stop()
+        $PracticeResultsGrid.ItemsSource = $rows
+        $PracticeStatusLbl.Text = "Test Run: {0} row(s) in {1}ms" -f $rows.Count, [int]$sw.Elapsed.TotalMilliseconds
+        Set-PracticeQuestionState -Number $sel.Number -Status 'attempted' -Query $kql
+        Refresh-PracticeList
+    } catch {
+        $PracticeStatusLbl.Text = "Run failed: $($_.Exception.Message)"
+        $PracticeResultsGrid.ItemsSource = $null
+    }
+})
+
+$PracticeSubmitBtn.Add_Click({
+    $sel = $PracticeQuestionList.SelectedItem
+    if (-not $sel) { return }
+    $kql = $PracticeEditor.Text
+    if (-not $kql -or -not $kql.Trim()) { $PracticeStatusLbl.Text = 'Editor is empty.'; return }
+
+    $confirm = [System.Windows.MessageBox]::Show(
+        "Submit your answer for Q$($sel.Number)?`n`nSubmissions are FINAL - the question locks regardless of pass/fail.",
+        'Confirm submission',
+        [System.Windows.MessageBoxButton]::YesNo,
+        [System.Windows.MessageBoxImage]::Question)
+    if ($confirm -ne [System.Windows.MessageBoxResult]::Yes) { return }
+
+    $PracticeStatusLbl.Text = 'Grading...'
+    try {
+        $verdict = Test-PracticeAnswer -QuestionNumber $sel.Number -Query $kql
+        $statusKey = if ($verdict.Verdict -eq 'pass') { 'locked-pass' } else { 'locked-fail' }
+        $json = $verdict | ConvertTo-Json -Compress -Depth 6
+        Set-PracticeQuestionState -Number $sel.Number -Status $statusKey -Query $kql -ScoreJson $json -IsSubmission
+        Refresh-PracticeList
+        Load-PracticeQuestion -Number $sel.Number
+        # Show whatever the grading run produced so the user can compare
+        # rows side by side with the gold expectation in the verdict text.
+        try {
+            $rows = @(Invoke-PracticeQuery -Query $kql)
+            $PracticeResultsGrid.ItemsSource = $rows
+        } catch { }
+        $PracticeStatusLbl.Text = (Format-PracticeVerdict $verdict)
+    } catch {
+        $PracticeStatusLbl.Text = "Grading failed: $($_.Exception.Message)"
+    }
+})
+
+# Initial paint
+Refresh-PracticeList
+Update-PracticeUiForLabState
+
+# ----- Lab DB background bootstrap (P-7) -----
+# If Test-KqlLabReady reports the DB isn't built, kick off
+# Initialize-KqlLab in its own runspace so the WPF UI stays
+# interactive. Poll completion via a DispatcherTimer that
+# refreshes the practice tab UI when ready.
+if (-not (Test-KqlLabReady).Ready) {
+    $labIss  = [System.Management.Automation.Runspaces.InitialSessionState]::CreateDefault()
+    $labPool = [runspacefactory]::CreateRunspacePool(1, 1, $labIss, $Host)
+    $labPool.Open()
+
+    $labPs = [PowerShell]::Create()
+    $labPs.RunspacePool = $labPool
+    [void]$labPs.AddScript({
+        param($modulesDir)
+        . (Join-Path $modulesDir 'SecIntel.Schema.ps1')
+        Ensure-PSSQLite | Out-Null
+        Initialize-SecIntelSchema
+        . (Join-Path $modulesDir 'SecIntel.KqlLab.ps1')
+        $r = Initialize-KqlLab
+        return @{ Ok=$true; Rows=$r.ImportedRows; DataDir=$r.DataDir }
+    })
+    [void]$labPs.AddArgument($script:ModulesDir)
+    $labAsync = $labPs.BeginInvoke()
+
+    $script:PracticeLabBuild = @{
+        Ps=$labPs; Async=$labAsync; Pool=$labPool; StartedAt=(Get-Date)
+    }
+
+    # Self-contained scriptblock for the timer body so the
+    # callback isn't dependent on PS function-table lookup
+    # (which gets masked inside DispatcherTimer.Tick).
+    $labStateRef = $script:PracticeLabBuild
+    $statusLbl   = $PracticeStatusLbl
+    $runBtn      = $PracticeRunBtn
+    $submitBtn   = $PracticeSubmitBtn
+    $sel         = $PracticeQuestionList
+
+    $labTimer = New-Object System.Windows.Threading.DispatcherTimer
+    $labTimer.Interval = [TimeSpan]::FromSeconds(2)
+    $labTimer.Add_Tick({
+        $h = $script:PracticeLabBuild
+        if (-not $h) { $labTimer.Stop(); return }
+        if ($h.Async.IsCompleted) {
+            $err = $null
+            try { $h.Ps.EndInvoke($h.Async) | Out-Null }
+            catch { $err = $_.Exception.Message }
+            $h.Ps.Dispose()
+            try { $h.Pool.Close(); $h.Pool.Dispose() } catch { }
+            $script:PracticeLabBuild = $null
+            $labTimer.Stop()
+            if ($err) {
+                $statusLbl.Text = "Lab DB build failed: $err"
+            } else {
+                # Re-seed the practice context so it picks up the new DB
+                Get-PracticeKqlContext -Refresh | Out-Null
+                Update-PracticeUiForLabState
+            }
+        } else {
+            $elapsed = [int]((Get-Date) - $h.StartedAt).TotalSeconds
+            $statusLbl.Text = "Building lab DB in background ({0}s elapsed; ~50s on first run)..." -f $elapsed
+        }
+    }.GetNewClosure())
+    $labTimer.Start()
 }
 
 # ============================================================

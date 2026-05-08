@@ -267,6 +267,24 @@ CREATE TABLE IF NOT EXISTS KqlTemplates (
 CREATE INDEX IF NOT EXISTS IX_KqlTmpl_Name ON KqlTemplates(Name);
 CREATE INDEX IF NOT EXISTS IX_KqlTmpl_Tags ON KqlTemplates(Tags);
 
+-- ===== KQL Practice per-question state =====
+-- Tracks the analyst's progress through the practice question bank.
+-- Status values:
+--   untouched      - question never opened
+--   attempted      - opened, query saved, not yet submitted
+--   locked-pass    - submitted and judged correct (final, immutable)
+--   locked-fail    - submitted and judged incorrect (final, immutable)
+-- LastScoreJson holds the verdict object from Test-PracticeAnswer.
+CREATE TABLE IF NOT EXISTS KqlPracticeState (
+    QuestionNumber  INTEGER PRIMARY KEY,
+    Status          TEXT NOT NULL DEFAULT 'untouched',
+    LastQuery       TEXT,
+    LastScoreJson   TEXT,
+    LastRunAt       TEXT,
+    SubmittedAt     TEXT
+);
+CREATE INDEX IF NOT EXISTS IX_KqlPractice_Status ON KqlPracticeState(Status);
+
 -- ===== Watchlists =====
 CREATE TABLE IF NOT EXISTS Watchlists (
     WatchlistId INTEGER PRIMARY KEY AUTOINCREMENT,
