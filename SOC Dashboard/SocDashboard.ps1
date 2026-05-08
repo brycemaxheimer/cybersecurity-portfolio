@@ -41,7 +41,12 @@
 
 [CmdletBinding()]
 param(
-    [switch]$NoLoad
+    # Skip the initial dashboard data paint after first layout pass.
+    [switch]$NoLoad,
+    # Skip the launch-time feed orchestrator (KEV/EPSS/NVD/MITRE refresh).
+    # The dashboard still loads from local DB; feeds just don't auto-refresh.
+    [Alias('NoLoadFeeds')]
+    [switch]$NoUpdate
 )
 
 $ErrorActionPreference = 'Stop'
@@ -54,6 +59,11 @@ $script:ModulesDir = Join-Path $PSScriptRoot 'Modules'
 . (Join-Path $script:ModulesDir 'SecIntel.Schema.ps1')
 Ensure-PSSQLite
 Initialize-SecIntelSchema
+# AutoStart loads after schema/init since its functions persist
+# autostart.* keys to AppSettings (Phase 3.2 toggle).
+. (Join-Path $script:ModulesDir 'SecIntel.AutoStart.ps1')
+# Feed orchestrator powers the launch-time refresh + status panel.
+. (Join-Path $script:ModulesDir 'SecIntel.FeedOrchestrator.ps1')
 
 # ---------- WPF assemblies ----------
 Add-Type -AssemblyName PresentationFramework
@@ -415,6 +425,7 @@ Add-Type -AssemblyName System.Xaml
             <RowDefinition Height="Auto"/>  <!-- Persistent header -->
             <RowDefinition Height="Auto"/>  <!-- DPAPI health banner (collapsed by default) -->
             <RowDefinition Height="*"/>     <!-- Tab content       -->
+            <RowDefinition Height="Auto"/>  <!-- Feed status expander -->
         </Grid.RowDefinitions>
 
         <!-- ===== Persistent header strip ===== -->
@@ -461,6 +472,27 @@ Add-Type -AssemblyName System.Xaml
                                Margin="14,0,0,0" VerticalAlignment="Center"
                                Foreground="{StaticResource AccentAltBrush}"
                                FontSize="11"/>
+                </StackPanel>
+
+                <!-- Row 2 right: auto-start toggle (Phase 3.2) + About
+                     button (Phase 3.6). Both move to a real Settings tab
+                     in Phase 4. -->
+                <StackPanel Grid.Row="1" Grid.Column="1"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Right" VerticalAlignment="Center"
+                            Margin="0,12,0,0">
+                    <CheckBox x:Name="AutoStartCheckBox"
+                              Content="Launch at login"
+                              Foreground="{StaticResource FgDimBrush}"
+                              Background="{StaticResource BgPanelBrush}"
+                              BorderBrush="{StaticResource BorderBrush}"
+                              FontSize="11"
+                              VerticalAlignment="Center"
+                              Margin="0,0,14,0"/>
+                    <Button x:Name="AboutBtn"
+                            Content="About"
+                            Style="{StaticResource DarkButton}"
+                            MinWidth="70"/>
                 </StackPanel>
             </Grid>
         </Border>
@@ -1155,6 +1187,67 @@ Add-Type -AssemblyName System.Xaml
             </TabItem>
 
         </TabControl>
+
+        <!-- ===== Feed status expander (Phase 3.4) =====
+             Collapsed by default. ItemsControl bound to an
+             ObservableCollection<PSCustomObject> populated by the
+             feed orchestrator. Per-row Retry buttons bubble Click
+             events up to the ItemsControl handler in code-behind. -->
+        <Expander x:Name="FeedStatusExpander" Grid.Row="3"
+                  Header="Feed status"
+                  IsExpanded="False"
+                  Background="{StaticResource BgAltBrush}"
+                  Foreground="{StaticResource FgBrush}"
+                  BorderBrush="{StaticResource BorderBrush}"
+                  BorderThickness="0,1,0,0"
+                  Padding="0">
+            <Grid Margin="16,8,16,10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,8">
+                    <Button x:Name="FeedRefreshAllBtn"
+                            Content="Force refresh all"
+                            Style="{StaticResource DarkButton}"
+                            MinWidth="140"/>
+                    <TextBlock x:Name="FeedAggregateLbl"
+                               Margin="14,0,0,0" VerticalAlignment="Center"
+                               Foreground="{StaticResource FgDimBrush}" FontSize="11"/>
+                </StackPanel>
+                <ItemsControl Grid.Row="1" x:Name="FeedStatusList">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="0,2,0,2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="90"/>
+                                    <ColumnDefinition Width="180"/>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="{Binding DisplayName}" FontSize="11"
+                                           Foreground="{StaticResource FgBrush}" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="1" Text="{Binding State}" FontSize="11"
+                                           Foreground="{StaticResource AccentBrush}" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="2" Text="{Binding LastUpdated}" FontSize="11"
+                                           Foreground="{StaticResource FgDimBrush}" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="3" Text="{Binding RecordCount}" FontSize="11"
+                                           Foreground="{StaticResource FgDimBrush}" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="4" Text="{Binding Message}" FontSize="11"
+                                           Foreground="{StaticResource FgDimBrush}" VerticalAlignment="Center"
+                                           TextTrimming="CharacterEllipsis"/>
+                                <Button   Grid.Column="5" Content="Retry"
+                                          Tag="{Binding FeedKey}"
+                                          Style="{StaticResource DarkButton}"
+                                          MinWidth="60" Margin="6,0,0,0"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+        </Expander>
     </Grid>
 </Window>
 '@
@@ -1175,6 +1268,12 @@ $elementNames = @(
     'BtnUpdateKev','BtnUpdateCve','BtnUpdateEpss','BtnUpdateMitre','JobStatusLbl',
     # DPAPI health banner (collapsed unless Test-DpapiSecretsHealth fails at launch)
     'DpapiBanner','DpapiBannerText','DpapiBannerCloseBtn',
+    # Auto-start toggle (Phase 3.2)
+    'AutoStartCheckBox',
+    # About button (Phase 3.6)
+    'AboutBtn',
+    # Feed status expander (Phase 3.4)
+    'FeedStatusExpander','FeedRefreshAllBtn','FeedAggregateLbl','FeedStatusList',
     # TabControls and TabItems
     'MainTabs','MitreSubTabs',
     'DashboardTab','MitreTab','TacticsTab','TechniquesTab','SubTechniquesTab',
@@ -2776,6 +2875,199 @@ if ($dpapiHealth.Status -eq 'failed') {
     $DpapiBanner.Visibility = 'Visible'
 }
 $DpapiBannerCloseBtn.Add_Click({ $DpapiBanner.Visibility = 'Collapsed' })
+
+# ============================================================
+# Auto-start toggle (Phase 3.2). Reflects current shortcut
+# state on launch and Enable-/Disable-AutoStart on user toggle.
+# Initial sync uses a local flag so the Checked/Unchecked handlers
+# don't re-fire Enable-/Disable-AutoStart against the on-disk state.
+# ============================================================
+$script:AutoStartSyncing = $true
+try {
+    $script:AutoStartSyncing = $true
+    $autoState = Test-AutoStart
+    $AutoStartCheckBox.IsChecked = [bool]$autoState.Installed
+    $AutoStartCheckBox.ToolTip   = if ($autoState.Installed) {
+        "Shortcut: $($autoState.LnkPath)"
+    } else {
+        "Creates a shortcut at $($autoState.LnkPath) so the dashboard launches at logon."
+    }
+} catch {
+    $AutoStartCheckBox.IsEnabled = $false
+    $AutoStartCheckBox.ToolTip   = "Auto-start unavailable: $($_.Exception.Message)"
+} finally {
+    $script:AutoStartSyncing = $false
+}
+
+$AutoStartCheckBox.Add_Checked({
+    if ($script:AutoStartSyncing) { return }
+    try {
+        $r = Enable-AutoStart -ScriptPath $PSCommandPath
+        $JobStatusLbl.Text       = "Auto-start enabled: $($r.LnkPath)"
+        $JobStatusLbl.Foreground = $AccentAltBrush
+    } catch {
+        $JobStatusLbl.Text       = "Enable failed: $($_.Exception.Message)"
+        $JobStatusLbl.Foreground = $DangerBrush
+        $script:AutoStartSyncing = $true
+        $AutoStartCheckBox.IsChecked = $false
+        $script:AutoStartSyncing = $false
+    }
+})
+
+$AutoStartCheckBox.Add_Unchecked({
+    if ($script:AutoStartSyncing) { return }
+    try {
+        $r = Disable-AutoStart
+        $JobStatusLbl.Text       = "Auto-start disabled."
+        $JobStatusLbl.Foreground = $AccentAltBrush
+    } catch {
+        $JobStatusLbl.Text       = "Disable failed: $($_.Exception.Message)"
+        $JobStatusLbl.Foreground = $DangerBrush
+        $script:AutoStartSyncing = $true
+        $AutoStartCheckBox.IsChecked = $true
+        $script:AutoStartSyncing = $false
+    }
+})
+
+# ============================================================
+# About / Check-for-updates dialog (Phase 3.6). Surfaces the
+# current commit SHA when git is on PATH; falls back to a
+# manual-check pointer otherwise. No auto-pull (deferred per
+# Phase 3 decision - silent code updates are too risky on
+# locked-down workstations).
+# ============================================================
+$AboutBtn.Add_Click({
+    $lines = @()
+    $lines += 'SOC Operations Dashboard'
+    $lines += ''
+    $lines += "PowerShell : $($PSVersionTable.PSVersion)"
+    $lines += "Modules    : $script:ModulesDir"
+
+    $git = Get-Command git -ErrorAction SilentlyContinue
+    if ($git) {
+        try {
+            $sha    = (& $git.Source -C $PSScriptRoot rev-parse HEAD 2>$null)         | Out-String
+            $branch = (& $git.Source -C $PSScriptRoot rev-parse --abbrev-ref HEAD 2>$null) | Out-String
+            $sha    = $sha.Trim()
+            $branch = $branch.Trim()
+            if ($sha)    { $lines += "Git SHA    : $sha" }
+            if ($branch) { $lines += "Branch     : $branch" }
+            $lines += ''
+            $lines += 'To update: git pull (from this directory).'
+        } catch {
+            $lines += "Git on PATH but rev-parse failed: $($_.Exception.Message)"
+        }
+    } else {
+        $lines += ''
+        $lines += 'git is not on PATH; check for updates manually at:'
+        $lines += '  https://github.com/brycemaxheimer/cybersecurity-portfolio'
+    }
+
+    [System.Windows.MessageBox]::Show(
+        ($lines -join "`r`n"),
+        'About SOC Dashboard',
+        [System.Windows.MessageBoxButton]::OK,
+        [System.Windows.MessageBoxImage]::Information
+    ) | Out-Null
+})
+
+# ============================================================
+# Feed status panel + launch-time orchestrator (Phase 3.4 + 3.5)
+# ============================================================
+# ObservableCollection of PSCustomObjects backing the FeedStatusList
+# ItemsControl. PSCustomObjects don't fire INotifyPropertyChanged, so
+# the update callback removes-then-inserts the row at the same index
+# instead of mutating it in place - that triggers the collection
+# change events WPF needs to repaint.
+$script:FeedStatusItems = New-Object System.Collections.ObjectModel.ObservableCollection[object]
+$FeedStatusList.ItemsSource = $script:FeedStatusItems
+
+# Used by the aggregate label and first-run banner to know whether
+# this is a brand-new DB (no FeedMeta rows = first launch).
+$script:HasAnyFeedHistory = $false
+try {
+    $rc = (Invoke-SqliteQuery -DataSource $script:DbPath `
+            -Query "SELECT COUNT(*) AS N FROM FeedMeta").N
+    $script:HasAnyFeedHistory = ([int]$rc -gt 0)
+} catch { }
+
+function Update-FeedStatusItem {
+    param([Parameter(Mandatory)]$Status)
+    if ($Status.FeedKey -eq '_orchestrator') {
+        $FeedAggregateLbl.Text = "{0}: {1}" -f $Status.State, $Status.Message
+        return
+    }
+    # Find existing row by FeedKey; replace at the same index so WPF
+    # picks up the change.
+    $idx = -1
+    for ($i = 0; $i -lt $script:FeedStatusItems.Count; $i++) {
+        if ($script:FeedStatusItems[$i].FeedKey -eq $Status.FeedKey) { $idx = $i; break }
+    }
+    if ($idx -ge 0) {
+        $script:FeedStatusItems.RemoveAt($idx)
+        $script:FeedStatusItems.Insert($idx, $Status)
+    } else {
+        $script:FeedStatusItems.Add($Status)
+    }
+}
+
+# Seed the panel with whatever we know from FeedMeta so the user sees
+# state immediately on launch (before the orchestrator fires).
+foreach ($k in @('kev','epss','nvd','mitre')) {
+    $s = Get-FeedStatus -FeedKey $k
+    if ($s) {
+        $s.State   = if ($s.LastUpdated) { 'idle' } else { 'never' }
+        $s.Message = if ($s.LastUpdated) { 'last refresh on record' } else { 'no data yet' }
+        Update-FeedStatusItem -Status $s
+    }
+}
+
+# Per-row Retry buttons bubble Click up to the ItemsControl. Tag holds
+# the FeedKey so we know which feed to refresh.
+$FeedStatusList.AddHandler(
+    [System.Windows.Controls.Button]::ClickEvent,
+    [System.Windows.RoutedEventHandler]{
+        param($sender, $e)
+        $btn = $e.OriginalSource
+        if ($btn -is [System.Windows.Controls.Button] -and $btn.Tag) {
+            $key = [string]$btn.Tag
+            $FeedAggregateLbl.Text = "Retrying $key..."
+            Start-FeedRefresh `
+                -Window $window `
+                -ModulesDir $script:ModulesDir `
+                -Feeds @($key) `
+                -Force `
+                -OnStatusUpdate ${function:Update-FeedStatusItem}
+        }
+    })
+
+$FeedRefreshAllBtn.Add_Click({
+    $FeedStatusExpander.IsExpanded = $true
+    $FeedAggregateLbl.Text = "Refreshing all feeds (force)..."
+    Start-FeedRefresh `
+        -Window $window `
+        -ModulesDir $script:ModulesDir `
+        -Force `
+        -OnStatusUpdate ${function:Update-FeedStatusItem}
+})
+
+# Launch-time refresh runs after first paint so the UI is interactive
+# the moment the window appears. -NoUpdate (or -NoLoad as alias kept
+# for backwards compatibility) suppresses the orchestrator entirely.
+if (-not $NoUpdate -and -not $NoLoad) {
+    $window.Add_ContentRendered({
+        # Phase 3.5: first-run banner. If FeedMeta is empty, expand the
+        # panel and warn that MITRE in particular takes ~30-60s on PS 5.1.
+        if (-not $script:HasAnyFeedHistory) {
+            $FeedStatusExpander.IsExpanded = $true
+            $FeedAggregateLbl.Text = "First run - loading threat intel feeds (60-90s; MITRE STIX parse adds ~30-60s on PS 5.1). Dashboard is interactive throughout."
+        }
+        Start-FeedRefresh `
+            -Window $window `
+            -ModulesDir $script:ModulesDir `
+            -OnStatusUpdate ${function:Update-FeedStatusItem}
+    })
+}
 
 # ============================================================
 # Show modal
