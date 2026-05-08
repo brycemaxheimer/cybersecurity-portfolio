@@ -72,7 +72,12 @@ function Get-PracticeQuestions {
     if ($Refresh) { $script:PracticeQuestionsCache = $null }
     if ($null -eq $script:PracticeQuestionsCache) {
         $path = Get-PracticeDataFile -FileName 'questions.json'
-        $script:PracticeQuestionsCache = @(Get-Content -Raw $path | ConvertFrom-Json)
+        # ConvertFrom-Json on a JSON array already emits an Object[]
+        # to the pipeline. Wrapping with @() here would re-package it
+        # as a 1-element array containing that array, which makes
+        # `foreach ($q in Get-PracticeQuestions)` set $q to the inner
+        # array (collapsing every $q.<prop> access to Object[]).
+        $script:PracticeQuestionsCache = Get-Content -Raw $path | ConvertFrom-Json
     }
     return $script:PracticeQuestionsCache
 }
