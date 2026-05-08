@@ -137,16 +137,28 @@ function Set-PracticeQuestionState {
         [switch]$IsSubmission
     )
     $now = (Get-Date).ToString('o')
-    $submittedAt = if ($IsSubmission) { $now } else { $null }
+
+    # Preserve any existing SubmittedAt on non-submission updates so a
+    # later "attempted" save after a Reset doesn't clear the original
+    # lock timestamp. PSSQLite ships an older SQLite.Interop.dll that
+    # predates ON CONFLICT ... DO UPDATE (UPSERT requires >=3.24), so
+    # we read-then-INSERT-OR-REPLACE rather than rely on that syntax.
+    $submittedAt = $null
+    if ($IsSubmission) {
+        $submittedAt = $now
+    } else {
+        $existing = Invoke-SqliteQuery -DataSource $script:DbPath `
+            -Query "SELECT SubmittedAt FROM KqlPracticeState WHERE QuestionNumber=@n" `
+            -SqlParameters @{ n = $Number } | Select-Object -First 1
+        if ($existing -and $existing.SubmittedAt) {
+            $submittedAt = [string]$existing.SubmittedAt
+        }
+    }
+
     Invoke-SqliteQuery -DataSource $script:DbPath -Query @"
-INSERT INTO KqlPracticeState (QuestionNumber, Status, LastQuery, LastScoreJson, LastRunAt, SubmittedAt)
+INSERT OR REPLACE INTO KqlPracticeState
+    (QuestionNumber, Status, LastQuery, LastScoreJson, LastRunAt, SubmittedAt)
 VALUES (@n, @s, @q, @sj, @r, @sa)
-ON CONFLICT(QuestionNumber) DO UPDATE SET
-    Status        = excluded.Status,
-    LastQuery     = excluded.LastQuery,
-    LastScoreJson = excluded.LastScoreJson,
-    LastRunAt     = excluded.LastRunAt,
-    SubmittedAt   = COALESCE(excluded.SubmittedAt, KqlPracticeState.SubmittedAt)
 "@ -SqlParameters @{
         n  = $Number
         s  = $Status
