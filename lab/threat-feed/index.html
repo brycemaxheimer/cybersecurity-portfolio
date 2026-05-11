@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Live SSH honeypot threat feed - real attack telemetry from a research honeypot. Updates every 15 minutes. Submissions to AbuseIPDB, VirusTotal, OTX, ThreatFox."><link rel="canonical" href="https://brycemaxheimer.com/lab/threat-feed/">
+<meta property="og:title" content="Live Threat Feed - Bryce Maxheimer">
+<meta property="og:description" content="Live SSH honeypot threat feed - real attack telemetry from a research honeypot. Updates every 15 minutes.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://brycemaxheimer.com/lab/threat-feed/">
+<meta property="og:image" content="https://brycemaxheimer.com/og/default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="Bryce Maxheimer">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Live Threat Feed - Bryce Maxheimer">
+<meta name="twitter:description" content="Live SSH honeypot threat feed - real attack telemetry from a research honeypot. Updates every 15 minutes.">
+<meta name="twitter:image" content="https://brycemaxheimer.com/og/default.png">
+<title>Live Threat Feed - Bryce Maxheimer</title>
+<script>(function(){try{var t=localStorage.getItem('siteTheme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<link rel="stylesheet" href="/css/style.css">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/lab/lab.css">
+<link rel="stylesheet" href="/lab/threat-feed/threat-feed.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin="">
+</head>
+<body>
+
+<header class="site-header">
+<div class="container-wide">
+<a href="/" class="brand">Bryce Maxheimer</a>
+<nav class="nav">
+<a href="/about.html">About</a>
+<a href="/resume/">Resume</a>
+<a href="/certs/">Certs</a>
+<a href="/projects/">Projects</a>
+<span class="nav-dropdown">
+    <a href="/lab/" class="active">Lab <span class="caret">&#9662;</span></a>
+    <div class="nav-dropdown-menu">
+        <div class="nested-dropdown">
+            <a href="#" class="nested-dropbtn">KQL Tools <span class="caret-right">&#9656;</span></a>
+            <div class="nested-dropdown-menu">
+                <a href="/kql/">KQL Playground</a>
+                <a href="/lab/practice/">KQL Practice</a>
+                <a href="/lab/kql-builder/">KQL Builder</a>
+                <a href="/lab/templates/">KQL Templates</a>
+            </div>
+        </div>
+        <a href="/lab/mitre/">MITRE ATT&amp;CK</a>
+        <a href="/lab/cve/">CVE / KEV / EPSS</a>
+        <a href="/lab/threat-intel/">Threat Intel</a>
+        <a href="/lab/threat-feed/">Live Threat Feed</a>
+    </div>
+</span>
+<a href="/writeups/">Writeups</a>
+<a href="/blog/">Blog</a>
+<a href="/customize/">Customize</a>
+</nav>
+</div>
+</header>
+
+<main class="tf-page">
+
+<div class="nav-back">
+<a href="/lab/">&larr; Browser Lab</a>
+</div>
+
+<h1>Live Threat Feed</h1>
+<p class="text-soft">
+Real attack telemetry from a residential SSH honeypot (Cowrie). The data on this page is the
+live attack stream against an exposed shell on my home network &mdash; refreshed every 15 minutes.
+All attacker IPs are submitted to AbuseIPDB, VirusTotal, OTX, and ThreatFox via a
+custom reporter pipeline.
+</p>
+
+<div class="tf-banner">
+<strong>Why this exists.</strong> The honeypot is internet-exposed as part of the
+<a href="https://www.sans.org/cyber-aces/" target="_blank" rel="noopener">SANS Internet Storm Center</a>
+sensor network. Every connection here is a real-world scan or attack. The point of
+showing it publicly is twofold: (1) it's a real piece of defensive-side threat sharing
+infrastructure, not a contrived demo, and (2) attacker behavior at scale is the most honest
+indicator of what the baseline threat environment looks like for a typical residential IP.
+&nbsp;
+<a href="https://threats.brycemaxheimer.com/feed.json" target="_blank" rel="noopener">raw json &rarr;</a>
+</div>
+
+<div class="tf-meta">
+<span class="tf-live"></span>
+<span id="tf-generated">loading&hellip;</span>
+&nbsp;&middot;&nbsp; refresh: 15m
+&nbsp;&middot;&nbsp; <a id="tf-reload" href="#">reload now</a>
+</div>
+
+<div class="tf-stats" id="tf-stats"></div>
+
+<div class="tf-grid-2">
+  <section class="tf-panel">
+    <h2 class="tf-panel-h">attacker locations &middot; last 24h</h2>
+    <div id="tf-map"></div>
+  </section>
+  <section class="tf-panel">
+    <h2 class="tf-panel-h">recent activity</h2>
+    <div class="tf-feed" id="tf-recent"></div>
+  </section>
+</div>
+
+<div class="tf-grid-3">
+  <section class="tf-panel">
+    <h2 class="tf-panel-h">top countries</h2>
+    <div class="tf-scroll">
+      <table class="tf-table" id="tf-countries"><thead><tr><th>country</th><th class="r">hits</th></tr></thead><tbody></tbody></table>
+    </div>
+  </section>
+  <section class="tf-panel">
+    <h2 class="tf-panel-h">top networks (ASN)</h2>
+    <div class="tf-scroll">
+      <table class="tf-table" id="tf-asns"><thead><tr><th>org</th><th class="r">hits</th></tr></thead><tbody></tbody></table>
+    </div>
+  </section>
+  <section class="tf-panel">
+    <h2 class="tf-panel-h">top attackers</h2>
+    <div class="tf-scroll">
+      <table class="tf-table" id="tf-ips"><thead><tr><th>ip</th><th>geo</th><th class="r">hits</th></tr></thead><tbody></tbody></table>
+    </div>
+  </section>
+</div>
+
+<div class="tf-grid-3">
+  <section class="tf-panel">
+    <h2 class="tf-panel-h">usernames tried</h2>
+    <div class="tf-scroll">
+      <table class="tf-table tf-creds" id="tf-users"><thead><tr><th>username</th><th class="r">tries</th></tr></thead><tbody></tbody></table>
+    </div>
+  </section>
+  <section class="tf-panel">
+    <h2 class="tf-panel-h">passwords tried</h2>
+    <div class="tf-scroll">
+      <table class="tf-table tf-creds" id="tf-passwords"><thead><tr><th>password</th><th class="r">tries</th></tr></thead><tbody></tbody></table>
+    </div>
+  </section>
+  <section class="tf-panel">
+    <h2 class="tf-panel-h">commands executed</h2>
+    <div class="tf-scroll">
+      <table class="tf-table tf-commands" id="tf-commands"><thead><tr><th>command</th><th class="r">runs</th></tr></thead><tbody></tbody></table>
+    </div>
+  </section>
+</div>
+
+</main>
+
+<footer class="site-footer">
+<div class="container-wide">
+&copy; 2026 Bryce Maxheimer &middot;
+<a href="https://github.com/brycemaxheimer">GitHub</a> &middot;
+<a href="/about.html">Contact</a>
+</div>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""></script>
+<script src="/lab/threat-feed/threat-feed.js" defer></script>
+
+</body>
+</html>

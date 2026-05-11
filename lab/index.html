@@ -47,6 +47,7 @@
         <a href="/lab/mitre/">MITRE ATT&amp;CK</a>
         <a href="/lab/cve/">CVE / KEV / EPSS</a>
         <a href="/lab/threat-intel/">Threat Intel</a>
+        <a href="/lab/threat-feed/">Live Threat Feed</a>
     </div>
 </span>
 <a href="/writeups/">Writeups</a>
@@ -156,6 +157,19 @@ expand, copy or send to the playground. Shape is wired up; entries land in
 <code>/lab/templates/data.json</code> later.
 </p>
 <div class="stack"><span>kql</span><span>catalog</span><span>hunting</span></div>
+</a>
+
+<a class="lab-card" href="/lab/threat-feed/">
+<div class="header-row">
+<h3>Live Threat Feed</h3>
+<span class="status-badge status-live">Live</span>
+</div>
+<p class="summary">
+Real-time SSH honeypot data from a residential research network. Top attackers,
+geo map, top credentials tried, recent activity. Refreshes every 15 minutes.
+Submissions to AbuseIPDB, VirusTotal, OTX, and ThreatFox.
+</p>
+<div class="stack"><span>cowrie</span><span>honeypot</span><span>ssh</span><span>geo</span></div>
 </a>
 
 </div>
