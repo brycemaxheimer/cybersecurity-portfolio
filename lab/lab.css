@@ -46,6 +46,20 @@
     background: var(--bg-1); border: 1px solid var(--line); color: var(--text-2);
 }
 .lab-section { margin: 3rem 0 1.5rem; }
+.lab-section-head {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin: 2.2rem 0 1rem;
+}
+.lab-section-copy {
+    color: var(--text-2);
+    font-size: 0.92rem;
+    margin: 0;
+    max-width: 56ch;
+}
 .lab-rationale {
     background: var(--bg-1); border-left: 3px solid var(--mint-deep);
     padding: 0.9rem 1.2rem; border-radius: 0 var(--radius) var(--radius) 0;
@@ -53,3 +67,31 @@
     margin: 1rem 0 0;
 }
 .lab-rationale strong { color: var(--mint); }
+.lab-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    margin: 1.4rem 0 0;
+}
+.lab-legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: var(--text-2);
+    font-size: 0.86rem;
+}
+.status-interactive {
+    background: rgba(70, 208, 154, 0.12);
+    color: var(--mint-deep);
+    border: 1px solid rgba(70, 208, 154, 0.30);
+}
+.status-live-data {
+    background: rgba(98, 171, 214, 0.12);
+    color: var(--info);
+    border: 1px solid rgba(98, 171, 214, 0.30);
+}
+.status-snapshot {
+    background: rgba(233, 198, 109, 0.10);
+    color: var(--amber);
+    border: 1px solid rgba(233, 198, 109, 0.30);
+}

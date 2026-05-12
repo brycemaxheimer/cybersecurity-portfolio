@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Why I built a KQL interpreter in PowerShell, what subset it supports today, and how it anchors the rest of the lab."><link rel="canonical" href="https://brycemaxheimer.com/blog/posts/inside-invoke-kqlps.html">
+<meta property="og:title" content="Inside Invoke-KqlPS - Bryce Maxheimer">
+<meta property="og:description" content="Why I built a KQL interpreter in PowerShell, what subset it supports today, and how it anchors the rest of the lab.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://brycemaxheimer.com/blog/posts/inside-invoke-kqlps.html">
+<meta property="og:image" content="https://brycemaxheimer.com/og/default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="Bryce Maxheimer">
+<meta property="article:published_time" content="2026-05-12T00:00:00.0000000+00:00">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Inside Invoke-KqlPS - Bryce Maxheimer">
+<meta name="twitter:description" content="Why I built a KQL interpreter in PowerShell, what subset it supports today, and how it anchors the rest of the lab.">
+<meta name="twitter:image" content="https://brycemaxheimer.com/og/default.png">
+    <title>Inside Invoke-KqlPS - Bryce Maxheimer</title>
+    <script>(function(){try{var t=localStorage.getItem('siteTheme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+</head>
+<body>
+
+<header class="site-header">
+    <div class="container">
+        <a href="/" class="brand">Bryce Maxheimer</a>
+        <nav class="nav">
+            <a href="/about.html">About</a>
+            <a href="/resume/">Resume</a>
+            <a href="/certs/">Certs</a>
+            <a href="/projects/">Projects</a>
+        <span class="nav-dropdown">
+            <a href="/lab/">Lab <span class="caret">&#9662;</span></a>
+            <div class="nav-dropdown-menu">
+                <div class="nested-dropdown">
+                    <a href="#" class="nested-dropbtn">KQL Tools <span class="caret-right">&#9656;</span></a>
+                    <div class="nested-dropdown-menu">
+                        <a href="/kql/">KQL Playground</a>
+                        <a href="/lab/practice/">KQL Practice</a>
+                        <a href="/lab/kql-builder/">KQL Builder</a>
+                        <a href="/lab/templates/">KQL Templates</a>
+                    </div>
+                </div>
+                <a href="/lab/mitre/">MITRE ATT&amp;CK</a>
+                <a href="/lab/cve/">CVE / KEV / EPSS</a>
+                <a href="/lab/ctf/">CTF Challenge</a>
+                <div class="nested-dropdown">
+                    <a href="#" class="nested-dropbtn">Dashboards <span class="caret-right">&#9656;</span></a>
+                    <div class="nested-dropdown-menu">
+                        <a href="/lab/threat-feed/">Live Threat Feed</a>
+                        <a href="/lab/cyber-terminal/">Cyber Terminal</a>
+                        <a href="/lab/cyber-ops/">Cyber Ops</a>
+                                            </div>
+                </div>
+            </div>
+        </span>
+            <a href="/writeups/">Writeups</a>
+            <a href="/blog/" class="active">Blog</a>
+            <a href="/customize/">Customize</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+
+<article class="post">
+    <h1>Inside Invoke-KqlPS</h1>
+    <div class="meta">2026-05-12 &middot; 4 min read &middot; <span class="tag">kql</span> <span class="tag">powershell</span> <span class="tag">tooling</span></div>
+
+<h2>Why build a local KQL harness at all</h2>
+<p>The problem was simple: I wanted a place to practice hunting patterns against realistic Sentinel-shaped data without needing a live tenant, ingest budget, or demo workspace every time I wanted to test an idea.</p>
+<p>That led to <code>Invoke-KqlPS.ps1</code>, a scoped Kusto Query Language interpreter in pure PowerShell. It loads tables from a local SQLite database whose schema mirrors the Microsoft Sentinel / Log Analytics table shapes I care about, keeps rows in memory as PowerShell objects, and treats each tabular operator as a function that takes a table and returns a new table. The pipe stays the mental model all the way through.</p>
+<p>The module was never meant to be &quot;all of KQL.&quot; The useful target was the subset that shows up constantly in daily SOC work: <code>where</code>, <code>project</code>, <code>extend</code>, <code>summarize</code>, <code>distinct</code>, <code>union</code>, several join kinds, <code>parse with</code>, and <code>mv-expand</code>, plus the scalar functions you reach for while cleaning data or building pivots.</p>
+<h2>What the current interpreter actually covers</h2>
+<p>The supported surface is intentionally honest and written down in the module header. On the tabular side, the interpreter handles:</p>
+<ul>
+<li><code>take</code>, <code>limit</code>, <code>top</code></li>
+<li><code>where</code></li>
+<li><code>project</code>, <code>project-keep</code>, <code>project-rename</code>, <code>project-away</code></li>
+<li><code>extend</code></li>
+<li><code>summarize ... by ...</code></li>
+<li><code>order by</code> / <code>sort by</code></li>
+<li><code>distinct</code></li>
+<li><code>union</code></li>
+<li><code>join kind=inner|leftouter|leftanti|innerunique</code></li>
+<li><code>parse with</code></li>
+<li><code>mv-expand</code></li>
+<li>pass-through handling for <code>materialize</code>, <code>getschema</code>, and <code>render</code></li>
+</ul>
+<p>On the scalar side, it supports the functions I wanted available while teaching or validating hunts: time helpers like <code>ago()</code> and <code>now()</code>, converters like <code>tostring()</code> and <code>toint()</code>, string helpers like <code>startswith</code>, <code>contains</code>, and <code>split</code>, and collection helpers like <code>make_set</code>, <code>make_list</code>, <code>array_length</code>, and <code>array_index_of</code>.</p>
+<p>Just as important, the out-of-scope list is explicit. <code>mv-apply</code>, <code>evaluate bag_unpack</code>, <code>series_*</code>, parameterized user-defined functions, and external tables are not quietly half-implemented. They raise a clear error so the failure mode is &quot;you hit an unsupported feature&quot; instead of &quot;you got a plausible-looking but wrong result.&quot;</p>
+<h2>The reproducibility trick that made the lab usable</h2>
+<p>One design detail matters more than it sounds: the module freezes the &quot;current time&quot; anchor when the context is created.</p>
+<p>That means <code>ago()</code> and <code>now()</code> are reproducible against the static sample data. The browser lab and the PowerShell lab both depend on that idea. If the reference clock drifted with the user&#39;s system clock, training queries would keep getting weirder as the bundled data aged. Freezing the reference time lets the dataset stay static while the exercises still behave like they&#39;re running against a fresh window.</p>
+<p>That small constraint is why the same query examples can be taught in the guide, graded in the practice harness, and validated in the browser engine without everyone getting different answers.</p>
+<h2>Why SQLite sits underneath it</h2>
+<p>SQLite is the storage layer, not the query language. The companion <code>Build-KqlLabDb.ps1</code> script stages CSV log samples into tables that match the production-style schema, and <code>Import-KqlLabCsv.ps1</code> handles the type coercion.</p>
+<p>That split matters:</p>
+<ul>
+<li>SQLite gives me a portable local store.</li>
+<li>PowerShell gives me a place to model KQL semantics directly.</li>
+<li>The sample tables keep the field names and data shapes familiar enough that a hunt can move from the lab into Sentinel or ADX with minimal translation.</li>
+</ul>
+<p>The browser lab later ports the same mental model into JavaScript and WASM SQLite, but the PowerShell version is the original reference implementation.</p>
+<h2>Where this fits in the rest of the site</h2>
+<p><code>Invoke-KqlPS</code> is not an isolated script. It is the anchor point for a bigger chain:</p>
+<ul>
+<li>the local lab database builder</li>
+<li>the KQL guide and examples</li>
+<li>the browser playground</li>
+<li>the 30-question practice harness</li>
+<li>the validation matrix that keeps the browser port honest</li>
+</ul>
+<p>That is the part I care about most. The goal was never just to write a parser. It was to build a practice environment where the query, the data, the lesson, and the grading path all line up.</p>
+<p>If you want to poke at the browser side of the same idea, start with the <a href="/kql/">KQL Playground</a> and <a href="/lab/practice/">KQL Practice</a>. If you want the PowerShell module inventory, the <a href="/scripts/">Scripts page</a> is the map.</p>
+
+    <hr>
+    <p class="text-muted fs-sm">
+        &larr; <a href="/blog/">Back to all posts</a>
+    </p>
+</article>
+
+</main>
+
+<footer class="site-footer">
+    <div class="container">
+        &copy; 2026 Bryce Maxheimer  &middot;
+        <a href="https://github.com/brycemaxheimer">GitHub</a>  &middot;
+        <a href="/about.html">Contact</a>
+    </div>
+</footer>
+
+</body>
+</html>

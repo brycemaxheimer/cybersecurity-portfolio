@@ -33,14 +33,14 @@
                 </div>
                 <a href="/lab/mitre/">MITRE ATT&amp;CK</a>
                 <a href="/lab/cve/">CVE / KEV / EPSS</a>
+                <a href="/lab/ctf/">CTF Challenge</a>
                 <div class="nested-dropdown">
                     <a href="#" class="nested-dropbtn">Dashboards <span class="caret-right">&#9656;</span></a>
                     <div class="nested-dropdown-menu">
                         <a href="/lab/threat-feed/">Live Threat Feed</a>
                         <a href="/lab/cyber-terminal/">Cyber Terminal</a>
                         <a href="/lab/cyber-ops/">Cyber Ops</a>
-                        <a href="/lab/cyber-grc/">Cyber GRC</a>
-                    </div>
+                                            </div>
                 </div>
             </div>
         </span>
@@ -55,76 +55,126 @@
 
     <h1>Scripts</h1>
     <p class="text-muted">
-        PowerShell modules and one-offs from the SOC Dashboard project. Click any
-        heading to jump to its writeup once published.
+        PowerShell modules and one-offs from the SOC Dashboard project. Each
+        heading links directly to the exact source file in GitHub.
     </p>
 
     <section>
         <h2>SOC operations &amp; KQL</h2>
+        <ul class="card-list">
+            <li class="card" id="invoke-kqlps">
+                <h3><a href="https://github.com/brycemaxheimer/cybersecurity-portfolio/blob/main/SOC%20Dashboard/Modules/Invoke-KqlPS.ps1">Invoke-KqlPS</a></h3>
+                <div class="meta">PowerShell &middot; KQL helper &middot; SQLite backend</div>
+                <p class="summary"><strong>Problem solved:</strong> practice a useful subset of KQL locally against Sentinel-shaped sample data without needing a live tenant.</p>
+                <p class="text-muted fs-sm"><strong>Compatibility:</strong> PowerShell 5.1+; local SQLite DB with a <code>__schema__</code> table.</p>
+                <pre><code>Import-Module .\Invoke-KqlPS.ps1 -Force
+$ctx = New-KqlContext -DatabasePath .\kql_lab.db
+Invoke-Kql -Context $ctx -Query 'SecurityEvent | where EventID == 4625 | take 5'</code></pre>
+                <span class="tag">powershell</span><span class="tag">kql</span><span class="tag">sqlite</span>
+            </li>
 
-        <article class="card" id="invoke-kqlps">
-            <h3>Invoke-KqlPS</h3>
-            <div class="meta">PowerShell &middot; KQL helper &middot; SQLite backend</div>
-            <p class="summary">Translates a subset of KQL into SQL and runs it against a local SQLite lab database. Lets you practice hunting queries without burning Sentinel ingest budget.</p>
-            <span class="tag">powershell</span><span class="tag">kql</span><span class="tag">sqlite</span>
-        </article>
+            <li class="card" id="build-kqllabdb">
+                <h3><a href="https://github.com/brycemaxheimer/cybersecurity-portfolio/blob/main/SOC%20Dashboard/Modules/Build-KqlLabDb.ps1">Build-KqlLabDb</a></h3>
+                <div class="meta">PowerShell &middot; data prep &middot; schema bootstrap</div>
+                <p class="summary"><strong>Problem solved:</strong> create the local SQLite lab database with table names and types that mirror the production-style KQL schema.</p>
+                <p class="text-muted fs-sm"><strong>Compatibility:</strong> PowerShell 5.1+; auto-installs <code>PSSQLite</code> to CurrentUser scope.</p>
+                <pre><code>.\Build-KqlLabDb.ps1 -Force
+.\Build-KqlLabDb.ps1 -SchemaPath .\CommonTableSchema.txt -DatabasePath .\kql_lab.db</code></pre>
+                <span class="tag">powershell</span><span class="tag">lab</span><span class="tag">sqlite</span>
+            </li>
 
-        <article class="card mt-md" id="build-kqllabdb">
-            <h3>Build-KqlLabDb</h3>
-            <div class="meta">PowerShell &middot; data prep</div>
-            <p class="summary">Bootstraps the lab SQLite database from the bundled CSV log samples (DeviceLogonEvents, DeviceProcessEvents, SecurityAlert, SigninLogs, etc.).</p>
-            <span class="tag">powershell</span><span class="tag">lab</span>
-        </article>
+            <li class="card" id="kqlbuilder">
+                <h3><a href="https://github.com/brycemaxheimer/cybersecurity-portfolio/blob/main/SOC%20Dashboard/Modules/KqlBuilder.ps1">KqlBuilder</a></h3>
+                <div class="meta">PowerShell &middot; query authoring &middot; saved-query GUI</div>
+                <p class="summary"><strong>Problem solved:</strong> walk an analyst through building KQL with guardrails instead of asking them to memorize the whole syntax surface up front.</p>
+                <p class="text-muted fs-sm"><strong>Compatibility:</strong> stock user-level PowerShell; Access database engine optional, JSON fallback built in.</p>
+                <pre><code>powershell.exe -ExecutionPolicy Bypass -File .\KqlBuilder.ps1
+powershell.exe -ExecutionPolicy Bypass -File .\KqlBuilder.ps1 -ResetDb</code></pre>
+                <span class="tag">powershell</span><span class="tag">kql</span><span class="tag">gui</span>
+            </li>
 
-        <article class="card mt-md" id="kqlbuilder">
-            <h3>KqlBuilder &amp; KqlTemplates</h3>
-            <div class="meta">PowerShell &middot; query authoring</div>
-            <p class="summary">Composable query builder plus a library of starter KQL templates for common SOC questions (suspicious sign-ins, parent-child process anomalies, rare image loads).</p>
-            <span class="tag">powershell</span><span class="tag">kql</span><span class="tag">templates</span>
-        </article>
+            <li class="card" id="kqltemplates">
+                <h3><a href="https://github.com/brycemaxheimer/cybersecurity-portfolio/blob/main/SOC%20Dashboard/Modules/KqlTemplates.ps1">KqlTemplates</a></h3>
+                <div class="meta">PowerShell &middot; template store &middot; CRUD wrapper</div>
+                <p class="summary"><strong>Problem solved:</strong> keep hunting templates in a typed store with tags and metadata instead of scattered loose snippets.</p>
+                <p class="text-muted fs-sm"><strong>Compatibility:</strong> PowerShell 5.1+; depends on the shared schema bootstrap in <code>SecIntel.Schema.ps1</code>.</p>
+                <pre><code>. .\SecIntel.Schema.ps1
+Ensure-PSSQLite
+Initialize-SecIntelSchema
+. .\KqlTemplates.ps1</code></pre>
+                <span class="tag">powershell</span><span class="tag">kql</span><span class="tag">templates</span>
+            </li>
+        </ul>
     </section>
 
     <section>
         <h2>Threat intel &amp; enrichment</h2>
+        <ul class="card-list">
+            <li class="card" id="secintel-threatintel">
+                <h3><a href="https://github.com/brycemaxheimer/cybersecurity-portfolio/blob/main/SOC%20Dashboard/Modules/SecIntel.ThreatIntel.ps1">SecIntel.ThreatIntel</a></h3>
+                <div class="meta">PowerShell &middot; enrichment dispatcher &middot; provider normalization</div>
+                <p class="summary"><strong>Problem solved:</strong> auto-detect an indicator type, call every compatible provider, and return normalized cache rows without making the UI care which source answered.</p>
+                <p class="text-muted fs-sm"><strong>Compatibility:</strong> PowerShell 5.1+; dot-sources the shared schema, settings, hash lookup, and provider modules.</p>
+                <pre><code>. .\SecIntel.ThreatIntel.ps1
+Invoke-IntelLookup -Value 8.8.8.8 -IocType ip</code></pre>
+                <span class="tag">powershell</span><span class="tag">threat-intel</span><span class="tag">api</span>
+            </li>
 
-        <article class="card" id="secintel-threatintel">
-            <h3>SecIntel.ThreatIntel</h3>
-            <div class="meta">PowerShell &middot; enrichment library</div>
-            <p class="summary">Unified wrapper around AbuseIPDB, urlscan.io, NIST NVD, Team Cymru hash lookups, and the NSRL. One consistent interface, cached responses, pluggable settings.</p>
-            <span class="tag">powershell</span><span class="tag">threat-intel</span><span class="tag">api</span>
-        </article>
+            <li class="card" id="secintel-dailybrief">
+                <h3><a href="https://github.com/brycemaxheimer/cybersecurity-portfolio/blob/main/SOC%20Dashboard/Modules/SecIntel.DailyBrief.ps1">SecIntel.DailyBrief</a></h3>
+                <div class="meta">PowerShell &middot; reporting &middot; daily HTML output</div>
+                <p class="summary"><strong>Problem solved:</strong> generate a standalone morning brief that summarizes feed health, new KEVs, ransomware-linked KEVs, and priority CVEs from the local intel cache.</p>
+                <p class="text-muted fs-sm"><strong>Compatibility:</strong> PowerShell 5.1+; writes a single-file HTML brief, no external assets required.</p>
+                <pre><code>.\SecIntel.DailyBrief.ps1 -Open
+.\SecIntel.DailyBrief.ps1 -ResetLastSeen -Open</code></pre>
+                <span class="tag">powershell</span><span class="tag">cve</span><span class="tag">kev</span><span class="tag">reporting</span>
+            </li>
 
-        <article class="card mt-md" id="secintel-dailybrief">
-            <h3>SecIntel.DailyBrief</h3>
-            <div class="meta">PowerShell &middot; reporting</div>
-            <p class="summary">Pulls the day's relevant CVE/KEV/EPSS movement plus enrichment data and renders a digest. Run as a scheduled task to land a fresh brief in your inbox each morning.</p>
-            <span class="tag">powershell</span><span class="tag">cve</span><span class="tag">kev</span><span class="tag">epss</span>
-        </article>
+            <li class="card" id="cve-kev-feed">
+                <h3><a href="https://github.com/brycemaxheimer/cybersecurity-portfolio/blob/main/SOC%20Dashboard/Modules/Update-CveKevFeed.ps1">Update-CveKevFeed</a></h3>
+                <div class="meta">PowerShell &middot; feed sync &middot; NVD + CISA KEV</div>
+                <p class="summary"><strong>Problem solved:</strong> mirror recent CVEs from NVD and the full CISA KEV catalog into the same SQLite database used by the local dashboard and ATT&amp;CK tooling.</p>
+                <p class="text-muted fs-sm"><strong>Compatibility:</strong> PowerShell 5.1+; optional NVD API key, otherwise runs at public rate limits.</p>
+                <pre><code>.\Update-CveKevFeed.ps1
+.\Update-CveKevFeed.ps1 -Days 14 -NvdApiKey 'abc123...'</code></pre>
+                <span class="tag">powershell</span><span class="tag">cisa-kev</span><span class="tag">nvd</span>
+            </li>
 
-        <article class="card mt-md" id="cve-feeds">
-            <h3>Update-CveKevFeed &amp; Update-EpssFeed</h3>
-            <div class="meta">PowerShell &middot; feed sync</div>
-            <p class="summary">Mirror CISA's KEV catalog and FIRST.org's EPSS scores locally. Designed to run idempotently - safe to schedule.</p>
-            <span class="tag">powershell</span><span class="tag">cisa-kev</span><span class="tag">epss</span>
-        </article>
+            <li class="card" id="epss-feed">
+                <h3><a href="https://github.com/brycemaxheimer/cybersecurity-portfolio/blob/main/SOC%20Dashboard/Modules/Update-EpssFeed.ps1">Update-EpssFeed</a></h3>
+                <div class="meta">PowerShell &middot; feed sync &middot; EPSS enrichment</div>
+                <p class="summary"><strong>Problem solved:</strong> update only the CVEs already cached locally with fresh EPSS score and percentile data so prioritization stays current.</p>
+                <p class="text-muted fs-sm"><strong>Compatibility:</strong> PowerShell 5.1+; designed to run after <code>Update-CveKevFeed.ps1</code>.</p>
+                <pre><code>.\Update-EpssFeed.ps1
+.\Update-EpssFeed.ps1 -Force</code></pre>
+                <span class="tag">powershell</span><span class="tag">epss</span><span class="tag">prioritization</span>
+            </li>
+        </ul>
     </section>
 
     <section>
         <h2>Frameworks</h2>
+        <ul class="card-list">
+            <li class="card" id="mitre-attack-explorer">
+                <h3><a href="https://github.com/brycemaxheimer/cybersecurity-portfolio/blob/main/SOC%20Dashboard/Modules/MitreAttackExplorer.ps1">MitreAttackExplorer</a></h3>
+                <div class="meta">PowerShell &middot; MITRE ATT&amp;CK &middot; local SQLite explorer</div>
+                <p class="summary"><strong>Problem solved:</strong> download the Enterprise ATT&amp;CK STIX bundle once, cache it locally, and launch a searchable GUI for tactics, techniques, groups, software, mitigations, and relationships.</p>
+                <p class="text-muted fs-sm"><strong>Compatibility:</strong> PowerShell 5.1+; PowerShell 7+ recommended for faster JSON parsing; no admin rights required.</p>
+                <pre><code>.\MitreAttackExplorer.ps1
+.\MitreAttackExplorer.ps1 -Update</code></pre>
+                <span class="tag">powershell</span><span class="tag">mitre</span><span class="tag">attack</span>
+            </li>
 
-        <article class="card" id="mitre-attack-explorer">
-            <h3>MitreAttackExplorer</h3>
-            <div class="meta">PowerShell &middot; MITRE ATT&amp;CK</div>
-            <p class="summary">Offline browser for the ATT&amp;CK framework. Search techniques, list sub-techniques, map to data sources, dump filtered JSON for downstream tooling.</p>
-            <span class="tag">powershell</span><span class="tag">mitre</span><span class="tag">attack</span>
-        </article>
-
-        <article class="card mt-md" id="cve-attack-map">
-            <h3>Update-CveAttackMap</h3>
-            <div class="meta">PowerShell &middot; cross-mapping</div>
-            <p class="summary">Joins CVE records to ATT&amp;CK techniques where mappings exist, producing a lookup table that's handy when prioritizing patching against observed adversary behavior.</p>
-            <span class="tag">powershell</span><span class="tag">cve</span><span class="tag">mitre</span>
-        </article>
+            <li class="card" id="cve-attack-map">
+                <h3><a href="https://github.com/brycemaxheimer/cybersecurity-portfolio/blob/main/SOC%20Dashboard/Modules/Update-CveAttackMap.ps1">Update-CveAttackMap</a></h3>
+                <div class="meta">PowerShell &middot; cross-mapping &middot; CVE to ATT&amp;CK import</div>
+                <p class="summary"><strong>Problem solved:</strong> import analyst or third-party CVE-to-technique mappings so ATT&amp;CK context can sit next to patching and KEV views.</p>
+                <p class="text-muted fs-sm"><strong>Compatibility:</strong> PowerShell 5.1+; expects a CSV with at least <code>CveId</code> and <code>TechniqueId</code>.</p>
+                <pre><code>.\Update-CveAttackMap.ps1 -Path .\ctid_mappings.csv -Source center-for-tid
+.\Update-CveAttackMap.ps1 -Path .\my_map.csv -Source analyst</code></pre>
+                <span class="tag">powershell</span><span class="tag">cve</span><span class="tag">mitre</span>
+            </li>
+        </ul>
     </section>
 
     <hr>

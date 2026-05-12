@@ -46,14 +46,14 @@
                 </div>
                 <a href="/lab/mitre/">MITRE ATT&amp;CK</a>
                 <a href="/lab/cve/">CVE / KEV / EPSS</a>
+                <a href="/lab/ctf/">CTF Challenge</a>
                 <div class="nested-dropdown">
                     <a href="#" class="nested-dropbtn">Dashboards <span class="caret-right">&#9656;</span></a>
                     <div class="nested-dropdown-menu">
                         <a href="/lab/threat-feed/">Live Threat Feed</a>
                         <a href="/lab/cyber-terminal/">Cyber Terminal</a>
                         <a href="/lab/cyber-ops/">Cyber Ops</a>
-                        <a href="/lab/cyber-grc/">Cyber GRC</a>
-                    </div>
+                                            </div>
                 </div>
             </div>
         </span>
@@ -113,6 +113,47 @@
         </p>
         <div class="project-actions">
             <a href="/lab/">Open the lab &rarr;</a>
+        </div>
+    </article>
+
+    <article class="project" id="honeypot-research-network">
+        <h3>Honeypot Research Network</h3>
+        <div class="stack">Cowrie &middot; threat intel &middot; enrichment &middot; wall displays</div>
+        <p class="why">
+            <strong>Why it exists:</strong> I wanted a real telemetry source that
+            could feed both analyst workflows and public portfolio surfaces
+            without pretending screenshots were proof.
+        </p>
+        <p>
+            Residential SSH honeypot pipeline that produces the live attacker
+            telemetry behind the Browser Lab's wall displays. It tracks top
+            attackers, credentials, ASN/country breakdowns, recent Cowrie
+            events, and sharing metrics for AbuseIPDB, VirusTotal, OTX, and
+            ThreatFox-backed workflows.
+        </p>
+        <div class="project-actions">
+            <a href="/lab/threat-feed/">Open Live Threat Feed &rarr;</a>
+            <a href="/lab/cyber-ops/">Open Cyber Ops</a>
+        </div>
+    </article>
+
+    <article class="project" id="kql-practice-engine">
+        <h3>KQL Practice Engine</h3>
+        <div class="stack">JavaScript &middot; KQL validation &middot; IndexedDB &middot; ADX-aligned grading</div>
+        <p class="why">
+            <strong>Why it exists:</strong> A playground is useful, but deliberate
+            practice needs scoring, validation, and enough structure to tell you
+            whether a query is actually correct.
+        </p>
+        <p>
+            Thirty graded KQL questions with difficulty bands, persisted score
+            state, and canonical answers validated against the same query model
+            used elsewhere in the lab. The browser harness turns the KQL engine
+            into a repeatable training surface instead of a one-off demo.
+        </p>
+        <div class="project-actions">
+            <a href="/lab/practice/">Open KQL Practice &rarr;</a>
+            <a href="/kql/">Open KQL Playground</a>
         </div>
     </article>
 

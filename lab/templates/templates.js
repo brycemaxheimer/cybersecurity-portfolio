@@ -4,8 +4,11 @@
  *
  * Expected entry shape (when data is added):
  *   { name: "Failed-logon hunter",
+ *     slug: "failed-logon-hunter",
  *     description: "Surface accounts with > 5 failed logons in 1h",
  *     tags: ["logon", "hunting"],
+ *     attackTechniques: ["T1110"],
+ *     verifiedAgainst: ["SecurityEvent"],
  *     kql: "DeviceLogonEvents | where ..." }
  */
 (function () {
@@ -108,14 +111,16 @@
     function emptyState() {
         return '<div class="tpl-empty">' +
             '<h3>Catalog is empty</h3>' +
-            '<p>This page is the browser shell - no templates ship with the public site yet.</p>' +
+            '<p>This page is the browser shell. No templates are currently published in the catalog.</p>' +
             '<p>The same UI also serves as a recipe for populating it: edit ' +
             '<code>/lab/templates/data.json</code> and add entries to the <code>templates</code> array.</p>' +
             '<div class="recipe"><strong>Entry shape:</strong>' +
             '<ol>' +
                 '<li><code>name</code> - short title</li>' +
+                '<li><code>slug</code> - stable URL-friendly id (optional)</li>' +
                 '<li><code>description</code> - one or two sentences</li>' +
                 '<li><code>tags</code> - array of strings (used for filter chips)</li>' +
+                '<li><code>attackTechniques</code> / <code>verifiedAgainst</code> - optional metadata arrays</li>' +
                 '<li><code>kql</code> - the query body, multi-line OK</li>' +
             '</ol></div></div>';
     }

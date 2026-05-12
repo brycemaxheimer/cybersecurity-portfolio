@@ -46,14 +46,14 @@
         </div>
         <a href="/lab/mitre/">MITRE ATT&amp;CK</a>
         <a href="/lab/cve/">CVE / KEV / EPSS</a>
+        <a href="/lab/ctf/">CTF Challenge</a>
         <div class="nested-dropdown">
             <a href="#" class="nested-dropbtn">Dashboards <span class="caret-right">&#9656;</span></a>
             <div class="nested-dropdown-menu">
                 <a href="/lab/threat-feed/">Live Threat Feed</a>
                 <a href="/lab/cyber-terminal/">Cyber Terminal</a>
                 <a href="/lab/cyber-ops/">Cyber Ops</a>
-                <a href="/lab/cyber-grc/">Cyber GRC</a>
-            </div>
+                            </div>
         </div>
     </div>
 </span>
@@ -76,150 +76,165 @@ without touching a real Sentinel tenant or burning my API quotas.
 <div class="lab-rationale">
 <strong>How this works.</strong> Where possible, tools run fully in your browser
 - data is bundled with the page or fetched once on load. For tools that
-ordinarily depend on rate-limited third-party APIs (threat intel lookups), I ship
-a recorded walkthrough instead of live calls. The CVE/KEV/EPSS browser is
-backed by a snapshot of the public feeds, refreshed on a schedule.
+ordinarily depend on rate-limited third-party APIs, I either bake the data at
+build time or make the live dependency explicit.
 </div>
 
+<div class="lab-legend" aria-label="Tool type legend">
+    <div class="lab-legend-item"><span class="status-badge status-interactive">Interactive</span> User-driven tools and challenges.</div>
+    <div class="lab-legend-item"><span class="status-badge status-live-data">Live data</span> Auto-refreshing pages backed by current feeds.</div>
+    <div class="lab-legend-item"><span class="status-badge status-snapshot">Snapshot</span> Static datasets refreshed on a schedule.</div>
+</div>
 
-<h2 class="lab-section">Live tools</h2>
-
+<div class="lab-section-head">
+    <h2 class="lab-section">KQL Tools</h2>
+    <p class="lab-section-copy">Query authoring, guided practice, and reusable hunts built around the same Sentinel-shaped sample data.</p>
+</div>
 <div class="lab-grid">
+    <a class="lab-card" href="/kql/">
+        <div class="header-row">
+            <h3>KQL Playground</h3>
+            <span class="status-badge status-interactive">Interactive</span>
+        </div>
+        <p class="summary">
+            Hand-written KQL engine running against a WASM SQLite. Type a query,
+            hit Run, and inspect the result set entirely client-side.
+        </p>
+        <div class="stack"><span>kql</span><span>sql.js</span><span>wasm</span><span>javascript</span></div>
+    </a>
 
-<a class="lab-card" href="/kql/">
-<div class="header-row">
-<h3>KQL Playground</h3>
-<span class="status-badge status-live">Live</span>
-</div>
-<p class="summary">
-Hand-written KQL engine running against a WASM SQLite. Sixteen Sentinel-shaped
-sample tables baked in. Type a query, hit Run, see results. Supports the most
-common ~80% of operators - <code>where</code>, <code>summarize</code>,
-<code>extend</code>, <code>top</code>, <code>join</code>-free for now.
-</p>
-<div class="stack"><span>kql</span><span>sql.js</span><span>wasm</span><span>javascript</span></div>
-</a>
+    <a class="lab-card" href="/lab/practice/">
+        <div class="header-row">
+            <h3>KQL Practice</h3>
+            <span class="status-badge status-interactive">Interactive</span>
+        </div>
+        <p class="summary">
+            Thirty graded KQL questions, easy to hard. Canonical answers are
+            validated against the same query model used elsewhere in the lab.
+        </p>
+        <div class="stack"><span>kql</span><span>practice</span><span>graded</span><span>indexeddb</span></div>
+    </a>
 
-<a class="lab-card" href="/lab/practice/">
-<div class="header-row">
-<h3>KQL Practice</h3>
-<span class="status-badge status-live">Live</span>
-</div>
-<p class="summary">
-30 hand-authored KQL questions, easy &rarr; hard. Each one's canonical answer
-was dual-validated against Azure Data Explorer. Submit once per question, get
-graded on correctness + refinement + speed. The browser engine is a port of
-the same PowerShell interpreter that produced the gold contract.
-</p>
-<div class="stack"><span>kql</span><span>practice</span><span>graded</span><span>indexeddb</span></div>
-</a>
+    <a class="lab-card" href="/lab/kql-builder/">
+        <div class="header-row">
+            <h3>KQL Builder</h3>
+            <span class="status-badge status-interactive">Interactive</span>
+        </div>
+        <p class="summary">
+            Visual query builder for table selection, filters, output columns,
+            and summarize patterns, with save/load support in the browser.
+        </p>
+        <div class="stack"><span>kql</span><span>visual-builder</span><span>javascript</span></div>
+    </a>
 
-<a class="lab-card" href="/lab/mitre/">
-<div class="header-row">
-<h3>MITRE ATT&amp;CK Explorer</h3>
-<span class="status-badge status-live">Live</span>
-</div>
-<p class="summary">
-Browse Enterprise ATT&amp;CK techniques, sub-techniques, threat groups, software,
-and mitigations. Search by ID / name / detection text, filter by tactic and
-platform, jump between cross-references. STIX bundle slimmed at build time.
-</p>
-<div class="stack"><span>mitre</span><span>attack</span><span>stix</span><span>javascript</span></div>
-</a>
-
-<a class="lab-card" href="/lab/cve/">
-<div class="header-row">
-<h3>CVE / KEV / EPSS Browser</h3>
-<span class="status-badge status-live">Live</span>
-</div>
-<p class="summary">
-Browse the CISA Known Exploited Vulnerabilities catalog with FIRST EPSS scores
-attached. Filter by vendor, ransomware-linkage, EPSS minimum, recency. Snapshot
-shipped with the page; refresh manually via <code>refresh-feeds.ps1</code>.
-</p>
-<div class="stack"><span>cve</span><span>cisa-kev</span><span>epss</span><span>kev</span></div>
-</a>
-
-<a class="lab-card" href="/lab/kql-builder/">
-<div class="header-row">
-<h3>KQL Builder</h3>
-<span class="status-badge status-live">Live</span>
-</div>
-<p class="summary">
-Visual query builder - pick a table, time range, filters, output
-columns; emit live KQL. Save &amp; load named queries via local browser
-storage. "Send to playground" passes the query straight to the engine.
-</p>
-<div class="stack"><span>kql</span><span>visual-builder</span><span>javascript</span></div>
-</a>
-
-<a class="lab-card" href="/lab/templates/">
-<div class="header-row">
-<h3>KQL Templates</h3>
-<span class="status-badge status-live">Live</span>
-</div>
-<p class="summary">
-Browser shell for a curated catalog of pre-built KQL hunts. Search, click to
-expand, copy or send to the playground. Shape is wired up; entries land in
-<code>/lab/templates/data.json</code> later.
-</p>
-<div class="stack"><span>kql</span><span>catalog</span><span>hunting</span></div>
-</a>
-
-<a class="lab-card" href="/lab/threat-feed/">
-<div class="header-row">
-<h3>Live Threat Feed</h3>
-<span class="status-badge status-live">Live</span>
-</div>
-<p class="summary">
-Real-time SSH honeypot data from a residential research network. Top attackers,
-geo map, top credentials tried, recent activity. Refreshes every 15 minutes.
-Submissions to AbuseIPDB, VirusTotal, OTX, and ThreatFox.
-</p>
-<div class="stack"><span>cowrie</span><span>honeypot</span><span>ssh</span><span>geo</span></div>
-</a>
-
-<a class="lab-card" href="/lab/cyber-terminal/">
-<div class="header-row">
-<h3>Cyber Terminal</h3>
-<span class="status-badge status-live">Live</span>
-</div>
-<p class="summary">
-Live aggregated CVE feed, Hacker News security stories, ransomware victim feed,
-and threat map - all in one auto-refreshing wall display. Built for the corner
-monitor that nobody is actively looking at but everybody glances at.
-</p>
-<div class="stack"><span>feeds</span><span>leaflet</span><span>realtime</span><span>wall-display</span></div>
-</a>
-
-<a class="lab-card" href="/lab/cyber-ops/">
-<div class="header-row">
-<h3>Cyber Ops</h3>
-<span class="status-badge status-live">Live</span>
-</div>
-<p class="summary">
-Live honeypot operations telemetry - Cowrie session counts, attacker
-ASN/country breakdown, top tried credentials, post-auth command analysis.
-Same data backing the Live Threat Feed, reframed as an ops wall.
-</p>
-<div class="stack"><span>honeypot</span><span>cowrie</span><span>asn</span><span>ops</span></div>
-</a>
-
-<a class="lab-card" href="/lab/cyber-grc/">
-<div class="header-row">
-<h3>Cyber GRC</h3>
-<span class="status-badge status-live">Live</span>
-</div>
-<p class="summary">
-GRC operations terminal - NIST CSF maturity radar, risk register, audit
-findings, ATT&amp;CK coverage, patch tracker, and breach feed. The governance
-side of the house presented at the same fidelity as the SOC wall.
-</p>
-<div class="stack"><span>nist-csf</span><span>risk</span><span>audit</span><span>grc</span></div>
-</a>
-
+    <a class="lab-card" href="/lab/templates/">
+        <div class="header-row">
+            <h3>KQL Templates</h3>
+            <span class="status-badge status-interactive">Interactive</span>
+        </div>
+        <p class="summary">
+            Searchable browser shell for the public KQL hunt catalog. Search,
+            expand, copy, and send templates into the rest of the lab.
+        </p>
+        <div class="stack"><span>kql</span><span>catalog</span><span>hunting</span></div>
+    </a>
 </div>
 
+<div class="lab-section-head">
+    <h2 class="lab-section">Frameworks</h2>
+    <p class="lab-section-copy">Reference views that keep ATT&amp;CK and vulnerability context close to the query and patching work.</p>
+</div>
+<div class="lab-grid">
+    <a class="lab-card" href="/lab/mitre/">
+        <div class="header-row">
+            <h3>MITRE ATT&amp;CK Explorer</h3>
+            <span class="status-badge status-interactive">Interactive</span>
+        </div>
+        <p class="summary">
+            Browse Enterprise ATT&amp;CK techniques, sub-techniques, groups,
+            software, and mitigations with static STIX data shipped to the page.
+        </p>
+        <div class="stack"><span>mitre</span><span>attack</span><span>stix</span><span>javascript</span></div>
+    </a>
+
+    <a class="lab-card" href="/lab/cve/">
+        <div class="header-row">
+            <h3>CVE / KEV / EPSS Browser</h3>
+            <span class="status-badge status-snapshot">Snapshot</span>
+        </div>
+        <p class="summary">
+            Browse the CISA Known Exploited Vulnerabilities catalog with FIRST
+            EPSS scores attached. Refreshed from public feeds on a schedule.
+        </p>
+        <div class="stack"><span>cve</span><span>cisa-kev</span><span>epss</span><span>kev</span></div>
+    </a>
+</div>
+
+<div class="lab-section-head">
+    <h2 class="lab-section">Live Data</h2>
+    <p class="lab-section-copy">Pages backed by current threat telemetry, vulnerability feeds, and GRC snapshots that refresh without a full site rebuild.</p>
+</div>
+<div class="lab-grid">
+    <a class="lab-card" href="/lab/threat-feed/">
+        <div class="header-row">
+            <h3>Live Threat Feed</h3>
+            <span class="status-badge status-live-data">Live data</span>
+        </div>
+        <p class="summary">
+            Real-time SSH honeypot data from a residential research network:
+            top attackers, geo map, recent activity, credentials, and sharing metrics.
+        </p>
+        <div class="stack"><span>cowrie</span><span>honeypot</span><span>ssh</span><span>geo</span></div>
+    </a>
+</div>
+
+<div class="lab-section-head">
+    <h2 class="lab-section">Wall Displays</h2>
+    <p class="lab-section-copy">High-density dashboards built for a side monitor: current intel, live telemetry, and governance views rendered at the same fidelity.</p>
+</div>
+<div class="lab-grid">
+    <a class="lab-card" href="/lab/cyber-terminal/">
+        <div class="header-row">
+            <h3>Cyber Terminal</h3>
+            <span class="status-badge status-live-data">Live data</span>
+        </div>
+        <p class="summary">
+            Aggregated CVE feed, ransomware victim feed, security stories, and
+            threat map in one auto-refreshing wall display.
+        </p>
+        <div class="stack"><span>feeds</span><span>leaflet</span><span>realtime</span><span>wall-display</span></div>
+    </a>
+
+    <a class="lab-card" href="/lab/cyber-ops/">
+        <div class="header-row">
+            <h3>Cyber Ops</h3>
+            <span class="status-badge status-live-data">Live data</span>
+        </div>
+        <p class="summary">
+            Honeypot operations wall: attacker map, ASN/country breakdown, top
+            credentials, command analysis, and threat-sharing metrics.
+        </p>
+        <div class="stack"><span>honeypot</span><span>cowrie</span><span>asn</span><span>ops</span></div>
+    </a>
+    </div>
+
+<div class="lab-section-head">
+    <h2 class="lab-section">Challenges</h2>
+    <p class="lab-section-copy">Deliberate-practice surfaces that turn the lab from a demo into something you can actually work through.</p>
+</div>
+<div class="lab-grid">
+    <a class="lab-card" href="/lab/ctf/">
+        <div class="header-row">
+            <h3>CTF: The Quiet Reroute</h3>
+            <span class="status-badge status-interactive">Interactive</span>
+        </div>
+        <p class="summary">
+            Multi-tenant SOC investigation scenario with answer-hash grading and
+            a lore-heavy briefing built around a quiet fraud-and-intrusion story.
+        </p>
+        <div class="stack"><span>ctf</span><span>soc</span><span>investigation</span><span>challenge</span></div>
+    </a>
+</div>
 
 <h2 class="lab-section">Why a "lab"?</h2>
 <p>
@@ -230,9 +245,9 @@ MITRE technique and see the data sources, mitigations, and threat groups that
 use it. Try to break things.
 </p>
 <p>
-Every tool is fully static (no backend, no analytics, no telemetry). Where a
-tool would ordinarily need a server, I either bake the data in at build time or
-show you a recording - both are honest about what's happening.
+Every tool is static-first. Where something needs a live feed, the page makes
+that dependency visible instead of pretending everything is the same kind of
+experience.
 </p>
 
 <hr>

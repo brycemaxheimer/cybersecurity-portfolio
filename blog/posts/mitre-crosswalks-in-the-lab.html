@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="How the local ATT&amp;CK explorer, CVE-to-technique mappings, and KQL tooling fit together in one offline-friendly workflow."><link rel="canonical" href="https://brycemaxheimer.com/blog/posts/mitre-crosswalks-in-the-lab.html">
+<meta property="og:title" content="MITRE Crosswalks in the Lab - Bryce Maxheimer">
+<meta property="og:description" content="How the local ATT&amp;CK explorer, CVE-to-technique mappings, and KQL tooling fit together in one offline-friendly workflow.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://brycemaxheimer.com/blog/posts/mitre-crosswalks-in-the-lab.html">
+<meta property="og:image" content="https://brycemaxheimer.com/og/default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="Bryce Maxheimer">
+<meta property="article:published_time" content="2026-05-11T00:00:00.0000000+00:00">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="MITRE Crosswalks in the Lab - Bryce Maxheimer">
+<meta name="twitter:description" content="How the local ATT&amp;CK explorer, CVE-to-technique mappings, and KQL tooling fit together in one offline-friendly workflow.">
+<meta name="twitter:image" content="https://brycemaxheimer.com/og/default.png">
+    <title>MITRE Crosswalks in the Lab - Bryce Maxheimer</title>
+    <script>(function(){try{var t=localStorage.getItem('siteTheme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+</head>
+<body>
+
+<header class="site-header">
+    <div class="container">
+        <a href="/" class="brand">Bryce Maxheimer</a>
+        <nav class="nav">
+            <a href="/about.html">About</a>
+            <a href="/resume/">Resume</a>
+            <a href="/certs/">Certs</a>
+            <a href="/projects/">Projects</a>
+        <span class="nav-dropdown">
+            <a href="/lab/">Lab <span class="caret">&#9662;</span></a>
+            <div class="nav-dropdown-menu">
+                <div class="nested-dropdown">
+                    <a href="#" class="nested-dropbtn">KQL Tools <span class="caret-right">&#9656;</span></a>
+                    <div class="nested-dropdown-menu">
+                        <a href="/kql/">KQL Playground</a>
+                        <a href="/lab/practice/">KQL Practice</a>
+                        <a href="/lab/kql-builder/">KQL Builder</a>
+                        <a href="/lab/templates/">KQL Templates</a>
+                    </div>
+                </div>
+                <a href="/lab/mitre/">MITRE ATT&amp;CK</a>
+                <a href="/lab/cve/">CVE / KEV / EPSS</a>
+                <a href="/lab/ctf/">CTF Challenge</a>
+                <div class="nested-dropdown">
+                    <a href="#" class="nested-dropbtn">Dashboards <span class="caret-right">&#9656;</span></a>
+                    <div class="nested-dropdown-menu">
+                        <a href="/lab/threat-feed/">Live Threat Feed</a>
+                        <a href="/lab/cyber-terminal/">Cyber Terminal</a>
+                        <a href="/lab/cyber-ops/">Cyber Ops</a>
+                                            </div>
+                </div>
+            </div>
+        </span>
+            <a href="/writeups/">Writeups</a>
+            <a href="/blog/" class="active">Blog</a>
+            <a href="/customize/">Customize</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+
+<article class="post">
+    <h1>MITRE Crosswalks in the Lab</h1>
+    <div class="meta">2026-05-11 &middot; 4 min read &middot; <span class="tag">mitre</span> <span class="tag">attack</span> <span class="tag">detection</span></div>
+
+<h2>The problem I wanted to solve</h2>
+<p>I did not want ATT&amp;CK living in my tooling as a poster on the wall.</p>
+<p>The useful version of ATT&amp;CK is the one that can sit next to the things an analyst is already doing: checking whether a technique is relevant, seeing what data sources it expects, comparing it with recent CVEs, and turning that into a query or triage path without opening six tabs.</p>
+<p>That is the job of the MITRE crosswalk pieces in this repo.</p>
+<h2>The local explorer starts with the full STIX bundle</h2>
+<p><code>MitreAttackExplorer.ps1</code> downloads the Enterprise ATT&amp;CK STIX bundle, parses it, and loads the useful pieces into the same SQLite database used by the rest of the SOC Dashboard tooling.</p>
+<p>The ingest path stores:</p>
+<ul>
+<li>tactics</li>
+<li>techniques and sub-techniques</li>
+<li>intrusion sets</li>
+<li>software</li>
+<li>mitigations</li>
+<li>relationships</li>
+</ul>
+<p>The important design choice is that ATT&amp;CK data is cached locally after the first run. That keeps the tool fast, user-level, and workable in environments where the interesting part of the day is analysis rather than waiting on a remote dependency.</p>
+<p>The browser version at <a href="/lab/mitre/">/lab/mitre/</a> takes the same idea and ships a slimmed static dataset so the public side of the site stays fully usable without a backend.</p>
+<h2>CVE-to-ATT&amp;CK mapping is intentionally a separate layer</h2>
+<p>The ATT&amp;CK bundle alone answers &quot;what is this technique?&quot; It does not answer &quot;which current vulnerabilities line up with the behavior I care about?&quot;</p>
+<p>That is why <code>Update-CveAttackMap.ps1</code> exists as a separate import step. It reads a CSV with <code>CveId</code> and <code>TechniqueId</code> columns, plus optional <code>Source</code>, <code>Confidence</code>, and <code>Mapping</code> fields, then loads those rows into the database as a first-class lookup table.</p>
+<p>Separating the mapping layer from the ATT&amp;CK ingest keeps a few good things true:</p>
+<ol>
+<li>Multiple mapping sources can coexist.</li>
+<li>Analyst-curated mappings are not flattened into someone else&#39;s feed.</li>
+<li>The explorer and the patching views can show confidence and provenance, instead of pretending every mapping is equally authoritative.</li>
+</ol>
+<p>The script header even calls out the intended mapping sources: the Center for Threat-Informed Defense mappings, NVD/CWE-derived bridges, and analyst-curated entries from local investigations.</p>
+<h2>Why this matters in practice</h2>
+<p>A local crosswalk turns three separate questions into one working loop:</p>
+<ul>
+<li>What technique is this adversary behavior pointing at?</li>
+<li>What data source should see it?</li>
+<li>Which current CVEs or products make that technique more urgent right now?</li>
+</ul>
+<p>That is the connective tissue between the ATT&amp;CK explorer, the CVE/KEV/EPSS browser, and the KQL tooling.</p>
+<p>If a technique shows up repeatedly in ATT&amp;CK-oriented research, and the related products are present in KEV with strong EPSS or ransomware linkage, that should change the order in which I write detections, validate log coverage, or bug a team about patching.</p>
+<p>The repo already leans into that connection:</p>
+<ul>
+<li>the ATT&amp;CK explorer keeps tactic / platform / relationship context close</li>
+<li>the CVE browser already ships KEV and EPSS together</li>
+<li>the KQL templates and practice surfaces provide a place to turn the framework view into an actual hunt</li>
+</ul>
+<h2>Why keep it offline-friendly</h2>
+<p>One theme across this site is that the interesting part should survive without a constant live dependency.</p>
+<p>That is true for the KQL engine, and it is also true here. The ATT&amp;CK bundle can be cached. The mapping import can be run on demand. The browser explorer can ship a trimmed JSON snapshot. That means the learning surface is still there even when the network is not.</p>
+<p>I like that constraint because it forces the tooling to stay honest. If the tool only works when every external service is healthy, then the value is in the integration. If the tool still works offline, the value is in the model.</p>
+<h2>Where this goes next</h2>
+<p>The next useful step is not another page. It is tighter round-tripping:</p>
+<ul>
+<li>ATT&amp;CK technique to starter KQL</li>
+<li>CVE view to mapped techniques</li>
+<li>templates tagged by ATT&amp;CK technique</li>
+<li>practice questions that say what tactic they are really exercising</li>
+</ul>
+<p>That is the direction I want the lab to keep moving: less taxonomy for its own sake, more direct paths from framework language to an analyst doing the work.</p>
+<p>If you want the live surfaces that already exist, start with the <a href="/lab/mitre/">MITRE ATT&amp;CK Explorer</a>, the <a href="/lab/cve/">CVE / KEV / EPSS Browser</a>, and the broader <a href="/lab/">Browser Lab</a>.</p>
+
+    <hr>
+    <p class="text-muted fs-sm">
+        &larr; <a href="/blog/">Back to all posts</a>
+    </p>
+</article>
+
+</main>
+
+<footer class="site-footer">
+    <div class="container">
+        &copy; 2026 Bryce Maxheimer  &middot;
+        <a href="https://github.com/brycemaxheimer">GitHub</a>  &middot;
+        <a href="/about.html">Contact</a>
+    </div>
+</footer>
+
+</body>
+</html>

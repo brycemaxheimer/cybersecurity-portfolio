@@ -45,14 +45,14 @@
                 </div>
                 <a href="/lab/mitre/">MITRE ATT&amp;CK</a>
                 <a href="/lab/cve/">CVE / KEV / EPSS</a>
+                <a href="/lab/ctf/">CTF Challenge</a>
                 <div class="nested-dropdown">
                     <a href="#" class="nested-dropbtn">Dashboards <span class="caret-right">&#9656;</span></a>
                     <div class="nested-dropdown-menu">
                         <a href="/lab/threat-feed/">Live Threat Feed</a>
                         <a href="/lab/cyber-terminal/">Cyber Terminal</a>
                         <a href="/lab/cyber-ops/">Cyber Ops</a>
-                        <a href="/lab/cyber-grc/">Cyber GRC</a>
-                    </div>
+                                            </div>
                 </div>
             </div>
         </span>
@@ -67,52 +67,74 @@
 
     <h1>Writeups</h1>
     <p class="text-muted">
-        Reference material - KQL queries, framework notes, CTF writeups, and
-        anything else that's more lookup table than narrative. The
-        <a href="/blog/">blog</a> is for posts; this is for queries and tables you
-        come back to.
+        Reference material - KQL guides, hunting indexes, and challenge surfaces
+        worth returning to. The <a href="/blog/">blog</a> is for narrative posts;
+        this page is for the lookup material.
     </p>
 
     <section>
-        <h2>KQL queries</h2>
+        <h2>KQL guides &amp; indexes</h2>
         <ul class="card-list">
-
             <li class="card">
                 <h3><a href="/Kusto%20Query%20Language/KQL%20Beginners%20Guide.html">KQL Beginners Guide</a></h3>
                 <div class="meta">guide  &middot;  reference</div>
                 <p class="summary">
                     Hands-on walkthrough of KQL fundamentals - operators, scalar
-                    functions, aggregations, and the small daily patterns an analyst
-                    actually uses against Sentinel data. Originally drafted as
-                    onboarding material; left here as a public reference.
+                    functions, aggregations, and the daily patterns an analyst
+                    actually uses against Sentinel-style data.
                 </p>
                 <span class="tag">kql</span><span class="tag">sentinel</span><span class="tag">guide</span>
             </li>
 
-            <li class="card faded">
-                <h3>Hunting cookbook (coming)</h3>
-                <div class="meta">cookbook  &middot;  in progress</div>
+            <li class="card">
+                <h3><a href="/kql/cheatsheet/advanced/">KQL Detection Engineering - Advanced Cheatsheet</a></h3>
+                <div class="meta">reference  &middot;  challenges</div>
                 <p class="summary">
-                    A growing index of hunts - what each is looking for, the
-                    underlying KQL, and notes on tuning false positives. Ranged across
-                    DeviceLogonEvents, SecurityEvents, Syslog, and friends.
+                    Advanced join, `mv-expand`, aggregation, and detection-engineering
+                    patterns packaged as a printable reference with challenge-style
+                    examples.
                 </p>
-                <span class="tag">kql</span><span class="tag">hunting</span>
+                <span class="tag">kql</span><span class="tag">detection</span><span class="tag">advanced</span>
             </li>
 
+            <li class="card">
+                <h3><a href="/writeups/hunting-cookbook/">Hunting Cookbook</a></h3>
+                <div class="meta">generated  &middot;  template index</div>
+                <p class="summary">
+                    Generated from the public KQL template catalog. A single place
+                    to scan the shipped hunts, what each query is looking for, and
+                    which tags cluster together.
+                </p>
+                <span class="tag">kql</span><span class="tag">hunting</span><span class="tag">templates</span>
+            </li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Challenge writeups</h2>
+        <ul class="card-list">
+            <li class="card">
+                <h3><a href="/lab/ctf/">CTF: The Quiet Reroute</a></h3>
+                <div class="meta">scenario  &middot;  investigation challenge</div>
+                <p class="summary">
+                    Multi-tenant SOC scenario with answer-hash grading. The live
+                    challenge page is the briefing, evidence surface, and answer
+                    submission path.
+                </p>
+                <span class="tag">ctf</span><span class="tag">soc</span><span class="tag">investigation</span>
+            </li>
         </ul>
     </section>
 
     <section>
         <h2>Framework notes</h2>
         <ul class="card-list">
-
             <li class="card faded">
                 <h3>NIST 800-53 - control mapping cheatsheet (coming)</h3>
                 <div class="meta">framework  &middot;  in progress</div>
                 <p class="summary">
                     Quick-lookup table for mapping NIST 800-53 controls to detection
-                    sources, audit evidence types.
+                    sources and audit evidence types.
                 </p>
                 <span class="tag">nist</span><span class="tag">compliance</span>
             </li>
@@ -122,12 +144,10 @@
                 <div class="meta">framework  &middot;  in progress</div>
                 <p class="summary">
                     Which ATT&amp;CK tactics show up in which Microsoft Sentinel /
-                    Defender tables, with sample queries. Companion to the
-                    <code>MitreAttackExplorer</code> module.
+                    Defender tables, with sample queries and lab references.
                 </p>
                 <span class="tag">mitre</span><span class="tag">attack</span><span class="tag">sentinel</span>
             </li>
-
         </ul>
     </section>
 

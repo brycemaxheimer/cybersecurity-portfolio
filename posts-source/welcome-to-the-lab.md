@@ -5,17 +5,6 @@ summary: Why I'm publishing in the open, how this site is built, and what's comi
 tags: meta, soc
 ---
 
-<!--
-  Maintenance note: this Markdown is the canonical prose source. The published
-  copy at blog/posts/welcome-to-the-lab.html has been hand-enhanced with
-  Open Graph / Twitter Card meta tags and the site-wide nav dropdown that
-  build.ps1's Render-Page template does not emit. If you regenerate this post
-  via build.ps1 you will lose those additions, so either (a) re-apply them by
-  hand after the build, or (b) update Render-Page in build.ps1 to match the
-  enriched template before regenerating. Prose changes belong here; chrome
-  changes belong in build.ps1's Render-Page.
--->
-
 ## Why publish in the open
 
 Most of the cybersecurity work I do lives behind authentication walls - internal

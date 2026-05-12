@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Blog posts on cybersecurity, SOC operations, and tooling - by Bryce Maxheimer."><link rel="canonical" href="https://brycemaxheimer.com/blog/">
-<meta property="og:title" content="Blog - Bryce Maxheimer">
-<meta property="og:description" content="Blog posts on cybersecurity, SOC operations, and tooling - by Bryce Maxheimer.">
+    <meta name="description" content="Hunting Cookbook - generated index of KQL hunting templates from the Browser Lab catalog."><link rel="canonical" href="https://brycemaxheimer.com/writeups/hunting-cookbook/">
+<meta property="og:title" content="Hunting Cookbook - Bryce Maxheimer">
+<meta property="og:description" content="Generated index of KQL hunting templates from the Browser Lab catalog.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://brycemaxheimer.com/blog/">
+<meta property="og:url" content="https://brycemaxheimer.com/writeups/hunting-cookbook/">
 <meta property="og:image" content="https://brycemaxheimer.com/og/default.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:site_name" content="Bryce Maxheimer">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Blog - Bryce Maxheimer">
-<meta name="twitter:description" content="Blog posts on cybersecurity, SOC operations, and tooling - by Bryce Maxheimer.">
+<meta name="twitter:title" content="Hunting Cookbook - Bryce Maxheimer">
+<meta name="twitter:description" content="Generated index of KQL hunting templates from the Browser Lab catalog.">
 <meta name="twitter:image" content="https://brycemaxheimer.com/og/default.png">
-    <title>Blog - Bryce Maxheimer</title>
+    <title>Hunting Cookbook - Bryce Maxheimer</title>
     <script>(function(){try{var t=localStorage.getItem('siteTheme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -56,31 +56,32 @@
                 </div>
             </div>
         </span>
-            <a href="/writeups/">Writeups</a>
-            <a href="/blog/" class="active">Blog</a>
+            <a href="/writeups/" class="active">Writeups</a>
+            <a href="/blog/">Blog</a>
             <a href="/customize/">Customize</a>
         </nav>
     </div>
 </header>
 
 <main class="container">
-
-    <h1>Blog</h1>
+    <h1>Hunting Cookbook</h1>
     <p class="text-muted">
-        Investigations, framework deep-dives, and writeups. Newest first.
+        Generated from <code>/lab/templates/data.json</code>. This is the readable
+        index of the public KQL hunts that ship with the Browser Lab.
     </p>
+    <p class="text-muted fs-sm" id="cookbook-meta">Loading template catalog...</p>
 
-    <ul class="card-list" id="blog-list">
-
+    <ul class="card-list" id="cookbook-list">
         <li class="card">
-            <h3><a href="/blog/posts/welcome-to-the-lab.html">Welcome to the lab</a></h3>
-            <div class="meta">2026-04-30  &middot;  meta</div>
-            <p class="summary">Why I'm publishing in the open, how this site is built, and what's coming next.</p>
-            <span class="tag">meta</span><span class="tag">soc</span>
+            <h3>Loading templates...</h3>
+            <p class="summary">If this takes more than a moment, the template catalog may be unavailable.</p>
         </li>
-
     </ul>
 
+    <hr>
+    <p class="text-muted fs-sm">
+        Full interactive catalog: <a href="/lab/templates/">/lab/templates/</a>
+    </p>
 </main>
 
 <footer class="site-footer">
@@ -91,7 +92,7 @@
     </div>
 </footer>
 
-<script src="/blog/blog.js" defer></script>
+<script src="/writeups/hunting-cookbook/cookbook.js" defer></script>
 
 </body>
 </html>

@@ -4,7 +4,7 @@
 /* ── Shared wall-display chrome: animated background + UTC clock.
    Copied from /lab/cyber-terminal/cyber-terminal.js so this page renders
    the same constellation/scan-line effect and ticking clock as the other
-   three immersive wall pages (cyber-terminal, cyber-ops, cyber-grc). */
+   two immersive wall pages (cyber-terminal, cyber-ops). */
 (function () {
   const canvas = document.getElementById("ct-bg");
   if (!canvas) return;

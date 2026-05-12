@@ -1,0 +1,96 @@
+Bryce Maxheimer
+Indianapolis, IN
+contact@brycemaxheimer.com
+LinkedIn: https://www.linkedin.com/in/bryce-maxheimer
+GitHub: https://github.com/brycemaxheimer
+GIAC verification: https://www.giac.org/certified-professional/Bryce-Maxheimer/243145
+Clearance: TS/SCI with CI Polygraph
+
+PROFESSIONAL SUMMARY
+Cybersecurity professional and U.S. Marine Corps Cyber Warfare Operator veteran
+with 4+ years of hands-on experience in threat hunting, digital forensics,
+network defense, and cyber infrastructure management. Adept in tools such as
+Splunk, Security Onion, Autopsy, FTK, and Microsoft Sentinel. Proven leader in
+high-stakes environments with a strong foundation in policy compliance,
+blue-team operations, and adversary emulation. Currently pursuing a B.S. in
+Applied Cybersecurity.
+
+SELECTED ACCOMPLISHMENTS
+- Processed and analyzed 30,000+ security alerts while establishing baseline
+  network behavior patterns in a federal SOC.
+- Analyzed 3.5M+ daily packets across critical networks during defensive
+  cyberspace operations in Okinawa, Japan.
+- Earned National Cyber League Fall 2025 Diamond 1 Medal, placing in the 97th
+  percentile in the Individual Game.
+- Architected and maintained virtual infrastructure supporting 100+ users.
+
+TECHNICAL SKILLS
+Tools and platforms: Splunk, Security Onion, Autopsy, FTK, Palo Alto
+Firewalls, Microsoft Deployment Toolkit, Microsoft Sentinel
+Operating systems: Linux (Red Hat, Ubuntu), Windows Server, Windows Enterprise
+Cyber operations: Threat hunting, malware analysis, digital forensics,
+incident response
+Frameworks: STIGs, DoD cybersecurity standards, MITRE ATT&CK, NIST 800-53
+Networking: Network mapping, enumeration, packet analysis (Wireshark), TCP/IP,
+DNS
+Soft skills: Leadership, team instruction, high-stress decision making,
+cross-functional collaboration, problem solving, analytical thinking,
+initiative
+
+PROFESSIONAL EXPERIENCE
+Shift Lead
+Defense Finance and Accounting Service (DFAS)
+2025-07 to Present
+- Identified suspicious network traffic patterns through Microsoft Sentinel
+  that led to the initiation of formal security incident investigations.
+- Collected and analyzed digital artifacts to support threat hunting operations
+  and incident response activities.
+- Processed and analyzed 30,000+ security alerts while establishing baseline
+  network behavior patterns.
+- Created automated toolsets, developed SOPs, ensured audit requirements were
+  met, and authored SIEM rules to close security gaps and harden
+  infrastructure.
+- Performed digital forensics on systems in response to alerts and in support
+  of investigations.
+
+Cyber Security Analyst / Infrastructure Architect
+United States Marine Corps - Defensive Cyber Operations
+2022-02 to 2025-05
+- Conducted advanced threat hunting using Splunk and Security Onion,
+  developing custom dashboards and queries to identify anomalous traffic.
+- Led digital forensic investigations using Autopsy and FTK; produced reports
+  on malware behavior, registry artifacts, and file system anomalies.
+- Architected and maintained virtual infrastructure supporting 100+ users,
+  ensuring high availability of mission-critical tools.
+- Enforced STIG compliance across legacy and modernized systems, enhancing
+  cybersecurity resilience of classified infrastructure.
+
+EDUCATION
+SANS Technology Institute
+B.S. in Applied Cybersecurity (BACS), in progress
+Expected 2027-01
+
+USMC Cyber Operators Specialist Course
+Completed 2023-10
+
+Joint Cyber Analysis Course (NSA Certified)
+Completed 2023-05
+
+Alvin Community College
+Associate's Degree, General Studies
+Graduated 2020-05
+
+CERTIFICATIONS
+- GCFE - GIAC Certified Forensic Examiner (2026-04)
+- GPYC - GIAC Certified Python Coder (2026-02)
+- GCIH - GIAC Certified Incident Handler (2025-09)
+- GSEC - GIAC Security Essentials (2025-07)
+- GFACT - GIAC Foundational Cybersecurity Technologies (2025-03)
+- CompTIA PenTest+ (2024-08)
+- Red Team Certified Professional (RTCP), Marine Corps Cyberspace Operations
+  Group (2024-04)
+
+AWARDS AND RECOGNITION
+- National Cyber League Diamond 1 Medal (2025-11)
+- Navy and Marine Corps Achievement Medal (2024-11)
+- Meritorious Mast (2023-05)
