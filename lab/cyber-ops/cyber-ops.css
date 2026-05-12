@@ -1,0 +1,117 @@
+/* Cyber Ops — page-specific styles that ride on top of cyber-terminal.css.
+   Only includes net-new components: hero number grid, area chart, bar-list rows,
+   and the give-back sharing grid. Palette + panel chrome inherited. */
+
+/* Left column sizing: live tail panel gets ~2x the height of the cred panels */
+.ct-col-left > .co-panel-tall { flex: 2 1 0; }
+
+/* Middle column: hero is compact, chart is medium, ASNs panel takes the rest */
+.ct-col-mid > .co-panel-hero  { flex: 0 0 auto; }
+.ct-col-mid > .co-panel-chart { flex: 1.2 1 0; min-height: 160px; }
+.ct-col-mid > .ct-panel:not(.co-panel-hero):not(.co-panel-chart) { flex: 1.6 1 0; min-height: 0; }
+
+/* Right column: three equal thirds (already balanced via cyber-terminal.css). */
+
+/* ─── Hero indicator grid (4-up) ─── */
+.co-hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 1px;
+  background: var(--ct-panel-line);
+  flex: 1;
+}
+.co-hero-cell {
+  background: var(--ct-bg-1);
+  padding: 0.55rem 0.85rem;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.co-hero-val {
+  font-size: 1.6rem; font-weight: 600;
+  color: var(--ct-grn); line-height: 1.05;
+  margin-top: 0.2rem;
+  text-shadow: 0 0 12px rgba(0,255,149,0.25);
+}
+.co-hero-val.yellow { color: var(--ct-yellow); text-shadow: 0 0 12px rgba(255,209,102,0.25); }
+.co-hero-val.red    { color: var(--ct-red);    text-shadow: 0 0 12px rgba(255,56,96,0.25); }
+.co-hero-val.cyan   { color: var(--ct-cyan);   text-shadow: 0 0 12px rgba(76,201,240,0.25); }
+.co-hero-lbl {
+  font-size: 0.6rem; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--ct-text-soft);
+}
+
+/* ─── Hourly-activity area chart ─── */
+.co-chart {
+  flex: 1; min-height: 0;
+  padding: 0.45rem 0.6rem 0.3rem;
+  position: relative;
+  overflow: hidden;
+}
+.co-chart svg {
+  width: 100%; height: 100%;
+  display: block;
+}
+.co-chart-axis {
+  position: absolute;
+  left: 0.6rem; right: 0.6rem; bottom: 0.05rem;
+  display: flex; justify-content: space-between;
+  font-size: 0.6rem; letter-spacing: 0.06em;
+  color: var(--ct-text-dim);
+  pointer-events: none;
+}
+
+/* ─── Horizontal-bar list rows (usernames, passwords, commands, ASNs, countries) ─── */
+.co-bars li { padding: 0; position: relative; }
+.co-bars li:hover .co-bar-fill { background: linear-gradient(90deg, rgba(0,255,149,0.28), rgba(0,255,149,0.06)); }
+.co-bar-fill {
+  position: absolute;
+  top: 0; bottom: 0; left: 0;
+  width: var(--p, 0%);
+  background: linear-gradient(90deg, rgba(0,255,149,0.18), rgba(0,255,149,0.03));
+  border-right: 1px solid rgba(0,255,149,0.45);
+  pointer-events: none;
+  transition: width 0.5s ease;
+}
+.co-bar-content {
+  position: relative; z-index: 1;
+  display: flex; gap: 0.6rem; align-items: baseline;
+  padding: 0.32rem 0.8rem;
+  font-size: 0.78rem;
+}
+
+/* Some bar variants get a red fill instead of green (passwords, attacker-density signals) */
+.co-bars.co-bars-red .co-bar-fill {
+  background: linear-gradient(90deg, rgba(255,56,96,0.18), rgba(255,56,96,0.03));
+  border-right-color: rgba(255,56,96,0.45);
+}
+.co-bars.co-bars-red li:hover .co-bar-fill {
+  background: linear-gradient(90deg, rgba(255,56,96,0.28), rgba(255,56,96,0.06));
+}
+
+/* ─── Sharing scoreboard (2×2) ─── */
+.co-panel-shares { min-height: 0; }
+.co-shares {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1px; background: var(--ct-panel-line);
+  flex: 1;
+}
+.co-share-cell {
+  background: var(--ct-bg-1);
+  padding: 0.5rem 0.75rem;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.co-share-val {
+  font-size: 1.4rem; font-weight: 600;
+  color: var(--ct-grn); line-height: 1.05;
+  margin-top: 0.15rem;
+  text-shadow: 0 0 12px rgba(0,255,149,0.25);
+}
+.co-share-val.red    { color: var(--ct-red);    text-shadow: 0 0 12px rgba(255,56,96,0.25); }
+.co-share-val.yellow { color: var(--ct-yellow); text-shadow: 0 0 12px rgba(255,209,102,0.25); }
+.co-share-val.cyan   { color: var(--ct-cyan);   text-shadow: 0 0 12px rgba(76,201,240,0.25); }
+
+/* ─── Recent (live tail) badge column ─── */
+.co-recent-icon {
+  min-width: 1.2em;
+  text-align: center;
+  font-size: 0.9em;
+}

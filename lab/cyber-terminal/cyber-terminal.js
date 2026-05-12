@@ -419,4 +419,22 @@
       `<span class="ct-ticker-item">${block}&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;</span>`;
   }
 
-  // ─── 5) Orchestrator ──────────────────────────────────────────────�
+  // --- 5) Orchestrator -----------------------------------------------
+  async function loadAll() {
+    await Promise.all([refreshFeed(), refreshNVD(), refreshHN(), refreshResearch()]);
+    renderKEV();
+    renderCVE();
+    renderHN();
+    renderResearch();
+    renderRansom();
+    renderStats();
+    renderMap();
+    renderTicker();
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    initMap();
+    loadAll();
+    setInterval(loadAll, REFRESH_MS);
+  });
+})();

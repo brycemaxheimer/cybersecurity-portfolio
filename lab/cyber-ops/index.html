@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Live honeypot operations terminal - Cowrie session telemetry, attacker ASN/country breakdown, top credentials, post-auth commands, threat-sharing scoreboard. Auto-refreshing wall display.">
+<link rel="canonical" href="https://brycemaxheimer.com/lab/cyber-ops/">
+<meta property="og:title" content="Cyber Ops - Bryce Maxheimer">
+<meta property="og:description" content="Live honeypot operations terminal - Cowrie session telemetry, attacker ASN/country breakdown, top credentials, post-auth commands.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://brycemaxheimer.com/lab/cyber-ops/">
+<meta property="og:image" content="https://brycemaxheimer.com/og/default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="Bryce Maxheimer">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Cyber Ops - Bryce Maxheimer">
+<meta name="twitter:description" content="Live honeypot operations telemetry.">
+<meta name="twitter:image" content="https://brycemaxheimer.com/og/default.png">
+<title>Cyber Ops - Bryce Maxheimer</title>
+<script>(function(){try{var t=localStorage.getItem('siteTheme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<link rel="stylesheet" href="/css/style.css">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/lab/lab.css">
+<!-- Re-use the cyber-terminal palette + panel chrome so both wallpapers stay visually identical. -->
+<link rel="stylesheet" href="/lab/cyber-terminal/cyber-terminal.css">
+<!-- Page-specific additions: hero numbers, area chart, bar-list rows, sharing grid. -->
+<link rel="stylesheet" href="/lab/cyber-ops/cyber-ops.css">
+</head>
+<body class="ct-body">
+
+<!-- Animated background canvas (constellation + grid + scan line) — same as cyber-terminal -->
+<canvas id="ct-bg" aria-hidden="true"></canvas>
+<div class="ct-grid-overlay" aria-hidden="true"></div>
+<div class="ct-scanlines" aria-hidden="true"></div>
+<div class="ct-vignette" aria-hidden="true"></div>
+
+<!-- Top bar -->
+<header class="ct-topbar">
+  <div class="ct-brand">
+    <span class="ct-dot"></span>
+    <span class="ct-title">CYBER&nbsp;OPS</span>
+    <span class="ct-sub">// honeypot · telemetry · attackers</span>
+  </div>
+  <div class="ct-status">
+    <span class="ct-pill ok"><span class="ct-pulse"></span>HONEYPOT&nbsp;LIVE</span>
+    <span class="ct-pill warn">COWRIE&nbsp;FLOW</span>
+    <span class="ct-pill alert" id="co-pill-breach">BREACHES</span>
+    <span class="ct-clock" id="ct-clock">--:--:--&nbsp;UTC</span>
+  </div>
+</header>
+
+<!-- Main grid: 3 columns + bottom ticker -->
+<main class="ct-grid">
+
+  <!-- LEFT column: live tail + creds -->
+  <section class="ct-col ct-col-left">
+    <div class="ct-panel co-panel-tall">
+      <div class="ct-panel-head">
+        <span class="ct-panel-h">Cowrie · Live Tail</span>
+        <span class="ct-tag">RECENT</span>
+      </div>
+      <ul class="ct-list" id="co-recent">
+        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
+        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
+        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
+        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
+      </ul>
+    </div>
+
+    <div class="ct-panel">
+      <div class="ct-panel-head">
+        <span class="ct-panel-h">Top Usernames</span>
+        <span class="ct-tag">CREDS</span>
+      </div>
+      <ul class="ct-list co-bars" id="co-users">
+        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
+        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
+        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
+      </ul>
+    </div>
+
+    <div class="ct-panel">
+      <div class="ct-panel-head">
+        <span class="ct-panel-h">Top Passwords</span>
+        <span class="ct-tag">CREDS</span>
+      </div>
+      <ul class="ct-list co-bars" id="co-pass">
+        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
+        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
+        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- MIDDLE column: hero indicators + 24h chart + top ASNs -->
+  <section class="ct-col ct-col-mid">
+    <div class="ct-panel co-panel-hero">
+      <div class="ct-panel-head">
+        <span class="ct-panel-h">Indicators · 24h</span>
+        <span class="ct-tag">LIVE</span>
+      </div>
+      <div class="co-hero">
+        <div class="co-hero-cell">
+          <div class="co-hero-val" id="co-h-events">--</div>
+          <div class="co-hero-lbl">Events · 24h</div>
+        </div>
+        <div class="co-hero-cell">
+          <div class="co-hero-val yellow" id="co-h-uniq">--</div>
+          <div class="co-hero-lbl">Unique attackers</div>
+        </div>
+        <div class="co-hero-cell">
+          <div class="co-hero-val red" id="co-h-breach">--</div>
+          <div class="co-hero-lbl">Successful logins</div>
+        </div>
+        <div class="co-hero-cell">
+          <div class="co-hero-val cyan" id="co-h-events-7d">--</div>
+          <div class="co-hero-lbl">Events · 7d</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ct-panel co-panel-chart">
+      <div class="ct-panel-head">
+        <span class="ct-panel-h">Hourly Activity · 24h</span>
+        <span class="ct-tag">FLOW</span>
+      </div>
+      <div class="co-chart" id="co-chart"></div>
+    </div>
+
+    <div class="ct-panel">
+      <div class="ct-panel-head">
+        <span class="ct-panel-h">Top ASNs</span>
+        <span class="ct-tag">ORIGIN</span>
+      </div>
+      <ul class="ct-list co-bars" id="co-asns">
+        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
+        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
+        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
+        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- RIGHT column: countries, commands, sharing -->
+  <section class="ct-col ct-col-right">
+    <div class="ct-panel">
+      <div class="ct-panel-head">
+        <span class="ct-panel-h">Top Countries</span>
+        <span class="ct-tag">GEO</span>
+      </div>
+      <ul class="ct-list co-bars" id="co-countries">
+        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
+        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
+        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
+      </ul>
+    </div>
+
+    <div class="ct-panel">
+      <div class="ct-panel-head">
+        <span class="ct-panel-h">Top Commands · Post-auth</span>
+        <span class="ct-tag">EXEC</span>
+      </div>
+      <ul class="ct-list co-bars" id="co-cmds">
+        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
+        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
+        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
+      </ul>
+    </div>
+
+    <div class="ct-panel co-panel-shares">
+      <div class="ct-panel-head">
+        <span class="ct-panel-h">Threat Sharing · Give-back</span>
+        <span class="ct-tag">OSS-INT</span>
+      </div>
+      <div class="co-shares" id="co-shares">
+        <div class="co-share-cell"><div class="co-share-val">--</div><div class="co-hero-lbl">Loading…</div></div>
+        <div class="co-share-cell"><div class="co-share-val">--</div><div class="co-hero-lbl">Loading…</div></div>
+        <div class="co-share-cell"><div class="co-share-val">--</div><div class="co-hero-lbl">Loading…</div></div>
+        <div class="co-share-cell"><div class="co-share-val">--</div><div class="co-hero-lbl">Loading…</div></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Bottom rolling ticker -->
+<div class="ct-ticker" aria-hidden="true">
+  <div class="ct-ticker-track" id="ct-ticker-track">
+    <span class="ct-ticker-item">▶ AWAITING&nbsp;FEEDS&nbsp;…&nbsp;COWRIE&nbsp;STREAM&nbsp;…&nbsp;ASN&nbsp;STREAM&nbsp;…&nbsp;CREDS&nbsp;STREAM&nbsp;…&nbsp;</span>
+    <span class="ct-ticker-item">▶ AWAITING&nbsp;FEEDS&nbsp;…&nbsp;COWRIE&nbsp;STREAM&nbsp;…&nbsp;ASN&nbsp;STREAM&nbsp;…&nbsp;CREDS&nbsp;STREAM&nbsp;…&nbsp;</span>
+  </div>
+</div>
+
+<script src="/lab/cyber-ops/cyber-ops.js" defer></script>
+</body>
+</html>
