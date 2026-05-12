@@ -275,10 +275,11 @@ html, body.ct-body {
 .ct-panel-map { flex: 1; min-height: 0; }
 .ct-map {
   flex: 1; min-height: 0;
-  background: var(--ct-bg-0);
+  /* satellite imagery underneath; brief loading flash uses a deep-ocean tone */
+  background: #0a1d35;
 }
-/* Leaflet container styling — keep it transparent so panel bg shows */
-.ct-map.leaflet-container { background: var(--ct-bg-0) !important; }
+/* Leaflet container — match the ocean-deep fallback while tiles fetch */
+.ct-map.leaflet-container { background: #0a1d35 !important; }
 .ct-map .leaflet-control-attribution {
   background: rgba(2, 6, 17, 0.7) !important;
   color: var(--ct-text-soft) !important;
@@ -364,5 +365,3 @@ html, body.ct-body {
 /* ──── Reduced motion ──── */
 @media (prefers-reduced-motion: reduce) {
   .ct-dot, .ct-pulse, .ct-map-dot, .ct-list li.ct-skel { animation: none; }
-  .ct-ticker-track { animation: ct-marquee 240s linear infinite; }
-}

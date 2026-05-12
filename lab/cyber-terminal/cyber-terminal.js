@@ -343,10 +343,17 @@
       touchZoom: false,
       attributionControl: true,
     }).setView([22, 0], 2);
-    L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
-      attribution: '&copy; OpenStreetMap, &copy; CARTO',
+    // Base: ESRI World Imagery (true-colour satellite). No key required.
+    L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
+      attribution: 'Tiles &copy; Esri &mdash; Earthstar Geographics, Maxar, USGS',
+      maxZoom: 6,
+    }).addTo(ctMap);
+    // Overlay: CartoDB labels-only tiles so country/ocean names stay readable.
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}{r}.png", {
+      attribution: '&copy; CARTO labels',
       subdomains: "abcd",
       maxZoom: 6,
+      opacity: 0.9,
     }).addTo(ctMap);
     ctMarkers = L.layerGroup().addTo(ctMap);
   }
@@ -412,22 +419,4 @@
       `<span class="ct-ticker-item">${block}&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;</span>`;
   }
 
-  // ─── 5) Orchestrator ───────────────────────────────────────────────────
-  async function loadAll() {
-    await Promise.all([refreshFeed(), refreshNVD(), refreshHN(), refreshResearch()]);
-    renderKEV();
-    renderCVE();
-    renderHN();
-    renderResearch();
-    renderRansom();
-    renderStats();
-    renderMap();
-    renderTicker();
-  }
-
-  document.addEventListener("DOMContentLoaded", () => {
-    initMap();
-    loadAll();
-    setInterval(loadAll, REFRESH_MS);
-  });
-})();
+  // ─── 5) Orchestrator ──────────────────────────────────────────────�
