@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="GRC operations terminal - NIST CSF maturity radar, risk register, audit findings, MITRE ATT&CK coverage, patch tracker, GitHub advisories, recent major breaches. Auto-refreshing wall display.">
+<link rel="canonical" href="https://brycemaxheimer.com/lab/cyber-grc/">
+<meta property="og:title" content="Cyber GRC - Bryce Maxheimer">
+<meta property="og:description" content="GRC ops terminal - NIST CSF, risk register, ATT&CK coverage, patch tracker, breaches.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://brycemaxheimer.com/lab/cyber-grc/">
+<meta property="og:image" content="https://brycemaxheimer.com/og/default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="Bryce Maxheimer">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Cyber GRC - Bryce Maxheimer">
+<meta name="twitter:description" content="Live GRC operations dashboard.">
+<meta name="twitter:image" content="https://brycemaxheimer.com/og/default.png">
+<title>Cyber GRC - Bryce Maxheimer</title>
+<script>(function(){try{var t=localStorage.getItem('siteTheme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<link rel="stylesheet" href="/css/style.css">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/lab/lab.css">
+<link rel="stylesheet" href="/lab/cyber-terminal/cyber-terminal.css">
+<link rel="stylesheet" href="/lab/cyber-grc/cyber-grc.css">
+</head>
+<body class="ct-body">
+
+<!-- Animated background canvas — same as the other two wallpapers -->
+<canvas id="ct-bg" aria-hidden="true"></canvas>
+<div class="ct-grid-overlay" aria-hidden="true"></div>
+<div class="ct-scanlines" aria-hidden="true"></div>
+<div class="ct-vignette" aria-hidden="true"></div>
+
+<header class="ct-topbar">
+  <div class="ct-brand">
+    <span class="ct-dot"></span>
+    <span class="ct-title">CYBER&nbsp;GRC</span>
+    <span class="ct-sub">// framework · risk · audit · posture</span>
+  </div>
+  <div class="ct-status">
+    <span class="ct-pill ok"><span class="ct-pulse"></span>POSTURE&nbsp;LIVE</span>
+    <span class="ct-pill warn" id="cg-pill-findings">FINDINGS</span>
+    <span class="ct-pill alert" id="cg-pill-risks">HIGH&nbsp;RISKS</span>
+    <span class="ct-clock" id="ct-clock">--:--:--&nbsp;UTC</span>
+  </div>
+</header>
+
+<main class="ct-grid">
+
+  <!-- LEFT: NIST CSF radar + Risk register + Audit findings -->
+  <section class="ct-col ct-col-left">
+    <div class="ct-panel cg-panel-csf">
+      <div class="ct-panel-head">
+        <span class="ct-panel-h">NIST CSF · Maturity</span>
+        <a class="ct-tag ct-tag-link" href="https://www.nist.gov/cyberframework" target="_blank" rel="noopener">CSF 2.0</a>
+      </div>
+      <div class="cg-csf-wrap">
+        <svg class="cg-csf-svg" id="cg-csf" viewBox="0 0 240 220" preserveAspectRatio="xMidYMid meet" aria-label="NIST CSF maturity radar"></svg>
+        <div class="cg-csf-legend">
+          <span><span class="v">●</span> score 0–5</span>
+          <span>last reviewed: <span id="cg-csf-rev">—</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="ct-panel cg-panel-risks">
+      <div class="ct-panel-head">
+        <span class="ct-panel-h">Risk Register · Top</span>
+        <span class="ct-tag">5×5</span>
+      </div>
+      <ul class="ct-list cg-risks" id="cg-risks">
+        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
+        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
+        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
+      </ul>
+    </div>
+
+    <div class="ct-panel cg-panel-findings">
+      <div class="ct-panel-head">
+        <span class="ct-panel-h">Audit Findings · Open</span>
+        <span class="ct-tag">AGE</span>
+      </div>
+      <ul class="ct-list" id="cg-findings">
+        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
+        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
+        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- MIDDLE: Patch tracker hero + ATT&CK heatmap + Compliance calendar -->
+  <section class="ct-col ct-col-mid">
+    <div class="ct-panel cg-panel-patch">
+      <div class="ct-panel-head">
+        <span class="ct-panel-h">Patch Tuesday · Tracker</span>
+        <a class="ct-tag ct-tag-link" href="https://msrc.microsoft.com/update-guide/" target="_blank" rel="noopener">MSRC</a>
+      </div>
+      <div class="cg-patch">
+        <div class="cg-patch-cell">
+          <div class="cg-patch-big" id="cg-pt-days">--</div>
+          <div class="cg-patch-lbl">Days to next 2nd Tuesday</div>
+          <div class="cg-patch-sub" id="cg-pt-next">—</div>
+        </div>
+        <div class="cg-patch-cell">
+          <div class="cg-patch-big cyan" id="cg-pt-last-days">--</div>
+          <div class="cg-patch-lbl">Days since last release</div>
+          <div class="cg-patch-sub" id="cg-pt-last">—</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ct-panel cg-panel-attack">
+      <div class="ct-panel-head">
+        <span class="ct-panel-h">ATT&amp;CK · Initial Access</span>
+        <a class="ct-tag ct-tag-link" href="https://attack.mitre.org/tactics/TA0001/" target="_blank" rel="noopener">TA0001</a>
+      </div>
+      <div class="cg-attack" id="cg-attack"></div>
+    </div>
+
+    <div class="ct-panel cg-panel-calendar">
+      <div class="ct-panel-head">
+        <span class="ct-panel-h">Compliance Calendar</span>
+        <span class="ct-tag">30D</span>
+      </div>
+      <ul class="ct-list cg-cal" id="cg-calendar">
+        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
+        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
+        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- RIGHT: Major breaches (HIBP) + GitHub Advisories + Trusted Sources -->
+  <section class="ct-col ct-col-right">
+    <div class="ct-panel">
+      <div class="ct-panel-head">
+        <span class="ct-panel-h">Major Breaches · HIBP</span>
+        <a class="ct-tag ct-tag-link" href="https://haveibeenpwned.com/PwnedWebsites" target="_blank" rel="noopener">HIBP</a>
+      </div>
+      <ul class="ct-list" id="cg-breaches">
+        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
+        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
+        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
+      </ul>
+    </div>
+
+    <div class="ct-panel">
+      <div class="ct-panel-head">
+        <span class="ct-panel-h">GitHub Advisories · High</span>
+        <a class="ct-tag ct-tag-link" href="https://github.com/advisories" target="_blank" rel="noopener">GHSA</a>
+      </div>
+      <ul class="ct-list" id="cg-advisories">
+        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
+        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
+        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
+      </ul>
+    </div>
+
+    <div class="ct-panel">
+      <div class="ct-panel-head">
+        <span class="ct-panel-h">GRC · Trusted Sources</span>
+        <span class="ct-tag">REF</span>
+      </div>
+      <ul class="ct-list ct-sources">
+        <li><a href="https://www.nist.gov/cyberframework" target="_blank" rel="noopener"><span class="ct-sk-tag">NIST</span><span class="ct-src-name">NIST CSF 2.0</span></a></li>
+        <li><a href="https://attack.mitre.org/" target="_blank" rel="noopener"><span class="ct-sk-tag">MITRE</span><span class="ct-src-name">ATT&amp;CK Matrix</span></a></li>
+        <li><a href="https://www.cisecurity.org/controls" target="_blank" rel="noopener"><span class="ct-sk-tag">CIS</span><span class="ct-src-name">CIS Controls v8</span></a></li>
+        <li><a href="https://owasp.org/www-project-top-ten/" target="_blank" rel="noopener"><span class="ct-sk-tag">OWASP</span><span class="ct-src-name">Top Ten</span></a></li>
+        <li><a href="https://www.iso.org/standard/27001" target="_blank" rel="noopener"><span class="ct-sk-tag">ISO</span><span class="ct-src-name">ISO 27001</span></a></li>
+        <li><a href="https://www.cisa.gov/news-events/cybersecurity-advisories" target="_blank" rel="noopener"><span class="ct-sk-tag">CISA</span><span class="ct-src-name">CISA Advisories</span></a></li>
+        <li><a href="https://nvd.nist.gov/" target="_blank" rel="noopener"><span class="ct-sk-tag">NVD</span><span class="ct-src-name">NVD</span></a></li>
+        <li><a href="https://www.fairinstitute.org/" target="_blank" rel="noopener"><span class="ct-sk-tag">FAIR</span><span class="ct-src-name">FAIR Institute</span></a></li>
+        <li><a href="https://csrc.nist.gov/Projects/risk-management/about-rmf" target="_blank" rel="noopener"><span class="ct-sk-tag">RMF</span><span class="ct-src-name">NIST RMF</span></a></li>
+        <li><a href="https://www.pcisecuritystandards.org/" target="_blank" rel="noopener"><span class="ct-sk-tag">PCI</span><span class="ct-src-name">PCI SSC</span></a></li>
+        <li><a href="https://www.hhs.gov/hipaa/index.html" target="_blank" rel="noopener"><span class="ct-sk-tag">HIPAA</span><span class="ct-src-name">HHS HIPAA</span></a></li>
+        <li><a href="https://csrc.nist.gov/publications/sp800" target="_blank" rel="noopener"><span class="ct-sk-tag">SP800</span><span class="ct-src-name">NIST SP 800 Series</span></a></li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<div class="ct-ticker" aria-hidden="true">
+  <div class="ct-ticker-track" id="ct-ticker-track">
+    <span class="ct-ticker-item">▶ AWAITING&nbsp;FEEDS&nbsp;…&nbsp;CSF&nbsp;…&nbsp;RISKS&nbsp;…&nbsp;ATT&amp;CK&nbsp;…&nbsp;ADVISORIES&nbsp;…&nbsp;</span>
+    <span class="ct-ticker-item">▶ AWAITING&nbsp;FEEDS&nbsp;…&nbsp;CSF&nbsp;…&nbsp;RISKS&nbsp;…&nbsp;ATT&amp;CK&nbsp;…&nbsp;ADVISORIES&nbsp;…&nbsp;</span>
+  </div>
+</div>
+
+<script src="/lab/cyber-grc/cyber-grc.js" defer></script>
+</body>
+</html>
