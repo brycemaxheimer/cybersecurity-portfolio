@@ -23,6 +23,9 @@
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="stylesheet" href="/lab/lab.css">
 <link rel="stylesheet" href="/lab/cyber-terminal/cyber-terminal.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin="">
 </head>
 <body class="ct-body">
 
@@ -90,33 +93,7 @@
         <span class="ct-panel-h">Global Threat Map</span>
         <span class="ct-tag">LIVE</span>
       </div>
-      <div class="ct-map" id="ct-map">
-        <svg viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet">
-          <!-- Minimal world graticule lines (decorative) -->
-          <g class="ct-graticule" fill="none" stroke="currentColor" stroke-width="0.4" opacity="0.18">
-            <path d="M0 250 H1000" />
-            <path d="M0 125 H1000" />
-            <path d="M0 375 H1000" />
-            <path d="M125 0 V500" />
-            <path d="M250 0 V500" />
-            <path d="M375 0 V500" />
-            <path d="M500 0 V500" />
-            <path d="M625 0 V500" />
-            <path d="M750 0 V500" />
-            <path d="M875 0 V500" />
-          </g>
-          <!-- World silhouette placeholder (very rough — will swap for real geojson later) -->
-          <g class="ct-continents" fill="currentColor" opacity="0.13">
-            <path d="M180 110 Q200 90 230 100 L280 95 L320 115 Q340 130 330 165 L290 200 L240 195 Q200 180 180 150 Z" />
-            <path d="M380 90 L530 85 L600 115 Q620 140 590 175 L530 200 L460 195 Q400 175 380 140 Z" />
-            <path d="M460 220 L550 215 L600 245 Q615 290 575 320 L510 335 Q470 320 455 285 Z" />
-            <path d="M620 240 L760 235 L820 270 Q830 320 770 355 L680 360 Q625 335 615 290 Z" />
-            <path d="M240 230 L325 235 L355 280 Q345 340 290 365 L240 360 Q210 320 220 270 Z" />
-            <path d="M770 365 L850 360 L890 390 Q885 425 845 440 L795 435 Q765 410 770 385 Z" />
-          </g>
-          <g id="ct-map-dots"></g>
-        </svg>
-      </div>
+      <div class="ct-map" id="ct-map"></div>
     </div>
 
     <div class="ct-panel">
@@ -186,6 +163,9 @@
   </div>
 </div>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""></script>
 <script src="/lab/cyber-terminal/cyber-terminal.js" defer></script>
 </body>
 </html>

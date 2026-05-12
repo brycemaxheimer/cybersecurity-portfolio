@@ -9,10 +9,11 @@
   "use strict";
 
   const FEED_URL = "https://threats.brycemaxheimer.com/feed.json";
-  const NVD_URL =
-    "https://services.nvd.nist.gov/rest/json/cves/2.0?resultsPerPage=25&noRejected=";
+  // NVD CVEs published in the last 7 days, max 25 results. Filter applied at the API.
+  const NVD_BASE = "https://services.nvd.nist.gov/rest/json/cves/2.0";
+  // HN: drop OR-syntax (Algolia parses it differently). Use single-keyword search.
   const HN_URL =
-    "https://hn.algolia.com/api/v1/search_by_date?tags=story&query=security+OR+vulnerability+OR+breach+OR+malware&hitsPerPage=15";
+    "https://hn.algolia.com/api/v1/search_by_date?tags=story&query=security&hitsPerPage=20";
 
   const REFRESH_MS = 15 * 60 * 1000;   // 15 min
   const TICKER_REFRESH_MS = 60 * 1000; // ticker rebuild more often
@@ -137,17 +138,24 @@
   }
   async function refreshNVD() {
     try {
-      const since = new Date(Date.now() - 36 * 3600 * 1000)
-        .toISOString().split(".")[0] + ".000";
-      const url = NVD_URL + `&pubStartDate=${encodeURIComponent(since)}` +
-                  `&pubEndDate=${encodeURIComponent(new Date().toISOString().split(".")[0] + ".000")}`;
+      // NVD wants ISO 8601 with milliseconds; window of last 7 days for plenty of data
+      const endDate = new Date();
+      const startDate = new Date(endDate.getTime() - 7 * 24 * 3600 * 1000);
+      const fmtDate = (d) => d.toISOString().split(".")[0] + ".000";
+      const url = `${NVD_BASE}?resultsPerPage=25&pubStartDate=${encodeURIComponent(fmtDate(startDate))}&pubEndDate=${encodeURIComponent(fmtDate(endDate))}`;
       state.nvd = await fetchJSON(url);
       state.err.nvd = null;
-    } catch (e) { state.err.nvd = e.message; }
+    } catch (e) {
+      state.err.nvd = e.message;
+      console.warn("NVD fetch failed:", e);
+    }
   }
   async function refreshHN() {
     try { state.hn = await fetchJSON(HN_URL); state.err.hn = null; }
-    catch (e) { state.err.hn = e.message; }
+    catch (e) {
+      state.err.hn = e.message;
+      console.warn("HN fetch failed:", e);
+    }
   }
 
   // ─── 4) Rendering ──────────────────────────────────────────────────────
@@ -258,31 +266,54 @@
     $("ct-stat-ransom").textContent = ransom ? fmt(ransom) : "—";
   }
 
+  // ─── Leaflet map (initialised once, markers swapped on each refresh) ─────
+  let ctMap = null;
+  let ctMarkers = null;
+
+  function initMap() {
+    if (typeof L === "undefined") return;
+    const el = document.getElementById("ct-map");
+    if (!el || ctMap) return;
+    el.classList.add("leaflet-container");
+    ctMap = L.map(el, {
+      worldCopyJump: true,
+      zoomControl: false,
+      dragging: false,
+      scrollWheelZoom: false,
+      doubleClickZoom: false,
+      boxZoom: false,
+      keyboard: false,
+      touchZoom: false,
+      attributionControl: true,
+    }).setView([22, 0], 2);
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
+      attribution: '&copy; OpenStreetMap, &copy; CARTO',
+      subdomains: "abcd",
+      maxZoom: 6,
+    }).addTo(ctMap);
+    ctMarkers = L.layerGroup().addTo(ctMap);
+  }
+
   function renderMap() {
-    const g = $("ct-map-dots");
-    if (!g) return;
-    g.innerHTML = "";
+    if (!ctMap) initMap();
+    if (!ctMap || !ctMarkers) return;
+    ctMarkers.clearLayers();
     const attackers = state.feed?.top_attackers || [];
     if (!attackers.length) return;
 
-    // SVG viewBox is 1000x500. Project lat/lon to that.
-    // Equirectangular: x = (lon + 180) * (1000/360), y = (90 - lat) * (500/180)
-    const proj = (lat, lon) => [(lon + 180) * (1000 / 360), (90 - lat) * (500 / 180)];
-
     const maxCount = Math.max(1, ...attackers.map(a => a.count));
-    attackers.slice(0, 40).forEach((a, i) => {
+    attackers.slice(0, 60).forEach((a, i) => {
       const lat = parseFloat(a.geoip_location_latitude);
       const lon = parseFloat(a.geoip_location_longitude);
       if (Number.isNaN(lat) || Number.isNaN(lon)) return;
-      const [x, y] = proj(lat, lon);
-      const r = 2 + Math.sqrt(a.count / maxCount) * 5;
-      const dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-      dot.setAttribute("cx", String(x));
-      dot.setAttribute("cy", String(y));
-      dot.setAttribute("r", String(r));
-      dot.setAttribute("class", "ct-map-dot");
-      dot.style.animationDelay = ((i % 12) * 0.18).toFixed(2) + "s";
-      g.appendChild(dot);
+      const size = 8 + Math.sqrt(a.count / maxCount) * 22;
+      const icon = L.divIcon({
+        className: "ct-attack-marker",
+        html: `<div class="ct-attack-dot" style="width:${size}px;height:${size}px;animation-delay:${(i * 0.12).toFixed(2)}s"></div>`,
+        iconSize: [size, size],
+        iconAnchor: [size / 2, size / 2],
+      });
+      L.marker([lat, lon], { icon, interactive: false }).addTo(ctMarkers);
     });
   }
 
@@ -332,6 +363,7 @@
   }
 
   document.addEventListener("DOMContentLoaded", () => {
+    initMap();
     loadAll();
     setInterval(loadAll, REFRESH_MS);
   });
