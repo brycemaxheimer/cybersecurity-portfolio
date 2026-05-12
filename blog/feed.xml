@@ -5,21 +5,7 @@
     <link>https://brycemaxheimer.com/blog/</link>
     <description>Investigations, framework deep-dives, and writeups from Bryce Maxheimer.</description>
     <language>en-us</language>
-    <lastBuildDate>Tue, 12 May 2026 11:54:09 GMT</lastBuildDate>
-    <item>
-      <title>Inside Invoke-KqlPS</title>
-      <link>https://brycemaxheimer.com/blog/posts/inside-invoke-kqlps.html</link>
-      <guid>https://brycemaxheimer.com/blog/posts/inside-invoke-kqlps.html</guid>
-      <pubDate>Tue, 12 May 2026 00:00:00 GMT</pubDate>
-      <description>Why I built a KQL interpreter in PowerShell, what subset it supports today, and how it anchors the rest of the lab.</description>
-    </item>
-    <item>
-      <title>MITRE Crosswalks in the Lab</title>
-      <link>https://brycemaxheimer.com/blog/posts/mitre-crosswalks-in-the-lab.html</link>
-      <guid>https://brycemaxheimer.com/blog/posts/mitre-crosswalks-in-the-lab.html</guid>
-      <pubDate>Mon, 11 May 2026 00:00:00 GMT</pubDate>
-      <description>How the local ATT&amp;CK explorer, CVE-to-technique mappings, and KQL tooling fit together in one offline-friendly workflow.</description>
-    </item>
+    <lastBuildDate>Tue, 12 May 2026 12:52:35 GMT</lastBuildDate>
     <item>
       <title>Welcome to the lab</title>
       <link>https://brycemaxheimer.com/blog/posts/welcome-to-the-lab.html</link>

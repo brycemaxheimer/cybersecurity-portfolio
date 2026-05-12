@@ -76,10 +76,11 @@ function Parse-FrontMatter {
     param([string] $Raw)
 
     $meta = @{
-        title   = '(untitled)'
-        date    = (Get-Date -Format 'yyyy-MM-dd')
-        summary = ''
-        tags    = @()
+        title     = '(untitled)'
+        date      = (Get-Date -Format 'yyyy-MM-dd')
+        summary   = ''
+        tags      = @()
+        published = $true
     }
     $body = $Raw
 
@@ -92,6 +93,8 @@ function Parse-FrontMatter {
                 $val = $Matches[2].Trim()
                 if ($key -eq 'tags') {
                     $meta.tags = ($val -split ',') | ForEach-Object { $_.Trim() } | Where-Object { $_ }
+                } elseif ($key -eq 'published') {
+                    $meta.published = ($val -notmatch '^(false|0|no)$')
                 } else {
                     $meta[$key] = $val
                 }
@@ -309,7 +312,8 @@ function Render-Page {
         [hashtable] $Meta,
         [string]    $BodyHtml,
         [string]    $Slug,
-        [int]       $ReadingTimeMinutes
+        [int]       $ReadingTimeMinutes,
+        [bool]      $IsPublic = $true
     )
 
     $title       = Escape-Html $Meta.title
@@ -319,13 +323,14 @@ function Render-Page {
     $canonical   = "$SiteUrl/blog/posts/$Slug.html"
     $tagsHtml    = Render-Tags -Tags $Meta.tags
     $readingText = if ($ReadingTimeMinutes -eq 1) { '1 min read' } else { "$ReadingTimeMinutes min read" }
+    $robotsMeta  = if ($IsPublic) { '' } else { "`n    <meta name=""robots"" content=""noindex, nofollow"">" }
 
 @"
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">$robotsMeta
     <meta name="description" content="$description"><link rel="canonical" href="$canonical">
 <meta property="og:title" content="$title - Bryce Maxheimer">
 <meta property="og:description" content="$description">
@@ -369,7 +374,6 @@ function Render-Page {
                 </div>
                 <a href="/lab/mitre/">MITRE ATT&amp;CK</a>
                 <a href="/lab/cve/">CVE / KEV / EPSS</a>
-                <a href="/lab/ctf/">CTF Challenge</a>
                 <div class="nested-dropdown">
                     <a href="#" class="nested-dropbtn">Dashboards <span class="caret-right">&#9656;</span></a>
                     <div class="nested-dropdown-menu">
@@ -462,6 +466,7 @@ $posts = foreach ($file in $mdFiles) {
     $slug = Get-Slug -Path $file.FullName
     $readingTime = Get-ReadingTime -Text $parsed.body
     $dateObject = ConvertTo-BlogDate -RawDate $parsed.meta.date
+    $isPublic = ($parsed.meta.published.ToString().Trim().ToLowerInvariant() -notin @('false', '0', 'no'))
     [PSCustomObject]@{
         SourcePath   = $file.FullName
         Slug         = $slug
@@ -469,16 +474,18 @@ $posts = foreach ($file in $mdFiles) {
         BodyMarkdown = $parsed.body
         ReadingTime  = $readingTime
         DateObject   = $dateObject
+        IsPublic     = $isPublic
     }
 }
 
 $posts = $posts | Sort-Object DateObject -Descending
+$publicPosts = @($posts | Where-Object { $_.IsPublic })
 
 Write-Host "Building $($posts.Count) post(s)..." -ForegroundColor Cyan
 
 foreach ($post in $posts) {
     $bodyHtml = Convert-MarkdownBodyToHtml -Markdown $post.BodyMarkdown
-    $page = Render-Page -Meta $post.Meta -BodyHtml $bodyHtml -Slug $post.Slug -ReadingTimeMinutes $post.ReadingTime
+    $page = Render-Page -Meta $post.Meta -BodyHtml $bodyHtml -Slug $post.Slug -ReadingTimeMinutes $post.ReadingTime -IsPublic $post.IsPublic
     $outPath = Join-Path $OutputDir "$($post.Slug).html"
     Write-Utf8File -Path $outPath -Content $page
     Write-Host "  -> Built blog/posts/$($post.Slug).html" -ForegroundColor Green
@@ -486,9 +493,9 @@ foreach ($post in $posts) {
 
 $manifest = [ordered]@{
     generatedAt = (Get-Date).ToString('o')
-    count       = $posts.Count
+    count       = $publicPosts.Count
     posts       = @(
-        foreach ($post in $posts) {
+        foreach ($post in $publicPosts) {
             [ordered]@{
                 title       = $post.Meta.title
                 date        = $post.Meta.date
@@ -506,7 +513,7 @@ $manifestJson = $manifest | ConvertTo-Json -Depth 6
 Write-Utf8File -Path $BlogJsonPath -Content $manifestJson
 Write-Host "  -> Built blog/posts.json" -ForegroundColor Green
 
-$feedPosts = foreach ($post in $posts) {
+$feedPosts = foreach ($post in $publicPosts) {
     [PSCustomObject]@{
         title      = $post.Meta.title
         summary    = $post.Meta.summary

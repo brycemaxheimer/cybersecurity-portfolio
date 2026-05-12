@@ -3,6 +3,7 @@ title: MITRE Crosswalks in the Lab
 date: 2026-05-11
 summary: How the local ATT&CK explorer, CVE-to-technique mappings, and KQL tooling fit together in one offline-friendly workflow.
 tags: mitre, attack, detection
+published: false
 ---
 
 ## The problem I wanted to solve
