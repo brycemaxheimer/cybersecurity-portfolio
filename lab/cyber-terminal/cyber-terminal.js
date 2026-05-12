@@ -123,9 +123,9 @@
 
   // ─── 3) Data fetchers ──────────────────────────────────────────────────
   async function fetchJSON(url, init) {
-    const r = await fetch(url + (url.includes("?") ? "&" : "?") + "t=" + Date.now(), {
-      cache: "no-store", ...init,
-    });
+    // Strict APIs (NVD, Algolia) reject unknown query params, so don't add a cache-buster.
+    // `cache: "no-store"` is enough to defeat the browser cache.
+    const r = await fetch(url, { cache: "no-store", ...init });
     if (!r.ok) throw new Error(`${url}  HTTP ${r.status}`);
     return r.json();
   }
