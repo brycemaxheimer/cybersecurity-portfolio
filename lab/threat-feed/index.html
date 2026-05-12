@@ -21,136 +21,157 @@
 <link rel="stylesheet" href="/css/style.css">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="stylesheet" href="/lab/lab.css">
+<!-- Re-use the cyber-terminal palette + panel chrome so all wall-display pages stay visually identical. -->
+<link rel="stylesheet" href="/lab/cyber-terminal/cyber-terminal.css">
+<!-- Page-specific overrides: table styling, feed-line layout, error banner. -->
 <link rel="stylesheet" href="/lab/threat-feed/threat-feed.css">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
       integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
       crossorigin="">
 </head>
-<body>
+<body class="ct-body">
 
-<header class="site-header">
-<div class="container-wide">
-<a href="/" class="brand">Bryce Maxheimer</a>
-<nav class="nav">
-<a href="/about.html">About</a>
-<a href="/resume/">Resume</a>
-<a href="/certs/">Certs</a>
-<a href="/projects/">Projects</a>
-<span class="nav-dropdown">
-    <a href="/lab/" class="active">Lab <span class="caret">&#9662;</span></a>
-    <div class="nav-dropdown-menu">
-        <div class="nested-dropdown">
-            <a href="#" class="nested-dropbtn">KQL Tools <span class="caret-right">&#9656;</span></a>
-            <div class="nested-dropdown-menu">
-                <a href="/kql/">KQL Playground</a>
-                <a href="/lab/practice/">KQL Practice</a>
-                <a href="/lab/kql-builder/">KQL Builder</a>
-                <a href="/lab/templates/">KQL Templates</a>
-            </div>
-        </div>
-        <a href="/lab/mitre/">MITRE ATT&amp;CK</a>
-        <a href="/lab/cve/">CVE / KEV / EPSS</a>
-        <a href="/lab/threat-intel/">Threat Intel</a>
-        <a href="/lab/threat-feed/">Live Threat Feed</a>
-    </div>
-</span>
-<a href="/writeups/">Writeups</a>
-<a href="/blog/">Blog</a>
-<a href="/customize/">Customize</a>
-</nav>
-</div>
+<!-- Animated background canvas (constellation + grid + scan line) — same as cyber-terminal -->
+<canvas id="ct-bg" aria-hidden="true"></canvas>
+<div class="ct-grid-overlay" aria-hidden="true"></div>
+<div class="ct-scanlines" aria-hidden="true"></div>
+<div class="ct-vignette" aria-hidden="true"></div>
+
+<!-- Top bar -->
+<header class="ct-topbar">
+  <div class="ct-brand">
+    <span class="ct-dot"></span>
+    <span class="ct-title">LIVE&nbsp;THREAT&nbsp;FEED</span>
+    <span class="ct-sub">// ssh honeypot &middot; attacker telemetry</span>
+  </div>
+  <div class="ct-status">
+    <span class="ct-pill ok"><span class="ct-pulse"></span>FEED&nbsp;LIVE</span>
+    <span class="ct-pill warn">15-MIN&nbsp;REFRESH</span>
+    <span class="ct-pill tf-meta-pill" id="tf-generated">loading&hellip;</span>
+    <a class="ct-pill tf-reload-pill" id="tf-reload" href="#">RELOAD</a>
+    <span class="ct-clock" id="ct-clock">--:--:--&nbsp;UTC</span>
+  </div>
 </header>
 
-<main class="tf-page">
+<!-- Main grid: 3 columns -->
+<main class="ct-grid tf-page">
 
-<div class="nav-back">
-<a href="/lab/">&larr; Browser Lab</a>
-</div>
+  <!-- LEFT column: Indicators, Top Attackers, Top ASNs -->
+  <section class="ct-col ct-col-left">
+    <div class="ct-panel tf-panel-stats">
+      <div class="ct-panel-head">
+        <span class="ct-panel-h">Indicators &middot; Cowrie</span>
+        <span class="ct-tag">LIVE</span>
+      </div>
+      <div class="tf-stats" id="tf-stats"></div>
+    </div>
 
-<h1>Live Threat Feed</h1>
-<p class="text-soft">
-Real attack telemetry from a residential SSH honeypot (Cowrie). The data on this page is the
-live attack stream against an exposed shell on my home network &mdash; refreshed every 15 minutes.
-All attacker IPs are submitted to AbuseIPDB, VirusTotal, OTX, and ThreatFox via a
-custom reporter pipeline.
-</p>
+    <div class="ct-panel">
+      <div class="ct-panel-head">
+        <span class="ct-panel-h">Top Attackers &middot; IPs</span>
+        <span class="ct-tag">SRC</span>
+      </div>
+      <div class="tf-scroll">
+        <table class="tf-table" id="tf-ips">
+          <thead><tr><th>ip</th><th>geo</th><th class="r">hits</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
 
-<div class="tf-meta">
-<span class="tf-live"></span>
-<span id="tf-generated">loading&hellip;</span>
-&nbsp;&middot;&nbsp; refresh: 15m
-&nbsp;&middot;&nbsp; <a id="tf-reload" href="#">reload now</a>
-</div>
-
-<div class="tf-stats" id="tf-stats"></div>
-
-<div class="tf-grid-2">
-  <section class="tf-panel">
-    <h2 class="tf-panel-h">attacker locations &middot; last 24h</h2>
-    <div id="tf-map"></div>
-  </section>
-  <section class="tf-panel">
-    <h2 class="tf-panel-h">recent activity</h2>
-    <div class="tf-feed" id="tf-recent"></div>
-  </section>
-</div>
-
-<div class="tf-grid-3">
-  <section class="tf-panel">
-    <h2 class="tf-panel-h">top countries</h2>
-    <div class="tf-scroll">
-      <table class="tf-table" id="tf-countries"><thead><tr><th>country</th><th class="r">hits</th></tr></thead><tbody></tbody></table>
+    <div class="ct-panel">
+      <div class="ct-panel-head">
+        <span class="ct-panel-h">Top Networks &middot; ASN</span>
+        <span class="ct-tag">ORG</span>
+      </div>
+      <div class="tf-scroll">
+        <table class="tf-table" id="tf-asns">
+          <thead><tr><th>org</th><th class="r">hits</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
     </div>
   </section>
-  <section class="tf-panel">
-    <h2 class="tf-panel-h">top networks (ASN)</h2>
-    <div class="tf-scroll">
-      <table class="tf-table" id="tf-asns"><thead><tr><th>org</th><th class="r">hits</th></tr></thead><tbody></tbody></table>
-    </div>
-  </section>
-  <section class="tf-panel">
-    <h2 class="tf-panel-h">top attackers</h2>
-    <div class="tf-scroll">
-      <table class="tf-table" id="tf-ips"><thead><tr><th>ip</th><th>geo</th><th class="r">hits</th></tr></thead><tbody></tbody></table>
-    </div>
-  </section>
-</div>
 
-<div class="tf-grid-3">
-  <section class="tf-panel">
-    <h2 class="tf-panel-h">usernames tried</h2>
-    <div class="tf-scroll">
-      <table class="tf-table tf-creds" id="tf-users"><thead><tr><th>username</th><th class="r">tries</th></tr></thead><tbody></tbody></table>
+  <!-- MIDDLE column: Threat Map (large) + Recent Activity below -->
+  <section class="ct-col ct-col-mid">
+    <div class="ct-panel ct-panel-map tf-panel-map">
+      <div class="ct-panel-head">
+        <span class="ct-panel-h">Attacker Locations &middot; last 24h</span>
+        <span class="ct-tag">GEO</span>
+      </div>
+      <div class="ct-map" id="tf-map"></div>
+    </div>
+
+    <div class="ct-panel tf-panel-recent">
+      <div class="ct-panel-head">
+        <span class="ct-panel-h">Recent Activity &middot; Cowrie tail</span>
+        <span class="ct-tag">TAIL</span>
+      </div>
+      <div class="tf-feed" id="tf-recent"></div>
     </div>
   </section>
-  <section class="tf-panel">
-    <h2 class="tf-panel-h">passwords tried</h2>
-    <div class="tf-scroll">
-      <table class="tf-table tf-creds" id="tf-passwords"><thead><tr><th>password</th><th class="r">tries</th></tr></thead><tbody></tbody></table>
+
+  <!-- RIGHT column: Countries, Usernames, Passwords, Commands -->
+  <section class="ct-col ct-col-right">
+    <div class="ct-panel">
+      <div class="ct-panel-head">
+        <span class="ct-panel-h">Top Countries</span>
+        <span class="ct-tag">GEO</span>
+      </div>
+      <div class="tf-scroll">
+        <table class="tf-table" id="tf-countries">
+          <thead><tr><th>country</th><th class="r">hits</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="ct-panel">
+      <div class="ct-panel-head">
+        <span class="ct-panel-h">Usernames Tried</span>
+        <span class="ct-tag">CREDS</span>
+      </div>
+      <div class="tf-scroll">
+        <table class="tf-table tf-creds" id="tf-users">
+          <thead><tr><th>username</th><th class="r">tries</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="ct-panel">
+      <div class="ct-panel-head">
+        <span class="ct-panel-h">Passwords Tried</span>
+        <span class="ct-tag">CREDS</span>
+      </div>
+      <div class="tf-scroll">
+        <table class="tf-table tf-creds" id="tf-passwords">
+          <thead><tr><th>password</th><th class="r">tries</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="ct-panel">
+      <div class="ct-panel-head">
+        <span class="ct-panel-h">Commands Executed</span>
+        <span class="ct-tag">EXEC</span>
+      </div>
+      <div class="tf-scroll">
+        <table class="tf-table tf-commands" id="tf-commands">
+          <thead><tr><th>command</th><th class="r">runs</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
     </div>
   </section>
-  <section class="tf-panel">
-    <h2 class="tf-panel-h">commands executed</h2>
-    <div class="tf-scroll">
-      <table class="tf-table tf-commands" id="tf-commands"><thead><tr><th>command</th><th class="r">runs</th></tr></thead><tbody></tbody></table>
-    </div>
-  </section>
-</div>
 
 </main>
-
-<footer class="site-footer">
-<div class="container-wide">
-&copy; 2026 Bryce Maxheimer &middot;
-<a href="https://github.com/brycemaxheimer">GitHub</a> &middot;
-<a href="/about.html">Contact</a>
-</div>
-</footer>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
         crossorigin=""></script>
 <script src="/lab/threat-feed/threat-feed.js" defer></script>
-
 </body>
 </html>

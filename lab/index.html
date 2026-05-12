@@ -46,8 +46,10 @@
         </div>
         <a href="/lab/mitre/">MITRE ATT&amp;CK</a>
         <a href="/lab/cve/">CVE / KEV / EPSS</a>
-        <a href="/lab/threat-intel/">Threat Intel</a>
         <a href="/lab/threat-feed/">Live Threat Feed</a>
+        <a href="/lab/cyber-terminal/">Cyber Terminal</a>
+        <a href="/lab/cyber-ops/">Cyber Ops</a>
+        <a href="/lab/cyber-grc/">Cyber GRC</a>
     </div>
 </span>
 <a href="/writeups/">Writeups</a>
@@ -172,24 +174,43 @@ Submissions to AbuseIPDB, VirusTotal, OTX, and ThreatFox.
 <div class="stack"><span>cowrie</span><span>honeypot</span><span>ssh</span><span>geo</span></div>
 </a>
 
-</div>
-
-
-<h2 class="lab-section">Coming next</h2>
-
-<div class="lab-grid">
-
-<a class="lab-card is-coming" href="/lab/threat-intel/">
+<a class="lab-card" href="/lab/cyber-terminal/">
 <div class="header-row">
-<h3>Threat Intel Walkthrough</h3>
-<span class="status-badge status-pending">Recording pending</span>
+<h3>Cyber Terminal</h3>
+<span class="status-badge status-live">Live</span>
 </div>
 <p class="summary">
-Mocked-up UI of the threat-intel module (AbuseIPDB, urlscan.io, NIST NVD,
-Team Cymru, NSRL) backed by a recorded walkthrough rather than live API calls.
-Lets visitors see the workflow end-to-end without hitting any rate limits.
+Live aggregated CVE feed, Hacker News security stories, ransomware victim feed,
+and threat map - all in one auto-refreshing wall display. Built for the corner
+monitor that nobody is actively looking at but everybody glances at.
 </p>
-<div class="stack"><span>abuseipdb</span><span>urlscan</span><span>nvd</span><span>recording</span></div>
+<div class="stack"><span>feeds</span><span>leaflet</span><span>realtime</span><span>wall-display</span></div>
+</a>
+
+<a class="lab-card" href="/lab/cyber-ops/">
+<div class="header-row">
+<h3>Cyber Ops</h3>
+<span class="status-badge status-live">Live</span>
+</div>
+<p class="summary">
+Live honeypot operations telemetry - Cowrie session counts, attacker
+ASN/country breakdown, top tried credentials, post-auth command analysis.
+Same data backing the Live Threat Feed, reframed as an ops wall.
+</p>
+<div class="stack"><span>honeypot</span><span>cowrie</span><span>asn</span><span>ops</span></div>
+</a>
+
+<a class="lab-card" href="/lab/cyber-grc/">
+<div class="header-row">
+<h3>Cyber GRC</h3>
+<span class="status-badge status-live">Live</span>
+</div>
+<p class="summary">
+GRC operations terminal - NIST CSF maturity radar, risk register, audit
+findings, ATT&amp;CK coverage, patch tracker, and breach feed. The governance
+side of the house presented at the same fidelity as the SOC wall.
+</p>
+<div class="stack"><span>nist-csf</span><span>risk</span><span>audit</span><span>grc</span></div>
 </a>
 
 </div>

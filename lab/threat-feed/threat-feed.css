@@ -1,186 +1,181 @@
-/* Live Threat Feed — SOC-style dashboard panel.
-   Keeps its own dark surface regardless of site theme (this is a "live console" widget). */
+/* Live Threat Feed — page-specific tweaks on top of cyber-terminal.css chrome.
+   The base layout, panels, topbar, canvas, scanlines, etc. all come from
+   /lab/cyber-terminal/cyber-terminal.css. This file only adds:
+     - stats grid INSIDE the Indicators panel
+     - table styling for the data tables
+     - feed-line layout for the live Cowrie tail
+     - topbar pill variants for the "generated" timestamp + reload link
+     - leaflet attribution override against satellite tiles
+     - error banner injected by threat-feed.js on fetch failure */
 
-.tf-page {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 1.6rem 1.5rem 4rem;
+/* ── Topbar additions: meta pill + reload pill ── */
+.tf-meta-pill {
+  color: var(--ct-text-soft);
+  border-color: var(--ct-text-dim);
+  font-family: var(--ct-mono);
+  text-transform: none;
+  letter-spacing: 0.04em;
+}
+.tf-reload-pill {
+  color: var(--ct-cyan);
+  border-color: var(--ct-cyan);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.tf-reload-pill:hover {
+  background: var(--ct-cyan);
+  color: var(--ct-bg-0);
 }
 
-.tf-banner {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-left: 3px solid var(--mint-deep, #00b86b);
-  border-radius: var(--radius-md, 6px);
-  padding: 1rem 1.2rem;
-  margin: 1.4rem 0 1.6rem;
-  font-size: 0.95rem;
-  line-height: 1.55;
-}
-
-.tf-meta {
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  color: var(--text-soft, #889);
-  margin-bottom: 1rem;
-  letter-spacing: 0.02em;
-}
-.tf-live {
-  display: inline-block; width: 8px; height: 8px; border-radius: 50%;
-  background: #00ff95; box-shadow: 0 0 8px #00ff95;
-  animation: tfPulse 2s infinite; margin-right: 0.4rem; vertical-align: middle;
-}
-@keyframes tfPulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
-
-/* SOC palette — independent of site theme */
-.tf-page {
-  --tf-bg: #0b1020;
-  --tf-panel: #131826;
-  --tf-panel-2: #1a2030;
-  --tf-border: #2a3142;
-  --tf-text: #c0d0e8;
-  --tf-muted: #6b7a90;
-  --tf-green: #00ff95;
-  --tf-green-dim: #00b86b;
-  --tf-red: #ff4757;
-  --tf-yellow: #ffd166;
-  --tf-blue: #4cc9f0;
-}
-
+/* ── Indicators stat grid (inside the first left-column panel) ── */
+.tf-panel-stats { flex: 0 0 auto; }
 .tf-stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 0.8rem;
-  margin: 1.2rem 0;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--ct-panel-line);
+  flex: 1;
 }
 .tf-stat {
-  background: var(--tf-panel);
-  border: 1px solid var(--tf-border);
-  border-radius: 6px;
-  padding: 0.9rem 1.1rem;
-  color: var(--tf-text);
+  background: var(--ct-bg-1);
+  padding: 0.55rem 0.8rem;
+  display: flex; flex-direction: column; justify-content: center;
 }
 .tf-stat .lbl {
-  font-size: 0.68rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--tf-muted);
+  font-size: 0.6rem; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--ct-text-soft);
 }
 .tf-stat .val {
-  font-family: var(--font-mono);
-  font-size: 1.7rem;
-  font-weight: 600;
-  margin-top: 0.3rem;
-  color: var(--tf-green);
-  line-height: 1.1;
+  font-size: 1.35rem; font-weight: 600;
+  font-family: var(--ct-mono);
+  color: var(--ct-grn); line-height: 1.05;
+  margin-top: 0.2rem;
+  text-shadow: 0 0 12px rgba(0,255,149,0.25);
 }
-.tf-stat .val.red    { color: var(--tf-red); }
-.tf-stat .val.yellow { color: var(--tf-yellow); }
-.tf-stat .val.blue   { color: var(--tf-blue); }
+.tf-stat .val.red    { color: var(--ct-red);    text-shadow: 0 0 12px rgba(255,56,96,0.25); }
+.tf-stat .val.yellow { color: var(--ct-yellow); text-shadow: 0 0 12px rgba(255,209,102,0.25); }
+.tf-stat .val.blue   { color: var(--ct-cyan);   text-shadow: 0 0 12px rgba(76,201,240,0.25); }
 .tf-stat .sub {
-  font-size: 0.7rem;
-  color: var(--tf-muted);
+  font-size: 0.62rem;
+  color: var(--ct-text-soft);
   margin-top: 0.1rem;
+  letter-spacing: 0.04em;
 }
 
-.tf-grid-2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.8rem;
-  margin-bottom: 0.8rem;
+/* ── Data tables ── */
+.tf-scroll {
+  flex: 1; min-height: 0;
+  overflow-y: auto;
 }
-.tf-grid-3 {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.8rem;
-  margin-bottom: 0.8rem;
+.tf-table {
+  width: 100%; border-collapse: collapse;
+  font-size: 0.78rem; color: var(--ct-text);
 }
-@media (max-width: 1024px) {
-  .tf-grid-2, .tf-grid-3 { grid-template-columns: 1fr; }
-}
-
-.tf-panel {
-  background: var(--tf-panel);
-  border: 1px solid var(--tf-border);
-  border-radius: 6px;
-  padding: 0.9rem 1.05rem;
-  color: var(--tf-text);
-}
-.tf-panel-h {
-  margin: 0 0 0.7rem;
-  font-size: 0.72rem;
-  font-family: var(--font-display);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--tf-muted);
-}
-
-#tf-map {
-  height: 460px;
-  border-radius: 4px;
-  background: var(--tf-panel-2);
-}
-
-.tf-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; color: var(--tf-text); }
 .tf-table th {
+  position: sticky; top: 0; z-index: 1;
+  background: rgba(2, 6, 17, 0.92);
   text-align: left; font-weight: 500;
-  font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.06em;
-  color: var(--tf-muted); padding: 0.35rem 0.5rem;
-  border-bottom: 1px solid var(--tf-border);
-  font-family: var(--font-display);
+  font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--ct-text-soft);
+  padding: 0.4rem 0.8rem;
+  border-bottom: 1px solid var(--ct-panel-line);
+  font-family: var(--ct-mono);
 }
 .tf-table td {
-  padding: 0.35rem 0.5rem;
-  border-bottom: 1px solid var(--tf-panel-2);
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-}
-.tf-table td.r { text-align: right; color: var(--tf-green); }
-.tf-table tr:hover { background: var(--tf-panel-2); }
-.tf-creds td:first-child { max-width: 22rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.tf-commands td:first-child { max-width: 32rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-.tf-scroll { max-height: 360px; overflow-y: auto; }
-
-.tf-feed {
-  font-family: var(--font-mono);
+  padding: 0.32rem 0.8rem;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-family: var(--ct-mono);
   font-size: 0.76rem;
-  max-height: 460px;
+}
+.tf-table td.r { text-align: right; color: var(--ct-grn); }
+.tf-table tr:hover { background: rgba(0,255,149,0.04); }
+.tf-creds td:first-child {
+  max-width: 18rem;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.tf-commands td:first-child {
+  max-width: 26rem;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+/* ── Live Cowrie tail ── */
+.tf-panel-recent { flex: 0 0 38%; }
+.tf-feed {
+  flex: 1; min-height: 0;
+  font-family: var(--ct-mono);
+  font-size: 0.74rem;
   overflow-y: auto;
-  color: var(--tf-text);
+  color: var(--ct-text);
 }
 .tf-feed .line {
-  display: flex; gap: 0.6rem; padding: 0.32rem 0.45rem;
-  border-bottom: 1px solid var(--tf-panel-2); align-items: baseline;
+  display: flex; gap: 0.6rem;
+  padding: 0.3rem 0.8rem;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  align-items: baseline;
 }
-.tf-feed .ts { color: var(--tf-muted); min-width: 4.8em; font-size: 0.7rem; }
-.tf-feed .ev { min-width: 9em; }
-.tf-feed .ev.login-success { color: var(--tf-red); }
-.tf-feed .ev.command       { color: var(--tf-yellow); }
-.tf-feed .ev.file          { color: var(--tf-blue); }
-.tf-feed .ip { color: var(--tf-green); min-width: 8.5em; }
-.tf-feed .country { color: var(--tf-muted); min-width: 6em; }
+.tf-feed .line:hover { background: rgba(0,255,149,0.04); }
+.tf-feed .ts       { color: var(--ct-text-soft); min-width: 4.8em; font-size: 0.7rem; }
+.tf-feed .ev       { min-width: 9em; color: var(--ct-text); }
+.tf-feed .ev.login-success { color: var(--ct-red); }
+.tf-feed .ev.command       { color: var(--ct-yellow); }
+.tf-feed .ev.file          { color: var(--ct-cyan); }
+.tf-feed .ip       { color: var(--ct-grn); min-width: 8.5em; }
+.tf-feed .country  { color: var(--ct-text-soft); min-width: 6em; }
 .tf-feed .data {
-  color: var(--tf-text); flex: 1;
+  color: var(--ct-text); flex: 1;
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 
+/* ── Left column panel sizing (stats compact, others fill) ── */
+.ct-col-left > .ct-panel { flex: 1 1 0; min-height: 0; }
+.ct-col-left > .tf-panel-stats { flex: 0 0 auto; }
+
+/* ── Middle column: big map on top, recent activity below ── */
+.ct-col-mid > .tf-panel-map { flex: 1 1 60%; min-height: 0; }
+.ct-col-mid > .tf-panel-recent { flex: 1 1 40%; min-height: 0; }
+
+/* ── Right column: four equal panels ── */
+.ct-col-right > .ct-panel { flex: 1 1 0; min-height: 0; }
+
+/* ── Error banner (injected at top of .tf-page on fetch failure) ── */
 .tf-err {
-  background: rgba(255, 71, 87, 0.08);
-  border: 1px solid var(--tf-red);
+  grid-column: 1 / -1;
+  background: rgba(255, 56, 96, 0.08);
+  border: 1px solid var(--ct-red);
   border-radius: 4px;
-  color: var(--tf-red);
-  padding: 0.7rem 1rem;
-  margin: 1rem 0;
-  font-family: var(--font-mono);
-  font-size: 0.85rem;
+  color: var(--ct-red);
+  padding: 0.6rem 0.9rem;
+  margin: 0 0 0.4rem;
+  font-family: var(--ct-mono);
+  font-size: 0.78rem;
+}
+.tf-err code { color: var(--ct-yellow); }
+
+/* ── Leaflet attribution against satellite imagery ── */
+.tf-panel-map .leaflet-container .leaflet-control-attribution {
+  background: rgba(2, 6, 17, 0.7); color: var(--ct-text-soft);
+  font-size: 9px;
+}
+.tf-panel-map .leaflet-container .leaflet-control-attribution a {
+  color: var(--ct-cyan);
 }
 
-/* Leaflet attribution against dark map */
-.leaflet-container .leaflet-control-attribution {
-  background: rgba(19, 24, 38, 0.85); color: var(--tf-muted);
+/* ── Scrollbar styling for the data scrollers ── */
+.tf-scroll::-webkit-scrollbar,
+.tf-feed::-webkit-scrollbar { width: 6px; }
+.tf-scroll::-webkit-scrollbar-track,
+.tf-feed::-webkit-scrollbar-track { background: transparent; }
+.tf-scroll::-webkit-scrollbar-thumb,
+.tf-feed::-webkit-scrollbar-thumb { background: var(--ct-grn-dim); border-radius: 3px; opacity: 0.3; }
+.tf-scroll::-webkit-scrollbar-thumb:hover,
+.tf-feed::-webkit-scrollbar-thumb:hover { background: var(--ct-grn); }
+
+/* ── Responsive collapse: match cyber-terminal breakpoints ── */
+@media (max-width: 1280px) {
+  .ct-col-right { display: none; }
 }
-.leaflet-container .leaflet-control-attribution a {
-  color: var(--tf-blue);
+@media (max-width: 760px) {
+  .ct-col-mid { display: none; }
+  .tf-stats { grid-template-columns: 1fr; }
 }

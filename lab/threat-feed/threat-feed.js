@@ -1,6 +1,100 @@
 /* Live Threat Feed renderer
    Fetches threat-feed JSON from R2 and paints the SOC dashboard. */
 
+/* ── Shared wall-display chrome: animated background + UTC clock.
+   Copied from /lab/cyber-terminal/cyber-terminal.js so this page renders
+   the same constellation/scan-line effect and ticking clock as the other
+   three immersive wall pages (cyber-terminal, cyber-ops, cyber-grc). */
+(function () {
+  const canvas = document.getElementById("ct-bg");
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d", { alpha: true });
+  let W = 0, H = 0, DPR = Math.min(window.devicePixelRatio || 1, 2);
+  let particles = [];
+  const rand = (a, b) => a + Math.random() * (b - a);
+  function initParticles(n) {
+    particles = [];
+    for (let i = 0; i < n; i++) {
+      const depth = Math.random();
+      particles.push({
+        x: Math.random() * W, y: Math.random() * H,
+        vx: rand(-0.06, 0.06) * (0.5 + depth),
+        vy: rand(-0.04, 0.04) * (0.5 + depth),
+        r: 0.6 + depth * 1.4, depth,
+        hue: Math.random() < 0.08 ? "alert" : "green",
+        pulsePhase: Math.random() * Math.PI * 2,
+      });
+    }
+  }
+  function sizeCanvas() {
+    W = window.innerWidth; H = window.innerHeight;
+    canvas.width = W * DPR; canvas.height = H * DPR;
+    canvas.style.width = W + "px"; canvas.style.height = H + "px";
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    initParticles(Math.min(180, Math.round((W * H) / 14000)));
+  }
+  function tick(t) {
+    ctx.clearRect(0, 0, W, H);
+    const sweepY = (t * 0.04) % (H + 200);
+    const grad = ctx.createLinearGradient(0, sweepY - 60, 0, sweepY + 60);
+    grad.addColorStop(0, "rgba(0,255,149,0)");
+    grad.addColorStop(0.5, "rgba(0,255,149,0.025)");
+    grad.addColorStop(1, "rgba(0,255,149,0)");
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, sweepY - 60, W, 120);
+    ctx.lineWidth = 0.5;
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      if (p.depth < 0.5) continue;
+      for (let j = i + 1; j < particles.length; j++) {
+        const q = particles[j];
+        if (q.depth < 0.5) continue;
+        const dx = p.x - q.x, dy = p.y - q.y;
+        const d2 = dx * dx + dy * dy;
+        if (d2 < 110 * 110) {
+          const alpha = (1 - Math.sqrt(d2) / 110) * 0.18;
+          ctx.strokeStyle = "rgba(0,255,149," + alpha.toFixed(3) + ")";
+          ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y); ctx.stroke();
+        }
+      }
+    }
+    for (const p of particles) {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0) p.x += W; else if (p.x > W) p.x -= W;
+      if (p.y < 0) p.y += H; else if (p.y > H) p.y -= H;
+      const pulse = 0.55 + 0.45 * Math.sin(t * 0.002 + p.pulsePhase);
+      const r = p.r * (0.8 + pulse * 0.5);
+      const fill = p.hue === "alert"
+        ? "rgba(255,56,96," + (0.55 * pulse).toFixed(3) + ")"
+        : "rgba(0,255,149," + (0.55 * pulse * (0.5 + p.depth * 0.5)).toFixed(3) + ")";
+      ctx.fillStyle = fill;
+      ctx.beginPath(); ctx.arc(p.x, p.y, r, 0, Math.PI * 2); ctx.fill();
+      if (p.hue === "alert" && pulse > 0.7) {
+        ctx.beginPath(); ctx.fillStyle = "rgba(255,56,96,0.08)";
+        ctx.arc(p.x, p.y, r * 4, 0, Math.PI * 2); ctx.fill();
+      }
+    }
+    requestAnimationFrame(tick);
+  }
+  sizeCanvas();
+  window.addEventListener("resize", () => {
+    DPR = Math.min(window.devicePixelRatio || 1, 2); sizeCanvas();
+  });
+  requestAnimationFrame(tick);
+
+  // UTC clock in topbar — matches cyber-terminal/ops/grc.
+  function tickClock() {
+    const clk = document.getElementById("ct-clock");
+    if (!clk) return;
+    const d = new Date();
+    const hh = String(d.getUTCHours()).padStart(2, "0");
+    const mm = String(d.getUTCMinutes()).padStart(2, "0");
+    const ss = String(d.getUTCSeconds()).padStart(2, "0");
+    clk.textContent = `${hh}:${mm}:${ss} UTC`;
+  }
+  tickClock(); setInterval(tickClock, 1000);
+})();
+
 const TF_FEED_URL = "https://threats.brycemaxheimer.com/feed.json";
 const TF_REFRESH_MS = 15 * 60 * 1000;
 
