@@ -12,6 +12,26 @@
 
 /* Right column: three equal thirds (already balanced via cyber-terminal.css). */
 
+/* ─── Topbar additions mirrored from threat-feed ─── */
+.tf-meta-pill {
+  color: var(--ct-text-soft);
+  border-color: var(--ct-text-dim);
+  font-family: var(--ct-mono);
+  text-transform: none;
+  letter-spacing: 0.04em;
+}
+.tf-reload-pill {
+  color: var(--ct-cyan);
+  border-color: var(--ct-cyan);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.tf-reload-pill:hover {
+  background: var(--ct-cyan);
+  color: var(--ct-bg-0);
+}
+
 /* ─── Hero indicator grid (4-up) ─── */
 .co-hero {
   display: grid;
@@ -115,3 +135,17 @@
   text-align: center;
   font-size: 0.9em;
 }
+
+/* ─── Error banner ─── */
+.co-err {
+  grid-column: 1 / -1;
+  background: rgba(255, 56, 96, 0.08);
+  border: 1px solid var(--ct-red);
+  border-radius: 4px;
+  color: var(--ct-red);
+  padding: 0.6rem 0.9rem;
+  margin: 0 0 0.4rem;
+  font-family: var(--ct-mono);
+  font-size: 0.78rem;
+}
+.co-err code { color: var(--ct-yellow); }

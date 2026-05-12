@@ -39,10 +39,27 @@
 
 <!-- Top bar -->
 <header class="ct-topbar">
-  <div class="ct-brand">
-    <span class="ct-dot"></span>
-    <span class="ct-title">LIVE&nbsp;THREAT&nbsp;FEED</span>
-    <span class="ct-sub">// ssh honeypot &middot; attacker telemetry</span>
+  <div class="ct-head-left">
+    <div class="ct-brand">
+      <span class="ct-dot"></span>
+      <span class="ct-title">LIVE&nbsp;THREAT&nbsp;FEED</span>
+      <span class="ct-sub">// ssh honeypot &middot; attacker telemetry</span>
+    </div>
+    <nav class="ct-nav" aria-label="Dashboard navigation">
+      <a class="ct-nav-link" href="/">Main Site</a>
+      <a class="ct-nav-link" href="/lab/">Lab</a>
+      <div class="ct-nav-dropdown">
+        <a class="ct-nav-link" href="/lab/">
+          Dashboards <span class="ct-nav-caret">&#9662;</span>
+        </a>
+        <div class="ct-nav-menu">
+          <a class="is-active" href="/lab/threat-feed/">Live Threat Feed</a>
+          <a href="/lab/cyber-terminal/">Cyber Terminal</a>
+          <a href="/lab/cyber-ops/">Cyber Ops</a>
+          <a href="/lab/cyber-grc/">Cyber GRC</a>
+        </div>
+      </div>
+    </nav>
   </div>
   <div class="ct-status">
     <span class="ct-pill ok"><span class="ct-pulse"></span>FEED&nbsp;LIVE</span>
@@ -93,7 +110,7 @@
     </div>
   </section>
 
-  <!-- MIDDLE column: Threat Map (large) + Recent Activity below -->
+  <!-- MIDDLE column: Threat Map + Recent Activity + Hourly trend -->
   <section class="ct-col ct-col-mid">
     <div class="ct-panel ct-panel-map tf-panel-map">
       <div class="ct-panel-head">
@@ -109,6 +126,14 @@
         <span class="ct-tag">TAIL</span>
       </div>
       <div class="tf-feed" id="tf-recent"></div>
+    </div>
+
+    <div class="ct-panel tf-panel-chart">
+      <div class="ct-panel-head">
+        <span class="ct-panel-h">Hourly Activity &middot; 24h</span>
+        <span class="ct-tag">FLOW</span>
+      </div>
+      <div class="tf-chart" id="tf-chart"></div>
     </div>
   </section>
 

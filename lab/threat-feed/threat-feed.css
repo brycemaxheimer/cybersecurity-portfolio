@@ -127,13 +127,35 @@
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 
+/* ── Hourly chart borrowed from Cyber Ops so the feed page carries trend context too ── */
+.tf-panel-chart { flex: 0 0 22%; min-height: 150px; }
+.tf-chart {
+  flex: 1; min-height: 0;
+  padding: 0.45rem 0.6rem 0.3rem;
+  position: relative;
+  overflow: hidden;
+}
+.tf-chart svg {
+  width: 100%; height: 100%;
+  display: block;
+}
+.tf-chart-axis {
+  position: absolute;
+  left: 0.6rem; right: 0.6rem; bottom: 0.05rem;
+  display: flex; justify-content: space-between;
+  font-size: 0.62rem; letter-spacing: 0.06em;
+  color: var(--ct-text-dim);
+  pointer-events: none;
+}
+
 /* ── Left column panel sizing (stats compact, others fill) ── */
 .ct-col-left > .ct-panel { flex: 1 1 0; min-height: 0; }
 .ct-col-left > .tf-panel-stats { flex: 0 0 auto; }
 
-/* ── Middle column: big map on top, recent activity below ── */
-.ct-col-mid > .tf-panel-map { flex: 1 1 60%; min-height: 0; }
-.ct-col-mid > .tf-panel-recent { flex: 1 1 40%; min-height: 0; }
+/* ── Middle column: big map on top, recent activity, then hourly trend ── */
+.ct-col-mid > .tf-panel-map { flex: 1 1 52%; min-height: 0; }
+.ct-col-mid > .tf-panel-recent { flex: 1 1 26%; min-height: 0; }
+.ct-col-mid > .tf-panel-chart { flex: 1 1 22%; min-height: 150px; }
 
 /* ── Right column: four equal panels ── */
 .ct-col-right > .ct-panel { flex: 1 1 0; min-height: 0; }

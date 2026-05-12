@@ -103,7 +103,7 @@ const fmt = (n) => Number(n ?? 0).toLocaleString();
 const esc = (s) =>
   String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
-let tfMap, tfAttackerLayer;
+let tfMap, tfAttackerLayer, tfLastFeed = null;
 
 function initMap() {
   if (typeof L === "undefined") return;
@@ -176,6 +176,68 @@ function renderMap(feed) {
       )
       .addTo(tfAttackerLayer);
   }
+  setTimeout(() => { try { tfMap.invalidateSize(); } catch (_) {} }, 0);
+}
+
+function renderChart(feed) {
+  const el = $("tf-chart");
+  if (!el) return;
+  const data = (feed?.hourly_counts || []).slice(-24);
+  const w = Math.max(220, el.clientWidth || 760);
+  const h = Math.max(92, el.clientHeight || 160);
+  if (!data.length) {
+    el.innerHTML = `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none"><text x="50%" y="50%" text-anchor="middle" fill="#7e8aa3" font-family="JetBrains Mono, monospace" font-size="12">${esc("no trend data")}</text></svg>`;
+    return;
+  }
+
+  const max = Math.max(1, ...data.map((d) => d.count || 0));
+  const padTop = 6;
+  const padBot = 4;
+  const usable = h - padTop - padBot;
+  const stepX = w / Math.max(1, data.length - 1);
+
+  const pts = data.map((d, i) => {
+    const x = i * stepX;
+    const y = padTop + usable - (Math.max(0, d.count || 0) / max) * usable;
+    return [x, y];
+  });
+  const linePath = pts.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ");
+  const areaPath = linePath + ` L${w.toFixed(1)} ${h - padBot} L0 ${h - padBot} Z`;
+
+  let grid = "";
+  for (let g = 1; g <= 3; g++) {
+    const gy = padTop + (usable * g / 4);
+    grid += `<line x1="0" y1="${gy}" x2="${w}" y2="${gy}" stroke="rgba(0,255,149,0.06)" stroke-width="1"/>`;
+  }
+  const dots = pts
+    .map((p, i) => (i % 4 === 0 ? `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="2.2" fill="#00ff95"/>` : ""))
+    .join("");
+  const peakIdx = data.reduce((bi, d, i, arr) => (d.count > arr[bi].count ? i : bi), 0);
+  const peak = data[peakIdx];
+  const peakX = pts[peakIdx][0];
+  const peakY = pts[peakIdx][1];
+
+  el.innerHTML = `
+    <svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="tf-area-grad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#00ff95" stop-opacity="0.45"/>
+          <stop offset="100%" stop-color="#00ff95" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      ${grid}
+      <path d="${areaPath}" fill="url(#tf-area-grad)"/>
+      <path d="${linePath}" fill="none" stroke="#00ff95" stroke-width="1.4"/>
+      ${dots}
+      <circle cx="${peakX.toFixed(1)}" cy="${peakY.toFixed(1)}" r="3.5" fill="none" stroke="#ffd166" stroke-width="1.5"/>
+      <text x="${(peakX + 6).toFixed(1)}" y="${(peakY - 6).toFixed(1)}" fill="#ffd166" font-family="JetBrains Mono, monospace" font-size="10">peak ${fmt(peak.count)}</text>
+    </svg>
+    <div class="tf-chart-axis">
+      <span>${esc(new Date(data[0].ts).toUTCString().slice(17, 22))} UTC</span>
+      <span>${fmt(max)} max/hr</span>
+      <span>${esc(new Date(data[data.length - 1].ts).toUTCString().slice(17, 22))} UTC</span>
+    </div>
+  `;
 }
 
 function renderTable(id, rows, cells) {
@@ -220,8 +282,10 @@ async function load() {
     const r = await fetch(`${TF_FEED_URL}?t=${Date.now()}`, { cache: "no-store" });
     if (!r.ok) throw new Error(`HTTP ${r.status}`);
     const feed = await r.json();
+    tfLastFeed = feed;
     renderStats(feed);
     renderMap(feed);
+    renderChart(feed);
     renderTable(
       "tf-countries",
       feed.top_countries,
@@ -262,5 +326,11 @@ document.addEventListener("DOMContentLoaded", () => {
   load();
   const reload = $("tf-reload");
   if (reload) reload.addEventListener("click", (e) => { e.preventDefault(); load(); });
+  window.addEventListener("resize", () => {
+    if (tfMap) {
+      try { tfMap.invalidateSize(); } catch (_) {}
+    }
+    if (tfLastFeed) renderChart(tfLastFeed);
+  });
   setInterval(load, TF_REFRESH_MS);
 });

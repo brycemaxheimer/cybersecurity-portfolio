@@ -116,6 +116,9 @@
   sizeCanvas();
   window.addEventListener("resize", () => {
     DPR = Math.min(window.devicePixelRatio || 1, 2); sizeCanvas();
+    if (ctMap) {
+      try { ctMap.invalidateSize(); } catch (_) {}
+    }
   });
   requestAnimationFrame(tick);
 
@@ -334,25 +337,25 @@
     el.classList.add("leaflet-container");
     ctMap = L.map(el, {
       worldCopyJump: true,
-      zoomControl: false,
-      dragging: false,
-      scrollWheelZoom: false,
-      doubleClickZoom: false,
-      boxZoom: false,
-      keyboard: false,
-      touchZoom: false,
+      zoomControl: true,
+      dragging: true,
+      scrollWheelZoom: true,
+      doubleClickZoom: true,
+      boxZoom: true,
+      keyboard: true,
+      touchZoom: true,
       attributionControl: true,
     }).setView([22, 0], 2);
     // Base: ESRI World Imagery (true-colour satellite). No key required.
     L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
       attribution: 'Tiles &copy; Esri &mdash; Earthstar Geographics, Maxar, USGS',
-      maxZoom: 6,
+      maxZoom: 10,
     }).addTo(ctMap);
     // Overlay: CartoDB labels-only tiles so country/ocean names stay readable.
     L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}{r}.png", {
       attribution: '&copy; CARTO labels',
       subdomains: "abcd",
-      maxZoom: 6,
+      maxZoom: 10,
       opacity: 0.9,
     }).addTo(ctMap);
     ctMarkers = L.layerGroup().addTo(ctMap);
@@ -379,7 +382,14 @@
         iconSize: [size, size],
         iconAnchor: [size / 2, size / 2],
       });
-      L.marker([lat, lon], { icon, interactive: false }).addTo(ctMarkers);
+      L.marker([lat, lon], { icon, interactive: true, riseOnHover: true })
+        .bindPopup(
+          `<strong>${esc(a.src_ip)}</strong><br>` +
+          `${esc(a.geoip_city_name || "?")}, ${esc(a.geoip_country_name || "?")}<br>` +
+          `${esc(a.geoip_autonomous_system_organization || "")}<br>` +
+          `<code>${fmt(a.count)} events</code>`
+        )
+        .addTo(ctMarkers);
     });
   }
 

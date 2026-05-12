@@ -101,6 +101,9 @@
     DPR = Math.min(window.devicePixelRatio || 1, 2); sizeCanvas();
     // chart needs to re-flow to the new container width
     renderChart();
+    if (coMap) {
+      try { coMap.invalidateSize(); } catch (_) {}
+    }
   });
   requestAnimationFrame(tick);
 
@@ -121,6 +124,22 @@
     return r.json();
   }
   const state = { feed: null, err: null };
+  let coMap = null;
+  let coAttackerLayer = null;
+
+  function initMap() {
+    if (typeof L === "undefined") return;
+    const el = $("tf-map");
+    if (!el || coMap) return;
+    coMap = L.map(el, { worldCopyJump: true, zoomControl: true }).setView([20, 0], 2);
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
+      attribution: '&copy; OpenStreetMap, &copy; CARTO',
+      subdomains: "abcd",
+      maxZoom: 18,
+    }).addTo(coMap);
+    coAttackerLayer = L.layerGroup().addTo(coMap);
+  }
+
   async function refreshFeed() {
     try { state.feed = await fetchJSON(FEED_URL); state.err = null; }
     catch (e) { state.err = e.message; console.warn("feed fetch failed:", e); }
@@ -135,6 +154,11 @@
     $("co-h-uniq").textContent       = f.unique_ips_24h != null ? fmt(f.unique_ips_24h) : "—";
     $("co-h-breach").textContent     = f.successful_logins_24h != null ? fmt(f.successful_logins_24h) : "—";
     $("co-h-events-7d").textContent  = f.events_7d != null ? fmt(f.events_7d) : "—";
+    const generated = $("tf-generated");
+    if (generated && f.generated_at) {
+      const dt = new Date(f.generated_at);
+      generated.textContent = `generated ${dt.toLocaleTimeString("en-US", { hour12: false })} · ${dt.toLocaleDateString()}`;
+    }
     const pill = $("co-pill-breach");
     if (pill) {
       const b = f.successful_logins_24h ?? 0;
@@ -242,6 +266,36 @@
     }).join("");
   }
 
+  function renderMap() {
+    if (!coMap) initMap();
+    if (!coMap || !coAttackerLayer) return;
+    coAttackerLayer.clearLayers();
+    const attackers = state.feed?.top_attackers || [];
+    if (!attackers.length) return;
+    const max = Math.max(1, ...attackers.map((a) => a.count || 0));
+    attackers.slice(0, 60).forEach((a) => {
+      const lat = parseFloat(a.geoip_location_latitude);
+      const lon = parseFloat(a.geoip_location_longitude);
+      if (Number.isNaN(lat) || Number.isNaN(lon)) return;
+      const radius = 4 + Math.sqrt((a.count || 0) / max) * 18;
+      L.circleMarker([lat, lon], {
+        radius,
+        color: "#ff4757",
+        weight: 1,
+        fillColor: "#ff4757",
+        fillOpacity: 0.45,
+      })
+        .bindPopup(
+          `<strong>${esc(a.src_ip)}</strong><br>` +
+          `${esc(a.geoip_city_name || "?")}, ${esc(a.geoip_country_name || "?")}<br>` +
+          `${esc(a.geoip_autonomous_system_organization || "")}<br>` +
+          `<code>${fmt(a.count)} events</code>`
+        )
+        .addTo(coAttackerLayer);
+    });
+    setTimeout(() => { try { coMap.invalidateSize(); } catch (_) {} }, 0);
+  }
+
   // Shared bar-list renderer (usernames/passwords/countries/commands)
   function renderBars(elId, items, fieldKey, opts = {}) {
     const el = $(elId);
@@ -336,6 +390,22 @@
     `).join("");
   }
 
+  function renderError() {
+    const page = document.querySelector(".co-page");
+    if (!page) return;
+    const existing = page.querySelector(".co-err");
+    if (!state.err) {
+      if (existing) existing.remove();
+      return;
+    }
+    const message = `feed fetch failed: ${esc(state.err)} — check that <code>threats.brycemaxheimer.com/feed.json</code> is reachable.`;
+    if (existing) {
+      existing.innerHTML = message;
+      return;
+    }
+    page.insertAdjacentHTML("afterbegin", `<div class="co-err">${message}</div>`);
+  }
+
   // Bottom ticker mixes the rendered fields into the marquee
   function renderTicker() {
     const t = $("ct-ticker-track");
@@ -364,8 +434,10 @@
   // ─── 5) Orchestrator ───
   async function loadAll() {
     await refreshFeed();
+    renderError();
     renderHero();
     renderChart();
+    renderMap();
     renderRecent();
     renderUsernames();
     renderPasswords();
@@ -377,7 +449,10 @@
   }
 
   document.addEventListener("DOMContentLoaded", () => {
+    initMap();
     loadAll();
+    const reload = $("tf-reload");
+    if (reload) reload.addEventListener("click", (e) => { e.preventDefault(); loadAll(); });
     setInterval(loadAll, REFRESH_MS);
   });
 })();
