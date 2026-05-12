@@ -122,10 +122,10 @@ html, body.ct-body {
 }
 
 /* ──── Main grid ──── */
-
+/* LEFT (data lists)  |  MIDDLE (map, full height)  |  RIGHT (news+research+sources) */
 .ct-grid {
   display: grid;
-  grid-template-columns: 1fr 1.4fr 1fr;
+  grid-template-columns: 1fr 2fr 1fr;
   gap: 0.7rem;
   padding: 0.7rem 1.1rem 2.2rem;
   height: calc(100vh - 80px);
@@ -133,8 +133,18 @@ html, body.ct-body {
 }
 .ct-col { display: flex; flex-direction: column; gap: 0.7rem; min-height: 0; }
 
+/* Left column: 4 panels share the height. Stats panel (Indicators) has its own min height */
+.ct-col-left > .ct-panel { flex: 1 1 0; min-height: 0; }
+.ct-col-left > .ct-panel-stats { flex: 0 0 auto; }
+
+/* Middle column: single panel fills it entirely */
+.ct-col-mid > .ct-panel-map-full { flex: 1 1 0; min-height: 0; }
+
+/* Right column: three panels share the height equally (1/3 segments) */
+.ct-col-right > .ct-panel { flex: 1 1 0; min-height: 0; }
+
 @media (max-width: 1280px) {
-  .ct-grid { grid-template-columns: 1fr 1fr; }
+  .ct-grid { grid-template-columns: 1fr 1.4fr; }
   .ct-col-right { display: none; }
 }
 @media (max-width: 760px) {
@@ -189,6 +199,15 @@ html, body.ct-body {
   color: var(--ct-grn);
   border: 1px solid var(--ct-grn-dim);
   letter-spacing: 0.1em;
+  text-decoration: none;
+}
+.ct-tag-link {
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.ct-tag-link:hover {
+  background: var(--ct-grn-dim);
+  color: var(--ct-bg-0);
 }
 
 /* ──── Lists (skeleton state until JS populates) ──── */
@@ -204,6 +223,22 @@ html, body.ct-body {
 .ct-list li.ct-skel { animation: ct-pulse-row 1.6s ease-in-out infinite; }
 @keyframes ct-pulse-row { 0%,100% { opacity: 0.4 } 50% { opacity: 0.85 } }
 
+/* Clickable rows wrap their content in <a>. Make the entire row a hit target. */
+.ct-list li a.ct-row {
+  display: flex; gap: 0.6rem; align-items: baseline;
+  flex: 1; min-width: 0;
+  color: inherit; text-decoration: none;
+}
+.ct-list li a.ct-row:hover {
+  color: var(--ct-grn);
+}
+.ct-list li:has(a.ct-row) {
+  padding: 0;
+}
+.ct-list li:has(a.ct-row) a.ct-row {
+  padding: 0.32rem 0.8rem;
+}
+
 .ct-sk-tag {
   color: var(--ct-grn-dim);
   font-size: 0.7rem; letter-spacing: 0.08em;
@@ -213,6 +248,26 @@ html, body.ct-body {
   height: 0.6rem;
   background: linear-gradient(90deg, rgba(0,255,149,0.12), rgba(0,255,149,0.04));
   border-radius: 1px;
+}
+
+/* ──── Trusted sources list (static curated links) ──── */
+.ct-sources li { padding: 0; }
+.ct-sources li a {
+  display: flex; gap: 0.6rem; align-items: baseline;
+  padding: 0.42rem 0.8rem;
+  color: inherit; text-decoration: none;
+  width: 100%;
+}
+.ct-sources li a:hover { color: var(--ct-grn); background: rgba(0,255,149,0.05); }
+.ct-sources .ct-sk-tag {
+  color: var(--ct-cyan);
+  min-width: 5.5em;
+}
+.ct-src-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* ──── Map ──── */
@@ -253,17 +308,17 @@ html, body.ct-body {
 }
 .ct-stat {
   background: var(--ct-bg-1);
-  padding: 0.7rem 0.9rem;
+  padding: 0.55rem 0.8rem;
   display: flex; flex-direction: column; justify-content: center;
 }
 .ct-stat-lbl {
-  font-size: 0.62rem; letter-spacing: 0.1em;
+  font-size: 0.6rem; letter-spacing: 0.1em;
   text-transform: uppercase; color: var(--ct-text-soft);
 }
 .ct-stat-val {
-  font-size: 1.8rem; font-weight: 600;
+  font-size: 1.5rem; font-weight: 600;
   color: var(--ct-grn); line-height: 1.05;
-  margin-top: 0.25rem;
+  margin-top: 0.2rem;
   text-shadow: 0 0 12px rgba(0,255,149,0.25);
 }
 .ct-stat-val.red    { color: var(--ct-red);    text-shadow: 0 0 12px rgba(255,56,96,0.25); }

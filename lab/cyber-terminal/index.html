@@ -53,16 +53,14 @@
 <!-- Main grid: 3 columns + bottom ticker -->
 <main class="ct-grid">
 
-  <!-- LEFT column -->
+  <!-- LEFT column: CISA, NIST, Ransomware, Indicators -->
   <section class="ct-col ct-col-left">
     <div class="ct-panel">
       <div class="ct-panel-head">
         <span class="ct-panel-h">CISA · Known Exploited</span>
-        <span class="ct-tag">KEV</span>
+        <a class="ct-tag ct-tag-link" href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener">KEV</a>
       </div>
       <ul class="ct-list" id="ct-kev">
-        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
-        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
         <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
         <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
         <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
@@ -73,53 +71,22 @@
     <div class="ct-panel">
       <div class="ct-panel-head">
         <span class="ct-panel-h">NIST · Recent CVEs</span>
-        <span class="ct-tag">NVD</span>
+        <a class="ct-tag ct-tag-link" href="https://nvd.nist.gov/vuln/search" target="_blank" rel="noopener">NVD</a>
       </div>
       <ul class="ct-list" id="ct-cve">
         <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
         <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
         <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
         <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
-        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
-        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
       </ul>
     </div>
-  </section>
 
-  <!-- MIDDLE column -->
-  <section class="ct-col ct-col-mid">
-    <div class="ct-panel ct-panel-map">
-      <div class="ct-panel-head">
-        <span class="ct-panel-h">Global Threat Map</span>
-        <span class="ct-tag">LIVE</span>
-      </div>
-      <div class="ct-map" id="ct-map"></div>
-    </div>
-
-    <div class="ct-panel">
-      <div class="ct-panel-head">
-        <span class="ct-panel-h">Hacker News · Security</span>
-        <span class="ct-tag">HN</span>
-      </div>
-      <ul class="ct-list" id="ct-hn">
-        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
-        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
-        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
-        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- RIGHT column -->
-  <section class="ct-col ct-col-right">
     <div class="ct-panel">
       <div class="ct-panel-head">
         <span class="ct-panel-h">Ransomware · Victims</span>
-        <span class="ct-tag">LIVE</span>
+        <a class="ct-tag ct-tag-link" href="https://www.ransomware.live/" target="_blank" rel="noopener">LIVE</a>
       </div>
       <ul class="ct-list" id="ct-ransom">
-        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
-        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
         <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
         <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
         <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
@@ -150,6 +117,67 @@
           <div class="ct-stat-val" id="ct-stat-ransom">--</div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- MIDDLE column: Map takes the entire middle -->
+  <section class="ct-col ct-col-mid">
+    <div class="ct-panel ct-panel-map ct-panel-map-full">
+      <div class="ct-panel-head">
+        <span class="ct-panel-h">Global Threat Map</span>
+        <span class="ct-tag">LIVE</span>
+      </div>
+      <div class="ct-map" id="ct-map"></div>
+    </div>
+  </section>
+
+  <!-- RIGHT column: Hacker News, Threat Research, Trusted Sources -->
+  <section class="ct-col ct-col-right">
+    <div class="ct-panel">
+      <div class="ct-panel-head">
+        <span class="ct-panel-h">Hacker News · Security</span>
+        <a class="ct-tag ct-tag-link" href="https://news.ycombinator.com/" target="_blank" rel="noopener">HN</a>
+      </div>
+      <ul class="ct-list" id="ct-hn">
+        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
+        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
+        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
+        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
+      </ul>
+    </div>
+
+    <div class="ct-panel">
+      <div class="ct-panel-head">
+        <span class="ct-panel-h">Threat Research · Reports</span>
+        <span class="ct-tag">DEEP</span>
+      </div>
+      <ul class="ct-list" id="ct-research">
+        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
+        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
+        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
+        <li class="ct-skel"><span class="ct-sk-tag">···</span><span class="ct-sk-line"></span></li>
+      </ul>
+    </div>
+
+    <div class="ct-panel">
+      <div class="ct-panel-head">
+        <span class="ct-panel-h">Trusted Sources</span>
+        <span class="ct-tag">REF</span>
+      </div>
+      <ul class="ct-list ct-sources" id="ct-sources">
+        <li><a href="https://krebsonsecurity.com/" target="_blank" rel="noopener"><span class="ct-sk-tag">KREBS</span><span class="ct-src-name">KrebsOnSecurity</span></a></li>
+        <li><a href="https://www.bleepingcomputer.com/" target="_blank" rel="noopener"><span class="ct-sk-tag">BLEEP</span><span class="ct-src-name">BleepingComputer</span></a></li>
+        <li><a href="https://thehackernews.com/" target="_blank" rel="noopener"><span class="ct-sk-tag">THN</span><span class="ct-src-name">The Hacker News</span></a></li>
+        <li><a href="https://www.darkreading.com/" target="_blank" rel="noopener"><span class="ct-sk-tag">DARK</span><span class="ct-src-name">Dark Reading</span></a></li>
+        <li><a href="https://cloud.google.com/blog/topics/threat-intelligence" target="_blank" rel="noopener"><span class="ct-sk-tag">MANDIANT</span><span class="ct-src-name">Mandiant · Google TI</span></a></li>
+        <li><a href="https://blog.talosintelligence.com/" target="_blank" rel="noopener"><span class="ct-sk-tag">TALOS</span><span class="ct-src-name">Cisco Talos</span></a></li>
+        <li><a href="https://www.microsoft.com/en-us/security/blog/" target="_blank" rel="noopener"><span class="ct-sk-tag">MSRC</span><span class="ct-src-name">Microsoft Security</span></a></li>
+        <li><a href="https://googleprojectzero.blogspot.com/" target="_blank" rel="noopener"><span class="ct-sk-tag">P0</span><span class="ct-src-name">Project Zero</span></a></li>
+        <li><a href="https://unit42.paloaltonetworks.com/" target="_blank" rel="noopener"><span class="ct-sk-tag">UNIT42</span><span class="ct-src-name">Unit 42 · Palo Alto</span></a></li>
+        <li><a href="https://www.crowdstrike.com/blog/" target="_blank" rel="noopener"><span class="ct-sk-tag">CRWD</span><span class="ct-src-name">CrowdStrike Blog</span></a></li>
+        <li><a href="https://www.schneier.com/" target="_blank" rel="noopener"><span class="ct-sk-tag">SCHN</span><span class="ct-src-name">Schneier on Security</span></a></li>
+        <li><a href="https://securityweek.com/" target="_blank" rel="noopener"><span class="ct-sk-tag">SECWK</span><span class="ct-src-name">SecurityWeek</span></a></li>
+      </ul>
     </div>
   </section>
 

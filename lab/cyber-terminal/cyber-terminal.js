@@ -2,7 +2,7 @@
    Sources:
      - threats.brycemaxheimer.com/feed.json  (cowrie + CISA KEV + ransomware, server-side bundle)
      - services.nvd.nist.gov/rest/json/cves/2.0  (recent CVEs, direct CORS-OK fetch)
-     - hn.algolia.com/api/v1/search_by_date?tags=story&query=...  (HN security stories)
+     - hn.algolia.com/api/v1/search_by_date?tags=story&query=...  (HN security stories + threat research)
 */
 
 (function () {
@@ -11,9 +11,12 @@
   const FEED_URL = "https://threats.brycemaxheimer.com/feed.json";
   // NVD CVEs published in the last 7 days, max 25 results. Filter applied at the API.
   const NVD_BASE = "https://services.nvd.nist.gov/rest/json/cves/2.0";
-  // HN: drop OR-syntax (Algolia parses it differently). Use single-keyword search.
+  // HN: single-keyword search (OR-syntax parses unreliably in Algolia).
   const HN_URL =
     "https://hn.algolia.com/api/v1/search_by_date?tags=story&query=security&hitsPerPage=20";
+  // Second HN feed targeted at threat research / malware analysis content.
+  const HN_RESEARCH_URL =
+    "https://hn.algolia.com/api/v1/search_by_date?tags=story&query=malware&hitsPerPage=20";
 
   const REFRESH_MS = 15 * 60 * 1000;   // 15 min
   const TICKER_REFRESH_MS = 60 * 1000; // ticker rebuild more often
@@ -31,6 +34,11 @@
     if (s < 86400) return Math.floor(s / 3600) + "h";
     return Math.floor(s / 86400) + "d";
   };
+
+  // Build a Google search URL for ransomware victim lookups (no canonical URL in feed).
+  const ransomLookup = (group, victim) =>
+    "https://www.google.com/search?q=" +
+    encodeURIComponent(`${group || ""} ransomware ${victim || ""}`.trim());
 
   // ─── 1) Background animation (carry-over from v0) ─────────────────────
   const canvas = $("ct-bg");
@@ -130,7 +138,7 @@
     return r.json();
   }
 
-  const state = { feed: null, nvd: null, hn: null, err: {} };
+  const state = { feed: null, nvd: null, hn: null, research: null, err: {} };
 
   async function refreshFeed() {
     try { state.feed = await fetchJSON(FEED_URL); state.err.feed = null; }
@@ -157,6 +165,13 @@
       console.warn("HN fetch failed:", e);
     }
   }
+  async function refreshResearch() {
+    try { state.research = await fetchJSON(HN_RESEARCH_URL); state.err.research = null; }
+    catch (e) {
+      state.err.research = e.message;
+      console.warn("Research fetch failed:", e);
+    }
+  }
 
   // ─── 4) Rendering ──────────────────────────────────────────────────────
   function severityClass(score) {
@@ -166,6 +181,11 @@
     return "sev-info";
   }
 
+  // NVD detail page for any CVE-#### identifier
+  const cveUrl = (id) => `https://nvd.nist.gov/vuln/detail/${encodeURIComponent(id)}`;
+  // HN story URL: prefer the linked article, fall back to the HN discussion page
+  const hnUrl = (h) => h?.url || `https://news.ycombinator.com/item?id=${h?.objectID || ""}`;
+
   function renderKEV() {
     const el = $("ct-kev");
     if (!el) return;
@@ -174,17 +194,22 @@
       el.innerHTML = `<li><span class="ct-sk-tag">—</span><span style="color:var(--ct-text-soft)">${esc(state.err.feed || "no data")}</span></li>`;
       return;
     }
-    el.innerHTML = items.slice(0, 12).map(k => `
+    el.innerHTML = items.slice(0, 12).map(k => {
+      const href = k.cve ? cveUrl(k.cve) : "https://www.cisa.gov/known-exploited-vulnerabilities-catalog";
+      return `
       <li>
-        <span class="ct-sk-tag" style="color:var(--ct-red);min-width:9em">${esc(k.cve || "")}</span>
-        <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
-          <span style="color:var(--ct-yellow)">${esc(k.vendor || "?")}</span>
-          <span style="color:var(--ct-text-soft)">/</span>
-          <span>${esc(k.product || "?")}</span>
-          ${k.ransom ? '<span style="color:var(--ct-red);margin-left:0.4em">⛧</span>' : ""}
-        </span>
-        <span style="color:var(--ct-text-soft);font-size:0.7em">${esc(k.added || "")}</span>
-      </li>`).join("");
+        <a class="ct-row" href="${esc(href)}" target="_blank" rel="noopener" title="${esc(k.cve || "")} · ${esc(k.vendor || "")} / ${esc(k.product || "")}">
+          <span class="ct-sk-tag" style="color:var(--ct-red);min-width:9em">${esc(k.cve || "")}</span>
+          <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
+            <span style="color:var(--ct-yellow)">${esc(k.vendor || "?")}</span>
+            <span style="color:var(--ct-text-soft)">/</span>
+            <span>${esc(k.product || "?")}</span>
+            ${k.ransom ? '<span style="color:var(--ct-red);margin-left:0.4em">⛧</span>' : ""}
+          </span>
+          <span style="color:var(--ct-text-soft);font-size:0.7em">${esc(k.added || "")}</span>
+        </a>
+      </li>`;
+    }).join("");
   }
 
   function renderCVE() {
@@ -210,9 +235,11 @@
       const desc = (cve.descriptions?.find(d => d.lang === "en")?.value || "").slice(0, 100);
       const cls = severityClass(score);
       return `<li>
-        <span class="ct-sk-tag ${cls}" style="min-width:9em">${esc(id)}</span>
-        <span style="color:var(--ct-text-soft);min-width:2.4em" class="${cls}">${score ? score.toFixed(1) : "—"}</span>
-        <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(desc)}</span>
+        <a class="ct-row" href="${esc(cveUrl(id))}" target="_blank" rel="noopener" title="${esc(id)} · CVSS ${score ? score.toFixed(1) : "—"}">
+          <span class="ct-sk-tag ${cls}" style="min-width:9em">${esc(id)}</span>
+          <span style="color:var(--ct-text-soft);min-width:2.4em" class="${cls}">${score ? score.toFixed(1) : "—"}</span>
+          <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(desc)}</span>
+        </a>
       </li>`;
     }).join("");
   }
@@ -227,10 +254,35 @@
     }
     el.innerHTML = hits.slice(0, 8).map(h => `
       <li>
-        <span class="ct-sk-tag" style="color:var(--ct-cyan);min-width:4.5em">${esc(ago(h.created_at))}</span>
-        <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(h.title)}</span>
-        <span style="color:var(--ct-text-soft);font-size:0.7em">${esc(h.points || 0)}▲ · ${esc(h.num_comments || 0)}💬</span>
+        <a class="ct-row" href="${esc(hnUrl(h))}" target="_blank" rel="noopener" title="${esc(h.title)}">
+          <span class="ct-sk-tag" style="color:var(--ct-cyan);min-width:4.5em">${esc(ago(h.created_at))}</span>
+          <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(h.title)}</span>
+          <span style="color:var(--ct-text-soft);font-size:0.7em">${esc(h.points || 0)}▲ · ${esc(h.num_comments || 0)}💬</span>
+        </a>
       </li>`).join("");
+  }
+
+  function renderResearch() {
+    const el = $("ct-research");
+    if (!el) return;
+    const hits = state.research?.hits || [];
+    if (!hits.length) {
+      el.innerHTML = `<li><span class="ct-sk-tag">—</span><span style="color:var(--ct-text-soft)">${esc(state.err.research || "no data")}</span></li>`;
+      return;
+    }
+    el.innerHTML = hits.slice(0, 8).map(h => {
+      // Extract domain for a quick-glance source tag
+      let host = "";
+      try { host = h.url ? new URL(h.url).hostname.replace(/^www\./, "") : "news.yc"; } catch (_) { host = "news.yc"; }
+      return `
+      <li>
+        <a class="ct-row" href="${esc(hnUrl(h))}" target="_blank" rel="noopener" title="${esc(h.title)}">
+          <span class="ct-sk-tag" style="color:var(--ct-yellow);min-width:8em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(host)}</span>
+          <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(h.title)}</span>
+          <span style="color:var(--ct-text-soft);font-size:0.7em">${esc(ago(h.created_at))}</span>
+        </a>
+      </li>`;
+    }).join("");
   }
 
   function renderRansom() {
@@ -241,12 +293,17 @@
       el.innerHTML = `<li><span class="ct-sk-tag">—</span><span style="color:var(--ct-text-soft)">${esc(state.err.feed || "no data")}</span></li>`;
       return;
     }
-    el.innerHTML = items.slice(0, 12).map(r => `
+    el.innerHTML = items.slice(0, 12).map(r => {
+      const href = r.url || ransomLookup(r.group, r.victim);
+      return `
       <li>
-        <span class="ct-sk-tag" style="color:var(--ct-red);min-width:7em">${esc(r.group || "?")}</span>
-        <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(r.victim || "?")}</span>
-        <span style="color:var(--ct-text-soft);font-size:0.7em;min-width:2.5em">${esc(r.country || "")}</span>
-      </li>`).join("");
+        <a class="ct-row" href="${esc(href)}" target="_blank" rel="noopener" title="${esc(r.group || "")} → ${esc(r.victim || "")}">
+          <span class="ct-sk-tag" style="color:var(--ct-red);min-width:7em">${esc(r.group || "?")}</span>
+          <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(r.victim || "?")}</span>
+          <span style="color:var(--ct-text-soft);font-size:0.7em;min-width:2.5em">${esc(r.country || "")}</span>
+        </a>
+      </li>`;
+    }).join("");
   }
 
   function renderStats() {
@@ -297,6 +354,8 @@
   function renderMap() {
     if (!ctMap) initMap();
     if (!ctMap || !ctMarkers) return;
+    // Map container size changed when layout updated — let Leaflet recalc.
+    setTimeout(() => { try { ctMap.invalidateSize(); } catch (_) {} }, 0);
     ctMarkers.clearLayers();
     const attackers = state.feed?.top_attackers || [];
     if (!attackers.length) return;
@@ -341,6 +400,9 @@
     (state.hn?.hits || []).slice(0, 6).forEach(h => {
       parts.push(`<span class="sev-info">▶ HN</span> ${esc(h.title)}`);
     });
+    (state.research?.hits || []).slice(0, 4).forEach(h => {
+      parts.push(`<span class="sev-med">▶ RSRCH</span> ${esc(h.title)}`);
+    });
 
     if (!parts.length) parts.push(`<span class="sev-info">▶ awaiting feeds …</span>`);
 
@@ -352,10 +414,11 @@
 
   // ─── 5) Orchestrator ───────────────────────────────────────────────────
   async function loadAll() {
-    await Promise.all([refreshFeed(), refreshNVD(), refreshHN()]);
+    await Promise.all([refreshFeed(), refreshNVD(), refreshHN(), refreshResearch()]);
     renderKEV();
     renderCVE();
     renderHN();
+    renderResearch();
     renderRansom();
     renderStats();
     renderMap();
