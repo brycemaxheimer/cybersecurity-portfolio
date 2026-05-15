@@ -95,3 +95,31 @@
     color: var(--amber);
     border: 1px solid rgba(233, 198, 109, 0.30);
 }
+.lab-attribution {
+    margin: 1rem 0 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+.lab-attribution-link {
+    display: inline-flex;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 0.75rem 1rem;
+    line-height: 0;
+    transition: border-color 0.2s, background 0.2s, transform 0.2s;
+}
+.lab-attribution-link:hover,
+.lab-attribution-link:focus-visible {
+    border-color: var(--mint-deep);
+    background: var(--surface-2);
+    transform: translateY(-2px);
+}
+.lab-attribution-badge {
+    display: block;
+    width: 329px;
+    max-width: 100%;
+    height: auto;
+}
