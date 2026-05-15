@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 100" role="img" aria-label="OTX Contributor – oppheimer · 3 pulses · 492 IPs">
+  <defs>
+    <linearGradient id="otx-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0e1626"/>
+      <stop offset="100%" stop-color="#1a2435"/>
+    </linearGradient>
+    <linearGradient id="otx-mark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ff8a1a"/>
+      <stop offset="100%" stop-color="#ff6a00"/>
+    </linearGradient>
+    <linearGradient id="otx-stripe" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ff8a1a" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#ff6a00" stop-opacity="0.6"/>
+    </linearGradient>
+    <clipPath id="otx-clip"><rect width="400" height="100" rx="6"/></clipPath>
+  </defs>
+
+  <g clip-path="url(#otx-clip)">
+    <rect width="400" height="100" fill="url(#otx-bg)"/>
+    <rect width="110" height="100" fill="#080e1a"/>
+    <rect x="110" y="0" width="1" height="100" fill="#ffffff" fill-opacity="0.05"/>
+
+    <g transform="translate(55,42)">
+      <circle r="22" fill="none" stroke="url(#otx-mark)" stroke-width="3"/>
+      <circle r="6.5" fill="url(#otx-mark)"/>
+      <circle cx="2" cy="-2" r="1.6" fill="#ffffff" fill-opacity="0.85"/>
+    </g>
+
+    <text x="55" y="84" font-family="'Inter','Segoe UI',system-ui,sans-serif"
+          font-size="11" font-weight="700" fill="#cfd6e2"
+          text-anchor="middle" letter-spacing="3">OTX</text>
+
+    <text x="128" y="32" font-family="'Inter','Segoe UI',system-ui,sans-serif"
+          font-size="11" font-weight="600" fill="#9aa3b5"
+          letter-spacing="2.5">CONTRIBUTOR</text>
+    <text x="128" y="58" font-family="'Inter','Segoe UI',system-ui,sans-serif"
+          font-size="22" font-weight="700" fill="#ffffff"
+          letter-spacing="0.2">oppheimer</text>
+    <text x="128" y="80" font-family="'Inter','Segoe UI',system-ui,sans-serif"
+          font-size="11.5" font-weight="500" fill="#9aa3b5">
+      <tspan fill="#ff8a1a" font-weight="700">3</tspan> pulses ·
+      <tspan fill="#ff8a1a" font-weight="700">492</tspan> attacker IPs
+    </text>
+
+    <rect x="0" y="97" width="400" height="3" fill="url(#otx-stripe)"/>
+  </g>
+</svg>
