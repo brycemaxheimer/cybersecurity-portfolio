@@ -104,18 +104,18 @@
 }
 .lab-attribution-link {
     display: inline-flex;
-    background: var(--surface);
+    background: #ffffff;
     border: 1px solid var(--line);
     border-radius: var(--radius-lg);
     padding: 0.75rem 1rem;
     line-height: 0;
-    transition: border-color 0.2s, background 0.2s, transform 0.2s;
+    transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
 }
 .lab-attribution-link:hover,
 .lab-attribution-link:focus-visible {
     border-color: var(--mint-deep);
-    background: var(--surface-2);
     transform: translateY(-2px);
+    box-shadow: 0 0 0 1px var(--mint-deep);
 }
 .lab-attribution-badge {
     display: block;
