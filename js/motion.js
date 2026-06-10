@@ -6,9 +6,11 @@
  *
  *   1. Ambient field - the background color blobs wander on their own
  *      and lean toward the cursor, lazily, like water.
- *   2. Scroll reveal - cards surface as they enter the viewport.
+ *   2. Scroll reveal - entries surface as they enter the viewport.
  *   3. Tilt - cards lean toward the pointer.
- *   4. Live pulse - the homepage hero shows the honeypot's last 24h.
+ *   4. Center-focus roulette - the card nearest the viewport center
+ *      takes focus; scrolling swaps it card to card.
+ *   5. Live pulse - the homepage hero shows the honeypot's last 24h.
  */
 (function () {
   'use strict';
@@ -25,7 +27,6 @@
   }, { passive: true });
   var root = document.documentElement.style;
   function drift(t) {
-    // autonomous wander layered under the cursor pull
     var wx = Math.sin(t / 9000) * 18 + Math.sin(t / 23000) * 10;
     var wy = Math.cos(t / 11000) * 14 + Math.sin(t / 17000) * 8;
     cx += ((tx + wx) - cx) * 0.018;
@@ -38,10 +39,15 @@
   }
   requestAnimationFrame(drift);
 
-  /* ── 2. Scroll reveal ── */
-  var els = [].slice.call(document.querySelectorAll('.card, .exp-entry, .proj-card, .lab-card, .role, .award'));
-  if ('IntersectionObserver' in window && els.length) {
-    els.forEach(function (el, i) {
+  /* ── 2. Scroll reveal ──
+     Flow cards and lab cards are excluded: the roulette below owns
+     their opacity. Reveal handles the rest. */
+  var tiltEls = [].slice.call(document.querySelectorAll('.card, .exp-entry, .proj-card, .lab-card, .role, .award'));
+  var revealEls = tiltEls.filter(function (el) {
+    return !el.closest('.card-list.flow') && !el.closest('.lab-grid');
+  });
+  if ('IntersectionObserver' in window && revealEls.length) {
+    revealEls.forEach(function (el, i) {
       el.classList.add('reveal');
       el.style.setProperty('--reveal-delay', (i % 5) * 70 + 'ms');
     });
@@ -50,11 +56,11 @@
         if (en.isIntersecting) { en.target.classList.add('is-visible'); io.unobserve(en.target); }
       });
     }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
-    els.forEach(function (el) { io.observe(el); });
+    revealEls.forEach(function (el) { io.observe(el); });
   }
 
   /* ── 3. Tilt toward the pointer ── */
-  els.forEach(function (el) {
+  tiltEls.forEach(function (el) {
     el.addEventListener('pointermove', function (e) {
       var r = el.getBoundingClientRect();
       var px = (e.clientX - r.left) / r.width - 0.5;
@@ -68,7 +74,40 @@
     });
   });
 
-  /* ── 4. Live pulse (homepage hero only; element is opt-in) ── */
+  /* ── 4. Center-focus roulette ──
+     Whichever card sits nearest the viewport's center line holds
+     focus. Queried live so cards injected later (blog.js) join in. */
+  var FOCUS_SEL = '.card-list.flow .card, .lab-grid .lab-card';
+  var current = null, ticking = false;
+  function pickCenter() {
+    ticking = false;
+    var els = document.querySelectorAll(FOCUS_SEL);
+    if (!els.length) return;
+    var mid = innerHeight / 2, best = null, bd = Infinity;
+    for (var i = 0; i < els.length; i++) {
+      var r = els[i].getBoundingClientRect();
+      if (r.bottom < 0 || r.top > innerHeight) continue;
+      var d = Math.abs((r.top + r.height / 2) - mid);
+      if (d < bd) { bd = d; best = els[i]; }
+    }
+    if (best !== current) {
+      if (current) current.classList.remove('is-center');
+      if (best) best.classList.add('is-center');
+      current = best;
+    }
+  }
+  function queuePick() {
+    if (!ticking) { ticking = true; requestAnimationFrame(pickCenter); }
+  }
+  if (document.querySelector(FOCUS_SEL)) {
+    addEventListener('scroll', queuePick, { passive: true });
+    addEventListener('resize', queuePick, { passive: true });
+    // settle once after load (and again after late-rendered lists)
+    queuePick();
+    setTimeout(queuePick, 600);
+  }
+
+  /* ── 5. Live pulse (homepage hero only; element is opt-in) ── */
   var pulse = document.getElementById('live-pulse');
   if (pulse && 'fetch' in window) {
     fetch('https://threats.brycemaxheimer.com/feed.json')

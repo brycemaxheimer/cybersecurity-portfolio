@@ -1051,49 +1051,88 @@ p.lab-rationale {
 }
 
 /* ------------------------------------------------------------
-   The river: cards don't stack in a column and don't sit in a
-   uniform grid either. Widths vary, elevations rise and fall,
-   the reading line winds. Collapses politely on small screens.
+   The thread: one continuous spine runs down the center of every
+   card flow, and each card docks to it at the same edge. Widths
+   and elevations vary on the *outside*, away from the thread, so
+   the irregularity has an anchor - variation with a reason.
    ------------------------------------------------------------ */
 .card-list.flow {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    gap: 1.3rem 1.5rem;
-    align-items: start;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 3rem;
+    row-gap: 2.4rem;
+    position: relative;
+    padding: 1.2rem 0 1.6rem;
 }
-.card-list.flow .card { display: flex; flex-direction: column; }
-.card-list.flow .card:nth-child(6n+1) { grid-column: span 3; }
-.card-list.flow .card:nth-child(6n+2) { grid-column: span 3; margin-top: 2.4rem; }
-.card-list.flow .card:nth-child(6n+3) { grid-column: span 2; margin-top: 0.4rem; }
-.card-list.flow .card:nth-child(6n+4) { grid-column: span 4; margin-top: 1.6rem; }
-.card-list.flow .card:nth-child(6n+5) { grid-column: span 4; }
-.card-list.flow .card:nth-child(6n)   { grid-column: span 2; margin-top: 2rem; }
+.card-list.flow::before {
+    content: "";
+    position: absolute;
+    top: 0; bottom: 0;
+    left: 50%;
+    width: 2px;
+    margin-left: -1px;
+    background: linear-gradient(180deg,
+        transparent,
+        var(--line-strong) 7%,
+        var(--line-strong) 93%,
+        transparent);
+}
+.card-list.flow .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+/* Anchored edge is constant (the thread); the free edge breathes. */
+.card-list.flow .card:nth-child(4n+1) { grid-column: 1 / 7; }
+.card-list.flow .card:nth-child(4n+2) { grid-column: 7 / 13; margin-top: 4rem; }
+.card-list.flow .card:nth-child(4n+3) { grid-column: 2 / 7; }
+.card-list.flow .card:nth-child(4n)   { grid-column: 7 / 12; margin-top: 4rem; }
+
+/* Stub from each card to the thread, with a node where they meet. */
+.card-list.flow .card::before {
+    content: "";
+    position: absolute;
+    top: 1.8rem;
+    width: 1.5rem;
+    height: 2px;
+    background: var(--line-strong);
+}
+.card-list.flow .card:nth-child(odd)::before  { right: -1.5rem; }
+.card-list.flow .card:nth-child(even)::before { left: -1.5rem; }
+.card-list.flow .card::after {
+    content: "";
+    position: absolute;
+    top: calc(1.8rem - 4px);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--bg-0);
+    border: 2px solid var(--line-strong);
+    transition: background 0.4s, border-color 0.4s, box-shadow 0.4s;
+}
+.card-list.flow .card:nth-child(odd)::after  { right: calc(-1.5rem - 6px); }
+.card-list.flow .card:nth-child(even)::after { left: calc(-1.5rem - 6px); }
+
 @media (max-width: 980px) {
-    .card-list.flow { grid-template-columns: 1fr 1fr; }
-    .card-list.flow .card { grid-column: auto; margin-top: 0; }
-    .card-list.flow .card:nth-child(even) { margin-top: 1.2rem; }
-}
-@media (max-width: 620px) {
-    .card-list.flow { grid-template-columns: 1fr; }
-    .card-list.flow .card:nth-child(even) { margin-top: 0; }
+    /* The thread moves to the left edge; cards hang off it. */
+    .card-list.flow { grid-template-columns: 1fr; column-gap: 0; padding-left: 2.4rem; }
+    .card-list.flow::before { left: 0.65rem; margin-left: 0; }
+    .card-list.flow .card:nth-child(4n+1),
+    .card-list.flow .card:nth-child(4n+2),
+    .card-list.flow .card:nth-child(4n+3),
+    .card-list.flow .card:nth-child(4n) { grid-column: auto; margin-top: 0; }
+    .card-list.flow .card:nth-child(odd)::before,
+    .card-list.flow .card:nth-child(even)::before { left: -1.75rem; right: auto; width: 1.75rem; }
+    .card-list.flow .card:nth-child(odd)::after,
+    .card-list.flow .card:nth-child(even)::after { left: calc(-1.75rem - 4px); right: auto; }
 }
 
 /* Sections drift left and right down the page instead of holding
    one rigid margin line. */
-.meander > section:nth-of-type(odd)  { margin-right: 6%; }
-.meander > section:nth-of-type(even) { margin-left: 6%; }
+.meander > section:nth-of-type(odd)  { margin-right: 5%; }
+.meander > section:nth-of-type(even) { margin-left: 5%; }
 @media (max-width: 980px) {
     .meander > section:nth-of-type(odd),
     .meander > section:nth-of-type(even) { margin-left: 0; margin-right: 0; }
-}
-
-/* Wavy break between sections - a winding line, not a rule. */
-.river-break {
-    height: 20px;
-    margin: 3rem 0 0.5rem;
-    background-color: var(--mint-deep);
-    opacity: 0.35;
-    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='20' viewBox='0 0 120 20'%3E%3Cpath d='M0 10 Q 15 2 30 10 T 60 10 T 90 10 T 120 10' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center / auto 100%;
-    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='20' viewBox='0 0 120 20'%3E%3Cpath d='M0 10 Q 15 2 30 10 T 60 10 T 90 10 T 120 10' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center / auto 100%;
 }
 
 .two-col {
@@ -1117,8 +1156,9 @@ p.lab-rationale {
 /* ------------------------------------------------------------
    Motion hooks for /js/motion.js. When the script runs it adds
    .js-motion to <html>, takes over the ambient drift (cursor
-   pull + autonomous wander), and lets cards lean toward the
-   pointer. Without JS the CSS keyframe drift still runs.
+   pull + autonomous wander), lets cards lean toward the pointer,
+   and runs the center-focus roulette below. Without JS the CSS
+   keyframe drift still runs and every card sits at full opacity.
    ------------------------------------------------------------ */
 html.js-motion body::before {
     animation: none;
@@ -1133,6 +1173,39 @@ html.js-motion .exp-entry:hover {
 html.js-motion .card, html.js-motion .lab-card,
 html.js-motion .proj-card, html.js-motion .exp-entry {
     transition: border-color 0.15s, background 0.15s, transform 0.18s ease-out;
+}
+
+/* ------------------------------------------------------------
+   Center-focus roulette. As the page scrolls, the card nearest
+   the viewport center takes focus: it surfaces, the rest recede.
+   Focus keeps swapping, the gaze keeps moving.
+   ------------------------------------------------------------ */
+html.js-motion .card-list.flow .card,
+html.js-motion .lab-grid .lab-card {
+    opacity: 0.72;
+    transform: scale(0.985);
+    transition: opacity 0.5s ease, transform 0.5s ease,
+                border-color 0.5s ease, box-shadow 0.5s ease,
+                background 0.15s;
+}
+html.js-motion .card-list.flow .card.is-center,
+html.js-motion .lab-grid .lab-card.is-center {
+    opacity: 1;
+    transform: scale(1.015);
+    border-color: var(--mint-deep);
+    box-shadow: 0 10px 34px rgba(0, 0, 0, 0.28);
+    z-index: 2;
+}
+html.js-motion .card-list.flow .card.is-center::after {
+    background: var(--mint-deep);
+    border-color: var(--mint-deep);
+    box-shadow: 0 0 10px var(--mint-deep);
+}
+/* Hovering always wins focus locally so the tilt still works. */
+html.js-motion .card-list.flow .card:hover,
+html.js-motion .lab-grid .lab-card:hover {
+    opacity: 1;
+    transform: perspective(700px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) scale(1.01);
 }
 
 /* Live honeypot pulse in the homepage hero. */
