@@ -12,11 +12,11 @@ This repo is the source for [brycemaxheimer.com](https://brycemaxheimer.com). It
 |---|---|
 | **[Resume](/resume/)** | current work, experience, and education. |
 | **[Certifications](/certs/)** | full credential list with verifiable PDFs. |
-| **[Browser Lab](/lab/)** | tools that run in your browser: KQL playground, graded practice, query builder, hunt templates, and live honeypot dashboards. |
+| **[Browser Lab](/lab/)** | tools that run in your browser: KQL playground, graded practice, query builder, hunt templates, and a live honeypot threat feed. |
 | **[Blog](/blog/)** | projects, reference writeups, and posts, all in one place. |
 | **[Customize](/customize/)** | pick a theme; the choice persists across the site. |
 
-The lab's KQL engine is a hand-written KQL-to-SQL translator running on sql.js (WASM SQLite) with a 30-question practice harness behind it. The live dashboards (Threat Feed, Cyber Terminal, Cyber Ops) are fed by a residential SSH honeypot whose indicators get reported to AbuseIPDB and AlienVault OTX. The `SOC Dashboard/` directory holds the PowerShell analyst console the browser tools grew out of.
+The lab's KQL engine is a hand-written KQL-to-SQL translator running on sql.js (WASM SQLite) with a 30-question practice harness behind it. The live threat feed is fed by a residential SSH honeypot whose indicators get reported to AbuseIPDB and AlienVault OTX. The `SOC Dashboard/` directory holds the PowerShell analyst console the browser tools grew out of.
 
 ## Stack
 
