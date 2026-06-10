@@ -113,14 +113,14 @@
     }
     requestAnimationFrame(tick);
   }
-  sizeCanvas();
   window.addEventListener("resize", () => {
-    DPR = Math.min(window.devicePixelRatio || 1, 2); sizeCanvas();
     if (ctMap) {
       try { ctMap.invalidateSize(); } catch (_) {}
     }
   });
-  requestAnimationFrame(tick);
+  /* Background animation retired with the site-theme re-skin. The canvas
+     stays in the DOM (hidden via CSS) so nothing downstream breaks. */
+  void sizeCanvas; void tick;
 
   // ─── 2) Clock ──────────────────────────────────────────────────────────
   function tickClock() {

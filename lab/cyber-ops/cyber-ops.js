@@ -98,14 +98,15 @@
   }
   sizeCanvas();
   window.addEventListener("resize", () => {
-    DPR = Math.min(window.devicePixelRatio || 1, 2); sizeCanvas();
     // chart needs to re-flow to the new container width
     renderChart();
     if (coMap) {
       try { coMap.invalidateSize(); } catch (_) {}
     }
   });
-  requestAnimationFrame(tick);
+  /* Background animation retired with the site-theme re-skin. The canvas
+     stays in the DOM (hidden via CSS) so nothing downstream breaks. */
+  void sizeCanvas; void tick;
 
   // ─── 2) Clock (UTC) ───
   function tickClock() {
@@ -173,8 +174,15 @@
     const data = (state.feed?.hourly_counts || []).slice(-24);
     const w = Math.max(200, el.clientWidth || 800);
     const h = Math.max(80, el.clientHeight || 140);
+    /* Resolve chart colors from the active site theme. */
+    const css = getComputedStyle(document.documentElement);
+    const themeColor = (name, fallback) => (css.getPropertyValue(name).trim() || fallback);
+    const cAccent = themeColor("--mint-deep", "#3dd68c");
+    const cPeak = themeColor("--amber", "#ffd166");
+    const cMuted = themeColor("--text-3", "#7e8aa3");
+    const cGrid = themeColor("--line", "rgba(255,255,255,0.07)");
     if (!data.length) {
-      el.innerHTML = `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none"><text x="50%" y="50%" text-anchor="middle" fill="#7e8aa3" font-family="JetBrains Mono, monospace" font-size="12">${esc(state.err || "no data")}</text></svg>`;
+      el.innerHTML = `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none"><text x="50%" y="50%" text-anchor="middle" fill="${cMuted}" font-family="ui-monospace, monospace" font-size="12">${esc(state.err || "no data")}</text></svg>`;
       return;
     }
     const max = Math.max(1, ...data.map(d => d.count || 0));
@@ -194,12 +202,12 @@
     let grid = "";
     for (let g = 1; g <= 3; g++) {
       const gy = padTop + (usable * g / 4);
-      grid += `<line x1="0" y1="${gy}" x2="${w}" y2="${gy}" stroke="rgba(0,255,149,0.06)" stroke-width="1"/>`;
+      grid += `<line x1="0" y1="${gy}" x2="${w}" y2="${gy}" stroke="${cGrid}" stroke-width="1"/>`;
     }
 
     // Dots every ~4 hours so the trend reads even at-a-glance
     const dots = pts.map((p, i) => (i % 4 === 0)
-      ? `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="2.2" fill="#00ff95"/>` : "").join("");
+      ? `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="2.2" fill="${cAccent}"/>` : "").join("");
 
     const peakIdx = data.reduce((bi, d, i, a) => (d.count > a[bi].count ? i : bi), 0);
     const peak = data[peakIdx];
@@ -209,16 +217,16 @@
       <svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="co-area-grad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#00ff95" stop-opacity="0.45"/>
-            <stop offset="100%" stop-color="#00ff95" stop-opacity="0"/>
+            <stop offset="0%" stop-color="${cAccent}" stop-opacity="0.35"/>
+            <stop offset="100%" stop-color="${cAccent}" stop-opacity="0"/>
           </linearGradient>
         </defs>
         ${grid}
         <path d="${areaPath}" fill="url(#co-area-grad)"/>
-        <path d="${linePath}" fill="none" stroke="#00ff95" stroke-width="1.4"/>
+        <path d="${linePath}" fill="none" stroke="${cAccent}" stroke-width="1.4"/>
         ${dots}
-        <circle cx="${peakX.toFixed(1)}" cy="${peakY.toFixed(1)}" r="3.5" fill="none" stroke="#ffd166" stroke-width="1.5"/>
-        <text x="${(peakX + 6).toFixed(1)}" y="${(peakY - 6).toFixed(1)}" fill="#ffd166" font-family="JetBrains Mono, monospace" font-size="10">peak ${fmt(peak.count)}</text>
+        <circle cx="${peakX.toFixed(1)}" cy="${peakY.toFixed(1)}" r="3.5" fill="none" stroke="${cPeak}" stroke-width="1.5"/>
+        <text x="${(peakX + 6).toFixed(1)}" y="${(peakY - 6).toFixed(1)}" fill="${cPeak}" font-family="ui-monospace, monospace" font-size="10">peak ${fmt(peak.count)}</text>
       </svg>
       <div class="co-chart-axis">
         <span>${esc(new Date(data[0].ts).toUTCString().slice(17, 22))} UTC</span>

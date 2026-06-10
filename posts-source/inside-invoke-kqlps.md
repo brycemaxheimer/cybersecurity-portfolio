@@ -3,7 +3,7 @@ title: Inside Invoke-KqlPS
 date: 2026-05-12
 summary: Why I built a KQL interpreter in PowerShell, what subset it supports today, and how it anchors the rest of the lab.
 tags: kql, powershell, tooling
-published: false
+published: true
 ---
 
 ## Why build a local KQL harness at all

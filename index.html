@@ -30,7 +30,6 @@
 <a href="/about.html">About</a>
 <a href="/resume/">Resume</a>
 <a href="/certs/">Certs</a>
-<a href="/projects/">Projects</a>
 <span class="nav-dropdown">
     <a href="/lab/" class="active">Lab <span class="caret">&#9662;</span></a>
     <div class="nav-dropdown-menu">
@@ -43,8 +42,6 @@
                 <a href="/lab/templates/">KQL Templates</a>
             </div>
         </div>
-        <a href="/lab/mitre/">MITRE ATT&amp;CK</a>
-        <a href="/lab/cve/">CVE / KEV / EPSS</a>
         <div class="nested-dropdown">
             <a href="#" class="nested-dropbtn">Dashboards <span class="caret-right">&#9656;</span></a>
             <div class="nested-dropdown-menu">
@@ -55,7 +52,6 @@
         </div>
     </div>
 </span>
-<a href="/writeups/">Writeups</a>
 <a href="/blog/">Blog</a>
 <a href="/customize/">Customize</a>
 </nav>
@@ -71,6 +67,7 @@
 <h1>Bryce Maxheimer</h1>
 <h2>Cybersecurity analyst &amp; U.S. Marine Corps veteran</h2>
 <p class="tagline">Threat hunting, digital forensics, network defense, and the tooling to support it. Currently a Shift Lead at the Defense Finance and Accounting Service.</p>
+<p class="now-line">right now: feeding the honeypot, rewriting old queries, slowly cleaning this place up</p>
 
 <nav class="section-nav" aria-label="Page sections">
 <a href="#about" data-target="about">About</a>
@@ -104,7 +101,7 @@
 <h3 class="section-title">About</h3>
 <p>I'm a cybersecurity analyst with 4+ years of hands-on experience across threat hunting, digital forensics, network defense, and cyber infrastructure management. Most of that came through the U.S. Marine Corps as a Cyber Warfare Operator before transitioning to the federal civilian side.</p>
 <p>Today I'm a <strong>Shift Lead at the Defense Finance and Accounting Service</strong> - running detection workflows in Microsoft Sentinel, building automated toolsets, authoring SIEM rules, and performing digital forensics in support of investigations. I hold an active <strong>TS/SCI clearance with CI Polygraph</strong>.</p>
-<p>Tooling is where I spend my best time. The right scripts amplify what an analyst can do, turning a manual checklist into a single keystroke so the analyst can focus on the investigation itself. The <a href="/projects/#soc-dashboard">SOC Dashboard</a> project on this site is built around that idea - a self-contained lab environment where you can drill on hunting queries against realistic data without spinning up a production Sentinel tenant.</p>
+<p>I like building tools more than I like talking about them. Most of what's on this site exists because something at work annoyed me enough to script it. The <a href="/blog/#soc-dashboard">SOC Dashboard</a> grew out of wanting somewhere to drill hunting queries against realistic data without a production Sentinel tenant. It's still growing.</p>
 <p>Currently pursuing a B.S. in Applied Cybersecurity at SANS Technology Institute (expected 2027-01).</p>
 </section>
 
@@ -144,7 +141,7 @@
 <article class="proj-card">
 <div class="label">Featured<br>project</div>
 <div>
-<h4><a href="/projects/#soc-dashboard">SOC Dashboard</a></h4>
+<h4><a href="/blog/#soc-dashboard">SOC Dashboard</a></h4>
 <p class="summary">A self-contained lab environment built around realistic Sentinel-shaped sample data. Includes a KQL translator (<code>Invoke-KqlPS</code>), threat-intel enrichment wrappers (AbuseIPDB, urlscan.io, NIST NVD, Team Cymru, NSRL), MITRE ATT&amp;CK lookups, and a daily CVE/KEV/EPSS brief generator.</p>
 <div class="stack"><span class="tag">powershell</span><span class="tag">sqlite</span><span class="tag">kql</span><span class="tag">soc</span></div>
 </div>
@@ -154,12 +151,12 @@
 <div class="label">Live<br>tool</div>
 <div>
 <h4><a href="/lab/">Browser Lab</a></h4>
-<p class="summary">An interactive home for the SOC Dashboard's portable pieces. Working KQL playground (sql.js + 16 sample tables), full MITRE ATT&amp;CK explorer, CVE/KEV/EPSS browser, KQL Builder. All static, no API calls.</p>
-<div class="stack"><span class="tag">javascript</span><span class="tag">sql.js</span><span class="tag">mitre</span><span class="tag">kql</span></div>
+<p class="summary">The SOC Dashboard's portable pieces, running in your browser. A working KQL playground (sql.js + 16 sample tables), graded practice questions, a visual query builder, and live honeypot dashboards.</p>
+<div class="stack"><span class="tag">javascript</span><span class="tag">sql.js</span><span class="tag">kql</span><span class="tag">honeypot</span></div>
 </div>
 </article>
 
-<a href="/projects/" class="section-cta">All projects</a>
+<a href="/blog/" class="section-cta">All projects and posts</a>
 </section>
 
 

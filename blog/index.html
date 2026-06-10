@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Blog posts on cybersecurity, SOC operations, and tooling - by Bryce Maxheimer."><link rel="canonical" href="https://brycemaxheimer.com/blog/">
+    <meta name="description" content="Projects, writeups, and posts by Bryce Maxheimer - SOC tooling, KQL, and honeypot research."><link rel="canonical" href="https://brycemaxheimer.com/blog/">
 <meta property="og:title" content="Blog - Bryce Maxheimer">
-<meta property="og:description" content="Blog posts on cybersecurity, SOC operations, and tooling - by Bryce Maxheimer.">
+<meta property="og:description" content="Projects, writeups, and posts by Bryce Maxheimer - SOC tooling, KQL, and honeypot research.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://brycemaxheimer.com/blog/">
 <meta property="og:image" content="https://brycemaxheimer.com/og/default.png">
@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="Bryce Maxheimer">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Blog - Bryce Maxheimer">
-<meta name="twitter:description" content="Blog posts on cybersecurity, SOC operations, and tooling - by Bryce Maxheimer.">
+<meta name="twitter:description" content="Projects, writeups, and posts by Bryce Maxheimer - SOC tooling, KQL, and honeypot research.">
 <meta name="twitter:image" content="https://brycemaxheimer.com/og/default.png">
     <title>Blog - Bryce Maxheimer</title>
     <script>(function(){try{var t=localStorage.getItem('siteTheme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
@@ -30,7 +30,6 @@
             <a href="/about.html">About</a>
             <a href="/resume/">Resume</a>
             <a href="/certs/">Certs</a>
-            <a href="/projects/">Projects</a>
         <span class="nav-dropdown">
             <a href="/lab/">Lab <span class="caret">&#9662;</span></a>
             <div class="nav-dropdown-menu">
@@ -43,8 +42,6 @@
                         <a href="/lab/templates/">KQL Templates</a>
                     </div>
                 </div>
-                <a href="/lab/mitre/">MITRE ATT&amp;CK</a>
-                <a href="/lab/cve/">CVE / KEV / EPSS</a>
                 <div class="nested-dropdown">
                     <a href="#" class="nested-dropbtn">Dashboards <span class="caret-right">&#9656;</span></a>
                     <div class="nested-dropdown-menu">
@@ -55,7 +52,6 @@
                 </div>
             </div>
         </span>
-            <a href="/writeups/">Writeups</a>
             <a href="/blog/" class="active">Blog</a>
             <a href="/customize/">Customize</a>
         </nav>
@@ -66,16 +62,143 @@
 
     <h1>Blog</h1>
     <p class="text-muted">
-        Investigations, framework deep-dives, and writeups. Newest first.
+        Projects, reference writeups, and posts. One page for all of it.
     </p>
+
+    <h2>Projects</h2>
+
+    <ul class="card-list">
+
+        <li class="card" id="soc-dashboard">
+            <h3>SOC Dashboard</h3>
+            <div class="meta">powershell &middot; sqlite &middot; kql</div>
+            <p class="summary">
+                A PowerShell analyst console backed by a local SQLite database
+                loaded with Sentinel-shaped sample logs. Includes a KQL
+                translator (<code>Invoke-KqlPS</code>), threat-intel lookups
+                (AbuseIPDB, urlscan.io, NIST NVD, Team Cymru, NSRL), MITRE
+                ATT&amp;CK lookups, and a daily-brief generator.
+            </p>
+            <p class="summary">
+                <a href="https://github.com/brycemaxheimer/cybersecurity-portfolio/tree/main/SOC%20Dashboard">Source on GitHub</a> &middot;
+                <a href="/scripts/">Module index</a> &middot;
+                <a href="/kql/">KQL engine in the browser</a>
+            </p>
+            <span class="tag">project</span><span class="tag">soc</span>
+        </li>
+
+        <li class="card" id="browser-lab">
+            <h3>Browser Lab</h3>
+            <div class="meta">javascript &middot; sql.js &middot; wasm</div>
+            <p class="summary">
+                The SOC Dashboard's portable pieces, ported to JavaScript and
+                run against an in-browser SQLite. KQL playground, graded
+                practice, a visual query builder, and a hunt template catalog.
+            </p>
+            <p class="summary"><a href="/lab/">Open the lab</a></p>
+            <span class="tag">project</span><span class="tag">kql</span>
+        </li>
+
+        <li class="card" id="honeypot">
+            <h3>Honeypot Research Network</h3>
+            <div class="meta">cowrie &middot; threat intel</div>
+            <p class="summary">
+                A residential SSH honeypot that feeds the lab's dashboards with
+                real attacker telemetry: top attackers, credentials tried,
+                ASN and country breakdowns, and recent session activity.
+                Indicators are reported to AbuseIPDB and AlienVault OTX.
+            </p>
+            <p class="summary">
+                <a href="/lab/threat-feed/">Live Threat Feed</a> &middot;
+                <a href="/lab/cyber-ops/">Cyber Ops</a>
+            </p>
+            <span class="tag">project</span><span class="tag">honeypot</span>
+        </li>
+
+        <li class="card" id="kql-practice-engine">
+            <h3>KQL Practice Engine</h3>
+            <div class="meta">javascript &middot; indexeddb</div>
+            <p class="summary">
+                Thirty graded KQL questions with difficulty bands and persisted
+                scores. Answers are checked against the same query engine the
+                playground uses.
+            </p>
+            <p class="summary">
+                <a href="/lab/practice/">KQL Practice</a> &middot;
+                <a href="/kql/">KQL Playground</a>
+            </p>
+            <span class="tag">project</span><span class="tag">kql</span>
+        </li>
+
+        <li class="card" id="ncl-fall-2025">
+            <h3>National Cyber League - Fall 2025</h3>
+            <div class="meta">ctf &middot; cyber skyline</div>
+            <p class="summary">
+                Diamond 1 Medal, 97th percentile, Fall 2025 Individual Game.
+                Categories included OSINT, cryptography, password cracking, log
+                analysis, network traffic, scanning, web exploitation, and
+                forensics.
+            </p>
+            <p class="summary">
+                <a href="/Cyber%20Skyline/Bryce%20Maxheimer%20-%20Cyber%20Skyline%20Certificate.pdf">Certificate (PDF)</a> &middot;
+                <a href="/Cyber%20Skyline/Bryce%20Maxheimer%20-%20Cyber%20Skyline%20Report.pdf">Performance report (PDF)</a>
+            </p>
+            <span class="tag">competition</span>
+        </li>
+
+    </ul>
+
+    <h2>Reference</h2>
+
+    <ul class="card-list">
+        <li class="card">
+            <h3><a href="/Kusto%20Query%20Language/KQL%20Beginners%20Guide.html">KQL Beginners Guide</a></h3>
+            <div class="meta">guide</div>
+            <p class="summary">
+                KQL fundamentals: operators, scalar functions, aggregations,
+                and the daily patterns used against Sentinel-style data.
+            </p>
+            <span class="tag">kql</span><span class="tag">guide</span>
+        </li>
+
+        <li class="card">
+            <h3><a href="/kql/cheatsheet/advanced/">KQL Detection Engineering - Advanced Cheatsheet</a></h3>
+            <div class="meta">reference</div>
+            <p class="summary">
+                Joins, <code>mv-expand</code>, aggregation, and
+                detection-engineering patterns in a printable reference with
+                worked examples.
+            </p>
+            <span class="tag">kql</span><span class="tag">detection</span>
+        </li>
+
+        <li class="card">
+            <h3><a href="/writeups/hunting-cookbook/">Hunting Cookbook</a></h3>
+            <div class="meta">reference</div>
+            <p class="summary">
+                Reusable hunt queries with notes on what each one looks for
+                and which tables it touches.
+            </p>
+            <span class="tag">kql</span><span class="tag">hunting</span>
+        </li>
+    </ul>
+
+    <h2>Posts</h2>
 
     <ul class="card-list" id="blog-list">
 
         <li class="card">
-            <h3><a href="/blog/posts/welcome-to-the-lab.html">Welcome to the lab</a></h3>
-            <div class="meta">2026-04-30  &middot;  meta</div>
-            <p class="summary">Why I'm publishing in the open, how this site is built, and what's coming next.</p>
-            <span class="tag">meta</span><span class="tag">soc</span>
+            <h3><a href="/blog/posts/inside-invoke-kqlps.html">Inside Invoke-KqlPS</a></h3>
+            <div class="meta">2026-05-12</div>
+            <p class="summary">Why I built a KQL interpreter in PowerShell, what subset it supports today, and how it anchors the rest of the lab.</p>
+            <span class="tag">kql</span><span class="tag">powershell</span><span class="tag">tooling</span>
+        </li>
+
+        <li class="card">
+            <h3><a href="/blog/posts/mitre-crosswalks-in-the-lab.html">MITRE Crosswalks in the Lab</a></h3>
+            <div class="meta">2026-05-11</div>
+            <p class="summary">How the local ATT&amp;CK data, CVE-to-technique mappings, and KQL tooling fit together in one offline-friendly workflow.</p>
+            <span class="tag">mitre</span><span class="tag">attack</span><span class="tag">detection</span>
         </li>
 
     </ul>

@@ -32,7 +32,6 @@
             <a href="/about.html">About</a>
             <a href="/resume/">Resume</a>
             <a href="/certs/">Certs</a>
-            <a href="/projects/">Projects</a>
         <span class="nav-dropdown">
             <a href="/lab/">Lab <span class="caret">&#9662;</span></a>
             <div class="nav-dropdown-menu">
@@ -45,8 +44,6 @@
                         <a href="/lab/templates/">KQL Templates</a>
                     </div>
                 </div>
-                <a href="/lab/mitre/">MITRE ATT&amp;CK</a>
-                <a href="/lab/cve/">CVE / KEV / EPSS</a>
                 <div class="nested-dropdown">
                     <a href="#" class="nested-dropbtn">Dashboards <span class="caret-right">&#9656;</span></a>
                     <div class="nested-dropdown-menu">
@@ -57,7 +54,6 @@
                 </div>
             </div>
         </span>
-            <a href="/writeups/">Writeups</a>
             <a href="/blog/" class="active">Blog</a>
             <a href="/customize/">Customize</a>
         </nav>
@@ -86,7 +82,7 @@
 <li>relationships</li>
 </ul>
 <p>The important design choice is that ATT&amp;CK data is cached locally after the first run. That keeps the tool fast, user-level, and workable in environments where the interesting part of the day is analysis rather than waiting on a remote dependency.</p>
-<p>The browser version at <a href="/lab/mitre/">/lab/mitre/</a> takes the same idea and ships a slimmed static dataset so the public side of the site stays fully usable without a backend.</p>
+<p>For a while there was a browser version of the explorer on this site too. It shipped a slimmed static dataset so the public side stayed usable without a backend. I ended up pulling it down - the local dashboard explorer is where that work actually lives, and keeping two copies honest was more upkeep than it was worth.</p>
 <h2>CVE-to-ATT&amp;CK mapping is intentionally a separate layer</h2>
 <p>The ATT&amp;CK bundle alone answers &quot;what is this technique?&quot; It does not answer &quot;which current vulnerabilities line up with the behavior I care about?&quot;</p>
 <p>That is why <code>Update-CveAttackMap.ps1</code> exists as a separate import step. It reads a CSV with <code>CveId</code> and <code>TechniqueId</code> columns, plus optional <code>Source</code>, <code>Confidence</code>, and <code>Mapping</code> fields, then loads those rows into the database as a first-class lookup table.</p>
@@ -125,7 +121,7 @@
 <li>practice questions that say what tactic they are really exercising</li>
 </ul>
 <p>That is the direction I want the lab to keep moving: less taxonomy for its own sake, more direct paths from framework language to an analyst doing the work.</p>
-<p>If you want the live surfaces that already exist, start with the <a href="/lab/mitre/">MITRE ATT&amp;CK Explorer</a>, the <a href="/lab/cve/">CVE / KEV / EPSS Browser</a>, and the broader <a href="/lab/">Browser Lab</a>.</p>
+<p>If you want to poke at the live surfaces, start with the <a href="/lab/">Browser Lab</a>.</p>
 
     <hr>
     <p class="text-muted fs-sm">

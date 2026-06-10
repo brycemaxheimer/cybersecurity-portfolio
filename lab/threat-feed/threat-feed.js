@@ -76,11 +76,9 @@
     }
     requestAnimationFrame(tick);
   }
-  sizeCanvas();
-  window.addEventListener("resize", () => {
-    DPR = Math.min(window.devicePixelRatio || 1, 2); sizeCanvas();
-  });
-  requestAnimationFrame(tick);
+  /* Background animation retired with the site-theme re-skin. The canvas
+     stays in the DOM (hidden via CSS) so nothing downstream breaks. */
+  void sizeCanvas; void tick;
 
   // UTC clock in topbar — matches cyber-terminal/ops/grc.
   function tickClock() {
@@ -185,8 +183,15 @@ function renderChart(feed) {
   const data = (feed?.hourly_counts || []).slice(-24);
   const w = Math.max(220, el.clientWidth || 760);
   const h = Math.max(92, el.clientHeight || 160);
+  /* Resolve chart colors from the active site theme. */
+  const css = getComputedStyle(document.documentElement);
+  const themeColor = (name, fallback) => (css.getPropertyValue(name).trim() || fallback);
+  const cAccent = themeColor("--mint-deep", "#3dd68c");
+  const cPeak = themeColor("--amber", "#ffd166");
+  const cMuted = themeColor("--text-3", "#7e8aa3");
+  const cGrid = themeColor("--line", "rgba(255,255,255,0.07)");
   if (!data.length) {
-    el.innerHTML = `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none"><text x="50%" y="50%" text-anchor="middle" fill="#7e8aa3" font-family="JetBrains Mono, monospace" font-size="12">${esc("no trend data")}</text></svg>`;
+    el.innerHTML = `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none"><text x="50%" y="50%" text-anchor="middle" fill="${cMuted}" font-family="ui-monospace, monospace" font-size="12">${esc("no trend data")}</text></svg>`;
     return;
   }
 
@@ -207,10 +212,10 @@ function renderChart(feed) {
   let grid = "";
   for (let g = 1; g <= 3; g++) {
     const gy = padTop + (usable * g / 4);
-    grid += `<line x1="0" y1="${gy}" x2="${w}" y2="${gy}" stroke="rgba(0,255,149,0.06)" stroke-width="1"/>`;
+    grid += `<line x1="0" y1="${gy}" x2="${w}" y2="${gy}" stroke="${cGrid}" stroke-width="1"/>`;
   }
   const dots = pts
-    .map((p, i) => (i % 4 === 0 ? `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="2.2" fill="#00ff95"/>` : ""))
+    .map((p, i) => (i % 4 === 0 ? `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="2.2" fill="${cAccent}"/>` : ""))
     .join("");
   const peakIdx = data.reduce((bi, d, i, arr) => (d.count > arr[bi].count ? i : bi), 0);
   const peak = data[peakIdx];
@@ -221,16 +226,16 @@ function renderChart(feed) {
     <svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <linearGradient id="tf-area-grad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#00ff95" stop-opacity="0.45"/>
-          <stop offset="100%" stop-color="#00ff95" stop-opacity="0"/>
+          <stop offset="0%" stop-color="${cAccent}" stop-opacity="0.35"/>
+          <stop offset="100%" stop-color="${cAccent}" stop-opacity="0"/>
         </linearGradient>
       </defs>
       ${grid}
       <path d="${areaPath}" fill="url(#tf-area-grad)"/>
-      <path d="${linePath}" fill="none" stroke="#00ff95" stroke-width="1.4"/>
+      <path d="${linePath}" fill="none" stroke="${cAccent}" stroke-width="1.4"/>
       ${dots}
-      <circle cx="${peakX.toFixed(1)}" cy="${peakY.toFixed(1)}" r="3.5" fill="none" stroke="#ffd166" stroke-width="1.5"/>
-      <text x="${(peakX + 6).toFixed(1)}" y="${(peakY - 6).toFixed(1)}" fill="#ffd166" font-family="JetBrains Mono, monospace" font-size="10">peak ${fmt(peak.count)}</text>
+      <circle cx="${peakX.toFixed(1)}" cy="${peakY.toFixed(1)}" r="3.5" fill="none" stroke="${cPeak}" stroke-width="1.5"/>
+      <text x="${(peakX + 6).toFixed(1)}" y="${(peakY - 6).toFixed(1)}" fill="${cPeak}" font-family="ui-monospace, monospace" font-size="10">peak ${fmt(peak.count)}</text>
     </svg>
     <div class="tf-chart-axis">
       <span>${esc(new Date(data[0].ts).toUTCString().slice(17, 22))} UTC</span>

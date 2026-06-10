@@ -1,33 +1,28 @@
 # About
 
-I'm Bryce Maxheimer - cybersecurity analyst and U.S. Marine Corps Cyber Warfare Operator veteran with 4+ years of hands-on experience in threat hunting, digital forensics, network defense, and cyber infrastructure management. I currently work as a Shift Lead at the Defense Finance and Accounting Service (DFAS) and hold a DOD Clearance.
+I'm Bryce Maxheimer. Four years in the Marine Corps as a Cyber Warfare Operator doing threat hunting, forensics, and network defense; now a Shift Lead at the Defense Finance and Accounting Service (DFAS) with a DOD clearance.
 
-My background spans both the offensive and defensive sides - Red Team Certified Professional out of Marine Corps Cyberspace Operations Group, plus a stack of SANS / GIAC blue-team credentials (GCFE, GCIH, GSEC, GFACT, GPYC). I'm pursuing a B.S. in Applied Cybersecurity at SANS Technology Institute, expected January 2027.
+I've worked both sides of the house - Red Team Certified Professional out of Marine Corps Cyberspace Operations Group, plus SANS / GIAC blue-team credentials (GCFE, GCIH, GSEC, GFACT, GPYC). Partway through a B.S. in Applied Cybersecurity at SANS Technology Institute, January 2027 if all goes to plan.
 
-## What you'll find here
+## What's here
 
-This site is a working notebook and portfolio. The main sections:
+This repo is the source for [brycemaxheimer.com](https://brycemaxheimer.com). It's a workbench more than a brochure - some corners are unfinished because I'm still using them.
 
 | Section | Description |
 |---|---|
 | **[Resume](/resume/)** | current work, experience, and education. |
 | **[Certifications](/certs/)** | full credential list with verifiable PDFs. |
-| **[Projects](/projects/)** | things I've built, primarily SOC tooling and KQL infrastructure. |
-| **[Browser Lab](/lab/)** | interactive tools running in your browser. KQL playground, MITRE ATT&CK explorer, CVE/KEV browser, KQL Builder. |
-| **[Writeups](/writeups/)** | KQL queries, framework cheatsheets, CTF walkthroughs. |
-| **[KQL playground](/kql/)** | browser-based KQL engine you can actually run. |
-| **[Customize](/customize/)** | pick a theme that fits your eyes; persists across the site. |
-| **[Blog](/blog/)** | narrative posts about investigations, tools, and rabbit holes. |
+| **[Browser Lab](/lab/)** | tools that run in your browser: KQL playground, graded practice, query builder, hunt templates, and live honeypot dashboards. |
+| **[Blog](/blog/)** | projects, reference writeups, and posts, all in one place. |
+| **[Customize](/customize/)** | pick a theme; the choice persists across the site. |
 
-The Browser Lab is the active build target. Phase 1 and Phase 2 added an in-browser KQL engine (sql.js + a custom KQL→SQL translator, with a UMD rewrite layer at `kql/engine/rewrite.js`), a 30-question practice harness at `/lab/practice/` backed by a 129-case validation matrix (`kql/test-harness/run-validation.cjs`), and a capability probe (`kql/engine/diagnose.js`) that detects WebAssembly / fetch / IndexedDB availability and renders a graceful banner on isolated browsers (Menlo, Zscaler CBI, etc.) instead of failing silently. The live Intel Lookup demo at `/lab/threat-intel/demo.html` is wired to a Cloudflare Worker route (`functions/api/intel/{lookup,health}.js`) so API keys stay server-side.
+The lab's KQL engine is a hand-written KQL-to-SQL translator running on sql.js (WASM SQLite) with a 30-question practice harness behind it. The live dashboards (Threat Feed, Cyber Terminal, Cyber Ops) are fed by a residential SSH honeypot whose indicators get reported to AbuseIPDB and AlienVault OTX. The `SOC Dashboard/` directory holds the PowerShell analyst console the browser tools grew out of.
 
 ## Stack
 
-This site is HTML and CSS, with blog posts authored in Markdown and converted to HTML via a small PowerShell build script. It's hosted on Cloudflare Pages and the source lives here.
+HTML and CSS, blog posts authored in Markdown and rendered by a small PowerShell build script (`build.ps1`). Hosted on Cloudflare with a thin Worker for the dynamic bits.
 
 ## Contact
-
-Best ways to reach me:
 
 | Method | Link |
 |---|---|

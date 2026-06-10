@@ -31,7 +31,6 @@
 <a href="/about.html">About</a>
 <a href="/resume/">Resume</a>
 <a href="/certs/">Certs</a>
-<a href="/projects/">Projects</a>
 <span class="nav-dropdown">
     <a href="/lab/" class="active">Lab <span class="caret">&#9662;</span></a>
     <div class="nav-dropdown-menu">
@@ -44,8 +43,6 @@
                 <a href="/lab/templates/">KQL Templates</a>
             </div>
         </div>
-        <a href="/lab/mitre/">MITRE ATT&amp;CK</a>
-        <a href="/lab/cve/">CVE / KEV / EPSS</a>
         <div class="nested-dropdown">
             <a href="#" class="nested-dropbtn">Dashboards <span class="caret-right">&#9656;</span></a>
             <div class="nested-dropdown-menu">
@@ -56,7 +53,6 @@
         </div>
     </div>
 </span>
-<a href="/writeups/">Writeups</a>
 <a href="/blog/">Blog</a>
 <a href="/customize/">Customize</a>
 </nav>
@@ -67,22 +63,15 @@
 
 <h1>Browser Lab</h1>
 <p class="text-soft">
-Interactive security tools running entirely in your browser. Pieces of my SOC
-Dashboard project ported to client-side JavaScript so visitors can poke at them
-without touching a real Sentinel tenant or burning my API quotas.
+Security tools that run in your browser. Most of this started life inside my
+SOC Dashboard and got ported to JavaScript so you can try it without a
+Sentinel tenant. Some of it is polished, some of it is still rough. I keep
+building on it.
 </p>
 
-<div class="lab-rationale">
-<strong>How this works.</strong> Where possible, tools run fully in your browser
-- data is bundled with the page or fetched once on load. For tools that
-ordinarily depend on rate-limited third-party APIs, I either bake the data at
-build time or make the live dependency explicit.
-</div>
-
 <div class="lab-legend" aria-label="Tool type legend">
-    <div class="lab-legend-item"><span class="status-badge status-interactive">Interactive</span> User-driven tools and practice surfaces.</div>
+    <div class="lab-legend-item"><span class="status-badge status-interactive">Interactive</span> Tools you drive yourself.</div>
     <div class="lab-legend-item"><span class="status-badge status-live-data">Live data</span> Auto-refreshing pages backed by current feeds.</div>
-    <div class="lab-legend-item"><span class="status-badge status-snapshot">Snapshot</span> Static datasets refreshed on a schedule.</div>
 </div>
 
 <div class="lab-section-head">
@@ -140,38 +129,8 @@ build time or make the live dependency explicit.
 </div>
 
 <div class="lab-section-head">
-    <h2 class="lab-section">Frameworks</h2>
-    <p class="lab-section-copy">Reference views that keep ATT&amp;CK and vulnerability context close to the query and patching work.</p>
-</div>
-<div class="lab-grid">
-    <a class="lab-card" href="/lab/mitre/">
-        <div class="header-row">
-            <h3>MITRE ATT&amp;CK Explorer</h3>
-            <span class="status-badge status-interactive">Interactive</span>
-        </div>
-        <p class="summary">
-            Browse Enterprise ATT&amp;CK techniques, sub-techniques, groups,
-            software, and mitigations with static STIX data shipped to the page.
-        </p>
-        <div class="stack"><span>mitre</span><span>attack</span><span>stix</span><span>javascript</span></div>
-    </a>
-
-    <a class="lab-card" href="/lab/cve/">
-        <div class="header-row">
-            <h3>CVE / KEV / EPSS Browser</h3>
-            <span class="status-badge status-snapshot">Snapshot</span>
-        </div>
-        <p class="summary">
-            Browse the CISA Known Exploited Vulnerabilities catalog with FIRST
-            EPSS scores attached. Refreshed from public feeds on a schedule.
-        </p>
-        <div class="stack"><span>cve</span><span>cisa-kev</span><span>epss</span><span>kev</span></div>
-    </a>
-</div>
-
-<div class="lab-section-head">
     <h2 class="lab-section">Live Data</h2>
-    <p class="lab-section-copy">Pages backed by current threat telemetry, vulnerability feeds, and GRC snapshots that refresh without a full site rebuild.</p>
+    <p class="lab-section-copy">Pages backed by current threat telemetry that refresh without a full site rebuild.</p>
 </div>
 <div class="lab-grid">
     <a class="lab-card" href="/lab/threat-feed/">
@@ -189,7 +148,7 @@ build time or make the live dependency explicit.
 
 <div class="lab-section-head">
     <h2 class="lab-section">Wall Displays</h2>
-    <p class="lab-section-copy">High-density dashboards built for a side monitor: current intel, live telemetry, and governance views rendered at the same fidelity.</p>
+    <p class="lab-section-copy">Dense dashboards meant for a side monitor. I leave these running while I work.</p>
 </div>
 <div class="lab-grid">
     <a class="lab-card" href="/lab/cyber-terminal/">
@@ -229,20 +188,6 @@ build time or make the live dependency explicit.
         <img class="lab-attribution-badge" src="/lab/otx-contributor.svg" alt="OTX Contributor Badge">
     </a>
 </div>
-
-<h2 class="lab-section">Why a "lab"?</h2>
-<p>
-Most security portfolios show <em>screenshots</em> of dashboards. Screenshots
-prove nothing - anyone can take a screenshot. The lab is here so you can
-actually <em>use</em> the tooling. Type real KQL against real data. Click into a
-MITRE technique and see the data sources, mitigations, and threat groups that
-use it. Try to break things.
-</p>
-<p>
-Every tool is static-first. Where something needs a live feed, the page makes
-that dependency visible instead of pretending everything is the same kind of
-experience.
-</p>
 
 <hr>
 <p class="text-faded mono-sm fs-xs">

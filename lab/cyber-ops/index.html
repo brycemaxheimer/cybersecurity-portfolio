@@ -32,11 +32,8 @@
 </head>
 <body class="ct-body">
 
-<!-- Animated background canvas (constellation + grid + scan line) — same as cyber-terminal -->
+<!-- Hidden canvas kept for script compatibility; the dashboards now share the site theme. -->
 <canvas id="ct-bg" aria-hidden="true"></canvas>
-<div class="ct-grid-overlay" aria-hidden="true"></div>
-<div class="ct-scanlines" aria-hidden="true"></div>
-<div class="ct-vignette" aria-hidden="true"></div>
 
 <!-- Top bar -->
 <header class="ct-topbar">
@@ -44,7 +41,7 @@
     <div class="ct-brand">
       <span class="ct-dot"></span>
       <span class="ct-title">CYBER&nbsp;OPS</span>
-      <span class="ct-sub">// live threat feed &middot; ssh honeypot &middot; attacker telemetry</span>
+      <span class="ct-sub">honeypot operations</span>
     </div>
     <nav class="ct-nav" aria-label="Dashboard navigation">
       <a class="ct-nav-link" href="/">Main Site</a>

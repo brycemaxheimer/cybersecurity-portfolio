@@ -359,7 +359,6 @@ function Render-Page {
             <a href="/about.html">About</a>
             <a href="/resume/">Resume</a>
             <a href="/certs/">Certs</a>
-            <a href="/projects/">Projects</a>
         <span class="nav-dropdown">
             <a href="/lab/">Lab <span class="caret">&#9662;</span></a>
             <div class="nav-dropdown-menu">
@@ -372,8 +371,6 @@ function Render-Page {
                         <a href="/lab/templates/">KQL Templates</a>
                     </div>
                 </div>
-                <a href="/lab/mitre/">MITRE ATT&amp;CK</a>
-                <a href="/lab/cve/">CVE / KEV / EPSS</a>
                 <div class="nested-dropdown">
                     <a href="#" class="nested-dropbtn">Dashboards <span class="caret-right">&#9656;</span></a>
                     <div class="nested-dropdown-menu">
@@ -384,7 +381,6 @@ function Render-Page {
                 </div>
             </div>
         </span>
-            <a href="/writeups/">Writeups</a>
             <a href="/blog/" class="active">Blog</a>
             <a href="/customize/">Customize</a>
         </nav>
@@ -445,7 +441,7 @@ function Render-Feed {
   <channel>
     <title>Bryce Maxheimer Blog</title>
     <link>$SiteUrl/blog/</link>
-    <description>Investigations, framework deep-dives, and writeups from Bryce Maxheimer.</description>
+    <description>Projects, writeups, and posts from Bryce Maxheimer.</description>
     <language>en-us</language>
     <lastBuildDate>$(Get-Date -Format 'r')</lastBuildDate>
 $($items -join "`n")

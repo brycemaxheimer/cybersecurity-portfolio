@@ -3,7 +3,7 @@ title: MITRE Crosswalks in the Lab
 date: 2026-05-11
 summary: How the local ATT&CK explorer, CVE-to-technique mappings, and KQL tooling fit together in one offline-friendly workflow.
 tags: mitre, attack, detection
-published: false
+published: true
 ---
 
 ## The problem I wanted to solve
@@ -37,9 +37,11 @@ first run. That keeps the tool fast, user-level, and workable in environments
 where the interesting part of the day is analysis rather than waiting on a
 remote dependency.
 
-The browser version at [/lab/mitre/](/lab/mitre/) takes the same idea and ships
-a slimmed static dataset so the public side of the site stays fully usable
-without a backend.
+For a while there was a browser version of the explorer on this site too. It
+shipped a slimmed static dataset so the public side stayed usable without a
+backend. I ended up pulling it down - the local dashboard explorer is where
+that work actually lives, and keeping two copies honest was more upkeep than
+it was worth.
 
 ## CVE-to-ATT&CK mapping is intentionally a separate layer
 
@@ -112,6 +114,4 @@ The next useful step is not another page. It is tighter round-tripping:
 That is the direction I want the lab to keep moving: less taxonomy for its own
 sake, more direct paths from framework language to an analyst doing the work.
 
-If you want the live surfaces that already exist, start with the
-[MITRE ATT&CK Explorer](/lab/mitre/), the [CVE / KEV / EPSS Browser](/lab/cve/),
-and the broader [Browser Lab](/lab/).
+If you want to poke at the live surfaces, start with the [Browser Lab](/lab/).

@@ -6,30 +6,6 @@
     margin: 1rem 0 2rem;
 }
 
-.resume-highlights {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 0.8rem;
-    margin: 1.2rem 0 2rem;
-}
-.resume-highlight {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    padding: 0.9rem 1rem;
-}
-.resume-highlight strong {
-    display: block;
-    color: var(--mint-deep);
-    font-size: 1.3rem;
-    margin-bottom: 0.2rem;
-}
-.resume-highlight span {
-    color: var(--text-1);
-    font-size: 0.92rem;
-    line-height: 1.45;
-}
-
 .resume-section { margin-bottom: 2rem; }
 
 .role {
