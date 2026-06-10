@@ -39,7 +39,7 @@
     </div>
 </header>
 
-<main class="container">
+<main class="container-wide meander">
 
     <h1>Scripts</h1>
     <p class="text-muted">
@@ -49,7 +49,7 @@
 
     <section>
         <h2>SOC operations &amp; KQL</h2>
-        <ul class="card-list">
+        <ul class="card-list flow">
             <li class="card" id="invoke-kqlps">
                 <h3><a href="https://github.com/brycemaxheimer/cybersecurity-portfolio/blob/main/SOC%20Dashboard/Modules/Invoke-KqlPS.ps1">Invoke-KqlPS</a></h3>
                 <div class="meta">PowerShell &middot; KQL helper &middot; SQLite backend</div>
@@ -95,9 +95,11 @@ Initialize-SecIntelSchema
         </ul>
     </section>
 
+    <div class="river-break" aria-hidden="true"></div>
+
     <section>
         <h2>Threat intel &amp; enrichment</h2>
-        <ul class="card-list">
+        <ul class="card-list flow">
             <li class="card" id="secintel-threatintel">
                 <h3><a href="https://github.com/brycemaxheimer/cybersecurity-portfolio/blob/main/SOC%20Dashboard/Modules/SecIntel.ThreatIntel.ps1">SecIntel.ThreatIntel</a></h3>
                 <div class="meta">PowerShell &middot; enrichment dispatcher &middot; provider normalization</div>
@@ -140,9 +142,11 @@ Invoke-IntelLookup -Value 8.8.8.8 -IocType ip</code></pre>
         </ul>
     </section>
 
+    <div class="river-break" aria-hidden="true"></div>
+
     <section>
         <h2>Frameworks</h2>
-        <ul class="card-list">
+        <ul class="card-list flow">
             <li class="card" id="mitre-attack-explorer">
                 <h3><a href="https://github.com/brycemaxheimer/cybersecurity-portfolio/blob/main/SOC%20Dashboard/Modules/MitreAttackExplorer.ps1">MitreAttackExplorer</a></h3>
                 <div class="meta">PowerShell &middot; MITRE ATT&amp;CK &middot; local SQLite explorer</div>
@@ -182,5 +186,6 @@ Invoke-IntelLookup -Value 8.8.8.8 -IocType ip</code></pre>
     </div>
 </footer>
 
+<script src="/js/motion.js" defer></script>
 </body>
 </html>

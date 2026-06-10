@@ -95,3 +95,23 @@
     letter-spacing: 0.04em;
     text-transform: uppercase;
 }
+
+/* Wider canvas + columned sections so the page reads side-to-side,
+   not just down. (This file only loads on the resume page.) */
+@media (min-width: 1020px) {
+    main.container { max-width: 980px; }
+}
+.resume-section ul.cols-2 {
+    columns: 2;
+    column-gap: 2.6rem;
+}
+.resume-section ul.cols-2 li { break-inside: avoid; }
+.awards-grid, .edu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 0 2.4rem;
+    align-items: start;
+}
+@media (max-width: 700px) {
+    .resume-section ul.cols-2 { columns: 1; }
+}

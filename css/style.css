@@ -77,6 +77,30 @@
 
 * { box-sizing: border-box; }
 
+/* ------------------------------------------------------------
+   Ambient drift - two soft color fields that wander very slowly
+   behind the page. The motion is glacial on purpose: the page
+   should feel alive, not animated.
+   ------------------------------------------------------------ */
+body::before {
+    content: "";
+    position: fixed;
+    inset: -25%;
+    z-index: -1;
+    pointer-events: none;
+    background:
+        radial-gradient(640px 460px at 22% 28%, var(--blob-a, rgba(139, 240, 195, 0.055)), transparent 62%),
+        radial-gradient(540px 400px at 78% 72%, var(--blob-b, rgba(160, 42, 30, 0.075)), transparent 60%);
+    animation: bg-drift 90s ease-in-out infinite alternate;
+}
+@keyframes bg-drift {
+    0%   { transform: translate3d(-2.5%, -1.5%, 0) scale(1); }
+    45%  { transform: translate3d(2%, 2.5%, 0)  scale(1.07); }
+    100% { transform: translate3d(-1%, 3.5%, 0) scale(1.03); }
+}
+[data-theme="light"] body::before,
+[data-theme="contrast"] body::before { display: none; }
+
 html { scroll-behavior: smooth; }
 
 body {
@@ -1024,6 +1048,132 @@ article.post p { margin: 0 0 1.1rem; color: var(--text-1); }
 p.lab-rationale {
     text-wrap: pretty;
     line-height: 1.55;
+}
+
+/* ------------------------------------------------------------
+   The river: cards don't stack in a column and don't sit in a
+   uniform grid either. Widths vary, elevations rise and fall,
+   the reading line winds. Collapses politely on small screens.
+   ------------------------------------------------------------ */
+.card-list.flow {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 1.3rem 1.5rem;
+    align-items: start;
+}
+.card-list.flow .card { display: flex; flex-direction: column; }
+.card-list.flow .card:nth-child(6n+1) { grid-column: span 3; }
+.card-list.flow .card:nth-child(6n+2) { grid-column: span 3; margin-top: 2.4rem; }
+.card-list.flow .card:nth-child(6n+3) { grid-column: span 2; margin-top: 0.4rem; }
+.card-list.flow .card:nth-child(6n+4) { grid-column: span 4; margin-top: 1.6rem; }
+.card-list.flow .card:nth-child(6n+5) { grid-column: span 4; }
+.card-list.flow .card:nth-child(6n)   { grid-column: span 2; margin-top: 2rem; }
+@media (max-width: 980px) {
+    .card-list.flow { grid-template-columns: 1fr 1fr; }
+    .card-list.flow .card { grid-column: auto; margin-top: 0; }
+    .card-list.flow .card:nth-child(even) { margin-top: 1.2rem; }
+}
+@media (max-width: 620px) {
+    .card-list.flow { grid-template-columns: 1fr; }
+    .card-list.flow .card:nth-child(even) { margin-top: 0; }
+}
+
+/* Sections drift left and right down the page instead of holding
+   one rigid margin line. */
+.meander > section:nth-of-type(odd)  { margin-right: 6%; }
+.meander > section:nth-of-type(even) { margin-left: 6%; }
+@media (max-width: 980px) {
+    .meander > section:nth-of-type(odd),
+    .meander > section:nth-of-type(even) { margin-left: 0; margin-right: 0; }
+}
+
+/* Wavy break between sections - a winding line, not a rule. */
+.river-break {
+    height: 20px;
+    margin: 3rem 0 0.5rem;
+    background-color: var(--mint-deep);
+    opacity: 0.35;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='20' viewBox='0 0 120 20'%3E%3Cpath d='M0 10 Q 15 2 30 10 T 60 10 T 90 10 T 120 10' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center / auto 100%;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='20' viewBox='0 0 120 20'%3E%3Cpath d='M0 10 Q 15 2 30 10 T 60 10 T 90 10 T 120 10' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center / auto 100%;
+}
+
+.two-col {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: 3.5rem;
+    align-items: start;
+}
+@media (max-width: 860px) {
+    .two-col { grid-template-columns: 1fr; gap: 1.5rem; }
+}
+
+/* The lab grid winds too. */
+.lab-grid .lab-card:nth-child(3n+2) { margin-top: 1.5rem; }
+.lab-grid .lab-card:nth-child(3n)   { margin-top: 0.5rem; }
+@media (max-width: 900px) {
+    .lab-grid .lab-card:nth-child(3n+2),
+    .lab-grid .lab-card:nth-child(3n) { margin-top: 0; }
+}
+
+/* ------------------------------------------------------------
+   Motion hooks for /js/motion.js. When the script runs it adds
+   .js-motion to <html>, takes over the ambient drift (cursor
+   pull + autonomous wander), and lets cards lean toward the
+   pointer. Without JS the CSS keyframe drift still runs.
+   ------------------------------------------------------------ */
+html.js-motion body::before {
+    animation: none;
+    transform: translate3d(var(--drift-x, 0px), var(--drift-y, 0px), 0) scale(var(--drift-s, 1));
+}
+html.js-motion .card:hover,
+html.js-motion .lab-card:hover,
+html.js-motion .proj-card:hover,
+html.js-motion .exp-entry:hover {
+    transform: perspective(700px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) translateY(-2px);
+}
+html.js-motion .card, html.js-motion .lab-card,
+html.js-motion .proj-card, html.js-motion .exp-entry {
+    transition: border-color 0.15s, background 0.15s, transform 0.18s ease-out;
+}
+
+/* Live honeypot pulse in the homepage hero. */
+.live-pulse {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+    margin: -1.2rem 0 1.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--text-2);
+}
+.live-pulse .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--coral);
+    flex-shrink: 0;
+    animation: pulse-dot 2.2s ease-in-out infinite;
+}
+@keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: 0.35; transform: scale(1.35); }
+}
+.live-pulse strong { color: var(--mint-deep); font-weight: 600; }
+
+/* ------------------------------------------------------------
+   Scroll reveal. /js/motion.js adds .reveal to cards and entries,
+   then flips .is-visible as they enter the viewport. Pages
+   without the script (or with reduced motion) never change.
+   ------------------------------------------------------------ */
+.reveal {
+    opacity: 0;
+    transform: translateY(16px);
+}
+.reveal.is-visible {
+    opacity: 1;
+    transform: none;
+    transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.22, 0.9, 0.35, 1);
+    transition-delay: var(--reveal-delay, 0s);
+}
+@media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; }
 }
 
 /* ------------------------------------------------------------

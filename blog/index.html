@@ -51,16 +51,17 @@
     </div>
 </header>
 
-<main class="container">
+<main class="container-wide meander">
 
     <h1>Blog</h1>
     <p class="text-muted">
         Projects, reference writeups, and posts. One page for all of it.
     </p>
 
+    <section>
     <h2>Projects</h2>
 
-    <ul class="card-list">
+    <ul class="card-list flow">
 
         <li class="card" id="soc-dashboard">
             <h3>SOC Dashboard</h3>
@@ -139,10 +140,14 @@
         </li>
 
     </ul>
+    </section>
 
+    <div class="river-break" aria-hidden="true"></div>
+
+    <section>
     <h2>Reference</h2>
 
-    <ul class="card-list">
+    <ul class="card-list flow">
         <li class="card">
             <h3><a href="/Kusto%20Query%20Language/KQL%20Beginners%20Guide.html">KQL Beginners Guide</a></h3>
             <div class="meta">guide</div>
@@ -174,10 +179,14 @@
             <span class="tag">kql</span><span class="tag">hunting</span>
         </li>
     </ul>
+    </section>
 
+    <div class="river-break" aria-hidden="true"></div>
+
+    <section>
     <h2>Posts</h2>
 
-    <ul class="card-list" id="blog-list">
+    <ul class="card-list flow" id="blog-list">
 
         <li class="card">
             <h3><a href="/blog/posts/inside-invoke-kqlps.html">Inside Invoke-KqlPS</a></h3>
@@ -194,6 +203,7 @@
         </li>
 
     </ul>
+    </section>
 
 </main>
 
@@ -206,6 +216,7 @@
 </footer>
 
 <script src="/blog/blog.js" defer></script>
+<script src="/js/motion.js" defer></script>
 
 </body>
 </html>
