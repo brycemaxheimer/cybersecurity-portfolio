@@ -116,6 +116,28 @@ Use a **dedicated API key with a spend cap** set in the Anthropic console, not
 your main key. If it ever leaks, you cap the damage and can revoke it without
 disturbing anything else.
 
+### 5. Preview URLs (do not skip this)
+
+Workers Builds publishes every branch to a `*.workers.dev` preview hostname.
+**Access policies are scoped per hostname**, so a policy on
+`brycemaxheimer.com/relay` does not cover
+`<branch>-cybersecurity-portfolio.<subdomain>.workers.dev/relay`. The preview
+host has no edge gate in front of it at all.
+
+This is precisely the fail-open case `access.js` exists to catch: with no
+Access in front, no assertion is presented, and the in-Worker check returns
+401 before any GitHub call. The relay stays shut. But do not rely on that
+alone as the only thing standing between the internet and the dispatch route.
+Pick one:
+
+- Add the `*.workers.dev` preview hostname to the same Access application, or
+- Disable preview URLs for this Worker (Settings -> Build -> Preview URLs), or
+- Keep relay secrets bound to the **production** environment only, so a
+  preview deployment returns 503 for lack of a token even if reached
+
+The last is the default if you set variables without selecting preview scope
+in the dashboard - worth confirming rather than assuming.
+
 ## Verify it works
 
 ```bash
