@@ -5,3 +5,14 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=()
   Content-Security-Policy: default-src 'self'; style-src 'self' unpkg.com; style-src-attr 'unsafe-inline'; img-src 'self' data: *.basemaps.cartocdn.com server.arcgisonline.com www.abuseipdb.com; font-src 'self' data:; script-src 'self' 'wasm-unsafe-eval' 'sha256-+YTDCFBv1RR+MrJjPeqXb7aAnLACIA2bcAVr3fyAOdY=' static.cloudflareinsights.com unpkg.com; connect-src 'self' cloudflareinsights.com static.cloudflareinsights.com threats.brycemaxheimer.com services.nvd.nist.gov hn.algolia.com unpkg.com api.github.com haveibeenpwned.com; object-src 'none'
+
+# Remote relay. Unlisted, not linked from any nav, and kept out of search
+# indexes. This is hygiene, NOT access control -- Cloudflare Access is the
+# control, and the Worker re-verifies the assertion on every /api/relay/ call.
+/relay/*
+  X-Robots-Tag: noindex, nofollow, noarchive, nosnippet
+  Cache-Control: no-store, max-age=0
+
+/api/relay/*
+  X-Robots-Tag: noindex, nofollow, noarchive, nosnippet
+  Cache-Control: no-store, max-age=0

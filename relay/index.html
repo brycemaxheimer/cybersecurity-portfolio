@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<title>Relay</title>
+<script>(function(){try{var t=localStorage.getItem('siteTheme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/relay/relay.css">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+</head>
+<body>
+
+<header class="site-header">
+<div class="container-wide">
+<a href="/" class="brand">Bryce Maxheimer</a>
+<nav class="nav">
+<span class="relay-whoami" id="whoami">checking access&hellip;</span>
+</nav>
+</div>
+</header>
+
+<main class="container-wide relay-main">
+
+<h1>Relay</h1>
+<p class="text-soft relay-sub">
+Hand work to Claude Code on this repo from any browser. Tasks land as GitHub
+issues; replies come back as comments. Asynchronous &mdash; expect minutes, not
+seconds.
+</p>
+
+<div class="relay-banner" id="banner" hidden></div>
+
+<section class="relay-panel" id="compose-panel">
+    <h2>New task</h2>
+    <form id="compose" autocomplete="off">
+        <label class="relay-label" for="title">Title</label>
+        <input class="relay-input" type="text" id="title" name="title" maxlength="200"
+               placeholder="Short summary of the task" required>
+
+        <label class="relay-label" for="body">Task</label>
+        <textarea class="relay-input relay-textarea" id="body" name="body" rows="7" maxlength="12000"
+                  placeholder="What should Claude do? Be specific about files, expected behaviour, and how to verify it." required></textarea>
+
+        <div class="relay-actions">
+            <button class="relay-btn" type="submit" id="dispatch">Dispatch</button>
+            <span class="relay-status" id="compose-status"></span>
+        </div>
+    </form>
+</section>
+
+<section class="relay-panel">
+    <div class="relay-panel-head">
+        <h2>Tasks</h2>
+        <button class="relay-btn relay-btn-ghost" type="button" id="refresh">Refresh</button>
+    </div>
+    <div id="tasks" class="relay-tasks">
+        <p class="relay-empty">Loading&hellip;</p>
+    </div>
+</section>
+
+<section class="relay-panel" id="thread-panel" hidden>
+    <div class="relay-panel-head">
+        <h2 id="thread-title">Thread</h2>
+        <button class="relay-btn relay-btn-ghost" type="button" id="close-thread">Close</button>
+    </div>
+    <div id="thread" class="relay-thread"></div>
+    <form id="reply" autocomplete="off">
+        <label class="relay-label" for="reply-body">Reply</label>
+        <textarea class="relay-input relay-textarea" id="reply-body" rows="4" maxlength="12000"
+                  placeholder="Follow up on this task&hellip;" required></textarea>
+        <div class="relay-actions">
+            <button class="relay-btn" type="submit" id="send-reply">Send</button>
+            <span class="relay-status" id="reply-status"></span>
+        </div>
+    </form>
+</section>
+
+</main>
+
+<script src="/relay/relay.js"></script>
+</body>
+</html>

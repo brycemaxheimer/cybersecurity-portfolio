@@ -1,0 +1,64 @@
+# ==========================================================================
+# Picks up work dispatched from the remote relay (/relay/) and from any issue
+# or comment that mentions @claude.
+#
+# Without this workflow the relay still files issues, but nothing acts on
+# them -- they just sit in the tracker until opened by hand.
+#
+# SECURITY: `issue_comment` fires for ANY commenter on a public repository.
+# The author_association guard below is what stops a stranger from commenting
+# "@claude ..." and getting a run with write permissions and my API credits.
+# claude-code-action performs its own write-access check as well; this is the
+# belt to that pair of braces, and it is cheap, so keep both.
+#
+# Requires two things that live outside this repo:
+#   1. The Claude GitHub App installed on the repo
+#      (easiest path: run `/install-github-app` from Claude Code)
+#   2. An ANTHROPIC_API_KEY repository secret
+#      Settings -> Secrets and variables -> Actions -> New repository secret
+# ==========================================================================
+
+name: Claude
+
+on:
+  issues:
+    types: [opened]
+  issue_comment:
+    types: [created]
+
+# Never let two runs act on the same issue at once -- concurrent runs would
+# both try to push and race each other's commits.
+concurrency:
+  group: claude-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  claude:
+    if: >
+      (
+        github.event_name == 'issues' &&
+        contains(github.event.issue.body, '@claude') &&
+        contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR"]'), github.event.issue.author_association)
+      ) || (
+        github.event_name == 'issue_comment' &&
+        contains(github.event.comment.body, '@claude') &&
+        contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR"]'), github.event.comment.author_association)
+      )
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      id-token: write
+      actions: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run Claude Code
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}

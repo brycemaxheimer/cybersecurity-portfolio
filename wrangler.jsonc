@@ -13,7 +13,8 @@
     // through to it. Set to "force" so /api/intel/* always reaches worker.js
     // even if a same-named static file ever appears.
     "run_worker_first": [
-      "/api/intel/*"
+      "/api/intel/*",
+      "/api/relay/*"
     ]
   },
   "compatibility_flags": [

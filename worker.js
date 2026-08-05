@@ -16,6 +16,7 @@
 
 import { handleLookup } from './functions/api/intel/lookup.js';
 import { handleHealth } from './functions/api/intel/health.js';
+import { handleRelay } from './functions/api/relay/dispatch.js';
 
 export default {
     async fetch(request, env, ctx) {
@@ -26,6 +27,13 @@ export default {
         }
         if (url.pathname === '/api/intel/health') {
             return handleHealth(request, env);
+        }
+
+        // Remote task relay. Every path under here verifies a Cloudflare
+        // Access assertion inside the handler before doing anything, so it
+        // stays closed even if the edge Access policy is missing.
+        if (url.pathname.startsWith('/api/relay/')) {
+            return handleRelay(request, env, url);
         }
 
         // Static-asset fallback. The ASSETS binding is declared in
