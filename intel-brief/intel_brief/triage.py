@@ -20,7 +20,7 @@ from pydantic import BaseModel, Field
 from .collect import Collection
 from .llm import LLM
 from .models import Item
-from .safety import clean_model_text
+from .safety import clean_model_text, fence
 
 log = logging.getLogger(__name__)
 
@@ -225,7 +225,7 @@ def triage(col: Collection, llm: LLM, model: str, text_chars: int = 500, chunk: 
             part = candidates[start : start + chunk]
             user = (
                 "Classify these items.\n<untrusted_items>\n"
-                + "\n".join(_item_line(it, text_chars) for it in part)
+                + fence("\n".join(_item_line(it, text_chars) for it in part))
                 + "\n</untrusted_items>"
             )
             result = llm.parse(
