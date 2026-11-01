@@ -31,6 +31,7 @@
 {% for name, st in ed.sources_status|dictsort %}{% if st.startswith("ok") %}{% set ns.ok = ns.ok + 1 %}{% else %}{% set ns.failed = ns.failed + [name] %}{% endif %}{% endfor %}
 {% set total_sources = ed.sources_status|length %}
 {% set any_writeup = ed.stories|selectattr("writeup")|list|length > 0 %}
+{% set fallback_models = ed.stories|selectattr("writeup")|map(attribute="writeup")|map(attribute="model")|select|reject("equalto", ed.models.writeup)|unique|list %}
 
 <div class="edition-strip">
   <dl class="stats" aria-labelledby="edition-title">
@@ -42,7 +43,7 @@
   <section class="provenance" aria-label="How this edition was made">
   <p><strong>How this edition was made.</strong>
     Collected from {{ total_sources }} public sources between {{ ed.window.since|utcshort }} and {{ ed.window.until|utcshort }} UTC.
-    {% if ed.models.triage_method == "fallback" %}Model ranking was unavailable, so stories were grouped by CVE and ranked by code.{% else %}Ranked by {{ ed.models.triage|model_name }}{% endif %}{% if any_writeup %}{{ "," if ed.models.triage_method != "fallback" else "" }} summarized by {{ ed.models.writeup|model_name }}{% else %}{% if ed.models.triage_method != "fallback" %}.{% endif %} This edition has no AI summaries{% endif %}, and reviewed by a person before publishing.
+    {% if ed.models.triage_method == "fallback" %}Model ranking was unavailable, so stories were grouped by CVE and ranked by code.{% else %}Ranked by {{ ed.models.triage|model_name }}{% endif %}{% if any_writeup %}{{ "," if ed.models.triage_method != "fallback" else "" }} summarized by {{ ed.models.writeup|model_name }}{% if fallback_models %} ({{ fallback_models|map("model_name")|join(", ") }} for stories it declined){% endif %}{% else %}{% if ed.models.triage_method != "fallback" %}.{% endif %} This edition has no AI summaries{% endif %}, and reviewed by a person before publishing.
     Summaries can be wrong, so check the linked sources before acting. <a href="{{ root }}methodology/">Read the methodology</a></p>
   </section>
 </div>
@@ -129,7 +130,7 @@
         <li><span class="pub">{{ src.source }}</span><a href="{{ h }}" rel="noopener noreferrer nofollow">{{ src.title }}</a><span class="where">{{ h|domain }} · {{ src.published|shortdate }}</span></li>
       {% endif %}{% endfor %}
       </ul>
-      {% if s.writeup %}<p class="ai-line">AI-generated summary by {{ ed.models.writeup|model_name }} · source support: {{ s.writeup.confidence }}{% if s.writeup.unsupported_cves %} · <span class="unsupported">mentions {{ s.writeup.unsupported_cves|join(", ") }}, which no source names</span>{% endif %}</p>{% endif %}
+      {% if s.writeup %}<p class="ai-line">AI-generated summary by {{ (s.writeup.model or ed.models.writeup)|model_name }} · source support: {{ s.writeup.confidence }}{% if s.writeup.unsupported_cves %} · <span class="unsupported">mentions {{ s.writeup.unsupported_cves|join(", ") }}, which no source names</span>{% endif %}</p>{% endif %}
     </div>
 
     {% if pocs %}
@@ -151,7 +152,7 @@
         </div>
         <span class="why">
           {%- if sg and sg.origin == "sigmahq" %}Community rule from SigmaHQ, converted with pySigma
-          {%- elif sg %}Sigma rule drafted by {{ ed.models.writeup|model_name }} · passed sigma check
+          {%- elif sg %}Sigma rule drafted by {{ ((s.writeup.model if s.writeup else none) or ed.models.writeup)|model_name }} · passed sigma check
           {%- elif d.type == "hunting_only" %}Hunting only: no endpoint behavior to write a rule against
           {%- else %}Hunting guidance{% endif %}</span>
       </div>
@@ -241,6 +242,46 @@
     {% endfor %}
   </section>
 
+  {% if ed.explainer %}
+  {% set ex = ed.explainer %}
+  <section class="block explainer" id="explainer" aria-labelledby="h-explainer">
+    <div class="section-head"><h2 id="h-explainer">Explainer</h2><span>Background, not news</span></div>
+    <h3>{{ ex.concept }}</h3>
+    <p class="dek">{{ ex.dek }}</p>
+    {% if ex.why_today %}<p class="why-today"><strong>Why today.</strong> {{ ex.why_today }}{% if ex.related_story_ids %} See {% for sid in ex.related_story_ids %}<a href="#{{ sid }}">story {{ sid.split("-")[-1] }}</a>{{ ", " if not loop.last }}{% endfor %}.{% endif %}</p>{% endif %}
+    <div class="ex-body">
+    {% for part in ex.parts %}
+      {% if part.heading %}<h4>{{ part.heading }}</h4>{% endif %}
+      {% for p in part.paragraphs %}<p>{{ p }}</p>{% endfor %}
+    {% endfor %}
+    </div>
+    {% if ex.takeaways %}
+    <div class="actions">
+      <h4 class="label">For defenders</h4>
+      <ol class="steps">{% for t in ex.takeaways %}<li>{{ t }}</li>{% endfor %}</ol>
+    </div>
+    {% endif %}
+    <p class="ai-line">AI-generated explainer by {{ (ex.model or ed.models.writeup)|model_name }} · from the model's background knowledge, not today's sources · check vendor documentation before acting on it{% if ex.unsupported_cves %} · <span class="unsupported">mentions {{ ex.unsupported_cves|join(", ") }}, which no source in this edition names</span>{% endif %}</p>
+  </section>
+  {% endif %}
+
+  {% if ed.good_news %}
+  <section class="block good-news" id="good-news" aria-labelledby="h-good-news">
+    <div class="section-head"><h2 id="h-good-news">Good news</h2><span>Wins for defenders</span></div>
+    <ol class="good">
+    {% for g in ed.good_news %}
+      <li>
+        <span class="tag ok">{{ GOOD_NEWS_LABEL.get(g.kind, "Good news") }}</span>
+        <h3>{{ g.headline }}</h3>
+        <p>{{ g.summary }}</p>
+        <p class="where">{% for src in g.sources %}{% set h = src.url|href %}{% if h %}<a href="{{ h }}" rel="noopener noreferrer nofollow">{{ src.source }}</a>{% else %}{{ src.source }}{% endif %}{% if src.published %} · {{ src.published|shortdate }}{% endif %}{{ "; " if not loop.last }}{% endfor %}{% if g.unsupported_cves %} · <span class="unsupported">mentions {{ g.unsupported_cves|join(", ") }}, which its sources don't name</span>{% endif %}</p>
+      </li>
+    {% endfor %}
+    </ol>
+    <p class="ai-line">AI-generated summaries by {{ (ed.good_news[0].model or ed.models.writeup)|model_name }} of the linked sources</p>
+  </section>
+  {% endif %}
+
   {% if ed.more_stories %}
   <section class="block" id="radar" aria-labelledby="h-radar">
     <div class="section-head"><h2 id="h-radar">Also on the radar</h2><span>Lower-ranked, links only</span></div>
@@ -281,6 +322,13 @@
     {% for k in ed.kev_new|sort(attribute="due_date") %}{% set gap = days_between(k.date_added, k.due_date) %}
     <div class="kv"><a href="#kev">{{ k.cve }}</a><span class="due"><b class="{{ 'crit' if gap is not none and gap <= 7 else '' }}">Due {{ k.due_date|shortdate }}</b>{% if gap is not none %}<small>{{ gap }} {{ "day" if gap == 1 else "days" }} after listing</small>{% endif %}</span></div>
     {% endfor %}
+  </section>
+  {% endif %}
+  {% if ed.explainer or ed.good_news %}
+  <section class="panel learn">
+    <h2>Also in this edition</h2>
+    {% if ed.explainer %}<p><span class="k">Explainer</span><a href="#explainer">{{ ed.explainer.concept }}</a></p>{% endif %}
+    {% if ed.good_news %}<p><span class="k">Good news</span><a href="#good-news">{{ ed.good_news|length }} {{ "win" if ed.good_news|length == 1 else "wins" }} for defenders</a></p>{% endif %}
   </section>
   {% endif %}
   {% if ed.early_signals %}

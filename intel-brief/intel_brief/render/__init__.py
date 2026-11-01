@@ -16,6 +16,7 @@ links or markup either.
 from __future__ import annotations
 
 import json
+import re
 import shutil
 from datetime import date, datetime, timezone
 from email.utils import format_datetime
@@ -45,11 +46,26 @@ PLATFORM_LABEL = {
     "linux_server": "Linux", "cloud_saas": "Cloud / SaaS", "web_app": "Web app",
     "mobile": "Mobile", "ics_ot": "ICS / OT", "other": "",
 }
+GOOD_NEWS_LABEL = {
+    "takedown": "Takedown", "arrest_or_sentencing": "Arrest or sentence", "fix_shipped": "Fix shipped",
+    "new_defense": "New defense", "research": "Research", "policy": "Policy", "other": "Good news",
+}
 MODEL_NAMES = {
     "claude-haiku-5-5": "Claude Haiku 5.5",
     "claude-opus-5-5": "Claude Opus 5.5",
     "claude-sonnet-5-5": "Claude Sonnet 5.5",
 }
+_MODEL_ID = re.compile(r"^claude-([a-z]+)-(\d+)(?:-(\d))?(?:-\d{8})?$")
+
+
+def model_name(model_id: str) -> str:
+    """Display name for a model ID, including fallback models like claude-opus-4-8."""
+    if model_id in MODEL_NAMES:
+        return MODEL_NAMES[model_id]
+    m = _MODEL_ID.match(model_id or "")
+    if not m:
+        return model_id or ""
+    return f"Claude {m.group(1).title()} {m.group(2)}{'.' + m.group(3) if m.group(3) else ''}"
 
 
 def _date(s: str) -> date | None:
@@ -162,9 +178,9 @@ def _env() -> Environment:
     env.filters["pct"] = lambda x: "" if x is None else (f"{100 * x:.1f}%" if x < 0.1 else f"{100 * x:.0f}%")
     env.filters.update(
         longdate=longdate, shortdate=shortdate, weekday=weekday, utcshort=utcshort,
-        domain=domain, tier=tier, model_name=lambda m: MODEL_NAMES.get(m, m),
+        domain=domain, tier=tier, model_name=model_name,
     )
-    env.globals.update(PLATFORM_LABEL=PLATFORM_LABEL, detection_tabs=detection_tabs, days_between=days_between, order_cves=order_cves)
+    env.globals.update(PLATFORM_LABEL=PLATFORM_LABEL, GOOD_NEWS_LABEL=GOOD_NEWS_LABEL, detection_tabs=detection_tabs, days_between=days_between, order_cves=order_cves)
     return env
 
 
@@ -185,6 +201,10 @@ def _summary_text(ed: dict, n: int = 10) -> str:
         lines.append(f"New KEV entries: {', '.join(k['cve'] for k in ed['kev_new'])}")
     if ed.get("early_signals"):
         lines.append(f"Early signals: {', '.join(s['cve'] for s in ed['early_signals'])}")
+    if ed.get("explainer"):
+        lines.append(f"Explainer: {ed['explainer']['concept']}")
+    for g in ed.get("good_news") or []:
+        lines.append(f"Good news: {g['headline']}")
     return "\n".join(lines)
 
 
@@ -230,6 +250,8 @@ def _json_feed(eds: list[dict], site: dict) -> str:
                         {"title": s["title"], "cves": [c["id"] for c in s["cves"]], "score": s["score"]}
                         for s in ed.get("stories", [])
                     ],
+                    "explainer": (ed.get("explainer") or {}).get("concept"),
+                    "good_news": [g["headline"] for g in ed.get("good_news") or []],
                 },
             }
             for ed in eds

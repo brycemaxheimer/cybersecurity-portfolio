@@ -17,6 +17,7 @@ from .collect import Collection
 from .detections.schema import SigmaRuleDraft
 from .llm import LLM, BudgetExceeded
 from .models import Item
+from .safety import fence
 from .triage import Story
 
 log = logging.getLogger(__name__)
@@ -119,7 +120,7 @@ def write_story(
 ) -> WriteUp | None:
     user = (
         "Write the brief entry for this story.\n<untrusted_story>\n"
-        + _story_payload(story, items, col, enrich, text_chars)
+        + fence(_story_payload(story, items, col, enrich, text_chars))
         + "\n</untrusted_story>"
     )
     try:
@@ -142,7 +143,7 @@ def write_story(
 def fix_sigma(draft: SigmaRuleDraft, errors: list[str], llm: LLM, model: str, effort: str) -> SigmaRuleDraft | None:
     user = (
         "Fix this Sigma rule draft.\n<untrusted_context>\n"
-        + json.dumps({"draft": draft.model_dump(), "validator_messages": errors[:20]}, ensure_ascii=False, indent=1)
+        + fence(json.dumps({"draft": draft.model_dump(), "validator_messages": errors[:20]}, ensure_ascii=False, indent=1))
         + "\n</untrusted_context>"
     )
     try:

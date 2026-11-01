@@ -37,3 +37,15 @@ max_signals = 10
 
 [detections]
 sigma_retry_on_fail = true
+
+[explainer]
+# One extra call per edition with the write-up model, after the write-ups, so it
+# never takes budget from them: a concept explainer plus good news. About $0.10-0.25.
+enabled = true
+max_tokens = 12000
+good_news_max = 4
+# News and advisory items offered as good-news candidates, and characters of each.
+candidate_items = 150
+item_text_chars = 500
+# Concepts from this many earlier editions are passed in so topics don't repeat.
+history_editions = 30
