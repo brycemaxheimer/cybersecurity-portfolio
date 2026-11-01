@@ -69,5 +69,11 @@ class RenderTest(unittest.TestCase):
             self.assertTrue((d / "site" / "_headers").read_text().count("Content-Security-Policy"))
 
 
+class NoBreakTest(unittest.TestCase):
+    def test_escapes_then_keeps_cve_ids_whole(self):
+        out = str(render.nobreak_cves('<b>x</b> CVE-2026-111357 and cve-2026-1234'))
+        self.assertEqual(out, '&lt;b&gt;x&lt;/b&gt; <span class="nowrap">CVE-2026-111357</span> and <span class="nowrap">cve-2026-1234</span>')
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -25,8 +25,10 @@ from urllib.parse import urlsplit
 from xml.etree import ElementTree as ET
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
+from markupsafe import Markup, escape
 
 from ..config import EDITIONS_DIR, SITE_DIR, load_settings, load_sources
+from ..models import CVE_RE
 from ..safety import safe_url
 
 HERE = Path(__file__).parent
@@ -56,6 +58,11 @@ MODEL_NAMES = {
     "claude-sonnet-5-5": "Claude Sonnet 5.5",
 }
 _MODEL_ID = re.compile(r"^claude-([a-z]+)-(\d+)(?:-(\d))?(?:-\d{8})?$")
+
+
+def nobreak_cves(text: str) -> Markup:
+    """Escape text and keep each CVE ID on one line; headlines otherwise break at its hyphens."""
+    return Markup(CVE_RE.sub(lambda m: f'<span class="nowrap">{m.group(0)}</span>', str(escape(text or ""))))
 
 
 def model_name(model_id: str) -> str:
@@ -178,7 +185,7 @@ def _env() -> Environment:
     env.filters["pct"] = lambda x: "" if x is None else (f"{100 * x:.1f}%" if x < 0.1 else f"{100 * x:.0f}%")
     env.filters.update(
         longdate=longdate, shortdate=shortdate, weekday=weekday, utcshort=utcshort,
-        domain=domain, tier=tier, model_name=model_name,
+        domain=domain, tier=tier, model_name=model_name, nobreak_cves=nobreak_cves,
     )
     env.globals.update(PLATFORM_LABEL=PLATFORM_LABEL, GOOD_NEWS_LABEL=GOOD_NEWS_LABEL, detection_tabs=detection_tabs, days_between=days_between, order_cves=order_cves)
     return env

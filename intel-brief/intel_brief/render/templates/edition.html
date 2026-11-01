@@ -76,7 +76,7 @@
           <span class="rank">No. {{ "%02d"|format(s.rank) }}</span> · Priority <b>{{ s.score }}</b>
         </div>
       </div>
-      <h3 id="{{ s.id }}-h">{{ s.title }}</h3>
+      <h3 id="{{ s.id }}-h">{{ s.title|nobreak_cves }}</h3>
       {% set first = s.sources|map(attribute="published")|select|sort|first %}
       <p class="meta">{% if s.labels.vendor or s.labels.product %}{{ s.labels.vendor }} {{ s.labels.product }} · {% endif %}{{ s.sources|length }} {{ "source" if s.sources|length == 1 else "sources" }}{% if first %} · first reported {{ first|longdate }}{% endif %}</p>
     </div>
@@ -246,7 +246,7 @@
   {% set ex = ed.explainer %}
   <section class="block explainer" id="explainer" aria-labelledby="h-explainer">
     <div class="section-head"><h2 id="h-explainer">Explainer</h2><span>Background, not news</span></div>
-    <h3>{{ ex.concept }}</h3>
+    <h3>{{ ex.concept|nobreak_cves }}</h3>
     <p class="dek">{{ ex.dek }}</p>
     {% if ex.why_today %}<p class="why-today"><strong>Why today.</strong> {{ ex.why_today }}{% if ex.related_story_ids %} See {% for sid in ex.related_story_ids %}<a href="#{{ sid }}">story {{ sid.split("-")[-1] }}</a>{{ ", " if not loop.last }}{% endfor %}.{% endif %}</p>{% endif %}
     <div class="ex-body">
@@ -272,7 +272,7 @@
     {% for g in ed.good_news %}
       <li>
         <span class="tag ok">{{ GOOD_NEWS_LABEL.get(g.kind, "Good news") }}</span>
-        <h3>{{ g.headline }}</h3>
+        <h3>{{ g.headline|nobreak_cves }}</h3>
         <p>{{ g.summary }}</p>
         <p class="where">{% for src in g.sources %}{% set h = src.url|href %}{% if h %}<a href="{{ h }}" rel="noopener noreferrer nofollow">{{ src.source }}</a>{% else %}{{ src.source }}{% endif %}{% if src.published %} · {{ src.published|shortdate }}{% endif %}{{ "; " if not loop.last }}{% endfor %}{% if g.unsupported_cves %} · <span class="unsupported">mentions {{ g.unsupported_cves|join(", ") }}, which its sources don't name</span>{% endif %}</p>
       </li>
@@ -311,7 +311,7 @@
       {% set words = [{"crit": "Exploited", "high": "High risk"}.get(t, "Watch")] %}
       {% if s.factors.in_kev %}{% set _ = words.append("KEV") %}{% endif %}
       {% if np.n or s.labels.exploitation == "public_poc" %}{% set _ = words.append("PoC") %}{% endif %}
-      <li><b class="num {{ t }}">{{ s.rank }}</b><span><span class="tier {{ t }}">{{ words|join(" · ") }}</span><a href="#{{ s.id }}">{{ s.title }}</a>{% if np.n %}<span class="toc-warn"><b>{{ np.n }} public PoC {{ "repo" if np.n == 1 else "repos" }}.</b> Links only, not vetted. Public PoC repos are often fake or backdoored. Don't run them on a work machine.</span>{% endif %}</span></li>
+      <li><b class="num {{ t }}">{{ s.rank }}</b><span><span class="tier {{ t }}">{{ words|join(" · ") }}</span><a href="#{{ s.id }}">{{ s.title|nobreak_cves }}</a>{% if np.n %}<span class="toc-warn"><b>{{ np.n }} public PoC {{ "repo" if np.n == 1 else "repos" }}.</b> Links only, not vetted. Public PoC repos are often fake or backdoored. Don't run them on a work machine.</span>{% endif %}</span></li>
     {% endfor %}
     </ol>
   </section>
