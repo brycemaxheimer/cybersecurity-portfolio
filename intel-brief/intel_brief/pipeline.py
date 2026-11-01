@@ -6,7 +6,7 @@ import json
 import logging
 from datetime import date, datetime, timezone
 
-from . import __version__, detections, signals
+from . import __version__, detections, explainer, signals
 from .collect import Collection, collect_all, nvd, poc
 from .config import CACHE_DIR, EDITIONS_DIR, RUNS_DIR
 from .detections import sigma_repo
@@ -33,6 +33,21 @@ def _previous_kev(run_date: date, keep: int = 5) -> set[str]:
         keep -= 1
         if keep == 0:
             break
+    return out
+
+
+def _recent_concepts(run_date: date, keep: int) -> list[str]:
+    """Explainer topics from earlier editions, newest first, so they don't repeat."""
+    out: list[str] = []
+    for p in sorted(EDITIONS_DIR.glob("*.json"), reverse=True):
+        if p.stem >= run_date.isoformat() or len(out) >= keep:
+            continue
+        try:
+            concept = (json.loads(p.read_text(encoding="utf-8")).get("explainer") or {}).get("concept")
+        except (OSError, ValueError):
+            continue
+        if concept:
+            out.append(concept)
     return out
 
 
@@ -223,6 +238,21 @@ def run(
 
     kql_parser = detections.validate_all(dets)
 
+    # Explainer and good news: one call, only after every story had its turn.
+    ex_cfg = settings.get("explainer", {})
+    ex, good_news, ex_status = None, [], "disabled"
+    if ex_cfg.get("enabled", False):
+        ex_status = "skipped_dry_run" if dry_run else "skipped_budget"
+        if not budget_hit:
+            try:
+                ex, good_news = explainer.write(
+                    out_stories, col, _recent_concepts(run_date, ex_cfg.get("history_editions", 30)),
+                    llm, writeup_model, effort, ex_cfg,
+                )
+                ex_status = "ok" if ex or good_news else "refused_or_failed"
+            except BudgetExceeded as e:
+                log.warning("%s", e)
+
     edition = {
         "schema": 1,
         "date": run_date.isoformat(),
@@ -250,6 +280,9 @@ def run(
              "poc": pocs.get(sig["cve"], [])}
             for sig in signal_list
         ],
+        "explainer": ex,
+        "good_news": good_news,
+        "explainer_status": ex_status,
         "sources_status": col.status,
         "stats": {
             "items": {k: len(col.of_kind(k)) for k in ("news", "advisory", "kev", "nvd", "social", "sigma")},

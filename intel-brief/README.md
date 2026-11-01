@@ -29,6 +29,11 @@ Each edition has:
   Sentinel KQL, Splunk SPL and Elastic. The KQL is parsed with Microsoft's
   Kusto.Language. Stories with no behavior to detect get hunting steps and KQL
   hunting queries instead.
+- **Explainer**: one security concept behind the day's stories, from a couple of
+  paragraphs to a few headed parts depending on how involved it is. Written from
+  the model's background knowledge and labelled that way.
+- **Good news**: up to four positive developments from the collected news
+  (takedowns, arrests, fixes shipped, new defenses), each linked to its sources.
 - An **RSS feed** (`/feed.xml`), a **JSON Feed** (`/feed.json`), each edition's
   data (`/editions/<date>/edition.json`) and an **archive**.
 
@@ -44,8 +49,9 @@ collect (plain code)  ->  triage (Haiku 5.5)  ->  write-ups (Opus 5.5 / Sonnet 5
 | 1. Collect | `intel_brief/collect/` | CISA KEV, NVD CVE API 2.0 (high/critical, last ~26 h), FIRST EPSS, MSRC and CISA advisories, news RSS (`config/sources.toml`), new SigmaHQ rules (git history of a shallow clone), PoC repo links (nomi-sec/PoC-in-GitHub index), Bluesky, Mastodon (infosec.exchange), r/netsec, Hacker News. X/Twitter is left out: its API is paid and scraping breaks its terms. |
 | 2. Triage | `intel_brief/triage.py` | `claude-haiku-5-5` groups items into stories and labels them: exploitation status, how widely the product is used, platform (Windows, M365/Entra, edge device...). **Code** computes the score from those labels plus KEV, EPSS, CVSS and source count. If the call fails or is refused, code groups items by CVE instead. |
 | 3. Write-ups | `intel_brief/writeup.py` | One call per top story with `claude-opus-5-5` (default) or `claude-sonnet-5-5`, so one refusal costs one story, not the edition. |
+| 3b. Explainer and good news | `intel_brief/explainer.py` | One call with the write-up model after all write-ups, so it never takes budget from them. It picks a concept tied to the day's stories (skipping concepts from the last 30 editions) and up to 4 good-news items from the collected news and advisories. Good-news entries without a collected source are dropped; links come from the collector. CVE IDs the explainer names that no source mentions are flagged on the page. Settings in `[explainer]` in `config/settings.toml`. |
 | 4. Detections | `intel_brief/detections/` | SigmaHQ rule lookup by CVE tag. If there is none, Claude's structured Sigma draft is turned into YAML by code, checked with `sigma check` (one repair attempt), and converted with pySigma (`kusto` + `microsoft_xdr`, `splunk_windows`, `ecs_windows`). All KQL goes through `tools/validate_kql.ps1` (Kusto.Language, with the table schemas in `config/kql_schema.json`). |
-| 5. Render | `intel_brief/render/` | Jinja2 templates with autoescaping, no JavaScript (detection format tabs are CSS-only radio buttons), no inline styles, and a strict CSP in `site/_headers`. IBM Plex Sans, Serif and Mono are self-hosted from `intel_brief/render/static/fonts/` (SIL OFL 1.1, license file alongside), so readers' browsers never contact a font CDN. Pages: latest edition, one page per edition, archive, methodology, RSS, JSON Feed. |
+| 5. Render | `intel_brief/render/` | Jinja2 templates with autoescaping, no JavaScript (detection format tabs are CSS-only radio buttons), no inline styles, and a strict CSP in `site/_headers`. Playfair Display, Libre Franklin and IBM Plex Mono are self-hosted from `intel_brief/render/static/fonts/` (SIL OFL 1.1, license files alongside; design in `docs/design/red-top-spec.md`), so readers' browsers never contact a font CDN. Pages: latest edition, one page per edition, archive, methodology, RSS, JSON Feed. |
 
 Early signals (`intel_brief/signals.py`) are counted by code, not by a model.
 Accounts that post about 15 or more CVEs a day are treated as feed bots, and
@@ -113,7 +119,8 @@ Other cost details:
   fallback ran after a partial decline, the declined part may also be billed,
   so the logged total can be slightly low on those rare calls.
 
-Expected cost per day with Opus 5.5: roughly $1 to $1.50 (triage is about $0.01).
+Expected cost per day with Opus 5.5: roughly $1 to $1.50 (triage is about $0.01;
+the explainer and good news about $0.10 to $0.25).
 Sonnet 5.5 costs about half as much.
 
 ## Run locally

@@ -45,6 +45,10 @@ PLATFORM_LABEL = {
     "linux_server": "Linux", "cloud_saas": "Cloud / SaaS", "web_app": "Web app",
     "mobile": "Mobile", "ics_ot": "ICS / OT", "other": "",
 }
+GOOD_NEWS_LABEL = {
+    "takedown": "Takedown", "arrest_or_sentencing": "Arrest or sentence", "fix_shipped": "Fix shipped",
+    "new_defense": "New defense", "research": "Research", "policy": "Policy", "other": "Good news",
+}
 MODEL_NAMES = {
     "claude-haiku-5-5": "Claude Haiku 5.5",
     "claude-opus-5-5": "Claude Opus 5.5",
@@ -164,7 +168,7 @@ def _env() -> Environment:
         longdate=longdate, shortdate=shortdate, weekday=weekday, utcshort=utcshort,
         domain=domain, tier=tier, model_name=lambda m: MODEL_NAMES.get(m, m),
     )
-    env.globals.update(PLATFORM_LABEL=PLATFORM_LABEL, detection_tabs=detection_tabs, days_between=days_between, order_cves=order_cves)
+    env.globals.update(PLATFORM_LABEL=PLATFORM_LABEL, GOOD_NEWS_LABEL=GOOD_NEWS_LABEL, detection_tabs=detection_tabs, days_between=days_between, order_cves=order_cves)
     return env
 
 
@@ -185,6 +189,10 @@ def _summary_text(ed: dict, n: int = 10) -> str:
         lines.append(f"New KEV entries: {', '.join(k['cve'] for k in ed['kev_new'])}")
     if ed.get("early_signals"):
         lines.append(f"Early signals: {', '.join(s['cve'] for s in ed['early_signals'])}")
+    if ed.get("explainer"):
+        lines.append(f"Explainer: {ed['explainer']['concept']}")
+    for g in ed.get("good_news") or []:
+        lines.append(f"Good news: {g['headline']}")
     return "\n".join(lines)
 
 
@@ -230,6 +238,8 @@ def _json_feed(eds: list[dict], site: dict) -> str:
                         {"title": s["title"], "cves": [c["id"] for c in s["cves"]], "score": s["score"]}
                         for s in ed.get("stories", [])
                     ],
+                    "explainer": (ed.get("explainer") or {}).get("concept"),
+                    "good_news": [g["headline"] for g in ed.get("good_news") or []],
                 },
             }
             for ed in eds

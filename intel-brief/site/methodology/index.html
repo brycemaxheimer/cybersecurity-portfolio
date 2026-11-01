@@ -64,7 +64,11 @@
     <p>A CVE becomes an early signal when several independent accounts post about it within the window and it is not yet in KEV or the news feeds. Accounts that post about many CVEs a day are treated as feed bots and posts naming many CVEs as digests; neither counts. No model is involved.</p>
   </section>
   <section class="panel">
-    <h2>6. Review and publishing (a person)</h2>
+    <h2>6. Explainer and good news (model)</h2>
+    <p>After the summaries, one more call to the same model writes two short sections. The Explainer takes one concept behind the day's stories, such as an attack technique, a protocol weakness or a defensive control, and explains it in a couple of paragraphs to a few headed parts, depending on how involved it is. It is written from the model's background knowledge, not from the day's sources, so it is labelled that way, and any CVE it names that no source mentions is flagged. Good news picks up to four positive developments from the collected news, such as takedowns, arrests, fixes shipped and new defenses. Each one links only to the collected articles it summarizes.</p>
+  </section>
+  <section class="panel">
+    <h2>7. Review and publishing (a person)</h2>
     <p>Each edition is proposed as a pull request. Nothing is published until a person reviews and merges it. The site publishes summaries and links only, never copies of articles. Proof-of-concept repositories are listed as links, unvetted, with a warning.</p>
   </section>
 </main>
@@ -73,6 +77,7 @@
     <h2>Models</h2>
     <div class="kv"><span>Ranking</span><b>Claude Haiku 5.5</b></div>
     <div class="kv"><span>Summaries</span><b>Claude Opus 5.5</b></div>
+    <div class="kv"><span>Explainer, good news</span><b>Claude Opus 5.5</b></div>
   </section>
   <section class="panel">
     <h2>Labels</h2>

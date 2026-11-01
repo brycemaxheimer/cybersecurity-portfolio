@@ -241,6 +241,46 @@
     {% endfor %}
   </section>
 
+  {% if ed.explainer %}
+  {% set ex = ed.explainer %}
+  <section class="block explainer" id="explainer" aria-labelledby="h-explainer">
+    <div class="section-head"><h2 id="h-explainer">Explainer</h2><span>Background, not news</span></div>
+    <h3>{{ ex.concept }}</h3>
+    <p class="dek">{{ ex.dek }}</p>
+    {% if ex.why_today %}<p class="why-today"><strong>Why today.</strong> {{ ex.why_today }}{% if ex.related_story_ids %} See {% for sid in ex.related_story_ids %}<a href="#{{ sid }}">story {{ sid.split("-")[-1] }}</a>{{ ", " if not loop.last }}{% endfor %}.{% endif %}</p>{% endif %}
+    <div class="ex-body">
+    {% for part in ex.parts %}
+      {% if part.heading %}<h4>{{ part.heading }}</h4>{% endif %}
+      {% for p in part.paragraphs %}<p>{{ p }}</p>{% endfor %}
+    {% endfor %}
+    </div>
+    {% if ex.takeaways %}
+    <div class="actions">
+      <h4 class="label">For defenders</h4>
+      <ol class="steps">{% for t in ex.takeaways %}<li>{{ t }}</li>{% endfor %}</ol>
+    </div>
+    {% endif %}
+    <p class="ai-line">AI-generated explainer by {{ ed.models.writeup|model_name }} · from the model's background knowledge, not today's sources · check vendor documentation before acting on it{% if ex.unsupported_cves %} · <span class="unsupported">mentions {{ ex.unsupported_cves|join(", ") }}, which no source in this edition names</span>{% endif %}</p>
+  </section>
+  {% endif %}
+
+  {% if ed.good_news %}
+  <section class="block good-news" id="good-news" aria-labelledby="h-good-news">
+    <div class="section-head"><h2 id="h-good-news">Good news</h2><span>Wins for defenders</span></div>
+    <ol class="good">
+    {% for g in ed.good_news %}
+      <li>
+        <span class="tag ok">{{ GOOD_NEWS_LABEL.get(g.kind, "Good news") }}</span>
+        <h3>{{ g.headline }}</h3>
+        <p>{{ g.summary }}</p>
+        <p class="where">{% for src in g.sources %}{% set h = src.url|href %}{% if h %}<a href="{{ h }}" rel="noopener noreferrer nofollow">{{ src.source }}</a>{% else %}{{ src.source }}{% endif %}{% if src.published %} · {{ src.published|shortdate }}{% endif %}{{ "; " if not loop.last }}{% endfor %}{% if g.unsupported_cves %} · <span class="unsupported">mentions {{ g.unsupported_cves|join(", ") }}, which its sources don't name</span>{% endif %}</p>
+      </li>
+    {% endfor %}
+    </ol>
+    <p class="ai-line">AI-generated summaries by {{ ed.models.writeup|model_name }} of the linked sources</p>
+  </section>
+  {% endif %}
+
   {% if ed.more_stories %}
   <section class="block" id="radar" aria-labelledby="h-radar">
     <div class="section-head"><h2 id="h-radar">Also on the radar</h2><span>Lower-ranked, links only</span></div>
@@ -281,6 +321,13 @@
     {% for k in ed.kev_new|sort(attribute="due_date") %}{% set gap = days_between(k.date_added, k.due_date) %}
     <div class="kv"><a href="#kev">{{ k.cve }}</a><span class="due"><b class="{{ 'crit' if gap is not none and gap <= 7 else '' }}">Due {{ k.due_date|shortdate }}</b>{% if gap is not none %}<small>{{ gap }} {{ "day" if gap == 1 else "days" }} after listing</small>{% endif %}</span></div>
     {% endfor %}
+  </section>
+  {% endif %}
+  {% if ed.explainer or ed.good_news %}
+  <section class="panel learn">
+    <h2>Also in this edition</h2>
+    {% if ed.explainer %}<p><span class="k">Explainer</span><a href="#explainer">{{ ed.explainer.concept }}</a></p>{% endif %}
+    {% if ed.good_news %}<p><span class="k">Good news</span><a href="#good-news">{{ ed.good_news|length }} {{ "win" if ed.good_news|length == 1 else "wins" }} for defenders</a></p>{% endif %}
   </section>
   {% endif %}
   {% if ed.early_signals %}
