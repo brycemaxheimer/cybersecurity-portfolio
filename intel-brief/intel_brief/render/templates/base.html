@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}{{ site.title }}{% endblock %}</title>
+<meta name="description" content="{% block description %}Daily threat-intel brief for teams defending Windows, Microsoft 365 and internet-facing edge devices: top stories, new CISA KEV entries, early signals and detections.{% endblock %}">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#0E1A2B">
+{% if canonical %}<link rel="canonical" href="{{ canonical }}">{% endif %}
+<link rel="alternate" type="application/rss+xml" title="{{ site.title }} (RSS)" href="{{ base }}/feed.xml">
+<link rel="alternate" type="application/feed+json" title="{{ site.title }} (JSON Feed)" href="{{ base }}/feed.json">
+<link rel="icon" href="{{ root }}assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="{{ root }}assets/fonts/IBMPlexSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="{{ root }}assets/style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="mast">
+  <div class="wrap">
+    <a class="brand" href="{{ root or '/' }}">
+      <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><rect x="1" y="1" width="28" height="28" rx="6" fill="none" stroke="#3FC1C9" stroke-width="2"/><path d="M9 21V9M14 21V9l7 12V9" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>{{ site.title }}</span>
+    </a>
+    <nav aria-label="Site">
+      <a href="{{ root or '/' }}"{% if nav == "latest" %} aria-current="page"{% endif %}>Latest</a>
+      <a href="{{ root }}archive/"{% if nav == "archive" %} aria-current="page"{% endif %}>Archive</a>
+      <a href="{{ base }}/feed.xml">RSS</a>
+      <a href="{{ base }}/feed.json">JSON Feed</a>
+      <a href="{{ root }}methodology/"{% if nav == "method" %} aria-current="page"{% endif %}>Methodology</a>
+    </nav>
+  </div>
+</header>
+<div id="main" class="wrap">
+{% block main %}{% endblock %}
+</div>
+<footer class="foot">
+  <div class="wrap">
+    <p>Summaries and detections are AI-generated and can be wrong. This site publishes summaries and links only, never copies of articles. Detections are labelled with their origin and are untested in your environment.</p>
+    <p>Maintained by {{ site.author }} · <a href="{{ root }}methodology/">Methodology</a> · <a href="{{ root }}archive/">Archive</a></p>
+  </div>
+</footer>
+</body>
+</html>

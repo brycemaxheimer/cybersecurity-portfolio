@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0"><channel><title>Daily Intel Brief</title><link>https://intel.brycemaxheimer.com/</link><description>Daily AI-generated threat-intel brief: top stories, new KEV entries, early signals and detections.</description><language>en-us</language><item><title>Daily Intel Brief: 2026-10-31</title><link>https://intel.brycemaxheimer.com/editions/2026-10-31/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-10-31/</guid><pubDate>Sat, 31 Oct 2026 07:26:07 +0000</pubDate><description>1. CISA adds two exploited Ivanti Connect Secure flaws, CVE-2026-111357 and CVE-2026-118527, to KEV
+2. Microsoft: Teams help desk impersonation leads to AD CS ESC1 and ESC8 abuse in two intrusions
+3. BeyondTrust Remote Support CVE-2026-102764 allows unauthenticated RCE; listed in KEV, public exploit exists
+4. SecurityWeek: PHP2Shell attacks reportedly root Palo Alto firewalls, fail against WordPress
+5. CISA reports in-the-wild exploitation of max-severity GitLab RCE CVE-2026-97229
+6. Researchers report exploit for critical Linux kernel MPTCP flaw enabling unauthenticated remote root
+7. Binance ties roughly $6.3 billion crypto theft to a compromised DevOps engineer laptop
+8. Florida Department of Education reports breach of student financial aid site exposing 4.9 million SSNs
+New KEV entries: CVE-2026-118527, CVE-2026-111357
+Early signals: CVE-2026-98432, CVE-2026-112816</description></item></channel></rss>

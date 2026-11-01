@@ -1,0 +1,74 @@
+{
+ "version": "https://jsonfeed.org/version/1.1",
+ "title": "Daily Intel Brief",
+ "home_page_url": "https://intel.brycemaxheimer.com/",
+ "feed_url": "https://intel.brycemaxheimer.com/feed.json",
+ "description": "Daily AI-generated threat-intel brief.",
+ "authors": [
+  {
+   "name": "Bryce Maxheimer"
+  }
+ ],
+ "language": "en-US",
+ "items": [
+  {
+   "id": "https://intel.brycemaxheimer.com/editions/2026-10-31/",
+   "url": "https://intel.brycemaxheimer.com/editions/2026-10-31/",
+   "title": "Daily Intel Brief: 2026-10-31",
+   "content_text": "1. CISA adds two exploited Ivanti Connect Secure flaws, CVE-2026-111357 and CVE-2026-118527, to KEV\n2. Microsoft: Teams help desk impersonation leads to AD CS ESC1 and ESC8 abuse in two intrusions\n3. BeyondTrust Remote Support CVE-2026-102764 allows unauthenticated RCE; listed in KEV, public exploit exists\n4. SecurityWeek: PHP2Shell attacks reportedly root Palo Alto firewalls, fail against WordPress\n5. CISA reports in-the-wild exploitation of max-severity GitLab RCE CVE-2026-97229\n6. Researchers report exploit for critical Linux kernel MPTCP flaw enabling unauthenticated remote root\n7. Binance ties roughly $6.3 billion crypto theft to a compromised DevOps engineer laptop\n8. Florida Department of Education reports breach of student financial aid site exposing 4.9 million SSNs\nNew KEV entries: CVE-2026-118527, CVE-2026-111357\nEarly signals: CVE-2026-98432, CVE-2026-112816",
+   "date_published": "2026-10-31T07:26:07Z",
+   "_intel_brief": {
+    "data": "https://intel.brycemaxheimer.com/editions/2026-10-31/edition.json",
+    "stories": [
+     {
+      "title": "CISA adds two exploited Ivanti Connect Secure flaws, CVE-2026-111357 and CVE-2026-118527, to KEV",
+      "cves": [
+       "CVE-2026-118527",
+       "CVE-2026-111357"
+      ],
+      "score": 100
+     },
+     {
+      "title": "Microsoft: Teams help desk impersonation leads to AD CS ESC1 and ESC8 abuse in two intrusions",
+      "cves": [],
+      "score": 88
+     },
+     {
+      "title": "BeyondTrust Remote Support CVE-2026-102764 allows unauthenticated RCE; listed in KEV, public exploit exists",
+      "cves": [
+       "CVE-2026-102764"
+      ],
+      "score": 86
+     },
+     {
+      "title": "SecurityWeek: PHP2Shell attacks reportedly root Palo Alto firewalls, fail against WordPress",
+      "cves": [],
+      "score": 76
+     },
+     {
+      "title": "CISA reports in-the-wild exploitation of max-severity GitLab RCE CVE-2026-97229",
+      "cves": [
+       "CVE-2026-97229"
+      ],
+      "score": 73
+     },
+     {
+      "title": "Researchers report exploit for critical Linux kernel MPTCP flaw enabling unauthenticated remote root",
+      "cves": [],
+      "score": 54
+     },
+     {
+      "title": "Binance ties roughly $6.3 billion crypto theft to a compromised DevOps engineer laptop",
+      "cves": [],
+      "score": 54
+     },
+     {
+      "title": "Florida Department of Education reports breach of student financial aid site exposing 4.9 million SSNs",
+      "cves": [],
+      "score": 51
+     }
+    ]
+   }
+  }
+ ]
+}

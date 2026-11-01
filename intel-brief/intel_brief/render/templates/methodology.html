@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Methodology | {{ site.title }}{% endblock %}
+{% block description %}How the Daily Intel Brief is collected, ranked, written and reviewed, and what its AI-generated content can and cannot be trusted for.{% endblock %}
+{% block main %}
+<section class="edition-head">
+  <div>
+    <p class="eyebrow">Methodology</p>
+    <h1>How each edition is made</h1>
+    <p class="dek">What is automated, what a model writes, what code decides, and what a person checks before anything is published.</p>
+  </div>
+</section>
+<div class="layout">
+<main class="main prose">
+  <section class="panel">
+    <h2>1. Collection (code)</h2>
+    <p>Every morning a script reads free public sources: the CISA Known Exploited Vulnerabilities catalog, NVD (recent high and critical CVEs), FIRST EPSS scores, Microsoft and CISA advisories, security news feeds, new SigmaHQ rules, an index of public proof-of-concept repositories, and posts that mention CVEs on Bluesky, Mastodon (infosec.exchange), r/netsec and Hacker News. X/Twitter is not used.</p>
+  </section>
+  <section class="panel">
+    <h2>2. Ranking (model labels, code scores)</h2>
+    <p>Claude Haiku groups items about the same event into stories and labels each one: exploitation status, how widely the product is deployed, and which platform it hits. The priority score is then computed by code from those labels plus facts the collector already has: KEV status, EPSS, CVSS and how many outlets reported it. CVE IDs on the page always come from the collected items, never from the model.</p>
+  </section>
+  <section class="panel">
+    <h2>3. Summaries (model)</h2>
+    <p>For the top stories, Claude Opus (or Sonnet) writes what happened, why it matters, affected and fixed versions, and what to do, using only the collected items. It cannot browse, run tools or add links: every link on the page was gathered by the collector and checked against an allowlist. Summaries can still be wrong or incomplete. Each one shows how well its sources supported it.</p>
+  </section>
+  <section class="panel">
+    <h2>4. Detections (model and code)</h2>
+    <p>If SigmaHQ already has a rule for a CVE, that rule is used and converted automatically. Otherwise the model drafts a Sigma rule, which code assembles and checks with <code>sigma check</code>; rules that fail are dropped. Rules are converted with pySigma to Defender XDR KQL, Splunk SPL and Elastic, and every KQL query is parsed with Microsoft's Kusto.Language against the Defender XDR and Sentinel schemas. Hunting queries that contain an indicator not found in the sources are dropped. Everything AI-generated is labelled "AI-generated, untested". Test and tune before you deploy anything.</p>
+  </section>
+  <section class="panel">
+    <h2>5. Early signals (code)</h2>
+    <p>A CVE becomes an early signal when several independent accounts post about it within the window and it is not yet in KEV or the news feeds. Accounts that post about many CVEs a day are treated as feed bots and posts naming many CVEs as digests; neither counts. No model is involved.</p>
+  </section>
+  <section class="panel">
+    <h2>6. Review and publishing (a person)</h2>
+    <p>Each edition is proposed as a pull request. Nothing is published until a person reviews and merges it. The site publishes summaries and links only, never copies of articles. Proof-of-concept repositories are listed as links, unvetted, with a warning.</p>
+  </section>
+</main>
+<aside class="rail" aria-label="Quick facts">
+  <section class="panel">
+    <h2>Models</h2>
+    <div class="kv"><span>Ranking</span><b>Claude Haiku 5.5</b></div>
+    <div class="kv"><span>Summaries</span><b>Claude Opus 5.5</b></div>
+  </section>
+  <section class="panel">
+    <h2>Labels</h2>
+    <div class="kv"><span class="tag ai">AI-generated · untested</span></div>
+    <div class="kv"><span class="tag info">SigmaHQ rule · untested here</span></div>
+    <div class="kv"><span class="tag crit">In CISA KEV</span></div>
+  </section>
+</aside>
+</div>
+{% endblock %}

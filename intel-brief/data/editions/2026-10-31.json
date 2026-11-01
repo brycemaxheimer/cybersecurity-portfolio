@@ -1,0 +1,1255 @@
+{
+ "schema": 1,
+ "date": "2026-10-31",
+ "generated_at": "2026-10-31T07:26:07Z",
+ "generator": "intel-brief 0.1.0",
+ "models": {
+  "triage": "claude-haiku-5-5",
+  "writeup": "claude-opus-5-5",
+  "triage_method": "model"
+ },
+ "window": {
+  "since": "2026-10-30T05:20:44+00:00",
+  "until": "2026-10-31T07:20:44+00:00"
+ },
+ "stories": [
+  {
+   "id": "story-1",
+   "rank": 1,
+   "score": 100,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 25,
+    "platform": 20,
+    "new_kev": 10,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 4,
+    "in_kev": true,
+    "epss_max": 0.0032,
+    "cvss_max": 0
+   },
+   "title": "CISA adds two exploited Ivanti Connect Secure flaws, CVE-2026-111357 and CVE-2026-118527, to KEV",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "ubiquitous",
+    "platform": "edge_device",
+    "vendor": "Ivanti",
+    "product": "Connect Secure"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-118527",
+     "cvss": null,
+     "severity": "",
+     "products": [],
+     "epss": null,
+     "percentile": null,
+     "in_kev": true,
+     "kev_due": "2026-11-13",
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-111357",
+     "cvss": 7.0,
+     "severity": "HIGH",
+     "products": [
+      "ivanti connect secure"
+     ],
+     "epss": 0.00316,
+     "percentile": 0.24569,
+     "in_kev": true,
+     "kev_due": "2026-11-02",
+     "poc": [],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "On 2026-10-30 CISA added two Ivanti Connect Secure vulnerabilities to its Known Exploited Vulnerabilities catalog, citing evidence of active exploitation. According to CISA, CVE-2026-118527 is a predictable-identifier flaw that lets a remote authenticated attacker upload files with attacker-controlled content to a known location on disk. CVE-2026-111357 is a missing-authentication flaw that lets a local authenticated attacker escalate privileges. CISA says both can be chained with each other and with a third flaw, CVE-2026-104935; the items give no details on that CVE, affected versions, or fixed releases.",
+    "why_it_matters": "Ivanti Connect Secure is a widely deployed internet-facing VPN gateway, and CISA's description points to a chain that moves from file upload to privilege escalation, which could give an attacker full control of the appliance and a foothold into internal networks. Exploitation is confirmed. The KEV due dates are 2026-11-02 for CVE-2026-111357 and 2026-11-13 for CVE-2026-118527. The low EPSS of 0.00316 for CVE-2026-111357 should not lower priority given the confirmed in-the-wild use.",
+    "affected_versions": [
+     "Ivanti Connect Secure (specific versions not stated in sources)"
+    ],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Apply Ivanti's mitigations or patches for CVE-2026-111357, CVE-2026-118527 and the chained CVE-2026-104935 on every Connect Secure appliance, prioritizing internet-facing units, before the KEV due dates of 2026-11-02 and 2026-11-13.",
+     "Before and after patching, perform a forensic triage of each appliance as CISA's KEV entries require, including running Ivanti's integrity checking tool if available and reviewing for unexpected files on disk and new admin accounts.",
+     "If compromise is suspected, rotate credentials that transit or are stored on the appliance: local admin accounts, LDAP/AD service accounts, and VPN user credentials. Also revoke related sessions in Entra ID.",
+     "Hunt internal telemetry for logons, scanning, or lateral movement originating from the appliance's internal IP addresses since late October 2026.",
+     "If mitigations cannot be applied, restrict or take the appliance offline, as CISA advises discontinuing use when mitigations are unavailable."
+    ],
+    "confidence": "medium"
+   },
+   "sources": [
+    {
+     "title": "CISA Adds Two Known Exploited Vulnerabilities to Catalog",
+     "url": "https://www.cisa.gov/news-events/alerts/2026/10/30/cisa-adds-two-known-exploited-vulnerabilities-catalog",
+     "source": "CISA Advisories",
+     "kind": "advisory",
+     "published": "2026-10-30T12:00:00Z"
+    },
+    {
+     "title": "CVE-2026-118527: Ivanti Connect Secure Generation of Predictable Numbers or Identifiers Vulnerability",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-118527",
+     "source": "CISA KEV",
+     "kind": "kev",
+     "published": "2026-10-30T00:00:00Z"
+    },
+    {
+     "title": "CVE-2026-111357: Ivanti Connect Secure Missing Authentication for Critical Function Vulnerability",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-111357",
+     "source": "CISA KEV",
+     "kind": "kev",
+     "published": "2026-10-30T00:00:00Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Inventory all Ivanti Connect Secure appliances, including internet-exposed ones, and record their versions against Ivanti's advisory for these CVEs.",
+     "Check vulnerability management data for the CVE IDs, noting that appliance coverage in Defender Vulnerability Management may be incomplete.",
+     "Run Ivanti's integrity checking tool and review appliance logs for unexpected file uploads, unfamiliar administrative actions, or new local accounts.",
+     "Identify the appliance's internal IP addresses and hunt Defender and Sentinel data for connections and logons from those IPs to internal servers, especially to domain controllers or over SMB, RDP and WinRM.",
+     "Review Entra ID and AD sign-ins for service accounts used by the appliance for authentication, looking for use from unexpected hosts.",
+     "Escalate to incident response if any integrity check fails or unexpected activity from the appliance is found."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Devices reported vulnerable to the Ivanti Connect Secure KEV CVEs",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where CveId in~ (\"CVE-2026-111357\", \"CVE-2026-118527\", \"CVE-2026-104935\") | project DeviceName, DeviceId, OSPlatform, SoftwareVendor, SoftwareName, SoftwareVersion, CveId, VulnerabilitySeverityLevel, RecommendedSecurityUpdate",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Inbound admin-protocol connections from VPN appliance IPs (set the IP list)",
+      "kql": "let VpnApplianceIPs = dynamic([]); DeviceNetworkEvents | where Timestamp > ago(14d) | where ActionType == \"InboundConnectionAccepted\" | where RemoteIP in (VpnApplianceIPs) | where LocalPort in (22, 135, 139, 389, 445, 636, 3389, 5985, 5986) | summarize Connections = count(), Ports = make_set(LocalPort), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by DeviceName, RemoteIP | order by Connections desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Logons sourced from VPN appliance IPs (set the IP list)",
+      "kql": "let VpnApplianceIPs = dynamic([]); DeviceLogonEvents | where Timestamp > ago(14d) | where RemoteIP in (VpnApplianceIPs) | summarize Logons = count(), Accounts = make_set(AccountName), LogonTypes = make_set(LogonType), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by DeviceName, RemoteIP, ActionType | order by Logons desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-2",
+   "rank": 2,
+   "score": 88,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 25,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Microsoft: Teams help desk impersonation leads to AD CS ESC1 and ESC8 abuse in two intrusions",
+   "labels": {
+    "category": "campaign",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "ubiquitous",
+    "platform": "windows",
+    "vendor": "",
+    "product": "Active Directory Certificate Services"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "Microsoft Threat Intelligence reports two human-operated intrusions. In both, attackers impersonated IT or help desk staff over Microsoft Teams messages and calls and talked users into granting remote access, mostly through Quick Assist. After connecting, they staged portable Python, Bun or Java runtimes, ran host and network discovery, and assessed Active Directory Certificate Services. In one case the attacker abused an ESC1-vulnerable certificate template to get certificates for privileged accounts and performed DCSync. In the other, the attacker used PetitPotam to relay a domain controller's NTLM authentication to AD CS Web Enrollment (ESC8), then used the resulting domain-controller certificate for PKINIT Kerberos authentication.",
+    "why_it_matters": "Microsoft says no Teams vulnerability was involved. The attacks relied on social engineering plus insecure or overly permissive AD CS configurations, which are common in Windows domains, and exploitation was confirmed in real environments. In Case 1, a privileged identity excluded from Defender automated containment stayed usable and later supported data exfiltration, so exclusions and AD CS misconfigurations deserve immediate review.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Audit AD CS certificate templates for ESC1 conditions (enrollee-supplied subject, client authentication EKU, broad enrollment rights) and remove or restrict them.",
+     "Disable or harden AD CS Web Enrollment against NTLM relay (ESC8) by requiring HTTPS with Extended Protection for Authentication or removing the role, and mitigate PetitPotam-style coerced authentication on domain controllers.",
+     "Review identities excluded from Defender automatic attack disruption, especially privileged accounts, and remove unnecessary exclusions.",
+     "Restrict Teams external access and chats from unknown tenants, and limit or block Quick Assist where an approved remote support tool exists.",
+     "Train users and help desk staff to verify IT contact through a known channel before granting remote access."
+    ],
+    "confidence": "high"
+   },
+   "sources": [
+    {
+     "title": "From help desk impersonation to AD CS abuse: Investigating ESC1 and ESC8 intrusion paths",
+     "url": "https://www.microsoft.com/en-us/security/blog/2026/10/30/help-desk-impersonation-ad-cs-abuse-investigating-esc1-esc8-intrusion-paths/",
+     "source": "Microsoft Security Blog",
+     "kind": "news",
+     "published": "2026-10-30T16:11:44Z"
+    }
+   ],
+   "detection": {
+    "type": "behavioral",
+    "sigma": {
+     "origin": "ai",
+     "title": "Portable Script Runtime Executed From User-Writable Directory",
+     "url": null,
+     "yaml": "title: Portable Script Runtime Executed From User-Writable Directory\nid: 2154db59-eb09-5901-bf38-ce956f40f405\nstatus: experimental\ndescription: Detects Python, Bun or Java runtimes executing from user profile, temp or public directories. Microsoft observed attackers staging these portable runtimes after help desk impersonation and Quick Assist access, ahead of AD CS abuse. AI-generated, untested.\nreferences:\n- https://www.microsoft.com/en-us/security/blog/2026/10/30/help-desk-impersonation-ad-cs-abuse-investigating-esc1-esc8-intrusion-paths/\nauthor: intel-brief (AI-generated, untested)\ndate: '2026-10-31'\ntags:\n- attack.execution\n- attack.t1059.006\n- attack.t1059.007\n- attack.t1566.004\nlogsource:\n  product: windows\n  category: process_creation\ndetection:\n  selection_runtime:\n    Image|endswith:\n    - \\python.exe\n    - \\pythonw.exe\n    - \\bun.exe\n    - \\java.exe\n    - \\javaw.exe\n  selection_path:\n    Image|contains:\n    - \\AppData\\Local\\Temp\\\n    - \\Downloads\\\n    - \\Users\\Public\\\n    - \\AppData\\Roaming\\\n    - \\Desktop\\\n  filter_installed:\n    Image|contains:\n    - \\AppData\\Local\\Programs\\Python\\\n    - \\AppData\\Local\\Microsoft\\WindowsApps\\\n  condition: selection_runtime and selection_path and not filter_installed\nfalsepositives:\n- Developers running portable or embedded runtimes from their profile\n- Applications that bundle a Java or Python runtime and extract it to temp folders\nlevel: medium\n",
+     "check": {
+      "status": "pass",
+      "messages": [
+       "No rule errors found.",
+       "No condition errors found.",
+       "No validation issues found.",
+       "Parsing Sigma rules",
+       "Checking Sigma rules"
+      ]
+     },
+     "conversions": {
+      "kql": {
+       "label": "Defender XDR / Sentinel KQL",
+       "query": "DeviceProcessEvents\n| where (FolderPath endswith \"\\\\python.exe\" or FolderPath endswith \"\\\\pythonw.exe\" or FolderPath endswith \"\\\\bun.exe\" or FolderPath endswith \"\\\\java.exe\" or FolderPath endswith \"\\\\javaw.exe\") and (FolderPath contains \"\\\\AppData\\\\Local\\\\Temp\\\\\" or FolderPath contains \"\\\\Downloads\\\\\" or FolderPath contains \"\\\\Users\\\\Public\\\\\" or FolderPath contains \"\\\\AppData\\\\Roaming\\\\\" or FolderPath contains \"\\\\Desktop\\\\\") and (not((FolderPath contains \"\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\\" or FolderPath contains \"\\\\AppData\\\\Local\\\\Microsoft\\\\WindowsApps\\\\\")))",
+       "error": null,
+       "validation": {
+        "status": "pass",
+        "messages": []
+       }
+      },
+      "spl": {
+       "label": "Splunk SPL",
+       "query": "Image IN (\"*\\\\python.exe\", \"*\\\\pythonw.exe\", \"*\\\\bun.exe\", \"*\\\\java.exe\", \"*\\\\javaw.exe\") Image IN (\"*\\\\AppData\\\\Local\\\\Temp\\\\*\", \"*\\\\Downloads\\\\*\", \"*\\\\Users\\\\Public\\\\*\", \"*\\\\AppData\\\\Roaming\\\\*\", \"*\\\\Desktop\\\\*\") NOT (Image IN (\"*\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\*\", \"*\\\\AppData\\\\Local\\\\Microsoft\\\\WindowsApps\\\\*\"))",
+       "error": null
+      },
+      "elastic": {
+       "label": "Elastic (Lucene, ECS)",
+       "query": "(process.executable.caseless:(*\\\\python.exe OR *\\\\pythonw.exe OR *\\\\bun.exe OR *\\\\java.exe OR *\\\\javaw.exe)) AND (process.executable.caseless:(*\\\\AppData\\\\Local\\\\Temp\\\\* OR *\\\\Downloads\\\\* OR *\\\\Users\\\\Public\\\\* OR *\\\\AppData\\\\Roaming\\\\* OR *\\\\Desktop\\\\*)) AND (NOT (process.executable.caseless:(*\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\* OR *\\\\AppData\\\\Local\\\\Microsoft\\\\WindowsApps\\\\*)))",
+       "error": null
+      }
+     }
+    },
+    "hunting_steps": [
+     "Find Quick Assist launches on endpoints and check whether a Teams contact from an external or unfamiliar tenant came just before them.",
+     "On those devices, look for Python, Bun or Java runtimes executing from user-writable paths within hours of the remote session.",
+     "Review AD CS issued-certificate logs for requests where the subject or SAN names a privileged account different from the requester, especially from ESC1-vulnerable templates.",
+     "Check AD CS Web Enrollment servers for NTLM authentications by domain controller machine accounts coming from workstations, which points to PetitPotam relay.",
+     "Look for directory replication (DCSync) requests from non-domain-controller hosts and for Kerberos PKINIT logons by domain controller accounts from unexpected devices.",
+     "Confirm any compromised privileged identity is not excluded from automated containment, then revoke the issued certificates and reset the affected accounts."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Portable runtimes executed shortly after Quick Assist on same device",
+      "kql": "let qa = DeviceProcessEvents | where Timestamp > ago(14d) | where FileName =~ \"QuickAssist.exe\" | project DeviceId, QATime = Timestamp, QAUser = AccountName; DeviceProcessEvents | where Timestamp > ago(14d) | where FileName in~ (\"python.exe\",\"pythonw.exe\",\"bun.exe\",\"java.exe\",\"javaw.exe\") | where FolderPath has_any (\"AppData\",\"Downloads\",\"Public\",\"Temp\") | join kind=inner qa on DeviceId | where Timestamp between (QATime .. (QATime + 4h)) | project Timestamp, DeviceName, AccountName, QAUser, QATime, FileName, FolderPath, ProcessCommandLine, InitiatingProcessFileName",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Python, Bun or Java runtimes running from user-writable folders",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where FileName in~ (\"python.exe\",\"pythonw.exe\",\"bun.exe\",\"java.exe\",\"javaw.exe\") | where FolderPath has_any (\"AppData\",\"Downloads\",\"Public\",\"Temp\",\"Desktop\") | where not(FolderPath has \"Programs\\\\Python\") | summarize Executions = count(), FirstSeen = min(Timestamp), LastSeen = max(Timestamp), Commands = make_set(ProcessCommandLine, 10) by DeviceName, AccountName, FolderPath",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Network connections from portable runtimes in user-writable folders",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(14d) | where InitiatingProcessFileName in~ (\"python.exe\",\"pythonw.exe\",\"bun.exe\",\"java.exe\",\"javaw.exe\") | where InitiatingProcessFolderPath has_any (\"AppData\",\"Downloads\",\"Public\",\"Temp\") | summarize Connections = count(), RemoteIPs = make_set(RemoteIP, 20), Ports = make_set(RemotePort, 20) by DeviceName, InitiatingProcessAccountName, InitiatingProcessFolderPath",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-3",
+   "rank": 3,
+   "score": 86,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 18,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 5,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": true,
+    "epss_max": 0.1895,
+    "cvss_max": 0
+   },
+   "title": "BeyondTrust Remote Support CVE-2026-102764 allows unauthenticated RCE; listed in KEV, public exploit exists",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "widespread",
+    "platform": "edge_device",
+    "vendor": "BeyondTrust",
+    "product": "Remote Support"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-102764",
+     "cvss": 9.3,
+     "severity": "CRITICAL",
+     "products": [
+      "beyondtrust remote support"
+     ],
+     "epss": 0.1895,
+     "percentile": 0.97297,
+     "in_kev": true,
+     "kev_due": null,
+     "poc": [
+      {
+       "url": "https://github.com/Worthes/CVE-2026-102764-Proof-of-concept",
+       "name": "Worthes/CVE-2026-102764-Proof-of-concept",
+       "stars": 3,
+       "created": "2026-10-16"
+      },
+      {
+       "url": "https://github.com/maxprog-svg/CVE-2026-102764",
+       "name": "maxprog-svg/CVE-2026-102764",
+       "stars": 0,
+       "created": "2026-10-21"
+      },
+      {
+       "url": "https://github.com/CompleteTech-Security/beyondtrust-remote-support-cve-2026-102764-check",
+       "name": "CompleteTech-Security/beyondtrust-remote-support-cve-2026-102764-check",
+       "stars": 0,
+       "created": "2026-10-23"
+      }
+     ],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "Rapid7 describes an origin-validation flaw in BeyondTrust Remote Support. An unauthenticated attacker using the public customer session entry point can forge a local router address and reach an internal file-transfer service. This lets them write arbitrary files, including a PHP file in the web root, and run code as the site's OS user. Rapid7 confirmed the chain on Remote Support 24.1.2 (build 1524046) with default thin chat and public session starts enabled, and says a Metasploit module now implements it. According to the enrichment data, the CVE carries CVSS 9.3 and an EPSS of about 0.19, and it is listed in CISA KEV, although the item gives no KEV due date.",
+    "why_it_matters": "Remote Support appliances are internet-facing by design and hold privileged access to the endpoints and servers that technicians support. A compromised appliance can therefore become a launch point into Windows estates. With KEV listing, the story labelled as exploited in the wild, and a public Metasploit module, opportunistic mass exploitation is likely. Rapid7 has not established the full affected range or fixed builds, so every exposed instance should be treated as at risk until BeyondTrust says otherwise.",
+    "affected_versions": [
+     "BeyondTrust Remote Support 24.1.2 build 1524046 (tested by Rapid7; other affected releases not established)"
+    ],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory all BeyondTrust Remote Support appliances (cloud and on-premises) and apply BeyondTrust's fix for CVE-2026-102764 as soon as the vendor publishes it; confirm the fixed build directly with BeyondTrust because no source states one.",
+     "Until patched, restrict internet access to the appliance's public customer portal where business allows, and consider disabling public issue-menu session starts and thin chat, which were enabled on Rapid7's vulnerable test appliance.",
+     "Review appliance file systems and web logs for unexpected PHP files in the public web directory and for requests to newly created scripts; involve BeyondTrust support for a forensic review if anything is found.",
+     "Hunt on Windows endpoints for unusual commands, shells or file drops launched by the BeyondTrust customer or jump client, which would indicate an attacker using the appliance to reach endpoints.",
+     "If compromise is suspected, rotate credentials stored in or used through Remote Support, including vault credentials and representative accounts, and review session logs for unknown sessions."
+    ],
+    "confidence": "medium"
+   },
+   "sources": [
+    {
+     "title": "Rapid7 Analysis: Unauthenticated File Upload to RCE in BeyondTrust Remote Support (CVE-2026-102764)",
+     "url": "https://www.rapid7.com/blog/post/ra-rapid7-analysis-unauthenticated-file-upload-to-rce-in-beyondtrust-remote-support-cve-2026-102764",
+     "source": "Rapid7",
+     "kind": "news",
+     "published": "2026-10-30T16:01:53Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Identify all Remote Support appliances and their versions, and note which expose the public customer portal to the internet.",
+     "On each appliance, look for recently created or modified PHP files in the web root and for web requests to unfamiliar script paths, especially from external IPs that never started a legitimate session.",
+     "Check appliance session logs for anonymous customer sessions with no matching support ticket or representative activity.",
+     "In Defender XDR, review processes and files spawned by the BeyondTrust client (bomgar-scc.exe) on endpoints for shells, LOLBins or executables outside normal technician activity.",
+     "Correlate any suspicious client activity with the time window of anomalous appliance sessions, and escalate to incident response if they overlap."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Devices flagged vulnerable to CVE-2026-102764 by Defender TVM",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where CveId == \"CVE-2026-102764\" | project DeviceName, OSPlatform, SoftwareVendor, SoftwareName, SoftwareVersion, VulnerabilitySeverityLevel",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Shells and LOLBins launched by BeyondTrust Remote Support client",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where InitiatingProcessFileName =~ \"bomgar-scc.exe\" | where FileName in~ (\"cmd.exe\",\"powershell.exe\",\"pwsh.exe\",\"rundll32.exe\",\"mshta.exe\",\"certutil.exe\",\"bitsadmin.exe\",\"wscript.exe\",\"cscript.exe\") | summarize Count=count(), FirstSeen=min(Timestamp), LastSeen=max(Timestamp), SampleCmd=any(ProcessCommandLine) by DeviceName, FileName, AccountName | order by LastSeen desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Executables and scripts written by BeyondTrust Remote Support client",
+      "kql": "DeviceFileEvents | where Timestamp > ago(30d) | where InitiatingProcessFileName =~ \"bomgar-scc.exe\" | where ActionType == \"FileCreated\" | where FileName endswith \".exe\" or FileName endswith \".dll\" or FileName endswith \".ps1\" or FileName endswith \".bat\" or FileName endswith \".vbs\" | project Timestamp, DeviceName, FolderPath, FileName, SHA256, InitiatingProcessAccountName | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-4",
+   "rank": 4,
+   "score": 76,
+   "factors": {
+    "exploitation": 28,
+    "prevalence": 25,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "SecurityWeek: PHP2Shell attacks reportedly root Palo Alto firewalls, fail against WordPress",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "reported",
+    "prevalence": "ubiquitous",
+    "platform": "edge_device",
+    "vendor": "Palo Alto Networks",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "SecurityWeek reports that attacks dubbed PHP2Shell, which target critical PHP flaws, have been ongoing for more than a week and have reportedly gained root access on Palo Alto Networks firewalls, while attempts against WordPress sites failed. The outlet says more than 22.6 million exposed instances may be affected. The only available item is a short summary, so it does not name CVE identifiers, affected PHP or PAN-OS versions, patches, or indicators.",
+    "why_it_matters": "Root compromise of a perimeter firewall gives an attacker a foothold that bypasses most endpoint telemetry, and exploitation is reported as active. Any internet-facing Palo Alto device or Windows or Linux server running PHP may be exposed. Details are thin, so treat this as an exposure review until Palo Alto Networks or PHP advisories confirm scope and fixes.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Check Palo Alto Networks security advisories for any PAN-OS issue linked to these PHP flaws, and apply fixes or mitigations as soon as they are published.",
+     "Restrict management interfaces on Palo Alto firewalls to trusted internal networks. Review device logs and configuration for unexpected admin accounts, changes, or outbound connections.",
+     "Inventory internet-facing hosts running PHP and update PHP to the latest supported release once the specific flaws are identified.",
+     "Hunt on Windows web servers for PHP processes launching shells or scripting engines, and for new script files written to web roots.",
+     "Track follow-up reporting for CVE IDs and indicators, then re-run the hunts with those details."
+    ],
+    "confidence": "low"
+   },
+   "sources": [
+    {
+     "title": "PHP2Shell Attacks Root Palo Alto Firewalls but Fail Against WordPress",
+     "url": "https://www.securityweek.com/php2shell-attacks-root-palo-alto-firewalls-but-fail-against-wordpress/",
+     "source": "SecurityWeek",
+     "kind": "news",
+     "published": "2026-10-30T15:09:25Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Confirm whether any Palo Alto firewalls have management or GlobalProtect interfaces exposed to the internet, and review their system and config logs for unexplained changes over the past two weeks.",
+     "Use Defender Vulnerability Management to list devices with PHP installed and note their versions.",
+     "Search process telemetry for php.exe or php-cgi.exe spawning cmd, PowerShell or other LOLBins on web servers.",
+     "Look for new .php files created in web directories by PHP or web server processes during the attack window.",
+     "Escalate any hit for full host investigation, and rotate credentials stored on or used by affected systems."
+    ],
+    "hunting_queries": [
+     {
+      "title": "PHP processes spawning shells or LOLBins",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(14d) | where InitiatingProcessFileName in~ (\"php.exe\",\"php-cgi.exe\") | where FileName in~ (\"cmd.exe\",\"powershell.exe\",\"pwsh.exe\",\"certutil.exe\",\"bitsadmin.exe\",\"mshta.exe\",\"rundll32.exe\",\"whoami.exe\",\"curl.exe\") | project Timestamp, DeviceName, InitiatingProcessFileName, InitiatingProcessCommandLine, FileName, ProcessCommandLine, AccountName",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "New PHP files written by PHP or web server processes",
+      "kql": "DeviceFileEvents | where Timestamp > ago(14d) | where ActionType == \"FileCreated\" | where FileName endswith \".php\" | where InitiatingProcessFileName in~ (\"php.exe\",\"php-cgi.exe\",\"w3wp.exe\",\"httpd.exe\",\"nginx.exe\") | project Timestamp, DeviceName, FolderPath, FileName, InitiatingProcessFileName, InitiatingProcessCommandLine",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Inventory of devices with PHP installed",
+      "kql": "DeviceTvmSoftwareInventory | where SoftwareName has \"php\" | summarize Devices = make_set(DeviceName) by SoftwareVendor, SoftwareName, SoftwareVersion",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-5",
+   "rank": 5,
+   "score": 73,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 18,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 5,
+    "cvss": 0,
+    "sources": 6,
+    "chatter": 4,
+    "in_kev": true,
+    "epss_max": 0.2657,
+    "cvss_max": 0
+   },
+   "title": "CISA reports in-the-wild exploitation of max-severity GitLab RCE CVE-2026-97229",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "widespread",
+    "platform": "web_app",
+    "vendor": "GitLab",
+    "product": "GitLab"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-97229",
+     "cvss": 10.0,
+     "severity": "CRITICAL",
+     "products": [
+      "gitlab gitlab"
+     ],
+     "epss": 0.26569,
+     "percentile": 0.98015,
+     "in_kev": true,
+     "kev_due": null,
+     "poc": [
+      {
+       "url": "https://github.com/jburgess-r7/CVE-2026-97229-PoC",
+       "name": "jburgess-r7/CVE-2026-97229-PoC",
+       "stars": 64,
+       "created": "2026-10-13"
+      },
+      {
+       "url": "https://github.com/gandli/cve-2026-97229-lab",
+       "name": "gandli/cve-2026-97229-lab",
+       "stars": 1,
+       "created": "2026-10-17"
+      },
+      {
+       "url": "https://github.com/murat-levi/gitlab-rce-toolkit",
+       "name": "murat-levi/gitlab-rce-toolkit",
+       "stars": 1,
+       "created": "2026-10-29"
+      }
+     ],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "CISA says attackers are exploiting CVE-2026-97229, a maximum-severity GitLab vulnerability that was patched earlier this month, according to BleepingComputer. SecurityWeek reports that the flaw lets unauthenticated attackers run arbitrary code on the GitLab server, and its headline says exploitation hit Alpine Linux, though the items give no further detail. The CVE is in CISA KEV, and enrichment shows public proof-of-concept code. Neither source names affected or fixed versions.",
+    "why_it_matters": "Self-managed GitLab servers hold source code, CI/CD secrets, deploy keys and runner tokens. A server compromise can spread into build pipelines, cloud accounts and the wider network, and internet-facing instances are the most exposed. With CVSS 10.0, confirmed exploitation, KEV listing, public PoC and an EPSS of about 0.27, unpatched instances should be treated as an emergency. KEV lists no due date.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Find every self-managed GitLab instance, internet-facing ones first, and upgrade to the patched release in GitLab's security advisory for CVE-2026-97229; the sources do not name version numbers.",
+     "If you cannot patch immediately, remove public exposure by putting the instance behind VPN or an IP allowlist until it is upgraded.",
+     "Hunt on GitLab hosts for shells, downloaders or interpreters started by GitLab Puma, Ruby or Workhorse processes, and for unexpected outbound connections from those processes.",
+     "For any instance that was exposed and unpatched, review GitLab application and web logs for anomalous unauthenticated requests. Check for new admin users, personal access tokens, SSH keys and runners.",
+     "If you suspect compromise, rotate CI/CD variables, runner registration tokens, deploy keys and cloud credentials stored in GitLab."
+    ],
+    "confidence": "medium"
+   },
+   "sources": [
+    {
+     "title": "Max-Severity GitLab Vulnerability Exploited Against Alpine Linux",
+     "url": "https://www.securityweek.com/max-severity-gitlab-vulnerability-exploited-against-alpine-linux/",
+     "source": "SecurityWeek",
+     "kind": "news",
+     "published": "2026-10-30T09:32:27Z"
+    },
+    {
+     "title": "CISA says max severity GitLab flaw now exploited in the wild",
+     "url": "https://www.bleepingcomputer.com/news/security/hackers-now-exploiting-max-severity-gitlab-flaw-in-attacks/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-10-30T13:00:32Z"
+    }
+   ],
+   "detection": {
+    "type": "behavioral",
+    "sigma": {
+     "origin": "ai",
+     "title": "Suspicious Child Process Spawned by GitLab Web Application",
+     "url": null,
+     "yaml": "title: Suspicious Child Process Spawned by GitLab Web Application\nid: 4746a238-c08b-50f0-85b5-8c746433e843\nstatus: experimental\ndescription: Detects shells, downloaders or script interpreters spawned by GitLab Puma/Ruby/Workhorse processes. This can indicate remote code execution, such as exploitation of CVE-2026-97229. AI-generated, untested.\nreferences:\n- https://www.securityweek.com/max-severity-gitlab-vulnerability-exploited-against-alpine-linux/\n- https://www.bleepingcomputer.com/news/security/hackers-now-exploiting-max-severity-gitlab-flaw-in-attacks/\nauthor: intel-brief (AI-generated, untested)\ndate: '2026-10-31'\ntags:\n- attack.t1190\n- attack.execution\n- attack.t1059.004\n- cve.2026-97229\nlogsource:\n  product: linux\n  category: process_creation\ndetection:\n  selection_parent:\n    ParentImage|endswith:\n    - /ruby\n    - /puma\n    - /gitlab-workhorse\n    ParentCommandLine|contains:\n    - gitlab\n    - puma\n  selection_child:\n    Image|endswith:\n    - /sh\n    - /bash\n    - /dash\n    - /zsh\n    - /ash\n    - /busybox\n    - /curl\n    - /wget\n    - /nc\n    - /ncat\n    - /socat\n    - /python\n    - /python3\n    - /perl\n    - /base64\n    - /whoami\n    - /id\n    - /uname\n  filter_git:\n    CommandLine|contains:\n    - '/opt/gitlab/embedded/bin/git '\n    - gitaly\n  condition: selection_parent and selection_child and not filter_git\nfalsepositives:\n- GitLab maintenance tasks, hooks or integrations that invoke shell commands from the Rails application\n- Administrator troubleshooting via gitlab-rails console\nlevel: high\n",
+     "check": {
+      "status": "pass",
+      "messages": [
+       "No rule errors found.",
+       "No condition errors found.",
+       "No validation issues found.",
+       "Parsing Sigma rules",
+       "Checking Sigma rules"
+      ]
+     },
+     "conversions": {
+      "kql": {
+       "label": "Defender XDR / Sentinel KQL",
+       "query": "DeviceProcessEvents\n| where ((InitiatingProcessFolderPath endswith \"/ruby\" or InitiatingProcessFolderPath endswith \"/puma\" or InitiatingProcessFolderPath endswith \"/gitlab-workhorse\") and (InitiatingProcessCommandLine contains \"gitlab\" or InitiatingProcessCommandLine contains \"puma\")) and (FolderPath endswith \"/sh\" or FolderPath endswith \"/bash\" or FolderPath endswith \"/dash\" or FolderPath endswith \"/zsh\" or FolderPath endswith \"/ash\" or FolderPath endswith \"/busybox\" or FolderPath endswith \"/curl\" or FolderPath endswith \"/wget\" or FolderPath endswith \"/nc\" or FolderPath endswith \"/ncat\" or FolderPath endswith \"/socat\" or FolderPath endswith \"/python\" or FolderPath endswith \"/python3\" or FolderPath endswith \"/perl\" or FolderPath endswith \"/base64\" or FolderPath endswith \"/whoami\" or FolderPath endswith \"/id\" or FolderPath endswith \"/uname\") and (not((ProcessCommandLine contains \"/opt/gitlab/embedded/bin/git \" or ProcessCommandLine contains \"gitaly\")))",
+       "error": null,
+       "validation": {
+        "status": "pass",
+        "messages": []
+       }
+      },
+      "spl": {
+       "label": "Splunk SPL",
+       "query": "ParentImage IN (\"*/ruby\", \"*/puma\", \"*/gitlab-workhorse\") ParentCommandLine IN (\"*gitlab*\", \"*puma*\") Image IN (\"*/sh\", \"*/bash\", \"*/dash\", \"*/zsh\", \"*/ash\", \"*/busybox\", \"*/curl\", \"*/wget\", \"*/nc\", \"*/ncat\", \"*/socat\", \"*/python\", \"*/python3\", \"*/perl\", \"*/base64\", \"*/whoami\", \"*/id\", \"*/uname\") NOT (CommandLine IN (\"*/opt/gitlab/embedded/bin/git *\", \"*gitaly*\"))",
+       "error": null
+      },
+      "elastic": {
+       "label": "Elastic (Lucene, ECS)",
+       "query": "((ParentImage:(*\\/ruby OR *\\/puma OR *\\/gitlab\\-workhorse)) AND (ParentCommandLine:(*gitlab* OR *puma*))) AND (Image:(*\\/sh OR *\\/bash OR *\\/dash OR *\\/zsh OR *\\/ash OR *\\/busybox OR *\\/curl OR *\\/wget OR *\\/nc OR *\\/ncat OR *\\/socat OR *\\/python OR *\\/python3 OR *\\/perl OR *\\/base64 OR *\\/whoami OR *\\/id OR *\\/uname)) AND (NOT (CommandLine:(*\\/opt\\/gitlab\\/embedded\\/bin\\/git\\ * OR *gitaly*)))",
+       "error": null
+      }
+     }
+    },
+    "hunting_steps": [
+     "List devices with GitLab installed and check vulnerability status for CVE-2026-97229 in Defender Vulnerability Management.",
+     "Mark which GitLab hosts are internet-facing and prioritize those for patching and review.",
+     "On GitLab hosts, search process telemetry for shells, downloaders or interpreters whose parent is Puma, Ruby or gitlab-workhorse.",
+     "Review outbound network connections from GitLab application processes to unusual external IPs.",
+     "Check GitLab audit logs for new admin accounts, access tokens, SSH keys or runners created since the patch release.",
+     "Look for new or modified files in GitLab public and web directories, and in temp directories, written by the git or gitlab users."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Devices exposed to CVE-2026-97229",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where CveId == \"CVE-2026-97229\" | summarize SoftwareVersions = make_set(SoftwareVersion) by DeviceName, DeviceId, SoftwareName, VulnerabilitySeverityLevel",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Shells or downloaders spawned by GitLab application processes",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where InitiatingProcessFileName in~ (\"ruby\", \"puma\", \"gitlab-workhorse\") or InitiatingProcessCommandLine has_any (\"gitlab-puma\", \"gitlab-workhorse\") | where FileName in~ (\"sh\", \"bash\", \"dash\", \"ash\", \"busybox\", \"curl\", \"wget\", \"nc\", \"ncat\", \"socat\", \"python\", \"python3\", \"perl\", \"base64\", \"whoami\", \"id\") | where ProcessCommandLine !has \"gitaly\" | project Timestamp, DeviceName, AccountName, InitiatingProcessFileName, InitiatingProcessCommandLine, FileName, ProcessCommandLine",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Outbound public connections from GitLab application processes",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(30d) | where InitiatingProcessFileName in~ (\"ruby\", \"puma\", \"sh\", \"bash\", \"curl\", \"wget\") | where InitiatingProcessParentFileName in~ (\"ruby\", \"puma\", \"gitlab-workhorse\") or InitiatingProcessCommandLine has \"gitlab\" | where RemoteIPType == \"Public\" | summarize Connections = count(), Ports = make_set(RemotePort) by DeviceName, InitiatingProcessFileName, RemoteIP | order by Connections desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-6",
+   "rank": 6,
+   "score": 54,
+   "factors": {
+    "exploitation": 18,
+    "prevalence": 25,
+    "platform": 8,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Researchers report exploit for critical Linux kernel MPTCP flaw enabling unauthenticated remote root",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "public_poc",
+    "prevalence": "ubiquitous",
+    "platform": "linux_server",
+    "vendor": "",
+    "product": "Linux kernel MPTCP"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "BleepingComputer reports that Anthropic security researchers built a working exploit for a critical Linux kernel vulnerability. The flaw lets an unauthenticated remote attacker run commands as root on servers that run Multipath TCP (MPTCP) listeners. The available item gives no CVE identifier, no affected or fixed kernel versions, and no information on whether the exploit code is public or has been used in the wild.",
+    "why_it_matters": "A pre-authentication remote root bug in the kernel networking stack would hit any Linux server or Linux-based appliance that accepts MPTCP connections. That can include edge gateways and hosts that face the internet. Because no CVE or patch details are available yet, defenders cannot check versions against a fix. The practical step now is to find which hosts have MPTCP enabled and are reachable from the internet. This assessment rests on a single news summary, so treat the details as preliminary until vendor or distribution advisories are published.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory Linux servers and Linux-based appliances, and identify the ones where MPTCP is enabled and services accept MPTCP connections, starting with hosts that face the internet.",
+     "Where MPTCP is not required, disable it through the net.mptcp.enabled sysctl until a patched kernel is available, after confirming this does not break the application.",
+     "Watch your Linux distribution and appliance vendor advisories for the CVE identifier and fixed kernel versions, then patch and reboot affected hosts first among internet-facing systems.",
+     "Restrict network exposure of MPTCP-enabled listeners with firewall rules where possible.",
+     "Hunt on Linux servers for unexpected root shells or processes spawned from kernel threads or network services, which could indicate post-exploitation activity."
+    ],
+    "confidence": "low"
+   },
+   "sources": [
+    {
+     "title": "Critical Linux kernel flaw allows remote root attacks on MPTCP servers",
+     "url": "https://www.bleepingcomputer.com/news/security/critical-linux-kernel-flaw-allows-remote-root-attacks-on-mptcp-servers/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-10-30T21:09:46Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "List all Linux devices onboarded to Defender for Endpoint and flag the ones marked as internet-facing.",
+     "On those hosts, check whether MPTCP is enabled (sysctl net.mptcp.enabled) and which services open MPTCP sockets.",
+     "Prioritize internet-facing MPTCP hosts for mitigation or patching once fixed kernel versions are published.",
+     "Review Linux process telemetry for shells running as root whose parent is a kernel thread or a network-facing daemon, then investigate any you cannot explain.",
+     "Check unmanaged Linux-based edge appliances separately with the vendor, because Defender telemetry will not cover them."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Inventory Linux devices and internet-facing exposure",
+      "kql": "DeviceInfo | where Timestamp > ago(7d) | where OSPlatform == \"Linux\" | summarize arg_max(Timestamp, *) by DeviceId | project DeviceId, DeviceName, OSDistribution, OSVersion, PublicIP, IsInternetFacing | order by IsInternetFacing desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Root shells spawned by kernel threads on Linux hosts",
+      "kql": "let LinuxDevices = DeviceInfo | where Timestamp > ago(7d) | where OSPlatform == \"Linux\" | distinct DeviceId; DeviceProcessEvents | where Timestamp > ago(14d) | where DeviceId in (LinuxDevices) | where FileName in~ (\"sh\", \"bash\", \"dash\", \"zsh\") | where AccountName == \"root\" | where InitiatingProcessFileName startswith \"kworker\" or InitiatingProcessFileName in~ (\"kthreadd\", \"ksoftirqd\") | project Timestamp, DeviceName, AccountName, FileName, ProcessCommandLine, InitiatingProcessFileName, InitiatingProcessCommandLine",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-7",
+   "rank": 7,
+   "score": 54,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 6,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Binance ties roughly $6.3 billion crypto theft to a compromised DevOps engineer laptop",
+   "labels": {
+    "category": "breach",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "other",
+    "vendor": "Binance",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "BleepingComputer reports that Binance has linked the theft of about $6.3 billion in cryptocurrency to a DevOps engineer's compromised laptop. SecurityWeek says blockchain analysts see hallmarks of North Korea's TraderTraitor activity, and describes Binance as still investigating a possibly compromised engineer laptop. Neither item gives the initial access method, malware, or indicators, and the sources differ on how firmly the laptop link is established.",
+    "why_it_matters": "If the reporting holds, a single privileged engineering workstation was enough to reach systems controlling very large assets, which makes developer and DevOps endpoints with cloud, CI/CD or signing access high-value targets in any organization. Exploitation is confirmed, but there are no CVEs, IOCs or technical details yet, so defenders can only check how well their own privileged engineering endpoints are monitored and hardened.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "List DevOps, SRE and developer endpoints that hold production cloud, CI/CD, secrets-vault or signing access, and confirm full EDR coverage and alerting on them.",
+     "Review recent activity on those endpoints for script runtimes or recently installed unsigned applications launching shells or making unusual outbound connections.",
+     "Enforce phishing-resistant MFA, short-lived credentials and just-in-time access for production and key-management systems so one stolen laptop session cannot reach critical assets.",
+     "Rotate long-lived cloud access keys, tokens and SSH keys stored on engineering workstations, and audit their recent use from unexpected locations.",
+     "Watch for follow-up reporting from Binance or other researchers with TraderTraitor indicators and techniques, and hunt for them when published."
+    ],
+    "confidence": "medium"
+   },
+   "sources": [
+    {
+     "title": "$6 Billion Binance Hack Bears Hallmarks of North Korea’s TraderTraitor",
+     "url": "https://www.securityweek.com/6-billion-binance-hack-bears-hallmarks-of-north-koreas-tradertraitor/",
+     "source": "SecurityWeek",
+     "kind": "news",
+     "published": "2026-10-30T08:16:26Z"
+    },
+    {
+     "title": "Binance links $6.3 billion crypto theft to compromised DevOps laptop",
+     "url": "https://www.bleepingcomputer.com/news/security/binance-links-63-billion-crypto-theft-to-compromised-devops-laptop/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-10-30T09:18:13Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Build a device group of engineering and DevOps workstations with privileged production or key-management access.",
+     "On those devices, look for developer runtimes (node, python) or recently installed unsigned applications spawning command shells or PowerShell.",
+     "Check for processes other than expected tools reading cloud credential files and SSH keys in user profiles.",
+     "Review outbound connections from those processes to rare external destinations.",
+     "Correlate any hits with sign-ins to cloud consoles, CI/CD systems and secrets vaults from the same user.",
+     "Add vendor-published TraderTraitor indicators to these hunts once they are available."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Developer runtimes spawning shells on endpoints",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where InitiatingProcessFileName in~ (\"node.exe\",\"python.exe\",\"pythonw.exe\") | where FileName in~ (\"cmd.exe\",\"powershell.exe\",\"pwsh.exe\",\"curl.exe\",\"bitsadmin.exe\") | summarize Count=count(), Devices=dcount(DeviceId), SampleCmd=any(ProcessCommandLine) by InitiatingProcessFileName, FileName, InitiatingProcessCommandLine | order by Devices asc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Unusual processes touching cloud credential and SSH key files",
+      "kql": "DeviceFileEvents | where Timestamp > ago(30d) | where FolderPath has_any (@\"\\.aws\\\", @\"\\.azure\\\", @\"\\.ssh\\\", @\"\\.kube\\\", @\"\\gcloud\\\") | where InitiatingProcessFileName !in~ (\"aws.exe\",\"az.cmd\",\"kubectl.exe\",\"ssh.exe\",\"git.exe\",\"code.exe\",\"explorer.exe\") | summarize Count=count(), Files=make_set(FileName, 20) by DeviceName, InitiatingProcessFileName, InitiatingProcessFolderPath | order by Count desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Rare outbound destinations from script runtimes",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(14d) | where InitiatingProcessFileName in~ (\"node.exe\",\"python.exe\",\"pythonw.exe\",\"powershell.exe\") | where RemoteIPType == \"Public\" | summarize Devices=dcount(DeviceId), Connections=count() by RemoteUrl, RemoteIP, InitiatingProcessFileName | where Devices <= 2 | order by Connections desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-8",
+   "rank": 8,
+   "score": 51,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Florida Department of Education reports breach of student financial aid site exposing 4.9 million SSNs",
+   "labels": {
+    "category": "breach",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "other",
+    "vendor": "Florida Department of Education",
+    "product": "Florida Student Financial Aid website"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "According to The Record, the Florida Department of Education (FLDOE) said it learned on October 19 of a data breach affecting the Florida Student Financial Aid website. The Record reports that Social Security numbers for about 4.9 million people were exposed. The available item does not describe how the attackers got in, who was responsible, or which specific data fields beyond SSNs were involved.",
+    "why_it_matters": "No vulnerability, product version or attacker technique has been disclosed, so there is nothing to patch or detect in Windows, M365 or edge-device telemetry right now. The main risk to most organizations is downstream: phishing and identity fraud that uses the leaked SSNs, especially against staff or students with ties to Florida financial aid programs.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Brief help desk and HR staff on social engineering that cites Florida financial aid or FLDOE breach notifications, and require identity verification that does not depend on SSNs.",
+     "Watch for phishing lures that impersonate FLDOE or breach-notification and credit-monitoring offers, and tune mail filtering for them.",
+     "Track FLDOE updates on the intrusion vector and any indicators it releases, and reassess detection coverage if a product or technique is named."
+    ],
+    "confidence": "medium"
+   },
+   "sources": [
+    {
+     "title": "Florida warns that 4.9 million people had Social Security numbers leaked in financial aid site breach",
+     "url": "https://therecord.media/florida-warns-5-million-affected-financial-aid-site-breach",
+     "source": "The Record",
+     "kind": "news",
+     "published": "2026-10-30T15:54:00Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  }
+ ],
+ "more_stories": [
+  {
+   "title": "Fashion retailer Resolve says hackers stole customer payment card numbers",
+   "score": 51,
+   "cves": [],
+   "sources": [
+    {
+     "title": "Fashion retailer Resolve says hackers stole payment card information",
+     "url": "https://therecord.media/resolve-fashion-retailer-data-breach-payment-cards",
+     "source": "The Record"
+    }
+   ]
+  },
+  {
+   "title": "Drupal Commerce Core critical access bypass exploited in the wild",
+   "score": 50,
+   "cves": [],
+   "sources": [
+    {
+     "title": "Drupal warns of critical Commerce Core flaw exploited in attacks",
+     "url": "https://www.bleepingcomputer.com/news/security/drupal-warns-of-critical-commerce-core-flaw-exploited-in-attacks/",
+     "source": "BleepingComputer"
+    },
+    {
+     "title": "Drupal Commerce Core Vulnerability Exploited Against Online Stores",
+     "url": "https://www.securityweek.com/drupal-commerce-core-vulnerability-exploited-against-online-stores/",
+     "source": "SecurityWeek"
+    }
+   ]
+  },
+  {
+   "title": "Malicious Claude Code extension distributed via Cursor marketplace installs SSH backdoors",
+   "score": 50,
+   "cves": [],
+   "sources": [
+    {
+     "title": "Malicious Claude Code extension on Cursor planted SSH backdoors",
+     "url": "https://www.bleepingcomputer.com/news/security/malicious-claude-code-extension-on-cursor-planted-ssh-backdoors/",
+     "source": "BleepingComputer"
+    },
+    {
+     "title": "Inside a malicious Claude Code-branded extension and its persistent SSH backdoor",
+     "url": "https://www.microsoft.com/en-us/security/blog/2026/10/30/inside-malicious-claude-code-branded-cursor-extension-persistent-ssh-backdoor/",
+     "source": "Microsoft Security Blog"
+    }
+   ]
+  },
+  {
+   "title": "Threat actors attempt exploitation of unauthenticated WordPress race condition RCE",
+   "score": 49,
+   "cves": [],
+   "sources": [
+    {
+     "title": "Fresh WordPress Vulnerability in Attackers’ Crosshairs",
+     "url": "https://www.securityweek.com/fresh-wordpress-vulnerability-in-attackers-crosshairs/",
+     "source": "SecurityWeek"
+    }
+   ]
+  },
+  {
+   "title": "Microsoft fixes Always On VPN failures caused by September 2026 Windows 11 updates",
+   "score": 48,
+   "cves": [],
+   "sources": [
+    {
+     "title": "Microsoft finally fixes VPN issues caused by September updates",
+     "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-finally-fixes-vpn-issues-caused-by-september-updates/",
+     "source": "BleepingComputer"
+    }
+   ]
+  },
+  {
+   "title": "Polymarket traders drained of over $2 million in supply chain attack",
+   "score": 47,
+   "cves": [],
+   "sources": [
+    {
+     "title": "$2 Million+ Drained From Polymarket Traders in New Supply Chain Attack",
+     "url": "https://www.securityweek.com/2-million-drained-from-polymarket-traders-in-new-supply-chain-attack/",
+     "source": "SecurityWeek"
+    }
+   ]
+  },
+  {
+   "title": "TeamViewer integer overflow CVE-2026-111585 could let malicious hosts run code on viewers",
+   "score": 45,
+   "cves": [
+    "CVE-2026-111585"
+   ],
+   "sources": [
+    {
+     "title": "TeamViewer Flaw Could Let Malicious Hosts Take Over Support Technicians’ Machines",
+     "url": "https://www.securityweek.com/teamviewer-flaw-could-let-malicious-hosts-take-over-support-technicians-machines/",
+     "source": "SecurityWeek"
+    }
+   ]
+  },
+  {
+   "title": "CVE-2026-118147 Visual Studio spoofing via improper certificate validation",
+   "score": 41,
+   "cves": [
+    "CVE-2026-118147"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-118147 Visual Studio Spoofing Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-118147",
+     "source": "MSRC Security Update Guide"
+    }
+   ]
+  },
+  {
+   "title": "SQLite FTS5 heap overflow CVE-2026-119373 fixed in version 3.54.0",
+   "score": 25,
+   "cves": [
+    "CVE-2026-119373"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-119373 (HIGH 8.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-119373",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Traefik Ingress NGINX provider flaw CVE-2026-119572 silently disables mTLS client checks",
+   "score": 24,
+   "cves": [
+    "CVE-2026-119572"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-119572 (HIGH 7.0)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-119572",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "WordPress Core RCE in versions 4.7 to 7.1.3 via predictable upgrade staging paths",
+   "score": 22,
+   "cves": [
+    "CVE-2026-119977"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-119977 (HIGH 8.1)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-119977",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Syrian Electronic Army hacker sentenced to 42 months in federal prison",
+   "score": 11,
+   "cves": [],
+   "sources": [
+    {
+     "title": "Syrian Electronic Army hacker gets prison time for attacks on Western targets",
+     "url": "https://therecord.media/syrian-electronic-army-hacker-sentenced-three-years",
+     "source": "The Record"
+    }
+   ]
+  },
+  {
+   "title": "FBI seizes domain of bulletproof hosting provider Virtualine",
+   "score": 11,
+   "cves": [],
+   "sources": [
+    {
+     "title": "Bulletproof Host Virtualine Loses Its Domain to FBI Seizure",
+     "url": "https://www.securityweek.com/bulletproof-host-virtualine-loses-its-domain-to-fbi-seizure/",
+     "source": "SecurityWeek"
+    }
+   ]
+  }
+ ],
+ "kev_new": [
+  {
+   "cve": "CVE-2026-118527",
+   "vendor": "Ivanti",
+   "product": "Connect Secure",
+   "name": "Ivanti Connect Secure Generation of Predictable Numbers or Identifiers Vulnerability",
+   "date_added": "2026-10-30",
+   "due_date": "2026-11-13",
+   "ransomware": "Unknown",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-118527"
+  },
+  {
+   "cve": "CVE-2026-111357",
+   "vendor": "Ivanti",
+   "product": "Connect Secure",
+   "name": "Ivanti Connect Secure Missing Authentication for Critical Function Vulnerability",
+   "date_added": "2026-10-30",
+   "due_date": "2026-11-02",
+   "ransomware": "Unknown",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-111357"
+  }
+ ],
+ "early_signals": [
+  {
+   "cve": "CVE-2026-98432",
+   "authors": 29,
+   "platforms": [
+    "Bluesky",
+    "Hacker News",
+    "Mastodon"
+   ],
+   "posts": [
+    {
+     "url": "https://infosec.exchange/@ifin/117533969187996929",
+     "platform": "Mastodon",
+     "account": "@ifin",
+     "published": "2026-10-31T05:54:03Z"
+    },
+    {
+     "url": "https://news.ycombinator.com/item?id=50312858",
+     "platform": "Hacker News",
+     "account": "@dcu",
+     "published": "2026-10-31T03:07:32Z"
+    },
+    {
+     "url": "https://news.ycombinator.com/item?id=50305855",
+     "platform": "Hacker News",
+     "account": "@santiago-pl",
+     "published": "2026-10-30T16:02:54Z"
+    },
+    {
+     "url": "https://bsky.app/profile/five-oclick-tech.bsky.social/post/3mz5pvrpk5y2z",
+     "platform": "Bluesky",
+     "account": "@five-oclick-tech.bsky.social",
+     "published": "2026-10-31T07:00:22Z"
+    },
+    {
+     "url": "https://bsky.app/profile/etguenni.bsky.social/post/3mz5mqhw6tk2y",
+     "platform": "Bluesky",
+     "account": "@etguenni.bsky.social",
+     "published": "2026-10-31T06:03:44Z"
+    }
+   ],
+   "first_seen": "2026-10-30T05:21:03Z",
+   "epss": {
+    "epss": 0.00445,
+    "percentile": 0.38738
+   },
+   "vendor_advisory": false,
+   "nvd": {
+    "cvss": 9.8,
+    "severity": "CRITICAL",
+    "products": [],
+    "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nipv4: free inet_opt and ireq_opt after an RCU grace period\n\ntcp_v4_syn_recv_sock() transfers ownership of ireq->ireq_opt to the\nchild socket (newinet->inet_opt) without copying it.\n\nAnother cpu can concurrently process a retransmit…"
+   },
+   "poc": [
+    {
+     "url": "https://github.com/H1z3-br0/CVE-2026-98432",
+     "name": "H1z3-br0/CVE-2026-98432",
+     "stars": 6,
+     "created": "2026-10-30"
+    },
+    {
+     "url": "https://github.com/typhoon1217/cve-2026-98432-mitigation",
+     "name": "typhoon1217/cve-2026-98432-mitigation",
+     "stars": 4,
+     "created": "2026-10-29"
+    },
+    {
+     "url": "https://github.com/mahdi-salmanzade/CVE-2026-98432",
+     "name": "mahdi-salmanzade/CVE-2026-98432",
+     "stars": 4,
+     "created": "2026-10-30"
+    }
+   ]
+  },
+  {
+   "cve": "CVE-2026-112816",
+   "authors": 4,
+   "platforms": [
+    "Bluesky",
+    "Hacker News",
+    "Mastodon"
+   ],
+   "posts": [
+    {
+     "url": "https://news.ycombinator.com/item?id=50310937",
+     "platform": "Hacker News",
+     "account": "@paaloeye",
+     "published": "2026-10-30T22:26:29Z"
+    },
+    {
+     "url": "https://bsky.app/profile/technotenshi.bsky.social/post/3mz5h2as3nc2x",
+     "platform": "Bluesky",
+     "account": "@technotenshi.bsky.social",
+     "published": "2026-10-31T04:21:49Z"
+    },
+    {
+     "url": "https://bsky.app/profile/appinn.bsky.social/post/3mz5kuxjsb32e",
+     "platform": "Bluesky",
+     "account": "@appinn.bsky.social",
+     "published": "2026-10-31T05:26:56Z"
+    },
+    {
+     "url": "https://infosec.exchange/@technotenshi/117533604948002760",
+     "platform": "Mastodon",
+     "account": "@technotenshi",
+     "published": "2026-10-31T04:21:25Z"
+    }
+   ],
+   "first_seen": "2026-10-30T22:25:26Z",
+   "epss": null,
+   "vendor_advisory": false,
+   "nvd": {
+    "cvss": 10.0,
+    "severity": "CRITICAL",
+    "products": [],
+    "description": "Improper certificate validation in the HTTPS listener in Canonical LXD 4.0.14, 5.0.10, 5.21.8, 6.9 before 4.0.15, 5.0.11, 5.21.9, 6.10.1 allows an unauthenticated attacker to authenticate as any trusted client and gain full access to the cluster and managed virtual machines via a crafted certificate…"
+   },
+   "poc": []
+  }
+ ],
+ "sources_status": {
+  "CISA KEV": "ok 2",
+  "NVD": "ok 47",
+  "BleepingComputer": "ok 8",
+  "The Record": "ok 5",
+  "The DFIR Report": "ok 0",
+  "Cisco Talos": "ok 0",
+  "Unit 42": "ok 0",
+  "Microsoft Security Blog": "ok 2",
+  "SANS ISC": "ok 0",
+  "Huntress": "ok 0",
+  "watchTowr Labs": "ok 0",
+  "Rapid7": "ok 1",
+  "SecurityWeek": "ok 10",
+  "Krebs on Security": "ok 0",
+  "CISA Advisories": "ok 1",
+  "MSRC Security Update Guide": "ok 3",
+  "Bluesky": "ok 59",
+  "Mastodon": "ok 39",
+  "r/netsec": "ok 0",
+  "Hacker News": "ok 14",
+  "SigmaHQ new rules": "ok 0",
+  "EPSS": "ok 39"
+ },
+ "stats": {
+  "items": {
+   "news": 26,
+   "advisory": 4,
+   "kev": 2,
+   "nvd": 47,
+   "social": 112,
+   "sigma": 0
+  },
+  "stories_found": 21,
+  "kql_parser": "available"
+ }
+}

@@ -1,0 +1,105 @@
+# Feeds the collector reads. Only links whose host is in a source's
+# allowed_hosts are kept, so a feed can't point readers somewhere else.
+#
+# kind: "news" (counts as "in the news" for early signals) or "advisory".
+
+[[feed]]
+name = "BleepingComputer"
+url = "https://www.bleepingcomputer.com/feed/"
+kind = "news"
+allowed_hosts = ["www.bleepingcomputer.com"]
+
+[[feed]]
+name = "The Record"
+url = "https://therecord.media/feed"
+kind = "news"
+allowed_hosts = ["therecord.media"]
+
+[[feed]]
+name = "The DFIR Report"
+url = "https://thedfirreport.com/feed/"
+kind = "news"
+allowed_hosts = ["thedfirreport.com"]
+
+[[feed]]
+name = "Cisco Talos"
+url = "https://blog.talosintelligence.com/rss/"
+kind = "news"
+allowed_hosts = ["blog.talosintelligence.com"]
+
+[[feed]]
+name = "Unit 42"
+url = "https://unit42.paloaltonetworks.com/feed/"
+kind = "news"
+allowed_hosts = ["unit42.paloaltonetworks.com"]
+
+[[feed]]
+name = "Microsoft Security Blog"
+url = "https://www.microsoft.com/en-us/security/blog/feed/"
+kind = "news"
+allowed_hosts = ["www.microsoft.com"]
+
+[[feed]]
+name = "SANS ISC"
+url = "https://isc.sans.edu/rssfeed_full.xml"
+kind = "news"
+allowed_hosts = ["isc.sans.edu"]
+
+[[feed]]
+name = "Huntress"
+url = "https://www.huntress.com/blog/rss.xml"
+kind = "news"
+allowed_hosts = ["www.huntress.com"]
+
+[[feed]]
+name = "watchTowr Labs"
+url = "https://labs.watchtowr.com/rss/"
+kind = "news"
+allowed_hosts = ["labs.watchtowr.com"]
+
+[[feed]]
+name = "Rapid7"
+url = "https://www.rapid7.com/blog/rss/"
+kind = "news"
+allowed_hosts = ["www.rapid7.com"]
+
+[[feed]]
+name = "SecurityWeek"
+url = "https://www.securityweek.com/feed/"
+kind = "news"
+allowed_hosts = ["www.securityweek.com"]
+
+[[feed]]
+name = "Krebs on Security"
+url = "https://krebsonsecurity.com/feed/"
+kind = "news"
+allowed_hosts = ["krebsonsecurity.com"]
+
+[[feed]]
+name = "CISA Advisories"
+url = "https://www.cisa.gov/cybersecurity-advisories/all.xml"
+kind = "advisory"
+allowed_hosts = ["www.cisa.gov"]
+
+[[feed]]
+name = "MSRC Security Update Guide"
+url = "https://api.msrc.microsoft.com/update-guide/rss"
+kind = "advisory"
+allowed_hosts = ["msrc.microsoft.com"]
+
+[social.bluesky]
+# public.api.bsky.app rejects unauthenticated search; api.bsky.app allows it.
+search_url = "https://api.bsky.app/xrpc/app.bsky.feed.searchPosts"
+query = "CVE"
+
+[social.mastodon]
+# infosec.exchange requires login for hashtag timelines, so read the local
+# public timeline and keep posts that mention a CVE.
+instance = "infosec.exchange"
+
+[social.reddit]
+feed_url = "https://www.reddit.com/r/netsec/new/.rss"
+
+[social.hackernews]
+search_url = "https://hn.algolia.com/api/v1/search_by_date"
+query = "CVE"
