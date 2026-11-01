@@ -34,8 +34,9 @@ markup and stays visible.
 - One external stylesheet: `assets/style.css`. The CSP is `style-src 'self'`, so no `style=""`
   attributes and no `<style>` blocks. Priority and meter bars stay inline SVG geometry.
 - Fonts self-hosted under `assets/fonts/`, SIL OFL 1.1, licence text shipped beside them.
-- Light and dark via `prefers-color-scheme`. Every text/background pair below is AA (4.5:1 or
-  better), measured with the WCAG 2 relative-luminance formula.
+- Light only (`color-scheme: only light`); the dark palette below is kept for reference and is not
+  shipped. Every text/background pair below is AA (4.5:1 or better), measured with the WCAG 2
+  relative-luminance formula.
 - All trust elements stay visible: provenance box, AI-generated line with source support,
   detection origin tags ("AI-generated · untested" / "SigmaHQ rule · untested here"), Kusto
   parser status, the PoC warning, "Counted by code, not AI", collection status, footer
@@ -120,7 +121,7 @@ rules keep working while they are restyled.
 }
 ```
 
-### Dark (`@media (prefers-color-scheme: dark)`)
+### Dark (`@media (prefers-color-scheme: dark)`, not shipped: the site is light only)
 
 ```css
 @media (prefers-color-scheme: dark) {

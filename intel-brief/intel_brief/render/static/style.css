@@ -12,6 +12,9 @@
   --serif: "Playfair Display", Georgia, "Times New Roman", serif;
   --mono: "IBM Plex Mono", ui-monospace, "Cascadia Code", Consolas, monospace;
 
+  /* Light only: no dark palette, and "only" stops browsers forcing their own dark mode. */
+  color-scheme: only light;
+
   --ground: #FFFFFF;
   --surface: #FFFFFF;
   --surface-2: #F5F5F5;
@@ -44,40 +47,6 @@
 
   --code-bg: #1E1E1E;  --code-bar: #2A2A2A;  --code-text: #ECECEC;  --code-bar-text: #D9D9D9;
   --code-rule: #2A2A2A;  --code-ok: #8FE0A8;  --code-bad: #FF9B8F;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --ground: #121212;
-    --surface: #1A1A1A;
-    --surface-2: #202020;
-    --rule: #333333;
-    --rule-soft: #262626;
-    --rule-strong: #F5F5F5;
-    --ink: #F5F5F5;
-    --text: #E6E6E6;
-    --text-2: #E6E6E6;
-    --text-3: #D0D0D0;
-    --muted: #A8A8A8;
-    --accent: #8FB8F0;
-    --accent-hover: #BCD5F7;
-
-    --brand: #9E1118;
-
-    --crit: #FF7B72;  --crit-tint: #3A1715;
-    --high: #FFAB76;  --high-tint: #3A2210;
-    --ai: #F2C14E;    --ai-tint: #33280E;  --ai-ink: #F2C14E;
-    --info: #9CC0FF;  --info-tint: #16243A;
-    --ok: #7FD69A;    --ok-tint: #12301C;
-    --tag: #F5F5F5;
-    --watch: #A8A8A8;
-
-    --mast: #9E1118;
-    --bar: #000000;   --bar-muted: #D0D0D0;
-    --facts-bg: #262626; --facts-label: #C4C4C4; --facts-due: #9E1118;
-
-    --code-bg: #0A0A0A;  --code-bar: #1F1F1F;  --code-rule: #333333;
-  }
 }
 
 *, *::before, *::after { box-sizing: border-box; }
