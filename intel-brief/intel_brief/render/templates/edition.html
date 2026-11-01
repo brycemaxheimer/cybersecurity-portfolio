@@ -279,7 +279,7 @@
   <section class="panel kev">
     <h2>KEV deadlines</h2>
     {% for k in ed.kev_new|sort(attribute="due_date") %}{% set gap = days_between(k.date_added, k.due_date) %}
-    <div class="kv"><a href="#kev">{{ k.cve }}</a><b class="{{ 'crit' if gap is not none and gap <= 7 else '' }}">{{ k.due_date|shortdate }}{% if gap is not none %} · {{ gap }} {{ "day" if gap == 1 else "days" }}{% endif %}</b></div>
+    <div class="kv"><a href="#kev">{{ k.cve }}</a><span class="due"><b class="{{ 'crit' if gap is not none and gap <= 7 else '' }}">Due {{ k.due_date|shortdate }}</b>{% if gap is not none %}<small>{{ gap }} {{ "day" if gap == 1 else "days" }} after listing</small>{% endif %}</span></div>
     {% endfor %}
   </section>
   {% endif %}
