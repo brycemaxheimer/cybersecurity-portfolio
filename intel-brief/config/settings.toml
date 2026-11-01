@@ -1,0 +1,39 @@
+# Run settings. CLI flags override these (python -m intel_brief run --help).
+
+[site]
+base_url = "https://intel.brycemaxheimer.com"
+title = "Daily Intel Brief"
+author = "Bryce Maxheimer"
+timezone = "America/New_York"
+
+[models]
+triage = "claude-haiku-5-5"
+# claude-opus-5-5 (default) or claude-sonnet-5-5
+writeup = "claude-opus-5-5"
+writeup_effort = "medium"
+
+[budget]
+# Hard cap per run. A call is only made if its worst case still fits.
+max_cost_usd = 2.00
+
+[edition]
+top_stories = 10
+# Stories below this score never get a write-up.
+min_score = 25
+# Most editions kept in the RSS / JSON feeds.
+feed_editions = 30
+
+[collect]
+lookback_hours = 26
+mastodon_max_pages = 25
+bluesky_max_pages = 10
+# Characters of feed text passed to the models per item (never published).
+item_text_chars = 2500
+
+[signals]
+# Distinct accounts that must post about a CVE in the window.
+min_authors = 3
+max_signals = 10
+
+[detections]
+sigma_retry_on_fail = true

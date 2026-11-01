@@ -1,0 +1,18 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Build-time downloads. Microsoft.Azure.Kusto.Language's license does not allow
+# redistribution, so the DLL is fetched at build time and never committed.
+.cache/
+*.nupkg
+*.dll
+
+# Local secrets (the API key belongs in an env var or a GitHub Actions secret)
+.env
+.env.*
+
+# Wrangler
+.wrangler/
+node_modules/

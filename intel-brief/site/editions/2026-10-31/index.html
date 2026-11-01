@@ -1,0 +1,961 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Intel Brief: 31 October 2026</title>
+<meta name="description" content="Threat-intel brief for 31 October 2026: CISA adds two exploited Ivanti Connect Secure flaws, CVE-2026-111357 and CVE-2026-118527, to KEV; Microsoft: Teams help desk impersonation leads to AD CS ESC1 and ESC8 abuse in two intrusions; BeyondTrust Remote Support CVE-2026-102764 allows unauthenticated RCE; listed in KEV, public exploit exists">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#0E1A2B">
+<link rel="canonical" href="https://intel.brycemaxheimer.com/editions/2026-10-31/"><link rel="alternate" type="application/rss+xml" title="Daily Intel Brief (RSS)" href="https://intel.brycemaxheimer.com/feed.xml">
+<link rel="alternate" type="application/feed+json" title="Daily Intel Brief (JSON Feed)" href="https://intel.brycemaxheimer.com/feed.json">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="../../assets/fonts/IBMPlexSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="mast">
+  <div class="wrap">
+    <a class="brand" href="../../">
+      <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><rect x="1" y="1" width="28" height="28" rx="6" fill="none" stroke="#3FC1C9" stroke-width="2"/><path d="M9 21V9M14 21V9l7 12V9" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Daily Intel Brief</span>
+    </a>
+    <nav aria-label="Site">
+      <a href="../../">Latest</a>
+      <a href="../../archive/">Archive</a>
+      <a href="https://intel.brycemaxheimer.com/feed.xml">RSS</a>
+      <a href="https://intel.brycemaxheimer.com/feed.json">JSON Feed</a>
+      <a href="../../methodology/">Methodology</a>
+    </nav>
+  </div>
+</header>
+<div id="main" class="wrap">
+
+<section class="edition-head" aria-labelledby="edition-title">
+  <div>
+    <p class="eyebrow">Saturday edition</p>
+    <h1 id="edition-title">31 October 2026</h1>
+    <p class="dek">Threat intelligence for teams defending Windows, Microsoft 365 and internet-facing edge devices.</p>
+  </div>
+  <dl class="stats">
+    <div><dd>8</dd><dt>Top stories</dt></div>
+    <div class="crit"><dd>2</dd><dt>New KEV entries</dt></div>
+    <div class="ai"><dd>2</dd><dt>Early signals</dt></div>
+    <div><dd>22<small>/22</small></dd><dt>Sources collected</dt></div>
+  </dl>
+</section>
+
+<section class="provenance" aria-label="How this edition was made">
+  <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6l7-3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8.8 12.2l2.2 2.2 4.2-4.4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <p><strong>How this edition was made.</strong>
+    Collected from 22 public sources between 30 Oct 05:20 and 31 Oct 07:20 UTC.
+Ranked by Claude Haiku 5.5, summarized by Claude Opus 5.5, and reviewed by a person before publishing.
+    Summaries can be wrong, so check the linked sources before acting. <a href="../../methodology/">Read the methodology</a></p>
+</section>
+
+<div class="layout">
+<main class="main">
+  <div class="section-head" id="stories">
+    <h2>Top stories</h2>
+    <span>Ranked by exploitation, reach and platform</span>
+  </div>
+
+  <article class="story" id="story-1" aria-labelledby="story-1-h">
+    <div class="story-top">
+      <div class="story-flags">
+        <div class="tags">
+          <span class="rank">01</span>
+<span class="tag crit-solid">Exploited</span>
+<span class="tag crit">In CISA KEV</span><span class="tag info">Edge device</span>        </div>
+        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span>Priority</span><svg class="bar" viewBox="0 0 100 6" preserveAspectRatio="none" aria-hidden="true"><rect class="track" width="100" height="6" rx="3"/><rect class="fill" width="100" height="6" rx="3"/></svg><b>100</b>
+        </div>
+      </div>
+      <h3 id="story-1-h">CISA adds two exploited Ivanti Connect Secure flaws, CVE-2026-111357 and CVE-2026-118527, to KEV</h3>
+      <p class="meta">Ivanti Connect Secure · 3 sources · first reported 30 October 2026</p>
+    </div>
+
+    <dl class="facts">
+      <div><dt>CVE</dt><dd><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-111357">CVE-2026-111357</a></dd></div>
+      <div><dt>CVSS</dt><dd><strong>7.0</strong> <span class="high">High</span></dd></div>
+      <div><dt>EPSS</dt><dd><strong>0.3%</strong> <span class="muted">30-day</span></dd></div>
+      <div><dt>KEV deadline</dt><dd><strong class="crit">2 November 2026</strong></dd></div>
+      <div><dt>Public PoC</dt><dd>None known</dd></div>
+    </dl>
+    <p class="related">Also: <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-118527">CVE-2026-118527</a> (KEV, due 13 Nov)</p>
+
+    <div class="story-body">
+      <div class="cols2">
+        <section><h4 class="label">What happened</h4><p>On 2026-10-30 CISA added two Ivanti Connect Secure vulnerabilities to its Known Exploited Vulnerabilities catalog, citing evidence of active exploitation. According to CISA, CVE-2026-118527 is a predictable-identifier flaw that lets a remote authenticated attacker upload files with attacker-controlled content to a known location on disk. CVE-2026-111357 is a missing-authentication flaw that lets a local authenticated attacker escalate privileges. CISA says both can be chained with each other and with a third flaw, CVE-2026-104935; the items give no details on that CVE, affected versions, or fixed releases.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>Ivanti Connect Secure is a widely deployed internet-facing VPN gateway, and CISA&#39;s description points to a chain that moves from file upload to privilege escalation, which could give an attacker full control of the appliance and a foothold into internal networks. Exploitation is confirmed. The KEV due dates are 2026-11-02 for CVE-2026-111357 and 2026-11-13 for CVE-2026-118527. The low EPSS of 0.00316 for CVE-2026-111357 should not lower priority given the confirmed in-the-wild use.</p></section>
+      </div>
+      <div class="actions">
+        <h4 class="label">What to do</h4>
+        <ol class="steps"><li>Apply Ivanti&#39;s mitigations or patches for CVE-2026-111357, CVE-2026-118527 and the chained CVE-2026-104935 on every Connect Secure appliance, prioritizing internet-facing units, before the KEV due dates of 2026-11-02 and 2026-11-13.</li><li>Before and after patching, perform a forensic triage of each appliance as CISA&#39;s KEV entries require, including running Ivanti&#39;s integrity checking tool if available and reviewing for unexpected files on disk and new admin accounts.</li><li>If compromise is suspected, rotate credentials that transit or are stored on the appliance: local admin accounts, LDAP/AD service accounts, and VPN user credentials. Also revoke related sessions in Entra ID.</li><li>Hunt internal telemetry for logons, scanning, or lateral movement originating from the appliance&#39;s internal IP addresses since late October 2026.</li><li>If mitigations cannot be applied, restrict or take the appliance offline, as CISA advises discontinuing use when mitigations are unavailable.</li></ol>
+      </div>
+      <div class="cols2 versions">
+        <div><div class="k">Affected</div><ul><li>Ivanti Connect Secure (specific versions not stated in sources)</li></ul></div>
+        <div><div class="k">Fixed</div><span class="muted">Not stated in the sources</span></div>
+      </div>
+    </div>
+
+    <div class="sources">
+      <h4 class="label">Sources</h4>
+      <ul>
+        <li><span class="pub">CISA Advisories</span><a href="https://www.cisa.gov/news-events/alerts/2026/10/30/cisa-adds-two-known-exploited-vulnerabilities-catalog" rel="noopener noreferrer nofollow">CISA Adds Two Known Exploited Vulnerabilities to Catalog</a><span class="where">cisa.gov · 30 Oct</span></li>
+        <li><span class="pub">CISA KEV</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-118527" rel="noopener noreferrer nofollow">CVE-2026-118527: Ivanti Connect Secure Generation of Predictable Numbers or Identifiers Vulnerability</a><span class="where">nvd.nist.gov · 30 Oct</span></li>
+        <li><span class="pub">CISA KEV</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-111357" rel="noopener noreferrer nofollow">CVE-2026-111357: Ivanti Connect Secure Missing Authentication for Critical Function Vulnerability</a><span class="where">nvd.nist.gov · 30 Oct</span></li>
+      </ul>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
+
+
+    <section class="detect" aria-label="Detection">
+      <div class="detect-head">
+        <div class="t">Detection
+<span class="tag ai">AI-generated · untested</span>        </div>
+        <span class="why">Hunting only: no endpoint behavior to write a rule against</span>
+      </div>
+      <div class="tabs">
+        <input class="tab-input" type="radio" name="fmt-story-1" id="story-1-hunt" checked>
+        <label for="story-1-hunt">Hunting</label>
+        <div class="tab-panels">
+          <div class="tab-panel">
+<ol class="steps-plain"><li>Inventory all Ivanti Connect Secure appliances, including internet-exposed ones, and record their versions against Ivanti&#39;s advisory for these CVEs.</li><li>Check vulnerability management data for the CVE IDs, noting that appliance coverage in Defender Vulnerability Management may be incomplete.</li><li>Run Ivanti&#39;s integrity checking tool and review appliance logs for unexpected file uploads, unfamiliar administrative actions, or new local accounts.</li><li>Identify the appliance&#39;s internal IP addresses and hunt Defender and Sentinel data for connections and logons from those IPs to internal servers, especially to domain controllers or over SMB, RDP and WinRM.</li><li>Review Entra ID and AD sign-ins for service accounts used by the appliance for authentication, looking for use from unexpected hosts.</li><li>Escalate to incident response if any integrity check fails or unexpected activity from the appliance is found.</li></ol><div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Devices reported vulnerable to the Ivanti Connect Secure KEV CVEs</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceTvmSoftwareVulnerabilities | where CveId in~ (&#34;CVE-2026-111357&#34;, &#34;CVE-2026-118527&#34;, &#34;CVE-2026-104935&#34;) | project DeviceName, DeviceId, OSPlatform, SoftwareVendor, SoftwareName, SoftwareVersion, CveId, VulnerabilitySeverityLevel, RecommendedSecurityUpdate</code></pre>
+</div>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Inbound admin-protocol connections from VPN appliance IPs (set the IP list)</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>let VpnApplianceIPs = dynamic([]); DeviceNetworkEvents | where Timestamp &gt; ago(14d) | where ActionType == &#34;InboundConnectionAccepted&#34; | where RemoteIP in (VpnApplianceIPs) | where LocalPort in (22, 135, 139, 389, 445, 636, 3389, 5985, 5986) | summarize Connections = count(), Ports = make_set(LocalPort), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by DeviceName, RemoteIP | order by Connections desc</code></pre>
+</div>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Logons sourced from VPN appliance IPs (set the IP list)</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>let VpnApplianceIPs = dynamic([]); DeviceLogonEvents | where Timestamp &gt; ago(14d) | where RemoteIP in (VpnApplianceIPs) | summarize Logons = count(), Accounts = make_set(AccountName), LogonTypes = make_set(LogonType), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by DeviceName, RemoteIP, ActionType | order by Logons desc</code></pre>
+</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </article>
+  <article class="story" id="story-2" aria-labelledby="story-2-h">
+    <div class="story-top">
+      <div class="story-flags">
+        <div class="tags">
+          <span class="rank">02</span>
+<span class="tag crit-solid">Exploited</span>
+<span class="tag info">Windows</span><span class="tag">campaign</span>        </div>
+        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span>Priority</span><svg class="bar" viewBox="0 0 100 6" preserveAspectRatio="none" aria-hidden="true"><rect class="track" width="100" height="6" rx="3"/><rect class="fill" width="88" height="6" rx="3"/></svg><b>88</b>
+        </div>
+      </div>
+      <h3 id="story-2-h">Microsoft: Teams help desk impersonation leads to AD CS ESC1 and ESC8 abuse in two intrusions</h3>
+      <p class="meta"> Active Directory Certificate Services · 1 source · first reported 30 October 2026</p>
+    </div>
+
+
+    <div class="story-body">
+      <div class="cols2">
+        <section><h4 class="label">What happened</h4><p>Microsoft Threat Intelligence reports two human-operated intrusions. In both, attackers impersonated IT or help desk staff over Microsoft Teams messages and calls and talked users into granting remote access, mostly through Quick Assist. After connecting, they staged portable Python, Bun or Java runtimes, ran host and network discovery, and assessed Active Directory Certificate Services. In one case the attacker abused an ESC1-vulnerable certificate template to get certificates for privileged accounts and performed DCSync. In the other, the attacker used PetitPotam to relay a domain controller&#39;s NTLM authentication to AD CS Web Enrollment (ESC8), then used the resulting domain-controller certificate for PKINIT Kerberos authentication.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>Microsoft says no Teams vulnerability was involved. The attacks relied on social engineering plus insecure or overly permissive AD CS configurations, which are common in Windows domains, and exploitation was confirmed in real environments. In Case 1, a privileged identity excluded from Defender automated containment stayed usable and later supported data exfiltration, so exclusions and AD CS misconfigurations deserve immediate review.</p></section>
+      </div>
+      <div class="actions">
+        <h4 class="label">What to do</h4>
+        <ol class="steps"><li>Audit AD CS certificate templates for ESC1 conditions (enrollee-supplied subject, client authentication EKU, broad enrollment rights) and remove or restrict them.</li><li>Disable or harden AD CS Web Enrollment against NTLM relay (ESC8) by requiring HTTPS with Extended Protection for Authentication or removing the role, and mitigate PetitPotam-style coerced authentication on domain controllers.</li><li>Review identities excluded from Defender automatic attack disruption, especially privileged accounts, and remove unnecessary exclusions.</li><li>Restrict Teams external access and chats from unknown tenants, and limit or block Quick Assist where an approved remote support tool exists.</li><li>Train users and help desk staff to verify IT contact through a known channel before granting remote access.</li></ol>
+      </div>
+    </div>
+
+    <div class="sources">
+      <h4 class="label">Sources</h4>
+      <ul>
+        <li><span class="pub">Microsoft Security Blog</span><a href="https://www.microsoft.com/en-us/security/blog/2026/10/30/help-desk-impersonation-ad-cs-abuse-investigating-esc1-esc8-intrusion-paths/" rel="noopener noreferrer nofollow">From help desk impersonation to AD CS abuse: Investigating ESC1 and ESC8 intrusion paths</a><span class="where">microsoft.com · 30 Oct</span></li>
+      </ul>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: high</p>    </div>
+
+
+    <section class="detect" aria-label="Detection">
+      <div class="detect-head">
+        <div class="t">Detection
+<span class="tag ai">AI-generated · untested</span>        </div>
+        <span class="why">Sigma rule drafted by Claude Opus 5.5 · passed sigma check</span>
+      </div>
+      <div class="tabs">
+        <input class="tab-input" type="radio" name="fmt-story-2" id="story-2-sigma">
+        <label for="story-2-sigma">Sigma</label>
+        <input class="tab-input" type="radio" name="fmt-story-2" id="story-2-kql" checked>
+        <label for="story-2-kql">Defender KQL</label>
+        <input class="tab-input" type="radio" name="fmt-story-2" id="story-2-spl">
+        <label for="story-2-spl">Splunk SPL</label>
+        <input class="tab-input" type="radio" name="fmt-story-2" id="story-2-elastic">
+        <label for="story-2-elastic">Elastic</label>
+        <input class="tab-input" type="radio" name="fmt-story-2" id="story-2-hunt">
+        <label for="story-2-hunt">Hunting</label>
+        <div class="tab-panels">
+          <div class="tab-panel">
+            <div class="code">
+  <div class="code-bar">
+    <span class="name">Portable Script Runtime Executed From User-Writable Directory</span>
+  </div>
+  <pre><code>title: Portable Script Runtime Executed From User-Writable Directory
+id: 2154db59-eb09-5901-bf38-ce956f40f405
+status: experimental
+description: Detects Python, Bun or Java runtimes executing from user profile, temp or public directories. Microsoft observed attackers staging these portable runtimes after help desk impersonation and Quick Assist access, ahead of AD CS abuse. AI-generated, untested.
+references:
+- https://www.microsoft.com/en-us/security/blog/2026/10/30/help-desk-impersonation-ad-cs-abuse-investigating-esc1-esc8-intrusion-paths/
+author: intel-brief (AI-generated, untested)
+date: &#39;2026-10-31&#39;
+tags:
+- attack.execution
+- attack.t1059.006
+- attack.t1059.007
+- attack.t1566.004
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection_runtime:
+    Image|endswith:
+    - \python.exe
+    - \pythonw.exe
+    - \bun.exe
+    - \java.exe
+    - \javaw.exe
+  selection_path:
+    Image|contains:
+    - \AppData\Local\Temp\
+    - \Downloads\
+    - \Users\Public\
+    - \AppData\Roaming\
+    - \Desktop\
+  filter_installed:
+    Image|contains:
+    - \AppData\Local\Programs\Python\
+    - \AppData\Local\Microsoft\WindowsApps\
+  condition: selection_runtime and selection_path and not filter_installed
+falsepositives:
+- Developers running portable or embedded runtimes from their profile
+- Applications that bundle a Java or Python runtime and extract it to temp folders
+level: medium
+</code></pre>
+</div>
+
+            <p class="conv-note">AI-generated, untested. Test and tune it in your environment before you deploy it.</p>
+          </div>
+          <div class="tab-panel">
+            <div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR / Sentinel KQL</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceProcessEvents
+| where (FolderPath endswith &#34;\\python.exe&#34; or FolderPath endswith &#34;\\pythonw.exe&#34; or FolderPath endswith &#34;\\bun.exe&#34; or FolderPath endswith &#34;\\java.exe&#34; or FolderPath endswith &#34;\\javaw.exe&#34;) and (FolderPath contains &#34;\\AppData\\Local\\Temp\\&#34; or FolderPath contains &#34;\\Downloads\\&#34; or FolderPath contains &#34;\\Users\\Public\\&#34; or FolderPath contains &#34;\\AppData\\Roaming\\&#34; or FolderPath contains &#34;\\Desktop\\&#34;) and (not((FolderPath contains &#34;\\AppData\\Local\\Programs\\Python\\&#34; or FolderPath contains &#34;\\AppData\\Local\\Microsoft\\WindowsApps\\&#34;)))</code></pre>
+</div>
+
+            <p class="conv-note">Converted from the Sigma rule with pySigma (kusto backend, microsoft_xdr pipeline).</p>
+          </div>
+          <div class="tab-panel">
+            <div class="code">
+  <div class="code-bar">
+    <span class="name">Splunk SPL</span>
+  </div>
+  <pre><code>Image IN (&#34;*\\python.exe&#34;, &#34;*\\pythonw.exe&#34;, &#34;*\\bun.exe&#34;, &#34;*\\java.exe&#34;, &#34;*\\javaw.exe&#34;) Image IN (&#34;*\\AppData\\Local\\Temp\\*&#34;, &#34;*\\Downloads\\*&#34;, &#34;*\\Users\\Public\\*&#34;, &#34;*\\AppData\\Roaming\\*&#34;, &#34;*\\Desktop\\*&#34;) NOT (Image IN (&#34;*\\AppData\\Local\\Programs\\Python\\*&#34;, &#34;*\\AppData\\Local\\Microsoft\\WindowsApps\\*&#34;))</code></pre>
+</div>
+
+            <p class="conv-note">Converted from the Sigma rule with pySigma.</p>
+          </div>
+          <div class="tab-panel">
+            <div class="code">
+  <div class="code-bar">
+    <span class="name">Elastic (Lucene, ECS)</span>
+  </div>
+  <pre><code>(process.executable.caseless:(*\\python.exe OR *\\pythonw.exe OR *\\bun.exe OR *\\java.exe OR *\\javaw.exe)) AND (process.executable.caseless:(*\\AppData\\Local\\Temp\\* OR *\\Downloads\\* OR *\\Users\\Public\\* OR *\\AppData\\Roaming\\* OR *\\Desktop\\*)) AND (NOT (process.executable.caseless:(*\\AppData\\Local\\Programs\\Python\\* OR *\\AppData\\Local\\Microsoft\\WindowsApps\\*)))</code></pre>
+</div>
+
+            <p class="conv-note">Converted from the Sigma rule with pySigma.</p>
+          </div>
+          <div class="tab-panel">
+<ol class="steps-plain"><li>Find Quick Assist launches on endpoints and check whether a Teams contact from an external or unfamiliar tenant came just before them.</li><li>On those devices, look for Python, Bun or Java runtimes executing from user-writable paths within hours of the remote session.</li><li>Review AD CS issued-certificate logs for requests where the subject or SAN names a privileged account different from the requester, especially from ESC1-vulnerable templates.</li><li>Check AD CS Web Enrollment servers for NTLM authentications by domain controller machine accounts coming from workstations, which points to PetitPotam relay.</li><li>Look for directory replication (DCSync) requests from non-domain-controller hosts and for Kerberos PKINIT logons by domain controller accounts from unexpected devices.</li><li>Confirm any compromised privileged identity is not excluded from automated containment, then revoke the issued certificates and reset the affected accounts.</li></ol><div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Portable runtimes executed shortly after Quick Assist on same device</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>let qa = DeviceProcessEvents | where Timestamp &gt; ago(14d) | where FileName =~ &#34;QuickAssist.exe&#34; | project DeviceId, QATime = Timestamp, QAUser = AccountName; DeviceProcessEvents | where Timestamp &gt; ago(14d) | where FileName in~ (&#34;python.exe&#34;,&#34;pythonw.exe&#34;,&#34;bun.exe&#34;,&#34;java.exe&#34;,&#34;javaw.exe&#34;) | where FolderPath has_any (&#34;AppData&#34;,&#34;Downloads&#34;,&#34;Public&#34;,&#34;Temp&#34;) | join kind=inner qa on DeviceId | where Timestamp between (QATime .. (QATime + 4h)) | project Timestamp, DeviceName, AccountName, QAUser, QATime, FileName, FolderPath, ProcessCommandLine, InitiatingProcessFileName</code></pre>
+</div>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Python, Bun or Java runtimes running from user-writable folders</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(30d) | where FileName in~ (&#34;python.exe&#34;,&#34;pythonw.exe&#34;,&#34;bun.exe&#34;,&#34;java.exe&#34;,&#34;javaw.exe&#34;) | where FolderPath has_any (&#34;AppData&#34;,&#34;Downloads&#34;,&#34;Public&#34;,&#34;Temp&#34;,&#34;Desktop&#34;) | where not(FolderPath has &#34;Programs\\Python&#34;) | summarize Executions = count(), FirstSeen = min(Timestamp), LastSeen = max(Timestamp), Commands = make_set(ProcessCommandLine, 10) by DeviceName, AccountName, FolderPath</code></pre>
+</div>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Network connections from portable runtimes in user-writable folders</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceNetworkEvents | where Timestamp &gt; ago(14d) | where InitiatingProcessFileName in~ (&#34;python.exe&#34;,&#34;pythonw.exe&#34;,&#34;bun.exe&#34;,&#34;java.exe&#34;,&#34;javaw.exe&#34;) | where InitiatingProcessFolderPath has_any (&#34;AppData&#34;,&#34;Downloads&#34;,&#34;Public&#34;,&#34;Temp&#34;) | summarize Connections = count(), RemoteIPs = make_set(RemoteIP, 20), Ports = make_set(RemotePort, 20) by DeviceName, InitiatingProcessAccountName, InitiatingProcessFolderPath</code></pre>
+</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </article>
+  <article class="story" id="story-3" aria-labelledby="story-3-h">
+    <div class="story-top">
+      <div class="story-flags">
+        <div class="tags">
+          <span class="rank">03</span>
+<span class="tag crit-solid">Exploited</span>
+<span class="tag crit">In CISA KEV</span><span class="tag high">Public PoC</span><span class="tag info">Edge device</span>        </div>
+        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span>Priority</span><svg class="bar" viewBox="0 0 100 6" preserveAspectRatio="none" aria-hidden="true"><rect class="track" width="100" height="6" rx="3"/><rect class="fill" width="86" height="6" rx="3"/></svg><b>86</b>
+        </div>
+      </div>
+      <h3 id="story-3-h">BeyondTrust Remote Support CVE-2026-102764 allows unauthenticated RCE; listed in KEV, public exploit exists</h3>
+      <p class="meta">BeyondTrust Remote Support · 1 source · first reported 30 October 2026</p>
+    </div>
+
+    <dl class="facts">
+      <div><dt>CVE</dt><dd><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-102764">CVE-2026-102764</a></dd></div>
+      <div><dt>CVSS</dt><dd><strong>9.3</strong> <span class="crit">Critical</span></dd></div>
+      <div><dt>EPSS</dt><dd><strong>19%</strong> <span class="muted">30-day</span></dd></div>
+      <div><dt>CISA KEV</dt><dd>Listed earlier</dd></div>
+      <div><dt>Public PoC</dt><dd><strong class="high">3 repos</strong></dd></div>
+    </dl>
+
+    <div class="story-body">
+      <div class="cols2">
+        <section><h4 class="label">What happened</h4><p>Rapid7 describes an origin-validation flaw in BeyondTrust Remote Support. An unauthenticated attacker using the public customer session entry point can forge a local router address and reach an internal file-transfer service. This lets them write arbitrary files, including a PHP file in the web root, and run code as the site&#39;s OS user. Rapid7 confirmed the chain on Remote Support 24.1.2 (build 1524046) with default thin chat and public session starts enabled, and says a Metasploit module now implements it. According to the enrichment data, the CVE carries CVSS 9.3 and an EPSS of about 0.19, and it is listed in CISA KEV, although the item gives no KEV due date.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>Remote Support appliances are internet-facing by design and hold privileged access to the endpoints and servers that technicians support. A compromised appliance can therefore become a launch point into Windows estates. With KEV listing, the story labelled as exploited in the wild, and a public Metasploit module, opportunistic mass exploitation is likely. Rapid7 has not established the full affected range or fixed builds, so every exposed instance should be treated as at risk until BeyondTrust says otherwise.</p></section>
+      </div>
+      <div class="actions">
+        <h4 class="label">What to do</h4>
+        <ol class="steps"><li>Inventory all BeyondTrust Remote Support appliances (cloud and on-premises) and apply BeyondTrust&#39;s fix for CVE-2026-102764 as soon as the vendor publishes it; confirm the fixed build directly with BeyondTrust because no source states one.</li><li>Until patched, restrict internet access to the appliance&#39;s public customer portal where business allows, and consider disabling public issue-menu session starts and thin chat, which were enabled on Rapid7&#39;s vulnerable test appliance.</li><li>Review appliance file systems and web logs for unexpected PHP files in the public web directory and for requests to newly created scripts; involve BeyondTrust support for a forensic review if anything is found.</li><li>Hunt on Windows endpoints for unusual commands, shells or file drops launched by the BeyondTrust customer or jump client, which would indicate an attacker using the appliance to reach endpoints.</li><li>If compromise is suspected, rotate credentials stored in or used through Remote Support, including vault credentials and representative accounts, and review session logs for unknown sessions.</li></ol>
+      </div>
+      <div class="cols2 versions">
+        <div><div class="k">Affected</div><ul><li>BeyondTrust Remote Support 24.1.2 build 1524046 (tested by Rapid7; other affected releases not established)</li></ul></div>
+        <div><div class="k">Fixed</div><span class="muted">Not stated in the sources</span></div>
+      </div>
+    </div>
+
+    <div class="sources">
+      <h4 class="label">Sources</h4>
+      <ul>
+        <li><span class="pub">Rapid7</span><a href="https://www.rapid7.com/blog/post/ra-rapid7-analysis-unauthenticated-file-upload-to-rce-in-beyondtrust-remote-support-cve-2026-102764" rel="noopener noreferrer nofollow">Rapid7 Analysis: Unauthenticated File Upload to RCE in BeyondTrust Remote Support (CVE-2026-102764)</a><span class="where">rapid7.com · 30 Oct</span></li>
+      </ul>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
+
+    <details class="poc">
+      <summary>Public proof-of-concept repos (3)</summary>
+      <p class="warn">Links only, not vetted. Public PoC repos are often fake or backdoored. Don't run them on a work machine.</p>
+      <ul><li><a href="https://github.com/Worthes/CVE-2026-102764-Proof-of-concept" rel="noopener noreferrer nofollow">Worthes/CVE-2026-102764-Proof-of-concept</a> <span class="muted">CVE-2026-102764 · 3 stars · created 16 Oct</span></li><li><a href="https://github.com/maxprog-svg/CVE-2026-102764" rel="noopener noreferrer nofollow">maxprog-svg/CVE-2026-102764</a> <span class="muted">CVE-2026-102764 · 0 stars · created 21 Oct</span></li><li><a href="https://github.com/CompleteTech-Security/beyondtrust-remote-support-cve-2026-102764-check" rel="noopener noreferrer nofollow">CompleteTech-Security/beyondtrust-remote-support-cve-2026-102764-check</a> <span class="muted">CVE-2026-102764 · 0 stars · created 23 Oct</span></li></ul>
+    </details>
+
+    <section class="detect" aria-label="Detection">
+      <div class="detect-head">
+        <div class="t">Detection
+<span class="tag ai">AI-generated · untested</span>        </div>
+        <span class="why">Hunting only: no endpoint behavior to write a rule against</span>
+      </div>
+      <div class="tabs">
+        <input class="tab-input" type="radio" name="fmt-story-3" id="story-3-hunt" checked>
+        <label for="story-3-hunt">Hunting</label>
+        <div class="tab-panels">
+          <div class="tab-panel">
+<ol class="steps-plain"><li>Identify all Remote Support appliances and their versions, and note which expose the public customer portal to the internet.</li><li>On each appliance, look for recently created or modified PHP files in the web root and for web requests to unfamiliar script paths, especially from external IPs that never started a legitimate session.</li><li>Check appliance session logs for anonymous customer sessions with no matching support ticket or representative activity.</li><li>In Defender XDR, review processes and files spawned by the BeyondTrust client (bomgar-scc.exe) on endpoints for shells, LOLBins or executables outside normal technician activity.</li><li>Correlate any suspicious client activity with the time window of anomalous appliance sessions, and escalate to incident response if they overlap.</li></ol><div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Devices flagged vulnerable to CVE-2026-102764 by Defender TVM</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceTvmSoftwareVulnerabilities | where CveId == &#34;CVE-2026-102764&#34; | project DeviceName, OSPlatform, SoftwareVendor, SoftwareName, SoftwareVersion, VulnerabilitySeverityLevel</code></pre>
+</div>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Shells and LOLBins launched by BeyondTrust Remote Support client</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(30d) | where InitiatingProcessFileName =~ &#34;bomgar-scc.exe&#34; | where FileName in~ (&#34;cmd.exe&#34;,&#34;powershell.exe&#34;,&#34;pwsh.exe&#34;,&#34;rundll32.exe&#34;,&#34;mshta.exe&#34;,&#34;certutil.exe&#34;,&#34;bitsadmin.exe&#34;,&#34;wscript.exe&#34;,&#34;cscript.exe&#34;) | summarize Count=count(), FirstSeen=min(Timestamp), LastSeen=max(Timestamp), SampleCmd=any(ProcessCommandLine) by DeviceName, FileName, AccountName | order by LastSeen desc</code></pre>
+</div>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Executables and scripts written by BeyondTrust Remote Support client</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceFileEvents | where Timestamp &gt; ago(30d) | where InitiatingProcessFileName =~ &#34;bomgar-scc.exe&#34; | where ActionType == &#34;FileCreated&#34; | where FileName endswith &#34;.exe&#34; or FileName endswith &#34;.dll&#34; or FileName endswith &#34;.ps1&#34; or FileName endswith &#34;.bat&#34; or FileName endswith &#34;.vbs&#34; | project Timestamp, DeviceName, FolderPath, FileName, SHA256, InitiatingProcessAccountName | order by Timestamp desc</code></pre>
+</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </article>
+  <article class="story" id="story-4" aria-labelledby="story-4-h">
+    <div class="story-top">
+      <div class="story-flags">
+        <div class="tags">
+          <span class="rank">04</span>
+<span class="tag crit">Exploitation reported</span><span class="tag info">Edge device</span>        </div>
+        <div class="priority high" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span>Priority</span><svg class="bar" viewBox="0 0 100 6" preserveAspectRatio="none" aria-hidden="true"><rect class="track" width="100" height="6" rx="3"/><rect class="fill" width="76" height="6" rx="3"/></svg><b>76</b>
+        </div>
+      </div>
+      <h3 id="story-4-h">SecurityWeek: PHP2Shell attacks reportedly root Palo Alto firewalls, fail against WordPress</h3>
+      <p class="meta">Palo Alto Networks  · 1 source · first reported 30 October 2026</p>
+    </div>
+
+
+    <div class="story-body">
+      <div class="cols2">
+        <section><h4 class="label">What happened</h4><p>SecurityWeek reports that attacks dubbed PHP2Shell, which target critical PHP flaws, have been ongoing for more than a week and have reportedly gained root access on Palo Alto Networks firewalls, while attempts against WordPress sites failed. The outlet says more than 22.6 million exposed instances may be affected. The only available item is a short summary, so it does not name CVE identifiers, affected PHP or PAN-OS versions, patches, or indicators.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>Root compromise of a perimeter firewall gives an attacker a foothold that bypasses most endpoint telemetry, and exploitation is reported as active. Any internet-facing Palo Alto device or Windows or Linux server running PHP may be exposed. Details are thin, so treat this as an exposure review until Palo Alto Networks or PHP advisories confirm scope and fixes.</p></section>
+      </div>
+      <div class="actions">
+        <h4 class="label">What to do</h4>
+        <ol class="steps"><li>Check Palo Alto Networks security advisories for any PAN-OS issue linked to these PHP flaws, and apply fixes or mitigations as soon as they are published.</li><li>Restrict management interfaces on Palo Alto firewalls to trusted internal networks. Review device logs and configuration for unexpected admin accounts, changes, or outbound connections.</li><li>Inventory internet-facing hosts running PHP and update PHP to the latest supported release once the specific flaws are identified.</li><li>Hunt on Windows web servers for PHP processes launching shells or scripting engines, and for new script files written to web roots.</li><li>Track follow-up reporting for CVE IDs and indicators, then re-run the hunts with those details.</li></ol>
+      </div>
+    </div>
+
+    <div class="sources">
+      <h4 class="label">Sources</h4>
+      <ul>
+        <li><span class="pub">SecurityWeek</span><a href="https://www.securityweek.com/php2shell-attacks-root-palo-alto-firewalls-but-fail-against-wordpress/" rel="noopener noreferrer nofollow">PHP2Shell Attacks Root Palo Alto Firewalls but Fail Against WordPress</a><span class="where">securityweek.com · 30 Oct</span></li>
+      </ul>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: low</p>    </div>
+
+
+    <section class="detect" aria-label="Detection">
+      <div class="detect-head">
+        <div class="t">Detection
+<span class="tag ai">AI-generated · untested</span>        </div>
+        <span class="why">Hunting only: no endpoint behavior to write a rule against</span>
+      </div>
+      <div class="tabs">
+        <input class="tab-input" type="radio" name="fmt-story-4" id="story-4-hunt" checked>
+        <label for="story-4-hunt">Hunting</label>
+        <div class="tab-panels">
+          <div class="tab-panel">
+<ol class="steps-plain"><li>Confirm whether any Palo Alto firewalls have management or GlobalProtect interfaces exposed to the internet, and review their system and config logs for unexplained changes over the past two weeks.</li><li>Use Defender Vulnerability Management to list devices with PHP installed and note their versions.</li><li>Search process telemetry for php.exe or php-cgi.exe spawning cmd, PowerShell or other LOLBins on web servers.</li><li>Look for new .php files created in web directories by PHP or web server processes during the attack window.</li><li>Escalate any hit for full host investigation, and rotate credentials stored on or used by affected systems.</li></ol><div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · PHP processes spawning shells or LOLBins</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(14d) | where InitiatingProcessFileName in~ (&#34;php.exe&#34;,&#34;php-cgi.exe&#34;) | where FileName in~ (&#34;cmd.exe&#34;,&#34;powershell.exe&#34;,&#34;pwsh.exe&#34;,&#34;certutil.exe&#34;,&#34;bitsadmin.exe&#34;,&#34;mshta.exe&#34;,&#34;rundll32.exe&#34;,&#34;whoami.exe&#34;,&#34;curl.exe&#34;) | project Timestamp, DeviceName, InitiatingProcessFileName, InitiatingProcessCommandLine, FileName, ProcessCommandLine, AccountName</code></pre>
+</div>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · New PHP files written by PHP or web server processes</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceFileEvents | where Timestamp &gt; ago(14d) | where ActionType == &#34;FileCreated&#34; | where FileName endswith &#34;.php&#34; | where InitiatingProcessFileName in~ (&#34;php.exe&#34;,&#34;php-cgi.exe&#34;,&#34;w3wp.exe&#34;,&#34;httpd.exe&#34;,&#34;nginx.exe&#34;) | project Timestamp, DeviceName, FolderPath, FileName, InitiatingProcessFileName, InitiatingProcessCommandLine</code></pre>
+</div>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Inventory of devices with PHP installed</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceTvmSoftwareInventory | where SoftwareName has &#34;php&#34; | summarize Devices = make_set(DeviceName) by SoftwareVendor, SoftwareName, SoftwareVersion</code></pre>
+</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </article>
+  <article class="story" id="story-5" aria-labelledby="story-5-h">
+    <div class="story-top">
+      <div class="story-flags">
+        <div class="tags">
+          <span class="rank">05</span>
+<span class="tag crit-solid">Exploited</span>
+<span class="tag crit">In CISA KEV</span><span class="tag high">Public PoC</span><span class="tag info">Web app</span>        </div>
+        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span>Priority</span><svg class="bar" viewBox="0 0 100 6" preserveAspectRatio="none" aria-hidden="true"><rect class="track" width="100" height="6" rx="3"/><rect class="fill" width="73" height="6" rx="3"/></svg><b>73</b>
+        </div>
+      </div>
+      <h3 id="story-5-h">CISA reports in-the-wild exploitation of max-severity GitLab RCE CVE-2026-97229</h3>
+      <p class="meta">GitLab GitLab · 2 sources · first reported 30 October 2026</p>
+    </div>
+
+    <dl class="facts">
+      <div><dt>CVE</dt><dd><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-97229">CVE-2026-97229</a></dd></div>
+      <div><dt>CVSS</dt><dd><strong>10.0</strong> <span class="crit">Critical</span></dd></div>
+      <div><dt>EPSS</dt><dd><strong>27%</strong> <span class="muted">30-day</span></dd></div>
+      <div><dt>CISA KEV</dt><dd>Listed earlier</dd></div>
+      <div><dt>Public PoC</dt><dd><strong class="high">3 repos</strong></dd></div>
+    </dl>
+
+    <div class="story-body">
+      <div class="cols2">
+        <section><h4 class="label">What happened</h4><p>CISA says attackers are exploiting CVE-2026-97229, a maximum-severity GitLab vulnerability that was patched earlier this month, according to BleepingComputer. SecurityWeek reports that the flaw lets unauthenticated attackers run arbitrary code on the GitLab server, and its headline says exploitation hit Alpine Linux, though the items give no further detail. The CVE is in CISA KEV, and enrichment shows public proof-of-concept code. Neither source names affected or fixed versions.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>Self-managed GitLab servers hold source code, CI/CD secrets, deploy keys and runner tokens. A server compromise can spread into build pipelines, cloud accounts and the wider network, and internet-facing instances are the most exposed. With CVSS 10.0, confirmed exploitation, KEV listing, public PoC and an EPSS of about 0.27, unpatched instances should be treated as an emergency. KEV lists no due date.</p></section>
+      </div>
+      <div class="actions">
+        <h4 class="label">What to do</h4>
+        <ol class="steps"><li>Find every self-managed GitLab instance, internet-facing ones first, and upgrade to the patched release in GitLab&#39;s security advisory for CVE-2026-97229; the sources do not name version numbers.</li><li>If you cannot patch immediately, remove public exposure by putting the instance behind VPN or an IP allowlist until it is upgraded.</li><li>Hunt on GitLab hosts for shells, downloaders or interpreters started by GitLab Puma, Ruby or Workhorse processes, and for unexpected outbound connections from those processes.</li><li>For any instance that was exposed and unpatched, review GitLab application and web logs for anomalous unauthenticated requests. Check for new admin users, personal access tokens, SSH keys and runners.</li><li>If you suspect compromise, rotate CI/CD variables, runner registration tokens, deploy keys and cloud credentials stored in GitLab.</li></ol>
+      </div>
+    </div>
+
+    <div class="sources">
+      <h4 class="label">Sources</h4>
+      <ul>
+        <li><span class="pub">SecurityWeek</span><a href="https://www.securityweek.com/max-severity-gitlab-vulnerability-exploited-against-alpine-linux/" rel="noopener noreferrer nofollow">Max-Severity GitLab Vulnerability Exploited Against Alpine Linux</a><span class="where">securityweek.com · 30 Oct</span></li>
+        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/hackers-now-exploiting-max-severity-gitlab-flaw-in-attacks/" rel="noopener noreferrer nofollow">CISA says max severity GitLab flaw now exploited in the wild</a><span class="where">bleepingcomputer.com · 30 Oct</span></li>
+      </ul>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
+
+    <details class="poc">
+      <summary>Public proof-of-concept repos (3)</summary>
+      <p class="warn">Links only, not vetted. Public PoC repos are often fake or backdoored. Don't run them on a work machine.</p>
+      <ul><li><a href="https://github.com/jburgess-r7/CVE-2026-97229-PoC" rel="noopener noreferrer nofollow">jburgess-r7/CVE-2026-97229-PoC</a> <span class="muted">CVE-2026-97229 · 64 stars · created 13 Oct</span></li><li><a href="https://github.com/gandli/cve-2026-97229-lab" rel="noopener noreferrer nofollow">gandli/cve-2026-97229-lab</a> <span class="muted">CVE-2026-97229 · 1 stars · created 17 Oct</span></li><li><a href="https://github.com/murat-levi/gitlab-rce-toolkit" rel="noopener noreferrer nofollow">murat-levi/gitlab-rce-toolkit</a> <span class="muted">CVE-2026-97229 · 1 stars · created 29 Oct</span></li></ul>
+    </details>
+
+    <section class="detect" aria-label="Detection">
+      <div class="detect-head">
+        <div class="t">Detection
+<span class="tag ai">AI-generated · untested</span>        </div>
+        <span class="why">Sigma rule drafted by Claude Opus 5.5 · passed sigma check</span>
+      </div>
+      <div class="tabs">
+        <input class="tab-input" type="radio" name="fmt-story-5" id="story-5-sigma">
+        <label for="story-5-sigma">Sigma</label>
+        <input class="tab-input" type="radio" name="fmt-story-5" id="story-5-kql" checked>
+        <label for="story-5-kql">Defender KQL</label>
+        <input class="tab-input" type="radio" name="fmt-story-5" id="story-5-spl">
+        <label for="story-5-spl">Splunk SPL</label>
+        <input class="tab-input" type="radio" name="fmt-story-5" id="story-5-elastic">
+        <label for="story-5-elastic">Elastic</label>
+        <input class="tab-input" type="radio" name="fmt-story-5" id="story-5-hunt">
+        <label for="story-5-hunt">Hunting</label>
+        <div class="tab-panels">
+          <div class="tab-panel">
+            <div class="code">
+  <div class="code-bar">
+    <span class="name">Suspicious Child Process Spawned by GitLab Web Application</span>
+  </div>
+  <pre><code>title: Suspicious Child Process Spawned by GitLab Web Application
+id: 4746a238-c08b-50f0-85b5-8c746433e843
+status: experimental
+description: Detects shells, downloaders or script interpreters spawned by GitLab Puma/Ruby/Workhorse processes. This can indicate remote code execution, such as exploitation of CVE-2026-97229. AI-generated, untested.
+references:
+- https://www.securityweek.com/max-severity-gitlab-vulnerability-exploited-against-alpine-linux/
+- https://www.bleepingcomputer.com/news/security/hackers-now-exploiting-max-severity-gitlab-flaw-in-attacks/
+author: intel-brief (AI-generated, untested)
+date: &#39;2026-10-31&#39;
+tags:
+- attack.t1190
+- attack.execution
+- attack.t1059.004
+- cve.2026-97229
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection_parent:
+    ParentImage|endswith:
+    - /ruby
+    - /puma
+    - /gitlab-workhorse
+    ParentCommandLine|contains:
+    - gitlab
+    - puma
+  selection_child:
+    Image|endswith:
+    - /sh
+    - /bash
+    - /dash
+    - /zsh
+    - /ash
+    - /busybox
+    - /curl
+    - /wget
+    - /nc
+    - /ncat
+    - /socat
+    - /python
+    - /python3
+    - /perl
+    - /base64
+    - /whoami
+    - /id
+    - /uname
+  filter_git:
+    CommandLine|contains:
+    - &#39;/opt/gitlab/embedded/bin/git &#39;
+    - gitaly
+  condition: selection_parent and selection_child and not filter_git
+falsepositives:
+- GitLab maintenance tasks, hooks or integrations that invoke shell commands from the Rails application
+- Administrator troubleshooting via gitlab-rails console
+level: high
+</code></pre>
+</div>
+
+            <p class="conv-note">AI-generated, untested. Test and tune it in your environment before you deploy it.</p>
+          </div>
+          <div class="tab-panel">
+            <div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR / Sentinel KQL</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceProcessEvents
+| where ((InitiatingProcessFolderPath endswith &#34;/ruby&#34; or InitiatingProcessFolderPath endswith &#34;/puma&#34; or InitiatingProcessFolderPath endswith &#34;/gitlab-workhorse&#34;) and (InitiatingProcessCommandLine contains &#34;gitlab&#34; or InitiatingProcessCommandLine contains &#34;puma&#34;)) and (FolderPath endswith &#34;/sh&#34; or FolderPath endswith &#34;/bash&#34; or FolderPath endswith &#34;/dash&#34; or FolderPath endswith &#34;/zsh&#34; or FolderPath endswith &#34;/ash&#34; or FolderPath endswith &#34;/busybox&#34; or FolderPath endswith &#34;/curl&#34; or FolderPath endswith &#34;/wget&#34; or FolderPath endswith &#34;/nc&#34; or FolderPath endswith &#34;/ncat&#34; or FolderPath endswith &#34;/socat&#34; or FolderPath endswith &#34;/python&#34; or FolderPath endswith &#34;/python3&#34; or FolderPath endswith &#34;/perl&#34; or FolderPath endswith &#34;/base64&#34; or FolderPath endswith &#34;/whoami&#34; or FolderPath endswith &#34;/id&#34; or FolderPath endswith &#34;/uname&#34;) and (not((ProcessCommandLine contains &#34;/opt/gitlab/embedded/bin/git &#34; or ProcessCommandLine contains &#34;gitaly&#34;)))</code></pre>
+</div>
+
+            <p class="conv-note">Converted from the Sigma rule with pySigma (kusto backend, microsoft_xdr pipeline).</p>
+          </div>
+          <div class="tab-panel">
+            <div class="code">
+  <div class="code-bar">
+    <span class="name">Splunk SPL</span>
+  </div>
+  <pre><code>ParentImage IN (&#34;*/ruby&#34;, &#34;*/puma&#34;, &#34;*/gitlab-workhorse&#34;) ParentCommandLine IN (&#34;*gitlab*&#34;, &#34;*puma*&#34;) Image IN (&#34;*/sh&#34;, &#34;*/bash&#34;, &#34;*/dash&#34;, &#34;*/zsh&#34;, &#34;*/ash&#34;, &#34;*/busybox&#34;, &#34;*/curl&#34;, &#34;*/wget&#34;, &#34;*/nc&#34;, &#34;*/ncat&#34;, &#34;*/socat&#34;, &#34;*/python&#34;, &#34;*/python3&#34;, &#34;*/perl&#34;, &#34;*/base64&#34;, &#34;*/whoami&#34;, &#34;*/id&#34;, &#34;*/uname&#34;) NOT (CommandLine IN (&#34;*/opt/gitlab/embedded/bin/git *&#34;, &#34;*gitaly*&#34;))</code></pre>
+</div>
+
+            <p class="conv-note">Converted from the Sigma rule with pySigma.</p>
+          </div>
+          <div class="tab-panel">
+            <div class="code">
+  <div class="code-bar">
+    <span class="name">Elastic (Lucene, ECS)</span>
+  </div>
+  <pre><code>((ParentImage:(*\/ruby OR *\/puma OR *\/gitlab\-workhorse)) AND (ParentCommandLine:(*gitlab* OR *puma*))) AND (Image:(*\/sh OR *\/bash OR *\/dash OR *\/zsh OR *\/ash OR *\/busybox OR *\/curl OR *\/wget OR *\/nc OR *\/ncat OR *\/socat OR *\/python OR *\/python3 OR *\/perl OR *\/base64 OR *\/whoami OR *\/id OR *\/uname)) AND (NOT (CommandLine:(*\/opt\/gitlab\/embedded\/bin\/git\ * OR *gitaly*)))</code></pre>
+</div>
+
+            <p class="conv-note">Converted from the Sigma rule with pySigma.</p>
+          </div>
+          <div class="tab-panel">
+<ol class="steps-plain"><li>List devices with GitLab installed and check vulnerability status for CVE-2026-97229 in Defender Vulnerability Management.</li><li>Mark which GitLab hosts are internet-facing and prioritize those for patching and review.</li><li>On GitLab hosts, search process telemetry for shells, downloaders or interpreters whose parent is Puma, Ruby or gitlab-workhorse.</li><li>Review outbound network connections from GitLab application processes to unusual external IPs.</li><li>Check GitLab audit logs for new admin accounts, access tokens, SSH keys or runners created since the patch release.</li><li>Look for new or modified files in GitLab public and web directories, and in temp directories, written by the git or gitlab users.</li></ol><div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Devices exposed to CVE-2026-97229</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceTvmSoftwareVulnerabilities | where CveId == &#34;CVE-2026-97229&#34; | summarize SoftwareVersions = make_set(SoftwareVersion) by DeviceName, DeviceId, SoftwareName, VulnerabilitySeverityLevel</code></pre>
+</div>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Shells or downloaders spawned by GitLab application processes</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(30d) | where InitiatingProcessFileName in~ (&#34;ruby&#34;, &#34;puma&#34;, &#34;gitlab-workhorse&#34;) or InitiatingProcessCommandLine has_any (&#34;gitlab-puma&#34;, &#34;gitlab-workhorse&#34;) | where FileName in~ (&#34;sh&#34;, &#34;bash&#34;, &#34;dash&#34;, &#34;ash&#34;, &#34;busybox&#34;, &#34;curl&#34;, &#34;wget&#34;, &#34;nc&#34;, &#34;ncat&#34;, &#34;socat&#34;, &#34;python&#34;, &#34;python3&#34;, &#34;perl&#34;, &#34;base64&#34;, &#34;whoami&#34;, &#34;id&#34;) | where ProcessCommandLine !has &#34;gitaly&#34; | project Timestamp, DeviceName, AccountName, InitiatingProcessFileName, InitiatingProcessCommandLine, FileName, ProcessCommandLine</code></pre>
+</div>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Outbound public connections from GitLab application processes</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceNetworkEvents | where Timestamp &gt; ago(30d) | where InitiatingProcessFileName in~ (&#34;ruby&#34;, &#34;puma&#34;, &#34;sh&#34;, &#34;bash&#34;, &#34;curl&#34;, &#34;wget&#34;) | where InitiatingProcessParentFileName in~ (&#34;ruby&#34;, &#34;puma&#34;, &#34;gitlab-workhorse&#34;) or InitiatingProcessCommandLine has &#34;gitlab&#34; | where RemoteIPType == &#34;Public&#34; | summarize Connections = count(), Ports = make_set(RemotePort) by DeviceName, InitiatingProcessFileName, RemoteIP | order by Connections desc</code></pre>
+</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </article>
+  <article class="story" id="story-6" aria-labelledby="story-6-h">
+    <div class="story-top">
+      <div class="story-flags">
+        <div class="tags">
+          <span class="rank">06</span>
+<span class="tag high">Public PoC</span><span class="tag info">Linux</span>        </div>
+        <div class="priority high" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span>Priority</span><svg class="bar" viewBox="0 0 100 6" preserveAspectRatio="none" aria-hidden="true"><rect class="track" width="100" height="6" rx="3"/><rect class="fill" width="54" height="6" rx="3"/></svg><b>54</b>
+        </div>
+      </div>
+      <h3 id="story-6-h">Researchers report exploit for critical Linux kernel MPTCP flaw enabling unauthenticated remote root</h3>
+      <p class="meta"> Linux kernel MPTCP · 1 source · first reported 30 October 2026</p>
+    </div>
+
+
+    <div class="story-body">
+      <div class="cols2">
+        <section><h4 class="label">What happened</h4><p>BleepingComputer reports that Anthropic security researchers built a working exploit for a critical Linux kernel vulnerability. The flaw lets an unauthenticated remote attacker run commands as root on servers that run Multipath TCP (MPTCP) listeners. The available item gives no CVE identifier, no affected or fixed kernel versions, and no information on whether the exploit code is public or has been used in the wild.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>A pre-authentication remote root bug in the kernel networking stack would hit any Linux server or Linux-based appliance that accepts MPTCP connections. That can include edge gateways and hosts that face the internet. Because no CVE or patch details are available yet, defenders cannot check versions against a fix. The practical step now is to find which hosts have MPTCP enabled and are reachable from the internet. This assessment rests on a single news summary, so treat the details as preliminary until vendor or distribution advisories are published.</p></section>
+      </div>
+      <div class="actions">
+        <h4 class="label">What to do</h4>
+        <ol class="steps"><li>Inventory Linux servers and Linux-based appliances, and identify the ones where MPTCP is enabled and services accept MPTCP connections, starting with hosts that face the internet.</li><li>Where MPTCP is not required, disable it through the net.mptcp.enabled sysctl until a patched kernel is available, after confirming this does not break the application.</li><li>Watch your Linux distribution and appliance vendor advisories for the CVE identifier and fixed kernel versions, then patch and reboot affected hosts first among internet-facing systems.</li><li>Restrict network exposure of MPTCP-enabled listeners with firewall rules where possible.</li><li>Hunt on Linux servers for unexpected root shells or processes spawned from kernel threads or network services, which could indicate post-exploitation activity.</li></ol>
+      </div>
+    </div>
+
+    <div class="sources">
+      <h4 class="label">Sources</h4>
+      <ul>
+        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/critical-linux-kernel-flaw-allows-remote-root-attacks-on-mptcp-servers/" rel="noopener noreferrer nofollow">Critical Linux kernel flaw allows remote root attacks on MPTCP servers</a><span class="where">bleepingcomputer.com · 30 Oct</span></li>
+      </ul>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: low</p>    </div>
+
+
+    <section class="detect" aria-label="Detection">
+      <div class="detect-head">
+        <div class="t">Detection
+<span class="tag ai">AI-generated · untested</span>        </div>
+        <span class="why">Hunting only: no endpoint behavior to write a rule against</span>
+      </div>
+      <div class="tabs">
+        <input class="tab-input" type="radio" name="fmt-story-6" id="story-6-hunt" checked>
+        <label for="story-6-hunt">Hunting</label>
+        <div class="tab-panels">
+          <div class="tab-panel">
+<ol class="steps-plain"><li>List all Linux devices onboarded to Defender for Endpoint and flag the ones marked as internet-facing.</li><li>On those hosts, check whether MPTCP is enabled (sysctl net.mptcp.enabled) and which services open MPTCP sockets.</li><li>Prioritize internet-facing MPTCP hosts for mitigation or patching once fixed kernel versions are published.</li><li>Review Linux process telemetry for shells running as root whose parent is a kernel thread or a network-facing daemon, then investigate any you cannot explain.</li><li>Check unmanaged Linux-based edge appliances separately with the vendor, because Defender telemetry will not cover them.</li></ol><div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Inventory Linux devices and internet-facing exposure</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceInfo | where Timestamp &gt; ago(7d) | where OSPlatform == &#34;Linux&#34; | summarize arg_max(Timestamp, *) by DeviceId | project DeviceId, DeviceName, OSDistribution, OSVersion, PublicIP, IsInternetFacing | order by IsInternetFacing desc</code></pre>
+</div>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Root shells spawned by kernel threads on Linux hosts</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>let LinuxDevices = DeviceInfo | where Timestamp &gt; ago(7d) | where OSPlatform == &#34;Linux&#34; | distinct DeviceId; DeviceProcessEvents | where Timestamp &gt; ago(14d) | where DeviceId in (LinuxDevices) | where FileName in~ (&#34;sh&#34;, &#34;bash&#34;, &#34;dash&#34;, &#34;zsh&#34;) | where AccountName == &#34;root&#34; | where InitiatingProcessFileName startswith &#34;kworker&#34; or InitiatingProcessFileName in~ (&#34;kthreadd&#34;, &#34;ksoftirqd&#34;) | project Timestamp, DeviceName, AccountName, FileName, ProcessCommandLine, InitiatingProcessFileName, InitiatingProcessCommandLine</code></pre>
+</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </article>
+  <article class="story" id="story-7" aria-labelledby="story-7-h">
+    <div class="story-top">
+      <div class="story-flags">
+        <div class="tags">
+          <span class="rank">07</span>
+<span class="tag crit-solid">Exploited</span>
+<span class="tag">breach</span>        </div>
+        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span>Priority</span><svg class="bar" viewBox="0 0 100 6" preserveAspectRatio="none" aria-hidden="true"><rect class="track" width="100" height="6" rx="3"/><rect class="fill" width="54" height="6" rx="3"/></svg><b>54</b>
+        </div>
+      </div>
+      <h3 id="story-7-h">Binance ties roughly $6.3 billion crypto theft to a compromised DevOps engineer laptop</h3>
+      <p class="meta">Binance  · 2 sources · first reported 30 October 2026</p>
+    </div>
+
+
+    <div class="story-body">
+      <div class="cols2">
+        <section><h4 class="label">What happened</h4><p>BleepingComputer reports that Binance has linked the theft of about $6.3 billion in cryptocurrency to a DevOps engineer&#39;s compromised laptop. SecurityWeek says blockchain analysts see hallmarks of North Korea&#39;s TraderTraitor activity, and describes Binance as still investigating a possibly compromised engineer laptop. Neither item gives the initial access method, malware, or indicators, and the sources differ on how firmly the laptop link is established.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>If the reporting holds, a single privileged engineering workstation was enough to reach systems controlling very large assets, which makes developer and DevOps endpoints with cloud, CI/CD or signing access high-value targets in any organization. Exploitation is confirmed, but there are no CVEs, IOCs or technical details yet, so defenders can only check how well their own privileged engineering endpoints are monitored and hardened.</p></section>
+      </div>
+      <div class="actions">
+        <h4 class="label">What to do</h4>
+        <ol class="steps"><li>List DevOps, SRE and developer endpoints that hold production cloud, CI/CD, secrets-vault or signing access, and confirm full EDR coverage and alerting on them.</li><li>Review recent activity on those endpoints for script runtimes or recently installed unsigned applications launching shells or making unusual outbound connections.</li><li>Enforce phishing-resistant MFA, short-lived credentials and just-in-time access for production and key-management systems so one stolen laptop session cannot reach critical assets.</li><li>Rotate long-lived cloud access keys, tokens and SSH keys stored on engineering workstations, and audit their recent use from unexpected locations.</li><li>Watch for follow-up reporting from Binance or other researchers with TraderTraitor indicators and techniques, and hunt for them when published.</li></ol>
+      </div>
+    </div>
+
+    <div class="sources">
+      <h4 class="label">Sources</h4>
+      <ul>
+        <li><span class="pub">SecurityWeek</span><a href="https://www.securityweek.com/6-billion-binance-hack-bears-hallmarks-of-north-koreas-tradertraitor/" rel="noopener noreferrer nofollow">$6 Billion Binance Hack Bears Hallmarks of North Korea’s TraderTraitor</a><span class="where">securityweek.com · 30 Oct</span></li>
+        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/binance-links-63-billion-crypto-theft-to-compromised-devops-laptop/" rel="noopener noreferrer nofollow">Binance links $6.3 billion crypto theft to compromised DevOps laptop</a><span class="where">bleepingcomputer.com · 30 Oct</span></li>
+      </ul>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
+
+
+    <section class="detect" aria-label="Detection">
+      <div class="detect-head">
+        <div class="t">Detection
+<span class="tag ai">AI-generated · untested</span>        </div>
+        <span class="why">Hunting only: no endpoint behavior to write a rule against</span>
+      </div>
+      <div class="tabs">
+        <input class="tab-input" type="radio" name="fmt-story-7" id="story-7-hunt" checked>
+        <label for="story-7-hunt">Hunting</label>
+        <div class="tab-panels">
+          <div class="tab-panel">
+<ol class="steps-plain"><li>Build a device group of engineering and DevOps workstations with privileged production or key-management access.</li><li>On those devices, look for developer runtimes (node, python) or recently installed unsigned applications spawning command shells or PowerShell.</li><li>Check for processes other than expected tools reading cloud credential files and SSH keys in user profiles.</li><li>Review outbound connections from those processes to rare external destinations.</li><li>Correlate any hits with sign-ins to cloud consoles, CI/CD systems and secrets vaults from the same user.</li><li>Add vendor-published TraderTraitor indicators to these hunts once they are available.</li></ol><div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Developer runtimes spawning shells on endpoints</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(30d) | where InitiatingProcessFileName in~ (&#34;node.exe&#34;,&#34;python.exe&#34;,&#34;pythonw.exe&#34;) | where FileName in~ (&#34;cmd.exe&#34;,&#34;powershell.exe&#34;,&#34;pwsh.exe&#34;,&#34;curl.exe&#34;,&#34;bitsadmin.exe&#34;) | summarize Count=count(), Devices=dcount(DeviceId), SampleCmd=any(ProcessCommandLine) by InitiatingProcessFileName, FileName, InitiatingProcessCommandLine | order by Devices asc</code></pre>
+</div>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Unusual processes touching cloud credential and SSH key files</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceFileEvents | where Timestamp &gt; ago(30d) | where FolderPath has_any (@&#34;\.aws\&#34;, @&#34;\.azure\&#34;, @&#34;\.ssh\&#34;, @&#34;\.kube\&#34;, @&#34;\gcloud\&#34;) | where InitiatingProcessFileName !in~ (&#34;aws.exe&#34;,&#34;az.cmd&#34;,&#34;kubectl.exe&#34;,&#34;ssh.exe&#34;,&#34;git.exe&#34;,&#34;code.exe&#34;,&#34;explorer.exe&#34;) | summarize Count=count(), Files=make_set(FileName, 20) by DeviceName, InitiatingProcessFileName, InitiatingProcessFolderPath | order by Count desc</code></pre>
+</div>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Rare outbound destinations from script runtimes</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceNetworkEvents | where Timestamp &gt; ago(14d) | where InitiatingProcessFileName in~ (&#34;node.exe&#34;,&#34;python.exe&#34;,&#34;pythonw.exe&#34;,&#34;powershell.exe&#34;) | where RemoteIPType == &#34;Public&#34; | summarize Devices=dcount(DeviceId), Connections=count() by RemoteUrl, RemoteIP, InitiatingProcessFileName | where Devices &lt;= 2 | order by Connections desc</code></pre>
+</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </article>
+  <article class="story" id="story-8" aria-labelledby="story-8-h">
+    <div class="story-top">
+      <div class="story-flags">
+        <div class="tags">
+          <span class="rank">08</span>
+<span class="tag crit-solid">Exploited</span>
+<span class="tag">breach</span>        </div>
+        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span>Priority</span><svg class="bar" viewBox="0 0 100 6" preserveAspectRatio="none" aria-hidden="true"><rect class="track" width="100" height="6" rx="3"/><rect class="fill" width="51" height="6" rx="3"/></svg><b>51</b>
+        </div>
+      </div>
+      <h3 id="story-8-h">Florida Department of Education reports breach of student financial aid site exposing 4.9 million SSNs</h3>
+      <p class="meta">Florida Department of Education Florida Student Financial Aid website · 1 source · first reported 30 October 2026</p>
+    </div>
+
+
+    <div class="story-body">
+      <div class="cols2">
+        <section><h4 class="label">What happened</h4><p>According to The Record, the Florida Department of Education (FLDOE) said it learned on October 19 of a data breach affecting the Florida Student Financial Aid website. The Record reports that Social Security numbers for about 4.9 million people were exposed. The available item does not describe how the attackers got in, who was responsible, or which specific data fields beyond SSNs were involved.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>No vulnerability, product version or attacker technique has been disclosed, so there is nothing to patch or detect in Windows, M365 or edge-device telemetry right now. The main risk to most organizations is downstream: phishing and identity fraud that uses the leaked SSNs, especially against staff or students with ties to Florida financial aid programs.</p></section>
+      </div>
+      <div class="actions">
+        <h4 class="label">What to do</h4>
+        <ol class="steps"><li>Brief help desk and HR staff on social engineering that cites Florida financial aid or FLDOE breach notifications, and require identity verification that does not depend on SSNs.</li><li>Watch for phishing lures that impersonate FLDOE or breach-notification and credit-monitoring offers, and tune mail filtering for them.</li><li>Track FLDOE updates on the intrusion vector and any indicators it releases, and reassess detection coverage if a product or technique is named.</li></ol>
+      </div>
+    </div>
+
+    <div class="sources">
+      <h4 class="label">Sources</h4>
+      <ul>
+        <li><span class="pub">The Record</span><a href="https://therecord.media/florida-warns-5-million-affected-financial-aid-site-breach" rel="noopener noreferrer nofollow">Florida warns that 4.9 million people had Social Security numbers leaked in financial aid site breach</a><span class="where">therecord.media · 30 Oct</span></li>
+      </ul>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
+
+
+  </article>
+
+  <section class="block" id="kev" aria-labelledby="h-kev">
+    <div class="section-head"><h2 id="h-kev">New CISA KEV entries</h2><span>Added 30 October 2026</span></div>
+    <div class="table-box">
+      <table class="tbl">
+        <thead><tr><th scope="col">CVE</th><th scope="col">Vendor / product</th><th scope="col">Vulnerability</th><th scope="col">Deadline</th><th scope="col">Ransomware use</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="cve nowrap"><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-111357">CVE-2026-111357</a></td>
+            <td>Ivanti Connect Secure</td>
+            <td>Ivanti Connect Secure Missing Authentication for Critical Function Vulnerability</td>
+            <td class="nowrap"><strong class="due-soon">2 November 2026</strong><div class="sub">3 days after listing</div></td>
+            <td>Unknown</td>
+          </tr>
+          <tr>
+            <td class="cve nowrap"><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-118527">CVE-2026-118527</a></td>
+            <td>Ivanti Connect Secure</td>
+            <td>Ivanti Connect Secure Generation of Predictable Numbers or Identifiers Vulnerability</td>
+            <td class="nowrap"><strong class="">13 November 2026</strong><div class="sub">14 days after listing</div></td>
+            <td>Unknown</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">From the <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog">CISA KEV catalog</a>. Deadlines bind US federal civilian agencies; treat them as the latest you should act.</p>
+  </section>
+
+  <section class="block" id="signals" aria-labelledby="h-signals">
+    <div class="section-head"><h2 id="h-signals">Early signals</h2><span>Counted by code, not AI</span></div>
+    <p class="lead">CVEs that several independent accounts posted about in the window but that are not in KEV or the news feeds yet. Counted from Bluesky, Mastodon (infosec.exchange), r/netsec and Hacker News after dropping CVE-feed bots and digest posts. Chatter is a lead, not confirmation.</p>
+    <div class="signal">
+      <div class="id">
+        <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-98432">CVE-2026-98432</a>
+        <div class="tags">
+<span class="tag crit">CVSS 9.8</span><span class="tag high">Public PoC</span>        </div>
+        <span class="k">Accounts posting</span>
+        <div class="count"><b>29</b><span>on Bluesky, Hacker News, Mastodon · EPSS 0.4%</span></div>
+      </div>
+      <div class="detail">
+        <span class="k">NVD summary</span>
+        <p>In the Linux kernel, the following vulnerability has been resolved:
+
+ipv4: free inet_opt and ireq_opt after an RCU grace period
+
+tcp_v4_syn_recv_sock() transfers ownership of ireq-&gt;ireq_opt to the
+child socket (newinet-&gt;inet_opt) without copying it.
+
+Another cpu can concurrently process a retransmit…</p>
+        <span class="k">Posts</span>
+        <div class="posts"><a href="https://infosec.exchange/@ifin/117533969187996929" rel="noopener noreferrer nofollow" title="Mastodon">@ifin</a><a href="https://news.ycombinator.com/item?id=50312858" rel="noopener noreferrer nofollow" title="Hacker News">@dcu</a><a href="https://news.ycombinator.com/item?id=50305855" rel="noopener noreferrer nofollow" title="Hacker News">@santiago-pl</a><a href="https://bsky.app/profile/five-oclick-tech.bsky.social/post/3mz5pvrpk5y2z" rel="noopener noreferrer nofollow" title="Bluesky">@five-oclick-tech.bsky.social</a><a href="https://bsky.app/profile/etguenni.bsky.social/post/3mz5mqhw6tk2y" rel="noopener noreferrer nofollow" title="Bluesky">@etguenni.bsky.social</a></div>
+      </div>
+    </div>
+    <div class="signal">
+      <div class="id">
+        <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-112816">CVE-2026-112816</a>
+        <div class="tags">
+<span class="tag crit">CVSS 10.0</span>        </div>
+        <span class="k">Accounts posting</span>
+        <div class="count"><b>4</b><span>on Bluesky, Hacker News, Mastodon</span></div>
+      </div>
+      <div class="detail">
+        <span class="k">NVD summary</span>
+        <p>Improper certificate validation in the HTTPS listener in Canonical LXD 4.0.14, 5.0.10, 5.21.8, 6.9 before 4.0.15, 5.0.11, 5.21.9, 6.10.1 allows an unauthenticated attacker to authenticate as any trusted client and gain full access to the cluster and managed virtual machines via a crafted certificate…</p>
+        <span class="k">Posts</span>
+        <div class="posts"><a href="https://news.ycombinator.com/item?id=50310937" rel="noopener noreferrer nofollow" title="Hacker News">@paaloeye</a><a href="https://bsky.app/profile/technotenshi.bsky.social/post/3mz5h2as3nc2x" rel="noopener noreferrer nofollow" title="Bluesky">@technotenshi.bsky.social</a><a href="https://bsky.app/profile/appinn.bsky.social/post/3mz5kuxjsb32e" rel="noopener noreferrer nofollow" title="Bluesky">@appinn.bsky.social</a><a href="https://infosec.exchange/@technotenshi/117533604948002760" rel="noopener noreferrer nofollow" title="Mastodon">@technotenshi</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="radar" aria-labelledby="h-radar">
+    <div class="section-head"><h2 id="h-radar">Also on the radar</h2><span>Lower-ranked, links only</span></div>
+    <ul class="radar">
+      <li><a href="https://therecord.media/resolve-fashion-retailer-data-breach-payment-cards" rel="noopener noreferrer nofollow">Fashion retailer Resolve says hackers stole customer payment card numbers</a><span class="where">The Record</span></li>
+      <li><a href="https://www.bleepingcomputer.com/news/security/drupal-warns-of-critical-commerce-core-flaw-exploited-in-attacks/" rel="noopener noreferrer nofollow">Drupal Commerce Core critical access bypass exploited in the wild</a><span class="where">BleepingComputer</span></li>
+      <li><a href="https://www.bleepingcomputer.com/news/security/malicious-claude-code-extension-on-cursor-planted-ssh-backdoors/" rel="noopener noreferrer nofollow">Malicious Claude Code extension distributed via Cursor marketplace installs SSH backdoors</a><span class="where">BleepingComputer</span></li>
+      <li><a href="https://www.securityweek.com/fresh-wordpress-vulnerability-in-attackers-crosshairs/" rel="noopener noreferrer nofollow">Threat actors attempt exploitation of unauthenticated WordPress race condition RCE</a><span class="where">SecurityWeek</span></li>
+      <li><a href="https://www.bleepingcomputer.com/news/microsoft/microsoft-finally-fixes-vpn-issues-caused-by-september-updates/" rel="noopener noreferrer nofollow">Microsoft fixes Always On VPN failures caused by September 2026 Windows 11 updates</a><span class="where">BleepingComputer</span></li>
+      <li><a href="https://www.securityweek.com/2-million-drained-from-polymarket-traders-in-new-supply-chain-attack/" rel="noopener noreferrer nofollow">Polymarket traders drained of over $2 million in supply chain attack</a><span class="where">SecurityWeek</span></li>
+      <li><a href="https://www.securityweek.com/teamviewer-flaw-could-let-malicious-hosts-take-over-support-technicians-machines/" rel="noopener noreferrer nofollow">TeamViewer integer overflow CVE-2026-111585 could let malicious hosts run code on viewers</a><span class="where">SecurityWeek · CVE-2026-111585</span></li>
+      <li><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-118147" rel="noopener noreferrer nofollow">CVE-2026-118147 Visual Studio spoofing via improper certificate validation</a><span class="where">MSRC Security Update Guide · CVE-2026-118147</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-119373" rel="noopener noreferrer nofollow">SQLite FTS5 heap overflow CVE-2026-119373 fixed in version 3.54.0</a><span class="where">NVD · CVE-2026-119373</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-119572" rel="noopener noreferrer nofollow">Traefik Ingress NGINX provider flaw CVE-2026-119572 silently disables mTLS client checks</a><span class="where">NVD · CVE-2026-119572</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-119977" rel="noopener noreferrer nofollow">WordPress Core RCE in versions 4.7 to 7.1.3 via predictable upgrade staging paths</a><span class="where">NVD · CVE-2026-119977</span></li>
+      <li><a href="https://therecord.media/syrian-electronic-army-hacker-sentenced-three-years" rel="noopener noreferrer nofollow">Syrian Electronic Army hacker sentenced to 42 months in federal prison</a><span class="where">The Record</span></li>
+      <li><a href="https://www.securityweek.com/bulletproof-host-virtualine-loses-its-domain-to-fbi-seizure/" rel="noopener noreferrer nofollow">FBI seizes domain of bulletproof hosting provider Virtualine</a><span class="where">SecurityWeek</span></li>
+    </ul>
+  </section>
+
+  <details class="status">
+    <summary>Collection status: 22 of 22 sources returned data</summary>
+    <ul><li><span class="">BleepingComputer</span> <span class="muted">ok 8</span></li><li><span class="">Bluesky</span> <span class="muted">ok 59</span></li><li><span class="">CISA Advisories</span> <span class="muted">ok 1</span></li><li><span class="">CISA KEV</span> <span class="muted">ok 2</span></li><li><span class="">Cisco Talos</span> <span class="muted">ok 0</span></li><li><span class="">EPSS</span> <span class="muted">ok 39</span></li><li><span class="">Hacker News</span> <span class="muted">ok 14</span></li><li><span class="">Huntress</span> <span class="muted">ok 0</span></li><li><span class="">Krebs on Security</span> <span class="muted">ok 0</span></li><li><span class="">Mastodon</span> <span class="muted">ok 39</span></li><li><span class="">Microsoft Security Blog</span> <span class="muted">ok 2</span></li><li><span class="">MSRC Security Update Guide</span> <span class="muted">ok 3</span></li><li><span class="">NVD</span> <span class="muted">ok 47</span></li><li><span class="">r/netsec</span> <span class="muted">ok 0</span></li><li><span class="">Rapid7</span> <span class="muted">ok 1</span></li><li><span class="">SANS ISC</span> <span class="muted">ok 0</span></li><li><span class="">SecurityWeek</span> <span class="muted">ok 10</span></li><li><span class="">SigmaHQ new rules</span> <span class="muted">ok 0</span></li><li><span class="">The DFIR Report</span> <span class="muted">ok 0</span></li><li><span class="">The Record</span> <span class="muted">ok 5</span></li><li><span class="">Unit 42</span> <span class="muted">ok 0</span></li><li><span class="">watchTowr Labs</span> <span class="muted">ok 0</span></li></ul>
+    <p>Data for this edition: <a href="../../editions/2026-10-31/edition.json">edition.json</a>. KQL parser: available.</p>
+  </details>
+</main>
+
+<aside class="rail" aria-label="Edition summary">
+  <section class="panel">
+    <h2>In this edition</h2>
+    <ol class="toc">
+<li><span class="dot crit" aria-hidden="true"></span><a href="#story-1">CISA adds two exploited Ivanti Connect Secure flaws, CVE-2026-111357 and CVE-2026-118527, to KEV</a></li><li><span class="dot crit" aria-hidden="true"></span><a href="#story-2">Microsoft: Teams help desk impersonation leads to AD CS ESC1 and ESC8 abuse in two intrusions</a></li><li><span class="dot crit" aria-hidden="true"></span><a href="#story-3">BeyondTrust Remote Support CVE-2026-102764 allows unauthenticated RCE; listed in KEV, public exploit exists</a></li><li><span class="dot high" aria-hidden="true"></span><a href="#story-4">SecurityWeek: PHP2Shell attacks reportedly root Palo Alto firewalls, fail against WordPress</a></li><li><span class="dot crit" aria-hidden="true"></span><a href="#story-5">CISA reports in-the-wild exploitation of max-severity GitLab RCE CVE-2026-97229</a></li><li><span class="dot high" aria-hidden="true"></span><a href="#story-6">Researchers report exploit for critical Linux kernel MPTCP flaw enabling unauthenticated remote root</a></li><li><span class="dot crit" aria-hidden="true"></span><a href="#story-7">Binance ties roughly $6.3 billion crypto theft to a compromised DevOps engineer laptop</a></li><li><span class="dot crit" aria-hidden="true"></span><a href="#story-8">Florida Department of Education reports breach of student financial aid site exposing 4.9 million SSNs</a></li>    </ol>
+    <div class="legend"><span><span class="dot crit"></span>Exploited</span><span><span class="dot high"></span>High risk</span><span><span class="dot"></span>Watch</span></div>
+  </section>
+  <section class="panel">
+    <h2>KEV deadlines</h2>
+    <div class="kv"><a href="#kev">CVE-2026-111357</a><b class="crit">2 Nov</b></div>
+    <div class="kv"><a href="#kev">CVE-2026-118527</a><b class="">13 Nov</b></div>
+  </section>
+  <section class="panel">
+    <h2>Collection</h2>
+    <div class="meter"><svg class="bar" viewBox="0 0 100 6" preserveAspectRatio="none" aria-hidden="true"><rect class="track" width="100" height="6" rx="3"/><rect class="fill" width="100" height="6" rx="3"/></svg><span class="mono">22/22</span></div>
+    <p>Every source returned data. 191 items collected.</p>
+  </section>
+  <section class="panel follow">
+    <h2>Follow the brief</h2>
+    <p>A new edition every morning, 07:15 US Eastern.</p>
+    <div class="btns"><a class="btn primary" href="https://intel.brycemaxheimer.com/feed.xml">RSS feed</a><a class="btn ghost" href="https://intel.brycemaxheimer.com/feed.json">JSON Feed</a></div>
+  </section>
+</aside>
+</div>
+</div>
+<footer class="foot">
+  <div class="wrap">
+    <p>Summaries and detections are AI-generated and can be wrong. This site publishes summaries and links only, never copies of articles. Detections are labelled with their origin and are untested in your environment.</p>
+    <p>Maintained by Bryce Maxheimer · <a href="../../methodology/">Methodology</a> · <a href="../../archive/">Archive</a></p>
+  </div>
+</footer>
+</body>
+</html>

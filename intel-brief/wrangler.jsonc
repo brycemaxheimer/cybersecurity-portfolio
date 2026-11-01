@@ -1,0 +1,31 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  // Static-assets-only Worker for intel.brycemaxheimer.com, separate from the
+  // cybersecurity-portfolio Worker. Cloudflare Workers Builds deploys it from
+  // this folder: Worker "intel-brief", root directory "intel-brief", production
+  // branch "main", deploy command "npx wrangler deploy".
+  // Security headers (CSP etc.) come from site/_headers, written by the renderer.
+  // No Worker script: _headers only applies to static asset responses, and
+  // every response here is one.
+  "name": "intel-brief",
+  "compatibility_date": "2026-10-01",
+  "observability": {
+    "enabled": true
+  },
+  "assets": {
+    "directory": "./site",
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash"
+  },
+  // Attaches intel.brycemaxheimer.com to this Worker on deploy. A hostname can
+  // belong to only one Worker, so detach it from cybersecurity-portfolio first
+  // (README, "Remaining setup").
+  "routes": [
+    {
+      "pattern": "intel.brycemaxheimer.com",
+      "custom_domain": true
+    }
+  ],
+  "workers_dev": false,
+  "preview_urls": false
+}

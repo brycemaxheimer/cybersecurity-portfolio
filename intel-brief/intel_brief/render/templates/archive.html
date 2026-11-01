@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Archive | {{ site.title }}{% endblock %}
+{% block main %}
+<section class="edition-head">
+  <div>
+    <p class="eyebrow">Archive</p>
+    <h1>All editions</h1>
+    <p class="dek">{{ eds|length }} {{ "edition" if eds|length == 1 else "editions" }}. Also available as <a href="{{ base }}/feed.xml">RSS</a> and <a href="{{ base }}/feed.json">JSON Feed</a>.</p>
+  </div>
+</section>
+<ol class="archive">
+{% for ed in eds %}
+  <li>
+    <h2><a href="{{ root }}editions/{{ ed.date }}/">{{ ed.date|weekday }}, {{ ed.date|longdate }}</a></h2>
+    <ul>{% for s in ed.stories[:3] %}<li>{{ s.title }}</li>{% endfor %}</ul>
+    <p>{{ ed.stories|length }} stories · {{ ed.kev_new|length }} new KEV · {{ ed.early_signals|length }} early signals</p>
+  </li>
+{% endfor %}
+</ol>
+{% endblock %}

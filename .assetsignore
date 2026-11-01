@@ -1,0 +1,10 @@
+# Files under the repo root that the cybersecurity-portfolio Worker must not
+# serve as static assets (same syntax as .gitignore).
+#
+# intel-brief/ is a separate project: Cloudflare Workers Builds deploys its
+# rendered site (intel-brief/site) to its own Worker on intel.brycemaxheimer.com,
+# using intel-brief/wrangler.jsonc. Its code, data and tests are not part of
+# brycemaxheimer.com.
+intel-brief/
+.github/
+.assetsignore
