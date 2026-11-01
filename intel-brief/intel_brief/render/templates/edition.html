@@ -19,33 +19,33 @@
 </div>
 {% endmacro %}
 
+{% block mast_meta %}
+<div class="mast-meta">
+  <p class="eyebrow">{{ ed.date|weekday }} edition</p>
+  <h1 id="edition-title">{{ ed.date|longdate }}</h1>
+</div>
+{% endblock %}
+
 {% block main %}
 {% set ns = namespace(ok=0, failed=[]) %}
 {% for name, st in ed.sources_status|dictsort %}{% if st.startswith("ok") %}{% set ns.ok = ns.ok + 1 %}{% else %}{% set ns.failed = ns.failed + [name] %}{% endif %}{% endfor %}
 {% set total_sources = ed.sources_status|length %}
 {% set any_writeup = ed.stories|selectattr("writeup")|list|length > 0 %}
 
-<section class="edition-head" aria-labelledby="edition-title">
-  <div>
-    <p class="eyebrow">{{ ed.date|weekday }} edition</p>
-    <h1 id="edition-title">{{ ed.date|longdate }}</h1>
-    <p class="dek">Threat intelligence for teams defending Windows, Microsoft 365 and internet-facing edge devices.</p>
-  </div>
-  <dl class="stats">
+<div class="edition-strip">
+  <dl class="stats" aria-labelledby="edition-title">
     <div><dd>{{ ed.stories|length }}</dd><dt>Top {{ "story" if ed.stories|length == 1 else "stories" }}</dt></div>
     <div class="crit"><dd>{{ ed.kev_new|length }}</dd><dt>New KEV {{ "entry" if ed.kev_new|length == 1 else "entries" }}</dt></div>
     <div class="ai"><dd>{{ ed.early_signals|length }}</dd><dt>Early {{ "signal" if ed.early_signals|length == 1 else "signals" }}</dt></div>
     <div><dd>{{ ns.ok }}<small>/{{ total_sources }}</small></dd><dt>Sources collected</dt></div>
   </dl>
-</section>
-
-<section class="provenance" aria-label="How this edition was made">
-  <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6l7-3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8.8 12.2l2.2 2.2 4.2-4.4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <section class="provenance" aria-label="How this edition was made">
   <p><strong>How this edition was made.</strong>
     Collected from {{ total_sources }} public sources between {{ ed.window.since|utcshort }} and {{ ed.window.until|utcshort }} UTC.
     {% if ed.models.triage_method == "fallback" %}Model ranking was unavailable, so stories were grouped by CVE and ranked by code.{% else %}Ranked by {{ ed.models.triage|model_name }}{% endif %}{% if any_writeup %}{{ "," if ed.models.triage_method != "fallback" else "" }} summarized by {{ ed.models.writeup|model_name }}{% else %}{% if ed.models.triage_method != "fallback" %}.{% endif %} This edition has no AI summaries{% endif %}, and reviewed by a person before publishing.
     Summaries can be wrong, so check the linked sources before acting. <a href="{{ root }}methodology/">Read the methodology</a></p>
-</section>
+  </section>
+</div>
 
 <div class="layout">
 <main class="main">
@@ -60,11 +60,10 @@
   {% set cves = order_cves(s.cves) %}
   {% set c0 = cves[0] if cves else none %}
   {% set pocs = [] %}{% for c in s.cves %}{% for p in c.poc %}{% set _ = pocs.append((c.id, p)) %}{% endfor %}{% endfor %}
-  <article class="story" id="{{ s.id }}" aria-labelledby="{{ s.id }}-h">
+  <article class="story{% if loop.first %} lead-story{% endif %}" id="{{ s.id }}" aria-labelledby="{{ s.id }}-h">
     <div class="story-top">
       <div class="story-flags">
         <div class="tags">
-          <span class="rank">{{ "%02d"|format(s.rank) }}</span>
           {% if s.labels.exploitation == "confirmed_in_wild" %}<span class="tag crit-solid">Exploited</span>
           {% elif s.labels.exploitation == "reported" %}<span class="tag crit">Exploitation reported</span>{% endif %}
           {% if s.factors.in_kev %}<span class="tag crit">In CISA KEV</span>{% endif %}
@@ -73,7 +72,7 @@
           {% if s.labels.category in ("campaign", "malware", "breach", "policy", "research") %}<span class="tag">{{ s.labels.category }}</span>{% endif %}
         </div>
         <div class="priority {{ t }}" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span>Priority</span><svg class="bar" viewBox="0 0 100 6" preserveAspectRatio="none" aria-hidden="true"><rect class="track" width="100" height="6" rx="3"/><rect class="fill" width="{{ s.score }}" height="6" rx="3"/></svg><b>{{ s.score }}</b>
+          <span class="rank">No. {{ "%02d"|format(s.rank) }}</span> · Priority <b>{{ s.score }}</b>
         </div>
       </div>
       <h3 id="{{ s.id }}-h">{{ s.title }}</h3>
@@ -86,7 +85,7 @@
       <div><dt>CVE</dt><dd><a href="{{ ('https://nvd.nist.gov/vuln/detail/' ~ c0.id)|href }}">{{ c0.id }}</a></dd></div>
       <div><dt>CVSS</dt><dd>{% if c0.cvss %}<strong>{{ c0.cvss }}</strong> <span class="{{ 'crit' if c0.severity == 'CRITICAL' else 'high' if c0.severity == 'HIGH' else '' }}">{{ c0.severity|capitalize }}</span>{% else %}<span class="muted">Not scored yet</span>{% endif %}</dd></div>
       <div><dt>EPSS</dt><dd>{% if c0.epss is not none %}<strong>{{ c0.epss|pct }}</strong> <span class="muted">30-day</span>{% else %}<span class="muted">n/a</span>{% endif %}</dd></div>
-      <div><dt>{{ "KEV deadline" if c0.kev_due else "CISA KEV" }}</dt><dd>{% if c0.kev_due %}<strong class="crit">{{ c0.kev_due|longdate }}</strong>{% elif c0.in_kev %}Listed earlier{% else %}<span class="muted">Not listed</span>{% endif %}</dd></div>
+      <div{% if c0.kev_due %} class="due"{% endif %}><dt>{{ "KEV deadline" if c0.kev_due else "CISA KEV" }}</dt><dd>{% if c0.kev_due %}<strong class="crit">{{ c0.kev_due|longdate }}</strong>{% elif c0.in_kev %}Listed earlier{% else %}<span class="muted">Not listed</span>{% endif %}</dd></div>
       <div><dt>Public PoC</dt><dd>{% if c0.poc %}<strong class="high">{{ c0.poc|length }} {{ "repo" if c0.poc|length == 1 else "repos" }}</strong>{% else %}None known{% endif %}</dd></div>
     </dl>
     {% if cves|length > 1 %}
@@ -100,16 +99,19 @@
         <section><h4 class="label">What happened</h4>{% for p in s.writeup.what_happened|paras %}<p>{{ p }}</p>{% endfor %}</section>
         <section><h4 class="label">Why it matters</h4>{% for p in s.writeup.why_it_matters|paras %}<p>{{ p }}</p>{% endfor %}</section>
       </div>
+      {% set has_versions = s.writeup.affected_versions or s.writeup.fixed_versions %}
       {% if s.writeup.recommended_actions %}
       <div class="actions">
         <h4 class="label">What to do</h4>
         <ol class="steps">{% for a in s.writeup.recommended_actions %}<li>{{ a }}</li>{% endfor %}</ol>
-      </div>
       {% endif %}
-      {% if s.writeup.affected_versions or s.writeup.fixed_versions %}
+      {% if has_versions %}
       <div class="cols2 versions">
         <div><div class="k">Affected</div>{% if s.writeup.affected_versions %}<ul>{% for v in s.writeup.affected_versions %}<li>{{ v }}</li>{% endfor %}</ul>{% else %}<span class="muted">Not stated in the sources</span>{% endif %}</div>
         <div><div class="k">Fixed</div>{% if s.writeup.fixed_versions %}<ul>{% for v in s.writeup.fixed_versions %}<li>{{ v }}</li>{% endfor %}</ul>{% else %}<span class="muted">Not stated in the sources</span>{% endif %}</div>
+      </div>
+      {% endif %}
+      {% if s.writeup.recommended_actions %}
       </div>
       {% endif %}
     {% else %}
@@ -258,20 +260,35 @@
 </main>
 
 <aside class="rail" aria-label="Edition summary">
-  {% if ed.stories %}
-  <section class="panel">
-    <h2>In this edition</h2>
+  {% if ed.stories|length > 1 %}
+  <section class="panel also">
+    <h2>Also today</h2>
     <ol class="toc">
-    {% for s in ed.stories %}<li><span class="dot {{ s|tier }}" aria-hidden="true"></span><a href="#{{ s.id }}">{{ s.title }}</a></li>{% endfor %}
+    {% for s in ed.stories[1:] %}
+      {% set t = s|tier %}
+      {% set np = namespace(n=0) %}{% for c in s.cves %}{% set np.n = np.n + c.poc|length %}{% endfor %}
+      {% set words = [{"crit": "Exploited", "high": "High risk"}.get(t, "Watch")] %}
+      {% if s.factors.in_kev %}{% set _ = words.append("KEV") %}{% endif %}
+      {% if np.n or s.labels.exploitation == "public_poc" %}{% set _ = words.append("PoC") %}{% endif %}
+      <li><b class="num {{ t }}">{{ s.rank }}</b><span><span class="tier {{ t }}">{{ words|join(" · ") }}</span><a href="#{{ s.id }}">{{ s.title }}</a>{% if np.n %}<span class="toc-warn"><b>{{ np.n }} public PoC {{ "repo" if np.n == 1 else "repos" }}.</b> Links only, not vetted. Public PoC repos are often fake or backdoored. Don't run them on a work machine.</span>{% endif %}</span></li>
+    {% endfor %}
     </ol>
-    <div class="legend"><span><span class="dot crit"></span>Exploited</span><span><span class="dot high"></span>High risk</span><span><span class="dot"></span>Watch</span></div>
   </section>
   {% endif %}
   {% if ed.kev_new %}
-  <section class="panel">
+  <section class="panel kev">
     <h2>KEV deadlines</h2>
     {% for k in ed.kev_new|sort(attribute="due_date") %}{% set gap = days_between(k.date_added, k.due_date) %}
-    <div class="kv"><a href="#kev">{{ k.cve }}</a><b class="{{ 'crit' if gap is not none and gap <= 7 else '' }}">{{ k.due_date|shortdate }}</b></div>
+    <div class="kv"><a href="#kev">{{ k.cve }}</a><b class="{{ 'crit' if gap is not none and gap <= 7 else '' }}">{{ k.due_date|shortdate }}{% if gap is not none %} · {{ gap }} {{ "day" if gap == 1 else "days" }}{% endif %}</b></div>
+    {% endfor %}
+  </section>
+  {% endif %}
+  {% if ed.early_signals %}
+  <section class="panel">
+    <h2>Early signals</h2>
+    <p class="lede">Counted by code, not AI. Chatter is a lead, not confirmation.</p>
+    {% for sig in ed.early_signals %}
+    <div class="sig-row"><b>{{ sig.authors }}</b><span><a href="#signals">{{ sig.cve }}</a>{% if sig.nvd.cvss %} · CVSS {{ sig.nvd.cvss }}{% endif %}{% if sig.poc %} · PoC{% endif %}</span></div>
     {% endfor %}
   </section>
   {% endif %}

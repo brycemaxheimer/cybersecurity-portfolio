@@ -6,53 +6,53 @@
 <title>Daily Intel Brief: 31 October 2026</title>
 <meta name="description" content="Threat-intel brief for 31 October 2026: CISA adds two exploited Ivanti Connect Secure flaws, CVE-2026-111357 and CVE-2026-118527, to KEV; Microsoft: Teams help desk impersonation leads to AD CS ESC1 and ESC8 abuse in two intrusions; BeyondTrust Remote Support CVE-2026-102764 allows unauthenticated RCE; listed in KEV, public exploit exists">
 <meta name="color-scheme" content="light dark">
-<meta name="theme-color" content="#0E1A2B">
+<meta name="theme-color" content="#B3141B">
 <link rel="canonical" href="https://intel.brycemaxheimer.com/editions/2026-10-31/"><link rel="alternate" type="application/rss+xml" title="Daily Intel Brief (RSS)" href="https://intel.brycemaxheimer.com/feed.xml">
 <link rel="alternate" type="application/feed+json" title="Daily Intel Brief (JSON Feed)" href="https://intel.brycemaxheimer.com/feed.json">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-<link rel="preload" href="assets/fonts/IBMPlexSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/LibreFranklin-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/PlayfairDisplay-Variable.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="mast">
-  <div class="wrap">
-    <a class="brand" href="/">
-      <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><rect x="1" y="1" width="28" height="28" rx="6" fill="none" stroke="#3FC1C9" stroke-width="2"/><path d="M9 21V9M14 21V9l7 12V9" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <span>Daily Intel Brief</span>
-    </a>
-    <nav aria-label="Site">
-      <a href="/" aria-current="page">Latest</a>
-      <a href="archive/">Archive</a>
-      <a href="https://intel.brycemaxheimer.com/feed.xml">RSS</a>
-      <a href="https://intel.brycemaxheimer.com/feed.json">JSON Feed</a>
-      <a href="methodology/">Methodology</a>
-    </nav>
+  <div class="wrap mast-band">
+    <a class="brand" href="/">Daily Intel Brief</a>
+<div class="mast-meta">
+  <p class="eyebrow">Saturday edition</p>
+  <h1 id="edition-title">31 October 2026</h1>
+</div>
+  </div>
+  <div class="mast-bar">
+    <div class="wrap">
+      <nav aria-label="Site">
+        <a href="/" aria-current="page">Latest</a>
+        <a href="archive/">Archive</a>
+        <a href="https://intel.brycemaxheimer.com/feed.xml">RSS</a>
+        <a href="https://intel.brycemaxheimer.com/feed.json">JSON Feed</a>
+        <a href="methodology/">Methodology</a>
+      </nav>
+      <p class="mast-dek">Threat intelligence for teams defending Windows, Microsoft 365 and internet-facing edge devices.</p>
+    </div>
   </div>
 </header>
 <div id="main" class="wrap">
 
-<section class="edition-head" aria-labelledby="edition-title">
-  <div>
-    <p class="eyebrow">Saturday edition</p>
-    <h1 id="edition-title">31 October 2026</h1>
-    <p class="dek">Threat intelligence for teams defending Windows, Microsoft 365 and internet-facing edge devices.</p>
-  </div>
-  <dl class="stats">
+<div class="edition-strip">
+  <dl class="stats" aria-labelledby="edition-title">
     <div><dd>8</dd><dt>Top stories</dt></div>
     <div class="crit"><dd>2</dd><dt>New KEV entries</dt></div>
     <div class="ai"><dd>2</dd><dt>Early signals</dt></div>
     <div><dd>22<small>/22</small></dd><dt>Sources collected</dt></div>
   </dl>
-</section>
-
-<section class="provenance" aria-label="How this edition was made">
-  <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6l7-3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8.8 12.2l2.2 2.2 4.2-4.4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <section class="provenance" aria-label="How this edition was made">
   <p><strong>How this edition was made.</strong>
     Collected from 22 public sources between 30 Oct 05:20 and 31 Oct 07:20 UTC.
 Ranked by Claude Haiku 5.5, summarized by Claude Opus 5.5, and reviewed by a person before publishing.
     Summaries can be wrong, so check the linked sources before acting. <a href="methodology/">Read the methodology</a></p>
-</section>
+  </section>
+</div>
 
 <div class="layout">
 <main class="main">
@@ -61,15 +61,14 @@ Ranked by Claude Haiku 5.5, summarized by Claude Opus 5.5, and reviewed by a per
     <span>Ranked by exploitation, reach and platform</span>
   </div>
 
-  <article class="story" id="story-1" aria-labelledby="story-1-h">
+  <article class="story lead-story" id="story-1" aria-labelledby="story-1-h">
     <div class="story-top">
       <div class="story-flags">
         <div class="tags">
-          <span class="rank">01</span>
 <span class="tag crit-solid">Exploited</span>
 <span class="tag crit">In CISA KEV</span><span class="tag info">Edge device</span>        </div>
         <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span>Priority</span><svg class="bar" viewBox="0 0 100 6" preserveAspectRatio="none" aria-hidden="true"><rect class="track" width="100" height="6" rx="3"/><rect class="fill" width="100" height="6" rx="3"/></svg><b>100</b>
+          <span class="rank">No. 01</span> · Priority <b>100</b>
         </div>
       </div>
       <h3 id="story-1-h">CISA adds two exploited Ivanti Connect Secure flaws, CVE-2026-111357 and CVE-2026-118527, to KEV</h3>
@@ -80,7 +79,7 @@ Ranked by Claude Haiku 5.5, summarized by Claude Opus 5.5, and reviewed by a per
       <div><dt>CVE</dt><dd><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-111357">CVE-2026-111357</a></dd></div>
       <div><dt>CVSS</dt><dd><strong>7.0</strong> <span class="high">High</span></dd></div>
       <div><dt>EPSS</dt><dd><strong>0.3%</strong> <span class="muted">30-day</span></dd></div>
-      <div><dt>KEV deadline</dt><dd><strong class="crit">2 November 2026</strong></dd></div>
+      <div class="due"><dt>KEV deadline</dt><dd><strong class="crit">2 November 2026</strong></dd></div>
       <div><dt>Public PoC</dt><dd>None known</dd></div>
     </dl>
     <p class="related">Also: <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-118527">CVE-2026-118527</a> (KEV, due 13 Nov)</p>
@@ -93,10 +92,10 @@ Ranked by Claude Haiku 5.5, summarized by Claude Opus 5.5, and reviewed by a per
       <div class="actions">
         <h4 class="label">What to do</h4>
         <ol class="steps"><li>Apply Ivanti&#39;s mitigations or patches for CVE-2026-111357, CVE-2026-118527 and the chained CVE-2026-104935 on every Connect Secure appliance, prioritizing internet-facing units, before the KEV due dates of 2026-11-02 and 2026-11-13.</li><li>Before and after patching, perform a forensic triage of each appliance as CISA&#39;s KEV entries require, including running Ivanti&#39;s integrity checking tool if available and reviewing for unexpected files on disk and new admin accounts.</li><li>If compromise is suspected, rotate credentials that transit or are stored on the appliance: local admin accounts, LDAP/AD service accounts, and VPN user credentials. Also revoke related sessions in Entra ID.</li><li>Hunt internal telemetry for logons, scanning, or lateral movement originating from the appliance&#39;s internal IP addresses since late October 2026.</li><li>If mitigations cannot be applied, restrict or take the appliance offline, as CISA advises discontinuing use when mitigations are unavailable.</li></ol>
-      </div>
       <div class="cols2 versions">
         <div><div class="k">Affected</div><ul><li>Ivanti Connect Secure (specific versions not stated in sources)</li></ul></div>
         <div><div class="k">Fixed</div><span class="muted">Not stated in the sources</span></div>
+      </div>
       </div>
     </div>
 
@@ -151,11 +150,10 @@ Ranked by Claude Haiku 5.5, summarized by Claude Opus 5.5, and reviewed by a per
     <div class="story-top">
       <div class="story-flags">
         <div class="tags">
-          <span class="rank">02</span>
 <span class="tag crit-solid">Exploited</span>
 <span class="tag info">Windows</span><span class="tag">campaign</span>        </div>
         <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span>Priority</span><svg class="bar" viewBox="0 0 100 6" preserveAspectRatio="none" aria-hidden="true"><rect class="track" width="100" height="6" rx="3"/><rect class="fill" width="88" height="6" rx="3"/></svg><b>88</b>
+          <span class="rank">No. 02</span> · Priority <b>88</b>
         </div>
       </div>
       <h3 id="story-2-h">Microsoft: Teams help desk impersonation leads to AD CS ESC1 and ESC8 abuse in two intrusions</h3>
@@ -313,11 +311,10 @@ level: medium
     <div class="story-top">
       <div class="story-flags">
         <div class="tags">
-          <span class="rank">03</span>
 <span class="tag crit-solid">Exploited</span>
 <span class="tag crit">In CISA KEV</span><span class="tag high">Public PoC</span><span class="tag info">Edge device</span>        </div>
         <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span>Priority</span><svg class="bar" viewBox="0 0 100 6" preserveAspectRatio="none" aria-hidden="true"><rect class="track" width="100" height="6" rx="3"/><rect class="fill" width="86" height="6" rx="3"/></svg><b>86</b>
+          <span class="rank">No. 03</span> · Priority <b>86</b>
         </div>
       </div>
       <h3 id="story-3-h">BeyondTrust Remote Support CVE-2026-102764 allows unauthenticated RCE; listed in KEV, public exploit exists</h3>
@@ -340,10 +337,10 @@ level: medium
       <div class="actions">
         <h4 class="label">What to do</h4>
         <ol class="steps"><li>Inventory all BeyondTrust Remote Support appliances (cloud and on-premises) and apply BeyondTrust&#39;s fix for CVE-2026-102764 as soon as the vendor publishes it; confirm the fixed build directly with BeyondTrust because no source states one.</li><li>Until patched, restrict internet access to the appliance&#39;s public customer portal where business allows, and consider disabling public issue-menu session starts and thin chat, which were enabled on Rapid7&#39;s vulnerable test appliance.</li><li>Review appliance file systems and web logs for unexpected PHP files in the public web directory and for requests to newly created scripts; involve BeyondTrust support for a forensic review if anything is found.</li><li>Hunt on Windows endpoints for unusual commands, shells or file drops launched by the BeyondTrust customer or jump client, which would indicate an attacker using the appliance to reach endpoints.</li><li>If compromise is suspected, rotate credentials stored in or used through Remote Support, including vault credentials and representative accounts, and review session logs for unknown sessions.</li></ol>
-      </div>
       <div class="cols2 versions">
         <div><div class="k">Affected</div><ul><li>BeyondTrust Remote Support 24.1.2 build 1524046 (tested by Rapid7; other affected releases not established)</li></ul></div>
         <div><div class="k">Fixed</div><span class="muted">Not stated in the sources</span></div>
+      </div>
       </div>
     </div>
 
@@ -401,10 +398,9 @@ level: medium
     <div class="story-top">
       <div class="story-flags">
         <div class="tags">
-          <span class="rank">04</span>
 <span class="tag crit">Exploitation reported</span><span class="tag info">Edge device</span>        </div>
         <div class="priority high" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span>Priority</span><svg class="bar" viewBox="0 0 100 6" preserveAspectRatio="none" aria-hidden="true"><rect class="track" width="100" height="6" rx="3"/><rect class="fill" width="76" height="6" rx="3"/></svg><b>76</b>
+          <span class="rank">No. 04</span> · Priority <b>76</b>
         </div>
       </div>
       <h3 id="story-4-h">SecurityWeek: PHP2Shell attacks reportedly root Palo Alto firewalls, fail against WordPress</h3>
@@ -472,11 +468,10 @@ level: medium
     <div class="story-top">
       <div class="story-flags">
         <div class="tags">
-          <span class="rank">05</span>
 <span class="tag crit-solid">Exploited</span>
 <span class="tag crit">In CISA KEV</span><span class="tag high">Public PoC</span><span class="tag info">Web app</span>        </div>
         <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span>Priority</span><svg class="bar" viewBox="0 0 100 6" preserveAspectRatio="none" aria-hidden="true"><rect class="track" width="100" height="6" rx="3"/><rect class="fill" width="73" height="6" rx="3"/></svg><b>73</b>
+          <span class="rank">No. 05</span> · Priority <b>73</b>
         </div>
       </div>
       <h3 id="story-5-h">CISA reports in-the-wild exploitation of max-severity GitLab RCE CVE-2026-97229</h3>
@@ -662,10 +657,9 @@ level: high
     <div class="story-top">
       <div class="story-flags">
         <div class="tags">
-          <span class="rank">06</span>
 <span class="tag high">Public PoC</span><span class="tag info">Linux</span>        </div>
         <div class="priority high" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span>Priority</span><svg class="bar" viewBox="0 0 100 6" preserveAspectRatio="none" aria-hidden="true"><rect class="track" width="100" height="6" rx="3"/><rect class="fill" width="54" height="6" rx="3"/></svg><b>54</b>
+          <span class="rank">No. 06</span> · Priority <b>54</b>
         </div>
       </div>
       <h3 id="story-6-h">Researchers report exploit for critical Linux kernel MPTCP flaw enabling unauthenticated remote root</h3>
@@ -726,11 +720,10 @@ level: high
     <div class="story-top">
       <div class="story-flags">
         <div class="tags">
-          <span class="rank">07</span>
 <span class="tag crit-solid">Exploited</span>
 <span class="tag">breach</span>        </div>
         <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span>Priority</span><svg class="bar" viewBox="0 0 100 6" preserveAspectRatio="none" aria-hidden="true"><rect class="track" width="100" height="6" rx="3"/><rect class="fill" width="54" height="6" rx="3"/></svg><b>54</b>
+          <span class="rank">No. 07</span> · Priority <b>54</b>
         </div>
       </div>
       <h3 id="story-7-h">Binance ties roughly $6.3 billion crypto theft to a compromised DevOps engineer laptop</h3>
@@ -799,11 +792,10 @@ level: high
     <div class="story-top">
       <div class="story-flags">
         <div class="tags">
-          <span class="rank">08</span>
 <span class="tag crit-solid">Exploited</span>
 <span class="tag">breach</span>        </div>
         <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span>Priority</span><svg class="bar" viewBox="0 0 100 6" preserveAspectRatio="none" aria-hidden="true"><rect class="track" width="100" height="6" rx="3"/><rect class="fill" width="51" height="6" rx="3"/></svg><b>51</b>
+          <span class="rank">No. 08</span> · Priority <b>51</b>
         </div>
       </div>
       <h3 id="story-8-h">Florida Department of Education reports breach of student financial aid site exposing 4.9 million SSNs</h3>
@@ -927,16 +919,28 @@ Another cpu can concurrently process a retransmit…</p>
 </main>
 
 <aside class="rail" aria-label="Edition summary">
-  <section class="panel">
-    <h2>In this edition</h2>
+  <section class="panel also">
+    <h2>Also today</h2>
     <ol class="toc">
-<li><span class="dot crit" aria-hidden="true"></span><a href="#story-1">CISA adds two exploited Ivanti Connect Secure flaws, CVE-2026-111357 and CVE-2026-118527, to KEV</a></li><li><span class="dot crit" aria-hidden="true"></span><a href="#story-2">Microsoft: Teams help desk impersonation leads to AD CS ESC1 and ESC8 abuse in two intrusions</a></li><li><span class="dot crit" aria-hidden="true"></span><a href="#story-3">BeyondTrust Remote Support CVE-2026-102764 allows unauthenticated RCE; listed in KEV, public exploit exists</a></li><li><span class="dot high" aria-hidden="true"></span><a href="#story-4">SecurityWeek: PHP2Shell attacks reportedly root Palo Alto firewalls, fail against WordPress</a></li><li><span class="dot crit" aria-hidden="true"></span><a href="#story-5">CISA reports in-the-wild exploitation of max-severity GitLab RCE CVE-2026-97229</a></li><li><span class="dot high" aria-hidden="true"></span><a href="#story-6">Researchers report exploit for critical Linux kernel MPTCP flaw enabling unauthenticated remote root</a></li><li><span class="dot crit" aria-hidden="true"></span><a href="#story-7">Binance ties roughly $6.3 billion crypto theft to a compromised DevOps engineer laptop</a></li><li><span class="dot crit" aria-hidden="true"></span><a href="#story-8">Florida Department of Education reports breach of student financial aid site exposing 4.9 million SSNs</a></li>    </ol>
-    <div class="legend"><span><span class="dot crit"></span>Exploited</span><span><span class="dot high"></span>High risk</span><span><span class="dot"></span>Watch</span></div>
+      <li><b class="num crit">2</b><span><span class="tier crit">Exploited</span><a href="#story-2">Microsoft: Teams help desk impersonation leads to AD CS ESC1 and ESC8 abuse in two intrusions</a></span></li>
+      <li><b class="num crit">3</b><span><span class="tier crit">Exploited · KEV · PoC</span><a href="#story-3">BeyondTrust Remote Support CVE-2026-102764 allows unauthenticated RCE; listed in KEV, public exploit exists</a><span class="toc-warn"><b>3 public PoC repos.</b> Links only, not vetted. Public PoC repos are often fake or backdoored. Don't run them on a work machine.</span></span></li>
+      <li><b class="num high">4</b><span><span class="tier high">High risk</span><a href="#story-4">SecurityWeek: PHP2Shell attacks reportedly root Palo Alto firewalls, fail against WordPress</a></span></li>
+      <li><b class="num crit">5</b><span><span class="tier crit">Exploited · KEV · PoC</span><a href="#story-5">CISA reports in-the-wild exploitation of max-severity GitLab RCE CVE-2026-97229</a><span class="toc-warn"><b>3 public PoC repos.</b> Links only, not vetted. Public PoC repos are often fake or backdoored. Don't run them on a work machine.</span></span></li>
+      <li><b class="num high">6</b><span><span class="tier high">High risk · PoC</span><a href="#story-6">Researchers report exploit for critical Linux kernel MPTCP flaw enabling unauthenticated remote root</a></span></li>
+      <li><b class="num crit">7</b><span><span class="tier crit">Exploited</span><a href="#story-7">Binance ties roughly $6.3 billion crypto theft to a compromised DevOps engineer laptop</a></span></li>
+      <li><b class="num crit">8</b><span><span class="tier crit">Exploited</span><a href="#story-8">Florida Department of Education reports breach of student financial aid site exposing 4.9 million SSNs</a></span></li>
+    </ol>
+  </section>
+  <section class="panel kev">
+    <h2>KEV deadlines</h2>
+    <div class="kv"><a href="#kev">CVE-2026-111357</a><b class="crit">2 Nov · 3 days</b></div>
+    <div class="kv"><a href="#kev">CVE-2026-118527</a><b class="">13 Nov · 14 days</b></div>
   </section>
   <section class="panel">
-    <h2>KEV deadlines</h2>
-    <div class="kv"><a href="#kev">CVE-2026-111357</a><b class="crit">2 Nov</b></div>
-    <div class="kv"><a href="#kev">CVE-2026-118527</a><b class="">13 Nov</b></div>
+    <h2>Early signals</h2>
+    <p class="lede">Counted by code, not AI. Chatter is a lead, not confirmation.</p>
+    <div class="sig-row"><b>29</b><span><a href="#signals">CVE-2026-98432</a> · CVSS 9.8 · PoC</span></div>
+    <div class="sig-row"><b>4</b><span><a href="#signals">CVE-2026-112816</a> · CVSS 10.0</span></div>
   </section>
   <section class="panel">
     <h2>Collection</h2>
