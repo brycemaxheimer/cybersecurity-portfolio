@@ -1,0 +1,1675 @@
+{
+ "schema": 1,
+ "date": "2026-11-01",
+ "generated_at": "2026-11-01T17:14:30Z",
+ "generator": "intel-brief 0.1.0",
+ "models": {
+  "triage": "claude-haiku-5-5",
+  "writeup": "claude-opus-5-5",
+  "triage_method": "model"
+ },
+ "window": {
+  "since": "2026-10-31T07:20:44+00:00",
+  "until": "2026-11-01T17:08:36+00:00"
+ },
+ "stories": [
+  {
+   "id": "story-1",
+   "rank": 1,
+   "score": 75,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 18,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 10,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 4,
+    "in_kev": true,
+    "epss_max": 0.8264,
+    "cvss_max": 0
+   },
+   "title": "Brotli decoder buffer overflow CVE-2026-111497 listed by MSRC; KEV-listed with public PoC",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "widespread",
+    "platform": "other",
+    "vendor": "Google",
+    "product": "Brotli decoder"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-111497",
+     "cvss": 9.2,
+     "severity": "CRITICAL",
+     "products": [
+      "google brotli",
+      "nodejs node.js",
+      "python-hyper brotlicffi",
+      "microsoft .net",
+      "debian debian linux"
+     ],
+     "epss": 0.82641,
+     "percentile": 0.99666,
+     "in_kev": true,
+     "kev_due": null,
+     "poc": [
+      {
+       "url": "https://github.com/assetnote/node2shell-scanner",
+       "name": "assetnote/node2shell-scanner",
+       "stars": 85,
+       "created": "2026-10-25"
+      },
+      {
+       "url": "https://github.com/dimasma0305/CVE-2026-111497-POC",
+       "name": "dimasma0305/CVE-2026-111497-POC",
+       "stars": 73,
+       "created": "2026-10-22"
+      },
+      {
+       "url": "https://github.com/trailofbits/brotli-checker",
+       "name": "trailofbits/brotli-checker",
+       "stars": 66,
+       "created": "2026-10-23"
+      }
+     ],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "Microsoft's Security Response Center added CVE-2026-111497, a buffer overflow in Google's Brotli decompression library, to its Security Update Guide on 31 October 2026. The MSRC entry only notes that information was published and gives no technical details, affected versions or fix guidance. Vulnerability data rates the flaw CVSS 9.2 (critical), lists it in CISA's Known Exploited Vulnerabilities catalog, and reports that public proof-of-concept code exists. Products tied to the CVE include Google Brotli, Node.js, brotlicffi for Python, Microsoft .NET and Debian Linux.",
+    "why_it_matters": "Brotli is embedded in runtimes and libraries that are common on Windows servers and web-facing applications, including .NET and Node.js, so exposure may be broad and partly hidden inside bundled dependencies. The flaw is reported as exploited and is in the KEV catalog, though no remediation due date was given, and its EPSS score of 82.6% points to a high likelihood of exploitation activity. The sources do not yet name fixed versions, so inventory work should start now and patching should follow as soon as vendor fixes are identified.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Build an inventory of systems running .NET, Node.js, Python applications using brotlicffi, and any software that bundles the Brotli library, with priority on internet-facing web servers and services that decompress untrusted content.",
+     "Watch the MSRC entry and the Google, Node.js, .NET and Debian advisories for fixed versions, and apply updates to internet-facing systems first once released.",
+     "Use Defender Vulnerability Management to identify devices flagged for CVE-2026-111497 and track remediation progress.",
+     "Where practical until a fix is in place, limit Brotli-compressed input accepted from untrusted sources at web front ends, reverse proxies or gateways.",
+     "Watch for crashes or unexpected restarts of web worker processes (w3wp.exe, node.exe, dotnet.exe, python.exe) that handle compressed traffic, since memory corruption attempts may cause them."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "CVE-2026-111497 Google: CVE-2026-111497 Buffer overflow vulnerability in the Brotli decoder",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-111497",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-10-31T08:13:53Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Query Defender Vulnerability Management for devices that report CVE-2026-111497 and sort them by internet exposure.",
+     "Inventory installed Node.js, .NET runtimes and Python packages on servers to find Brotli consumers that the vulnerability scan may miss, such as bundled or vendored copies of the library.",
+     "Search for Brotli library files (brotli, brotlicommon, brotlidec DLLs or shared objects) on endpoints to find applications that ship their own copy.",
+     "On exposed web servers, check for repeated crashes of node.exe, dotnet.exe, w3wp.exe or python.exe and correlate them with inbound requests that carry Brotli content encoding.",
+     "Recheck vendor advisories for fixed versions and confirm remediation against the inventory once patches are deployed."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Devices flagged for CVE-2026-111497 by Defender Vulnerability Management",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where CveId == \"CVE-2026-111497\" | summarize Devices = dcount(DeviceId), DeviceNames = make_set(DeviceName, 100) by SoftwareVendor, SoftwareName, SoftwareVersion, VulnerabilitySeverityLevel | order by Devices desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Brotli library files present on endpoints",
+      "kql": "DeviceFileEvents | where Timestamp > ago(30d) | where FileName has \"brotli\" and (FileName endswith \".dll\" or FileName contains \".so\" or FileName endswith \".pyd\" or FileName endswith \".node\") | summarize LastSeen = max(Timestamp), Paths = make_set(FolderPath, 20) by DeviceName, FileName, SHA256 | order by LastSeen desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Crashes of web runtime processes that may decode Brotli input",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(14d) | where FileName =~ \"WerFault.exe\" | where InitiatingProcessFileName in~ (\"node.exe\", \"dotnet.exe\", \"w3wp.exe\", \"python.exe\") or ProcessCommandLine has_any (\"node.exe\", \"dotnet.exe\", \"w3wp.exe\", \"python.exe\") | summarize Crashes = count(), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by DeviceName, InitiatingProcessFileName | order by Crashes desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-2",
+   "rank": 2,
+   "score": 55,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 4,
+    "platform": 8,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Northflank breach leads to abuse of customer AI API keys; customers told to rotate all secrets",
+   "labels": {
+    "category": "breach",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "niche",
+    "platform": "cloud_saas",
+    "vendor": "Northflank",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "According to BleepingComputer, cloud application hosting platform Northflank has disclosed a security breach and is warning customers to rotate all credentials and secrets stored on its platform. The breach led to unauthorized use of customers' AI API keys. The sources do not say how attackers got in, when the breach began, or which data and secrets beyond AI API keys were exposed.",
+    "why_it_matters": "Any secret stored as an environment variable or secret in Northflank should be treated as compromised. That includes AI provider keys, cloud credentials, database passwords, and tokens for Entra ID app registrations or M365 integrations. Abuse of AI keys is already confirmed, so other stored credentials could be misused against linked cloud and SaaS tenants until they are rotated.",
+    "affected_versions": [
+     "Northflank customers with credentials or secrets stored on the platform (scope not further specified)"
+    ],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory every secret, API key and credential stored in Northflank projects, then revoke and reissue all of them, starting with AI provider keys and cloud or identity credentials.",
+     "Review usage and billing logs at AI providers for activity from unfamiliar IPs, unusual models or volumes, and unexpected spend since the breach window. Set spending limits and alerts.",
+     "If Entra ID app registration secrets or service principal credentials were stored in Northflank, rotate them and review service principal sign-ins and Graph activity for anomalies.",
+     "Check cloud provider audit logs, such as AWS CloudTrail, Azure activity logs and GCP audit logs, for API calls using keys that were stored in Northflank.",
+     "Follow Northflank's official guidance and watch for updates on the breach scope and timeline."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Northflank security breach leads to abuse of customers' AI API keys",
+     "url": "https://www.bleepingcomputer.com/news/security/northflank-security-breach-leads-to-abuse-of-customers-ai-api-keys/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-10-31T18:01:12Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "List all applications and pipelines deployed on Northflank and the secrets attached to each.",
+     "For each AI provider key, export usage logs and look for requests from IP ranges or regions not tied to your workloads, and for usage spikes.",
+     "For any Entra ID application credentials stored in Northflank, review service principal sign-in logs in Sentinel (AADServicePrincipalSignInLogs) for sign-ins from unexpected IPs.",
+     "For any cloud access keys stored in Northflank, review provider audit logs for activity from unknown sources, such as enumeration, new user or key creation, and resource deployment.",
+     "After rotation, confirm that the old keys are revoked and alert on any further attempts to use them."
+    ],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-3",
+   "rank": 3,
+   "score": 55,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 4,
+    "platform": 8,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Chainalysis discloses breach exposing customer names, emails, user IDs and roles",
+   "labels": {
+    "category": "breach",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "niche",
+    "platform": "cloud_saas",
+    "vendor": "Chainalysis",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "According to BleepingComputer, blockchain analytics firm Chainalysis disclosed a data breach in which attackers reached internal systems and tools. The company attributed the intrusion to what it called \"offensive agentic techniques\". Exposed data reportedly includes customer names, email addresses, user IDs and organizational roles. The sources give no details on the initial access vector, the timeline or the number of affected customers.",
+    "why_it_matters": "Organizations that use Chainalysis, such as crypto compliance, investigations and law enforcement teams, may now have staff names, emails and roles in attacker hands. That data is well suited to targeted phishing and impersonation against M365 users. No technical indicators or vulnerable products were disclosed, so the defender response is awareness and phishing monitoring rather than patching.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Confirm whether your organization is a Chainalysis customer and identify which staff accounts were registered with the service.",
+     "Warn those users about targeted phishing that impersonates Chainalysis or references their role and account.",
+     "Monitor inbound email for lookalike Chainalysis domains or unexpected requests for credentials or MFA approval sent to the affected users.",
+     "Ask Chainalysis for official notification details, including the scope of exposed data and whether any credentials or API keys were involved."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Chainalysis discloses data breach from \"offensive agentic techniques\"",
+     "url": "https://www.bleepingcomputer.com/news/security/chainalysis-discloses-data-breach-from-offensive-agentic-techniques/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-10-31T12:50:09Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-4",
+   "rank": 4,
+   "score": 51,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Cisco Talos details VOLTA infostealer that has an LLM rank victims' stolen assets by monetization value",
+   "labels": {
+    "category": "malware",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "other",
+    "vendor": "",
+    "product": "VOLTA"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "Cisco Talos reports on VOLTA, which calls itself VOLTA-AUTODOXER: a self-deleting Windows infostealer that came to light through the CAIRN research effort. Talos says it steals browser passwords, cookies, payment cards, cryptocurrency wallet seed phrases, gaming and chat sessions, Microsoft OAuth tokens, SSH and cloud-provider keys, Wi-Fi profiles and screenshots. It then uses the stolen sessions to profile the victim further, for example by searching Gmail for purchase receipts and pulling food-delivery order history. According to Talos, VOLTA sends the resulting evidence bundle to the OpenRouter LLM service, asks the model for a target assessment ranking assets by monetization value and judging the victim's security habits, and falls back to a three-model chain if a model refuses.",
+    "why_it_matters": "Stolen Microsoft OAuth tokens, browser session cookies and cloud keys from an infected Windows host can be replayed against M365, Entra ID and cloud tenants without a password or MFA prompt. Talos says the malware deletes itself and uses no attacker-owned infrastructure, so infrastructure IOCs and on-disk artifacts are scarce; outbound LLM API traffic from non-browser processes is one of the few observable signals. The source provides no hashes, delivery vector or prevalence data, so in-the-wild scale is unknown.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "On any host suspected of infection, revoke Entra ID sessions and refresh tokens for the affected users, reset their passwords, and rotate SSH and cloud-provider keys stored on the device.",
+     "Hunt for connections to OpenRouter from processes that are not browsers or approved developer tools, especially binaries running from user-writable paths.",
+     "If LLM API services such as OpenRouter are not business-approved, block or alert on them at the proxy or firewall.",
+     "Review Entra ID sign-in logs for token replay from unfamiliar IPs or locations shortly after any suspected infection.",
+     "Discourage storing passwords and payment cards in browsers on corporate devices, and enforce token protection or compliant-device Conditional Access where available."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Appraisal by AI: Model-driven victim prioritization in the VOLTA infostealer",
+     "url": "https://blog.talosintelligence.com/appraisal-by-ai-model-driven-victim-prioritization-in-the-volta-infostealer/",
+     "source": "Cisco Talos",
+     "kind": "news",
+     "published": "2026-10-31T12:00:00Z"
+    }
+   ],
+   "detection": {
+    "type": "behavioral",
+    "sigma": {
+     "origin": "ai",
+     "title": "Non-Browser Process Connecting to OpenRouter LLM API",
+     "url": null,
+     "yaml": "title: Non-Browser Process Connecting to OpenRouter LLM API\nid: f6feb447-7886-5383-a89a-2e974a3d7aed\nstatus: experimental\ndescription: Detects a Windows process other than a common browser connecting to the OpenRouter LLM service. Cisco Talos reports the VOLTA infostealer sends stolen victim data to OpenRouter for LLM-driven victim profiling. AI-generated, untested.\nreferences:\n- https://blog.talosintelligence.com/appraisal-by-ai-model-driven-victim-prioritization-in-the-volta-infostealer/\nauthor: intel-brief (AI-generated, untested)\ndate: '2026-11-01'\ntags:\n- attack.exfiltration\n- attack.t1567\n- attack.t1555.003\n- attack.t1539\nlogsource:\n  product: windows\n  category: network_connection\ndetection:\n  selection_dest:\n    DestinationHostname|contains: openrouter\n  filter_browsers:\n    Image|endswith:\n    - \\chrome.exe\n    - \\msedge.exe\n    - \\firefox.exe\n    - \\brave.exe\n    - \\opera.exe\n  condition: selection_dest and not filter_browsers\nfalsepositives:\n- Developer tools, IDE extensions, scripts or AI applications legitimately using OpenRouter\nlevel: medium\n",
+     "check": {
+      "status": "pass",
+      "messages": [
+       "No rule errors found.",
+       "No condition errors found.",
+       "No validation issues found.",
+       "Parsing Sigma rules",
+       "Checking Sigma rules"
+      ]
+     },
+     "conversions": {
+      "kql": {
+       "label": "Defender XDR / Sentinel KQL",
+       "query": "DeviceNetworkEvents\n| where RemoteUrl contains \"openrouter\" and (not((InitiatingProcessFolderPath endswith \"\\\\chrome.exe\" or InitiatingProcessFolderPath endswith \"\\\\msedge.exe\" or InitiatingProcessFolderPath endswith \"\\\\firefox.exe\" or InitiatingProcessFolderPath endswith \"\\\\brave.exe\" or InitiatingProcessFolderPath endswith \"\\\\opera.exe\")))",
+       "error": null,
+       "validation": {
+        "status": "pass",
+        "messages": []
+       }
+      },
+      "spl": {
+       "label": "Splunk SPL",
+       "query": "DestinationHostname=\"*openrouter*\" NOT (Image IN (\"*\\\\chrome.exe\", \"*\\\\msedge.exe\", \"*\\\\firefox.exe\", \"*\\\\brave.exe\", \"*\\\\opera.exe\"))",
+       "error": null
+      },
+      "elastic": {
+       "label": "Elastic (Lucene, ECS)",
+       "query": "destination.domain:*openrouter* AND (NOT (process.executable.caseless:(*\\\\chrome.exe OR *\\\\msedge.exe OR *\\\\firefox.exe OR *\\\\brave.exe OR *\\\\opera.exe)))",
+       "error": null
+      }
+     }
+    },
+    "hunting_steps": [
+     "Find non-browser processes connecting to OpenRouter and note the initiating binary path, signer and user.",
+     "For each hit, check the process tree and whether the binary ran from a user-writable folder such as AppData, Temp or Downloads.",
+     "Look for self-deletion on the same host, such as a shell process deleting the original binary shortly after it ran.",
+     "For confirmed or suspected infections, review Entra ID and CloudAppEvents activity for the device's users for session or token reuse from new IPs, and check mailbox search activity.",
+     "Revoke sessions and rotate credentials and keys for affected users, then reimage the host."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Non-browser processes connecting to OpenRouter",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(30d) | where RemoteUrl has \"openrouter\" | where InitiatingProcessFileName !in~ (\"chrome.exe\",\"msedge.exe\",\"firefox.exe\",\"brave.exe\",\"opera.exe\") | summarize Connections=count(), FirstSeen=min(Timestamp), LastSeen=max(Timestamp) by DeviceName, InitiatingProcessFileName, InitiatingProcessFolderPath, InitiatingProcessAccountName, InitiatingProcessSHA256",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "OpenRouter connections from binaries in user-writable paths",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(30d) | where RemoteUrl has \"openrouter\" | where InitiatingProcessFolderPath has_any (\"\\\\AppData\\\\\",\"\\\\Temp\\\\\",\"\\\\Downloads\\\\\",\"\\\\Users\\\\Public\\\\\") | project Timestamp, DeviceName, InitiatingProcessFileName, InitiatingProcessFolderPath, InitiatingProcessCommandLine, InitiatingProcessParentFileName, RemoteUrl, RemoteIP",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Generic self-deletion via cmd after delay",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(14d) | where FileName =~ \"cmd.exe\" | where ProcessCommandLine has \"del \" and ProcessCommandLine has_any (\"timeout\",\"ping \",\"choice \") | where ProcessCommandLine has_any (\"\\\\AppData\\\\\",\"\\\\Temp\\\\\",\"\\\\Downloads\\\\\") | project Timestamp, DeviceName, AccountName, ProcessCommandLine, InitiatingProcessFileName, InitiatingProcessFolderPath",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-5",
+   "rank": 5,
+   "score": 51,
+   "factors": {
+    "exploitation": 18,
+    "prevalence": 4,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 5,
+    "sources": 0,
+    "chatter": 4,
+    "in_kev": false,
+    "epss_max": 0.0207,
+    "cvss_max": 9.3
+   },
+   "title": "Nine OS command injection CVEs disclosed in WAVLINK routers and access points, no fix stated",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "public_poc",
+    "prevalence": "niche",
+    "platform": "edge_device",
+    "vendor": "WAVLINK",
+    "product": ""
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-120195",
+     "cvss": 9.3,
+     "severity": "CRITICAL",
+     "products": [],
+     "epss": 0.0207,
+     "percentile": 0.8143,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-120196",
+     "cvss": 8.6,
+     "severity": "HIGH",
+     "products": [],
+     "epss": 0.01687,
+     "percentile": 0.77029,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-120197",
+     "cvss": 8.6,
+     "severity": "HIGH",
+     "products": [],
+     "epss": 0.01687,
+     "percentile": 0.7703,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-120198",
+     "cvss": 9.3,
+     "severity": "CRITICAL",
+     "products": [],
+     "epss": 0.0207,
+     "percentile": 0.8143,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-120227",
+     "cvss": 8.6,
+     "severity": "HIGH",
+     "products": [],
+     "epss": null,
+     "percentile": null,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-120228",
+     "cvss": 8.6,
+     "severity": "HIGH",
+     "products": [],
+     "epss": null,
+     "percentile": null,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "On 1 November 2026, NVD published nine CVEs describing remotely reachable OS command injection flaws in several WAVLINK router and access point models, including the WL-WN579A3-A, WN579X3-D, WL-WN530HG4B, WL-WN530BE1-A, WN701AE and WN553X1-B. The flaws sit in web management CGI endpoints and the ioos service and backend, where unsanitized parameters reach shell commands. NVD rates two of them critical (CVSS 9.3) and the rest high (CVSS 8.5 to 8.6). The NVD entries say exploit details are public and that the vendor was contacted early, but they name no fixed firmware.",
+    "why_it_matters": "These are SOHO-class devices, so they may turn up in branch offices, home offices of remote staff or shadow IT rather than in managed edge estates. A device taken over this way can become a botnet node or a foothold for pivoting into the network. None of the CVEs is in CISA KEV and EPSS is modest (about 2.1% for the critical ones and 1.7% for the others), but NVD says exploits are public, even though enrichment data does not flag public proof-of-concept code.",
+    "affected_versions": [
+     "WAVLINK WL-WN579A3-A 2026-03-10-94f93d4 (CVE-2026-120195)",
+     "WAVLINK WN579X3-D V250402 (CVE-2026-120196)",
+     "WAVLINK WL-WN530HG4B M_V260724 (CVE-2026-120197)",
+     "WAVLINK WL-WN530BE1-A V251117 (CVE-2026-120198)",
+     "WAVLINK WN701AE M01AE_V260105 (CVE-2026-120227)",
+     "WAVLINK WN701AE 260105 (CVE-2026-120230)",
+     "WAVLINK WN553X1-B V260403_2.0.0 (CVE-2026-120228, CVE-2026-120231)",
+     "WAVLINK WN553X1-B 260403_2.0.0 (CVE-2026-120229)"
+    ],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory WAVLINK devices on corporate and branch networks and remove or replace any that are not needed, since no fixed firmware is named.",
+     "Ensure the web management interface of any remaining WAVLINK device is not reachable from the internet and is limited to a trusted management VLAN.",
+     "Check WAVLINK support channels for firmware newer than the affected builds and apply it when available.",
+     "Treat these devices as untrusted and segment them away from Windows servers and sensitive systems.",
+     "Review traffic from WAVLINK device IPs for unexpected outbound connections that could indicate compromise."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "CVE-2026-120195 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-120195",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-01T04:18:46.687Z"
+    },
+    {
+     "title": "CVE-2026-120196 (HIGH 8.6)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-120196",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-01T04:18:46.943Z"
+    },
+    {
+     "title": "CVE-2026-120197 (HIGH 8.6)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-120197",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-01T04:18:47.147Z"
+    },
+    {
+     "title": "CVE-2026-120198 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-120198",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-01T05:18:57.620Z"
+    },
+    {
+     "title": "CVE-2026-120227 (HIGH 8.6)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-120227",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-01T13:18:00.643Z"
+    },
+    {
+     "title": "CVE-2026-120228 (HIGH 8.6)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-120228",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-01T14:18:52.883Z"
+    },
+    {
+     "title": "CVE-2026-120229 (HIGH 8.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-120229",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-01T14:18:53.123Z"
+    },
+    {
+     "title": "CVE-2026-120230 (HIGH 8.6)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-120230",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-01T15:17:22.830Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Use Defender device discovery to list network devices whose vendor or model points to WAVLINK.",
+     "Compare the discovered models with the affected models listed above, and confirm firmware versions on each device's admin page.",
+     "Check external attack surface or firewall NAT rules for any WAVLINK management interface exposed to the internet.",
+     "Look for managed endpoints talking to discovered WAVLINK device IPs on web management ports, which helps locate the devices and their administrators.",
+     "If the device logs are available, review them for configuration changes to port forwarding, static routes, VLAN groups or OpenVPN settings that nobody approved."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Discovered WAVLINK network devices",
+      "kql": "DeviceInfo\n| where Timestamp > ago(30d)\n| where Vendor has \"wavlink\" or Model has_any (\"WN579\", \"WN530\", \"WN701\", \"WN553\")\n| summarize arg_max(Timestamp, *) by DeviceId\n| project Timestamp, DeviceId, DeviceName, Vendor, Model, DeviceType, DeviceCategory, OSVersion",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Endpoints connecting to WAVLINK device management ports",
+      "kql": "let wavlink = DeviceInfo\n| where Timestamp > ago(30d)\n| where Vendor has \"wavlink\" or Model has_any (\"WN579\", \"WN530\", \"WN701\", \"WN553\")\n| summarize by DeviceId;\nlet wavlinkIps = DeviceNetworkInfo\n| where Timestamp > ago(30d)\n| where DeviceId in (wavlink)\n| mv-expand ip = todynamic(IPAddresses)\n| extend Ip = tostring(ip.IPAddress)\n| where isnotempty(Ip)\n| summarize by Ip;\nDeviceNetworkEvents\n| where Timestamp > ago(30d)\n| where RemoteIP in (wavlinkIps)\n| where RemotePort in (80, 443, 8080, 8443)\n| summarize Connections = count(), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by DeviceName, RemoteIP, RemotePort, InitiatingProcessFileName",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-6",
+   "rank": 6,
+   "score": 51,
+   "factors": {
+    "exploitation": 18,
+    "prevalence": 4,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 5,
+    "sources": 0,
+    "chatter": 4,
+    "in_kev": false,
+    "epss_max": 0.0135,
+    "cvss_max": 9.3
+   },
+   "title": "Critical stack overflow in D-Link DIR-505 TFTP upload handler, exploit reportedly public",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "public_poc",
+    "prevalence": "niche",
+    "platform": "edge_device",
+    "vendor": "D-Link",
+    "product": "DIR-505"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-120189",
+     "cvss": 9.3,
+     "severity": "CRITICAL",
+     "products": [],
+     "epss": 0.01346,
+     "percentile": 0.71439,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "NVD published CVE-2026-120189 (CVSS 9.3) on 1 November 2026. It describes a stack-based buffer overflow in D-Link DIR-505 firmware 1.10B02, in the save_upload_file/mp_upload_file functions of the tftpd binary that handles TFTP upload filenames, and says it can be triggered remotely. NVD states an exploit is publicly available, but separate proof-of-concept tracking did not confirm public exploit code, so that claim is unverified. D-Link has not published an advisory or fix in the sources, and no affected product list beyond that firmware build is given.",
+    "why_it_matters": "The DIR-505 is a niche portable router, but any unit on a corporate network, branch office or remote worker's home network could give an attacker a remote foothold on a network edge device if its TFTP service is reachable. The flaw is not in CISA KEV and EPSS is low at 1.3%, but a critical score combined with a reported public exploit and no known fix means you should find and remove or isolate these devices rather than wait for a patch.",
+    "affected_versions": [
+     "D-Link DIR-505 1.10B02"
+    ],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory D-Link DIR-505 devices on corporate, branch and lab networks, and remove or replace any you find.",
+     "Block TFTP (UDP 69) to these devices from untrusted networks and from the internet, and disable the TFTP service if the device allows it.",
+     "Check D-Link's support channels for a firmware fix or end-of-life notice for the DIR-505, and apply any update once one is published.",
+     "Review firewall and NetFlow logs for unexpected inbound TFTP traffic to router management addresses.",
+     "Tell remote workers not to use personal DIR-505 units to connect corporate laptops."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "CVE-2026-120189 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-120189",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-01T01:17:16.877Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Use Defender for Endpoint device discovery to find network devices reported with vendor D-Link or model DIR-505.",
+     "Confirm the firmware version of any DIR-505 you find, and whether its TFTP service is reachable from untrusted segments or the internet.",
+     "Search managed endpoint network telemetry for TFTP (UDP 69) connections to internal router addresses. This can show which devices expose TFTP and which hosts talk to them.",
+     "Review perimeter firewall logs for inbound UDP 69 traffic to router or management IP ranges and investigate any unexpected sources.",
+     "Isolate or decommission confirmed vulnerable devices and record them for follow-up once D-Link publishes guidance."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Discovered D-Link DIR-505 network devices",
+      "kql": "DeviceInfo | where Timestamp > ago(30d) | where Vendor has \"D-Link\" or Model has \"DIR-505\" | summarize arg_max(Timestamp, *) by DeviceId | project Timestamp, DeviceId, DeviceName, DeviceType, Vendor, Model, OSVersion, PublicIP",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Endpoint TFTP traffic to internal devices",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(14d) | where RemotePort == 69 and Protocol =~ \"Udp\" | where ipv4_is_private(RemoteIP) | summarize Connections = count(), Hosts = dcount(DeviceId), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by RemoteIP | order by Connections desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-7",
+   "rank": 7,
+   "score": 46,
+   "factors": {
+    "exploitation": 18,
+    "prevalence": 4,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 0,
+    "chatter": 4,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 8.5
+   },
+   "title": "Public exploit for memory corruption in Horizon DataSys Reboot Restore shield.sys driver",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "public_poc",
+    "prevalence": "niche",
+    "platform": "windows",
+    "vendor": "Horizon DataSys",
+    "product": "Reboot Restore Standard"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-120232",
+     "cvss": 8.5,
+     "severity": "HIGH",
+     "products": [],
+     "epss": null,
+     "percentile": null,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [
+      {
+       "url": "https://github.com/Element2023H/CVE-2026-120232",
+       "name": "Element2023H/CVE-2026-120232",
+       "stars": 1,
+       "created": "2026-09-26"
+      }
+     ],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "NVD lists CVE-2026-120232 (CVSS 8.5) as a memory corruption flaw in the shield.sys kernel driver of Horizon DataSys Reboot Restore Standard up to version 13.2. The record traces the bug to an internal driver function. Triggering it requires local access. NVD says exploit code is publicly available and that the vendor plans a fix in an upcoming release, so no patched version is named yet.",
+    "why_it_matters": "Memory corruption in a kernel driver that a local user can reach can lead to privilege escalation or a system crash. Reboot Restore is mostly found on shared kiosks, lab and classroom machines, and public terminals, where untrusted users often have local access. The product is niche and the flaw is not in CISA KEV, with no EPSS score available, but a public exploit makes exposed hosts worth finding now.",
+    "affected_versions": [
+     "Horizon DataSys Reboot Restore Standard up to 13.2"
+    ],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory endpoints running Reboot Restore Standard or loading the shield.sys driver, and confirm their versions.",
+     "On shared or kiosk systems with the product, limit interactive local access to trusted users until a fix ships.",
+     "Uninstall the product where it is no longer needed.",
+     "Watch Horizon DataSys for the planned fixed release and deploy it once available.",
+     "Investigate unexpected crashes or privilege escalation on hosts with shield.sys loaded."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "CVE-2026-120232 (HIGH 8.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-120232",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-01T15:17:23.263Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Query software inventory for Horizon DataSys or Reboot Restore installations and record their versions.",
+     "Find devices that load a driver named shield.sys to catch installs missing from the inventory.",
+     "On affected hosts, review recent process activity for new executables launched from user-writable paths that then spawn SYSTEM-level processes.",
+     "Check affected hosts for unexpected bugchecks or reboots that could indicate failed exploitation attempts."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Reboot Restore installations in software inventory",
+      "kql": "DeviceTvmSoftwareInventory | where SoftwareVendor has \"horizon\" or SoftwareName has \"reboot restore\" | project DeviceName, OSPlatform, SoftwareVendor, SoftwareName, SoftwareVersion",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Devices loading the shield.sys driver",
+      "kql": "DeviceEvents | where Timestamp > ago(30d) | where ActionType == \"DriverLoad\" and FileName =~ \"shield.sys\" | summarize LastSeen=max(Timestamp), Paths=make_set(FolderPath) by DeviceId, DeviceName",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "SYSTEM processes spawned from user-writable paths on shield.sys hosts",
+      "kql": "let hosts = DeviceEvents | where Timestamp > ago(30d) | where ActionType == \"DriverLoad\" and FileName =~ \"shield.sys\" | distinct DeviceId; DeviceProcessEvents | where Timestamp > ago(14d) | where DeviceId in (hosts) | where AccountSid == \"S-1-5-18\" | where InitiatingProcessFolderPath has_any (\"\\\\Users\\\\\", \"\\\\Temp\\\\\", \"\\\\Downloads\\\\\", \"\\\\ProgramData\\\\\") | project Timestamp, DeviceName, InitiatingProcessFolderPath, InitiatingProcessAccountName, FileName, ProcessCommandLine",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-8",
+   "rank": 8,
+   "score": 43,
+   "factors": {
+    "exploitation": 18,
+    "prevalence": 18,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 4,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Public PoC released for patched Android \"SMS of Death\" flaw CVE-2026-58882",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "public_poc",
+    "prevalence": "widespread",
+    "platform": "mobile",
+    "vendor": "Google",
+    "product": "Android"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-58882",
+     "cvss": null,
+     "severity": "",
+     "products": [],
+     "epss": null,
+     "percentile": null,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [
+      {
+       "url": "https://github.com/Ignema/WapGuard",
+       "name": "Ignema/WapGuard",
+       "stars": 0,
+       "created": "2026-10-31"
+      }
+     ],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "According to BleepingComputer, a security researcher has published proof-of-concept code for CVE-2026-58882, a recently patched Android vulnerability nicknamed \"SMS of Death\". BleepingComputer reports that a specially crafted text message can remotely disrupt cellular service or crash an unpatched phone. The sources do not give affected Android versions, the security patch level that fixes it, or a CVSS score.",
+    "why_it_matters": "Corporate and BYOD Android phones are often used for MFA prompts, SMS codes and on-call alerting, so a remotely triggered crash or loss of cellular service can disrupt authentication and incident response. Public PoC code lowers the bar for abuse, although the flaw is not in CISA KEV and no in-the-wild exploitation is reported. Exposure is on mobile devices, not in Windows, M365 or edge telemetry.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Check Google's Android security bulletin and OEM bulletins for the patch level that fixes CVE-2026-58882, and push that update to managed Android devices through your MDM.",
+     "Use MDM compliance policies to flag or restrict Android devices below the fixed security patch level, especially those used for MFA.",
+     "Make sure staff who rely on SMS-based MFA have a fallback method, such as an authenticator app or FIDO2 key, in case their phone is crashed or loses service.",
+     "Tell help desk staff to treat reports of repeated phone crashes or sudden cellular loss after receiving an SMS as a possible sign of exploitation."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "New Android SMS of Death exploit can remotely crash unpatched phones",
+     "url": "https://www.bleepingcomputer.com/news/security/new-android-sms-of-death-exploit-can-remotely-crash-unpatched-phones/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-10-31T15:35:11Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-9",
+   "rank": 9,
+   "score": 43,
+   "factors": {
+    "exploitation": 28,
+    "prevalence": 4,
+    "platform": 8,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Alpine Linux rebuilds its GitLab server and resets passwords after attempted RCE exploitation",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "reported",
+    "prevalence": "niche",
+    "platform": "linux_server",
+    "vendor": "GitLab",
+    "product": "GitLab"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "According to BleepingComputer, attackers tried to exploit a critical GitLab vulnerability against Alpine Linux's development infrastructure on 20 and 21 October 2026. Alpine Linux responded by rebuilding its GitLab server and resetting all passwords because it was concerned the server might have been compromised. The available reporting does not name the specific GitLab vulnerability or CVE. It also does not say whether the attempt succeeded or list any indicators of compromise.",
+    "why_it_matters": "Self-hosted GitLab instances often hold source code, CI/CD secrets and deployment credentials, so a compromise can lead into build pipelines and production systems. Attackers are actively attempting exploitation of a critical GitLab flaw, but the CVE has not been identified. Defenders running internet-facing self-managed GitLab should treat patch currency and log review as urgent and should not wait for more detail.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory all self-managed GitLab instances, especially internet-facing ones, and update them to the latest GitLab security release.",
+     "Restrict external access to self-managed GitLab where possible, for example by placing it behind VPN or SSO, until it is confirmed patched.",
+     "Review GitLab web and application logs from mid-October 2026 onward for unusual requests, new admin accounts, new personal access tokens and unexpected runner registrations.",
+     "If compromise is suspected, follow Alpine's approach: rebuild the server, reset user passwords, and rotate access tokens, deploy keys and CI/CD secrets.",
+     "Watch GitLab's security advisories for the vulnerability behind this activity and adjust hunting once it is identified."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Alpine Linux rebuilds GitLab after attempted RCE attack",
+     "url": "https://www.bleepingcomputer.com/news/security/alpine-linux-rebuilds-gitlab-after-attempted-rce-attack/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-01T15:11:21Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Identify hosts running GitLab with Defender vulnerability management data and asset inventory, and flag internet-exposed instances.",
+     "Compare installed GitLab versions against the latest GitLab security releases and list open critical CVEs.",
+     "On Linux GitLab hosts with Defender for Endpoint, look for GitLab service accounts or processes under /opt/gitlab spawning network tools or interactive shells. Baseline first, because git hooks legitimately invoke shells.",
+     "Review GitLab audit and production logs for admin account creation, token creation and SSH key additions since 20 October 2026.",
+     "Check for outbound connections from GitLab hosts to unfamiliar external addresses that could indicate a reverse shell or data exfiltration."
+    ],
+    "hunting_queries": [
+     {
+      "title": "GitLab installations and open vulnerabilities from Defender TVM",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where SoftwareVendor has \"gitlab\" or SoftwareName has \"gitlab\" | summarize CVEs = make_set(CveId), Devices = dcount(DeviceId) by SoftwareName, SoftwareVersion, VulnerabilitySeverityLevel | order by Devices desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Suspicious child processes spawned by GitLab service accounts on Linux",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where InitiatingProcessAccountName in~ (\"git\", \"gitlab-www\", \"gitlab-workhorse\") or InitiatingProcessFolderPath has \"/opt/gitlab/\" | where FileName in~ (\"curl\", \"wget\", \"nc\", \"ncat\", \"socat\", \"python\", \"python3\", \"perl\", \"bash\", \"sh\") | where not(ProcessCommandLine has_any (\"hooks/\", \"gitlab-shell\")) | project Timestamp, DeviceName, InitiatingProcessAccountName, InitiatingProcessFileName, InitiatingProcessCommandLine, FileName, ProcessCommandLine | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-10",
+   "rank": 10,
+   "score": 42,
+   "factors": {
+    "exploitation": 18,
+    "prevalence": 4,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 0,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 8.6
+   },
+   "title": "Oray Pugongying X5 Pro up to 7.6.1 has two unpatched remote flaws: authorization bypass and path traversal",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "public_poc",
+    "prevalence": "niche",
+    "platform": "edge_device",
+    "vendor": "Oray",
+    "product": "Pugongying X5 Pro"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-120224",
+     "cvss": 8.6,
+     "severity": "HIGH",
+     "products": [],
+     "epss": null,
+     "percentile": null,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-120225",
+     "cvss": 8.5,
+     "severity": "HIGH",
+     "products": [],
+     "epss": null,
+     "percentile": null,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "NVD published two high-severity CVEs on 1 November 2026 for the Oray Pugongying X5 Pro network gateway, affecting versions up to 7.6.1. CVE-2026-120224 (CVSS 8.6) is an improper authorization flaw in the API authorization component, in the run_apis_by_json and run_async_task functions. CVE-2026-120225 (CVSS 8.5) is a relative path traversal in the config_restore_ex function, reachable through the filename argument. Both are remotely exploitable. NVD says exploits are public and that the vendor did not respond to the disclosure, but the public proof-of-concept check did not confirm working code.",
+    "why_it_matters": "These are edge devices. If an X5 Pro management or API interface is reachable from untrusted networks, an attacker could get unauthorized API access or tamper with configuration restore, which would give a foothold at the network perimeter. No vendor fix has been reported, neither CVE is in CISA KEV, and no EPSS score is available yet, so exposure reduction is the only control for now. The product is niche, but anyone running it, for example at branch offices, should treat it as urgent.",
+    "affected_versions": [
+     "Oray Pugongying X5 Pro up to 7.6.1"
+    ],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory Oray Pugongying X5 Pro devices, including branch and small-office deployments, and confirm firmware versions.",
+     "Remove internet exposure of the device's web management and API interfaces, and restrict access to a dedicated management network or allowlisted admin hosts.",
+     "Review device configuration and admin accounts for unexpected changes or recent configuration restores, and rotate device administrator credentials.",
+     "Watch for an Oray firmware update and apply it once released, since the vendor has not responded publicly.",
+     "Consider replacing the device if no fix appears and it must remain internet-facing."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "CVE-2026-120224 (HIGH 8.6)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-120224",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-01T11:18:57.437Z"
+    },
+    {
+     "title": "CVE-2026-120225 (HIGH 8.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-120225",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-01T11:18:57.843Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Identify Oray Pugongying X5 Pro devices using asset inventory, Defender device discovery and external attack surface scans.",
+     "Check whether their management or API ports are reachable from the internet or other untrusted segments.",
+     "Review any available device or web logs for unauthenticated API calls and for configuration restore requests with unusual filename values.",
+     "Look for unusual connections from internal endpoints or servers to the gateway's management interface, and for new outbound traffic from the gateway itself.",
+     "Compare the current device configuration and admin account list against a known-good baseline."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Discovered network devices that may be Oray gateways",
+      "kql": "DeviceInfo | where Timestamp > ago(30d) | where Vendor has \"Oray\" or Model has \"X5\" or DeviceName has \"oray\" | summarize arg_max(Timestamp, DeviceName, DeviceType, Vendor, Model, OSPlatform, PublicIP) by DeviceId",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  }
+ ],
+ "more_stories": [
+  {
+   "title": "Visual Studio improper certificate validation allows network spoofing (CVE-2026-118147)",
+   "score": 24,
+   "cves": [
+    "CVE-2026-118147"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-118147 (HIGH 7.4)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-118147",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "CVE-2026-98432 discussed by 44 distinct social media accounts",
+   "score": 12,
+   "cves": [
+    "CVE-2026-98432"
+   ],
+   "sources": []
+  }
+ ],
+ "kev_new": [],
+ "early_signals": [
+  {
+   "cve": "CVE-2026-98432",
+   "authors": 44,
+   "platforms": [
+    "Bluesky",
+    "Hacker News",
+    "Mastodon"
+   ],
+   "posts": [
+    {
+     "url": "https://news.ycombinator.com/item?id=50319143",
+     "platform": "Hacker News",
+     "account": "@oger",
+     "published": "2026-10-31T19:16:30Z"
+    },
+    {
+     "url": "https://news.ycombinator.com/item?id=50314397",
+     "platform": "Hacker News",
+     "account": "@Shank",
+     "published": "2026-10-31T09:23:59Z"
+    },
+    {
+     "url": "https://bsky.app/profile/josephhall.org/post/3mzavkztimc2q",
+     "platform": "Bluesky",
+     "account": "@josephhall.org",
+     "published": "2026-11-01T13:19:44Z"
+    },
+    {
+     "url": "https://infosec.exchange/@technotenshi/117539832345357459",
+     "platform": "Mastodon",
+     "account": "@technotenshi",
+     "published": "2026-11-01T06:45:08Z"
+    },
+    {
+     "url": "https://news.ycombinator.com/item?id=50320349",
+     "platform": "Hacker News",
+     "account": "@natebc",
+     "published": "2026-10-31T21:19:08Z"
+    }
+   ],
+   "first_seen": "2026-10-31T09:23:59Z",
+   "epss": {
+    "epss": 0.00457,
+    "percentile": 0.39666
+   },
+   "vendor_advisory": false,
+   "nvd": {
+    "cvss": 9.8,
+    "severity": "CRITICAL",
+    "products": [],
+    "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nipv4: free inet_opt and ireq_opt after an RCU grace period\n\ntcp_v4_syn_recv_sock() transfers ownership of ireq->ireq_opt to the\nchild socket (newinet->inet_opt) without copying it.\n\nAnother cpu can concurrently process a retransmit…"
+   },
+   "poc": [
+    {
+     "url": "https://github.com/Alucard0x1/cve-2026-98432",
+     "name": "Alucard0x1/cve-2026-98432",
+     "stars": 9,
+     "created": "2026-10-30"
+    },
+    {
+     "url": "https://github.com/H1z3-br0/CVE-2026-98432",
+     "name": "H1z3-br0/CVE-2026-98432",
+     "stars": 8,
+     "created": "2026-10-30"
+    },
+    {
+     "url": "https://github.com/typhoon1217/cve-2026-98432-mitigation",
+     "name": "typhoon1217/cve-2026-98432-mitigation",
+     "stars": 7,
+     "created": "2026-10-29"
+    }
+   ]
+  },
+  {
+   "cve": "CVE-2026-120308",
+   "authors": 5,
+   "platforms": [
+    "Bluesky",
+    "Mastodon"
+   ],
+   "posts": [
+    {
+     "url": "https://bsky.app/profile/thehackerwire.bsky.social/post/3mzawal5u4y2j",
+     "platform": "Bluesky",
+     "account": "@thehackerwire.bsky.social",
+     "published": "2026-11-01T13:31:46Z"
+    },
+    {
+     "url": "https://bsky.app/profile/cve.skyfleet.blue/post/buag7jnvc5j2i",
+     "platform": "Bluesky",
+     "account": "@cve.skyfleet.blue",
+     "published": "2026-11-01T14:36:16Z"
+    },
+    {
+     "url": "https://bsky.app/profile/stemshop.bsky.social/post/3mzaya7cshj2w",
+     "platform": "Bluesky",
+     "account": "@stemshop.bsky.social",
+     "published": "2026-11-01T14:07:21Z"
+    },
+    {
+     "url": "https://bsky.app/profile/offseq.bsky.social/post/3mzaw6gah2k25",
+     "platform": "Bluesky",
+     "account": "@offseq.bsky.social",
+     "published": "2026-11-01T13:30:35Z"
+    },
+    {
+     "url": "https://infosec.exchange/@offseq/117541426546971553",
+     "platform": "Mastodon",
+     "account": "@offseq",
+     "published": "2026-11-01T13:30:33Z"
+    }
+   ],
+   "first_seen": "2026-11-01T13:30:33Z",
+   "epss": null,
+   "vendor_advisory": false,
+   "nvd": {
+    "cvss": 9.9,
+    "severity": "CRITICAL",
+    "products": [],
+    "description": "A Beta9 tenant can attach a volume when deploying a function, endpoint, or task queue. The gateway builds the host path by joining the shared volumes root, the workspace name, and the volume identifier from the stub configuration. Nothing checks that the identifier names a volume that workspace owns…"
+   },
+   "poc": []
+  },
+  {
+   "cve": "CVE-2026-120338",
+   "authors": 4,
+   "platforms": [
+    "Bluesky"
+   ],
+   "posts": [
+    {
+     "url": "https://bsky.app/profile/thehackerwire.bsky.social/post/3mzbadk3gq225",
+     "platform": "Bluesky",
+     "account": "@thehackerwire.bsky.social",
+     "published": "2026-11-01T16:32:23Z"
+    },
+    {
+     "url": "https://bsky.app/profile/fc-vulns.bsky.social/post/3mzbb43czad2l",
+     "platform": "Bluesky",
+     "account": "@fc-vulns.bsky.social",
+     "published": "2026-11-01T16:46:05Z"
+    },
+    {
+     "url": "https://bsky.app/profile/aiuto-ch.bsky.social/post/3mzbaae4faakn",
+     "platform": "Bluesky",
+     "account": "@aiuto-ch.bsky.social",
+     "published": "2026-11-01T16:30:38Z"
+    },
+    {
+     "url": "https://bsky.app/profile/cve.skyfleet.blue/post/e7nvxmyyzzqln",
+     "platform": "Bluesky",
+     "account": "@cve.skyfleet.blue",
+     "published": "2026-11-01T16:09:17Z"
+    }
+   ],
+   "first_seen": "2026-11-01T16:09:17Z",
+   "epss": null,
+   "vendor_advisory": false,
+   "nvd": {
+    "cvss": 10.0,
+    "severity": "CRITICAL",
+    "products": [],
+    "description": "Prefab UI's Generative UI sandbox runs caller-supplied Python inside Pyodide, Python compiled to WebAssembly, in a Deno subprocess. The feature is documented as isolation for untrusted code, including LLM-written UI. From prefab-ui 0.14.0 through 0.20.2 the launcher starts Deno with unrestricted --a…"
+   },
+   "poc": []
+  },
+  {
+   "cve": "CVE-2026-120198",
+   "authors": 3,
+   "platforms": [
+    "Bluesky",
+    "Mastodon"
+   ],
+   "posts": [
+    {
+     "url": "https://bsky.app/profile/handle.invalid/post/3mzb7bfqtkf2n",
+     "platform": "Bluesky",
+     "account": "@handle.invalid",
+     "published": "2026-11-01T16:13:18Z"
+    },
+    {
+     "url": "https://infosec.exchange/@threataft/117540460205650278",
+     "platform": "Mastodon",
+     "account": "@threataft",
+     "published": "2026-11-01T09:24:48Z"
+    },
+    {
+     "url": "https://infosec.exchange/@offseq/117540365211721923",
+     "platform": "Mastodon",
+     "account": "@offseq",
+     "published": "2026-11-01T09:00:39Z"
+    }
+   ],
+   "first_seen": "2026-11-01T06:00:35Z",
+   "epss": {
+    "epss": 0.0207,
+    "percentile": 0.8143
+   },
+   "vendor_advisory": false,
+   "nvd": {
+    "cvss": 9.3,
+    "severity": "CRITICAL",
+    "products": [],
+    "description": "A vulnerability has been found in WAVLINK WL-WN530BE1-A V251117. Affected is the function con_check_read_finish of the file /protocol.csp. Such manipulation of the argument group_name/IP-FROM leads to command injection. It is possible to launch the attack remotely. The exploit has been disclosed to …"
+   },
+   "poc": []
+  },
+  {
+   "cve": "CVE-2026-69836",
+   "authors": 3,
+   "platforms": [
+    "Bluesky",
+    "Mastodon",
+    "r/netsec"
+   ],
+   "posts": [
+    {
+     "url": "https://bsky.app/profile/r-netsec-bot.bsky.social/post/3mzb4zzqadn2l",
+     "platform": "Bluesky",
+     "account": "@r-netsec-bot.bsky.social",
+     "published": "2026-11-01T15:33:22Z"
+    },
+    {
+     "url": "https://infosec.exchange/@_r_netsec/117541909411743096",
+     "platform": "Mastodon",
+     "account": "@_r_netsec",
+     "published": "2026-11-01T15:33:21Z"
+    },
+    {
+     "url": "https://www.reddit.com/r/netsec/comments/1xkzjb0/mirage2fa_stole_4561_m365_session_cookies_despite/",
+     "platform": "r/netsec",
+     "account": "@/u/doit4everyone",
+     "published": "2026-11-01T10:15:16Z"
+    }
+   ],
+   "first_seen": "2026-11-01T10:15:16Z",
+   "epss": {
+    "epss": 0.01532,
+    "percentile": 0.74791
+   },
+   "vendor_advisory": false,
+   "nvd": {
+    "cvss": 10.0,
+    "severity": "CRITICAL",
+    "products": [
+     "microsoft entra id"
+    ],
+    "description": "Deserialization of untrusted data in Microsoft Entra ID allows an unauthorized attacker to execute code over a network."
+   },
+   "poc": [
+    {
+     "url": "https://github.com/sentinel-aidefense/CVE-2026-69836-EXP",
+     "name": "sentinel-aidefense/CVE-2026-69836-EXP",
+     "stars": 1,
+     "created": "2026-08-21"
+    },
+    {
+     "url": "https://github.com/HORKimhab/CVE-2026-69836",
+     "name": "HORKimhab/CVE-2026-69836",
+     "stars": 0,
+     "created": "2026-08-21"
+    }
+   ]
+  },
+  {
+   "cve": "CVE-2026-112816",
+   "authors": 3,
+   "platforms": [
+    "Bluesky",
+    "Mastodon"
+   ],
+   "posts": [
+    {
+     "url": "https://bsky.app/profile/thebadgamer.bsky.social/post/3mzb7h7msjz2t",
+     "platform": "Bluesky",
+     "account": "@thebadgamer.bsky.social",
+     "published": "2026-11-01T16:16:33Z"
+    },
+    {
+     "url": "https://bsky.app/profile/mohemohe.mstdn.plusminus.io.ap.brid.gy/post/3mzbaz4nfvlk2",
+     "platform": "Bluesky",
+     "account": "@mohemohe.mstdn.plusminus.io.ap.brid.gy",
+     "published": "2026-11-01T16:44:25Z"
+    },
+    {
+     "url": "https://infosec.exchange/@cloud/117540747002545713",
+     "platform": "Mastodon",
+     "account": "@cloud",
+     "published": "2026-11-01T10:37:44Z"
+    }
+   ],
+   "first_seen": "2026-11-01T10:37:44Z",
+   "epss": {
+    "epss": 0.00303,
+    "percentile": 0.23145
+   },
+   "vendor_advisory": false,
+   "nvd": {
+    "cvss": 10.0,
+    "severity": "CRITICAL",
+    "products": [],
+    "description": "Improper certificate validation in the HTTPS listener in Canonical LXD 4.0.14, 5.0.10, 5.21.8, 6.9 before 4.0.15, 5.0.11, 5.21.9, 6.10.1 allows an unauthenticated attacker to authenticate as any trusted client and gain full access to the cluster and managed virtual machines via a crafted certificate…"
+   },
+   "poc": [
+    {
+     "url": "https://github.com/dehasoft-tr/cve-2026-112816",
+     "name": "dehasoft-tr/cve-2026-112816",
+     "stars": 0,
+     "created": "2026-10-31"
+    }
+   ]
+  },
+  {
+   "cve": "CVE-2026-120306",
+   "authors": 3,
+   "platforms": [
+    "Bluesky"
+   ],
+   "posts": [
+    {
+     "url": "https://bsky.app/profile/thehackerwire.bsky.social/post/3mzawa6kann2q",
+     "platform": "Bluesky",
+     "account": "@thehackerwire.bsky.social",
+     "published": "2026-11-01T13:31:32Z"
+    },
+    {
+     "url": "https://bsky.app/profile/cve.skyfleet.blue/post/fmtfabxwyzoag",
+     "platform": "Bluesky",
+     "account": "@cve.skyfleet.blue",
+     "published": "2026-11-01T14:44:16Z"
+    },
+    {
+     "url": "https://bsky.app/profile/stemshop.bsky.social/post/3mzay7otblp2b",
+     "platform": "Bluesky",
+     "account": "@stemshop.bsky.social",
+     "published": "2026-11-01T14:07:04Z"
+    }
+   ],
+   "first_seen": "2026-11-01T13:31:32Z",
+   "epss": null,
+   "vendor_advisory": false,
+   "nvd": {
+    "cvss": 9.9,
+    "severity": "CRITICAL",
+    "products": [],
+    "description": "Beta9 turns each shell command in a tenant image definition into a Dockerfile RUN line and executes it with Buildah on the build worker. The worker image sets BUILDAH_ISOLATION=chroot, and no buildah invocation passes --isolation, so the step only changes its filesystem root. It keeps the worker pod…"
+   },
+   "poc": []
+  },
+  {
+   "cve": "CVE-2026-120307",
+   "authors": 3,
+   "platforms": [
+    "Bluesky"
+   ],
+   "posts": [
+    {
+     "url": "https://bsky.app/profile/thehackerwire.bsky.social/post/3mzawaewik22j",
+     "platform": "Bluesky",
+     "account": "@thehackerwire.bsky.social",
+     "published": "2026-11-01T13:31:39Z"
+    },
+    {
+     "url": "https://bsky.app/profile/cve.skyfleet.blue/post/2l5fw4o3gcyol",
+     "platform": "Bluesky",
+     "account": "@cve.skyfleet.blue",
+     "published": "2026-11-01T14:42:16Z"
+    },
+    {
+     "url": "https://bsky.app/profile/stemshop.bsky.social/post/3mzay7x6ryz2p",
+     "platform": "Bluesky",
+     "account": "@stemshop.bsky.social",
+     "published": "2026-11-01T14:07:13Z"
+    }
+   ],
+   "first_seen": "2026-11-01T13:31:39Z",
+   "epss": null,
+   "vendor_advisory": false,
+   "nvd": {
+    "cvss": 9.9,
+    "severity": "CRITICAL",
+    "products": [],
+    "description": "The Beta9 worker serves the sandbox file API from outside the container. getHostPathFromContainerPath turns the tenant's container path into a worker path. If the unresolved path starts with a mount destination, including the default upload mount at /tmp/.beta9, the remainder is joined onto that mou…"
+   },
+   "poc": []
+  }
+ ],
+ "explainer": {
+  "concept": "One library flaw, many products: vulnerabilities in embedded dependencies",
+  "dek": "An embedded or vendored dependency is a third-party library, such as a compression decoder, that is compiled or bundled into many other products, so one bug in it becomes a vulnerability in every product that ships it.",
+  "why_today": "The KEV-listed Brotli decoder overflow is tracked against Google Brotli, Node.js, brotlicffi for Python, Microsoft .NET and Debian at once, and a single advisory gives no fix guidance. That is the typical shape of a shared-library flaw, where the hard part is finding every copy.",
+  "related_story_ids": [
+   "story-1"
+  ],
+  "parts": [
+   {
+    "heading": "Why a single library bug spreads",
+    "paragraphs": [
+     "Small, well-tested libraries for compression, parsing, image decoding and cryptography get reused everywhere because nobody wants to reimplement them. Brotli is a compression format that web servers, browsers, HTTP client libraries and language runtimes support. Node.js exposes Brotli through its zlib module, .NET exposes it through System.IO.Compression, and Python reaches it through bindings such as brotli and brotlicffi.",
+     "Products consume a library in different ways. Some link dynamically against a system copy, so one operating system package update fixes every consumer. Others compile in their own copy (static linking or vendoring) or ship it inside a runtime, a container image or a language package. Each of those copies has to be updated separately, usually by the downstream vendor. This is why one CVE often appears in many vendors' advisories on different dates, and why the first advisory you see may say nothing about your own products."
+    ]
+   },
+   {
+    "heading": "Why decoders are high-value targets",
+    "paragraphs": [
+     "A decompressor takes attacker-influenced bytes and turns them into a larger buffer in memory. A mistake in length or bounds handling can let crafted input write past the end of a buffer. Depending on the platform, the allocator and the mitigations in place, the result ranges from a crash to code execution in the process doing the decoding.",
+     "Exposure depends on where untrusted compressed data gets decoded. HTTP clients and browsers decode server responses that carry Brotli content encoding. Some servers, proxies and API frameworks decode compressed request bodies, but only where that feature is enabled. File-processing pipelines decode uploaded archives or assets. An internet-facing service that decompresses client-supplied data carries more risk than an internal tool that only decodes its own build artifacts."
+    ]
+   },
+   {
+    "heading": "Finding every copy",
+    "paragraphs": [
+     "Package-based inventory finds system-installed libraries and many runtimes, but it often misses copies compiled into a binary, bundled in an application directory or baked into a container image. Microsoft Defender Vulnerability Management maps CVEs to the software it recognizes, which you can query in the DeviceTvmSoftwareVulnerabilities and DeviceTvmSoftwareInventory tables. Treat an empty result as \"not found by this method\", not as \"not affected\".",
+     "Software bills of materials (SBOMs) and vendor VEX statements, which say whether a product is actually affected, close part of that gap. For in-house code, dependency manifests and lock files (npm, pip, NuGet) and container image scanning show which applications pull in the library directly or through another package."
+    ]
+   },
+   {
+    "heading": "What exploitation attempts may look like",
+    "paragraphs": [
+     "Memory corruption attempts against a decoder often show up first as crashes. On Windows, look for repeated Application Error events naming a web worker, Node.js or .NET host process. On servers, look for unexpected restarts, or for child processes spawned by a process that normally never starts shells. Network signs are weak, because compressed content is normal. Unusually small requests that expand into errors or crashes are worth correlating with host telemetry."
+    ]
+   }
+  ],
+  "takeaways": [
+   "Query Defender Vulnerability Management for the Brotli CVE and for Node.js, .NET runtime and Python packages on your servers. Remember that bundled or statically linked copies may not appear in the results.",
+   "Ask vendors of internet-facing appliances and applications for an SBOM or VEX statement on whether they ship an affected Brotli decoder, and track their fix dates separately from operating system patches.",
+   "Prioritize services that decompress client-supplied data, such as APIs, reverse proxies and upload handlers. Where possible, disable Brotli request-body decoding until fixed versions are deployed.",
+   "Rebuild container images and redeploy self-contained applications after base image or runtime updates, because patching the host does not update copies inside images or application folders.",
+   "Alert on repeated crashes of web worker, node.exe or dotnet host processes, and on unexpected child processes from those hosts, as possible exploitation attempts."
+  ],
+  "unsupported_cves": [],
+  "model": "claude-opus-5-5"
+ },
+ "good_news": [
+  {
+   "headline": "US court sentences Syrian hacker Ahmad Umar Agha to 42 months in prison",
+   "summary": "SecurityWeek reports that a US court sentenced Syrian hacker Ahmad Umar Agha to 42 months in prison for pro-Assad attacks on media, businesses and government entities. The sentence follows more than a decade in which he was on the run.",
+   "kind": "arrest_or_sentencing",
+   "sources": [
+    {
+     "title": "Syrian Hacker Gets Prison Time in US After Over a Decade on the Run",
+     "url": "https://www.securityweek.com/syrian-hacker-gets-prison-time-in-us-after-over-a-decade-on-the-run/",
+     "source": "SecurityWeek",
+     "published": "2026-10-31T11:00:00Z"
+    }
+   ],
+   "unsupported_cves": [],
+   "model": "claude-opus-5-5"
+  },
+  {
+   "headline": "Microsoft Edge picks up a large batch of Chromium security fixes",
+   "summary": "Microsoft's Security Update Guide lists a large set of Chromium CVEs that the Chromium-based Microsoft Edge addresses by ingesting Chromium. They include use-after-free and memory corruption flaws in components such as V8, Skia, ANGLE, PDFium and media handling. Microsoft points to Google's Chrome release notes for details.",
+   "kind": "fix_shipped",
+   "sources": [
+    {
+     "title": "Chromium: CVE-2026-118304 Improper input validation in SVG",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-118304",
+     "source": "MSRC Security Update Guide",
+     "published": "2026-10-31T14:00:00Z"
+    },
+    {
+     "title": "Chromium: CVE-2026-118313 Use after free in Video",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-118313",
+     "source": "MSRC Security Update Guide",
+     "published": "2026-10-31T14:00:00Z"
+    },
+    {
+     "title": "Chromium: CVE-2026-118316 Improper input validation in V8",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-118316",
+     "source": "MSRC Security Update Guide",
+     "published": "2026-10-31T14:00:00Z"
+    }
+   ],
+   "unsupported_cves": [],
+   "model": "claude-opus-5-5"
+  },
+  {
+   "headline": "onedump.py adds JSON output for bulk extraction of files embedded in OneNote",
+   "summary": "SANS ISC handler Didier Stevens reports that his free onedump.py tool now has a --jsonoutput option. It outputs the content of every embedded file found in a OneNote file as JSON. This lets analysts extract all embedded files from a set of OneNote documents without running the tool once per file.",
+   "kind": "new_defense",
+   "sources": [
+    {
+     "title": "OneNote File Extraction, (Sun, Nov 1st)",
+     "url": "https://isc.sans.edu/diary/rss/33478",
+     "source": "SANS ISC",
+     "published": "2026-11-01T09:12:23Z"
+    }
+   ],
+   "unsupported_cves": [],
+   "model": "claude-opus-5-5"
+  },
+  {
+   "headline": "YARA-X 1.22.0 adds built-in 64-bit integer functions for detection rules",
+   "summary": "SANS ISC reports that YARA-X 1.22.0 brings 11 improvements and 9 bug fixes. One improvement adds built-in functions to read 64-bit integers in rules: int64, int64be, uint64 and uint64be. SANS notes that the newly released YARA 4.6.0 lacks this addition, a sign that YARA-X has replaced YARA.",
+   "kind": "new_defense",
+   "sources": [
+    {
+     "title": "YARA-X 1.22.0 Release, (Sun, Oct 25th)",
+     "url": "https://isc.sans.edu/diary/rss/33454",
+     "source": "SANS ISC",
+     "published": "2026-10-31T10:45:40Z"
+    }
+   ],
+   "unsupported_cves": [],
+   "model": "claude-opus-5-5"
+  }
+ ],
+ "explainer_status": "ok",
+ "sources_status": {
+  "CISA KEV": "ok 0",
+  "NVD": "ok 40",
+  "BleepingComputer": "ok 7",
+  "The Record": "ok 0",
+  "The DFIR Report": "ok 0",
+  "Cisco Talos": "ok 1",
+  "Unit 42": "ok 0",
+  "Microsoft Security Blog": "ok 0",
+  "SANS ISC": "ok 4",
+  "Huntress": "ok 0",
+  "watchTowr Labs": "ok 0",
+  "Rapid7": "ok 0",
+  "SecurityWeek": "ok 2",
+  "Krebs on Security": "ok 0",
+  "CISA Advisories": "ok 0",
+  "MSRC Security Update Guide": "ok 51",
+  "Bluesky": "ok 60",
+  "Mastodon": "ok 43",
+  "r/netsec": "ok 1",
+  "Hacker News": "ok 39",
+  "SigmaHQ new rules": "ok 0",
+  "EPSS": "ok 125"
+ },
+ "stats": {
+  "items": {
+   "news": 14,
+   "advisory": 51,
+   "kev": 0,
+   "nvd": 40,
+   "social": 143,
+   "sigma": 0
+  },
+  "stories_found": 15,
+  "kql_parser": "available"
+ }
+}
