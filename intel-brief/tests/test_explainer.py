@@ -86,6 +86,24 @@ class ExplainerTest(unittest.TestCase):
         self.assertEqual(explainer.write(STORIES, col, [], llm, "m", "medium", {}), (None, []))
         self.assertEqual(llm.calls[0]["user"].count("</untrusted_edition>"), 1)
 
+    def test_credits_the_model_that_served(self):
+        class Rec:
+            served_by = "claude-opus-4-8"
+        llm = FakeLLM(reply())
+        llm.parse = lambda **kw: llm.result
+        llm.calls = [Rec()]
+        ex, good = explainer.write(STORIES, collection(), [], llm, "claude-opus-5-5", "medium", {})
+        self.assertEqual(ex["model"], "claude-opus-4-8")
+        self.assertEqual({g["model"] for g in good}, {"claude-opus-4-8"})
+        self.assertEqual(explainer.served_by(FakeLLM(None), "claude-opus-5-5"), "claude-opus-5-5")
+
+    def test_radar_skips_good_news_links(self):
+        from intel_brief.pipeline import without_good_news
+        more = [{"title": "a", "sources": [{"url": "https://therecord.media/botnet"}]},
+                {"title": "b", "sources": [{"url": "https://www.securityweek.com/other/"}]}]
+        good = [{"sources": [{"url": "https://therecord.media/botnet"}]}]
+        self.assertEqual([m["title"] for m in without_good_news(more, good)], ["b"])
+
     def test_dry_run_spends_nothing(self):
         with self.assertRaises(BudgetExceeded):
             explainer.write(STORIES, collection(), [], LLM(1.0, dry_run=True), "claude-opus-5-5", "medium", {})

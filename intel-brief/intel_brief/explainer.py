@@ -48,7 +48,7 @@ class ExplainerResult(BaseModel):
     related_story_ids: list[str] = Field(description="IDs of today's stories this concept helps explain.")
     parts: list[ExplainerPart] = Field(description="1 part for a simple concept, up to 5 for a complex one.")
     defender_takeaways: list[str] = Field(description="Up to 5 concrete things a defender can check or change.")
-    good_news: list[GoodNewsEntry] = Field(description="Up to the requested number of positive developments; empty if none qualify.")
+    good_news: list[GoodNewsEntry] = Field(description="Up to the requested number of clear wins for defenders; attack reports and non-security fixes don't count. Empty if none qualify.")
 
 
 SYSTEM = """You write the two closing sections of a daily threat-intelligence brief for SOC analysts and detection engineers. Readers defend Windows endpoints and servers, Microsoft 365 / Entra ID, and internet-facing edge devices (VPNs, firewalls, gateways), and they hunt in Microsoft Defender XDR and Microsoft Sentinel.
@@ -69,7 +69,13 @@ Part 1, the explainer:
 - defender_takeaways: up to 5 concrete checks or changes, most useful first.
 
 Part 2, good news:
-- From the candidate items, pick positive developments for defenders: infrastructure or botnet takedowns, arrests, charges or sentences, fixes shipped for serious flaws, new security features or safer defaults, useful research or free tools, sound policy. Only clear good news, never a breach or attack with a silver lining. Return an empty list on a day with none. Prefer items that today's top stories don't already cover, and never return two entries about the same event.
+- From the candidate items, pick positive developments for defenders: infrastructure or botnet takedowns, arrests, charges or sentences, security fixes shipped for serious vulnerabilities, new security features or safer defaults, useful defensive research or free tools, sound security policy. Return an empty list on a day with none; fewer strong entries beat a full list.
+- These are not good news, so leave them out:
+  - a report about an attack, breach, campaign or malicious tool, even when it comes with detection guidance, hunting queries or indicators;
+  - a fix for a reliability, performance or compatibility bug rather than a security flaw;
+  - a patch for a vulnerability that is being exploited or is in KEV (that belongs in the top stories);
+  - product announcements without a clear security benefit.
+- Prefer items that today's top stories don't already cover, and never return two entries about the same event.
 - Each entry: a factual headline, a 2-3 sentence summary attributed to its source ("The Record reports"), its kind, and the IDs of the items it is based on. State only what those items support.
 
 Writing rules:
@@ -218,4 +224,17 @@ def write(
         return None, []
     if result is None:
         return None, []
-    return shape(result, stories, candidates, good_news_max)
+    ex, good = shape(result, stories, candidates, good_news_max)
+    # A refusal fallback can hand the reply to an older model; credit the one that wrote it.
+    served = served_by(llm, model)
+    if ex:
+        ex["model"] = served
+    for g in good:
+        g["model"] = served
+    return ex, good
+
+
+def served_by(llm, model: str) -> str:
+    """The model that answered the most recent call (it differs after a fallback)."""
+    calls = getattr(llm, "calls", None)
+    return (getattr(calls[-1], "served_by", None) or model) if calls else model

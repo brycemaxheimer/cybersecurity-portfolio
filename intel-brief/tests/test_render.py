@@ -34,7 +34,8 @@ def edition():
         }],
         "more_stories": [], "kev_new": [], "early_signals": [],
         "explainer": {"concept": "Concept " + XSS, "dek": XSS, "why_today": XSS, "related_story_ids": ["story-1"],
-                      "parts": [{"heading": XSS, "paragraphs": [XSS]}], "takeaways": [XSS], "unsupported_cves": ["CVE-2021-0001"]},
+                      "parts": [{"heading": XSS, "paragraphs": [XSS]}], "takeaways": [XSS], "unsupported_cves": ["CVE-2021-0001"],
+                      "model": "claude-opus-4-8"},
         "good_news": [{"headline": XSS, "summary": XSS, "kind": "takedown", "unsupported_cves": [],
                        "sources": [{"title": "t", "url": "https://evil.example/good", "source": XSS, "published": ""}]}],
         "sources_status": {"NVD": "ok 3"}, "stats": {"kql_parser": "not installed"},
@@ -58,7 +59,9 @@ class RenderTest(unittest.TestCase):
             self.assertIn("&lt;script&gt;", html)
             self.assertIn('href="https://www.bleepingcomputer.com/news/a/"', html)
             self.assertIn("AI-generated · untested", html)
-            self.assertIn("AI-generated explainer by Claude Opus 5.5", html)
+            self.assertIn("AI-generated explainer by Claude Opus 4.8", html)
+            self.assertIn("AI-generated summary by Claude Opus 5.5", html)
+            self.assertEqual(render.model_name("claude-sonnet-4-6"), "Claude Sonnet 4.6")
             self.assertIn("mentions CVE-2021-0001, which no source in this edition names", html)
             self.assertIn('id="good-news"', html)
             feed = (d / "site" / "feed.xml").read_text(encoding="utf-8")

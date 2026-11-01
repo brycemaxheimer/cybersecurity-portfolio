@@ -16,6 +16,7 @@ links or markup either.
 from __future__ import annotations
 
 import json
+import re
 import shutil
 from datetime import date, datetime, timezone
 from email.utils import format_datetime
@@ -54,6 +55,17 @@ MODEL_NAMES = {
     "claude-opus-5-5": "Claude Opus 5.5",
     "claude-sonnet-5-5": "Claude Sonnet 5.5",
 }
+_MODEL_ID = re.compile(r"^claude-([a-z]+)-(\d+)(?:-(\d))?(?:-\d{8})?$")
+
+
+def model_name(model_id: str) -> str:
+    """Display name for a model ID, including fallback models like claude-opus-4-8."""
+    if model_id in MODEL_NAMES:
+        return MODEL_NAMES[model_id]
+    m = _MODEL_ID.match(model_id or "")
+    if not m:
+        return model_id or ""
+    return f"Claude {m.group(1).title()} {m.group(2)}{'.' + m.group(3) if m.group(3) else ''}"
 
 
 def _date(s: str) -> date | None:
@@ -166,7 +178,7 @@ def _env() -> Environment:
     env.filters["pct"] = lambda x: "" if x is None else (f"{100 * x:.1f}%" if x < 0.1 else f"{100 * x:.0f}%")
     env.filters.update(
         longdate=longdate, shortdate=shortdate, weekday=weekday, utcshort=utcshort,
-        domain=domain, tier=tier, model_name=lambda m: MODEL_NAMES.get(m, m),
+        domain=domain, tier=tier, model_name=model_name,
     )
     env.globals.update(PLATFORM_LABEL=PLATFORM_LABEL, GOOD_NEWS_LABEL=GOOD_NEWS_LABEL, detection_tabs=detection_tabs, days_between=days_between, order_cves=order_cves)
     return env

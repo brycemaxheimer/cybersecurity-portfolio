@@ -51,6 +51,12 @@ def _recent_concepts(run_date: date, keep: int) -> list[str]:
     return out
 
 
+def without_good_news(more: list[dict], good_news: list[dict]) -> list[dict]:
+    """Drop "Also on the radar" entries whose links already appear under Good news."""
+    urls = {src["url"] for g in good_news for src in g["sources"]}
+    return [m for m in more if not urls.intersection(src["url"] for src in m["sources"])]
+
+
 def _previous_until(run_date: date) -> datetime | None:
     for p in sorted(EDITIONS_DIR.glob("*.json"), reverse=True):
         if p.stem < run_date.isoformat():
@@ -173,11 +179,12 @@ def run(
             }
             for f in facts
         }
-        wu, status = None, "skipped_budget" if budget_hit else "failed"
+        wu, status, wu_model = None, "skipped_budget" if budget_hit else "failed", writeup_model
         if not budget_hit:
             try:
                 wu = write_story(s, items, col, enrich, llm, writeup_model, effort, text_chars)
                 status = "ok" if wu else "refused_or_failed"
+                wu_model = explainer.served_by(llm, writeup_model)
             except BudgetExceeded as e:
                 log.warning("%s", e)
                 budget_hit, status = True, "skipped_budget"
@@ -224,6 +231,7 @@ def run(
                     "fixed_versions": [clean_model_text(x, 200) for x in wu.fixed_versions][:10],
                     "recommended_actions": [clean_model_text(x, 300) for x in wu.recommended_actions][:5],
                     "confidence": wu.confidence,
+                    "model": wu_model,
                     # CVE IDs the model wrote that no source item contains: shown as a warning.
                     "unsupported_cves": [
                         c for c in find_cves(" ".join([wu.what_happened, wu.why_it_matters, *wu.affected_versions,
@@ -261,12 +269,12 @@ def run(
         "models": {"triage": settings["models"]["triage"], "writeup": writeup_model, "triage_method": triage_method},
         "window": {"since": col.since, "until": col.until},
         "stories": out_stories,
-        "more_stories": [
+        "more_stories": without_good_news([
             {"title": s.title, "score": s.score, "cves": s.cves[:3],
              "sources": [{"title": items[i].title[:200], "url": items[i].url, "source": items[i].source}
                          for i in s.item_ids if i in items and items[i].url][:3]}
-            for s in stories[len(picked):len(picked) + 15]
-        ],
+            for s in stories[len(picked):len(picked) + 15 + len(good_news)]
+        ], good_news)[:15],
         "kev_new": [
             {
                 "cve": i.cves[0], "vendor": i.extra["vendor"], "product": i.extra["product"],

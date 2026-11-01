@@ -31,6 +31,7 @@
 {% for name, st in ed.sources_status|dictsort %}{% if st.startswith("ok") %}{% set ns.ok = ns.ok + 1 %}{% else %}{% set ns.failed = ns.failed + [name] %}{% endif %}{% endfor %}
 {% set total_sources = ed.sources_status|length %}
 {% set any_writeup = ed.stories|selectattr("writeup")|list|length > 0 %}
+{% set fallback_models = ed.stories|selectattr("writeup")|map(attribute="writeup")|map(attribute="model")|select|reject("equalto", ed.models.writeup)|unique|list %}
 
 <div class="edition-strip">
   <dl class="stats" aria-labelledby="edition-title">
@@ -42,7 +43,7 @@
   <section class="provenance" aria-label="How this edition was made">
   <p><strong>How this edition was made.</strong>
     Collected from {{ total_sources }} public sources between {{ ed.window.since|utcshort }} and {{ ed.window.until|utcshort }} UTC.
-    {% if ed.models.triage_method == "fallback" %}Model ranking was unavailable, so stories were grouped by CVE and ranked by code.{% else %}Ranked by {{ ed.models.triage|model_name }}{% endif %}{% if any_writeup %}{{ "," if ed.models.triage_method != "fallback" else "" }} summarized by {{ ed.models.writeup|model_name }}{% else %}{% if ed.models.triage_method != "fallback" %}.{% endif %} This edition has no AI summaries{% endif %}, and reviewed by a person before publishing.
+    {% if ed.models.triage_method == "fallback" %}Model ranking was unavailable, so stories were grouped by CVE and ranked by code.{% else %}Ranked by {{ ed.models.triage|model_name }}{% endif %}{% if any_writeup %}{{ "," if ed.models.triage_method != "fallback" else "" }} summarized by {{ ed.models.writeup|model_name }}{% if fallback_models %} ({{ fallback_models|map("model_name")|join(", ") }} for stories it declined){% endif %}{% else %}{% if ed.models.triage_method != "fallback" %}.{% endif %} This edition has no AI summaries{% endif %}, and reviewed by a person before publishing.
     Summaries can be wrong, so check the linked sources before acting. <a href="{{ root }}methodology/">Read the methodology</a></p>
   </section>
 </div>
@@ -129,7 +130,7 @@
         <li><span class="pub">{{ src.source }}</span><a href="{{ h }}" rel="noopener noreferrer nofollow">{{ src.title }}</a><span class="where">{{ h|domain }} · {{ src.published|shortdate }}</span></li>
       {% endif %}{% endfor %}
       </ul>
-      {% if s.writeup %}<p class="ai-line">AI-generated summary by {{ ed.models.writeup|model_name }} · source support: {{ s.writeup.confidence }}{% if s.writeup.unsupported_cves %} · <span class="unsupported">mentions {{ s.writeup.unsupported_cves|join(", ") }}, which no source names</span>{% endif %}</p>{% endif %}
+      {% if s.writeup %}<p class="ai-line">AI-generated summary by {{ (s.writeup.model or ed.models.writeup)|model_name }} · source support: {{ s.writeup.confidence }}{% if s.writeup.unsupported_cves %} · <span class="unsupported">mentions {{ s.writeup.unsupported_cves|join(", ") }}, which no source names</span>{% endif %}</p>{% endif %}
     </div>
 
     {% if pocs %}
@@ -151,7 +152,7 @@
         </div>
         <span class="why">
           {%- if sg and sg.origin == "sigmahq" %}Community rule from SigmaHQ, converted with pySigma
-          {%- elif sg %}Sigma rule drafted by {{ ed.models.writeup|model_name }} · passed sigma check
+          {%- elif sg %}Sigma rule drafted by {{ ((s.writeup.model if s.writeup else none) or ed.models.writeup)|model_name }} · passed sigma check
           {%- elif d.type == "hunting_only" %}Hunting only: no endpoint behavior to write a rule against
           {%- else %}Hunting guidance{% endif %}</span>
       </div>
@@ -260,7 +261,7 @@
       <ol class="steps">{% for t in ex.takeaways %}<li>{{ t }}</li>{% endfor %}</ol>
     </div>
     {% endif %}
-    <p class="ai-line">AI-generated explainer by {{ ed.models.writeup|model_name }} · from the model's background knowledge, not today's sources · check vendor documentation before acting on it{% if ex.unsupported_cves %} · <span class="unsupported">mentions {{ ex.unsupported_cves|join(", ") }}, which no source in this edition names</span>{% endif %}</p>
+    <p class="ai-line">AI-generated explainer by {{ (ex.model or ed.models.writeup)|model_name }} · from the model's background knowledge, not today's sources · check vendor documentation before acting on it{% if ex.unsupported_cves %} · <span class="unsupported">mentions {{ ex.unsupported_cves|join(", ") }}, which no source in this edition names</span>{% endif %}</p>
   </section>
   {% endif %}
 
@@ -277,7 +278,7 @@
       </li>
     {% endfor %}
     </ol>
-    <p class="ai-line">AI-generated summaries by {{ ed.models.writeup|model_name }} of the linked sources</p>
+    <p class="ai-line">AI-generated summaries by {{ (ed.good_news[0].model or ed.models.writeup)|model_name }} of the linked sources</p>
   </section>
   {% endif %}
 
