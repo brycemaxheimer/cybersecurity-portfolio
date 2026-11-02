@@ -12,6 +12,93 @@
  "language": "en-US",
  "items": [
   {
+   "id": "https://intel.brycemaxheimer.com/editions/2026-11-01/",
+   "url": "https://intel.brycemaxheimer.com/editions/2026-11-01/",
+   "title": "Daily Intel Brief: 2026-11-01",
+   "content_text": "1. Brotli decoder buffer overflow CVE-2026-111497 listed by MSRC; KEV-listed with public PoC\n2. Northflank breach leads to abuse of customer AI API keys; customers told to rotate all secrets\n3. Chainalysis discloses breach exposing customer names, emails, user IDs and roles\n4. Cisco Talos details VOLTA infostealer that has an LLM rank victims' stolen assets by monetization value\n5. Nine OS command injection CVEs disclosed in WAVLINK routers and access points, no fix stated\n6. Critical stack overflow in D-Link DIR-505 TFTP upload handler, exploit reportedly public\n7. Public exploit for memory corruption in Horizon DataSys Reboot Restore shield.sys driver\n8. Public PoC released for patched Android \"SMS of Death\" flaw CVE-2026-58882\n9. Alpine Linux rebuilds its GitLab server and resets passwords after attempted RCE exploitation\n10. Oray Pugongying X5 Pro up to 7.6.1 has two unpatched remote flaws: authorization bypass and path traversal\nEarly signals: CVE-2026-98432, CVE-2026-120308, CVE-2026-120338, CVE-2026-120198, CVE-2026-69836, CVE-2026-112816, CVE-2026-120306, CVE-2026-120307\nExplainer: One library flaw, many products: vulnerabilities in embedded dependencies\nGood news: US court sentences Syrian hacker Ahmad Umar Agha to 42 months in prison\nGood news: Microsoft Edge picks up a large batch of Chromium security fixes\nGood news: onedump.py adds JSON output for bulk extraction of files embedded in OneNote\nGood news: YARA-X 1.22.0 adds built-in 64-bit integer functions for detection rules",
+   "date_published": "2026-11-01T17:14:30Z",
+   "_intel_brief": {
+    "data": "https://intel.brycemaxheimer.com/editions/2026-11-01/edition.json",
+    "stories": [
+     {
+      "title": "Brotli decoder buffer overflow CVE-2026-111497 listed by MSRC; KEV-listed with public PoC",
+      "cves": [
+       "CVE-2026-111497"
+      ],
+      "score": 75
+     },
+     {
+      "title": "Northflank breach leads to abuse of customer AI API keys; customers told to rotate all secrets",
+      "cves": [],
+      "score": 55
+     },
+     {
+      "title": "Chainalysis discloses breach exposing customer names, emails, user IDs and roles",
+      "cves": [],
+      "score": 55
+     },
+     {
+      "title": "Cisco Talos details VOLTA infostealer that has an LLM rank victims' stolen assets by monetization value",
+      "cves": [],
+      "score": 51
+     },
+     {
+      "title": "Nine OS command injection CVEs disclosed in WAVLINK routers and access points, no fix stated",
+      "cves": [
+       "CVE-2026-120195",
+       "CVE-2026-120196",
+       "CVE-2026-120197",
+       "CVE-2026-120198",
+       "CVE-2026-120227",
+       "CVE-2026-120228"
+      ],
+      "score": 51
+     },
+     {
+      "title": "Critical stack overflow in D-Link DIR-505 TFTP upload handler, exploit reportedly public",
+      "cves": [
+       "CVE-2026-120189"
+      ],
+      "score": 51
+     },
+     {
+      "title": "Public exploit for memory corruption in Horizon DataSys Reboot Restore shield.sys driver",
+      "cves": [
+       "CVE-2026-120232"
+      ],
+      "score": 46
+     },
+     {
+      "title": "Public PoC released for patched Android \"SMS of Death\" flaw CVE-2026-58882",
+      "cves": [
+       "CVE-2026-58882"
+      ],
+      "score": 43
+     },
+     {
+      "title": "Alpine Linux rebuilds its GitLab server and resets passwords after attempted RCE exploitation",
+      "cves": [],
+      "score": 43
+     },
+     {
+      "title": "Oray Pugongying X5 Pro up to 7.6.1 has two unpatched remote flaws: authorization bypass and path traversal",
+      "cves": [
+       "CVE-2026-120224",
+       "CVE-2026-120225"
+      ],
+      "score": 42
+     }
+    ],
+    "explainer": "One library flaw, many products: vulnerabilities in embedded dependencies",
+    "good_news": [
+     "US court sentences Syrian hacker Ahmad Umar Agha to 42 months in prison",
+     "Microsoft Edge picks up a large batch of Chromium security fixes",
+     "onedump.py adds JSON output for bulk extraction of files embedded in OneNote",
+     "YARA-X 1.22.0 adds built-in 64-bit integer functions for detection rules"
+    ]
+   }
+  },
+  {
    "id": "https://intel.brycemaxheimer.com/editions/2026-10-31/",
    "url": "https://intel.brycemaxheimer.com/editions/2026-10-31/",
    "title": "Daily Intel Brief: 2026-10-31",

@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>Daily Intel Brief</title><link>https://intel.brycemaxheimer.com/</link><description>Daily AI-generated threat-intel brief: top stories, new KEV entries, early signals and detections.</description><language>en-us</language><item><title>Daily Intel Brief: 2026-10-31</title><link>https://intel.brycemaxheimer.com/editions/2026-10-31/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-10-31/</guid><pubDate>Sat, 31 Oct 2026 07:26:07 +0000</pubDate><description>1. CISA adds two exploited Ivanti Connect Secure flaws, CVE-2026-111357 and CVE-2026-118527, to KEV
+<rss version="2.0"><channel><title>Daily Intel Brief</title><link>https://intel.brycemaxheimer.com/</link><description>Daily AI-generated threat-intel brief: top stories, new KEV entries, early signals and detections.</description><language>en-us</language><item><title>Daily Intel Brief: 2026-11-01</title><link>https://intel.brycemaxheimer.com/editions/2026-11-01/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-01/</guid><pubDate>Sun, 01 Nov 2026 17:14:30 +0000</pubDate><description>1. Brotli decoder buffer overflow CVE-2026-111497 listed by MSRC; KEV-listed with public PoC
+2. Northflank breach leads to abuse of customer AI API keys; customers told to rotate all secrets
+3. Chainalysis discloses breach exposing customer names, emails, user IDs and roles
+4. Cisco Talos details VOLTA infostealer that has an LLM rank victims' stolen assets by monetization value
+5. Nine OS command injection CVEs disclosed in WAVLINK routers and access points, no fix stated
+6. Critical stack overflow in D-Link DIR-505 TFTP upload handler, exploit reportedly public
+7. Public exploit for memory corruption in Horizon DataSys Reboot Restore shield.sys driver
+8. Public PoC released for patched Android "SMS of Death" flaw CVE-2026-58882
+9. Alpine Linux rebuilds its GitLab server and resets passwords after attempted RCE exploitation
+10. Oray Pugongying X5 Pro up to 7.6.1 has two unpatched remote flaws: authorization bypass and path traversal
+Early signals: CVE-2026-98432, CVE-2026-120308, CVE-2026-120338, CVE-2026-120198, CVE-2026-69836, CVE-2026-112816, CVE-2026-120306, CVE-2026-120307
+Explainer: One library flaw, many products: vulnerabilities in embedded dependencies
+Good news: US court sentences Syrian hacker Ahmad Umar Agha to 42 months in prison
+Good news: Microsoft Edge picks up a large batch of Chromium security fixes
+Good news: onedump.py adds JSON output for bulk extraction of files embedded in OneNote
+Good news: YARA-X 1.22.0 adds built-in 64-bit integer functions for detection rules</description></item><item><title>Daily Intel Brief: 2026-10-31</title><link>https://intel.brycemaxheimer.com/editions/2026-10-31/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-10-31/</guid><pubDate>Sat, 31 Oct 2026 07:26:07 +0000</pubDate><description>1. CISA adds two exploited Ivanti Connect Secure flaws, CVE-2026-111357 and CVE-2026-118527, to KEV
 2. Microsoft: Teams help desk impersonation leads to AD CS ESC1 and ESC8 abuse in two intrusions
 3. BeyondTrust Remote Support CVE-2026-102764 allows unauthenticated RCE; listed in KEV, public exploit exists
 4. SecurityWeek: PHP2Shell attacks reportedly root Palo Alto firewalls, fail against WordPress
