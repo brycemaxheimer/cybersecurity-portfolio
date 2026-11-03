@@ -12,6 +12,79 @@
  "language": "en-US",
  "items": [
   {
+   "id": "https://intel.brycemaxheimer.com/editions/2026-11-03/",
+   "url": "https://intel.brycemaxheimer.com/editions/2026-11-03/",
+   "title": "Daily Intel Brief: 2026-11-03",
+   "content_text": "1. Ivanti Connect Secure zero-day chain exploited; fixes now cover all three CVEs\n2. Microsoft details fake-download campaign pushing trojanized Inno Setup installers with monetization payloads\n3. Google and partners take down XCPE botnet of 1.3 million Android TV boxes, cut ties with Videostrong\n4. Second wave of attacks tampers with supermarket refrigeration controllers across Europe\n5. Frontline Education breach through third-party software flaw affects over 1.3 million people\n6. 3AM ransomware affiliate encrypts about 37 machines at UK school estate from an unmanaged host\n7. BleepingComputer: Chinese hackers used ARTEX AI pentest framework against 200+ organizations\n8. Binance attributes $6.3 billion crypto theft to North Korean campaign; Pyongyang denies involvement\n9. Russia-linked espionage group targets Ukrainian war crimes investigations and military aid routes\n10. Over 1,000 internet-exposed GitLab servers still unpatched against actively exploited critical RCE\nEarly signals: CVE-2026-58115, CVE-2026-28336, CVE-2024-10441, CVE-2026-116606\nExplainer: LAPS passwords and BitLocker recovery keys as Active Directory secrets\nGood news: European police arrest seven and seize over 100 servers in investment scam crackdown\nGood news: Russian police dismantle VasyGrek cybercrime infrastructure and detain three suspects\nGood news: Android November 2026 update fixes over 200 vulnerabilities, including critical Framework RCE\nGood news: Barracuda urges customers to patch two critical flaws that allow root command execution",
+   "date_published": "2026-11-03T18:34:48Z",
+   "_intel_brief": {
+    "data": "https://intel.brycemaxheimer.com/editions/2026-11-03/edition.json",
+    "stories": [
+     {
+      "title": "Ivanti Connect Secure zero-day chain exploited; fixes now cover all three CVEs",
+      "cves": [
+       "CVE-2026-111357",
+       "CVE-2026-118527",
+       "CVE-2026-104935"
+      ],
+      "score": 95
+     },
+     {
+      "title": "Microsoft details fake-download campaign pushing trojanized Inno Setup installers with monetization payloads",
+      "cves": [],
+      "score": 71
+     },
+     {
+      "title": "Google and partners take down XCPE botnet of 1.3 million Android TV boxes, cut ties with Videostrong",
+      "cves": [],
+      "score": 57
+     },
+     {
+      "title": "Second wave of attacks tampers with supermarket refrigeration controllers across Europe",
+      "cves": [],
+      "score": 57
+     },
+     {
+      "title": "Frontline Education breach through third-party software flaw affects over 1.3 million people",
+      "cves": [],
+      "score": 55
+     },
+     {
+      "title": "3AM ransomware affiliate encrypts about 37 machines at UK school estate from an unmanaged host",
+      "cves": [],
+      "score": 51
+     },
+     {
+      "title": "BleepingComputer: Chinese hackers used ARTEX AI pentest framework against 200+ organizations",
+      "cves": [],
+      "score": 51
+     },
+     {
+      "title": "Binance attributes $6.3 billion crypto theft to North Korean campaign; Pyongyang denies involvement",
+      "cves": [],
+      "score": 51
+     },
+     {
+      "title": "Russia-linked espionage group targets Ukrainian war crimes investigations and military aid routes",
+      "cves": [],
+      "score": 51
+     },
+     {
+      "title": "Over 1,000 internet-exposed GitLab servers still unpatched against actively exploited critical RCE",
+      "cves": [],
+      "score": 49
+     }
+    ],
+    "explainer": "LAPS passwords and BitLocker recovery keys as Active Directory secrets",
+    "good_news": [
+     "European police arrest seven and seize over 100 servers in investment scam crackdown",
+     "Russian police dismantle VasyGrek cybercrime infrastructure and detain three suspects",
+     "Android November 2026 update fixes over 200 vulnerabilities, including critical Framework RCE",
+     "Barracuda urges customers to patch two critical flaws that allow root command execution"
+    ]
+   }
+  },
+  {
    "id": "https://intel.brycemaxheimer.com/editions/2026-11-01/",
    "url": "https://intel.brycemaxheimer.com/editions/2026-11-01/",
    "title": "Daily Intel Brief: 2026-11-01",

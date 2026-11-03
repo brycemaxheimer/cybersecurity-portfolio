@@ -1,0 +1,1517 @@
+{
+ "schema": 1,
+ "date": "2026-11-03",
+ "generated_at": "2026-11-03T18:34:48Z",
+ "generator": "intel-brief 0.1.0",
+ "models": {
+  "triage": "claude-haiku-5-5",
+  "writeup": "claude-opus-5-5",
+  "triage_method": "model"
+ },
+ "window": {
+  "since": "2026-11-01T17:08:36+00:00",
+  "until": "2026-11-03T18:28:08+00:00"
+ },
+ "stories": [
+  {
+   "id": "story-1",
+   "rank": 1,
+   "score": 95,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 18,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 10,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 4,
+    "in_kev": true,
+    "epss_max": 0.8894,
+    "cvss_max": 0
+   },
+   "title": "Ivanti Connect Secure zero-day chain exploited; fixes now cover all three CVEs",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "widespread",
+    "platform": "edge_device",
+    "vendor": "Ivanti",
+    "product": "Connect Secure"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-111357",
+     "cvss": 7.0,
+     "severity": "HIGH",
+     "products": [
+      "ivanti connect secure"
+     ],
+     "epss": 0.00533,
+     "percentile": 0.45064,
+     "in_kev": true,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-118527",
+     "cvss": 4.3,
+     "severity": "MEDIUM",
+     "products": [
+      "ivanti connect secure"
+     ],
+     "epss": null,
+     "percentile": null,
+     "in_kev": true,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-104935",
+     "cvss": 8.6,
+     "severity": "HIGH",
+     "products": [
+      "ivanti connect secure"
+     ],
+     "epss": 0.88936,
+     "percentile": 0.99778,
+     "in_kev": true,
+     "kev_due": null,
+     "poc": [
+      {
+       "url": "https://github.com/ApexBreach/CVE-2026-104935-Proof-of-concept",
+       "name": "ApexBreach/CVE-2026-104935-Proof-of-concept",
+       "stars": 1,
+       "created": "2026-10-13"
+      },
+      {
+       "url": "https://github.com/0x45dd/ivanti-cve-2026-104935-check",
+       "name": "0x45dd/ivanti-cve-2026-104935-check",
+       "stars": 1,
+       "created": "2026-10-15"
+      },
+      {
+       "url": "https://github.com/maxprog-svg/CVE-2026-104935",
+       "name": "maxprog-svg/CVE-2026-104935",
+       "stars": 0,
+       "created": "2026-10-22"
+      }
+     ],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "Ivanti updated its Connect Secure advisory on 29 October 2026 to add CVE-2026-111357 (local authenticated privilege escalation) and CVE-2026-118527 (authenticated file upload to a predictable disk path), and released fixes for both, according to Rapid7. Ivanti says a limited number of customers were exploited before disclosure through a chain combining these with CVE-2026-104935, an authentication bypass leading to remote unauthenticated command execution that was patched around 13 October 2026. Volexity attributes the activity to UTA0576, which gained unauthenticated root access to an appliance running 22.8R2.4 starting 3 October 2026, then stole credentials and queried Active Directory for Windows LAPS passwords and BitLocker recovery keys. CISA added CVE-2026-111357 and CVE-2026-118527 to KEV on 30 October 2026; CVE-2026-104935 is also listed.",
+    "why_it_matters": "A compromised VPN appliance gives the attacker root on the edge and a foothold to harvest domain credentials, local admin passwords and disk recovery keys, so the impact reaches far into Windows and AD. All three CVEs are in KEV with confirmed in-the-wild exploitation, CVE-2026-104935 has public proof-of-concept code and an EPSS of 88.9%, and the sources give no KEV due date. Scores differ for CVE-2026-111357 (Ivanti rates it 8.8, the CVE record 7.0), but the chained impact warrants emergency remediation regardless.",
+    "affected_versions": [
+     "Ivanti Connect Secure (specific affected version ranges not stated in the sources)",
+     "Ivanti Connect Secure 22.8R2.4 (version on the appliance Volexity observed compromised)"
+    ],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Apply Ivanti's latest Connect Secure fixes covering CVE-2026-104935, CVE-2026-111357 and CVE-2026-118527 immediately; the sources do not list fixed build numbers, so confirm them in Ivanti's advisory.",
+     "Treat any appliance unpatched before 29 October 2026 as potentially compromised: run Ivanti's integrity checking, preserve logs, and rebuild from a known-good image if anything is suspicious.",
+     "Rotate credentials that transited or were stored on the appliance, including service accounts used for LDAP/AD binding and VPN user passwords, and reset sessions.",
+     "Rotate Windows LAPS passwords and BitLocker recovery keys that may have been read from AD since 3 October 2026, prioritizing any queried from the appliance's IP or its service account.",
+     "Restrict the appliance's LDAP access to the minimum attributes it needs and remove read rights to LAPS and BitLocker recovery attributes from its service account."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Additional Ivanti Connect Secure zero-days exploited in the wild (CVE-2026-111357, CVE-2026-118527)",
+     "url": "https://www.rapid7.com/blog/post/etr-additional-ivanti-connect-secure-zero-days-exploited-in-the-wild-cve-2026-111357-cve-2026-118527",
+     "source": "Rapid7",
+     "kind": "news",
+     "published": "2026-11-02T11:04:08Z"
+    }
+   ],
+   "detection": {
+    "type": "behavioral",
+    "sigma": null,
+    "hunting_steps": [
+     "Inventory Ivanti Connect Secure appliances and confirm their builds include the fixes released on 29 October 2026.",
+     "Review appliance logs and Ivanti integrity check results from 3 October 2026 onward for unexpected files, new admin accounts or unusual processes.",
+     "On domain controllers, look for LDAP connections from the appliance's internal IP outside its normal authentication pattern, especially bulk or unusual queries.",
+     "Check Security event 4662 or Defender for Identity LDAP query activity for reads of LAPS and BitLocker recovery attributes, focusing on the appliance's service account.",
+     "Look for sign-ins of accounts that authenticated through the VPN from unusual hosts afterward, which may indicate stolen credentials being reused."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Devices exposed to the Ivanti Connect Secure exploit chain CVEs",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where CveId in (\"CVE-2026-104935\", \"CVE-2026-111357\", \"CVE-2026-118527\") | project DeviceName, OSPlatform, SoftwareVendor, SoftwareName, SoftwareVersion, CveId, VulnerabilitySeverityLevel, RecommendedSecurityUpdate",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": [
+     "An AI-drafted Sigma rule failed validation and was dropped.",
+     "Dropped a hunting query with indicators not found in any source: 10.0.0.1",
+     "Dropped a hunting query with indicators not found in any source: 10.0.0.1"
+    ],
+    "rejected_sigma": {
+     "messages": [
+      "No condition errors found.",
+      "Validation issue summary:",
+      "+-------+---------------------+----------+----------------------------------+",
+      "| Count | Issue               | Severity | Description                      |",
+      "+-------+---------------------+----------+----------------------------------+",
+      "| 1     | NumberAsStringIssue | LOW      | A number was expressed as string |",
+      "+-------+---------------------+----------+----------------------------------+",
+      "Check failure",
+      "Parsing Sigma rules",
+      "Checking Sigma rules"
+     ]
+    }
+   }
+  },
+  {
+   "id": "story-2",
+   "rank": 2,
+   "score": 71,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Microsoft details fake-download campaign pushing trojanized Inno Setup installers with monetization payloads",
+   "labels": {
+    "category": "campaign",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "windows",
+    "vendor": "Microsoft",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "Microsoft Threat Intelligence reported on 3 November 2026 an ongoing fake-download campaign that targets people searching for cracked software, free games, activators, plugins and unofficial utilities. According to Microsoft, trojanized Inno Setup-style installers stage a temporary runner under the user's temp folder, which launches numbered stages and calls back to rotating infrastructure to deliver several monetized payloads, called offers, in one session. Microsoft confirmed three monetization outcomes: turning the device into a proxy for third-party internet traffic, enrolling it in a distributed-computing platform, and silently installing extra utility-style software. The source text available here is truncated, so the full set of indicators and Microsoft's hunting queries is not included.",
+    "why_it_matters": "Proxyware on a corporate endpoint routes unknown third-party traffic through your egress IP, which can tie your organization to abuse and adds unmanaged software and persistence to the device. Microsoft describes the activity as active and evolving, and it relies on users installing software from untrusted sources, so any fleet without application control or PUA blocking is exposed. Treat a hit as a policy violation and a possible foothold, not just adware.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Enable potentially unwanted application (PUA) protection in Microsoft Defender Antivirus in block mode across all endpoints.",
+     "Restrict software installation to trusted sources using application control (WDAC or AppLocker) and remove local admin rights where possible.",
+     "Hunt for Inno Setup temporary runners under the temp folder launching eld*.exe or set_*.exe stages, and for callbacks containing the offer_execution pattern.",
+     "On affected devices, inventory and remove newly installed proxyware, distributed-computing clients and bundled utilities, along with their Run keys, services and scheduled tasks.",
+     "Review egress traffic from affected hosts for unexpected proxy or relay connections and block the campaign infrastructure once Microsoft's published indicators are obtained."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Fake-download campaign uses trojanized installers to deliver monetization payloads",
+     "url": "https://www.microsoft.com/en-us/security/blog/2026/11/03/fake-download-campaign-uses-trojanized-installers-deliver-monetization-payloads/",
+     "source": "Microsoft Security Blog",
+     "kind": "news",
+     "published": "2026-11-03T17:32:47Z"
+    }
+   ],
+   "detection": {
+    "type": "behavioral",
+    "sigma": null,
+    "hunting_steps": [
+     "Search process telemetry for binaries named eld*.exe or set_*.exe executing from an is-*.tmp folder under the temp directory.",
+     "Search command lines and URLs for the d=inno and r=offer_execution callback pattern described by Microsoft.",
+     "For each hit, review processes, files and network connections spawned in the following hour to identify which offers were installed.",
+     "Check for new persistence (Run keys, services, scheduled tasks) created by processes running from the Inno temporary folder.",
+     "Review Defender PUA and antivirus detections on the same devices and confirm remediation removed all bundled components.",
+     "Identify the original download source via browser history and file origin data and block it."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Inno Setup temp runner launching eld or set_ stages",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where FolderPath matches regex @\"(?i)\\\\Temp\\\\is-[^\\\\]+\\.tmp\\\\\" | where FileName matches regex @\"(?i)^(eld|set_)[^\\\\]*\\.exe$\" | project Timestamp, DeviceName, AccountName, FileName, FolderPath, ProcessCommandLine, InitiatingProcessFileName, InitiatingProcessFolderPath, SHA256 | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Offer execution callback pattern in URLs or command lines",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(30d) | where RemoteUrl has \"offer_execution\" or InitiatingProcessCommandLine has \"offer_execution\" | project Timestamp, DeviceName, RemoteUrl, RemoteIP, RemotePort, InitiatingProcessFileName, InitiatingProcessFolderPath, InitiatingProcessCommandLine | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Persistence created by processes from Inno temp folders",
+      "kql": "DeviceRegistryEvents | where Timestamp > ago(30d) | where ActionType == \"RegistryValueSet\" | where RegistryKey has_any (\"CurrentVersion\\\\Run\", \"CurrentVersion\\\\RunOnce\", \"\\\\Services\\\\\") | where InitiatingProcessFolderPath matches regex @\"(?i)\\\\Temp\\\\is-[^\\\\]+\\.tmp\" | project Timestamp, DeviceName, RegistryKey, RegistryValueName, RegistryValueData, InitiatingProcessFileName, InitiatingProcessFolderPath | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": [
+     "An AI-drafted Sigma rule failed validation and was dropped."
+    ],
+    "rejected_sigma": {
+     "messages": [
+      "No condition errors found.",
+      "Validation issue summary:",
+      "+-------+-----------------------+----------+------------------------------+",
+      "| Count | Issue                 | Severity | Description                  |",
+      "+-------+-----------------------+----------+------------------------------+",
+      "| 1     | InvalidATTACKTagIssue | MEDIUM   | Invalid MITRE ATT&CK tagging |",
+      "+-------+-----------------------+----------+------------------------------+",
+      "Check failure",
+      "Parsing Sigma rules",
+      "Checking Sigma rules"
+     ]
+    }
+   }
+  },
+  {
+   "id": "story-3",
+   "rank": 3,
+   "score": 57,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 9,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Google and partners take down XCPE botnet of 1.3 million Android TV boxes, cut ties with Videostrong",
+   "labels": {
+    "category": "malware",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "mobile",
+    "vendor": "Videostrong Technology",
+    "product": "XCPE botnet"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "Google and industry partners have dismantled the XCPE botnet, which Google says included more than 1.3 million Android TV set-top boxes that their manufacturer, China-based Videostrong Technology, deliberately shipped with malware. According to the Google Threat Intelligence Group, as reported by Krebs on Security, the malware sold the devices' internet connections to residential proxy services, committed ad fraud, and let Videostrong sell backdoor access to criminal affiliates who installed their own malware modules. Google says it took legal action to seize the domains and servers used for control and malware delivery, and it has ended its relationship with Videostrong. The same malware was also found in other Android-based IoT products, including telehealth devices, karaoke machines and digital signage. Experts quoted by Krebs say the takedown may also cut the botnet off from more than 10 million additional compromised systems.",
+    "why_it_matters": "Cheap Android TV boxes and signage players often end up on corporate, guest or retail networks without anyone managing them. An infected box can serve as a residential proxy exit point or an entry point for affiliate malware inside your perimeter. Separately, residential proxy networks like this one are a major source of the account-takeover and password-spraying traffic that hits Entra ID, because the logins appear to come from ordinary consumer IP addresses.",
+    "affected_versions": [
+     "Android TV set-top boxes and other Android-based IoT devices made by Videostrong Technology (specific models not stated in the sources)"
+    ],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory Android TV boxes, digital signage players and other uncertified Android IoT devices on corporate and guest networks. Remove or replace any made by Videostrong or of unknown origin.",
+     "Move any IoT devices you must keep onto isolated VLANs with egress filtering, so they cannot reach internal systems or act as unmonitored proxies.",
+     "Use Defender for Endpoint device discovery to find unmanaged Android and smart-TV class devices, and review their outbound traffic at the firewall.",
+     "Watch Entra ID sign-ins for password spraying and account takeover from residential and consumer ISP address space. Enforce phishing-resistant MFA and Conditional Access location and device controls.",
+     "Look for Google Threat Intelligence Group indicators when they are published, and add them to firewall and DNS blocklists."
+    ],
+    "confidence": "high",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Google disrupts million-device XCPE Android malware botnet, bans TV box maker",
+     "url": "https://www.bleepingcomputer.com/news/security/google-disrupts-million-device-xcpe-android-malware-botnet-bans-tv-box-maker/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-02T18:16:34Z"
+    },
+    {
+     "title": "Tech Firms Dismantle Botnet That Turned 1.3M TV Boxes Into Proxies",
+     "url": "https://krebsonsecurity.com/2026/11/tech-firms-dismantle-botnet-that-turned-1-3m-tv-boxes-into-proxies/",
+     "source": "Krebs on Security",
+     "kind": "news",
+     "published": "2026-11-03T02:24:31Z"
+    },
+    {
+     "title": "Google Dismantles XCPE Botnet of 1.3 Million Android Devices",
+     "url": "https://www.securityweek.com/google-dismantles-xcpe-botnet-of-1-3-million-android-devices/",
+     "source": "SecurityWeek",
+     "kind": "news",
+     "published": "2026-11-03T09:22:09Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "List devices found by Defender device discovery that run Android or are classified as smart TV or IoT, and check which are not onboarded.",
+     "Compare vendor and model strings against Videostrong and generic TV box hardware, and confirm physical location and ownership with facilities and IT teams.",
+     "At the firewall or proxy, check whether these devices send high-volume or wide-fanout outbound traffic, which is consistent with residential proxy use.",
+     "Review Entra ID sign-in logs for failed logins spread across many consumer ISP IP addresses against the same accounts, which suggests proxy-sourced spraying.",
+     "Isolate or remove confirmed devices, and block their MAC addresses on corporate and guest Wi-Fi."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Unmanaged Android and smart TV class devices found by device discovery",
+      "kql": "DeviceInfo | where Timestamp > ago(30d) | where OnboardingStatus != \"Onboarded\" | where OSPlatform has \"Android\" or DeviceType in~ (\"SmartTV\", \"IoT\", \"Unknown\") or Vendor has \"Videostrong\" | summarize arg_max(Timestamp, *) by DeviceId | project Timestamp, DeviceId, DeviceName, OSPlatform, DeviceType, Vendor, Model, OnboardingStatus",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Discovered devices with Videostrong or TV box vendor and model strings",
+      "kql": "DeviceInfo | where Timestamp > ago(30d) | where Vendor has_any (\"Videostrong\", \"Amlogic\", \"Rockchip\", \"Allwinner\") or Model has_any (\"TV Box\", \"TVBox\", \"Android TV\") | summarize LastSeen = max(Timestamp) by DeviceId, DeviceName, Vendor, Model, OSPlatform, OnboardingStatus",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-4",
+   "rank": 4,
+   "score": 57,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 9,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Second wave of attacks tampers with supermarket refrigeration controllers across Europe",
+   "labels": {
+    "category": "campaign",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "ics_ot",
+    "vendor": "",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "BleepingComputer reports that attackers remotely changed temperature settings on freezers and cooling systems, disrupting stores run by several supermarket chains in multiple European countries. According to The Record, the attacks hit in the early hours of Monday 2 November 2026 and were the second such wave in recent weeks, after an earlier wave in France. Stock spoiled after fridges were defrosted, and UK businesses were among those affected. SecurityWeek says more than 100 stores were hit, including stores in Belgium, Sweden and Ireland, and describes the targets as internet-exposed refrigeration controllers. The sources do not name the controller vendor, the access method or the perpetrators.",
+    "why_it_matters": "Exploitation is confirmed and repeated, and the apparent entry point is operational technology left reachable from the internet, often managed by third-party refrigeration or facilities contractors outside normal IT inventory. Any organization with exposed building-management, HVAC or refrigeration web interfaces faces the same risk of physical and financial damage, whatever its sector. No CVE or vendor has been disclosed, so exposure reduction is the main defense right now.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Find every refrigeration, HVAC and building-management controller reachable from the internet, including those run by contractors, and remove direct exposure or place it behind a VPN with MFA.",
+     "Change default and shared credentials on controller web interfaces and on remote-maintenance accounts, and confirm which vendors and contractors hold remote access.",
+     "Restrict inbound access to OT management interfaces at the firewall to known contractor IP ranges, and log all access attempts.",
+     "Turn on temperature and setpoint-change alarms that notify on-site staff, so tampering is caught before stock spoils.",
+     "Track vendor and national CERT advisories for the affected controller product as details are released."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Hackers disrupt refrigeration systems at European supermarkets",
+     "url": "https://www.bleepingcomputer.com/news/security/hackers-disrupt-refrigeration-systems-at-european-supermarkets/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-02T14:28:39Z"
+    },
+    {
+     "title": "Over 100 European Stores Hit as Supermarket Fridge Attacks Return",
+     "url": "https://www.securityweek.com/over-100-european-stores-hit-as-supermarket-fridge-attacks-resume/",
+     "source": "SecurityWeek",
+     "kind": "news",
+     "published": "2026-11-03T07:43:24Z"
+    },
+    {
+     "title": "British businesses caught in Europe-wide supermarket fridge attacks",
+     "url": "https://therecord.media/british-businesses-caught-in-europe-wide-supermarket-fridge-attacks",
+     "source": "The Record",
+     "kind": "news",
+     "published": "2026-11-03T17:43:00Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Run an external attack-surface scan of your public IP space for web or management interfaces that belong to refrigeration, HVAC or building-management controllers.",
+     "Review edge firewall and NAT rules for port forwards to OT or facilities subnets and remove any that are not justified.",
+     "Pull device-discovery inventory for IoT and OT devices and confirm owner, vendor, model and network segment for each one.",
+     "Review firewall logs for inbound connections from the internet to facilities subnets, especially in the early-morning hours when the second wave struck.",
+     "Ask facilities and refrigeration contractors whether their controllers logged unexpected logins or setpoint changes since mid-October 2026."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Inventory discovered IoT and OT devices for exposure review",
+      "kql": "DeviceInfo | where Timestamp > ago(7d) | where DeviceCategory == \"IoT\" | summarize arg_max(Timestamp, *) by DeviceId | project Timestamp, DeviceName, DeviceType, Vendor, Model, PublicIP, OnboardingStatus | order by Vendor asc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-5",
+   "rank": 5,
+   "score": 55,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 4,
+    "platform": 8,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Frontline Education breach through third-party software flaw affects over 1.3 million people",
+   "labels": {
+    "category": "breach",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "niche",
+    "platform": "cloud_saas",
+    "vendor": "Frontline Education",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "SecurityWeek reports that attackers exploited a vulnerability in third-party software used by Frontline Education, a provider of administrative software for K-12 school districts, and stole personal information. The stolen data belongs to school district staff and students, and more than 1.3 million people are affected. The sources do not name the third-party product, the vulnerability, the types of data taken, or when the intrusion happened.",
+    "why_it_matters": "This is a supply-chain breach at a SaaS vendor, not a flaw in software customers run themselves. Defenders cannot detect it in their own endpoint or identity telemetry. Organizations that use Frontline Education, mainly school districts, should expect follow-on phishing and identity fraud aimed at staff and students. Without a named product or CVE, there is nothing to patch on the customer side.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "If your organization uses Frontline Education, contact the vendor to confirm whether your data was affected and which data types were exposed.",
+     "Rotate any credentials, API keys or integration secrets shared with Frontline Education services, and review the SSO or OAuth permissions granted to them.",
+     "Warn staff about phishing that uses breach-related or Frontline-themed lures, and tighten email filtering for impersonation of the vendor.",
+     "Watch for the vendor naming the exploited third-party software, then check whether you run that same product."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Frontline Education Data Breach Impacts Over 1.3 Million",
+     "url": "https://www.securityweek.com/frontline-education-data-breach-impacts-over-1-3-million/",
+     "source": "SecurityWeek",
+     "kind": "news",
+     "published": "2026-11-03T14:32:38Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-6",
+   "rank": 6,
+   "score": 51,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "3AM ransomware affiliate encrypts about 37 machines at UK school estate from an unmanaged host",
+   "labels": {
+    "category": "campaign",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "other",
+    "vendor": "",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "BleepingComputer reports that a 3AM ransomware affiliate attacked a school estate in the UK and encrypted roughly 37 of the nearly 50 machines it reached. According to the report, the encryption was launched from an unmanaged host rather than from endpoints running security tooling. BleepingComputer's headline describes the attack as suspected AI-assisted, but the available text does not explain that claim, the initial access vector or the tools used.",
+    "why_it_matters": "Encrypting over the network from a device with no EDR agent bypasses endpoint ransomware protections on the victim machines. File shares and servers can then be encrypted with no malicious process ever running on them. Exploitation is confirmed, but the sources give no CVEs, indicators or initial access details, so defenders should focus on coverage gaps and on detecting mass remote file modification over SMB.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory unmanaged and non-onboarded devices on internal networks and onboard them to Defender for Endpoint or isolate them from server and workstation segments.",
+     "Restrict inbound SMB (TCP 445) between workstations and limit SMB access to file servers to known management and client ranges.",
+     "Enable Defender for Endpoint attack disruption, tamper protection and controlled folder access so remote encryption can be blocked at the target and the source can be contained.",
+     "Hunt for single source IPs or accounts creating, modifying or renaming large numbers of files over SMB across multiple devices in a short window.",
+     "Verify that offline or immutable backups exist for school and other critical estates and test restoration."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "UK school estate hit by 3AM ransomware in suspected AI-assisted attack",
+     "url": "https://www.bleepingcomputer.com/news/security/uk-school-estate-hit-by-3am-ransomware-in-suspected-ai-assisted-attack/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-03T14:00:00Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "List devices discovered on the network but not onboarded to Defender for Endpoint, and confirm who owns each one.",
+     "Look for inbound SMB connections to many managed devices from internal IPs that do not belong to any onboarded device.",
+     "Identify bursts of file creation, modification or rename events performed over SMB from a single remote source IP or account.",
+     "For any suspicious source, review the requesting account's recent logons and privilege use, and disable or reset it if it is compromised.",
+     "Isolate the offending host at the network layer and check backups and shadow copies on affected targets."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Mass SMB file writes from a single remote source",
+      "kql": "DeviceFileEvents | where Timestamp > ago(7d) | where ActionType in (\"FileCreated\", \"FileModified\", \"FileRenamed\") | where RequestProtocol == \"SMB\" and isnotempty(RequestSourceIP) | summarize Files = count(), TargetDevices = dcount(DeviceId), SampleFiles = make_set(FileName, 10) by RequestSourceIP, RequestAccountName, bin(Timestamp, 15m) | where Files > 200 | order by Files desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Inbound SMB from internal IPs not belonging to onboarded devices",
+      "kql": "let ManagedIPs = DeviceNetworkInfo | where Timestamp > ago(7d) | mv-expand IPAddresses | extend IP = tostring(IPAddresses.IPAddress) | where isnotempty(IP) | distinct IP; DeviceNetworkEvents | where Timestamp > ago(7d) | where ActionType == \"InboundConnectionAccepted\" and LocalPort == 445 | where RemoteIPType == \"Private\" | where RemoteIP !in (ManagedIPs) | summarize TargetDevices = dcount(DeviceId), Connections = count(), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by RemoteIP | where TargetDevices >= 5 | order by TargetDevices desc",
+      "validation": {
+       "status": "fail",
+       "messages": [
+        "Error KS141: The expression must have the type dynamic.",
+        "Error KS142: The name 'IPAddress' does not refer to any known column, table, variable or function."
+       ]
+      }
+     },
+     {
+      "title": "Discovered devices not onboarded to Defender for Endpoint",
+      "kql": "DeviceInfo | where Timestamp > ago(7d) | where OnboardingStatus != \"Onboarded\" | summarize arg_max(Timestamp, DeviceName, OSPlatform, DeviceType, OnboardingStatus) by DeviceId | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-7",
+   "rank": 7,
+   "score": 51,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "BleepingComputer: Chinese hackers used ARTEX AI pentest framework against 200+ organizations",
+   "labels": {
+    "category": "campaign",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "other",
+    "vendor": "",
+    "product": "ARTEX"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "BleepingComputer reported on 2 November 2026 that Chinese threat actors used ARTEX in attacks against more than 200 organizations in 14 countries. ARTEX is described as an open-source, multi-agent AI penetration-testing framework. The available reporting does not name the victims, sectors, initial access vectors, exploited vulnerabilities, or indicators of compromise.",
+    "why_it_matters": "The report says this is in-the-wild use of an openly available AI framework to automate intrusion activity at scale. That can raise the speed and volume of scanning and exploitation attempts against internet-facing services such as VPNs, firewalls and gateways. Without published techniques or indicators, defenders cannot yet tie this campaign to specific telemetry, so the practical response is exposure reduction and watching for follow-up reporting.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Monitor for follow-up vendor or government reporting that names the techniques, exploited CVEs or indicators tied to this campaign, and hunt on those once they are published.",
+     "Review internet-facing edge devices for missing patches, especially entries in the CISA KEV catalog, because automated frameworks tend to go after known, unpatched flaws.",
+     "Check perimeter and WAF logs for bursts of automated scanning or exploitation attempts from single sources, and confirm that alerting thresholds catch high-volume probing.",
+     "Enforce MFA and review exposed management interfaces on edge and remote-access systems to reduce the attack surface available to automated tooling."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Chinese hackers use ARTEX AI in automated attacks against 200 orgs",
+     "url": "https://www.bleepingcomputer.com/news/security/chinese-hackers-use-artex-ai-in-automated-attacks-against-200-orgs/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-02T21:40:14Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-8",
+   "rank": 8,
+   "score": 51,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Binance attributes $6.3 billion crypto theft to North Korean campaign; Pyongyang denies involvement",
+   "labels": {
+    "category": "campaign",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "other",
+    "vendor": "Binance",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "According to The Record, Binance says a months-long campaign led to a theft of about $6.3 billion in cryptocurrency, which it discovered in October 2026. Binance attributes the heist to North Korean attackers and says they combined several techniques, including social engineering through fake recruitment interviews. North Korea denies responsibility. The sources give no technical detail on the intrusion chain, malware, infrastructure or indicators.",
+    "why_it_matters": "Fake job interviews are a known way for North Korea-linked operators to get developers and staff to run malicious code or hand over access. Any organization whose engineers or finance staff take outside recruitment approaches is exposed, not only crypto firms. Without published indicators, defenders can only hunt for the general lure pattern and harden access to high-value systems and keys.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Brief engineering, DevOps and finance staff that unsolicited recruiters may ask them to run take-home coding tests or install meeting software, and tell them to report these approaches to security.",
+     "Require that coding assessments and third-party repositories run only in isolated sandboxes or disposable VMs, never on corporate endpoints that hold production credentials.",
+     "Hunt for script interpreters such as node.exe or python.exe launched from Downloads or Temp folders on developer workstations, then review their outbound connections.",
+     "Enforce phishing-resistant MFA and just-in-time access for wallet, signing and production infrastructure so one compromised workstation cannot reach high-value assets.",
+     "Check vendor and government advisories for indicators tied to this campaign as they are published, and add them to blocklists."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Binance CEO says ‘months-long campaign’ led to $6.3 billion theft as N. Korea denies responsibility",
+     "url": "https://therecord.media/binance-cryptocurrency-theft-months-long-campaign-nkorea",
+     "source": "The Record",
+     "kind": "news",
+     "published": "2026-11-03T16:42:00Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Identify users in developer, DevOps and finance roles who recently reported or discussed outside recruitment contacts, and treat their endpoints as priority hunt scope.",
+     "Look for script interpreters such as node.exe or python.exe running projects from Downloads or Temp paths, which is typical of take-home coding test lures.",
+     "For any hits, review child processes and outbound network connections from those interpreters, focusing on public destinations rarely seen in your environment.",
+     "Check affected users for unusual sign-ins, new MFA methods or token use in Entra ID after the suspicious execution.",
+     "If you find suspicious execution, isolate the device, rotate the user's credentials, API keys and any secrets stored on the machine, and review access to signing or wallet systems."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Script interpreters running code from Downloads or Temp folders",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where FileName in~ (\"node.exe\", \"python.exe\", \"pythonw.exe\") | where ProcessCommandLine has_any (@\"\\Downloads\\\", @\"\\AppData\\Local\\Temp\\\") or FolderPath has_any (@\"\\Downloads\\\", @\"\\AppData\\Local\\Temp\\\") | summarize Executions = count(), SampleCommands = make_set(ProcessCommandLine, 10), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by DeviceName, AccountName, FileName | order by LastSeen desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Rare public destinations contacted by node.exe",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(30d) | where InitiatingProcessFileName =~ \"node.exe\" | where RemoteIPType == \"Public\" | summarize Devices = dcount(DeviceName), Connections = count(), SampleDevices = make_set(DeviceName, 5) by RemoteIP, RemoteUrl, RemotePort | where Devices <= 2 | order by Connections desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-9",
+   "rank": 9,
+   "score": 51,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Russia-linked espionage group targets Ukrainian war crimes investigations and military aid routes",
+   "labels": {
+    "category": "campaign",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "other",
+    "vendor": "",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "The Record reports that a Russia-linked cyber-espionage group is targeting Ukrainian organizations involved in war crimes investigations and in military aid logistics. According to the report, the attackers use relatively simple malware to steal sensitive documents, login credentials and other data. Victims are concentrated near the front line and the Russian border. The available reporting does not name the group or the malware, and it gives no technical indicators or details about how victims are initially compromised.",
+    "why_it_matters": "The activity is confirmed in the wild, but it is focused on Ukrainian targets. Organizations outside Ukraine are most exposed if they support Ukrainian legal or justice work, NGOs, or defense and aid logistics. Credential theft is a stated goal, so stolen passwords could later be reused against Microsoft 365, Entra ID or VPN accounts held by partner organizations. With no indicators or techniques published, defenders cannot hunt for this campaign specifically yet.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "If your organization works with Ukrainian investigators, legal bodies or aid logistics partners, tell exposed staff that this targeting is active and stress caution with unsolicited documents and attachments.",
+     "Require phishing-resistant MFA for Microsoft 365, Entra ID and VPN accounts used by staff who collaborate with Ukrainian partners, which limits the value of stolen credentials.",
+     "Review Entra ID sign-in logs for those users and look for unfamiliar locations, new devices or impossible-travel patterns.",
+     "Track follow-up vendor or CERT-UA reporting that names the group, its malware or indicators, then add those indicators to Defender XDR and Sentinel."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Russia-linked cyber spies target Ukraine's war crimes investigations, military aid routes",
+     "url": "https://therecord.media/russia-linked-cyber-spies-target-ukraine-war-support",
+     "source": "The Record",
+     "kind": "news",
+     "published": "2026-11-03T13:39:00Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-10",
+   "rank": 10,
+   "score": 49,
+   "factors": {
+    "exploitation": 28,
+    "prevalence": 18,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Over 1,000 internet-exposed GitLab servers still unpatched against actively exploited critical RCE",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "reported",
+    "prevalence": "widespread",
+    "platform": "web_app",
+    "vendor": "GitLab",
+    "product": "GitLab"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "BleepingComputer reported on 2 November 2026 that more than 1,000 internet-exposed GitLab servers remain unpatched against a maximum-severity flaw that is being actively exploited in remote code execution attacks. The available reporting does not name the CVE, the affected or fixed versions, the exploitation technique, or who is behind the attacks. Treat the specifics as unconfirmed until GitLab's own advisory is checked.",
+    "why_it_matters": "Self-managed GitLab instances hold source code, CI/CD secrets and deployment credentials. A compromised server can give attackers a path into build pipelines and the wider network. BleepingComputer says exploitation is ongoing, so any internet-facing GitLab instance that is behind on patches should be treated as potentially compromised, not just vulnerable.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory all self-managed GitLab instances, especially internet-facing ones, and confirm each runs the latest patched release listed in GitLab's security advisories.",
+     "Restrict internet access to GitLab web interfaces through a VPN, an allow-list or a reverse proxy wherever external access is not required.",
+     "On any instance that was unpatched while exposed, look for unexpected child processes of GitLab services, new local accounts, web shells and unusual outbound connections.",
+     "If you find signs of compromise, rotate secrets stored in GitLab, including CI/CD variables, runner registration tokens, deploy keys and personal access tokens.",
+     "Review the GitLab audit logs for unexpected admin users, new tokens and changes to repositories or pipelines."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Over 1,000 GitLab servers vulnerable to ongoing RCE attacks",
+     "url": "https://www.bleepingcomputer.com/news/security/over-1-000-gitlab-servers-vulnerable-to-code-execution-attacks/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-02T12:47:00Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Use Defender Vulnerability Management data to identify devices running GitLab software and their versions.",
+     "Compare those versions against the fixed releases in GitLab's latest critical security advisory.",
+     "On GitLab hosts onboarded to Defender for Endpoint (Linux), hunt for shells, downloaders or interpreters spawned by GitLab service processes such as puma, sidekiq or gitlab-workhorse.",
+     "Check for outbound connections to public IP addresses made by GitLab service processes that do not match normal update or integration traffic.",
+     "Isolate any confirmed suspicious host and rotate the secrets stored in GitLab."
+    ],
+    "hunting_queries": [
+     {
+      "title": "GitLab installations and known vulnerabilities from TVM",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where SoftwareVendor has \"gitlab\" or SoftwareName has \"gitlab\" | summarize CVEs = make_set(CveId), MaxSeverity = max(VulnerabilitySeverityLevel) by DeviceName, SoftwareName, SoftwareVersion",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Shells or downloaders spawned by GitLab service processes",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where InitiatingProcessFolderPath has \"gitlab\" or InitiatingProcessCommandLine has_any (\"gitlab-workhorse\", \"puma\", \"sidekiq\") | where FileName in~ (\"sh\", \"bash\", \"dash\", \"curl\", \"wget\", \"python\", \"python3\", \"perl\", \"nc\", \"ncat\", \"base64\") | project Timestamp, DeviceName, AccountName, InitiatingProcessFileName, InitiatingProcessCommandLine, FileName, ProcessCommandLine | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Outbound public connections from GitLab service processes",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(30d) | where ActionType == \"ConnectionSuccess\" and RemoteIPType == \"Public\" | where InitiatingProcessFolderPath has \"gitlab\" or InitiatingProcessCommandLine has_any (\"gitlab-workhorse\", \"puma\", \"sidekiq\") | summarize Connections = count(), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by DeviceName, InitiatingProcessFileName, RemoteIP, RemotePort | order by Connections asc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  }
+ ],
+ "more_stories": [
+  {
+   "title": "Microsoft fixes Smart App Control activation issue caused by October Windows update",
+   "score": 48,
+   "cves": [],
+   "sources": [
+    {
+     "title": "Microsoft fixes Smart App Control broken by October Windows update",
+     "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-fixes-smart-app-control-broken-by-october-windows-update/",
+     "source": "BleepingComputer"
+    }
+   ]
+  },
+  {
+   "title": "WAVLINK router firmware command injection and overflow flaws with public exploits",
+   "score": 47,
+   "cves": [
+    "CVE-2026-120238",
+    "CVE-2026-120276",
+    "CVE-2026-120277"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-120238 (HIGH 8.6)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-120238",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-120276 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-120276",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-120277 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-120277",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Synology warns of surge in C3RB3R ransomware attacks targeting NAS devices",
+   "score": 47,
+   "cves": [],
+   "sources": [
+    {
+     "title": "Synology warns of C3RB3R ransomware attacks targeting NAS devices",
+     "url": "https://www.bleepingcomputer.com/news/security/synology-warns-customers-of-ongoing-c3rb3r-ransomware-attacks/",
+     "source": "BleepingComputer"
+    }
+   ]
+  },
+  {
+   "title": "Harvard alumni affairs breach from November 2025 exposes data for over 850,000 emails",
+   "score": 47,
+   "cves": [],
+   "sources": [
+    {
+     "title": "Harvard University data breach exposed info of 851,000 accounts",
+     "url": "https://www.bleepingcomputer.com/news/security/harvard-university-data-breach-exposed-info-of-851-000-accounts/",
+     "source": "BleepingComputer"
+    }
+   ]
+  },
+  {
+   "title": "Critical Node-RED flaw exploited in attacks deploying Linux bot and webshells",
+   "score": 43,
+   "cves": [],
+   "sources": [
+    {
+     "title": "Critical Node-RED Flaw Exploited in Attacks",
+     "url": "https://www.securityweek.com/critical-node-red-flaw-exploited-in-attacks/",
+     "source": "SecurityWeek"
+    }
+   ]
+  },
+  {
+   "title": "Abrigo takes Sageworks risk app offline after suspected cyberattack",
+   "score": 43,
+   "cves": [],
+   "sources": [
+    {
+     "title": "Fintech platform Sageworks taken offline after suspected cyberattack",
+     "url": "https://www.bleepingcomputer.com/news/security/fintech-platform-sageworks-taken-offline-after-suspected-cyberattack/",
+     "source": "BleepingComputer"
+    }
+   ]
+  },
+  {
+   "title": "Ruijie RG-ES switch httpupg.cgi buffer overflow has public exploit",
+   "score": 42,
+   "cves": [
+    "CVE-2026-120241"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-120241 (HIGH 7.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-120241",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Linux MPTCP implementation vulnerability CVE-2026-98432 discussed widely",
+   "score": 40,
+   "cves": [
+    "CVE-2026-98432"
+   ],
+   "sources": [
+    {
+     "title": "Mutipath TCP: Use and Detection, (Mon, Nov 2nd)",
+     "url": "https://isc.sans.edu/diary/rss/33482",
+     "source": "SANS ISC"
+    }
+   ]
+  },
+  {
+   "title": "Florida student aid website breach puts data of 4.9 million people at risk",
+   "score": 35,
+   "cves": [],
+   "sources": [
+    {
+     "title": "Florida Student Aid Website Hack Puts Data of 4.9 Million People at Risk",
+     "url": "https://www.securityweek.com/florida-student-aid-website-hack-puts-data-of-4-9-million-people-at-risk/",
+     "source": "SecurityWeek"
+    }
+   ]
+  },
+  {
+   "title": "BTCPay Server hot wallets drained on outdated instances, maintainer urges update",
+   "score": 35,
+   "cves": [],
+   "sources": [
+    {
+     "title": "BTCPay Server warns of hot wallet crypto thefts on outdated instances",
+     "url": "https://www.bleepingcomputer.com/news/security/btcpay-server-warns-of-hot-wallet-thefts-targeting-outdated-instances/",
+     "source": "BleepingComputer"
+    }
+   ]
+  },
+  {
+   "title": "Zyxel GS1900-24E and NWA110AX firmware flaws allow OS commands or privilege escalation",
+   "score": 24,
+   "cves": [
+    "CVE-2026-107441",
+    "CVE-2026-76955"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-107441 (HIGH 8.8)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107441",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-76955 (HIGH 8.8)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-76955",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "VStarcam O-KAM camera software flaws with public exploits",
+   "score": 22,
+   "cves": [
+    "CVE-2026-120336",
+    "CVE-2026-120337"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-120336 (MEDIUM 5.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-120336",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-120337 (MEDIUM 5.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-120337",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "UK NCSC warns of unprecedented rise in cyberattacks and AI attacks on infrastructure",
+   "score": 14,
+   "cves": [],
+   "sources": [
+    {
+     "title": "UK faces ‘unprecedented rise’ in cyberattacks in coming months, warns cyber chief",
+     "url": "https://therecord.media/uk-ncsc-predicts-rise-cyberattacks-coming-months",
+     "source": "The Record"
+    },
+    {
+     "title": "UK Cyber Chief Says the UK Will Face AI Cyberattacks on Critical Infrastructure by 2028",
+     "url": "https://www.securityweek.com/uk-cyber-chief-says-the-uk-will-face-ai-cyberattacks-on-critical-infrastructure-by-2028/",
+     "source": "SecurityWeek"
+    }
+   ]
+  },
+  {
+   "title": "Control Web Panel flaws allow unauthenticated root command execution and auth bypass",
+   "score": 12,
+   "cves": [
+    "CVE-2026-73696",
+    "CVE-2026-104080",
+    "CVE-2026-77876"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-73696 (HIGH 8.6)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-73696",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-104080 (HIGH 8.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-104080",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-77876 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-77876",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Microsoft analysis of exploited vulnerabilities finds patching lags behind exploitation",
+   "score": 11,
+   "cves": [],
+   "sources": [
+    {
+     "title": "What exploited vulnerabilities have in common: A data-driven analysis of real-world attacks",
+     "url": "https://www.microsoft.com/en-us/security/blog/2026/11/02/exploited-vulnerabilities-common-data-driven-analysis-real-world-attacks/",
+     "source": "Microsoft Security Blog"
+    }
+   ]
+  }
+ ],
+ "kev_new": [],
+ "early_signals": [
+  {
+   "cve": "CVE-2026-58115",
+   "authors": 8,
+   "platforms": [
+    "Bluesky",
+    "Hacker News",
+    "Mastodon"
+   ],
+   "posts": [
+    {
+     "url": "https://news.ycombinator.com/item?id=50349357",
+     "platform": "Hacker News",
+     "account": "@Betelbuddy",
+     "published": "2026-11-03T08:11:12Z"
+    },
+    {
+     "url": "https://infosec.exchange/@edwardk/117551938657976967",
+     "platform": "Mastodon",
+     "account": "@edwardk",
+     "published": "2026-11-03T10:03:55Z"
+    },
+    {
+     "url": "https://bsky.app/profile/gadgetry.bsky.social/post/3mzgezpcr732r",
+     "platform": "Bluesky",
+     "account": "@gadgetry.bsky.social",
+     "published": "2026-11-03T17:39:41Z"
+    },
+    {
+     "url": "https://bsky.app/profile/threatroundup.bsky.social/post/3mzgeitid2o24",
+     "platform": "Bluesky",
+     "account": "@threatroundup.bsky.social",
+     "published": "2026-11-03T17:30:15Z"
+    },
+    {
+     "url": "https://infosec.exchange/@threataft/117553377674744424",
+     "platform": "Mastodon",
+     "account": "@threataft",
+     "published": "2026-11-03T16:09:53Z"
+    }
+   ],
+   "first_seen": "2026-11-03T07:26:22Z",
+   "epss": {
+    "epss": 0.0089,
+    "percentile": 0.59407
+   },
+   "vendor_advisory": false,
+   "nvd": {
+    "cvss": 10.0,
+    "severity": "CRITICAL",
+    "products": [],
+    "description": "A vulnerability has been identified in SIMATIC IoT2050 Advanced (6ES7647-0BA00-1YA2) (All versions < V4.3.4.1 running Industrial OS with Node-RED installed). Affected devices do not enforce authentication on the Node-RED HTTP interface, allowing unauthenticated access to programming nodes that are c…"
+   },
+   "poc": [
+    {
+     "url": "https://github.com/foxcornlab/node-red-scanner",
+     "name": "foxcornlab/node-red-scanner",
+     "stars": 0,
+     "created": "2026-11-03"
+    }
+   ]
+  },
+  {
+   "cve": "CVE-2026-28336",
+   "authors": 4,
+   "platforms": [
+    "Bluesky"
+   ],
+   "posts": [
+    {
+     "url": "https://bsky.app/profile/thehackerwire.bsky.social/post/3mzgfji25ah2w",
+     "platform": "Bluesky",
+     "account": "@thehackerwire.bsky.social",
+     "published": "2026-11-03T17:48:29Z"
+    },
+    {
+     "url": "https://bsky.app/profile/stemshop.bsky.social/post/3mzggl3ip4z2t",
+     "platform": "Bluesky",
+     "account": "@stemshop.bsky.social",
+     "published": "2026-11-03T18:07:17Z"
+    },
+    {
+     "url": "https://bsky.app/profile/cve.skyfleet.blue/post/dgwekwlak5kxx",
+     "platform": "Bluesky",
+     "account": "@cve.skyfleet.blue",
+     "published": "2026-11-03T17:45:22Z"
+    },
+    {
+     "url": "https://bsky.app/profile/stackflag.bsky.social/post/3mzgdeolktg22",
+     "platform": "Bluesky",
+     "account": "@stackflag.bsky.social",
+     "published": "2026-11-03T17:10:00Z"
+    }
+   ],
+   "first_seen": "2026-11-03T17:10:00Z",
+   "epss": null,
+   "vendor_advisory": false,
+   "nvd": {
+    "cvss": 9.9,
+    "severity": "CRITICAL",
+    "products": [],
+    "description": "SolarWinds Dameware was found to be affected by a command injection vulnerability that could lead to the compromise of the remotely controlled host. Authentication is required."
+   },
+   "poc": []
+  },
+  {
+   "cve": "CVE-2024-10441",
+   "authors": 3,
+   "platforms": [
+    "Bluesky",
+    "Mastodon"
+   ],
+   "posts": [
+    {
+     "url": "https://bsky.app/profile/thelabledger.bsky.social/post/3mzgd7p6dyc26",
+     "platform": "Bluesky",
+     "account": "@thelabledger.bsky.social",
+     "published": "2026-11-03T17:07:15Z"
+    },
+    {
+     "url": "https://infosec.exchange/@suriq/117551860348982005",
+     "platform": "Mastodon",
+     "account": "@suriq",
+     "published": "2026-11-03T09:44:00Z"
+    },
+    {
+     "url": "https://infosec.exchange/@cloud/117551797404297911",
+     "platform": "Mastodon",
+     "account": "@cloud",
+     "published": "2026-11-03T09:28:00Z"
+    }
+   ],
+   "first_seen": "2026-11-03T09:28:00Z",
+   "epss": {
+    "epss": 0.01251,
+    "percentile": 0.6946
+   },
+   "vendor_advisory": false,
+   "nvd": {
+    "cvss": 9.8,
+    "severity": "CRITICAL",
+    "products": [
+     "synology beestation os",
+     "synology diskstation manager"
+    ],
+    "description": "Improper encoding or escaping of output vulnerability in the system plugin daemon in Synology BeeStation OS (BSM) before 1.1-65374 and Synology DiskStation Manager (DSM) before 7.2-64570-4, 7.2.1-69057-6 and 7.2.2-72806-1 allows remote attackers to execute arbitrary code via unspecified vectors."
+   },
+   "poc": [
+    {
+     "url": "https://github.com/Ntn10/cve-2024-10441-synology-rce",
+     "name": "Ntn10/cve-2024-10441-synology-rce",
+     "stars": 1,
+     "created": "2026-10-25"
+    },
+    {
+     "url": "https://github.com/SHIFox8/synology-dsm-vuln-scanner",
+     "name": "SHIFox8/synology-dsm-vuln-scanner",
+     "stars": 1,
+     "created": "2026-10-30"
+    },
+    {
+     "url": "https://github.com/MRdark-ops/scanner-syno",
+     "name": "MRdark-ops/scanner-syno",
+     "stars": 1,
+     "created": "2026-11-02"
+    }
+   ]
+  },
+  {
+   "cve": "CVE-2026-116606",
+   "authors": 3,
+   "platforms": [
+    "Bluesky",
+    "Mastodon"
+   ],
+   "posts": [
+    {
+     "url": "https://bsky.app/profile/axnews.bsky.social/post/3mzggjbuww62z",
+     "platform": "Bluesky",
+     "account": "@axnews.bsky.social",
+     "published": "2026-11-03T18:06:18Z"
+    },
+    {
+     "url": "https://infosec.exchange/@axnews/117553835388977351",
+     "platform": "Mastodon",
+     "account": "@axnews",
+     "published": "2026-11-03T18:06:17Z"
+    },
+    {
+     "url": "https://infosec.exchange/@cloud/117553242336591683",
+     "platform": "Mastodon",
+     "account": "@cloud",
+     "published": "2026-11-03T15:35:28Z"
+    }
+   ],
+   "first_seen": "2026-11-03T15:35:28Z",
+   "epss": {
+    "epss": 0.00728,
+    "percentile": 0.54233
+   },
+   "vendor_advisory": false,
+   "nvd": {
+    "cvss": 9.3,
+    "severity": "CRITICAL",
+    "products": [],
+    "description": "An authentication bypass in Barracuda Email Security Gateway versions earlier than 9.4.0.030 allows an unauthenticated remote attacker to invoke a configuration-import function and restore a crafted, compatible backup archive, resulting in unauthorized modification of the appliance’s global configur…"
+   },
+   "poc": []
+  }
+ ],
+ "explainer": {
+  "concept": "LAPS passwords and BitLocker recovery keys as Active Directory secrets",
+  "dek": "Active Directory can hold local administrator passwords and BitLocker recovery keys for every domain-joined computer, so any account allowed to read them becomes a skeleton key to your endpoints.",
+  "why_today": "Volexity says UTA0576 used its root access on an Ivanti Connect Secure appliance to steal credentials and then query Active Directory for Windows LAPS passwords and BitLocker recovery keys. That is how one edge-device compromise turns into local admin and disk access across the Windows estate.",
+  "related_story_ids": [
+   "story-1"
+  ],
+  "parts": [
+   {
+    "heading": "Where the secrets live",
+    "paragraphs": [
+     "Legacy Microsoft LAPS writes each computer's local administrator password in clear text to the ms-Mcs-AdmPwd attribute on the computer object, with the expiry in ms-Mcs-AdmPwdExpirationTime. Windows LAPS, the version now built into supported Windows releases, can back up to Active Directory or to Entra ID. In Active Directory it uses msLAPS-Password for clear text, or msLAPS-EncryptedPassword when encryption is enabled, which requires a domain functional level of 2016 or later. It can also store the domain controller DSRM password.",
+     "BitLocker recovery information, when escrowed to Active Directory, is stored as msFVE-RecoveryInformation child objects under each computer object. The 48-digit recovery password sits in the msFVE-RecoveryPassword attribute. A recovery key unlocks the drive without the TPM or PIN, so whoever holds it can read the disk offline or get past pre-boot protection."
+    ]
+   },
+   {
+    "heading": "Who can read them",
+    "paragraphs": [
+     "These attributes are marked confidential. A normal authenticated user cannot read them, but Domain Admins can, and so can any account or group that has been granted Control Access on the attribute. The All Extended Rights permission also grants that read, and it is often handed out broadly through OU delegation, helpdesk groups or service accounts. Windows LAPS encryption adds a second check: only the principal named as the authorized decryptor (Domain Admins by default) can decrypt the password, even if other accounts can read the attribute.",
+     "None of this helps once an attacker holds credentials for an authorized account. VPN appliances often store an LDAP bind account or cache administrators' logons, so a rooted gateway can supply exactly the identity needed. With LAPS passwords the attacker gets local admin on each machine, which supports lateral movement and credential dumping. With recovery keys they get access to the data on stolen or imaged disks."
+    ]
+   },
+   {
+    "heading": "What it looks like in telemetry",
+    "paragraphs": [
+     "Reads of these attributes leave no trace by default. On domain controllers, enable Audit Directory Service Access and add a SACL entry that audits read-property on the LAPS attributes and on msFVE-RecoveryInformation objects. Reads then appear as event 4662, which you can query in Sentinel's SecurityEvent table, filtered to the attribute or object schema GUIDs. With Defender for Identity deployed, the IdentityQueryEvents table in Defender XDR records LDAP queries against domain controllers. Bulk queries for these attributes, especially from an appliance's service account or from an unusual source IP, deserve an alert.",
+     "Watch for one account reading many computers' secrets in a short time, and for reads that come from a VPN appliance's address range or bind account. Also watch for interactive or LDAP activity by admin accounts at hours that don't fit their normal pattern. The Windows LAPS operational log on each client records password rotation, not reads, so detection of reads has to happen on the domain controllers."
+    ]
+   },
+   {
+    "heading": "Reducing the blast radius",
+    "paragraphs": [
+     "Minimize who can read these attributes and make sure none of those accounts can authenticate from, or is stored on, an edge device. Inventory read rights with Find-LapsADExtendedRights for Windows LAPS or Find-AdmPwdExtendedRights for legacy LAPS, and review BitLocker recovery delegation the same way. Where Windows LAPS is used, enable password encryption and restrict the decryptor group. If you suspect exposure, rotate every LAPS password by forcing expiry or with Reset-LapsPassword, and rotate BitLocker recovery passwords. Treating these values as already stolen is safer than trusting the audit trail."
+    ]
+   }
+  ],
+  "takeaways": [
+   "If you run Ivanti Connect Secure and were exposed during the exploitation window, force rotation of all LAPS passwords and BitLocker recovery passwords for domains the appliance could reach, and reset the appliance's LDAP bind account and any admin credentials used on it.",
+   "Run Find-LapsADExtendedRights or Find-AdmPwdExtendedRights on every OU, and remove All Extended Rights and Control Access grants from service accounts, helpdesk groups and anything an edge device authenticates as.",
+   "Add SACL auditing for reads of the LAPS password attributes and msFVE-RecoveryInformation objects on domain controllers, then build a Sentinel rule on event 4662 that alerts when one account reads secrets for many computers.",
+   "In Defender XDR, hunt IdentityQueryEvents for LDAP queries naming LAPS or BitLocker recovery attributes that come from VPN appliance IPs or bind accounts.",
+   "Move legacy LAPS to Windows LAPS with password encryption enabled and a tightly scoped decryptor group, or back up to Entra ID where that fits your management model."
+  ],
+  "unsupported_cves": [],
+  "model": "claude-opus-5-5"
+ },
+ "good_news": [
+  {
+   "headline": "European police arrest seven and seize over 100 servers in investment scam crackdown",
+   "summary": "BleepingComputer reports that European law enforcement arrested seven suspects and seized more than 100 servers in a joint action. The target was an unnamed company suspected of supplying fraudulent trading websites to criminal gangs.",
+   "kind": "arrest_or_sentencing",
+   "sources": [
+    {
+     "title": "Police seizes over 100 servers in investment scam crackdown",
+     "url": "https://www.bleepingcomputer.com/news/security/police-seizes-over-100-servers-in-investment-scam-crackdown/",
+     "source": "BleepingComputer",
+     "published": "2026-11-03T13:33:49Z"
+    }
+   ],
+   "unsupported_cves": [],
+   "model": "claude-opus-5-5"
+  },
+  {
+   "headline": "Russian police dismantle VasyGrek cybercrime infrastructure and detain three suspects",
+   "summary": "The Record reports that Russia's Interior Ministry says police dismantled the VasyGrek group's infrastructure and identified its suspected members. Three suspects were detained, and the investigation was carried out with help from Kaspersky.",
+   "kind": "takedown",
+   "sources": [
+    {
+     "title": "Russia dismantles infrastructure of VasyGrek cybercrime group, detains three suspects",
+     "url": "https://therecord.media/russia-dismantles-vasygrek-infrastructure-detains-three",
+     "source": "The Record",
+     "published": "2026-11-03T13:50:00Z"
+    }
+   ],
+   "unsupported_cves": [],
+   "model": "claude-opus-5-5"
+  },
+  {
+   "headline": "Android November 2026 update fixes over 200 vulnerabilities, including critical Framework RCE",
+   "summary": "SecurityWeek reports that Google's November 2026 Android security updates patch more than 200 vulnerabilities. The most severe is a critical flaw in the Framework component that allows remote code execution without user interaction.",
+   "kind": "fix_shipped",
+   "sources": [
+    {
+     "title": "Android’s November 2026 Updates Patch Over 200 Vulnerabilities",
+     "url": "https://www.securityweek.com/androids-november-2026-updates-patch-over-200-vulnerabilities/",
+     "source": "SecurityWeek",
+     "published": "2026-11-03T12:21:49Z"
+    }
+   ],
+   "unsupported_cves": [],
+   "model": "claude-opus-5-5"
+  },
+  {
+   "headline": "Barracuda urges customers to patch two critical flaws that allow root command execution",
+   "summary": "BleepingComputer reports that Barracuda Networks warned customers to patch two vulnerabilities that can let attackers run commands with root privileges on its devices. Defenders running affected Barracuda appliances should apply the updates.",
+   "kind": "fix_shipped",
+   "sources": [
+    {
+     "title": "Barracuda warns of critical flaws allowing root access to devices",
+     "url": "https://www.bleepingcomputer.com/news/security/barracuda-warns-of-critical-flaws-allowing-root-access-to-devices/",
+     "source": "BleepingComputer",
+     "published": "2026-11-03T15:06:16Z"
+    }
+   ],
+   "unsupported_cves": [],
+   "model": "claude-opus-5-5"
+  }
+ ],
+ "explainer_status": "ok",
+ "sources_status": {
+  "CISA KEV": "ok 0",
+  "NVD": "ok 71",
+  "BleepingComputer": "ok 15",
+  "The Record": "ok 5",
+  "The DFIR Report": "ok 0",
+  "Cisco Talos": "ok 0",
+  "Unit 42": "ok 1",
+  "Microsoft Security Blog": "ok 3",
+  "SANS ISC": "ok 3",
+  "Huntress": "ok 3",
+  "watchTowr Labs": "ok 0",
+  "Rapid7": "ok 1",
+  "SecurityWeek": "ok 10",
+  "Krebs on Security": "ok 1",
+  "CISA Advisories": "ok 1",
+  "MSRC Security Update Guide": "ok 0",
+  "Bluesky": "ok 27",
+  "Mastodon": "ok 54",
+  "r/netsec": "ok 0",
+  "Hacker News": "ok 33",
+  "SigmaHQ new rules": "ok 0",
+  "EPSS": "ok 86"
+ },
+ "stats": {
+  "items": {
+   "news": 42,
+   "advisory": 1,
+   "kev": 0,
+   "nvd": 71,
+   "social": 114,
+   "sigma": 0
+  },
+  "stories_found": 34,
+  "kql_parser": "available"
+ }
+}
