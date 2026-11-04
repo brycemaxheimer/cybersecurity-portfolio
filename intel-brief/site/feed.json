@@ -12,6 +12,81 @@
  "language": "en-US",
  "items": [
   {
+   "id": "https://intel.brycemaxheimer.com/editions/2026-11-04/",
+   "url": "https://intel.brycemaxheimer.com/editions/2026-11-04/",
+   "title": "Daily Intel Brief: 2026-11-04",
+   "content_text": "1. Ivanti Connect Secure zero-days CVE-2026-111357 and CVE-2026-118527 chained and exploited in the wild\n2. Microsoft: fake-download installers silently turn PCs into proxyware and compute-sharing nodes\n3. CISA adds exploited WordPress core upgrade race condition CVE-2026-119977 to KEV\n4. Operation CloudFire phishing used Google Calendar invites to hijack corporate Google sessions\n5. NIKKE PC game launcher scripts tampered in supply-chain attack to spread infostealer malware\n6. WorkOS discloses breach of internal sales app; Northflank and Trigger.dev also report hacks\n7. Google reports LLMjacking attacks driving about $1 million in fraudulent cloud AI charges\n8. mSecure password manager breach exposes encrypted customer database; users told to reset credentials\n9. Binance links $6.34 billion theft to North Korean fake job interview malware\n10. Google and partners disrupt XCPE botnet of over 1.3 million Android TV boxes\nNew KEV entries: CVE-2026-119977\nEarly signals: CVE-2026-109518, CVE-2026-109593, CVE-2026-58115, CVE-2026-58868, CVE-2026-121966\nExplainer: Chaining low-privilege bugs into unauthenticated root on edge appliances\nGood news: Google and partners dismantle XCPE botnet of 1.3 million malicious Android TV boxes\nGood news: Material Security helps take down nearly 900 domains in Operation CloudFire phishing campaign\nGood news: Two Canadians charged over cryptomining hacks on US university supercomputers\nGood news: Chrome 157 ships 213 security fixes, seven rated critical",
+   "date_published": "2026-11-04T18:47:01Z",
+   "_intel_brief": {
+    "data": "https://intel.brycemaxheimer.com/editions/2026-11-04/edition.json",
+    "stories": [
+     {
+      "title": "Ivanti Connect Secure zero-days CVE-2026-111357 and CVE-2026-118527 chained and exploited in the wild",
+      "cves": [
+       "CVE-2026-111357",
+       "CVE-2026-118527",
+       "CVE-2026-104935"
+      ],
+      "score": 91
+     },
+     {
+      "title": "Microsoft: fake-download installers silently turn PCs into proxyware and compute-sharing nodes",
+      "cves": [],
+      "score": 81
+     },
+     {
+      "title": "CISA adds exploited WordPress core upgrade race condition CVE-2026-119977 to KEV",
+      "cves": [
+       "CVE-2026-119977"
+      ],
+      "score": 75
+     },
+     {
+      "title": "Operation CloudFire phishing used Google Calendar invites to hijack corporate Google sessions",
+      "cves": [],
+      "score": 69
+     },
+     {
+      "title": "NIKKE PC game launcher scripts tampered in supply-chain attack to spread infostealer malware",
+      "cves": [],
+      "score": 67
+     },
+     {
+      "title": "WorkOS discloses breach of internal sales app; Northflank and Trigger.dev also report hacks",
+      "cves": [],
+      "score": 62
+     },
+     {
+      "title": "Google reports LLMjacking attacks driving about $1 million in fraudulent cloud AI charges",
+      "cves": [],
+      "score": 59
+     },
+     {
+      "title": "mSecure password manager breach exposes encrypted customer database; users told to reset credentials",
+      "cves": [],
+      "score": 55
+     },
+     {
+      "title": "Binance links $6.34 billion theft to North Korean fake job interview malware",
+      "cves": [],
+      "score": 54
+     },
+     {
+      "title": "Google and partners disrupt XCPE botnet of over 1.3 million Android TV boxes",
+      "cves": [],
+      "score": 54
+     }
+    ],
+    "explainer": "Chaining low-privilege bugs into unauthenticated root on edge appliances",
+    "good_news": [
+     "Google and partners dismantle XCPE botnet of 1.3 million malicious Android TV boxes",
+     "Material Security helps take down nearly 900 domains in Operation CloudFire phishing campaign",
+     "Two Canadians charged over cryptomining hacks on US university supercomputers",
+     "Chrome 157 ships 213 security fixes, seven rated critical"
+    ]
+   }
+  },
+  {
    "id": "https://intel.brycemaxheimer.com/editions/2026-11-01/",
    "url": "https://intel.brycemaxheimer.com/editions/2026-11-01/",
    "title": "Daily Intel Brief: 2026-11-01",

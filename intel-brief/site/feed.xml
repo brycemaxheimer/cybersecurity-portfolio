@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>Daily Intel Brief</title><link>https://intel.brycemaxheimer.com/</link><description>Daily AI-generated threat-intel brief: top stories, new KEV entries, early signals and detections.</description><language>en-us</language><item><title>Daily Intel Brief: 2026-11-01</title><link>https://intel.brycemaxheimer.com/editions/2026-11-01/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-01/</guid><pubDate>Sun, 01 Nov 2026 17:14:30 +0000</pubDate><description>1. Brotli decoder buffer overflow CVE-2026-111497 listed by MSRC; KEV-listed with public PoC
+<rss version="2.0"><channel><title>Daily Intel Brief</title><link>https://intel.brycemaxheimer.com/</link><description>Daily AI-generated threat-intel brief: top stories, new KEV entries, early signals and detections.</description><language>en-us</language><item><title>Daily Intel Brief: 2026-11-04</title><link>https://intel.brycemaxheimer.com/editions/2026-11-04/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-04/</guid><pubDate>Wed, 04 Nov 2026 18:47:01 +0000</pubDate><description>1. Ivanti Connect Secure zero-days CVE-2026-111357 and CVE-2026-118527 chained and exploited in the wild
+2. Microsoft: fake-download installers silently turn PCs into proxyware and compute-sharing nodes
+3. CISA adds exploited WordPress core upgrade race condition CVE-2026-119977 to KEV
+4. Operation CloudFire phishing used Google Calendar invites to hijack corporate Google sessions
+5. NIKKE PC game launcher scripts tampered in supply-chain attack to spread infostealer malware
+6. WorkOS discloses breach of internal sales app; Northflank and Trigger.dev also report hacks
+7. Google reports LLMjacking attacks driving about $1 million in fraudulent cloud AI charges
+8. mSecure password manager breach exposes encrypted customer database; users told to reset credentials
+9. Binance links $6.34 billion theft to North Korean fake job interview malware
+10. Google and partners disrupt XCPE botnet of over 1.3 million Android TV boxes
+New KEV entries: CVE-2026-119977
+Early signals: CVE-2026-109518, CVE-2026-109593, CVE-2026-58115, CVE-2026-58868, CVE-2026-121966
+Explainer: Chaining low-privilege bugs into unauthenticated root on edge appliances
+Good news: Google and partners dismantle XCPE botnet of 1.3 million malicious Android TV boxes
+Good news: Material Security helps take down nearly 900 domains in Operation CloudFire phishing campaign
+Good news: Two Canadians charged over cryptomining hacks on US university supercomputers
+Good news: Chrome 157 ships 213 security fixes, seven rated critical</description></item><item><title>Daily Intel Brief: 2026-11-01</title><link>https://intel.brycemaxheimer.com/editions/2026-11-01/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-01/</guid><pubDate>Sun, 01 Nov 2026 17:14:30 +0000</pubDate><description>1. Brotli decoder buffer overflow CVE-2026-111497 listed by MSRC; KEV-listed with public PoC
 2. Northflank breach leads to abuse of customer AI API keys; customers told to rotate all secrets
 3. Chainalysis discloses breach exposing customer names, emails, user IDs and roles
 4. Cisco Talos details VOLTA infostealer that has an LLM rank victims' stolen assets by monetization value
