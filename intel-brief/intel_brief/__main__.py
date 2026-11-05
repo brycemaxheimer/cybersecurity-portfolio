@@ -3,6 +3,7 @@
   python -m intel_brief run               collect, triage, write, detect, render
   python -m intel_brief run --dry-run     everything except model calls (free)
   python -m intel_brief render            re-render site/ from data/editions/
+  python -m intel_brief verify            gate an edition before it publishes
 """
 
 from __future__ import annotations
@@ -12,6 +13,7 @@ import json
 import logging
 import sys
 from datetime import date, datetime, timezone
+from pathlib import Path
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from .config import load_settings, load_sources
@@ -33,6 +35,10 @@ def main(argv: list[str] | None = None) -> int:
     r.add_argument("--no-render", action="store_true")
 
     sub.add_parser("render", help="render site/ from data/editions/")
+
+    v = sub.add_parser("verify", help="check a built edition is fit to publish")
+    v.add_argument("--date", help="edition date, YYYY-MM-DD (default: today in the site timezone)")
+    v.add_argument("--report", help="write a markdown summary of the findings to this path")
     p.add_argument("-v", "--verbose", action="store_true")
     args = p.parse_args(argv)
 
@@ -59,6 +65,23 @@ def main(argv: list[str] | None = None) -> int:
         except ZoneInfoNotFoundError:  # Windows without the tzdata package
             logging.warning("time zone data missing; using the UTC date (pass --date to override)")
             run_date = datetime.now(timezone.utc).date()
+
+    if args.cmd == "verify":
+        from .verify import EditionMissing, FAIL, report, verify
+
+        try:
+            findings = verify(run_date.isoformat(), settings)
+        except EditionMissing as e:
+            print(f"cannot verify {run_date}: {e}", file=sys.stderr)
+            return 2
+        for f in findings:
+            print(f, file=sys.stderr if f.level == FAIL else sys.stdout)
+        text = report(run_date.isoformat(), findings)
+        if args.report:
+            Path(args.report).write_text(text + "\n", encoding="utf-8")
+        failed = [f for f in findings if f.level == FAIL]
+        print(f"{len(failed)} failed, {len(findings) - len(failed)} warned")
+        return 1 if failed else 0
 
     from .pipeline import run
 

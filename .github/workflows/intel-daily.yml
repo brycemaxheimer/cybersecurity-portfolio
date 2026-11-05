@@ -1,7 +1,17 @@
-# Builds the day's intel brief (intel-brief/) and opens a pull request with it.
-# Nothing is published until a person merges the PR (review mode). On merge,
-# Cloudflare Workers Builds deploys intel-brief/site to the intel-brief Worker
-# (intel.brycemaxheimer.com). This workflow never talks to Cloudflare.
+# Builds the day's intel brief (intel-brief/) and publishes it.
+#
+# Every edition still goes through a pull request, so there is a diff and an
+# audit trail for each one. What the pull request no longer does is wait on a
+# person: `python -m intel_brief verify` gates the edition and a clean run
+# merges itself. The gates stand in for the human skim review mode relied on --
+# shape, substance, cost, source health, and whether anything from an untrusted
+# feed reached the page as markup or as an off-site link. A failed gate holds
+# the pull request, labels it, and fails this job, so a held edition is
+# notified rather than silently waiting.
+#
+# On merge, Cloudflare Workers Builds deploys intel-brief/site to the
+# intel-brief Worker (intel.brycemaxheimer.com). This workflow never talks to
+# Cloudflare.
 name: Intel brief daily edition
 
 on:
@@ -21,6 +31,10 @@ on:
       date:
         description: Edition date YYYY-MM-DD (blank = today, US Eastern)
         default: ""
+      auto_merge:
+        description: Publish the edition if every gate passes
+        type: boolean
+        default: true
 
 permissions:
   contents: read
@@ -38,8 +52,9 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     permissions:
-      contents: write        # push the edition branch
-      pull-requests: write   # open the review PR
+      contents: write        # push the edition branch, merge the PR
+      pull-requests: write   # open and merge the review PR
+      issues: write          # label a held edition
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -51,6 +66,10 @@ jobs:
 
       - name: Install Python dependencies (hash-pinned)
         run: python -m pip install --require-hashes --no-deps -r requirements.lock
+
+      # Before the build, so a broken renderer or gate costs nothing in API spend.
+      - name: Unit tests
+        run: python -m unittest discover -s tests
 
       - name: Fetch Kusto.Language (not redistributable, never committed)
         shell: pwsh
@@ -76,10 +95,30 @@ jobs:
         run: |
           python -m intel_brief run --date "$DATE" --writeup-model "$MODEL" --max-cost "$MAX_COST"
 
+      # Decides whether this edition may publish itself. Never fails the step:
+      # a held edition still gets a pull request explaining why it was held.
+      - name: Verify edition
+        id: gates
+        env:
+          DATE: ${{ steps.date.outputs.date }}
+        run: |
+          set +e
+          python -m intel_brief verify --date "$DATE" --report "$RUNNER_TEMP/gates.md"
+          code=$?
+          set -e
+          if [ "$code" -eq 0 ]; then verdict=pass; else verdict=hold; fi
+          echo "verdict=$verdict" >> "$GITHUB_OUTPUT"
+          {
+            echo "## Gates: $verdict (exit $code)"
+            cat "$RUNNER_TEMP/gates.md" 2>/dev/null || echo "The edition could not be read."
+          } >> "$GITHUB_STEP_SUMMARY"
+
       - name: Open review PR
+        id: pr
         env:
           GH_TOKEN: ${{ github.token }}
           DATE: ${{ steps.date.outputs.date }}
+          VERDICT: ${{ steps.gates.outputs.verdict }}
         run: |
           branch="intel/edition-$DATE"
           git config user.name "intel-brief bot"
@@ -87,7 +126,10 @@ jobs:
           git switch -c "$branch"
           # Only the edition's data and rendered site; never anything else in the repo.
           git add data/ site/
-          if git diff --cached --quiet; then echo "nothing to commit"; exit 0; fi
+          if git diff --cached --quiet; then
+            echo "::error::The build wrote no edition for $DATE. Nothing to publish."
+            exit 1
+          fi
           git commit -m "Intel brief edition $DATE"
           # Bot-owned branch: a same-day re-run replaces it.
           git push --force origin "$branch"
@@ -97,17 +139,74 @@ jobs:
           ed = json.load(open(f"data/editions/{d}.json", encoding="utf-8"))
           run = json.load(open(f"data/runs/{d}.json", encoding="utf-8"))
           c = run["cost"]
-          print(f"Intel brief edition **{d}**. Merging this PR publishes it to intel.brycemaxheimer.com.\n")
+          print(f"Intel brief edition **{d}**.\n")
           print(f"- Cost: ${c['total_cost_usd']:.2f} of ${c['max_cost_usd']:.2f} cap ({len(c['calls'])} calls)")
           print(f"- Models: triage {ed['models']['triage']} ({ed['models']['triage_method']}), write-ups {ed['models']['writeup']}")
           print(f"- {len(ed['stories'])} stories, {len(ed['kev_new'])} new KEV, {len(ed['early_signals'])} early signals")
-          bad = {k: v for k, v in ed["sources_status"].items() if not v.startswith("ok")}
-          if bad:
-              print("- Sources with errors: " + ", ".join(sorted(bad)))
           print("\n### Stories\n")
           for s in ed["stories"]:
               print(f"{s['rank']}. {s['title']} (score {s['score']}, write-up: {s['writeup_status']})")
-          print("\nReview the rendered page in `intel-brief/site/editions/" + d + "/index.html` before merging.")
+          print("\n### Verification\n")
           EOF
+          cat "$RUNNER_TEMP/gates.md" >> "$RUNNER_TEMP/pr-body.md"
+          # Earlier editions still open mean the archive has a hole, and the
+          # collection window only reaches back 72 h before intel is lost.
+          stale=$(BRANCH="$branch" gh pr list --state open --json number,title,headRefName \
+            --jq '.[] | select(.headRefName | startswith("intel/edition-"))
+                      | select(.headRefName != env.BRANCH) | "- #\(.number) \(.title)"' || true)
+          if [ -n "$stale" ]; then
+            printf '\n### Earlier editions still unpublished\n\n%s\n' "$stale" >> "$RUNNER_TEMP/pr-body.md"
+          fi
+          if [ "$VERDICT" = pass ]; then
+            printf '\nMerging automatically: every gate passed.\n' >> "$RUNNER_TEMP/pr-body.md"
+          else
+            printf '\nReview `intel-brief/site/editions/%s/index.html`, then merge to publish.\n' "$DATE" >> "$RUNNER_TEMP/pr-body.md"
+          fi
           gh pr create --base main --head "$branch" --title "Intel brief: edition $DATE" --body-file "$RUNNER_TEMP/pr-body.md" \
             || gh pr edit "$branch" --body-file "$RUNNER_TEMP/pr-body.md"
+          echo "branch=$branch" >> "$GITHUB_OUTPUT"
+
+      - name: Publish
+        if: steps.gates.outputs.verdict == 'pass' && (github.event_name != 'workflow_dispatch' || inputs.auto_merge)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BRANCH: ${{ steps.pr.outputs.branch }}
+        run: |
+          # No --delete-branch: that branch is checked out here, so gh's local
+          # cleanup can fail and make a successful publish look broken.
+          if out=$(gh pr merge "$BRANCH" --squash 2>&1); then
+            echo "::notice::Published $BRANCH to intel.brycemaxheimer.com."
+            git push origin --delete "$BRANCH" || true
+          else
+            echo "$out"
+            # `main` is a protected branch. If its rules require an approving
+            # review (or a status check this job cannot post), GitHub refuses
+            # the bot's merge and the edition stays unpublished. The gates in
+            # `intel_brief verify` are what replaced that review, so the rule
+            # has to let this workflow through for publishing to be automatic.
+            case "$out" in
+              *"Protected branch"*|*"review"*|*"required status check"*|*"not mergeable"*|*"405"*)
+                echo "::error::Gates passed but main's protection rules refused the bot's merge. Allow github-actions[bot] to bypass the pull-request requirement on main (Settings, Branches, or Rules), or merge PR for $BRANCH by hand. Until then every edition stops here."
+                ;;
+              *)
+                echo "::error::Gates passed but merging $BRANCH failed. See the output above."
+                ;;
+            esac
+            exit 1
+          fi
+
+      # A held edition must be noisy: the next run's window only stretches back
+      # 72 h, so intel is lost if nobody looks within three days.
+      - name: Hold for review
+        if: steps.gates.outputs.verdict != 'pass'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BRANCH: ${{ steps.pr.outputs.branch }}
+          DATE: ${{ steps.date.outputs.date }}
+        run: |
+          gh label create needs-review --color B60205 --force \
+            --description "An intel brief edition did not pass its gates" || true
+          gh pr edit "$BRANCH" --add-label needs-review || true
+          num=$(gh pr view "$BRANCH" --json number --jq .number || echo "?")
+          echo "::error::Edition $DATE failed verification and was not published. See PR #$num and the job summary."
+          exit 1
