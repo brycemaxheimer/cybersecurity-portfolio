@@ -1,0 +1,1618 @@
+{
+ "schema": 1,
+ "date": "2026-11-05",
+ "generated_at": "2026-11-05T18:53:14Z",
+ "generator": "intel-brief 0.1.0",
+ "models": {
+  "triage": "claude-haiku-5-5",
+  "writeup": "claude-opus-5-5",
+  "triage_method": "model"
+ },
+ "window": {
+  "since": "2026-11-02T18:47:08+00:00",
+  "until": "2026-11-05T18:47:08+00:00"
+ },
+ "stories": [
+  {
+   "id": "story-1",
+   "rank": 1,
+   "score": 91,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 18,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 10,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": true,
+    "epss_max": 0.9961,
+    "cvss_max": 0
+   },
+   "title": "SANS honeypots still see scans for Cisco IOS XE web UI flaw CVE-2023-20198",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "widespread",
+    "platform": "edge_device",
+    "vendor": "Cisco",
+    "product": "IOS"
+   },
+   "cves": [
+    {
+     "id": "CVE-2023-20198",
+     "cvss": 10.0,
+     "severity": "CRITICAL",
+     "products": [
+      "rockwellautomation allen-bradley stratix 5200 firmware",
+      "rockwellautomation allen-bradley stratix 5800 firmware",
+      "cisco ios xe"
+     ],
+     "epss": 0.99613,
+     "percentile": 0.99947,
+     "in_kev": true,
+     "kev_due": null,
+     "poc": [
+      {
+       "url": "https://github.com/smokeintheshell/CVE-2023-20198",
+       "name": "smokeintheshell/CVE-2023-20198",
+       "stars": 67,
+       "created": "2023-11-16"
+      },
+      {
+       "url": "https://github.com/W01fh4cker/CVE-2023-20198-RCE",
+       "name": "W01fh4cker/CVE-2023-20198-RCE",
+       "stars": 44,
+       "created": "2024-04-25"
+      },
+      {
+       "url": "https://github.com/fox-it/cisco-ios-xe-implant-detection",
+       "name": "fox-it/cisco-ios-xe-implant-detection",
+       "stars": 41,
+       "created": "2023-10-23"
+      }
+     ],
+     "sigmahq_rules": 1
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "On 5 November 2026, Johannes Ullrich of the SANS Internet Storm Center reported honeypot hits that he believes target CVE-2023-20198, the critical flaw in the Cisco IOS XE web UI. The requests went to the web services management endpoint, with one character of the path URL-encoded, and tried to run a harmless system command. Ullrich tied the traffic to RootEvidence, an exposure-management scanner that adds unusual opt-out headers to its requests. He noted that URL-encoding the path may get past some web application firewalls.",
+    "why_it_matters": "CVE-2023-20198 has a CVSS score of 10.0, is listed in CISA KEV, has public proof-of-concept code, and carries an EPSS of 99.6%, so any IOS XE device with its web UI reachable from untrusted networks is still being probed. The scan shown is benign, but the same request shape works for real attackers. Filters that match only literal path strings can be bypassed with encoded variants. Rockwell Allen-Bradley Stratix 5200 and 5800 switches are also listed as affected.",
+    "affected_versions": [
+     "Cisco IOS XE with the web UI feature enabled (specific versions not stated in the sources)",
+     "Rockwell Automation Allen-Bradley Stratix 5200 firmware",
+     "Rockwell Automation Allen-Bradley Stratix 5800 firmware"
+    ],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Confirm that no Cisco IOS XE or Stratix device exposes its HTTP or HTTPS web UI to the internet; where it is not needed, disable the HTTP and HTTPS server features.",
+     "Apply Cisco's fixed IOS XE releases for CVE-2023-20198 (and Rockwell's firmware updates for Stratix) on any device still running affected software.",
+     "Review edge device and WAF logs for requests to the web services management endpoints, including percent-encoded path variants, and make sure WAF rules normalize URL encoding before matching.",
+     "On any device that was exposed, look for unexpected local privileged accounts and configuration changes, and follow Cisco's compromise-assessment guidance."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Vulnerability Scans for Older Cisco IOS Vulnerability / Opt-Out Headers, (Thu, Nov 5th)",
+     "url": "https://isc.sans.edu/diary/rss/33492",
+     "source": "SANS ISC",
+     "kind": "news",
+     "published": "2026-11-05T15:29:08Z"
+    }
+   ],
+   "detection": {
+    "type": "behavioral",
+    "sigma": {
+     "origin": "sigmahq",
+     "title": "Exploitation Indicators Of CVE-2023-20198",
+     "url": "https://github.com/SigmaHQ/sigma/blob/master/rules-emerging-threats/2023/Exploits/CVE-2023-20198/cisco_syslog_cve_2023_20198_ios_xe_web_ui.yml",
+     "yaml": "title: Exploitation Indicators Of CVE-2023-20198\nid: 2ece8816-b7a0-4d9b-b0e8-ae7ad18bc02b\nstatus: test\ndescription: Detecting exploitation indicators of CVE-2023-20198 a privilege escalation vulnerability in Cisco IOS XE Software Web UI.\nreferences:\n    - https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-iosxe-webui-privesc-j22SaA4z\n    - https://www.thestack.technology/security-experts-call-for-incident-response-exercises-after-mass-cisco-device-exploitation/\nauthor: Lars B. P. Frydenskov (Trifork Security)\ndate: 2023-10-20\ntags:\n    - attack.privilege-escalation\n    - attack.initial-access\n    - detection.emerging-threats\nlogsource:\n    product: cisco\n    service: syslog\n    definition: 'Requirements: Cisco IOS XE system logs needs to be configured and ingested'\ndetection:\n    keyword_event:\n        - '%WEBUI-6-INSTALL_OPERATION_INFO:'\n        - '%SYS-5-CONFIG_P:'\n        - '%SEC_LOGIN-5-WEBLOGIN_SUCCESS:'\n    keyword_user:\n        - 'cisco_tac_admin'\n        - 'cisco_support'\n        - 'cisco_sys_manager'\n    condition: keyword_event and keyword_user\nfalsepositives:\n    - Rare false positives might occur if there are valid users named \"cisco_tac_admin\" or \"cisco_support\", which are not created by default or CISCO representatives\nlevel: high\n",
+     "check": {
+      "status": "upstream",
+      "messages": []
+     },
+     "conversions": {
+      "kql": {
+       "label": "Defender XDR / Sentinel KQL",
+       "query": null,
+       "error": "SigmaTransformationError: Unable to determine table name from rule.  The query table is determined in the following order of priority:\n  1) The value provided to processing pipeline's query_table parameter, if using a Python script.\n  2) If the query_table is already set in the pipeline state, such as from a custom user-defined pipeline if using sigma-cli.\n  3) If the rule's logsource category is "
+      },
+      "spl": {
+       "label": "Splunk SPL",
+       "query": "\"%WEBUI-6-INSTALL_OPERATION_INFO:\" OR \"%SYS-5-CONFIG_P:\" OR \"%SEC_LOGIN-5-WEBLOGIN_SUCCESS:\" \"cisco_tac_admin\" OR \"cisco_support\" OR \"cisco_sys_manager\"",
+       "error": null
+      },
+      "elastic": {
+       "label": "Elastic (Lucene, ECS)",
+       "query": "(*%WEBUI\\-6\\-INSTALL_OPERATION_INFO\\:* OR *%SYS\\-5\\-CONFIG_P\\:* OR *%SEC_LOGIN\\-5\\-WEBLOGIN_SUCCESS\\:*) AND (*cisco_tac_admin* OR *cisco_support* OR *cisco_sys_manager*)",
+       "error": null
+      }
+     }
+    },
+    "hunting_steps": [
+     "Build an inventory of Cisco IOS XE and Stratix devices from Defender device discovery and your CMDB, and flag any with a management interface reachable from the internet.",
+     "On each device, check whether the HTTP or HTTPS server is enabled and which interfaces or ACLs restrict access to it.",
+     "Search firewall, proxy, WAF and syslog data for inbound HTTP POSTs to the web UI management endpoints, including encoded forms of the path and non-standard ports such as 8000.",
+     "Separate known scanner traffic (for example the RootEvidence user agent) from unknown sources, and look closely at requests from unknown sources that drew successful responses.",
+     "On exposed devices, review the local user list, the running configuration and recent privilege-15 logins for changes nobody can explain."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Devices flagged vulnerable to CVE-2023-20198 by Defender TVM",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where CveId == \"CVE-2023-20198\" | project DeviceName, DeviceId, OSPlatform, SoftwareVendor, SoftwareName, SoftwareVersion, VulnerabilitySeverityLevel",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Discovered Cisco network devices for IOS XE exposure review",
+      "kql": "DeviceInfo | where Timestamp > ago(7d) | where DeviceType == \"NetworkDevice\" | where Vendor has \"Cisco\" | summarize arg_max(Timestamp, *) by DeviceId | project DeviceName, Vendor, Model, OSPlatform, OSVersion, PublicIP",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-2",
+   "rank": 2,
+   "score": 79,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 25,
+    "platform": 0,
+    "new_kev": 10,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 0,
+    "chatter": 4,
+    "in_kev": true,
+    "epss_max": 0.0141,
+    "cvss_max": 0
+   },
+   "title": "CISA adds Apple pointer authentication bypass CVE-2024-27834 to KEV catalog",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "ubiquitous",
+    "platform": "mobile",
+    "vendor": "Apple",
+    "product": "iOS, iPadOS, macOS, Safari, tvOS, watchOS"
+   },
+   "cves": [
+    {
+     "id": "CVE-2024-27834",
+     "cvss": 5.5,
+     "severity": "MEDIUM",
+     "products": [
+      "apple safari",
+      "apple ipados",
+      "apple iphone os",
+      "apple macos",
+      "apple tvos"
+     ],
+     "epss": 0.01414,
+     "percentile": 0.72829,
+     "in_kev": true,
+     "kev_due": "2026-11-18",
+     "poc": [],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "CISA added CVE-2024-27834, an improper authentication flaw affecting Apple iOS, iPadOS, macOS, Safari, tvOS and watchOS, to its Known Exploited Vulnerabilities catalog on 4 November 2026. According to CISA, an attacker who already has arbitrary read and write capability could use the flaw to bypass pointer authentication, a memory-protection feature on Apple hardware. The KEV listing confirms in-the-wild exploitation but gives no detail on attackers or campaigns, and the sources do not name fixed versions.",
+    "why_it_matters": "The flaw affects Apple browsers and operating systems that are likely present in your fleet as managed Macs, iPhones and iPads with access to Microsoft 365. It is most useful to an attacker as one step in an exploit chain after initial memory corruption, often through Safari or WebKit content, so unpatched devices are exposed to chained attacks. CVSS is 5.5 and EPSS is 1.4%, but exploitation is confirmed and CISA has set a federal remediation deadline of 18 November 2026.",
+    "affected_versions": [
+     "Apple iOS, iPadOS, macOS, Safari, tvOS and watchOS 10.5 (as stated by CISA)"
+    ],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Update all managed Macs, iPhones, iPads and Safari installs to Apple's current releases that address CVE-2024-27834, and complete this by 18 November 2026. Check Apple's advisory for the exact fixed builds, because the sources do not list them.",
+     "Use your MDM to enforce minimum OS versions, and use Entra ID Conditional Access device compliance to block unpatched Apple devices from Microsoft 365.",
+     "Inventory macOS and iOS devices onboarded to Defender for Endpoint and find any still reported as vulnerable to CVE-2024-27834.",
+     "Find unmanaged Apple devices accessing corporate resources and require enrollment or restrict their access.",
+     "Review CISA's forensics triage guidance for any Apple devices of high-value users that stayed unpatched for a long time."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "CVE-2024-27834: Apple Multiple Products Improper Authentication Vulnerability",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-27834",
+     "source": "CISA KEV",
+     "kind": "kev",
+     "published": "2026-11-04T00:00:00Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Query Defender vulnerability management for devices that report CVE-2024-27834.",
+     "List macOS and iOS devices seen in the last week with their OS versions, then compare them against Apple's fixed builds.",
+     "Cross-check the MDM inventory for Apple devices that are not onboarded to Defender, since they will not appear in Defender data.",
+     "Prioritize patching and review for devices used by executives, administrators and other high-risk users."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Devices reported vulnerable to CVE-2024-27834",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where CveId == \"CVE-2024-27834\" | summarize Software = make_set(SoftwareName), Versions = make_set(SoftwareVersion) by DeviceId, DeviceName, OSPlatform",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Inventory of macOS and iOS devices with current OS version",
+      "kql": "DeviceInfo | where Timestamp > ago(7d) | where OSPlatform in~ (\"macOS\", \"iOS\") | summarize arg_max(Timestamp, OSPlatform, OSVersion, OSBuild) by DeviceId, DeviceName | order by OSPlatform asc, OSVersion asc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-3",
+   "rank": 3,
+   "score": 74,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 4,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 6,
+    "chatter": 4,
+    "in_kev": false,
+    "epss_max": 0.0029,
+    "cvss_max": 0
+   },
+   "title": "Zyxel patches GS1900 switch zero-day exploited to compromise nearly 1,000 devices",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "niche",
+    "platform": "edge_device",
+    "vendor": "Zyxel",
+    "product": "GS1900 series switches"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-107441",
+     "cvss": 8.8,
+     "severity": "HIGH",
+     "products": [],
+     "epss": 0.00293,
+     "percentile": 0.22021,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [
+      {
+       "url": "https://github.com/foxcornlab/zyxel-gs1900-scanner",
+       "name": "foxcornlab/zyxel-gs1900-scanner",
+       "stars": 0,
+       "created": "2026-11-05"
+      }
+     ],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "BleepingComputer reports that Zyxel has patched a zero-day in its GS1900 series network switches that attackers used to compromise nearly 1,000 devices worldwide and steal configuration files and credentials. According to SecurityWeek, the flaw is tracked as CVE-2026-107441. It is an out-of-bounds write that can let attackers run OS commands by sending crafted HTTP requests. SecurityWeek also says the compromises were first blamed on an already-patched flaw before they were traced to this zero-day. The sources do not list affected firmware versions or the fixed firmware release.",
+    "why_it_matters": "Exploitation in the wild is confirmed and public proof-of-concept code exists. The CVE has CVSS 8.8 and EPSS 0.3%, and it is not in CISA KEV, so there is no federal due date. Stolen switch configurations and credentials can enable lateral movement and reuse of the same passwords on other network gear, so any GS1900 management interface reachable from untrusted networks should be treated as possibly compromised.",
+    "affected_versions": [
+     "Zyxel GS1900 series switches (specific firmware versions not stated)"
+    ],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory all Zyxel GS1900 switches and apply Zyxel's patched firmware for CVE-2026-107441 as soon as you have confirmed the fixed release in Zyxel's advisory.",
+     "Remove internet and broad internal exposure of the switch web management interface; restrict it to a dedicated management VLAN or jump hosts.",
+     "Assume configuration files and credentials on exposed switches were stolen. Rotate switch admin passwords, SNMP community strings and any RADIUS/TACACS or shared secrets stored in the configuration.",
+     "Check for reuse of switch credentials on other devices or accounts and reset any matches.",
+     "Review switch logs and configurations for unauthorized changes, unknown admin accounts or unexpected reboots, and factory-reset and reconfigure devices you suspect were compromised."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Zyxel fixes zero-day exploited to hack nearly 1,000 network switches",
+     "url": "https://www.bleepingcomputer.com/news/security/zyxel-fixes-zero-day-exploited-to-hack-nearly-1-000-network-switches/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-04T20:58:19Z"
+    },
+    {
+     "title": "Zyxel Switch Hacks Blamed on Patched Flaw Actually Exploited a Zero-Day",
+     "url": "https://www.securityweek.com/zyxel-switch-hacks-blamed-on-patched-flaw-actually-exploited-a-zero-day/",
+     "source": "SecurityWeek",
+     "kind": "news",
+     "published": "2026-11-05T10:56:41Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Use Defender device discovery and your asset inventory to list every Zyxel GS1900 switch and its management IP.",
+     "Determine which of these switches expose their HTTP or HTTPS management interface to the internet or to user networks, using firewall rules and external attack surface data.",
+     "Pull firewall or NetFlow logs for inbound HTTP and HTTPS traffic to switch management IPs from external or unusual sources, and prioritize those switches for investigation.",
+     "Identify the managed endpoints that normally connect to switch management interfaces, then flag connections from hosts or processes outside that baseline.",
+     "For suspected compromises, compare the current switch configurations against known-good backups and rotate every credential and secret they contain."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Discovered Zyxel GS1900 devices in Defender device inventory",
+      "kql": "DeviceInfo\n| where Timestamp > ago(30d)\n| where Vendor has \"Zyxel\" or Model has \"GS1900\"\n| summarize arg_max(Timestamp, *) by DeviceId\n| project Timestamp, DeviceId, DeviceName, DeviceType, Vendor, Model, OSVersion, PublicIP",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Endpoint connections to switch management interfaces (fill in switch IPs)",
+      "kql": "let switchIps = dynamic([]); // add GS1900 management IPs here\nDeviceNetworkEvents\n| where Timestamp > ago(14d)\n| where RemoteIP in (switchIps)\n| where RemotePort in (80, 443, 22, 23)\n| summarize Connections = count(), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by DeviceName, InitiatingProcessFileName, InitiatingProcessAccountName, RemoteIP, RemotePort\n| order by Connections asc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-4",
+   "rank": 4,
+   "score": 71,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Microsoft details fake-download campaign pushing monetization payloads via trojanized Inno installers",
+   "labels": {
+    "category": "campaign",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "windows",
+    "vendor": "",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "Microsoft Threat Intelligence reported on 3 November 2026 an ongoing fake-download campaign aimed at users looking for cracked software, free games, activators, plugins and unofficial utilities. According to Microsoft, trojanized Inno Setup-style installers deliver several monetized payloads, called offers, in a single install session and report each offer's outcome back to rotating infrastructure. Microsoft confirmed three monetization branches: routing third-party internet traffic through the victim device (proxyware), enrolling the device in a distributed-computing platform, and installing extra utility-style software, often without informed consent. The available excerpt is truncated, so the specific payload names and indicators Microsoft published are not available here.",
+    "why_it_matters": "Microsoft confirms the activity is in the wild. Any user who downloads cracked tools on a corporate or BYOD device can turn it into a proxy exit node or compute resource, which brings reputational, privacy and network-abuse risk, and the bundles may carry further software. The installer staging pattern is distinctive enough to hunt in endpoint telemetry today.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Hunt for Inno Setup temporary runners under the user Temp folder in is-*.tmp directories that spawn eld*.exe or set_*.exe stages, and isolate devices where this occurred.",
+     "Enable potentially unwanted application (PUA) protection in Microsoft Defender Antivirus in block mode and in Edge SmartScreen.",
+     "Block untrusted software sources, for example with application control (WDAC or AppLocker) or by restricting user installs, and block access to known crack and warez download categories at the web proxy.",
+     "On affected devices, inventory newly installed software, services, scheduled tasks and Run keys, and remove proxyware or distributed-computing clients that were not approved.",
+     "Review the IOCs and advanced hunting queries in Microsoft's original blog post and load them into Defender XDR custom detections."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Fake-download campaign uses trojanized installers to deliver monetization payloads",
+     "url": "https://www.microsoft.com/en-us/security/blog/2026/11/03/fake-download-campaign-uses-trojanized-installers-deliver-monetization-payloads/",
+     "source": "Microsoft Security Blog",
+     "kind": "news",
+     "published": "2026-11-03T17:32:47Z"
+    }
+   ],
+   "detection": {
+    "type": "behavioral",
+    "sigma": {
+     "origin": "ai",
+     "title": "Suspicious Stage Executable Launched From Inno Setup Temporary Runner Folder",
+     "url": null,
+     "yaml": "title: Suspicious Stage Executable Launched From Inno Setup Temporary Runner Folder\nid: f02d3656-4533-5556-bf7c-65c4eb86e8f3\nstatus: experimental\ndescription: Detects eld*.exe or set_*.exe stages executing from an Inno Setup temporary runner directory (Temp is-*.tmp), a staging pattern Microsoft reported in a fake-download campaign that delivers proxyware and other monetization payloads. AI-generated, untested.\nreferences:\n- https://www.microsoft.com/en-us/security/blog/2026/11/03/fake-download-campaign-uses-trojanized-installers-deliver-monetization-payloads/\nauthor: intel-brief (AI-generated, untested)\ndate: '2026-11-05'\ntags:\n- attack.execution\n- attack.t1204.002\n- attack.t1189\n- attack.impact\n- attack.t1496\nlogsource:\n  product: windows\n  category: process_creation\ndetection:\n  selection_path:\n    Image|re: (?i)\\\\Temp\\\\is-[^\\\\]+\\.tmp\\\\(eld|set_)[^\\\\]*\\.exe$\n  condition: selection_path\nfalsepositives:\n- Legitimate Inno Setup installers that happen to extract helper executables with similar names\nlevel: medium\n",
+     "check": {
+      "status": "pass",
+      "messages": [
+       "No rule errors found.",
+       "No condition errors found.",
+       "No validation issues found.",
+       "Parsing Sigma rules",
+       "Checking Sigma rules"
+      ]
+     },
+     "conversions": {
+      "kql": {
+       "label": "Defender XDR / Sentinel KQL",
+       "query": "DeviceProcessEvents\n| where FolderPath matches regex \"(?i)\\\\\\\\Temp\\\\\\\\is-[^\\\\\\\\]+\\\\.tmp\\\\\\\\(eld|set_)[^\\\\\\\\]*\\\\.exe$\"",
+       "error": null,
+       "validation": {
+        "status": "pass",
+        "messages": []
+       }
+      },
+      "spl": {
+       "label": "Splunk SPL",
+       "query": "*\n| regex Image=\"(?i)\\\\\\\\Temp\\\\\\\\is-[^\\\\\\\\]+\\\\.tmp\\\\\\\\(eld|set_)[^\\\\\\\\]*\\\\.exe$\"",
+       "error": null
+      },
+      "elastic": {
+       "label": "Elastic (Lucene, ECS)",
+       "query": "process.executable.caseless:/(?i)\\\\Temp\\\\is-[^\\\\]+\\.tmp\\\\(eld|set_)[^\\\\]*\\.exe$/",
+       "error": null
+      }
+     }
+    },
+    "hunting_steps": [
+     "Search process telemetry for executables starting from Temp is-*.tmp folders, focusing on eld*.exe, set_*.exe or numbered stage binaries.",
+     "Identify the parent installer and its download source (browser download records, Mark-of-the-Web) to see whether the lure posed as cracked software, games or activators.",
+     "Look at outbound connections from those processes and from their descendants, and check proxy logs for URLs containing d=inno and r=offer_execution.",
+     "After installation, enumerate new services, scheduled tasks, Run keys and installed software on the device, looking for proxyware or distributed-computing clients.",
+     "Compare against Microsoft's published IOCs and hunting queries and scope other devices that contacted the same infrastructure."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Stage executables launched from Inno Setup temporary runner folders",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where FolderPath matches regex @\"(?i)\\\\Temp\\\\is-[^\\\\]+\\.tmp\\\\\" | where FileName matches regex @\"(?i)^(eld|set_).*\\.exe$\" | project Timestamp, DeviceName, AccountName, FolderPath, FileName, ProcessCommandLine, InitiatingProcessFolderPath, InitiatingProcessFileName, InitiatingProcessParentFileName, SHA256 | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Network callbacks matching the offer_execution pattern",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(30d) | where RemoteUrl has \"offer_execution\" or RemoteUrl has \"d=inno\" | project Timestamp, DeviceName, InitiatingProcessFileName, InitiatingProcessFolderPath, RemoteUrl, RemoteIP, RemotePort | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Persistence created by processes from Inno temp runner folders",
+      "kql": "DeviceRegistryEvents | where Timestamp > ago(30d) | where InitiatingProcessFolderPath matches regex @\"(?i)\\\\Temp\\\\is-[^\\\\]+\\.tmp\\\\\" | where RegistryKey has_any (@\"\\CurrentVersion\\Run\", @\"\\CurrentControlSet\\Services\") | project Timestamp, DeviceName, ActionType, RegistryKey, RegistryValueName, RegistryValueData, InitiatingProcessFileName, InitiatingProcessFolderPath | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-5",
+   "rank": 5,
+   "score": 69,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 18,
+    "platform": 8,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Google Calendar invite phishing campaign hijacked corporate Google sessions and bypassed MFA",
+   "labels": {
+    "category": "campaign",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "widespread",
+    "platform": "cloud_saas",
+    "vendor": "Google",
+    "product": "Google Calendar"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "BleepingComputer reports on a phishing campaign that sent Google Calendar invites leading through trusted redirects to fake login pages. According to the report, the attackers hijacked corporate Google sessions and got around MFA protections. Material Security says its effort, called Operation CloudFire, tracked the attacks, blocked malicious messages and helped take down nearly 900 attacker domains. The sources do not describe the specific MFA bypass technique, name targeted organizations, or publish indicators.",
+    "why_it_matters": "Calendar invites often skip the scrutiny users apply to ordinary email and can place links directly on a user's calendar. Taking over a session gets around MFA, so a successful phish gives the attacker the authenticated session itself, not just a password. Organizations that use Google Workspace alongside Microsoft 365 should expect the same lure and session-theft pattern against Entra ID accounts.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Review inbound calendar invitations from external senders that contain links, and quarantine or purge any that point to credential-harvesting pages.",
+     "For any user who entered credentials after a calendar-invite lure, revoke active sessions and refresh tokens and reset their credentials in both Google Workspace and Entra ID.",
+     "Turn on phishing-resistant MFA (FIDO2 or passkeys) and token protection or session binding where available to limit the value of stolen sessions.",
+     "Restrict automatic addition of external invitations to user calendars in Google Workspace and Exchange Online.",
+     "Warn users that calendar invites can carry phishing links and that a login prompt reached from an invite should be reported."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Google Calendar phishing campaign hijacks sessions, bypasses MFA",
+     "url": "https://www.bleepingcomputer.com/news/security/google-calendar-phishing-campaign-hijacks-sessions-bypasses-mfa/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-04T15:00:10Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Find inbound calendar invitations from external or Google calendar senders that contain URLs over the last 30 days, especially those sent to many recipients.",
+     "Check URL click telemetry for those messages to identify users who followed the links.",
+     "For users who clicked, review sign-in logs for new sessions from unfamiliar IPs, devices or countries shortly after the click.",
+     "Look for follow-on activity in affected accounts, such as new inbox or forwarding rules, OAuth app consents and bulk file access.",
+     "Revoke sessions and reset credentials for any confirmed compromised accounts."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Inbound external calendar invitations containing links",
+      "kql": "EmailEvents | where Timestamp > ago(30d) | where EmailDirection == \"Inbound\" | where Subject startswith \"Invitation:\" or Subject startswith \"Updated invitation\" | where UrlCount > 0 | summarize Messages = count(), Recipients = dcount(RecipientEmailAddress), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by SenderFromAddress, SenderFromDomain, Subject | order by Recipients desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Delivered calendar invitations with links not flagged as threats, per recipient",
+      "kql": "EmailEvents | where Timestamp > ago(30d) | where EmailDirection == \"Inbound\" and DeliveryAction == \"Delivered\" | where Subject startswith \"Invitation:\" or Subject startswith \"Updated invitation\" | where UrlCount > 0 and isempty(ThreatTypes) | project Timestamp, RecipientEmailAddress, SenderFromAddress, SenderMailFromDomain, Subject, NetworkMessageId | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-6",
+   "rank": 6,
+   "score": 67,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 4,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "NIKKE PC game launcher scripts tampered in supply-chain attack to spread info-stealing malware",
+   "labels": {
+    "category": "malware",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "niche",
+    "platform": "windows",
+    "vendor": "",
+    "product": "NIKKE PC game launcher"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "BleepingComputer reports that the developers of Goddess of Victory: NIKKE confirmed that attackers modified the game's PC launcher scripts in a supply-chain attack. According to the report, the tampered launcher delivered malware with remote access capability that can steal credentials and cryptocurrency wallet data. The available reporting, published 4 November 2026, does not give the exposure window, affected launcher versions, malware family names or indicators of compromise.",
+    "why_it_matters": "Any Windows endpoint, including corporate or BYOD devices, that ran the NIKKE PC launcher during the compromise window may have stored browser credentials, session tokens and wallet data stolen. Stolen browser sessions and saved passwords can be reused against Microsoft 365 and Entra ID accounts, so a consumer game compromise can turn into an enterprise identity incident. Exploitation is confirmed, but prevalence in business environments is likely low.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory endpoints with the NIKKE PC launcher installed and isolate any that ran it during the compromise period for triage.",
+     "For users of affected devices, reset passwords, revoke Entra ID sessions and refresh tokens, and re-register MFA where browser-stored credentials may have been exposed.",
+     "Review process and network telemetry from the launcher for unexpected script interpreters, downloads or outbound connections.",
+     "Watch the developer's official channels and vendor reporting for published indicators, then sweep for them.",
+     "Enforce application control policies that block unapproved game software on corporate endpoints."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "NIKKE PC game launcher hacked to spread remote access, data-stealing malware",
+     "url": "https://www.bleepingcomputer.com/news/security/nikke-pc-game-launcher-hacked-to-spread-remote-access-data-stealing-malware/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-04T16:58:46Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Find devices where NIKKE launcher binaries exist or have run, using file and process telemetry.",
+     "Review child processes of the launcher, focusing on script interpreters, LOLBins and binaries running from user-writable paths.",
+     "Check outbound network connections from the launcher and its child processes to uncommon destinations.",
+     "Look for processes reading browser credential stores or crypto wallet files on those devices after the launcher ran.",
+     "For users of the affected devices, review Entra ID sign-ins for unfamiliar IPs or token reuse after the infection window."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Child processes spawned by the NIKKE launcher",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where InitiatingProcessFolderPath has \"nikke\" or InitiatingProcessFileName has \"nikke\" | where FileName in~ (\"powershell.exe\",\"pwsh.exe\",\"cmd.exe\",\"wscript.exe\",\"cscript.exe\",\"mshta.exe\",\"rundll32.exe\",\"regsvr32.exe\",\"curl.exe\",\"bitsadmin.exe\") or FolderPath has_any (\"\\\\AppData\\\\Local\\\\Temp\\\\\",\"\\\\Users\\\\Public\\\\\") | project Timestamp, DeviceName, AccountName, InitiatingProcessFileName, InitiatingProcessFolderPath, FileName, FolderPath, ProcessCommandLine, SHA256",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Outbound network connections from NIKKE launcher processes",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(30d) | where InitiatingProcessFolderPath has \"nikke\" or InitiatingProcessFileName has \"nikke\" | where RemoteIPType == \"Public\" | summarize Connections = count(), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by DeviceName, InitiatingProcessFileName, RemoteUrl, RemoteIP, RemotePort | order by Connections asc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Devices with NIKKE launcher files present",
+      "kql": "DeviceFileEvents | where Timestamp > ago(30d) | where FolderPath has \"nikke\" | summarize Files = dcount(FileName), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by DeviceName, InitiatingProcessAccountName",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-7",
+   "rank": 7,
+   "score": 61,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 18,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "CISA says attackers are exploiting a recently patched high-severity WordPress RCE flaw",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "widespread",
+    "platform": "web_app",
+    "vendor": "",
+    "product": "WordPress"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "According to BleepingComputer, CISA has warned US federal agencies that attackers are exploiting a recently patched high-severity remote code execution vulnerability in WordPress. The available reporting does not name the CVE, the affected component (core or a plugin), the vulnerable versions or the fixed release. It also gives no Known Exploited Vulnerabilities due date and no indicators of compromise.",
+    "why_it_matters": "WordPress sites are common on internet-facing marketing, intranet and partner servers, and remote code execution on them can give attackers a foothold for web shells, credential theft and lateral movement. Exploitation is confirmed in the wild, so any WordPress instance you own or host should be treated as urgent until you confirm it runs the patched release. The missing details mean you need to check CISA's KEV catalog and the WordPress advisory directly to identify the exact flaw and versions.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory every WordPress instance you run or host, including shadow marketing and agency-managed sites, and confirm the core and plugin versions.",
+     "Apply the latest WordPress core and plugin updates now, and enable automatic security updates where possible.",
+     "Check CISA's Known Exploited Vulnerabilities catalog and the vendor advisory to identify the specific CVE, the affected versions and any KEV due date.",
+     "Hunt WordPress hosts for recently created or modified PHP files in upload and plugin directories, and for web server processes spawning shells.",
+     "If a site may have been compromised, rotate WordPress admin, database and hosting credentials and review admin accounts for unauthorized additions."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "CISA flags WordPress RCE flaw as actively exploited in attacks",
+     "url": "https://www.bleepingcomputer.com/news/security/cisa-flags-wordpress-rce-flaw-as-actively-exploited-in-attacks/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-04T12:11:05Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Identify all servers hosting WordPress, through asset inventory or by finding wp-config.php and wp-content paths in file telemetry.",
+     "Confirm each instance is updated to the latest WordPress core and plugin releases once the specific CVE is known.",
+     "Look for web server or PHP processes spawning command shells, PowerShell or reconnaissance tools on those hosts.",
+     "Review new or modified PHP files under wp-content, especially the uploads directory, for possible web shells.",
+     "Check the WordPress user tables and audit logs for newly created administrator accounts and unexpected plugin installs.",
+     "Review outbound connections from web server processes to unfamiliar hosts after the patch release date."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Web server or PHP processes spawning shells",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(14d) | where InitiatingProcessFileName in~ (\"php.exe\",\"php-cgi.exe\",\"httpd.exe\",\"w3wp.exe\",\"nginx.exe\",\"php-fpm\",\"apache2\",\"httpd\",\"nginx\") | where FileName in~ (\"cmd.exe\",\"powershell.exe\",\"pwsh.exe\",\"whoami.exe\",\"net.exe\",\"certutil.exe\",\"sh\",\"bash\",\"dash\",\"curl\",\"wget\",\"whoami\",\"id\",\"uname\") | project Timestamp, DeviceName, InitiatingProcessFileName, InitiatingProcessCommandLine, FileName, ProcessCommandLine, AccountName",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "PHP files written under WordPress content directories",
+      "kql": "DeviceFileEvents | where Timestamp > ago(14d) | where ActionType in (\"FileCreated\",\"FileModified\",\"FileRenamed\") | where FolderPath has \"wp-content\" | where FileName endswith \".php\" or FileName endswith \".phtml\" | project Timestamp, DeviceName, FolderPath, FileName, InitiatingProcessFileName, InitiatingProcessCommandLine, SHA256",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Outbound connections initiated by web server processes",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(14d) | where InitiatingProcessFileName in~ (\"php.exe\",\"php-cgi.exe\",\"httpd.exe\",\"w3wp.exe\",\"php-fpm\",\"apache2\",\"httpd\",\"nginx\") | where RemoteIPType == \"Public\" | where ActionType == \"ConnectionSuccess\" | summarize Connections = count(), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by DeviceName, InitiatingProcessFileName, RemoteIP, RemotePort, RemoteUrl | order by Connections asc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-8",
+   "rank": 8,
+   "score": 59,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 8,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Six Asian airlines report data breaches traced to Amadeus IT Group platforms",
+   "labels": {
+    "category": "breach",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "cloud_saas",
+    "vendor": "Amadeus IT Group",
+    "product": "reservation, ticketing and check-in platforms"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "According to The Record, Japan Airlines, Cathay Pacific, Korean Air, Asiana Airlines, Singapore Airlines and Malaysia Airlines all disclosed data breaches over the past week that they trace back to Amadeus IT Group. Amadeus is a Spanish IT provider that builds and runs flight reservation, ticketing and check-in platforms. The sources do not say how the attackers got in, what data was taken, or which Amadeus systems were affected.",
+    "why_it_matters": "This is a third-party supply-chain breach in a SaaS platform, so customers have no endpoint or edge telemetry from the intrusion to hunt. The main risk for most organizations is follow-on phishing and fraud that uses stolen traveler data, such as booking details and contact information, against employees who fly with these airlines. Organizations that integrate directly with Amadeus should treat their connections and credentials as potentially exposed until Amadeus publishes details.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "If your organization connects to Amadeus services, such as through travel management, API integrations or agency accounts, contact your vendor or Amadeus for details and rotate the shared credentials and API keys.",
+     "Warn employees who travel often, especially with the named airlines, about phishing, SMS lures and fake rebooking or refund messages that may use leaked booking data.",
+     "Tune email filtering and user-reported phishing triage for airline-themed lures impersonating Japan Airlines, Cathay Pacific, Korean Air, Asiana, Singapore Airlines or Malaysia Airlines.",
+     "Review frequent-flyer and corporate travel accounts tied to company email addresses for unexpected password resets or changes.",
+     "Watch for official statements from Amadeus and the affected airlines on the scope of data exposed, and reassess once they are published."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "More Asian airlines announce data breaches after attack on Spanish IT provider Amadeus",
+     "url": "https://therecord.media/asian-airlines-announce-data-breach-it-provider-incident",
+     "source": "The Record",
+     "kind": "news",
+     "published": "2026-11-04T21:30:00Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-9",
+   "rank": 9,
+   "score": 59,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 8,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Chainalysis says some information on all of its users was exposed in a cyberattack",
+   "labels": {
+    "category": "breach",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "cloud_saas",
+    "vendor": "Chainalysis",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "Blockchain analytics firm Chainalysis disclosed on the night of 4 November 2026 that some information belonging to every one of its users was exposed in a cyberattack, according to The Record. The company's customers include law enforcement and national security organizations. The Record's reporting says the breach involved 'agentic' techniques, but the sources do not describe the intrusion method, the specific data exposed, or the timeline.",
+    "why_it_matters": "Organizations that use Chainalysis, especially investigative, compliance and government teams, should expect their user details may be used for targeted phishing or impersonation. Because the scope is stated as all users and the exposed data types are unknown, credential and account-takeover risk cannot be ruled out. No indicators or technical details are available yet to hunt on directly.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Identify staff and service accounts with Chainalysis access and confirm with the vendor exactly what data was exposed.",
+     "Rotate passwords and API keys used with Chainalysis services, and enforce MFA on those accounts.",
+     "Warn affected users about targeted phishing that impersonates Chainalysis or references their investigations.",
+     "Review email security telemetry for inbound messages that reference Chainalysis from unexpected sender domains.",
+     "Track vendor updates and adjust the response once indicators or intrusion details are published."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Chainalysis warns all users hit in cyber breach involving ‘agentic’ techniques",
+     "url": "https://therecord.media/chainalysis-all-users-hit-by-agentic-cyberattack",
+     "source": "The Record",
+     "kind": "news",
+     "published": "2026-11-05T00:00:00Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "List users and accounts in your organization registered with Chainalysis products.",
+     "Search inbound email over the past 30 days for messages mentioning Chainalysis from senders outside the vendor's legitimate domains, and review any clicks.",
+     "Review sign-in and cloud app activity for accounts tied to Chainalysis for anomalies since the disclosure."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Inbound email referencing Chainalysis in subject",
+      "kql": "EmailEvents | where Timestamp > ago(30d) | where EmailDirection == \"Inbound\" | where Subject has \"chainalysis\" | project Timestamp, SenderFromAddress, SenderFromDomain, RecipientEmailAddress, Subject, DeliveryAction, ThreatTypes | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Cloud app activity involving Chainalysis",
+      "kql": "CloudAppEvents | where Timestamp > ago(30d) | where Application has \"chainalysis\" | summarize Events = count(), IPs = make_set(IPAddress, 20), Countries = make_set(CountryCode, 20) by AccountDisplayName, ActionType | order by Events desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-10",
+   "rank": 10,
+   "score": 55,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 4,
+    "platform": 8,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "CWPdoor Linux backdoor spread through trojanized Control Web Panel web server",
+   "labels": {
+    "category": "malware",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "niche",
+    "platform": "linux_server",
+    "vendor": "",
+    "product": "cwpsrv (Control Web Panel)"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "BleepingComputer reports a new Linux malware family, dubbed CWPdoor, that is being distributed through a trojanized build of cwpsrv. cwpsrv is the web server that powers the Control Web Panel (CWP) hosting management interface. The available reporting does not say how the trojanized binary reaches servers, which CWP versions or builds are affected, what the backdoor can do, or which indicators of compromise are known.",
+    "why_it_matters": "Any Linux hosting or web server running CWP should be treated as potentially exposed. The backdoor sits inside the web server that serves the admin panel, so a compromised host gives attackers a persistent foothold that can hold credentials, databases and hosted sites. Exploitation is reported as active, but prevalence appears niche, and no patch, fixed build or indicators are stated.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory all servers running Control Web Panel and restrict the CWP management interface to trusted admin networks or a VPN.",
+     "Verify the integrity of the cwpsrv binary and its installation source on each CWP host. Reinstall from a trusted vendor source if provenance cannot be confirmed.",
+     "Hunt for shells or unusual child processes spawned by cwpsrv, and for unexpected outbound connections from cwpsrv.",
+     "On any host where tampering is suspected, rotate CWP admin, root, database and hosted-site credentials, and review SSH authorized keys and cron jobs for persistence.",
+     "Watch for vendor guidance or published indicators for CWPdoor and add them to blocklists and hunts once they are available."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Hackers backdoor Linux servers using trojanized CWP web server",
+     "url": "https://www.bleepingcomputer.com/news/security/hackers-backdoor-linux-servers-using-trojanized-cwp-web-server/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-05T16:24:26Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Identify Linux devices onboarded to Defender for Endpoint that run a cwpsrv process.",
+     "Review processes launched by cwpsrv, focusing on shells, download utilities and scripting interpreters, which a web server rarely needs to start.",
+     "Review outbound network connections initiated by cwpsrv to public IP addresses, and baseline them against expected update or licensing traffic.",
+     "Check file writes by cwpsrv outside its normal installation and log directories, especially in temp directories, cron locations and SSH key files.",
+     "For any suspicious host, collect the cwpsrv binary for hash comparison against a clean vendor copy and escalate to incident response."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Linux hosts running the CWP cwpsrv web server",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where FileName =~ \"cwpsrv\" or InitiatingProcessFileName =~ \"cwpsrv\" | summarize FirstSeen=min(Timestamp), LastSeen=max(Timestamp), Paths=make_set(FolderPath, 10), Hashes=make_set(SHA256, 10) by DeviceId, DeviceName",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Shells and download tools spawned by cwpsrv",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where InitiatingProcessFileName =~ \"cwpsrv\" | where FileName in~ (\"sh\", \"bash\", \"dash\", \"zsh\", \"curl\", \"wget\", \"python\", \"python3\", \"perl\", \"nc\", \"ncat\", \"socat\", \"base64\", \"chmod\") | project Timestamp, DeviceName, AccountName, FileName, ProcessCommandLine, InitiatingProcessFolderPath, InitiatingProcessSHA256",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Outbound public connections initiated by cwpsrv",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(30d) | where InitiatingProcessFileName =~ \"cwpsrv\" | where RemoteIPType == \"Public\" and ActionType == \"ConnectionSuccess\" | summarize Connections=count(), FirstSeen=min(Timestamp), LastSeen=max(Timestamp) by DeviceName, RemoteIP, RemotePort, RemoteUrl | order by Connections asc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  }
+ ],
+ "more_stories": [
+  {
+   "title": "DreamHost confirms breach exposing FTP and SFTP credentials",
+   "score": 55,
+   "cves": [],
+   "sources": [
+    {
+     "title": "DreamHost confirms data breach exposed FTP logins and webmail sessions",
+     "url": "https://www.bleepingcomputer.com/news/security/dreamhost-confirms-data-breach-exposed-ftp-logins-and-webmail-sessions/",
+     "source": "BleepingComputer"
+    }
+   ]
+  },
+  {
+   "title": "mSecure password manager hack prompts password and passkey reset warnings",
+   "score": 55,
+   "cves": [],
+   "sources": [
+    {
+     "title": "mSecure password manager hack prompts password reset warnings",
+     "url": "https://www.bleepingcomputer.com/news/security/msecure-password-manager-hack-prompts-password-reset-warnings/",
+     "source": "BleepingComputer"
+    }
+   ]
+  },
+  {
+   "title": "Russia-linked group runs zero-click espionage campaign against iPhone and Android",
+   "score": 54,
+   "cves": [],
+   "sources": [
+    {
+     "title": "Russian state-linked hackers target iPhone, Android devices in zero-click espionage campaign",
+     "url": "https://therecord.media/russia-hackers-smartphone-cyberattacks",
+     "source": "The Record"
+    },
+    {
+     "title": "Russia-Linked Hackers Hit iOS, Android Devices With Exploit Chains via Watering Holes",
+     "url": "https://www.securityweek.com/russia-linked-hackers-hit-ios-android-devices-with-exploit-chains-via-watering-holes/",
+     "source": "SecurityWeek"
+    }
+   ]
+  },
+  {
+   "title": "Cyberattack disrupts refrigeration systems at French blood service sites",
+   "score": 54,
+   "cves": [],
+   "sources": [
+    {
+     "title": "Cyberattack disrupts blood storage refrigeration systems in France",
+     "url": "https://www.bleepingcomputer.com/news/security/cyberattack-disrupts-blood-storage-refrigeration-systems-in-france/",
+     "source": "BleepingComputer"
+    },
+    {
+     "title": "Cyberattack Hits French Blood Bank Site but No Blood Products Are Compromised",
+     "url": "https://www.securityweek.com/cyberattack-hits-french-blood-bank-site-but-no-blood-products-are-compromised/",
+     "source": "SecurityWeek"
+    }
+   ]
+  },
+  {
+   "title": "DigiCert confirms data breach after server migration exposed internal system",
+   "score": 51,
+   "cves": [],
+   "sources": [
+    {
+     "title": "DigiCert data breach exposes customer information, identity documents",
+     "url": "https://www.bleepingcomputer.com/news/security/digicert-data-breach-exposes-customer-information-identity-documents/",
+     "source": "BleepingComputer"
+    }
+   ]
+  },
+  {
+   "title": "Multiple end-of-life router flaws have public exploits",
+   "score": 47,
+   "cves": [
+    "CVE-2026-121597",
+    "CVE-2026-121599",
+    "CVE-2026-121600"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-121597 (HIGH 8.6)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-121597",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-121599 (HIGH 8.6)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-121599",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-121600 (HIGH 8.6)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-121600",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "New Sigma rule detects Office loading taskschd.dll as a persistence precursor",
+   "score": 45,
+   "cves": [],
+   "sources": [
+    {
+     "title": "Microsoft Office Application Loading Task Scheduler DLL",
+     "url": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/image_load/image_load_office_taskschd_dll_load.yml",
+     "source": "SigmaHQ"
+    }
+   ]
+  },
+  {
+   "title": "Unreleased OpenAI model found and exploited 948 Linux kernel privilege escalation bugs",
+   "score": 36,
+   "cves": [],
+   "sources": [
+    {
+     "title": "AI Agents Got Root on Linux via 948 Kernel Flaws in OpenAI Research",
+     "url": "https://www.securityweek.com/ai-agents-got-root-on-linux-via-948-kernel-flaws-in-openai-research/",
+     "source": "SecurityWeek"
+    }
+   ]
+  },
+  {
+   "title": "Microsoft report shows email phishing threats rose to nearly 3 billion in September",
+   "score": 31,
+   "cves": [],
+   "sources": [
+    {
+     "title": "Email threat landscape: Q3 2026 trends and insights",
+     "url": "https://www.microsoft.com/en-us/security/blog/2026/11/05/email-threat-landscape-q3-2026-trends-and-insights/",
+     "source": "Microsoft Security Blog"
+    }
+   ]
+  },
+  {
+   "title": "OpenSSH flaw allows login to password-disabled accounts on musl-based Linux",
+   "score": 29,
+   "cves": [],
+   "sources": [
+    {
+     "title": "OpenSSH flaw lets attackers log into password-disabled Linux accounts",
+     "url": "https://www.bleepingcomputer.com/news/security/openssh-flaw-lets-attackers-log-into-password-disabled-linux-accounts/",
+     "source": "BleepingComputer"
+    }
+   ]
+  },
+  {
+   "title": "Chromium security updates fix 24 CVEs also affecting Microsoft Edge",
+   "score": 28,
+   "cves": [
+    "CVE-2026-119260",
+    "CVE-2026-118321",
+    "CVE-2026-118314"
+   ],
+   "sources": [
+    {
+     "title": "Chromium CVE-2026-119260: Use after free",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-119260",
+     "source": "MSRC Security Update Guide"
+    },
+    {
+     "title": "Chromium CVE-2026-118321: Use after free",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-118321",
+     "source": "MSRC Security Update Guide"
+    },
+    {
+     "title": "Chromium CVE-2026-118314: Incorrect reference resolution",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-118314",
+     "source": "MSRC Security Update Guide"
+    }
+   ]
+  },
+  {
+   "title": "New Sigma rules detect DNS queries to wildcard DNS services",
+   "score": 28,
+   "cves": [],
+   "sources": [
+    {
+     "title": "DNS Query to Wildcard DNS Services - Network",
+     "url": "https://github.com/SigmaHQ/sigma/blob/master/rules/network/dns/net_dns_wildcard_dns_service.yml",
+     "source": "SigmaHQ"
+    },
+    {
+     "title": "DNS Query to Wildcard DNS Services - Windows",
+     "url": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/dns_query/dns_query_win_wildcard_dns_service.yml",
+     "source": "SigmaHQ"
+    }
+   ]
+  },
+  {
+   "title": "SonicWall will not patch two flaws in end-of-life GMS systems",
+   "score": 27,
+   "cves": [],
+   "sources": [
+    {
+     "title": "SonicWall warns of unpatched flaws in end-of-life GMS software",
+     "url": "https://www.bleepingcomputer.com/news/security/sonicwall-warns-of-unpatched-flaws-in-end-of-life-gms-software/",
+     "source": "BleepingComputer"
+    }
+   ]
+  },
+  {
+   "title": "Mistral Vibe flaws allow code execution when a crafted repository is opened",
+   "score": 24,
+   "cves": [
+    "CVE-2026-122133",
+    "CVE-2026-122134",
+    "CVE-2026-122135"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-122133 (HIGH 8.6)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-122133",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-122134 (HIGH 8.6)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-122134",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-122135 (HIGH 8.6)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-122135",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Android automotive EVS HAL flaws allow memory disclosure and code execution",
+   "score": 18,
+   "cves": [
+    "CVE-2026-58924",
+    "CVE-2026-58925"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-58924 (HIGH 7.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-58924",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-58925 (HIGH 7.8)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-58925",
+     "source": "NVD"
+    }
+   ]
+  }
+ ],
+ "kev_new": [
+  {
+   "cve": "CVE-2024-27834",
+   "vendor": "Apple",
+   "product": "Multiple Products",
+   "name": "Apple Multiple Products Improper Authentication Vulnerability",
+   "date_added": "2026-11-04",
+   "due_date": "2026-11-18",
+   "ransomware": "Unknown",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-27834"
+  }
+ ],
+ "early_signals": [
+  {
+   "cve": "CVE-2026-98432",
+   "authors": 21,
+   "platforms": [
+    "Hacker News",
+    "Mastodon"
+   ],
+   "posts": [
+    {
+     "url": "https://news.ycombinator.com/item?id=50367454",
+     "platform": "Hacker News",
+     "account": "@basedpolymer",
+     "published": "2026-11-04T15:58:09Z"
+    },
+    {
+     "url": "https://news.ycombinator.com/item?id=50349491",
+     "platform": "Hacker News",
+     "account": "@iamateapot",
+     "published": "2026-11-03T08:30:30Z"
+    },
+    {
+     "url": "https://news.ycombinator.com/item?id=50353777",
+     "platform": "Hacker News",
+     "account": "@zygentoma",
+     "published": "2026-11-03T16:08:13Z"
+    },
+    {
+     "url": "https://infosec.exchange/@DarkWebInformer/117564753709641066",
+     "platform": "Mastodon",
+     "account": "@DarkWebInformer",
+     "published": "2026-11-05T16:22:58Z"
+    },
+    {
+     "url": "https://infosec.exchange/@wdormann/117563965646730770",
+     "platform": "Mastodon",
+     "account": "@wdormann",
+     "published": "2026-11-05T13:02:33Z"
+    }
+   ],
+   "first_seen": "2026-11-02T18:59:41Z",
+   "epss": {
+    "epss": 0.0076,
+    "percentile": 0.55426
+   },
+   "vendor_advisory": false,
+   "nvd": {
+    "cvss": 9.8,
+    "severity": "CRITICAL",
+    "products": [],
+    "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nipv4: free inet_opt and ireq_opt after an RCU grace period\n\ntcp_v4_syn_recv_sock() transfers ownership of ireq->ireq_opt to the\nchild socket (newinet->inet_opt) without copying it.\n\nAnother cpu can concurrently process a retransmit…"
+   },
+   "poc": [
+    {
+     "url": "https://github.com/tc4dy/CVE-2026-98432-PoC-Exploit",
+     "name": "tc4dy/CVE-2026-98432-PoC-Exploit",
+     "stars": 30,
+     "created": "2026-10-30"
+    },
+    {
+     "url": "https://github.com/Alucard0x1/cve-2026-98432",
+     "name": "Alucard0x1/cve-2026-98432",
+     "stars": 18,
+     "created": "2026-10-30"
+    },
+    {
+     "url": "https://github.com/H1z3-br0/CVE-2026-98432",
+     "name": "H1z3-br0/CVE-2026-98432",
+     "stars": 17,
+     "created": "2026-10-30"
+    }
+   ]
+  },
+  {
+   "cve": "CVE-2026-109518",
+   "authors": 6,
+   "platforms": [
+    "Hacker News",
+    "Mastodon"
+   ],
+   "posts": [
+    {
+     "url": "https://news.ycombinator.com/item?id=50375876",
+     "platform": "Hacker News",
+     "account": "@zdkaster",
+     "published": "2026-11-05T06:28:03Z"
+    },
+    {
+     "url": "https://infosec.exchange/@security_crawler_carl/117564405373019993",
+     "platform": "Mastodon",
+     "account": "@security_crawler_carl",
+     "published": "2026-11-05T14:54:22Z"
+    },
+    {
+     "url": "https://infosec.exchange/@new23d/117564337586576853",
+     "platform": "Mastodon",
+     "account": "@new23d",
+     "published": "2026-11-05T14:37:08Z"
+    },
+    {
+     "url": "https://infosec.exchange/@ChaserSystems/117564296571397932",
+     "platform": "Mastodon",
+     "account": "@ChaserSystems",
+     "published": "2026-11-05T14:26:42Z"
+    },
+    {
+     "url": "https://infosec.exchange/@sans_isc/117563584706655459",
+     "platform": "Mastodon",
+     "account": "@sans_isc",
+     "published": "2026-11-05T11:25:40Z"
+    }
+   ],
+   "first_seen": "2026-11-04T13:50:21Z",
+   "epss": {
+    "epss": 0.00928,
+    "percentile": 0.60687
+   },
+   "vendor_advisory": false,
+   "nvd": {
+    "cvss": 7.7,
+    "severity": "HIGH",
+    "products": [],
+    "description": "On Debian, Ubuntu, and derivative Linux distributions, an on-path attacker who can manipulate the HTTP traffic (including a malicious mirror or proxy) between an APT client and an archive server triggered by a package install can trick the client into installing an attacker-controlled unverified pac…"
+   },
+   "poc": [
+    {
+     "url": "https://github.com/jordanhardee/cve-2026-109518-apt-patch-proxmox-and-generic",
+     "name": "jordanhardee/cve-2026-109518-apt-patch-proxmox-and-generic",
+     "stars": 1,
+     "created": "2026-11-05"
+    },
+    {
+     "url": "https://github.com/NeoArtemis37/PHP2shell",
+     "name": "NeoArtemis37/PHP2shell",
+     "stars": 0,
+     "created": "2026-10-23"
+    },
+    {
+     "url": "https://github.com/Quaerendir/cve-2026-109518-audit",
+     "name": "Quaerendir/cve-2026-109518-audit",
+     "stars": 0,
+     "created": "2026-11-04"
+    }
+   ]
+  },
+  {
+   "cve": "CVE-2026-123158",
+   "authors": 4,
+   "platforms": [
+    "Bluesky",
+    "Mastodon"
+   ],
+   "posts": [
+    {
+     "url": "https://bsky.app/profile/gn-arp.bsky.social/post/3mzlfojm4vc22",
+     "platform": "Bluesky",
+     "account": "@gn-arp.bsky.social",
+     "published": "2026-11-05T17:34:39Z"
+    },
+    {
+     "url": "https://bsky.app/profile/cve.skyfleet.blue/post/fdkrocemhi7cz",
+     "platform": "Bluesky",
+     "account": "@cve.skyfleet.blue",
+     "published": "2026-11-05T17:36:27Z"
+    },
+    {
+     "url": "https://bsky.app/profile/0xacb.com/post/3mzleeqohyi2k",
+     "platform": "Bluesky",
+     "account": "@0xacb.com",
+     "published": "2026-11-05T17:11:16Z"
+    },
+    {
+     "url": "https://infosec.exchange/@vuldb/117564686281834362",
+     "platform": "Mastodon",
+     "account": "@vuldb",
+     "published": "2026-11-05T16:05:49Z"
+    }
+   ],
+   "first_seen": "2026-11-05T16:05:49Z",
+   "epss": null,
+   "vendor_advisory": false,
+   "nvd": {
+    "cvss": 8.1,
+    "severity": "HIGH",
+    "products": [],
+    "description": "sshd in OpenSSH before 10.6p2 on Linux, when musl libc is used without PAM, lacks a workaround for a password authentication bypass (related to misinterpretation of whether a string is intended to be a password hash). For some configurations of accounts, any password between 256 and 1024 characters …"
+   },
+   "poc": []
+  }
+ ],
+ "explainer": {
+  "concept": "Session token theft: why MFA alone does not stop account takeover",
+  "dek": "Session token theft is when an attacker steals the cookie or token a service issues after a successful sign-in and replays it, inheriting the authenticated session without ever facing the password or MFA prompt.",
+  "why_today": "The Google Calendar phishing campaign hijacked corporate sessions and got around MFA, and the tampered NIKKE launcher spread malware that steals credentials, the kind of tooling that typically harvests browser cookies too. Both point to the same weakness: the token issued after MFA is often worth more than the password.",
+  "related_story_ids": [
+   "story-5",
+   "story-6",
+   "story-4"
+  ],
+  "parts": [
+   {
+    "heading": "What a session token is",
+    "paragraphs": [
+     "When you sign in to a web service and pass MFA, the service does not ask for your credentials on every request. It issues a session cookie or token that the browser or app presents from then on as proof that authentication already happened. In Microsoft Entra ID this includes browser session cookies for the sign-in service and refresh tokens that apps use to get new access tokens without prompting the user.",
+     "By default these tokens are bearer tokens: whoever holds them can use them. Unless the service binds the token to a specific device or key, it cannot tell a cookie replayed from an attacker's machine from the original. MFA protects the moment of sign-in, not the session that follows."
+    ]
+   },
+   {
+    "heading": "How attackers steal tokens",
+    "paragraphs": [
+     "The two common routes are adversary-in-the-middle (AiTM) phishing and infostealer malware. In AiTM phishing, the fake login page is a reverse proxy that relays traffic between the victim and the real identity provider. The victim types the password and approves the MFA prompt on the genuine service, and the proxy captures the session cookie the service hands back. Lures that pass through trusted redirects or calendar invites help these pages get past email filters.",
+     "Infostealers take the direct route: running on the victim's machine, they read saved passwords and session cookies from browser storage and send them to the operator. Trojanized installers, cracked software and tampered game launchers are standard delivery channels. A stolen cookie that is still valid lets the attacker skip sign-in entirely, which is why credential-stealing malware on a personal or unmanaged device can still lead to a corporate account compromise."
+    ]
+   },
+   {
+    "heading": "What it looks like in telemetry",
+    "paragraphs": [
+     "Replayed tokens usually show up as a session that changes context mid-life: the same session or token used from a new IP address, country, ASN or user agent shortly after a legitimate sign-in, often with no new interactive MFA event. Hosting providers and residential proxy networks are common sources for the replay.",
+     "In Microsoft environments, Entra ID Protection raises risk detections such as anomalous token and attacker-in-the-middle, and Defender XDR can raise alerts for possible AiTM phishing and suspicious session activity, depending on licensing and which workloads are connected. In Sentinel, correlate SigninLogs and AADNonInteractiveUserSignInLogs by session identifier and look for one session spanning very different locations or devices. Follow-on actions to watch for include new inbox rules, new MFA method registration, OAuth app consent and mailbox access through unusual clients."
+    ]
+   },
+   {
+    "heading": "How to prevent and contain it",
+    "paragraphs": [
+     "The strongest control against AiTM phishing is phishing-resistant authentication such as FIDO2 security keys, passkeys or Windows Hello for Business, because these methods are bound to the legitimate site's origin and will not complete through a proxy domain. Conditional Access that requires a compliant or hybrid-joined device also blocks most replay from attacker infrastructure. Neither fully stops an infostealer on an already trusted device, so token binding matters as well.",
+     "Token binding ties a session to a key held on the device, so a copied cookie is useless elsewhere. Entra ID offers token protection in Conditional Access for supported platforms and applications, and browsers and some web platforms are rolling out Device Bound Session Credentials. Coverage differs by product, client and version, so confirm what your tenant actually enforces. For containment, revoking a user's sessions and refresh tokens, along with Continuous Access Evaluation where supported, cuts off a stolen session faster than a password reset alone."
+    ]
+   }
+  ],
+  "takeaways": [
+   "Require phishing-resistant MFA (FIDO2, passkeys or Windows Hello for Business) for administrators and other high-value users, and track how many accounts still allow push or SMS-only methods.",
+   "Add Conditional Access policies that require a compliant or hybrid-joined device for sensitive apps, and test Entra token protection on the platforms and apps that support it.",
+   "Hunt in Sentinel for one session identifier appearing from different countries, ASNs or user agents within a short window across SigninLogs and AADNonInteractiveUserSignInLogs.",
+   "Make session and refresh token revocation a standard step in your compromised-account playbook, before or alongside the password reset, and check for new inbox rules, MFA methods and OAuth consents.",
+   "Treat any infostealer detection on a device that has accessed corporate resources as an identity incident, and revoke that user's sessions even if MFA was enforced."
+  ],
+  "unsupported_cves": [],
+  "model": "claude-opus-5-5"
+ },
+ "good_news": [
+  {
+   "headline": "Google and partners dismantle botnet of 1.3 million Android TV boxes used as proxies",
+   "summary": "Krebs on Security reports that Google worked with industry partners to dismantle a botnet of more than 1.3 million Android TV set-top boxes that shipped with malicious software renting out users' internet connections and committing ad fraud. Experts involved say the action is likely to cut the botnet's access to more than 10 million additional compromised systems, including other IoT devices.",
+   "kind": "takedown",
+   "sources": [
+    {
+     "title": "Tech Firms Dismantle Botnet That Turned 1.3M TV Boxes Into Proxies",
+     "url": "https://krebsonsecurity.com/2026/11/tech-firms-dismantle-botnet-that-turned-1-3m-tv-boxes-into-proxies/",
+     "source": "Krebs on Security",
+     "published": "2026-11-03T02:24:31Z"
+    }
+   ],
+   "unsupported_cves": [],
+   "model": "claude-opus-5-5"
+  },
+  {
+   "headline": "Two Canadians charged and one extradited over university cryptomining hacks",
+   "summary": "BleepingComputer reports that a US federal grand jury indicted two Canadians suspected of hacking multiple US universities and using the compromised systems to mine cryptocurrency. The Record reports that one suspect has been extradited to the US in the case, which the Justice Department says dates back to 2016 and involved schools in at least four states.",
+   "kind": "arrest_or_sentencing",
+   "sources": [
+    {
+     "title": "US charges two Canadians accused of hacking US universities",
+     "url": "https://www.bleepingcomputer.com/news/security/us-charges-two-canadians-accused-of-hacking-us-universities/",
+     "source": "BleepingComputer",
+     "published": "2026-11-04T13:13:20Z"
+    },
+    {
+     "title": "Canadian extradited to US for allegedly hacking schools in at least four states",
+     "url": "https://therecord.media/canadian-nationals-accused-us-education-hacks-cryptomining",
+     "source": "The Record",
+     "published": "2026-11-04T19:17:00Z"
+    }
+   ],
+   "unsupported_cves": [],
+   "model": "claude-opus-5-5"
+  },
+  {
+   "headline": "Vercel rolls out Device Bound Session Credentials against stolen cookie attacks",
+   "summary": "BleepingComputer reports that Vercel is gradually rolling out Device Bound Session Credentials on its platform. The feature binds sessions to the user's device and is intended as a defense against information stealer malware that steals and replays session cookies.",
+   "kind": "new_defense",
+   "sources": [
+    {
+     "title": "Vercel rolls out new protection against stolen session cookie attacks",
+     "url": "https://www.bleepingcomputer.com/news/security/vercel-rolls-out-new-protection-against-stolen-session-cookie-attacks/",
+     "source": "BleepingComputer",
+     "published": "2026-11-04T21:31:18Z"
+    }
+   ],
+   "unsupported_cves": [],
+   "model": "claude-opus-5-5"
+  },
+  {
+   "headline": "Cisco patches UCS Central RCE as WatchGuard fixes authentication and MitM flaws",
+   "summary": "SecurityWeek reports that Cisco patched a remote code execution vulnerability in UCS Central Software and that WatchGuard fixed authentication and man-in-the-middle flaws. The same report notes that SonicWall will not fix flaws in its end-of-life GMS product, so GMS customers should plan a migration.",
+   "kind": "fix_shipped",
+   "sources": [
+    {
+     "title": "Cisco, WatchGuard Release Patches; SonicWall Won’t Fix GMS Flaws",
+     "url": "https://www.securityweek.com/cisco-watchguard-release-patches-sonicwall-wont-fix-gms-flaws/",
+     "source": "SecurityWeek",
+     "published": "2026-11-05T12:33:49Z"
+    }
+   ],
+   "unsupported_cves": [],
+   "model": "claude-opus-5-5"
+  }
+ ],
+ "explainer_status": "ok",
+ "sources_status": {
+  "CISA KEV": "ok 1",
+  "NVD": "ok 134",
+  "BleepingComputer": "ok 15",
+  "The Record": "ok 5",
+  "The DFIR Report": "ok 0",
+  "Cisco Talos": "ok 0",
+  "Unit 42": "ok 1",
+  "Microsoft Security Blog": "ok 5",
+  "SANS ISC": "ok 5",
+  "Huntress": "ok 2",
+  "watchTowr Labs": "ok 0",
+  "Rapid7": "ok 3",
+  "SecurityWeek": "ok 10",
+  "Krebs on Security": "ok 2",
+  "CISA Advisories": "error FetchError: https://www.cisa.gov/cybersecurity-advisories/all.xml: 403 Client Error: Forbidden for url: https://www.cisa.gov/cybersecurity-advisories/all.xml",
+  "MSRC Security Update Guide": "ok 24",
+  "Bluesky": "ok 44",
+  "Mastodon": "ok 49",
+  "r/netsec": "ok 2",
+  "Hacker News": "ok 31",
+  "SigmaHQ new rules": "ok 3",
+  "EPSS": "ok 190"
+ },
+ "stats": {
+  "items": {
+   "news": 48,
+   "advisory": 24,
+   "kev": 1,
+   "nvd": 134,
+   "social": 126,
+   "sigma": 3
+  },
+  "stories_found": 33,
+  "kql_parser": "available"
+ }
+}
