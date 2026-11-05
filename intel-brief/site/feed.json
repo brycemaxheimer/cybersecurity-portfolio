@@ -12,6 +12,81 @@
  "language": "en-US",
  "items": [
   {
+   "id": "https://intel.brycemaxheimer.com/editions/2026-11-05/",
+   "url": "https://intel.brycemaxheimer.com/editions/2026-11-05/",
+   "title": "Daily Intel Brief: 2026-11-05",
+   "content_text": "1. SANS honeypots still see scans for Cisco IOS XE web UI flaw CVE-2023-20198\n2. CISA adds Apple pointer authentication bypass CVE-2024-27834 to KEV catalog\n3. Zyxel patches GS1900 switch zero-day exploited to compromise nearly 1,000 devices\n4. Microsoft details fake-download campaign pushing monetization payloads via trojanized Inno installers\n5. Google Calendar invite phishing campaign hijacked corporate Google sessions and bypassed MFA\n6. NIKKE PC game launcher scripts tampered in supply-chain attack to spread info-stealing malware\n7. CISA says attackers are exploiting a recently patched high-severity WordPress RCE flaw\n8. Six Asian airlines report data breaches traced to Amadeus IT Group platforms\n9. Chainalysis says some information on all of its users was exposed in a cyberattack\n10. CWPdoor Linux backdoor spread through trojanized Control Web Panel web server\nNew KEV entries: CVE-2024-27834\nEarly signals: CVE-2026-98432, CVE-2026-109518, CVE-2026-123158\nExplainer: Session token theft: why MFA alone does not stop account takeover\nGood news: Google and partners dismantle botnet of 1.3 million Android TV boxes used as proxies\nGood news: Two Canadians charged and one extradited over university cryptomining hacks\nGood news: Vercel rolls out Device Bound Session Credentials against stolen cookie attacks\nGood news: Cisco patches UCS Central RCE as WatchGuard fixes authentication and MitM flaws",
+   "date_published": "2026-11-05T18:53:14Z",
+   "_intel_brief": {
+    "data": "https://intel.brycemaxheimer.com/editions/2026-11-05/edition.json",
+    "stories": [
+     {
+      "title": "SANS honeypots still see scans for Cisco IOS XE web UI flaw CVE-2023-20198",
+      "cves": [
+       "CVE-2023-20198"
+      ],
+      "score": 91
+     },
+     {
+      "title": "CISA adds Apple pointer authentication bypass CVE-2024-27834 to KEV catalog",
+      "cves": [
+       "CVE-2024-27834"
+      ],
+      "score": 79
+     },
+     {
+      "title": "Zyxel patches GS1900 switch zero-day exploited to compromise nearly 1,000 devices",
+      "cves": [
+       "CVE-2026-107441"
+      ],
+      "score": 74
+     },
+     {
+      "title": "Microsoft details fake-download campaign pushing monetization payloads via trojanized Inno installers",
+      "cves": [],
+      "score": 71
+     },
+     {
+      "title": "Google Calendar invite phishing campaign hijacked corporate Google sessions and bypassed MFA",
+      "cves": [],
+      "score": 69
+     },
+     {
+      "title": "NIKKE PC game launcher scripts tampered in supply-chain attack to spread info-stealing malware",
+      "cves": [],
+      "score": 67
+     },
+     {
+      "title": "CISA says attackers are exploiting a recently patched high-severity WordPress RCE flaw",
+      "cves": [],
+      "score": 61
+     },
+     {
+      "title": "Six Asian airlines report data breaches traced to Amadeus IT Group platforms",
+      "cves": [],
+      "score": 59
+     },
+     {
+      "title": "Chainalysis says some information on all of its users was exposed in a cyberattack",
+      "cves": [],
+      "score": 59
+     },
+     {
+      "title": "CWPdoor Linux backdoor spread through trojanized Control Web Panel web server",
+      "cves": [],
+      "score": 55
+     }
+    ],
+    "explainer": "Session token theft: why MFA alone does not stop account takeover",
+    "good_news": [
+     "Google and partners dismantle botnet of 1.3 million Android TV boxes used as proxies",
+     "Two Canadians charged and one extradited over university cryptomining hacks",
+     "Vercel rolls out Device Bound Session Credentials against stolen cookie attacks",
+     "Cisco patches UCS Central RCE as WatchGuard fixes authentication and MitM flaws"
+    ]
+   }
+  },
+  {
    "id": "https://intel.brycemaxheimer.com/editions/2026-11-01/",
    "url": "https://intel.brycemaxheimer.com/editions/2026-11-01/",
    "title": "Daily Intel Brief: 2026-11-01",
