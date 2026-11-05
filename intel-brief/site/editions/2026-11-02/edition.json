@@ -1,0 +1,1421 @@
+{
+ "schema": 1,
+ "date": "2026-11-02",
+ "generated_at": "2026-11-02T20:53:22Z",
+ "generator": "intel-brief 0.1.0",
+ "models": {
+  "triage": "claude-haiku-5-5",
+  "writeup": "claude-opus-5-5",
+  "triage_method": "model"
+ },
+ "window": {
+  "since": "2026-11-01T17:08:36+00:00",
+  "until": "2026-11-02T20:48:19+00:00"
+ },
+ "stories": [
+  {
+   "id": "story-1",
+   "rank": 1,
+   "score": 100,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 18,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 10,
+    "cvss": 0,
+    "sources": 9,
+    "chatter": 4,
+    "in_kev": true,
+    "epss_max": 0.8677,
+    "cvss_max": 0
+   },
+   "title": "Ivanti patches two more Connect Secure zero-days chained with CVE-2026-104935; CISA adds both to KEV",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "widespread",
+    "platform": "edge_device",
+    "vendor": "Ivanti",
+    "product": "Connect Secure"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-111357",
+     "cvss": 7.0,
+     "severity": "HIGH",
+     "products": [
+      "ivanti connect secure"
+     ],
+     "epss": 0.00533,
+     "percentile": 0.45014,
+     "in_kev": true,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-118527",
+     "cvss": null,
+     "severity": "",
+     "products": [],
+     "epss": null,
+     "percentile": null,
+     "in_kev": true,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-104935",
+     "cvss": 8.6,
+     "severity": "HIGH",
+     "products": [
+      "ivanti connect secure"
+     ],
+     "epss": 0.86766,
+     "percentile": 0.99742,
+     "in_kev": true,
+     "kev_due": null,
+     "poc": [
+      {
+       "url": "https://github.com/ApexBreach/CVE-2026-104935-Proof-of-concept",
+       "name": "ApexBreach/CVE-2026-104935-Proof-of-concept",
+       "stars": 1,
+       "created": "2026-10-13"
+      },
+      {
+       "url": "https://github.com/0x45dd/ivanti-cve-2026-104935-check",
+       "name": "0x45dd/ivanti-cve-2026-104935-check",
+       "stars": 1,
+       "created": "2026-10-15"
+      },
+      {
+       "url": "https://github.com/maxprog-svg/CVE-2026-104935",
+       "name": "maxprog-svg/CVE-2026-104935",
+       "stars": 0,
+       "created": "2026-10-22"
+      }
+     ],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "On 29 October 2026, Ivanti updated its Connect Secure advisory with fixes for two more vulnerabilities, according to Rapid7. CVE-2026-111357 is a local authenticated privilege escalation, and CVE-2026-118527 is an authenticated file upload to a predictable path. Ivanti says both were exploited before disclosure against a limited number of customers, chained with the authentication bypass CVE-2026-104935. CISA added CVE-2026-111357 and CVE-2026-118527 to KEV on 30 October 2026. Volexity attributes the activity to UTA0576, which gained unauthenticated root on an appliance running 22.8R2.4 starting 3 October 2026; BleepingComputer dates the attacks to at least 1 October.",
+    "why_it_matters": "The chain gives an unauthenticated attacker root on an internet-facing VPN gateway. Volexity saw follow-on credential theft and Active Directory queries for Windows LAPS passwords and BitLocker recovery keys, so a compromised appliance puts the domain at risk. All three CVEs are in KEV, and CVE-2026-104935 has public proof-of-concept code and an EPSS of 86.8%, so any appliance still unpatched should be treated as possibly compromised.",
+    "affected_versions": [
+     "Ivanti Connect Secure (affected version ranges not stated in the sources; Volexity observed exploitation of an appliance running 22.8R2.4)"
+    ],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Apply Ivanti's updated Connect Secure fixes for CVE-2026-104935, CVE-2026-111357 and CVE-2026-118527 immediately, using the fixed builds listed in Ivanti's advisory.",
+     "Run Ivanti's integrity checking tool on every Connect Secure appliance and review appliance logs back to at least 1 October 2026 for signs of compromise.",
+     "If compromise is suspected, rotate credentials that passed through or are stored on the appliance, including service accounts used for LDAP or AD binding.",
+     "Rotate Windows LAPS passwords and BitLocker recovery keys that the appliance's AD account could read, and review directory read auditing for bulk access to those attributes.",
+     "Restrict the appliance's AD service account to the least privilege it needs, and limit its network access to domain controllers."
+    ],
+    "confidence": "high",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Ivanti Patches Two More Zero-Days Exploited in Connect Secure Attack Chain",
+     "url": "https://www.securityweek.com/ivanti-patches-two-more-zero-days-exploited-in-connect-secure-attack-chain/",
+     "source": "SecurityWeek",
+     "kind": "news",
+     "published": "2026-11-02T07:57:49Z"
+    },
+    {
+     "title": "Ivanti patches two more Connect Secure zero-days chained in attacks",
+     "url": "https://www.bleepingcomputer.com/news/security/ivanti-patches-two-more-connect-secure-zero-days-chained-in-attacks/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-02T09:33:26Z"
+    },
+    {
+     "title": "Additional Ivanti Connect Secure zero-days exploited in the wild (CVE-2026-111357, CVE-2026-118527)",
+     "url": "https://www.rapid7.com/blog/post/etr-additional-ivanti-connect-secure-zero-days-exploited-in-the-wild-cve-2026-111357-cve-2026-118527",
+     "source": "Rapid7",
+     "kind": "news",
+     "published": "2026-11-02T11:04:08Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Inventory all Ivanti Connect Secure appliances and confirm their running versions against Ivanti's updated advisory.",
+     "Run Ivanti's integrity checker and collect appliance logs from 1 October 2026 onward.",
+     "Identify the internal IP addresses the appliances use to reach domain controllers, then review LDAP traffic from those addresses for unusual volume or timing.",
+     "On domain controllers, review directory service access auditing (Event ID 4662) for reads of LAPS password attributes and BitLocker recovery information by the appliance's service account.",
+     "Look for sign-ins by the appliance's service account, or by VPN-sourced users, to hosts and services outside their normal pattern after 1 October 2026."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Devices with Ivanti Connect Secure CVEs from this chain",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where CveId in ('CVE-2026-104935','CVE-2026-111357','CVE-2026-118527') | project DeviceName, OSPlatform, SoftwareVendor, SoftwareName, SoftwareVersion, CveId, VulnerabilitySeverityLevel",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Inbound LDAP sources on domain controllers to spot VPN appliance queries",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(30d) | where ActionType == 'InboundConnectionAccepted' | where LocalPort in (389, 636, 3268, 3269) | summarize Connections = count(), FirstSeen = min(Timestamp), LastSeen = max(Timestamp), DCs = make_set(DeviceName, 20) by RemoteIP | order by Connections desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Network logons on Windows hosts sourced from given appliance IPs",
+      "kql": "let ApplianceIPs = dynamic(['<replace with appliance internal IPs>']); DeviceLogonEvents | where Timestamp > ago(30d) | where RemoteIP in (ApplianceIPs) | summarize Logons = count(), Devices = make_set(DeviceName, 50) by AccountDomain, AccountName, LogonType, ActionType | order by Logons desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-2",
+   "rank": 2,
+   "score": 62,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 8,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 6,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "FBI attributes record $6.3 billion Binance crypto theft to North Korea's TraderTraitor",
+   "labels": {
+    "category": "campaign",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "cloud_saas",
+    "vendor": "",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "BleepingComputer reports that the FBI has confirmed the North Korean state-sponsored group TraderTraitor carried out the theft from Binance, which it puts at $6.3 billion and calls the largest cryptocurrency heist on record. SecurityWeek, which describes the haul as $6 billion, says the FBI has flagged more than 600 cryptocurrency addresses tied to the heist while the attackers launder the stolen funds. Neither source describes how Binance was breached, and no specific wallet addresses or technical indicators were provided.",
+    "why_it_matters": "The sources confirm exploitation in the wild by a well-resourced state actor, but they give no intrusion vector, affected product or technical indicators that defenders can search for in Windows, Microsoft 365 or edge-device telemetry. The FBI address list matters mainly to organizations that handle cryptocurrency, and they should screen transactions against it. For most SOCs this is situational awareness rather than an urgent hunting task.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "If your organization holds, processes or brokers cryptocurrency, get the FBI's list of more than 600 addresses linked to the heist and block or flag transactions involving them.",
+     "Brief finance, treasury and crypto-operations staff that North Korean actors are actively targeting cryptocurrency firms, and require out-of-band verification for high-value transfers.",
+     "Watch for FBI or vendor reporting that discloses the initial access method or technical indicators, and hunt once that information is available."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "FBI links $6.3 billion Binance crypto heist to North Korean hackers",
+     "url": "https://www.bleepingcomputer.com/news/security/fbi-links-63-billion-binance-crypto-heist-to-north-korean-hackers/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-01T19:57:53Z"
+    },
+    {
+     "title": "FBI Flags Over 600 Addresses Tied to North Korea’s Binance Heist",
+     "url": "https://www.securityweek.com/fbi-flags-over-600-addresses-tied-to-north-koreas-binance-heist/",
+     "source": "SecurityWeek",
+     "kind": "news",
+     "published": "2026-11-02T08:40:36Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-3",
+   "rank": 3,
+   "score": 61,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 18,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Over 1,000 internet-exposed GitLab servers remain unpatched against an actively exploited RCE flaw",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "widespread",
+    "platform": "web_app",
+    "vendor": "GitLab",
+    "product": "GitLab"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "BleepingComputer reported on 2 November 2026 that more than 1,000 internet-facing GitLab servers are still unpatched against a maximum-severity vulnerability that attackers are exploiting for remote code execution. The available reporting does not name the CVE, the affected or fixed GitLab versions, the attackers, or how the exposure count was measured. GitLab's own advisory was not among the sources, so those details still need checking with the vendor.",
+    "why_it_matters": "Self-managed GitLab instances hold source code, CI/CD secrets, deploy keys and runner tokens. A compromised server can therefore lead to supply-chain tampering and lateral movement into cloud and on-premises environments. Exploitation is reported as ongoing, so any internet-exposed self-managed GitLab instance that has not been patched should be treated as potentially compromised.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory all self-managed GitLab instances, especially internet-facing ones, and check GitLab's security release notes to find the vulnerability and fixed version that BleepingComputer refers to.",
+     "Upgrade exposed instances to the latest GitLab security release immediately. If you cannot patch right away, remove them from direct internet exposure or restrict access with a VPN or IP allowlist.",
+     "On any instance that was exposed while unpatched, look for compromise: unexpected shell or download-tool processes spawned by GitLab services, new files in web-served directories, and new admin users or personal access tokens.",
+     "If compromise is suspected, rotate CI/CD variables, runner registration tokens, deploy keys, personal access tokens and any cloud credentials stored in GitLab.",
+     "Review recent commits, pipeline definitions and protected-branch changes for unauthorized modifications."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Over 1,000 GitLab servers vulnerable to ongoing RCE attacks",
+     "url": "https://www.bleepingcomputer.com/news/security/over-1-000-gitlab-servers-vulnerable-to-code-execution-attacks/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-02T12:47:00Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Find GitLab installations and their versions with Defender Vulnerability Management, then compare them against GitLab's current security release.",
+     "Confirm which instances are reachable from the internet using perimeter scans or the external attack surface inventory.",
+     "On Linux GitLab hosts onboarded to Defender for Endpoint, hunt for shells, download tools or scripting interpreters spawned by GitLab application processes (puma, sidekiq, gitlab-workhorse). Baseline legitimate git hook activity first.",
+     "Look for files recently created in GitLab's public web directory and other unexpected locations under the GitLab install path.",
+     "Review GitLab audit logs for new administrator accounts, newly issued access tokens, and changes to runners or CI/CD variables around the exposure window."
+    ],
+    "hunting_queries": [
+     {
+      "title": "GitLab software and known vulnerabilities from TVM",
+      "kql": "DeviceTvmSoftwareVulnerabilities\n| where SoftwareName has \"gitlab\"\n| summarize CVEs = make_set(CveId), MaxSeverity = max(VulnerabilitySeverityLevel) by DeviceName, SoftwareName, SoftwareVersion\n| order by DeviceName asc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Suspicious child processes spawned by GitLab application services",
+      "kql": "DeviceProcessEvents\n| where Timestamp > ago(30d)\n| where InitiatingProcessCommandLine has_any (\"puma\", \"sidekiq\", \"gitlab-workhorse\") or InitiatingProcessFolderPath has \"/opt/gitlab\"\n| where FileName in~ (\"sh\", \"bash\", \"dash\", \"curl\", \"wget\", \"python\", \"python3\", \"perl\", \"nc\", \"ncat\", \"base64\")\n| project Timestamp, DeviceName, AccountName, InitiatingProcessFileName, InitiatingProcessCommandLine, FileName, ProcessCommandLine\n| order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Files created in GitLab web-served directories",
+      "kql": "DeviceFileEvents\n| where Timestamp > ago(30d)\n| where ActionType == \"FileCreated\"\n| where FolderPath has \"/opt/gitlab/embedded/service/gitlab-rails/public\"\n| project Timestamp, DeviceName, FolderPath, FileName, InitiatingProcessFileName, InitiatingProcessCommandLine\n| order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-4",
+   "rank": 4,
+   "score": 55,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 4,
+    "platform": 8,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Chainalysis discloses data breach it attributes to an AI-driven intrusion",
+   "labels": {
+    "category": "breach",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "niche",
+    "platform": "cloud_saas",
+    "vendor": "Chainalysis",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "SecurityWeek reported on 2 November 2026 that blockchain analytics firm Chainalysis has disclosed a data breach. According to the report, the attackers used offensive agentic AI techniques to gain access to company systems and internal tools. The available reporting does not say how initial access was obtained, what data was taken, how many customers are affected, or whether any indicators of compromise have been released.",
+    "why_it_matters": "Chainalysis is a niche vendor, so direct exposure is limited to organizations that use its products or share data with it. Organizations that do should treat any shared credentials, API keys and integrations as potentially exposed until Chainalysis says otherwise. The claimed use of agentic AI for intrusion is notable, but no techniques have been published that defenders can turn into detections today.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "If your organization is a Chainalysis customer or partner, contact the vendor to confirm whether your data or accounts were affected.",
+     "Rotate API keys, service account credentials and tokens used for Chainalysis integrations as a precaution.",
+     "Review sign-in and API activity tied to Chainalysis integrations for unusual access since late October 2026.",
+     "Watch for phishing that uses the breach as a lure or impersonates Chainalysis staff.",
+     "Monitor for an official Chainalysis disclosure that includes technical details or indicators, and update your hunting when one is released."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Chainalysis Discloses Data Breach Following AI-Driven Cyberattack",
+     "url": "https://www.securityweek.com/chainalysis-discloses-data-breach-following-ai-driven-cyberattack/",
+     "source": "SecurityWeek",
+     "kind": "news",
+     "published": "2026-11-02T10:27:49Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-5",
+   "rank": 5,
+   "score": 51,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Apple sends mercenary spyware threat notifications to users in 99 countries",
+   "labels": {
+    "category": "campaign",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "mobile",
+    "vendor": "Apple",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "According to The Record, Apple has notified users in 99 countries that they may have been targeted by mercenary spyware attacks. Apple's notice does not attribute the attacks to any specific actor or region, citing the extreme cost, sophistication and global nature of such spyware. The sources do not name affected iOS versions, exploited vulnerabilities, spyware families or indicators.",
+    "why_it_matters": "Mercenary spyware targets individuals such as executives, journalists, officials and activists on their personal or corporate iPhones. That puts it largely outside Windows, M365 and edge telemetry, but a compromised phone can expose corporate mail, MFA approvals and messaging. With no CVEs, versions or indicators disclosed, defenders can only act on notified users and general mobile hardening.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Ask staff, especially executives and other high-risk users, to report any Apple threat notification they receive, and treat such reports as a security incident.",
+     "Make sure managed Apple devices run the latest available iOS, iPadOS and macOS releases through your MDM.",
+     "Encourage high-risk users to enable Apple Lockdown Mode.",
+     "For any user who reports a notification, revoke their Entra ID sessions, review MFA methods and registered devices, and check for unusual sign-ins or mailbox rules.",
+     "Engage a specialist mobile forensics provider for notified users rather than relying on routine endpoint tooling."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Apple warns users in 99 countries of mercenary spyware",
+     "url": "https://therecord.media/apple-warns-users-99-countries-mercenary-spyware",
+     "source": "The Record",
+     "kind": "news",
+     "published": "2026-11-02T14:42:00Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-6",
+   "rank": 6,
+   "score": 51,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Attackers remotely changed refrigeration settings at European supermarket chains",
+   "labels": {
+    "category": "campaign",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "ics_ot",
+    "vendor": "",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "BleepingComputer reports that attackers remotely altered temperature settings on freezers and cooling systems, disrupting stores run by several supermarket chains in multiple European countries. The report does not name the affected chains, the refrigeration or building-management vendor, the access method, or any attribution. No CVEs, indicators or vendor advisories accompany the report.",
+    "why_it_matters": "Refrigeration and building-management controllers are often reachable from the internet or through vendor remote-access paths that IT security teams do not monitor, and this case shows they are being manipulated in practice. The initial access vector is unknown, so the practical response is to find and lock down any such controllers in your own estate rather than wait for patch guidance. Confidence is low because a single news report with limited detail is the only source.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory refrigeration, HVAC and building-management controllers and confirm that none expose web, Modbus, BACnet or vendor management interfaces directly to the internet.",
+     "Place these controllers behind a VPN or jump host with MFA, and remove or restrict always-on vendor remote access.",
+     "Change default and shared credentials on controller web interfaces and integrator accounts.",
+     "Enable alerting on setpoint changes and temperature alarms in the refrigeration monitoring platform, and route those alerts to the SOC.",
+     "Watch for vendor or national CERT advisories that name the affected product or access method, and reassess once details are published."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Hackers disrupt refrigeration systems at European supermarkets",
+     "url": "https://www.bleepingcomputer.com/news/security/hackers-disrupt-refrigeration-systems-at-european-supermarkets/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-02T14:28:39Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Use Defender for IoT or Defender for Endpoint device discovery to list IoT and OT devices, including building-management and refrigeration controllers.",
+     "Check external attack surface tools or firewall rules for any inbound exposure of those devices' management ports, such as HTTP/HTTPS, Modbus (502) and BACnet (47808).",
+     "Review firewall and VPN logs for remote sessions to controller subnets from unexpected sources or at unusual hours.",
+     "Look for managed endpoints that start industrial-protocol connections to controllers when they are not engineering or monitoring workstations.",
+     "Cross-check the refrigeration monitoring platform's audit log for setpoint or configuration changes that do not match maintenance tickets."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Discovered IoT/OT devices that may include building or refrigeration controllers",
+      "kql": "DeviceInfo | where Timestamp > ago(30d) | where DeviceCategory in (\"IoT\", \"OT\") | summarize arg_max(Timestamp, *) by DeviceId | project Timestamp, DeviceName, DeviceCategory, DeviceType, Vendor, Model, OSPlatform, PublicIP",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Managed endpoints connecting to Modbus or BACnet ports",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(14d) | where RemotePort in (502, 47808) | summarize Connections = count(), Targets = make_set(RemoteIP, 50), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by DeviceName, InitiatingProcessFileName, RemotePort | order by Connections desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Inbound connections from public IPs on Modbus or BACnet ports",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(14d) | where ActionType == \"InboundConnectionAccepted\" | where LocalPort in (502, 47808) | where RemoteIPType == \"Public\" | project Timestamp, DeviceName, LocalPort, RemoteIP, InitiatingProcessFileName",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-7",
+   "rank": 7,
+   "score": 48,
+   "factors": {
+    "exploitation": 0,
+    "prevalence": 25,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Microsoft resolves Smart App Control activation issue caused by October 2026 Windows 11 update",
+   "labels": {
+    "category": "other",
+    "exploitation": "none_known",
+    "prevalence": "ubiquitous",
+    "platform": "windows",
+    "vendor": "Microsoft",
+    "product": "Windows 11 Smart App Control"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "According to BleepingComputer, Microsoft has resolved a known issue that stopped some users from turning on Smart App Control after installing the October 2026 Windows 11 security update KB5127648. The source excerpt does not say which Windows 11 builds were affected or how the fix is delivered, whether through a later update or a server-side change.",
+    "why_it_matters": "Smart App Control blocks untrusted or unsigned applications. Devices that could not enable it after KB5127648 may have run without that layer of protection. No exploitation is involved; this is a reliability issue for a security feature. Its main relevance is to environments that depend on Smart App Control, typically unmanaged or lightly managed Windows 11 devices rather than enterprise fleets using App Control for Business or WDAC.",
+    "affected_versions": [
+     "Windows 11 systems with the October 2026 security update KB5127648 installed (specific builds not stated)"
+    ],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Check Microsoft's Windows release health notes for how the fix is delivered and which builds it covers.",
+     "On Windows 11 devices where Smart App Control is expected to be on, confirm it is active after applying current updates.",
+     "Where Smart App Control is unavailable or unreliable, use managed application control such as App Control for Business or WDAC instead."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Microsoft fixes Smart App Control broken by October Windows update",
+     "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-fixes-smart-app-control-broken-by-october-windows-update/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-02T13:57:29Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-8",
+   "rank": 8,
+   "score": 47,
+   "factors": {
+    "exploitation": 18,
+    "prevalence": 4,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 5,
+    "sources": 0,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0169,
+    "cvss_max": 9.3
+   },
+   "title": "WAVLINK WN-series router firmware hit by six remote command injection and overflow CVEs",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "public_poc",
+    "prevalence": "niche",
+    "platform": "edge_device",
+    "vendor": "WAVLINK",
+    "product": "WN series routers"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-120238",
+     "cvss": 8.6,
+     "severity": "HIGH",
+     "products": [],
+     "epss": 0.01687,
+     "percentile": 0.77027,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-120276",
+     "cvss": 9.3,
+     "severity": "CRITICAL",
+     "products": [],
+     "epss": null,
+     "percentile": null,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-120277",
+     "cvss": 9.3,
+     "severity": "CRITICAL",
+     "products": [],
+     "epss": null,
+     "percentile": null,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-120280",
+     "cvss": 9.3,
+     "severity": "CRITICAL",
+     "products": [],
+     "epss": null,
+     "percentile": null,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-120281",
+     "cvss": 9.3,
+     "severity": "CRITICAL",
+     "products": [],
+     "epss": null,
+     "percentile": null,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-120345",
+     "cvss": 9.3,
+     "severity": "CRITICAL",
+     "products": [],
+     "epss": null,
+     "percentile": null,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "NVD published six CVEs between 1 and 2 November 2026 affecting WAVLINK WN553X1-B, WN536AX6-A and WN551X3-A router firmware. Five are OS command injection flaws in the ioos binary and the protocol.csp web handler. The vulnerable parameters sit in the web management interface, the OpenVPN and WireGuard group handlers, and DNS resolution. The sixth, CVE-2026-120281, is a stack-based buffer overflow in the OpenVPN handler. NVD says all six can be triggered remotely and that exploit details have been made public, though public proof-of-concept tracking does not yet confirm working code, and NVD lists no vendor fix.",
+    "why_it_matters": "These are SOHO-class routers, but they often turn up at branch offices and in home-worker setups that carry corporate VPN traffic, and command injection usually means full device takeover. Five of the CVEs are rated CVSS 9.3 and one 8.6 (EPSS 1.7%). None is in CISA KEV and no in-the-wild exploitation is reported, but publicly disclosed exploit details raise the risk for any management interface reachable from untrusted networks.",
+    "affected_versions": [
+     "WAVLINK WN553X1-B 260403_2.0.0",
+     "WAVLINK WN536AX6-A V260507_2.0.0",
+     "WAVLINK WN536AX6-A V260507",
+     "WAVLINK WN551X3-A M51X3_V251020-WO-182e965"
+    ],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory WAVLINK WN553X1-B, WN536AX6-A and WN551X3-A devices on corporate, branch and remote-worker networks.",
+     "Block internet and guest-network access to the router web management interface and restrict it to a trusted management VLAN.",
+     "Check WAVLINK for updated firmware and apply it once released; replace end-of-support or unpatched units used for business traffic with managed edge devices.",
+     "Disable unused OpenVPN and WireGuard features on affected routers to reduce exposed handlers.",
+     "Treat affected routers as untrusted: route corporate traffic through an enforced VPN and watch for unexpected configuration or DNS changes."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "CVE-2026-120238 (HIGH 8.6)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-120238",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-01T18:17:13.720Z"
+    },
+    {
+     "title": "CVE-2026-120276 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-120276",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-02T00:18:09.897Z"
+    },
+    {
+     "title": "CVE-2026-120277 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-120277",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-02T00:18:10.810Z"
+    },
+    {
+     "title": "CVE-2026-120280 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-120280",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-02T01:17:26.873Z"
+    },
+    {
+     "title": "CVE-2026-120281 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-120281",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-02T01:17:27.070Z"
+    },
+    {
+     "title": "CVE-2026-120345 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-120345",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-02T06:17:43.410Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Use Defender for Endpoint device discovery to find network devices whose vendor or model matches WAVLINK or the WN5 series.",
+     "Confirm the model and firmware version on each discovered device against the affected builds.",
+     "Check perimeter and firewall configurations for any inbound exposure of router management ports (HTTP/HTTPS) on these devices.",
+     "Review whether the DNS servers handed out by these routers to managed endpoints have changed unexpectedly, which may indicate a compromised router.",
+     "Escalate any affected device that carries corporate traffic for isolation or replacement."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Discovered WAVLINK network devices",
+      "kql": "DeviceInfo | where Timestamp > ago(30d) | where Vendor has \"wavlink\" or Model has_any (\"WN553X1\", \"WN536AX6\", \"WN551X3\") | summarize arg_max(Timestamp, *) by DeviceId | project Timestamp, DeviceId, DeviceName, DeviceType, Vendor, Model, OSPlatform, OSVersion",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Vulnerability management matches for the WAVLINK CVEs",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where CveId in (\"CVE-2026-120238\", \"CVE-2026-120276\", \"CVE-2026-120277\", \"CVE-2026-120280\", \"CVE-2026-120281\", \"CVE-2026-120345\") | project DeviceId, DeviceName, SoftwareVendor, SoftwareName, SoftwareVersion, CveId, VulnerabilitySeverityLevel",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-9",
+   "rank": 9,
+   "score": 47,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 4,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Google disrupts XCPE botnet of over 1.3 million Android TV boxes and bans the device maker",
+   "labels": {
+    "category": "malware",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "niche",
+    "platform": "mobile",
+    "vendor": "Google",
+    "product": "Android TV boxes"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "According to BleepingComputer, Google and industry partners have taken down the XCPE botnet, which was made up of more than 1.3 million Android TV streaming boxes. Google says the boxes' manufacturer deliberately infected the devices with malware to earn money from cybercrime, and it has banned that manufacturer. The sources available on 2 November 2026 do not name the manufacturer or the box models. They also do not describe the malware's capabilities or give any indicators.",
+    "why_it_matters": "Cheap Android TV boxes that come pre-infected often end up on office, guest or meeting-room networks without being managed. They can serve as residential proxies or footholds for fraud traffic coming from your IP space. The takedown reduces the immediate threat, but already-infected devices stay compromised firmware. The sources give no models or indicators, so defenders can only take an inventory-based approach.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory unmanaged Android and IoT devices on corporate, guest and meeting-room networks, and remove uncertified or off-brand Android TV streaming boxes.",
+     "Isolate any streaming or media devices that must stay on a segmented VLAN with no access to internal resources.",
+     "Block or alert on unknown devices joining wired networks through network access control.",
+     "Watch for vendor follow-up from Google naming the manufacturer, models or indicators, and re-hunt when those are published."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Google disrupts million-device XCPE Android malware botnet, bans TV box maker",
+     "url": "https://www.bleepingcomputer.com/news/security/google-disrupts-million-device-xcpe-android-malware-botnet-bans-tv-box-maker/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-02T18:16:34Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Use Defender device discovery data to list devices that are not onboarded and report an Android OS, or that are classified as IoT or Mobile.",
+     "Filter the results for streaming or TV-box vendors and models that are generic or unknown, and confirm physically whether they belong on the network.",
+     "Check firewall or proxy logs for those devices' IPs to spot unusually high outbound connection volumes that suggest proxy or fraud traffic.",
+     "Remove or segment confirmed TV boxes, and record the vendor and model for comparison once indicators are published."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Unmanaged Android and IoT devices seen by device discovery",
+      "kql": "DeviceInfo | where Timestamp > ago(30d) | where OnboardingStatus != \"Onboarded\" | where OSPlatform has \"Android\" or DeviceType in (\"IoT\", \"Mobile\") | summarize arg_max(Timestamp, *) by DeviceId | project Timestamp, DeviceId, DeviceName, DeviceType, OSPlatform, Vendor, Model, OnboardingStatus",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-10",
+   "rank": 10,
+   "score": 47,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 4,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Malicious Claude Code extension delivered to Cursor users ran reconnaissance and tried a reverse SSH tunnel",
+   "labels": {
+    "category": "campaign",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "niche",
+    "platform": "other",
+    "vendor": "",
+    "product": "Cursor"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "SecurityWeek reported on 2 November 2026 that a malicious extension posing as Claude Code was served to users of the Cursor AI code editor in a supply chain attack. According to SecurityWeek, the extension performed reconnaissance on the host and attempted to open a reverse SSH tunnel. The sources do not name the extension identifier, the distribution channel, the number of affected users, or any indicators of compromise.",
+    "why_it_matters": "Developer workstations running Cursor often hold source code, cloud credentials, SSH keys and tokens. A reverse SSH tunnel gives an attacker inbound access that can bypass perimeter controls. Exploitation is described as real, but the reporting is thin, so defenders should hunt on behavior rather than wait for indicators.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory Cursor installations and review installed extensions under user .cursor extension folders. Remove any Claude Code extension not obtained from Anthropic's official publisher.",
+     "Hunt for ssh.exe launched by Cursor or its child processes with remote port forwarding (-R) arguments. Block outbound SSH from workstations where it is not needed.",
+     "On any host where the extension was present, rotate SSH keys, cloud credentials, API tokens and Git credentials stored on the host.",
+     "Restrict Cursor and VS Code extension installation to an approved allowlist where the editor supports it.",
+     "Watch for vendor or researcher follow-up that publishes the extension ID and indicators, and add them to blocklists."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Malicious Claude Code Extension Served in Cursor Supply Chain Attack",
+     "url": "https://www.securityweek.com/malicious-claude-code-extension-served-in-cursor-supply-chain-attack/",
+     "source": "SecurityWeek",
+     "kind": "news",
+     "published": "2026-11-02T11:29:39Z"
+    }
+   ],
+   "detection": {
+    "type": "behavioral",
+    "sigma": {
+     "origin": "ai",
+     "title": "Reverse SSH Tunnel Spawned From Cursor Editor Process Tree",
+     "url": null,
+     "yaml": "title: Reverse SSH Tunnel Spawned From Cursor Editor Process Tree\nid: f8812221-6ea0-5504-a4d0-16cc9c5a560d\nstatus: experimental\ndescription: Detects ssh.exe started from the Cursor AI code editor with remote port forwarding arguments. This matches the reverse SSH tunnel behavior reported for a malicious Claude Code extension distributed to Cursor users. AI-generated, untested.\nreferences:\n- https://www.securityweek.com/malicious-claude-code-extension-served-in-cursor-supply-chain-attack/\nauthor: intel-brief (AI-generated, untested)\ndate: '2026-11-02'\ntags:\n- attack.t1572\n- attack.t1195.002\n- attack.discovery\n- attack.t1082\nlogsource:\n  product: windows\n  category: process_creation\ndetection:\n  selection_parent:\n    ParentImage|endswith: \\Cursor.exe\n  selection_ssh:\n    Image|endswith: \\ssh.exe\n    CommandLine|contains:\n    - ' -R '\n    - ' -R'\n  condition: selection_parent and selection_ssh\nfalsepositives:\n- Developers intentionally creating remote port forwards from the Cursor integrated terminal\nlevel: high\n",
+     "check": {
+      "status": "pass",
+      "messages": [
+       "No rule errors found.",
+       "No condition errors found.",
+       "No validation issues found.",
+       "Parsing Sigma rules",
+       "Checking Sigma rules"
+      ]
+     },
+     "conversions": {
+      "kql": {
+       "label": "Defender XDR / Sentinel KQL",
+       "query": "DeviceProcessEvents\n| where InitiatingProcessFolderPath endswith \"\\\\Cursor.exe\" and (FolderPath endswith \"\\\\ssh.exe\" and (ProcessCommandLine contains \" -R \" or ProcessCommandLine contains \" -R\"))",
+       "error": null,
+       "validation": {
+        "status": "pass",
+        "messages": []
+       }
+      },
+      "spl": {
+       "label": "Splunk SPL",
+       "query": "ParentImage=\"*\\\\Cursor.exe\" Image=\"*\\\\ssh.exe\" CommandLine IN (\"* -R *\", \"* -R*\")",
+       "error": null
+      },
+      "elastic": {
+       "label": "Elastic (Lucene, ECS)",
+       "query": "process.parent.executable.caseless:*\\\\Cursor.exe AND (process.executable.caseless:*\\\\ssh.exe AND (process.command_line:(*\\ \\-R\\ * OR *\\ \\-R*)))",
+       "error": null
+      }
+     }
+    },
+    "hunting_steps": [
+     "Find hosts with Cursor installed and list extension folders containing claude in the path.",
+     "Search for ssh.exe processes whose parent or grandparent is Cursor.exe and whose command line includes -R.",
+     "Review outbound connections made by those ssh.exe processes, then identify the remote hosts and ports.",
+     "Look for reconnaissance commands spawned from the Cursor process tree, such as whoami, systeminfo, ipconfig, hostname and net, around the time the extension was installed.",
+     "For confirmed hosts, scope credential exposure and check for later use of developer credentials in cloud and Entra ID sign-in logs."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Reverse SSH tunnel launched from Cursor process tree",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where FileName =~ \"ssh.exe\" | where InitiatingProcessFileName =~ \"Cursor.exe\" or InitiatingProcessParentFileName =~ \"Cursor.exe\" | where ProcessCommandLine matches regex @\"\\s-[A-Za-z]*R\" | project Timestamp, DeviceName, AccountName, ProcessCommandLine, InitiatingProcessFileName, InitiatingProcessCommandLine, InitiatingProcessParentFileName",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Host reconnaissance commands spawned by Cursor",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where InitiatingProcessFileName =~ \"Cursor.exe\" or InitiatingProcessParentFileName =~ \"Cursor.exe\" | where FileName in~ (\"whoami.exe\",\"systeminfo.exe\",\"ipconfig.exe\",\"hostname.exe\",\"net.exe\",\"net1.exe\",\"nltest.exe\",\"tasklist.exe\") | summarize Commands = make_set(ProcessCommandLine, 50), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by DeviceName, AccountName | where array_length(Commands) >= 3",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Claude-named extensions written to Cursor extension folders",
+      "kql": "DeviceFileEvents | where Timestamp > ago(30d) | where FolderPath has @\"\\.cursor\\extensions\" and FolderPath has \"claude\" | summarize Files = count(), FirstSeen = min(Timestamp) by DeviceName, InitiatingProcessAccountName, ExtensionFolder = tostring(split(FolderPath, @\"\\extensions\\\")[1])",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  }
+ ],
+ "more_stories": [
+  {
+   "title": "Russian and Ukrainian hackers hijack emergency alert apps to spread fake nuclear attack warnings",
+   "score": 47,
+   "cves": [],
+   "sources": [
+    {
+     "title": "Russian and Ukrainian hackers hijack emergency apps to spread fake nuclear attack warnings",
+     "url": "https://therecord.media/ukraine-hackers-russia-alert-system",
+     "source": "The Record"
+    }
+   ]
+  },
+  {
+   "title": "Polymarket to repay $3.9 million after October 29 site compromise; DebugBear cites DNS hijack",
+   "score": 46,
+   "cves": [],
+   "sources": [
+    {
+     "title": "Polymarket pledges to give $3.9 million back to victims after site compromise",
+     "url": "https://therecord.media/polymarket-returning-funds-to-customers-after-site-compromise",
+     "source": "The Record"
+    },
+    {
+     "title": "Polymarket Returns $3.9 Million to Traders as DebugBear Cites DNS Hijack",
+     "url": "https://www.securityweek.com/polymarket-returns-3-9-million-to-traders-as-debugbear-cites-dns-hijack/",
+     "source": "SecurityWeek"
+    }
+   ]
+  },
+  {
+   "title": "Abrigo takes Sageworks offline after suspected cyberattack, restores most services",
+   "score": 43,
+   "cves": [],
+   "sources": [
+    {
+     "title": "Fintech platform Sageworks taken offline after suspected cyberattack",
+     "url": "https://www.bleepingcomputer.com/news/security/fintech-platform-sageworks-taken-offline-after-suspected-cyberattack/",
+     "source": "BleepingComputer"
+    }
+   ]
+  },
+  {
+   "title": "BTCPay Server users urged to upgrade after hot wallet thefts on older instances",
+   "score": 43,
+   "cves": [],
+   "sources": [
+    {
+     "title": "BTCPay Server warns of hot wallet crypto thefts on outdated instances",
+     "url": "https://www.bleepingcomputer.com/news/security/btcpay-server-warns-of-hot-wallet-thefts-targeting-outdated-instances/",
+     "source": "BleepingComputer"
+    }
+   ]
+  },
+  {
+   "title": "Russia's statistics agency confirms cyberattack claimed by Belarusian and Ukrainian hackers",
+   "score": 39,
+   "cves": [],
+   "sources": [
+    {
+     "title": "Russia's statistics agency confirms cyberattack claimed by Belarusian and Ukrainian hackers",
+     "url": "https://therecord.media/hackers-ukraine-belarus-russia",
+     "source": "The Record"
+    }
+   ]
+  },
+  {
+   "title": "BYOD ransomware gang claims Michigan State University cyber incident",
+   "score": 39,
+   "cves": [],
+   "sources": [
+    {
+     "title": "Michigan State cyber incident claimed by ransomware gang behind recent hospital attack",
+     "url": "https://therecord.media/michigan-state-university-byod-gang-cyber-incident",
+     "source": "The Record"
+    }
+   ]
+  },
+  {
+   "title": "Synology warns customers to update NAS devices amid surge in C3RB3R ransomware attacks",
+   "score": 35,
+   "cves": [],
+   "sources": [
+    {
+     "title": "Synology warns of C3RB3R ransomware attacks targeting NAS devices",
+     "url": "https://www.bleepingcomputer.com/news/security/synology-warns-customers-of-ongoing-c3rb3r-ransomware-attacks/",
+     "source": "BleepingComputer"
+    }
+   ]
+  },
+  {
+   "title": "Florida student aid website breach may expose SSNs of 4.9 million people",
+   "score": 35,
+   "cves": [],
+   "sources": [
+    {
+     "title": "Florida Student Aid Website Hack Puts Data of 4.9 Million People at Risk",
+     "url": "https://www.securityweek.com/florida-student-aid-website-hack-puts-data-of-4-9-million-people-at-risk/",
+     "source": "SecurityWeek"
+    }
+   ]
+  },
+  {
+   "title": "Revolve online shopping platform breach exposes data of at least 180,000 people",
+   "score": 35,
+   "cves": [],
+   "sources": [
+    {
+     "title": "Revolve Data Breach Impacts at Least 180,000 People",
+     "url": "https://www.securityweek.com/revolve-data-breach-impacts-at-least-180000-people/",
+     "source": "SecurityWeek"
+    }
+   ]
+  },
+  {
+   "title": "python-jose accepts zero-length HMAC keys, allowing unauthenticated JWT forgery",
+   "score": 23,
+   "cves": [
+    "CVE-2026-120459"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-120459 (CRITICAL 9.1)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-120459",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Control Web Panel before 1.16 and 1.30 has multiple root command injection and SQL injection flaws",
+   "score": 17,
+   "cves": [
+    "CVE-2026-77876",
+    "CVE-2026-73695",
+    "CVE-2026-73697"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-77876 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-77876",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-73695 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-73695",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-73697 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-73697",
+     "source": "NVD"
+    }
+   ]
+  }
+ ],
+ "kev_new": [],
+ "early_signals": [
+  {
+   "cve": "CVE-2026-105604",
+   "authors": 3,
+   "platforms": [
+    "Bluesky"
+   ],
+   "posts": [
+    {
+     "url": "https://bsky.app/profile/stackflag.bsky.social/post/3mze5jivpq72n",
+     "platform": "Bluesky",
+     "account": "@stackflag.bsky.social",
+     "published": "2026-11-02T20:20:00Z"
+    },
+    {
+     "url": "https://bsky.app/profile/stemshop.bsky.social/post/3mze4trvzpc25",
+     "platform": "Bluesky",
+     "account": "@stemshop.bsky.social",
+     "published": "2026-11-02T20:07:52Z"
+    },
+    {
+     "url": "https://bsky.app/profile/cve.skyfleet.blue/post/d3sdk634bfk5k",
+     "platform": "Bluesky",
+     "account": "@cve.skyfleet.blue",
+     "published": "2026-11-02T19:30:19Z"
+    }
+   ],
+   "first_seen": "2026-11-02T19:30:19Z",
+   "epss": null,
+   "vendor_advisory": false,
+   "nvd": {
+    "cvss": 9.3,
+    "severity": "CRITICAL",
+    "products": [],
+    "description": "Joomla Extension - dj-extensions.com - Unauthenticated SQL injection in DJ-Classifieds < 3.11.3 - The Joomla extension DJ-Classifieds is vulnerable to an unauthenticated SQL injection vector in the frontend search."
+   },
+   "poc": []
+  },
+  {
+   "cve": "CVE-2026-119085",
+   "authors": 3,
+   "platforms": [
+    "Bluesky",
+    "Mastodon"
+   ],
+   "posts": [
+    {
+     "url": "https://bsky.app/profile/stemshop.bsky.social/post/3mze4tb4um42b",
+     "platform": "Bluesky",
+     "account": "@stemshop.bsky.social",
+     "published": "2026-11-02T20:07:35Z"
+    },
+    {
+     "url": "https://bsky.app/profile/stackflag.bsky.social/post/3mzdzmdflgt22",
+     "platform": "Bluesky",
+     "account": "@stackflag.bsky.social",
+     "published": "2026-11-02T19:10:00Z"
+    },
+    {
+     "url": "https://infosec.exchange/@awssecurityfeed/117548089424848608",
+     "platform": "Mastodon",
+     "account": "@awssecurityfeed",
+     "published": "2026-11-02T17:45:01Z"
+    }
+   ],
+   "first_seen": "2026-11-02T17:45:01Z",
+   "epss": null,
+   "vendor_advisory": false,
+   "nvd": {
+    "cvss": 9.4,
+    "severity": "CRITICAL",
+    "products": [],
+    "description": "Improper neutralization of special elements used in a template engine in the publishing component of Amazon Virtual Engineering Workbench (VEW) could allow a remote authenticated third party to run arbitrary code with the permissions of the publishing Lambda's IAM role. This could allow access to da…"
+   },
+   "poc": []
+  },
+  {
+   "cve": "CVE-2026-116606",
+   "authors": 3,
+   "platforms": [
+    "Mastodon"
+   ],
+   "posts": [
+    {
+     "url": "https://infosec.exchange/@ssvc/117547820095798085",
+     "platform": "Mastodon",
+     "account": "@ssvc",
+     "published": "2026-11-02T16:36:31Z"
+    },
+    {
+     "url": "https://infosec.exchange/@DailyCyberSecurity/117547402181833180",
+     "platform": "Mastodon",
+     "account": "@DailyCyberSecurity",
+     "published": "2026-11-02T14:50:14Z"
+    },
+    {
+     "url": "https://infosec.exchange/@offseq/117547089039111298",
+     "platform": "Mastodon",
+     "account": "@offseq",
+     "published": "2026-11-02T13:30:36Z"
+    }
+   ],
+   "first_seen": "2026-11-02T13:30:36Z",
+   "epss": null,
+   "vendor_advisory": false,
+   "nvd": {
+    "cvss": 9.3,
+    "severity": "CRITICAL",
+    "products": [],
+    "description": "An authentication bypass in Barracuda Email Security Gateway versions earlier than 9.4.0.030 allows an unauthenticated remote attacker to invoke a configuration-import function and restore a crafted, compatible backup archive, resulting in unauthorized modification of the appliance’s global configur…"
+   },
+   "poc": []
+  }
+ ],
+ "explainer": {
+  "concept": "Exploit chaining on edge appliances, and why patching does not evict an attacker",
+  "dek": "Exploit chaining links several individually limited flaws, such as an authentication bypass, a privilege escalation and a file write, into one path from the internet to full control of a device.",
+  "why_today": "Ivanti's two new Connect Secure fixes close links in a chain that attackers had already used with an authentication bypass to get unauthenticated root on VPN gateways, so patched appliances may still hold an attacker's foothold. The same reasoning applies to the actively exploited GitLab servers that remain exposed.",
+  "related_story_ids": [
+   "story-1",
+   "story-3",
+   "story-8"
+  ],
+  "parts": [
+   {
+    "heading": "How a chain works",
+    "paragraphs": [
+     "Most single vulnerabilities give an attacker only one capability. An authentication bypass reaches functions meant for logged-in users. A privilege escalation turns a low-privileged foothold into root. A file upload to a predictable path places attacker content where the system will later read or run it. On its own, each flaw may score only moderately in CVSS.",
+     "Chained, the output of one step becomes the input to the next. The bypass supplies the authenticated session that the upload flaw requires, and the escalation turns the resulting code into root. This is why Ivanti's newly fixed upload flaw, rated low as a standalone issue, still landed in CISA's Known Exploited Vulnerabilities catalog: its rating describes it in isolation, not its role in the chain.",
+     "For defenders, two things follow. Severity scores understate the risk of authenticated or local flaws on internet-facing devices, because attackers often already hold the bypass. And when a vendor adds flaws to an existing advisory, the earlier patch did not close every link."
+    ]
+   },
+   {
+    "heading": "Why edge devices are the favourite target",
+    "paragraphs": [
+     "VPN gateways, firewalls and code platforms such as GitLab sit on the internet, hold credentials, and bridge into internal networks. Appliances are closed systems. You usually cannot run an EDR agent such as Defender for Endpoint on them, and their logs are often thin, kept only locally, or overwritten.",
+     "Root on a VPN appliance can give an attacker the ability to capture user credentials and session cookies, read the stored directory binding account, change configuration, and plant persistence that survives reboots and sometimes upgrades. The appliance's internal IP address then becomes a trusted launch point into the rest of the network."
+    ]
+   },
+   {
+    "heading": "Why patching is not remediation",
+    "paragraphs": [
+     "A patch removes the vulnerable code path but does nothing to a webshell, implant, modified file or stolen credential already in place. If exploitation began before you patched, and for zero-days it did by definition, you need a compromise assessment as well as the update.",
+     "Vendors differ in what they provide. Ivanti publishes an Integrity Checker Tool for Connect Secure, with internal and external variants. In previous Ivanti incidents, though, attackers tried to tamper with or evade the checks, so a clean result does not prove the device is clean. For appliances where compromise is suspected, CISA and vendors have repeatedly advised a factory reset or rebuild before applying the fixed version. Follow the current vendor advisory for the exact procedure for your version."
+    ]
+   },
+   {
+    "heading": "What it looks like in your telemetry",
+    "paragraphs": [
+     "Because the appliance itself is hard to see into, hunt around it. In Sentinel, look at forwarded syslog from the appliance for unexpected administrative logins, configuration changes, reboots and gaps in logging. Look at web or proxy logs for unusual requests to management or upload paths.",
+     "In Defender XDR and Entra ID, treat the appliance's internal address as a suspect source. Watch for LDAP or Kerberos activity from the directory binding account outside its normal pattern, RDP, SMB or WinRM sessions originating from the VPN's address, and sign-ins by VPN users from unfamiliar locations shortly after their VPN session, which can indicate stolen session material."
+    ]
+   }
+  ],
+  "takeaways": [
+   "Confirm every Ivanti Connect Secure appliance runs the version fixed in the updated 29 October 2026 advisory, and treat any appliance that was internet-exposed during October as possibly compromised rather than simply unpatched.",
+   "Run the vendor integrity check externally as well as on the device, and plan a factory reset and rebuild for any appliance with suspicious results or log gaps, then reapply the fixed image.",
+   "After a suspected compromise, rotate the appliance's directory binding and service account credentials, local admin passwords and certificates, and revoke active VPN user sessions.",
+   "Forward appliance syslog to Sentinel with retention long enough to cover a zero-day window, and alert on admin logins, configuration changes and logging interruptions.",
+   "Build hunts in Defender XDR for lateral movement and unusual authentication originating from VPN and GitLab server IP addresses, and include authenticated or local flaws on edge devices in your emergency patch scope regardless of CVSS score."
+  ],
+  "unsupported_cves": [],
+  "model": "claude-opus-5-5"
+ },
+ "good_news": [
+  {
+   "headline": "Google and partners dismantle XCPE botnet of more than 1.3 million Android TV boxes",
+   "summary": "BleepingComputer reports that Google and industry partners took down the XCPE botnet, made up of more than 1.3 million Android TV streaming boxes. Google says the manufacturer deliberately infected the devices with malware to earn money from cybercrime, and Google has banned that manufacturer.",
+   "kind": "takedown",
+   "sources": [
+    {
+     "title": "Google disrupts million-device XCPE Android malware botnet, bans TV box maker",
+     "url": "https://www.bleepingcomputer.com/news/security/google-disrupts-million-device-xcpe-android-malware-botnet-bans-tv-box-maker/",
+     "source": "BleepingComputer",
+     "published": "2026-11-02T18:16:34Z"
+    }
+   ],
+   "unsupported_cves": [],
+   "model": "claude-opus-5-5"
+  },
+  {
+   "headline": "Google offers up to $250,000 for root-in-cloud vulnerability research",
+   "summary": "SecurityWeek reports that Google has introduced a bug bounty reward of up to $250,000. The top payout is for high-impact architectural research that demonstrates full administrative control in its cloud, which gives researchers a strong incentive to report such flaws to Google instead of selling them.",
+   "kind": "policy",
+   "sources": [
+    {
+     "title": "Google Introduces $250,000 Root-in-Cloud Bug Bounty Reward",
+     "url": "https://www.securityweek.com/google-introduces-250000-root-in-cloud-bug-bounty-reward/",
+     "source": "SecurityWeek",
+     "published": "2026-11-02T13:25:11Z"
+    }
+   ],
+   "unsupported_cves": [],
+   "model": "claude-opus-5-5"
+  },
+  {
+   "headline": "SANS ISC explains how to recognise Multipath TCP traffic on your network",
+   "summary": "SANS Internet Storm Center published a diary on Multipath TCP, the TCP extension defined in RFC 8684, after a vulnerability in the Linux implementation drew attention to it. Rather than covering the flaw itself, the diary describes how MPTCP works and how defenders may see it used in their own network traffic.",
+   "kind": "research",
+   "sources": [
+    {
+     "title": "Mutipath TCP: Use and Detection, (Mon, Nov 2nd)",
+     "url": "https://isc.sans.edu/diary/rss/33482",
+     "source": "SANS ISC",
+     "published": "2026-11-02T14:52:05Z"
+    }
+   ],
+   "unsupported_cves": [],
+   "model": "claude-opus-5-5"
+  }
+ ],
+ "explainer_status": "ok",
+ "sources_status": {
+  "CISA KEV": "ok 0",
+  "NVD": "ok 39",
+  "BleepingComputer": "ok 10",
+  "The Record": "ok 5",
+  "The DFIR Report": "ok 0",
+  "Cisco Talos": "ok 0",
+  "Unit 42": "ok 0",
+  "Microsoft Security Blog": "ok 0",
+  "SANS ISC": "ok 2",
+  "Huntress": "ok 1",
+  "watchTowr Labs": "ok 0",
+  "Rapid7": "ok 1",
+  "SecurityWeek": "ok 9",
+  "Krebs on Security": "ok 0",
+  "CISA Advisories": "ok 0",
+  "MSRC Security Update Guide": "ok 0",
+  "Bluesky": "ok 40",
+  "Mastodon": "ok 38",
+  "r/netsec": "ok 0",
+  "Hacker News": "ok 24",
+  "SigmaHQ new rules": "ok 0",
+  "EPSS": "ok 30"
+ },
+ "stats": {
+  "items": {
+   "news": 28,
+   "advisory": 0,
+   "kev": 0,
+   "nvd": 39,
+   "social": 102,
+   "sigma": 0
+  },
+  "stories_found": 22,
+  "kql_parser": "available"
+ }
+}
