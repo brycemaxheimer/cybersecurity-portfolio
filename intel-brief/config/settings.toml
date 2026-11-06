@@ -23,6 +23,21 @@ min_score = 25
 # Most editions kept in the RSS / JSON feeds.
 feed_editions = 30
 
+[verify]
+# Gates every edition must pass before it merges and publishes itself
+# (python -m intel_brief verify). A failed gate holds the pull request for a
+# person instead of publishing; a warning publishes and is recorded in the PR.
+min_stories = 3
+# A missing write-up this high up the page blocks; a few further down warn.
+protected_ranks = 3
+max_failed_writeups = 2
+# Feeds the brief cannot be trusted without, by their name in sources.toml.
+required_sources = ["CISA KEV", "NVD"]
+# Share of all feeds allowed to error before the edition is held.
+max_source_error_ratio = 0.25
+# Smallest believable rendered edition page, in bytes.
+min_page_bytes = 20000
+
 [collect]
 lookback_hours = 26
 mastodon_max_pages = 25

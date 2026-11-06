@@ -87,6 +87,233 @@
    }
   },
   {
+   "id": "https://intel.brycemaxheimer.com/editions/2026-11-04/",
+   "url": "https://intel.brycemaxheimer.com/editions/2026-11-04/",
+   "title": "Daily Intel Brief: 2026-11-04",
+   "content_text": "1. Ivanti Connect Secure zero-days CVE-2026-111357 and CVE-2026-118527 chained and exploited in the wild\n2. Microsoft: fake-download installers silently turn PCs into proxyware and compute-sharing nodes\n3. CISA adds exploited WordPress core upgrade race condition CVE-2026-119977 to KEV\n4. Operation CloudFire phishing used Google Calendar invites to hijack corporate Google sessions\n5. NIKKE PC game launcher scripts tampered in supply-chain attack to spread infostealer malware\n6. WorkOS discloses breach of internal sales app; Northflank and Trigger.dev also report hacks\n7. Google reports LLMjacking attacks driving about $1 million in fraudulent cloud AI charges\n8. mSecure password manager breach exposes encrypted customer database; users told to reset credentials\n9. Binance links $6.34 billion theft to North Korean fake job interview malware\n10. Google and partners disrupt XCPE botnet of over 1.3 million Android TV boxes\nNew KEV entries: CVE-2026-119977\nEarly signals: CVE-2026-109518, CVE-2026-109593, CVE-2026-58115, CVE-2026-58868, CVE-2026-121966\nExplainer: Chaining low-privilege bugs into unauthenticated root on edge appliances\nGood news: Google and partners dismantle XCPE botnet of 1.3 million malicious Android TV boxes\nGood news: Material Security helps take down nearly 900 domains in Operation CloudFire phishing campaign\nGood news: Two Canadians charged over cryptomining hacks on US university supercomputers\nGood news: Chrome 157 ships 213 security fixes, seven rated critical",
+   "date_published": "2026-11-04T18:47:01Z",
+   "_intel_brief": {
+    "data": "https://intel.brycemaxheimer.com/editions/2026-11-04/edition.json",
+    "stories": [
+     {
+      "title": "Ivanti Connect Secure zero-days CVE-2026-111357 and CVE-2026-118527 chained and exploited in the wild",
+      "cves": [
+       "CVE-2026-111357",
+       "CVE-2026-118527",
+       "CVE-2026-104935"
+      ],
+      "score": 91
+     },
+     {
+      "title": "Microsoft: fake-download installers silently turn PCs into proxyware and compute-sharing nodes",
+      "cves": [],
+      "score": 81
+     },
+     {
+      "title": "CISA adds exploited WordPress core upgrade race condition CVE-2026-119977 to KEV",
+      "cves": [
+       "CVE-2026-119977"
+      ],
+      "score": 75
+     },
+     {
+      "title": "Operation CloudFire phishing used Google Calendar invites to hijack corporate Google sessions",
+      "cves": [],
+      "score": 69
+     },
+     {
+      "title": "NIKKE PC game launcher scripts tampered in supply-chain attack to spread infostealer malware",
+      "cves": [],
+      "score": 67
+     },
+     {
+      "title": "WorkOS discloses breach of internal sales app; Northflank and Trigger.dev also report hacks",
+      "cves": [],
+      "score": 62
+     },
+     {
+      "title": "Google reports LLMjacking attacks driving about $1 million in fraudulent cloud AI charges",
+      "cves": [],
+      "score": 59
+     },
+     {
+      "title": "mSecure password manager breach exposes encrypted customer database; users told to reset credentials",
+      "cves": [],
+      "score": 55
+     },
+     {
+      "title": "Binance links $6.34 billion theft to North Korean fake job interview malware",
+      "cves": [],
+      "score": 54
+     },
+     {
+      "title": "Google and partners disrupt XCPE botnet of over 1.3 million Android TV boxes",
+      "cves": [],
+      "score": 54
+     }
+    ],
+    "explainer": "Chaining low-privilege bugs into unauthenticated root on edge appliances",
+    "good_news": [
+     "Google and partners dismantle XCPE botnet of 1.3 million malicious Android TV boxes",
+     "Material Security helps take down nearly 900 domains in Operation CloudFire phishing campaign",
+     "Two Canadians charged over cryptomining hacks on US university supercomputers",
+     "Chrome 157 ships 213 security fixes, seven rated critical"
+    ]
+   }
+  },
+  {
+   "id": "https://intel.brycemaxheimer.com/editions/2026-11-03/",
+   "url": "https://intel.brycemaxheimer.com/editions/2026-11-03/",
+   "title": "Daily Intel Brief: 2026-11-03",
+   "content_text": "1. Ivanti Connect Secure zero-day chain exploited; fixes now cover all three CVEs\n2. Microsoft details fake-download campaign pushing trojanized Inno Setup installers with monetization payloads\n3. Google and partners take down XCPE botnet of 1.3 million Android TV boxes, cut ties with Videostrong\n4. Second wave of attacks tampers with supermarket refrigeration controllers across Europe\n5. Frontline Education breach through third-party software flaw affects over 1.3 million people\n6. 3AM ransomware affiliate encrypts about 37 machines at UK school estate from an unmanaged host\n7. BleepingComputer: Chinese hackers used ARTEX AI pentest framework against 200+ organizations\n8. Binance attributes $6.3 billion crypto theft to North Korean campaign; Pyongyang denies involvement\n9. Russia-linked espionage group targets Ukrainian war crimes investigations and military aid routes\n10. Over 1,000 internet-exposed GitLab servers still unpatched against actively exploited critical RCE\nEarly signals: CVE-2026-58115, CVE-2026-28336, CVE-2024-10441, CVE-2026-116606\nExplainer: LAPS passwords and BitLocker recovery keys as Active Directory secrets\nGood news: European police arrest seven and seize over 100 servers in investment scam crackdown\nGood news: Russian police dismantle VasyGrek cybercrime infrastructure and detain three suspects\nGood news: Android November 2026 update fixes over 200 vulnerabilities, including critical Framework RCE\nGood news: Barracuda urges customers to patch two critical flaws that allow root command execution",
+   "date_published": "2026-11-03T18:34:48Z",
+   "_intel_brief": {
+    "data": "https://intel.brycemaxheimer.com/editions/2026-11-03/edition.json",
+    "stories": [
+     {
+      "title": "Ivanti Connect Secure zero-day chain exploited; fixes now cover all three CVEs",
+      "cves": [
+       "CVE-2026-111357",
+       "CVE-2026-118527",
+       "CVE-2026-104935"
+      ],
+      "score": 95
+     },
+     {
+      "title": "Microsoft details fake-download campaign pushing trojanized Inno Setup installers with monetization payloads",
+      "cves": [],
+      "score": 71
+     },
+     {
+      "title": "Google and partners take down XCPE botnet of 1.3 million Android TV boxes, cut ties with Videostrong",
+      "cves": [],
+      "score": 57
+     },
+     {
+      "title": "Second wave of attacks tampers with supermarket refrigeration controllers across Europe",
+      "cves": [],
+      "score": 57
+     },
+     {
+      "title": "Frontline Education breach through third-party software flaw affects over 1.3 million people",
+      "cves": [],
+      "score": 55
+     },
+     {
+      "title": "3AM ransomware affiliate encrypts about 37 machines at UK school estate from an unmanaged host",
+      "cves": [],
+      "score": 51
+     },
+     {
+      "title": "BleepingComputer: Chinese hackers used ARTEX AI pentest framework against 200+ organizations",
+      "cves": [],
+      "score": 51
+     },
+     {
+      "title": "Binance attributes $6.3 billion crypto theft to North Korean campaign; Pyongyang denies involvement",
+      "cves": [],
+      "score": 51
+     },
+     {
+      "title": "Russia-linked espionage group targets Ukrainian war crimes investigations and military aid routes",
+      "cves": [],
+      "score": 51
+     },
+     {
+      "title": "Over 1,000 internet-exposed GitLab servers still unpatched against actively exploited critical RCE",
+      "cves": [],
+      "score": 49
+     }
+    ],
+    "explainer": "LAPS passwords and BitLocker recovery keys as Active Directory secrets",
+    "good_news": [
+     "European police arrest seven and seize over 100 servers in investment scam crackdown",
+     "Russian police dismantle VasyGrek cybercrime infrastructure and detain three suspects",
+     "Android November 2026 update fixes over 200 vulnerabilities, including critical Framework RCE",
+     "Barracuda urges customers to patch two critical flaws that allow root command execution"
+    ]
+   }
+  },
+  {
+   "id": "https://intel.brycemaxheimer.com/editions/2026-11-02/",
+   "url": "https://intel.brycemaxheimer.com/editions/2026-11-02/",
+   "title": "Daily Intel Brief: 2026-11-02",
+   "content_text": "1. Ivanti patches two more Connect Secure zero-days chained with CVE-2026-104935; CISA adds both to KEV\n2. FBI attributes record $6.3 billion Binance crypto theft to North Korea's TraderTraitor\n3. Over 1,000 internet-exposed GitLab servers remain unpatched against an actively exploited RCE flaw\n4. Chainalysis discloses data breach it attributes to an AI-driven intrusion\n5. Apple sends mercenary spyware threat notifications to users in 99 countries\n6. Attackers remotely changed refrigeration settings at European supermarket chains\n7. Microsoft resolves Smart App Control activation issue caused by October 2026 Windows 11 update\n8. WAVLINK WN-series router firmware hit by six remote command injection and overflow CVEs\n9. Google disrupts XCPE botnet of over 1.3 million Android TV boxes and bans the device maker\n10. Malicious Claude Code extension delivered to Cursor users ran reconnaissance and tried a reverse SSH tunnel\nEarly signals: CVE-2026-105604, CVE-2026-119085, CVE-2026-116606\nExplainer: Exploit chaining on edge appliances, and why patching does not evict an attacker\nGood news: Google and partners dismantle XCPE botnet of more than 1.3 million Android TV boxes\nGood news: Google offers up to $250,000 for root-in-cloud vulnerability research\nGood news: SANS ISC explains how to recognise Multipath TCP traffic on your network",
+   "date_published": "2026-11-02T20:53:22Z",
+   "_intel_brief": {
+    "data": "https://intel.brycemaxheimer.com/editions/2026-11-02/edition.json",
+    "stories": [
+     {
+      "title": "Ivanti patches two more Connect Secure zero-days chained with CVE-2026-104935; CISA adds both to KEV",
+      "cves": [
+       "CVE-2026-111357",
+       "CVE-2026-118527",
+       "CVE-2026-104935"
+      ],
+      "score": 100
+     },
+     {
+      "title": "FBI attributes record $6.3 billion Binance crypto theft to North Korea's TraderTraitor",
+      "cves": [],
+      "score": 62
+     },
+     {
+      "title": "Over 1,000 internet-exposed GitLab servers remain unpatched against an actively exploited RCE flaw",
+      "cves": [],
+      "score": 61
+     },
+     {
+      "title": "Chainalysis discloses data breach it attributes to an AI-driven intrusion",
+      "cves": [],
+      "score": 55
+     },
+     {
+      "title": "Apple sends mercenary spyware threat notifications to users in 99 countries",
+      "cves": [],
+      "score": 51
+     },
+     {
+      "title": "Attackers remotely changed refrigeration settings at European supermarket chains",
+      "cves": [],
+      "score": 51
+     },
+     {
+      "title": "Microsoft resolves Smart App Control activation issue caused by October 2026 Windows 11 update",
+      "cves": [],
+      "score": 48
+     },
+     {
+      "title": "WAVLINK WN-series router firmware hit by six remote command injection and overflow CVEs",
+      "cves": [
+       "CVE-2026-120238",
+       "CVE-2026-120276",
+       "CVE-2026-120277",
+       "CVE-2026-120280",
+       "CVE-2026-120281",
+       "CVE-2026-120345"
+      ],
+      "score": 47
+     },
+     {
+      "title": "Google disrupts XCPE botnet of over 1.3 million Android TV boxes and bans the device maker",
+      "cves": [],
+      "score": 47
+     },
+     {
+      "title": "Malicious Claude Code extension delivered to Cursor users ran reconnaissance and tried a reverse SSH tunnel",
+      "cves": [],
+      "score": 47
+     }
+    ],
+    "explainer": "Exploit chaining on edge appliances, and why patching does not evict an attacker",
+    "good_news": [
+     "Google and partners dismantle XCPE botnet of more than 1.3 million Android TV boxes",
+     "Google offers up to $250,000 for root-in-cloud vulnerability research",
+     "SANS ISC explains how to recognise Multipath TCP traffic on your network"
+    ]
+   }
+  },
+  {
    "id": "https://intel.brycemaxheimer.com/editions/2026-11-01/",
    "url": "https://intel.brycemaxheimer.com/editions/2026-11-01/",
    "title": "Daily Intel Brief: 2026-11-01",

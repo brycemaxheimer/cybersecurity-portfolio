@@ -69,6 +69,13 @@ def clean_model_text(text: str, max_len: int = 4000) -> str:
     return text
 
 
+def has_url(text: str) -> str | None:
+    """The first URL-looking run in text, or None. Published model text has been
+    through clean_model_text, so a hit means a field was never cleaned."""
+    m = _URL_IN_TEXT.search(text or "")
+    return m.group(0) if m else None
+
+
 class _TextExtractor(HTMLParser):
     def __init__(self) -> None:
         super().__init__(convert_charrefs=True)

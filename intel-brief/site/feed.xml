@@ -15,7 +15,52 @@ Explainer: Session token theft: why MFA alone does not stop account takeover
 Good news: Google and partners dismantle botnet of 1.3 million Android TV boxes used as proxies
 Good news: Two Canadians charged and one extradited over university cryptomining hacks
 Good news: Vercel rolls out Device Bound Session Credentials against stolen cookie attacks
-Good news: Cisco patches UCS Central RCE as WatchGuard fixes authentication and MitM flaws</description></item><item><title>Daily Intel Brief: 2026-11-01</title><link>https://intel.brycemaxheimer.com/editions/2026-11-01/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-01/</guid><pubDate>Sun, 01 Nov 2026 17:14:30 +0000</pubDate><description>1. Brotli decoder buffer overflow CVE-2026-111497 listed by MSRC; KEV-listed with public PoC
+Good news: Cisco patches UCS Central RCE as WatchGuard fixes authentication and MitM flaws</description></item><item><title>Daily Intel Brief: 2026-11-04</title><link>https://intel.brycemaxheimer.com/editions/2026-11-04/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-04/</guid><pubDate>Wed, 04 Nov 2026 18:47:01 +0000</pubDate><description>1. Ivanti Connect Secure zero-days CVE-2026-111357 and CVE-2026-118527 chained and exploited in the wild
+2. Microsoft: fake-download installers silently turn PCs into proxyware and compute-sharing nodes
+3. CISA adds exploited WordPress core upgrade race condition CVE-2026-119977 to KEV
+4. Operation CloudFire phishing used Google Calendar invites to hijack corporate Google sessions
+5. NIKKE PC game launcher scripts tampered in supply-chain attack to spread infostealer malware
+6. WorkOS discloses breach of internal sales app; Northflank and Trigger.dev also report hacks
+7. Google reports LLMjacking attacks driving about $1 million in fraudulent cloud AI charges
+8. mSecure password manager breach exposes encrypted customer database; users told to reset credentials
+9. Binance links $6.34 billion theft to North Korean fake job interview malware
+10. Google and partners disrupt XCPE botnet of over 1.3 million Android TV boxes
+New KEV entries: CVE-2026-119977
+Early signals: CVE-2026-109518, CVE-2026-109593, CVE-2026-58115, CVE-2026-58868, CVE-2026-121966
+Explainer: Chaining low-privilege bugs into unauthenticated root on edge appliances
+Good news: Google and partners dismantle XCPE botnet of 1.3 million malicious Android TV boxes
+Good news: Material Security helps take down nearly 900 domains in Operation CloudFire phishing campaign
+Good news: Two Canadians charged over cryptomining hacks on US university supercomputers
+Good news: Chrome 157 ships 213 security fixes, seven rated critical</description></item><item><title>Daily Intel Brief: 2026-11-03</title><link>https://intel.brycemaxheimer.com/editions/2026-11-03/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-03/</guid><pubDate>Tue, 03 Nov 2026 18:34:48 +0000</pubDate><description>1. Ivanti Connect Secure zero-day chain exploited; fixes now cover all three CVEs
+2. Microsoft details fake-download campaign pushing trojanized Inno Setup installers with monetization payloads
+3. Google and partners take down XCPE botnet of 1.3 million Android TV boxes, cut ties with Videostrong
+4. Second wave of attacks tampers with supermarket refrigeration controllers across Europe
+5. Frontline Education breach through third-party software flaw affects over 1.3 million people
+6. 3AM ransomware affiliate encrypts about 37 machines at UK school estate from an unmanaged host
+7. BleepingComputer: Chinese hackers used ARTEX AI pentest framework against 200+ organizations
+8. Binance attributes $6.3 billion crypto theft to North Korean campaign; Pyongyang denies involvement
+9. Russia-linked espionage group targets Ukrainian war crimes investigations and military aid routes
+10. Over 1,000 internet-exposed GitLab servers still unpatched against actively exploited critical RCE
+Early signals: CVE-2026-58115, CVE-2026-28336, CVE-2024-10441, CVE-2026-116606
+Explainer: LAPS passwords and BitLocker recovery keys as Active Directory secrets
+Good news: European police arrest seven and seize over 100 servers in investment scam crackdown
+Good news: Russian police dismantle VasyGrek cybercrime infrastructure and detain three suspects
+Good news: Android November 2026 update fixes over 200 vulnerabilities, including critical Framework RCE
+Good news: Barracuda urges customers to patch two critical flaws that allow root command execution</description></item><item><title>Daily Intel Brief: 2026-11-02</title><link>https://intel.brycemaxheimer.com/editions/2026-11-02/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-02/</guid><pubDate>Mon, 02 Nov 2026 20:53:22 +0000</pubDate><description>1. Ivanti patches two more Connect Secure zero-days chained with CVE-2026-104935; CISA adds both to KEV
+2. FBI attributes record $6.3 billion Binance crypto theft to North Korea's TraderTraitor
+3. Over 1,000 internet-exposed GitLab servers remain unpatched against an actively exploited RCE flaw
+4. Chainalysis discloses data breach it attributes to an AI-driven intrusion
+5. Apple sends mercenary spyware threat notifications to users in 99 countries
+6. Attackers remotely changed refrigeration settings at European supermarket chains
+7. Microsoft resolves Smart App Control activation issue caused by October 2026 Windows 11 update
+8. WAVLINK WN-series router firmware hit by six remote command injection and overflow CVEs
+9. Google disrupts XCPE botnet of over 1.3 million Android TV boxes and bans the device maker
+10. Malicious Claude Code extension delivered to Cursor users ran reconnaissance and tried a reverse SSH tunnel
+Early signals: CVE-2026-105604, CVE-2026-119085, CVE-2026-116606
+Explainer: Exploit chaining on edge appliances, and why patching does not evict an attacker
+Good news: Google and partners dismantle XCPE botnet of more than 1.3 million Android TV boxes
+Good news: Google offers up to $250,000 for root-in-cloud vulnerability research
+Good news: SANS ISC explains how to recognise Multipath TCP traffic on your network</description></item><item><title>Daily Intel Brief: 2026-11-01</title><link>https://intel.brycemaxheimer.com/editions/2026-11-01/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-01/</guid><pubDate>Sun, 01 Nov 2026 17:14:30 +0000</pubDate><description>1. Brotli decoder buffer overflow CVE-2026-111497 listed by MSRC; KEV-listed with public PoC
 2. Northflank breach leads to abuse of customer AI API keys; customers told to rotate all secrets
 3. Chainalysis discloses breach exposing customer names, emails, user IDs and roles
 4. Cisco Talos details VOLTA infostealer that has an LLM rank victims' stolen assets by monetization value

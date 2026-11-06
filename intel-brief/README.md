@@ -3,8 +3,9 @@
 A daily, AI-generated threat-intel page for SOC analysts, published at
 `intel.brycemaxheimer.com`. Every morning a GitHub Actions job collects free
 public sources, uses Claude to rank and summarize them, drafts detections,
-renders a static site, and opens a pull request. Nothing is published until a
-person merges that PR.
+renders a static site, and opens a pull request. The edition is checked by
+`python -m intel_brief verify`; if every gate passes the job merges its own PR
+and the edition publishes itself. A failed gate holds the PR for review instead.
 
 It lives in the `cybersecurity-portfolio` repo but is deployed separately:
 Cloudflare Workers Builds deploys `intel-brief/site` to its own static-assets
@@ -41,7 +42,7 @@ Each edition has:
 
 ```
 collect (plain code)  ->  triage (Haiku 5.5)  ->  write-ups (Opus 5.5 / Sonnet 5.5)
-                                               ->  detections  ->  render  ->  PR  ->  merge  ->  deploy
+                                               ->  detections  ->  render  ->  verify  ->  PR  ->  merge  ->  deploy
 ```
 
 | Step | Code | What it does |
@@ -87,9 +88,15 @@ Everything the collector fetches is untrusted. It may contain prompt injection.
   explicitly. It is never written to disk or committed. The code deliberately
   doesn't use `ANTHROPIC_API_KEY`: a user-level `ANTHROPIC_API_KEY` would also
   switch Claude Code on the same machine to API billing.
-- **Review mode.** The daily workflow opens a PR that touches only
-  `intel-brief/data/` and `intel-brief/site/`. Merging it is what publishes.
-  The workflow holds no Cloudflare credentials; Workers Builds deploys on merge.
+- **Gated publishing.** The daily workflow opens a PR that touches only
+  `intel-brief/data/` and `intel-brief/site/`, then merges it only if
+  `intel_brief/verify.py` passes. Those gates are what stands between an
+  untrusted feed and the public page, so they are the thing to extend rather
+  than loosen: shape, substance, cost, source health, model refusals, and
+  whether anything reached the page as markup, as an event handler, or as a
+  link off the allowlist. A failure holds the PR, labels it `needs-review`, and
+  fails the job. The workflow holds no Cloudflare credentials; Workers Builds
+  deploys on merge.
 - **Supply chain.** Python dependencies install with `--require-hashes` from
   `requirements.lock`. Actions are pinned by commit SHA. The Kusto.Language
   package is checked against nuget.org's published SHA-512 and is never
@@ -140,6 +147,10 @@ pwsh -File tools\fetch_kusto_language.ps1        # optional: enables the KQL par
 # Re-render site/ from data/editions/*.json
 .\.venv\Scripts\python -m intel_brief render
 
+# Run the gates that decide whether an edition may publish itself.
+# Exit 0 means the daily job would merge it; 1 means it would be held.
+.\.venv\Scripts\python -m intel_brief verify --date 2026-11-05
+
 # Tests
 .\.venv\Scripts\python -m unittest discover -s tests
 ```
@@ -158,7 +169,8 @@ data/editions/     one JSON per edition (source of truth for the site)
 data/runs/         per-run cost and source status
 site/              rendered output that gets deployed (committed, so the PR shows exactly what will ship)
 wrangler.jsonc     the intel-brief Worker (static assets from ./site, custom domain intel.brycemaxheimer.com)
-../.github/workflows/intel-daily.yml   daily build + review PR (at the repo root, where GitHub requires it)
+intel_brief/verify.py                  the gates an edition must pass to publish itself
+../.github/workflows/intel-daily.yml   daily build, verify, PR, merge (at the repo root, where GitHub requires it)
 ../.assetsignore   keeps intel-brief/ out of the portfolio Worker's assets
 ```
 
@@ -192,8 +204,13 @@ These are done by hand, in this order. Each one is outward-facing.
      ideally from a workspace with a monthly spend limit.
    - `NVD_API_KEY` (optional, free from NVD).
    No Cloudflare secrets: Workers Builds deploys, not the workflow.
-7. **Protect `main`** (recommended). Require a PR to merge, so the bot can only
-   propose editions, never publish them.
+7. **Protect `main`, but let this workflow merge.** Requiring a PR to merge is
+   worth keeping: every edition still arrives as a reviewable diff. What the
+   rules must not do is require an approving review, because the daily job
+   merges its own PR once the gates pass -- that is what replaced the manual
+   review. Under Settings, Branches (or Rules), allow `github-actions[bot]` to
+   bypass the pull-request requirement. If the rules refuse the bot, the
+   Publish step says so explicitly and the edition waits for a hand merge.
 8. **Link it from the portfolio** (optional), for example from the nav.
 
 After that, the daily workflow runs at 11:15 UTC (07:15 EDT / 06:15 EST) and
