@@ -1,1 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#0f2a3d"/><path d="M8 22V10h3v12zm6 0V10h3l5 7.4V10h3v12h-3l-5-7.4V22z" fill="#5ec8e5"/></svg>
+<!-- The brief itself: an ink ground, a white sheet, the red nameplate band and
+     two headline rules. Colours are the site's own tokens (ink #141414, brand
+     #B3141B, white), so the tab matches the masthead.
+     Geometry only, no text element: a favicon cannot rely on a webfont. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Daily Intel Brief">
+  <rect width="32" height="32" rx="7" fill="#141414"/>
+  <rect x="5.5" y="3.5" width="21" height="25" rx="1.8" fill="#FFFFFF"/>
+  <path d="M5.5 5.3a1.8 1.8 0 0 1 1.8-1.8h17.4a1.8 1.8 0 0 1 1.8 1.8v6.7H5.5z" fill="#B3141B"/>
+  <rect x="8.5" y="15" width="15" height="3" rx="1.5" fill="#141414"/>
+  <rect x="8.5" y="19.8" width="15" height="2.4" rx="1.2" fill="#141414" fill-opacity=".42"/>
+  <rect x="8.5" y="23.8" width="9" height="2.4" rx="1.2" fill="#141414" fill-opacity=".42"/>
+</svg>
