@@ -16,7 +16,15 @@ name: Intel brief daily edition
 
 on:
   schedule:
-    # GitHub cron is UTC: 11:15 UTC = 07:15 EDT / 06:15 EST.
+    # GitHub cron is UTC: 11:15 UTC = 07:15 EDT / 06:15 EST. That is when the
+    # run is *asked* for, not when it happens. GitHub's scheduler is
+    # best-effort and queues under load: the first five runs started 5h53m to
+    # 9h32m late (median 7h24m), landing 12:08-15:47 US Eastern. Nothing is
+    # lost by that -- the collection window ends at the run, so a late run
+    # collects fresher material -- and the page states a date, never a time.
+    # Worth watching: the edition date below comes from the Eastern clock at
+    # run time, so a delay past local midnight would date the edition a day
+    # on. The worst seen leaves about 8 hours of headroom.
     - cron: "15 11 * * *"
   workflow_dispatch:
     inputs:
