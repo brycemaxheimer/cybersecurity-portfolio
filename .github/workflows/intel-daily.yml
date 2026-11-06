@@ -64,8 +64,18 @@ jobs:
       pull-requests: write   # open and merge the review PR
       issues: write          # label a held edition
     steps:
+      # ref: main, not the commit that triggered the run. A scheduled run is
+      # queued against main as it was at the cron time and can start many hours
+      # later (see the schedule note above), so the triggering commit is often
+      # stale. The edition branch is cut from this checkout, and if it carried
+      # an older .github/workflows/ than main, the push would be rejected with
+      # "refusing to allow a GitHub App to create or update workflow ... without
+      # `workflows` permission" -- a scope GITHUB_TOKEN cannot be granted here.
+      # Building from the current tip also means the run uses the latest
+      # pipeline code and sees every published edition when sizing its window.
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          ref: main
           persist-credentials: true
 
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
