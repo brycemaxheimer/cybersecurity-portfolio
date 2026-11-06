@@ -1,7 +1,7 @@
 # intel-brief
 
 A daily, AI-generated threat-intel page for SOC analysts, published at
-`intel.brycemaxheimer.com`. Every morning a GitHub Actions job collects free
+`intel.brycemaxheimer.com`. Once a day a GitHub Actions job collects free
 public sources, uses Claude to rank and summarize them, drafts detections,
 renders a static site, and opens a pull request. The edition is checked by
 `python -m intel_brief verify`; if every gate passes the job merges its own PR
@@ -213,8 +213,12 @@ These are done by hand, in this order. Each one is outward-facing.
    Publish step says so explicitly and the edition waits for a hand merge.
 8. **Link it from the portfolio** (optional), for example from the nav.
 
-After that, the daily workflow runs at 11:15 UTC (07:15 EDT / 06:15 EST) and
-opens an "Intel brief: edition YYYY-MM-DD" PR. You can also run it by hand
+After that, the daily workflow is scheduled for 11:15 UTC (07:15 EDT / 06:15
+EST) and opens an "Intel brief: edition YYYY-MM-DD" PR. Expect it later than
+that: GitHub's scheduler is best-effort, and the first five runs started
+between 5h53m and 9h32m late, so editions land early-to-mid afternoon Eastern.
+The lateness costs nothing -- the collection window ends at the run, so a late
+run sees fresher material, and the page carries a date, not a time. You can also run it by hand
 from the Actions tab with a different model, cost cap or date.
 
 ## Phase 2 (not built)
