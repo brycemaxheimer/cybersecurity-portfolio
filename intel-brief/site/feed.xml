@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>Daily Intel Brief</title><link>https://intel.brycemaxheimer.com/</link><description>Daily AI-generated threat-intel brief: top stories, new KEV entries, early signals and detections.</description><language>en-us</language><item><title>Daily Intel Brief: 2026-11-06</title><link>https://intel.brycemaxheimer.com/editions/2026-11-06/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-06/</guid><pubDate>Sat, 07 Nov 2026 07:42:53 +0000</pubDate><description>1. Barracuda ESG pre-auth bypass and command injection chain to root RCE; fixed in 9.4.0.029
+<rss version="2.0"><channel><title>Daily Intel Brief</title><link>https://intel.brycemaxheimer.com/</link><description>Daily AI-generated threat-intel brief: top stories, new KEV entries, early signals and detections.</description><language>en-us</language><item><title>Daily Intel Brief: 2026-11-07</title><link>https://intel.brycemaxheimer.com/editions/2026-11-07/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-07/</guid><pubDate>Sat, 07 Nov 2026 16:21:35 +0000</pubDate><description>1. SonicWall SonicOS SSLVPN flaw exploited to bypass SAML MFA; CISA adds CVE-2026-19868 to KEV
+2. WorkOS says AI hacking agent run by a researcher breached its internal sales application
+3. Microsoft fixes Windows Paint remote code execution flaw CVE-2026-83844 in Paint build 11.2609.401.0
+4. Fake security tools on GitHub target security professionals with backdoor and infostealer
+5. US seeks extradition of three suspects in AI-assisted CEO-impersonation fraud over $100 million
+6. Researchers report residential proxy services routing traffic through White House network addresses
+7. Chainalysis breach exposed credentials and live tokens for all customers
+8. DigiCert reports breach of business customer contact data through unauthorized internal account
+9. Attacks hit European refrigeration controllers; US agencies publish hardening guidance
+10. QNAP warns of in-the-wild Plex2Shell attacks on NAS devices running Plex Media Server
+New KEV entries: CVE-2026-19868
+Early signals: CVE-2026-98432, CVE-2026-83844
+Explainer: Authentication downgrade: when an alternate login path skips SAML-enforced MFA
+Good news: OpenSSH ships fixes for 'SSHole' password authentication bypass
+Good news: Japan announces emergency cybersecurity package after wave of attacks
+Good news: Four states settle with Perry Johnson subsidiaries over 2023 patient data hack</description></item><item><title>Daily Intel Brief: 2026-11-06</title><link>https://intel.brycemaxheimer.com/editions/2026-11-06/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-06/</guid><pubDate>Sat, 07 Nov 2026 07:42:53 +0000</pubDate><description>1. Barracuda ESG pre-auth bypass and command injection chain to root RCE; fixed in 9.4.0.029
 2. Scanners still probing Cisco IOS XE web UI flaw CVE-2023-20198, SANS honeypot shows
 3. Fake OpenAI, SpaceX and Anthropic event invitations used to steal Microsoft and Google accounts
 4. Microsoft: threat actors use agentic AI framework to harvest GitHub secrets and pivot into Azure
