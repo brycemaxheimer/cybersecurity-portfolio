@@ -40,6 +40,18 @@ Each edition has:
 
 ## How it works
 
+Each edition covers one day: the whole of the day before its own date, in the
+site's timezone, and nothing outside it. The edition dated 6 November reports
+5 November. The delay is the point -- a day is usually enough for a first
+report to be corrected, confirmed by a vendor advisory, or quietly dropped --
+and it means the page never mixes an hour-old claim with one from two days
+ago. `config.day_window` is the single definition; the collector gathers by it
+and `intel_brief verify` checks each edition against it.
+
+Because the window comes from the date and not from the clock, when the job
+actually runs does not change what the edition contains, and rebuilding a past
+date reproduces it exactly.
+
 ```
 collect (plain code)  ->  triage (Haiku 5.5)  ->  write-ups (Opus 5.5 / Sonnet 5.5)
                                                ->  detections  ->  render  ->  verify  ->  PR  ->  merge  ->  deploy
@@ -47,7 +59,7 @@ collect (plain code)  ->  triage (Haiku 5.5)  ->  write-ups (Opus 5.5 / Sonnet 5
 
 | Step | Code | What it does |
 |---|---|---|
-| 1. Collect | `intel_brief/collect/` | CISA KEV, NVD CVE API 2.0 (high/critical, last ~26 h), FIRST EPSS, MSRC and CISA advisories, news RSS (`config/sources.toml`), new SigmaHQ rules (git history of a shallow clone), PoC repo links (nomi-sec/PoC-in-GitHub index), Bluesky, Mastodon (infosec.exchange), r/netsec, Hacker News. X/Twitter is left out: its API is paid and scraping breaks its terms. |
+| 1. Collect | `intel_brief/collect/` | CISA KEV, NVD CVE API 2.0 (high/critical, published on the covered day), FIRST EPSS, MSRC and CISA advisories, news RSS (`config/sources.toml`), new SigmaHQ rules (git history of a shallow clone), PoC repo links (nomi-sec/PoC-in-GitHub index), Bluesky, Mastodon (infosec.exchange), r/netsec, Hacker News. X/Twitter is left out: its API is paid and scraping breaks its terms. |
 | 2. Triage | `intel_brief/triage.py` | `claude-haiku-5-5` groups items into stories and labels them: exploitation status, how widely the product is used, platform (Windows, M365/Entra, edge device...). **Code** computes the score from those labels plus KEV, EPSS, CVSS and source count. If the call fails or is refused, code groups items by CVE instead. |
 | 3. Write-ups | `intel_brief/writeup.py` | One call per top story with `claude-opus-5-5` (default) or `claude-sonnet-5-5`, so one refusal costs one story, not the edition. |
 | 3b. Explainer and good news | `intel_brief/explainer.py` | One call with the write-up model after all write-ups, so it never takes budget from them. It picks a concept tied to the day's stories (skipping concepts from the last 30 editions) and up to 4 good-news items from the collected news and advisories. Good-news entries without a collected source are dropped; links come from the collector. CVE IDs the explainer names that no source mentions are flagged on the page. Settings in `[explainer]` in `config/settings.toml`. |
@@ -213,12 +225,12 @@ These are done by hand, in this order. Each one is outward-facing.
    Publish step says so explicitly and the edition waits for a hand merge.
 8. **Link it from the portfolio** (optional), for example from the nav.
 
-After that, the daily workflow is scheduled for 11:15 UTC (07:15 EDT / 06:15
-EST) and opens an "Intel brief: edition YYYY-MM-DD" PR. Expect it later than
+After that, the daily workflow is scheduled for 10:00 UTC (05:00 EST, 06:00
+EDT) and opens an "Intel brief: edition YYYY-MM-DD" PR. Expect it later than
 that: GitHub's scheduler is best-effort, and the first five runs started
-between 5h53m and 9h32m late, so editions land early-to-mid afternoon Eastern.
-The lateness costs nothing -- the collection window ends at the run, so a late
-run sees fresher material, and the page carries a date, not a time. You can also run it by hand
+between 5h53m and 9h32m late. The lateness no longer affects what is in the
+edition, only when it appears, because the window is fixed by the edition's
+date rather than by the clock. You can also run it by hand
 from the Actions tab with a different model, cost cap or date.
 
 ## Phase 2 (not built)

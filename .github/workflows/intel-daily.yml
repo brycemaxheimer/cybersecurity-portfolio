@@ -16,16 +16,23 @@ name: Intel brief daily edition
 
 on:
   schedule:
-    # GitHub cron is UTC: 11:15 UTC = 07:15 EDT / 06:15 EST. That is when the
-    # run is *asked* for, not when it happens. GitHub's scheduler is
-    # best-effort and queues under load: the first five runs started 5h53m to
-    # 9h32m late (median 7h24m), landing 12:08-15:47 US Eastern. Nothing is
-    # lost by that -- the collection window ends at the run, so a late run
-    # collects fresher material -- and the page states a date, never a time.
-    # Worth watching: the edition date below comes from the Eastern clock at
-    # run time, so a delay past local midnight would date the edition a day
-    # on. The worst seen leaves about 8 hours of headroom.
-    - cron: "15 11 * * *"
+    # 10:00 UTC is 05:00 EST, the intended publication hour. Under daylight
+    # saving the same cron is 06:00 EDT; GitHub cron has no timezone, and an
+    # hour's drift for half the year is not worth a second schedule.
+    #
+    # That is when the run is *asked* for, not when it happens. GitHub's
+    # scheduler is best-effort and queues under load: the first five runs
+    # started 5h53m to 9h32m late. What that no longer affects is the content.
+    # An edition covers the calendar day before its date, a window derived from
+    # the date and not from the clock, so a run at 05:00 and the same run at
+    # 13:00 produce the same edition. Lateness now moves only the hour the page
+    # appears.
+    #
+    # The edition date still comes from the Eastern clock at run time, so a run
+    # delayed past local midnight would date its edition a day on and report
+    # the wrong day. From 10:00 UTC that is 19 hours of headroom, against the
+    # 9h32m worst seen.
+    - cron: "0 10 * * *"
   workflow_dispatch:
     inputs:
       writeup_model:

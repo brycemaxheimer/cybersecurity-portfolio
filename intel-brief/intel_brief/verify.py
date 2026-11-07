@@ -28,12 +28,13 @@ from __future__ import annotations
 import json
 import re
 import xml.etree.ElementTree as ET
-from datetime import datetime, timedelta, timezone
+from datetime import date as _date_cls, datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
 from pathlib import Path
 from typing import Iterator, NamedTuple
 from urllib.parse import urlsplit
 
-from .config import EDITIONS_DIR, RUNS_DIR, SITE_DIR, load_settings, load_sources
+from .config import EDITIONS_DIR, RUNS_DIR, SITE_DIR, day_window, load_settings, load_sources
 from .safety import BUILTIN_HOSTS, has_url
 
 FAIL = "FAIL"
@@ -197,36 +198,49 @@ def _check_sources(ed: dict, cfg: dict) -> list[Finding]:
     return out
 
 
-def _check_coverage(ed: dict, date: str) -> list[Finding]:
-    """A held edition stretches the next window, but only to 72 h. Past that,
-    intel is dropped and never appears in any edition, so say so loudly."""
+def _check_coverage(ed: dict, date: str, settings: dict) -> list[Finding]:
+    """An edition covers the calendar day before its own date, exactly.
+
+    That window is derived from the date alone, so it is checkable rather than
+    merely plausible: anything else means the page's account of what it read is
+    wrong, whatever the stories say.
+    """
     out = []
     window = ed.get("window") or {}
     since, until = _parse_dt(window.get("since", "")), _parse_dt(window.get("until", ""))
     if not since or not until:
         return [Finding(FAIL, "coverage", f"unreadable window {window!r}")]
-    if until <= since:
-        return [Finding(FAIL, "coverage", f"window ends before it starts: {window!r}")]
 
-    previous = None
-    for p in sorted(EDITIONS_DIR.glob("*.json"), reverse=True):
-        if p.stem < date:
-            previous = _parse_dt((json.loads(p.read_text(encoding="utf-8"))
-                                  .get("window") or {}).get("until", ""))
-            break
-    if previous and since > previous + timedelta(minutes=5):
-        gap = since - previous
+    day = _date_cls.fromisoformat(date)
+    covers = day - timedelta(days=1)
+    want_since, want_until = day_window(day, settings)
+    tz = ZoneInfo(settings["site"]["timezone"])
+    if since != want_since or until != want_until:
         out.append(Finding(
-            WARN, "coverage",
-            f"{gap.total_seconds() / 3600:.1f} h between the last edition's window and this "
-            "one: intel published in that span is in no edition"))
+            FAIL, "coverage",
+            f"window is {since.isoformat()} to {until.isoformat()}; the {date} edition must "
+            f"cover the whole of {covers.isoformat()}, which is {want_since.isoformat()} to "
+            f"{want_until.isoformat()}"))
+
+    previous = next((p.stem for p in sorted(EDITIONS_DIR.glob("*.json"), reverse=True)
+                     if p.stem < date), None)
+    if previous:
+        try:
+            missed = (day - _date_cls.fromisoformat(previous)).days - 1
+        except ValueError:
+            missed = 0
+        if missed > 0:
+            out.append(Finding(
+                WARN, "coverage",
+                f"no edition between {previous} and {date}: {missed} day(s) are reported by "
+                "no edition, and nothing later will pick them up"))
 
     generated = _parse_dt(ed.get("generated_at", ""))
-    if generated and abs((generated - until).total_seconds()) > 6 * 3600:
+    if generated and generated.astimezone(tz).date() != day:
         out.append(Finding(
             WARN, "coverage",
-            f"the window closed {(generated - until).total_seconds() / 3600:.1f} h before the "
-            "edition was generated"))
+            f"generated on {generated.astimezone(tz).date().isoformat()} local time, not {date}: "
+            "a run that slips past local midnight dates its edition a day on"))
     return out
 
 
@@ -363,7 +377,7 @@ def verify(date: str, settings: dict | None = None) -> list[Finding]:
         *_check_substance(ed, cfg),
         *_check_honesty(ed, run),
         *_check_sources(ed, cfg),
-        *_check_coverage(ed, date),
+        *_check_coverage(ed, date, settings),
         *_check_prose(ed),
         *_check_page(date, cfg, hosts),
         *_check_feeds(date),

@@ -31,7 +31,6 @@ def main(argv: list[str] | None = None) -> int:
     r.add_argument("--top", type=int, default=settings["edition"]["top_stories"], help="number of stories to write up")
     r.add_argument("--dry-run", action="store_true", help="no model calls; fallback triage, no write-ups")
     r.add_argument("--from-cache", action="store_true", help="reuse .cache/runs/<date>/collection.json if present")
-    r.add_argument("--lookback-hours", type=int, help="collection window (default from settings.toml; max 72)")
     r.add_argument("--no-render", action="store_true")
 
     sub.add_parser("render", help="render site/ from data/editions/")
@@ -85,8 +84,6 @@ def main(argv: list[str] | None = None) -> int:
 
     from .pipeline import run
 
-    if args.lookback_hours:
-        settings["collect"]["lookback_hours"] = args.lookback_hours
     log = run(
         run_date,
         settings,

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import date, timedelta
+from datetime import date
 
 from ..http import get_json
 from ..models import Item
@@ -24,9 +24,15 @@ def fetch_catalog() -> dict:
     raise RuntimeError(f"KEV unavailable: {last}")
 
 
-def collect(run_date: date, catalog: dict, already_published: set[str]) -> list[Item]:
-    """Entries added yesterday or today that no earlier edition listed."""
-    earliest = run_date - timedelta(days=1)
+def collect(covers: date, catalog: dict, already_published: set[str]) -> list[Item]:
+    """Entries CISA added on the day this edition covers, that no earlier
+    edition listed.
+
+    Exactly that day, not a span: the edition reports one day and dateAdded is
+    a date, so an entry belongs to the edition for the day after it was added.
+    An entry CISA backdates after that day's edition has run is therefore never
+    shown; widen this if that turns out to happen in practice.
+    """
     items = []
     for v in catalog.get("vulnerabilities", []):
         cve = str(v.get("cveID", "")).upper()
@@ -34,7 +40,7 @@ def collect(run_date: date, catalog: dict, already_published: set[str]) -> list[
             added = date.fromisoformat(v.get("dateAdded", ""))
         except ValueError:
             continue
-        if added < earliest or added > run_date or cve in already_published:
+        if added != covers or cve in already_published:
             continue
         items.append(
             Item(

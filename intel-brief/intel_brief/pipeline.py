@@ -57,17 +57,6 @@ def without_good_news(more: list[dict], good_news: list[dict]) -> list[dict]:
     return [m for m in more if not urls.intersection(src["url"] for src in m["sources"])]
 
 
-def _previous_until(run_date: date) -> datetime | None:
-    for p in sorted(EDITIONS_DIR.glob("*.json"), reverse=True):
-        if p.stem < run_date.isoformat():
-            try:
-                until = json.loads(p.read_text(encoding="utf-8"))["window"]["until"]
-                return datetime.fromisoformat(until)
-            except (OSError, ValueError, KeyError):
-                return None
-    return None
-
-
 def _cache_path(run_date: date):
     return CACHE_DIR / "runs" / run_date.isoformat() / "collection.json"
 
@@ -143,7 +132,7 @@ def run(
 
     col = _load_collection(run_date) if from_cache else None
     if col is None:
-        col = collect_all(run_date, settings, sources, _previous_kev(run_date), repo, _previous_until(run_date))
+        col = collect_all(run_date, settings, sources, _previous_kev(run_date), repo)
         _save_collection(col, run_date)
     log.info("collected %d items: %s", len(col.items), col.status)
 

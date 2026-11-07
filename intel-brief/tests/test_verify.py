@@ -8,14 +8,17 @@ about an otherwise-publishable edition and asserts the matching gate fires.
 import json
 import tempfile
 import unittest
+from datetime import date
 from pathlib import Path
 from unittest import mock
 
 from intel_brief import verify as V
-from intel_brief.config import load_settings
+from intel_brief.config import day_window, load_settings
 
 DATE = "2026-11-05"
 PREV = "2026-11-04"
+# The window the DATE edition must carry: the whole of PREV, US Eastern.
+SINCE, UNTIL = (d.isoformat() for d in day_window(date.fromisoformat(DATE), load_settings()))
 FILLER = "Filler sentence to push the page past the minimum size. " * 600
 
 
@@ -27,7 +30,7 @@ def edition(**over):
         "generator": "intel-brief 0.1.0",
         "models": {"triage": "claude-haiku-5-5", "writeup": "claude-opus-5-5",
                    "triage_method": "model"},
-        "window": {"since": f"{PREV}T18:47:00+00:00", "until": f"{DATE}T18:47:00+00:00"},
+        "window": {"since": SINCE, "until": UNTIL},
         "stats": {"items": {}, "stories_found": 9, "kql_parser": "available"},
         "sources_status": {"CISA KEV": "ok 1", "NVD": "ok 40",
                            "BleepingComputer": "ok 7", "SecurityWeek": "ok 2"},
@@ -254,23 +257,44 @@ class SourceTest(GateCase):
 
 
 class CoverageTest(GateCase):
-    def test_gap_since_the_last_edition_warns(self):
-        (self.eds / f"{PREV}.json").write_text(
-            json.dumps({"window": {"since": f"{PREV}T00:00:00+00:00",
-                                   "until": f"{PREV}T06:00:00+00:00"}}), encoding="utf-8")
-        hits = self.assertGate(V.WARN, "coverage")
-        self.assertIn("no edition", hits[0].message)
+    """An edition must cover the whole calendar day before its date, exactly."""
 
-    def test_no_gap_is_clean(self):
-        (self.eds / f"{PREV}.json").write_text(
-            json.dumps({"window": {"since": f"{PREV}T00:00:00+00:00",
-                                   "until": f"{PREV}T18:47:00+00:00"}}), encoding="utf-8")
+    def test_the_prior_day_window_is_clean(self):
         self.assertClean()
 
+    def test_a_rolling_lookback_window_blocks(self):
+        """The shape the pipeline used to produce: 26 h back from the run."""
+        ed = edition(window={"since": f"{PREV}T18:47:00+00:00",
+                             "until": f"{DATE}T18:47:00+00:00"})
+        hits = self.assertGate(V.FAIL, "coverage", ed=ed)
+        self.assertIn("must cover the whole of", hits[0].message)
+
+    def test_covering_its_own_day_blocks(self):
+        """Off by one the other way: the edition's own date, not the day before."""
+        since, until = (d.isoformat() for d in
+                        day_window(date.fromisoformat("2026-11-06"), self.settings))
+        self.assertGate(V.FAIL, "coverage", ed=edition(window={"since": since, "until": until}))
+
     def test_backwards_window_blocks(self):
-        ed = edition(window={"since": f"{DATE}T18:47:00+00:00",
-                             "until": f"{PREV}T18:47:00+00:00"})
-        self.assertGate(V.FAIL, "coverage", ed=ed)
+        self.assertGate(V.FAIL, "coverage",
+                        ed=edition(window={"since": UNTIL, "until": SINCE}))
+
+    def test_a_missing_day_warns(self):
+        """Nothing later picks a skipped day up now, so it has to be said."""
+        (self.eds / "2026-11-02.json").write_text(json.dumps({"date": "2026-11-02"}),
+                                                  encoding="utf-8")
+        hits = self.assertGate(V.WARN, "coverage")
+        self.assertIn("2 day(s)", hits[0].message)
+
+    def test_consecutive_editions_are_clean(self):
+        (self.eds / f"{PREV}.json").write_text(json.dumps({"date": PREV}), encoding="utf-8")
+        self.assertClean()
+
+    def test_generated_past_local_midnight_warns(self):
+        """A run that slips past midnight would date its edition a day on."""
+        hits = self.assertGate(V.WARN, "coverage",
+                               ed=edition(generated_at="2026-11-06T06:00:00Z"))
+        self.assertIn("local midnight", hits[0].message)
 
 
 class ProseTest(GateCase):

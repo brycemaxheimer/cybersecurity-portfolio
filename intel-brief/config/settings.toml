@@ -39,7 +39,8 @@ max_source_error_ratio = 0.25
 min_page_bytes = 20000
 
 [collect]
-lookback_hours = 26
+# No lookback setting: an edition covers the calendar day before its date, in
+# the [site] timezone, and that window is derived from the date alone.
 mastodon_max_pages = 25
 bluesky_max_pages = 10
 # Characters of feed text passed to the models per item (never published).
