@@ -1,0 +1,1158 @@
+{
+ "schema": 1,
+ "date": "2026-11-06",
+ "generated_at": "2026-11-07T07:42:53Z",
+ "generator": "intel-brief 0.1.0",
+ "models": {
+  "triage": "claude-haiku-5-5",
+  "writeup": "claude-opus-5-5",
+  "triage_method": "model"
+ },
+ "window": {
+  "since": "2026-11-05T05:00:00+00:00",
+  "until": "2026-11-06T05:00:00+00:00"
+ },
+ "stories": [
+  {
+   "id": "story-1",
+   "rank": 1,
+   "score": 95,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 18,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 10,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 4,
+    "in_kev": true,
+    "epss_max": 0.8684,
+    "cvss_max": 0
+   },
+   "title": "Barracuda ESG pre-auth bypass and command injection chain to root RCE; fixed in 9.4.0.029",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "widespread",
+    "platform": "edge_device",
+    "vendor": "Barracuda Networks",
+    "product": "Email Security Gateway"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-116606",
+     "cvss": 9.3,
+     "severity": "CRITICAL",
+     "products": [],
+     "epss": 0.00728,
+     "percentile": 0.54367,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [
+      {
+       "url": "https://github.com/watchtowrlabs/watchTowr-vs-Barracuda-RCE-CVE-2026-116606-CVE-2026-111560",
+       "name": "watchtowrlabs/watchTowr-vs-Barracuda-RCE-CVE-2026-116606-CVE-2026-111560",
+       "stars": 2,
+       "created": "2026-11-03"
+      }
+     ],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-111560",
+     "cvss": 8.6,
+     "severity": "HIGH",
+     "products": [],
+     "epss": 0.00471,
+     "percentile": 0.40901,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2023-2868",
+     "cvss": 9.4,
+     "severity": "CRITICAL",
+     "products": [
+      "barracuda email security gateway 300 firmware",
+      "barracuda email security gateway 400 firmware",
+      "barracuda email security gateway 600 firmware",
+      "barracuda email security gateway 800 firmware",
+      "barracuda email security gateway 900 firmware"
+     ],
+     "epss": 0.86841,
+     "percentile": 0.99747,
+     "in_kev": true,
+     "kev_due": null,
+     "poc": [
+      {
+       "url": "https://github.com/cfielding-r7/poc-cve-2023-2868",
+       "name": "cfielding-r7/poc-cve-2023-2868",
+       "stars": 11,
+       "created": "2023-06-20"
+      },
+      {
+       "url": "https://github.com/cashapp323232/CVE-2023-2868CVE-2023-2868",
+       "name": "cashapp323232/CVE-2023-2868CVE-2023-2868",
+       "stars": 0,
+       "created": "2023-07-30"
+      },
+      {
+       "url": "https://github.com/krmxd/CVE-2023-2868",
+       "name": "krmxd/CVE-2023-2868",
+       "stars": 0,
+       "created": "2023-08-25"
+      }
+     ],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "watchTowr Labs published a technical analysis on 5 November 2026 of two Barracuda flaws: CVE-2026-116606, a pre-authentication authorization bypass in Email Security Gateway (CVSS 9.3), and CVE-2026-111560, an OS command injection (CVSS 8.6) that also affects several other Barracuda appliances. According to watchTowr, chaining the two gives an unauthenticated attacker remote root code execution on the ESG. watchTowr compared vulnerable ESG 9.4.0.027 with patched 9.4.0.029 and says Barracuda shipped several patch files for the issues. Public proof-of-concept material is reported for CVE-2026-116606; the available source does not itself document in-the-wild exploitation of these two CVEs, although the story is tagged as exploited.",
+    "why_it_matters": "ESG sits at the mail edge and inspects all inbound mail, and its predecessor flaw CVE-2023-2868 was exploited as a zero-day by UNC4841, according to Mandiant via watchTowr, forcing physical appliance replacement. Neither new CVE is in CISA KEV yet and EPSS is low (0.7% and 0.5%), but a public technical write-up plus PoC for a pre-auth root chain on an internet-facing appliance usually shortens time to mass exploitation. Treat any unpatched ESG as exposed now.",
+    "affected_versions": [
+     "Barracuda Email Security Gateway (CVE-2026-116606, CVE-2026-111560); watchTowr tested 9.4.0.027 as vulnerable",
+     "CVE-2026-111560 also affects Barracuda Load Balancer ADC, Message Archiver, WAF Control Center, Web Application Firewall and Web Security Gateway (versions not stated)"
+    ],
+    "fixed_versions": [
+     "Barracuda ESG 9.4.0.029"
+    ],
+    "recommended_actions": [
+     "Confirm every Barracuda ESG is on 9.4.0.029 or later and that Barracuda's patch files for both CVEs are applied; patch other affected Barracuda products per Barracuda's advisory.",
+     "Restrict the ESG administrative web interface so it is not reachable from the internet.",
+     "Review ESG logs and outbound traffic from the appliance for unexpected connections, new processes or configuration changes since early November 2026.",
+     "Hunt for authentication attempts and lateral connections originating from the ESG appliance IP toward internal hosts.",
+     "If compromise is suspected, isolate the appliance, rotate credentials stored on or used by it (LDAP bind, SMTP relay, admin accounts) and engage Barracuda support."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Barracuda Networks is your new best friend (Barracuda Email Security Gateway Pre-Auth Remote Root RCE CVE-2026-116606 / CVE-2026-111560)",
+     "url": "https://labs.watchtowr.com/barracuda-networks-is-your-new-best-friend-barracuda-email-security-gateway-pre-auth-remote-root-rce-cve-2026-116606-cve-2026-111560/",
+     "source": "watchTowr Labs",
+     "kind": "news",
+     "published": "2026-11-05T21:19:58Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Inventory all Barracuda ESG, WAF, Load Balancer ADC, Message Archiver and Web Security Gateway appliances and record firmware versions.",
+     "Check whether any ESG management interface is internet-exposed using external attack surface data.",
+     "Pull ESG system and web access logs and look for unauthenticated requests to administrative endpoints and unusual command activity around the disclosure date.",
+     "Use Defender XDR to find network connections and logon attempts from the ESG appliance IP to internal endpoints (queries below, replace the placeholder IP).",
+     "Review firewall logs for outbound connections from the ESG to destinations other than expected update, DNS and mail servers."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Inbound connections to managed devices from Barracuda ESG IPs",
+      "kql": "let esgIps = dynamic([\"REPLACE_WITH_ESG_IP\"]);\nDeviceNetworkEvents\n| where Timestamp > ago(30d)\n| where RemoteIP in (esgIps) or LocalIP in (esgIps)\n| where ActionType in (\"InboundConnectionAccepted\", \"ConnectionSuccess\")\n| summarize Connections = count(), Ports = make_set(LocalPort, 20), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by DeviceName, RemoteIP, ActionType\n| order by Connections desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Logon attempts originating from Barracuda ESG IPs",
+      "kql": "let esgIps = dynamic([\"REPLACE_WITH_ESG_IP\"]);\nDeviceLogonEvents\n| where Timestamp > ago(30d)\n| where RemoteIP in (esgIps)\n| summarize Attempts = count(), Accounts = make_set(AccountName, 50), LogonTypes = make_set(LogonType, 10) by DeviceName, RemoteIP, ActionType\n| order by Attempts desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-2",
+   "rank": 2,
+   "score": 91,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 18,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 10,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": true,
+    "epss_max": 0.9961,
+    "cvss_max": 0
+   },
+   "title": "Scanners still probing Cisco IOS XE web UI flaw CVE-2023-20198, SANS honeypot shows",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "widespread",
+    "platform": "edge_device",
+    "vendor": "Cisco",
+    "product": "IOS"
+   },
+   "cves": [
+    {
+     "id": "CVE-2023-20198",
+     "cvss": 10.0,
+     "severity": "CRITICAL",
+     "products": [
+      "rockwellautomation allen-bradley stratix 5200 firmware",
+      "rockwellautomation allen-bradley stratix 5800 firmware",
+      "cisco ios xe"
+     ],
+     "epss": 0.99613,
+     "percentile": 0.99947,
+     "in_kev": true,
+     "kev_due": null,
+     "poc": [
+      {
+       "url": "https://github.com/smokeintheshell/CVE-2023-20198",
+       "name": "smokeintheshell/CVE-2023-20198",
+       "stars": 67,
+       "created": "2023-11-16"
+      },
+      {
+       "url": "https://github.com/W01fh4cker/CVE-2023-20198-RCE",
+       "name": "W01fh4cker/CVE-2023-20198-RCE",
+       "stars": 44,
+       "created": "2024-04-25"
+      },
+      {
+       "url": "https://github.com/fox-it/cisco-ios-xe-implant-detection",
+       "name": "fox-it/cisco-ios-xe-implant-detection",
+       "stars": 41,
+       "created": "2023-10-23"
+      }
+     ],
+     "sigmahq_rules": 1
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "On 5 November 2026, SANS Internet Storm Center reported honeypot traffic that it believes targets CVE-2023-20198, the critical authentication bypass in the Cisco IOS XE web UI. The requests post SOAP-formatted command-execution messages to the web services management endpoint. They URL-encode one character of the path, which SANS suggests may be meant to slip past simplistic WAF signatures. The traffic came from the exposure-management platform RootEvidence, which sent nonstandard opt-out headers that SANS had not seen before, and SANS describes the activity as nothing new.",
+    "why_it_matters": "CVE-2023-20198 has a CVSS score of 10.0 and is listed in CISA KEV with confirmed in-the-wild exploitation. Its EPSS score is 99.6%, and public exploit code exists. Any IOS XE switch or router, or affected Rockwell Stratix device, that still exposes the HTTP/HTTPS web UI to untrusted networks is being continuously probed and should be treated as at risk of full device takeover.",
+    "affected_versions": [
+     "Cisco IOS XE with the web UI (HTTP/HTTPS server) feature enabled; specific version ranges not stated in the sources",
+     "Rockwell Automation Allen-Bradley Stratix 5200 and 5800 firmware (per NVD product data; versions not stated)"
+    ],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Identify every IOS XE and Stratix device with the HTTP/HTTPS server enabled and confirm it runs a release Cisco lists as fixed for CVE-2023-20198.",
+     "Disable the web UI (ip http server / ip http secure-server) on internet-facing devices, or restrict it to trusted management networks via ACLs, until patched.",
+     "Check exposed devices for compromise: unexpected local accounts with high privilege, unknown configuration changes, and signs of the implant described in Cisco's original advisory.",
+     "Review web/WAF and firewall logs for requests to the web services management endpoint, including URL-encoded variants of the path.",
+     "Make sure WAF and IDS rules normalize URL encoding before matching, so encoded path variants are not missed."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Vulnerability Scans for Older Cisco IOS Vulnerability / Opt-Out Headers, (Thu, Nov 5th)",
+     "url": "https://isc.sans.edu/diary/rss/33492",
+     "source": "SANS ISC",
+     "kind": "news",
+     "published": "2026-11-05T15:29:08Z"
+    }
+   ],
+   "detection": {
+    "type": "behavioral",
+    "sigma": {
+     "origin": "sigmahq",
+     "title": "Exploitation Indicators Of CVE-2023-20198",
+     "url": "https://github.com/SigmaHQ/sigma/blob/master/rules-emerging-threats/2023/Exploits/CVE-2023-20198/cisco_syslog_cve_2023_20198_ios_xe_web_ui.yml",
+     "yaml": "title: Exploitation Indicators Of CVE-2023-20198\nid: 2ece8816-b7a0-4d9b-b0e8-ae7ad18bc02b\nstatus: test\ndescription: Detecting exploitation indicators of CVE-2023-20198 a privilege escalation vulnerability in Cisco IOS XE Software Web UI.\nreferences:\n    - https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-iosxe-webui-privesc-j22SaA4z\n    - https://www.thestack.technology/security-experts-call-for-incident-response-exercises-after-mass-cisco-device-exploitation/\nauthor: Lars B. P. Frydenskov (Trifork Security)\ndate: 2023-10-20\ntags:\n    - attack.privilege-escalation\n    - attack.initial-access\n    - detection.emerging-threats\nlogsource:\n    product: cisco\n    service: syslog\n    definition: 'Requirements: Cisco IOS XE system logs needs to be configured and ingested'\ndetection:\n    keyword_event:\n        - '%WEBUI-6-INSTALL_OPERATION_INFO:'\n        - '%SYS-5-CONFIG_P:'\n        - '%SEC_LOGIN-5-WEBLOGIN_SUCCESS:'\n    keyword_user:\n        - 'cisco_tac_admin'\n        - 'cisco_support'\n        - 'cisco_sys_manager'\n    condition: keyword_event and keyword_user\nfalsepositives:\n    - Rare false positives might occur if there are valid users named \"cisco_tac_admin\" or \"cisco_support\", which are not created by default or CISCO representatives\nlevel: high\n",
+     "check": {
+      "status": "upstream",
+      "messages": []
+     },
+     "conversions": {
+      "kql": {
+       "label": "Defender XDR / Sentinel KQL",
+       "query": null,
+       "error": "SigmaTransformationError: Unable to determine table name from rule.  The query table is determined in the following order of priority:\n  1) The value provided to processing pipeline's query_table parameter, if using a Python script.\n  2) If the query_table is already set in the pipeline state, such as from a custom user-defined pipeline if using sigma-cli.\n  3) If the rule's logsource category is "
+      },
+      "spl": {
+       "label": "Splunk SPL",
+       "query": "\"%WEBUI-6-INSTALL_OPERATION_INFO:\" OR \"%SYS-5-CONFIG_P:\" OR \"%SEC_LOGIN-5-WEBLOGIN_SUCCESS:\" \"cisco_tac_admin\" OR \"cisco_support\" OR \"cisco_sys_manager\"",
+       "error": null
+      },
+      "elastic": {
+       "label": "Elastic (Lucene, ECS)",
+       "query": "(*%WEBUI\\-6\\-INSTALL_OPERATION_INFO\\:* OR *%SYS\\-5\\-CONFIG_P\\:* OR *%SEC_LOGIN\\-5\\-WEBLOGIN_SUCCESS\\:*) AND (*cisco_tac_admin* OR *cisco_support* OR *cisco_sys_manager*)",
+       "error": null
+      }
+     }
+    },
+    "hunting_steps": [
+     "Inventory Cisco IOS XE and Stratix devices, including those found by Defender device discovery, and record which expose the web UI externally.",
+     "Query Defender vulnerability management for devices flagged with CVE-2023-20198.",
+     "In firewall, WAF or proxy logs forwarded to Sentinel, search for POST requests to paths containing webui_wsma, both encoded and unencoded, against management interfaces.",
+     "On any device that received such requests, check running configuration and local user list for unauthorized accounts or changes made since exposure.",
+     "Correlate source IPs of probes with successful responses (HTTP 200) to separate scanning from likely exploitation."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Devices flagged vulnerable to CVE-2023-20198",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where CveId == \"CVE-2023-20198\" | project DeviceId, DeviceName, OSPlatform, SoftwareVendor, SoftwareName, SoftwareVersion, VulnerabilitySeverityLevel",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Discovered Cisco network devices for exposure review",
+      "kql": "DeviceInfo | where Timestamp > ago(14d) | where DeviceCategory == \"NetworkDevice\" and Vendor has \"Cisco\" | summarize arg_max(Timestamp, *) by DeviceId | project DeviceId, DeviceName, Vendor, Model, OSPlatform, OSVersion, PublicIP",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-3",
+   "rank": 3,
+   "score": 81,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 18,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Fake OpenAI, SpaceX and Anthropic event invitations used to steal Microsoft and Google accounts",
+   "labels": {
+    "category": "campaign",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "widespread",
+    "platform": "m365_entra",
+    "vendor": "Microsoft",
+    "product": "Microsoft 365"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "BleepingComputer reports that attackers are sending employees fake event invitations that impersonate OpenAI, SpaceX and Anthropic. Victims are lured into phishing pages that steal Microsoft and Google account credentials and authentication sessions. According to the report, the campaign runs on two different phishing-as-a-service platforms. The available excerpt does not name the platforms, sender infrastructure or indicators.",
+    "why_it_matters": "The sources say session tokens are stolen as well as passwords. That points to adversary-in-the-middle style phishing, which can bypass standard MFA and give attackers direct access to Microsoft 365 and Entra ID. Themed AI and space-industry event lures are timely and believable to many staff, and phishing-as-a-service kits let many operators reuse the same tooling at scale.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Search mail for invitations themed on OpenAI, SpaceX or Anthropic events. Purge delivered messages and identify any users who clicked.",
+     "For users who interacted with these lures, revoke Entra ID sessions and refresh tokens, reset passwords, and review MFA methods registered after the click.",
+     "Enforce phishing-resistant MFA (FIDO2 or Windows Hello for Business) and Conditional Access requiring compliant or hybrid-joined devices, to limit the value of stolen sessions.",
+     "Review compromised accounts for persistence such as new inbox rules, mail forwarding, OAuth app consents and new MFA devices.",
+     "Warn staff that unsolicited AI or tech-company event invitations asking them to sign in are a current phishing theme."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Fake OpenAI, SpaceX events used to steal Microsoft, Google accounts",
+     "url": "https://www.bleepingcomputer.com/news/security/fake-openai-spacex-events-used-to-steal-microsoft-google-accounts/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-05T21:30:30Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Query EmailEvents for delivered messages whose subjects reference OpenAI, SpaceX or Anthropic alongside event or invitation wording, and list the recipients.",
+     "Check the clicks and mailbox activity of those recipients. Look for sign-ins from unfamiliar IPs, ASNs or countries shortly after delivery, using Entra ID sign-in logs in Sentinel.",
+     "Look for post-compromise mailbox persistence, such as new inbox rules or forwarding, in CloudAppEvents for the affected users.",
+     "Check whether the same sessions show new MFA method registrations or OAuth consents, and revoke them where they are not legitimate.",
+     "Confirm with Google Workspace admins whether the same lures reached users with Google accounts."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Delivered emails with OpenAI/SpaceX/Anthropic event invitation themes",
+      "kql": "EmailEvents | where Timestamp > ago(30d) | where Subject has_any (\"OpenAI\", \"SpaceX\", \"Anthropic\") | where Subject has_any (\"event\", \"invitation\", \"invite\", \"RSVP\", \"summit\", \"webinar\") | where DeliveryAction == \"Delivered\" | project Timestamp, SenderFromAddress, SenderIPv4, RecipientEmailAddress, Subject, ThreatTypes, NetworkMessageId | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "New inbox rules created by recipients of themed event lures",
+      "kql": "let recipients = EmailEvents | where Timestamp > ago(30d) | where Subject has_any (\"OpenAI\", \"SpaceX\", \"Anthropic\") | where Subject has_any (\"event\", \"invitation\", \"invite\") | distinct RecipientEmailAddress; CloudAppEvents | where Timestamp > ago(30d) | where ActionType in (\"New-InboxRule\", \"Set-InboxRule\", \"Set-Mailbox\", \"UpdateInboxRules\") | extend Upn = tolower(tostring(AccountId)) | where tolower(AccountDisplayName) in~ (recipients) or Upn in~ (recipients) or tostring(RawEventData.UserId) in~ (recipients) | project Timestamp, ActionType, AccountDisplayName, IPAddress, CountryCode, RawEventData | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-4",
+   "rank": 4,
+   "score": 59,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 8,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Microsoft: threat actors use agentic AI framework to harvest GitHub secrets and pivot into Azure",
+   "labels": {
+    "category": "campaign",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "cloud_saas",
+    "vendor": "",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "Microsoft Threat Intelligence reports that threat actors are using an agentic AI offensive framework, named ARTEX, to scan public GitHub repositories for exposed credentials, application secrets and AI inference API keys, then use AI agents to analyze results and carry out follow-on attacks. In one case Microsoft says an agent went from scanning GitHub to exfiltrating data from Azure Key Vault in five minutes. Microsoft also says that from 28 October 2026 it saw successful service principal sign-ins from 199.19.77.84 across multiple application IDs, including a compromised multitenant vendor application credential used to reach downstream tenants. The activity included resource discovery, credential and data theft from Key Vaults and Storage Accounts, and abuse of Azure AI services. Microsoft also flagged 65.87.223.26 for exploitation attempts via shell commands in user agents and attempts to obtain App Service authentication tokens. The published article is truncated, so some campaign details are missing.",
+    "why_it_matters": "Microsoft confirms exploitation in the wild. Any client secret, certificate or API key committed to a public repository, including one held by a third-party vendor whose multitenant app you have consented to, can lead to service principal access to Key Vaults, storage and AI resources in your Entra tenant within minutes. Service principal sign-ins are often monitored less closely than user sign-ins, so this activity can go unnoticed without a dedicated hunt.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Hunt for service principal sign-ins and cloud activity from 199.19.77.84 and 65.87.223.26 since 28 October 2026. If you find any, rotate the credentials of the affected applications and revoke their sessions.",
+     "Scan your organization's public and internal GitHub repositories for committed secrets, enable secret scanning and push protection, and rotate any secret that has ever been exposed.",
+     "Inventory multitenant third-party applications with consent in your tenant and review their permissions and recent service principal sign-in activity. Remove apps that are unused or overprivileged.",
+     "Restrict Key Vault and Storage Account access with private endpoints or network rules, apply least-privilege RBAC, and alert on bulk secret retrieval by service principals.",
+     "Prefer managed identities or workload identity federation over long-lived client secrets, and apply Conditional Access for workload identities where licensed."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Threat actors use agentic AI tooling to find and abuse exposed secrets",
+     "url": "https://www.microsoft.com/en-us/security/blog/2026/11/05/threat-actors-use-agentic-ai-tooling-to-find-and-abuse-exposed-secrets/",
+     "source": "Microsoft Security Blog",
+     "kind": "news",
+     "published": "2026-11-05T23:46:50Z"
+    }
+   ],
+   "detection": {
+    "type": "behavioral",
+    "sigma": {
+     "origin": "ai",
+     "title": "Service Principal Sign-In From IPs Linked To Agentic AI Secret Abuse Campaign",
+     "url": null,
+     "yaml": "title: Service Principal Sign-In From IPs Linked To Agentic AI Secret Abuse Campaign\nid: 8774fb28-1fb7-5e1c-bbab-6e71a606dd03\nstatus: experimental\ndescription: Detects successful Entra ID service principal sign-ins from IP addresses that Microsoft associated with a campaign abusing application credentials harvested from public GitHub repositories. The campaign was followed by Key Vault and Storage data theft. AI-generated, untested.\nreferences:\n- https://www.microsoft.com/en-us/security/blog/2026/11/05/threat-actors-use-agentic-ai-tooling-to-find-and-abuse-exposed-secrets/\nauthor: intel-brief (AI-generated, untested)\ndate: '2026-11-06'\ntags:\n- attack.t1078.004\n- attack.t1552.001\nlogsource:\n  product: azure\n  service: signinlogs\ndetection:\n  selection_ip:\n    IPAddress:\n    - 199.19.77.84\n    - 65.87.223.26\n  condition: selection_ip\nfalsepositives:\n- Legitimate infrastructure later reassigned to these IP addresses\nlevel: high\n",
+     "check": {
+      "status": "pass",
+      "messages": [
+       "No rule errors found.",
+       "No condition errors found.",
+       "No validation issues found.",
+       "Parsing Sigma rules",
+       "Checking Sigma rules"
+      ]
+     },
+     "conversions": {
+      "kql": {
+       "label": "Defender XDR / Sentinel KQL",
+       "query": null,
+       "error": "SigmaTransformationError: Unable to determine table name from rule.  The query table is determined in the following order of priority:\n  1) The value provided to processing pipeline's query_table parameter, if using a Python script.\n  2) If the query_table is already set in the pipeline state, such as from a custom user-defined pipeline if using sigma-cli.\n  3) If the rule's logsource category is "
+      },
+      "spl": {
+       "label": "Splunk SPL",
+       "query": "IPAddress IN (\"199.19.77.84\", \"65.87.223.26\")",
+       "error": null
+      },
+      "elastic": {
+       "label": "Elastic (Lucene, ECS)",
+       "query": "IPAddress:(199.19.77.84 OR 65.87.223.26)",
+       "error": null
+      }
+     }
+    },
+    "hunting_steps": [
+     "Query service principal sign-ins for the two Microsoft-reported IP addresses since 28 October 2026 and list the application IDs and tenants involved.",
+     "For each matching application, review its recent activity in Azure activity logs and cloud app events, focusing on Key Vault secret reads, Storage Account key listing or blob downloads, and Azure AI or OpenAI resource usage.",
+     "Look for service principals signing in from new IP addresses or countries, and compare them against their historical baseline.",
+     "Check whether any affected application is a third-party multitenant app, and contact the vendor about credential rotation.",
+     "Search GitHub and other code repositories for secrets belonging to the affected applications to confirm the exposure source."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Service principals signing in from new IPs in last 7 days",
+      "kql": "let baseline = AADSpnSignInEventsBeta | where Timestamp between (ago(37d) .. ago(7d)) | where ErrorCode == 0 | distinct ServicePrincipalId, IPAddress; AADSpnSignInEventsBeta | where Timestamp > ago(7d) | where ErrorCode == 0 | join kind=leftanti baseline on ServicePrincipalId, IPAddress | summarize SignIns=count(), Resources=make_set(ResourceDisplayName, 20) by ServicePrincipalName, ServicePrincipalId, IPAddress, Country | order by SignIns desc",
+      "validation": {
+       "status": "fail",
+       "messages": [
+        "Error KS204: The name 'AADSpnSignInEventsBeta' does not refer to any known table, tabular variable or function.",
+        "Error KS204: The name 'AADSpnSignInEventsBeta' does not refer to any known table, tabular variable or function."
+       ]
+      }
+     }
+    ],
+    "notes": [
+     "Dropped a hunting query with indicators not found in any source: 199.19.77.84, 65.87.223.26",
+     "Dropped a hunting query with indicators not found in any source: 199.19.77.84, 65.87.223.26"
+    ]
+   }
+  },
+  {
+   "id": "story-5",
+   "rank": 5,
+   "score": 54,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 6,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "FBI, CISA and partners warn of active attacks on industrial refrigeration and cold-chain controllers",
+   "labels": {
+    "category": "campaign",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "ics_ot",
+    "vendor": "",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "On 5 November 2026, CISA, the FBI, HHS, USDA and the Department of Transportation published a joint advisory on malicious cyber activity against industrial refrigeration and cold-chain monitoring systems worldwide. The agencies say actors are targeting electronic temperature controllers and commercial refrigeration controllers in retail grocery and cold storage facilities. They exploit authentication bypass, code injection and weak configurations on unpatched or internet-reachable devices to change settings, including forcing units into continuous heating and defrost cycles. BleepingComputer reports possible food spoilage, equipment damage and fire hazards; the advisory does not name specific vendors, products or CVEs.",
+    "why_it_matters": "These controllers are often installed by facilities or refrigeration contractors and connected to corporate or guest networks, or exposed directly to the internet, without the security team knowing. The agencies describe the activity as ongoing. Impacts include inventory loss, safety hazards and loss of temperature visibility, which matter most to healthcare, food, chemical and transport organizations. Because no products or CVEs are named, defenders have to start from asset discovery and exposure reduction rather than patching.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Identify all refrigeration, temperature-controller and cold-chain monitoring devices, including those managed by third-party contractors, and confirm none are reachable from the public internet.",
+     "Remove direct internet exposure of controller panels and web interfaces. Put any required remote access behind a VPN or secure gateway with MFA.",
+     "Change default or shared passwords on controllers and monitoring platforms, and enforce strong unique credentials.",
+     "Apply vendor firmware and software updates to controllers and monitoring systems, and ask vendors which versions address authentication bypass and code injection issues.",
+     "Segment refrigeration and building-management devices from IT networks, and alert on unexpected setpoint, defrost-cycle or alarm changes."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "US Government Partners Urge Hardening Industrial Refrigeration and Cold Chain Monitoring Systems",
+     "url": "https://www.cisa.gov/resources-tools/resources/us-government-partners-urge-hardening-industrial-refrigeration-and-cold-chain-monitoring-systems",
+     "source": "CISA Advisories",
+     "kind": "advisory",
+     "published": "2026-11-05T12:00:00Z"
+    },
+    {
+     "title": "FBI, CISA warn of cyberattacks targeting refrigeration systems",
+     "url": "https://www.bleepingcomputer.com/news/security/fbi-cisa-warn-of-cyberattacks-targeting-refrigeration-systems/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-06T00:56:44Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Build an inventory of refrigeration controllers and cold-chain monitoring gateways from facilities records, contractor documentation and network discovery tools such as Defender for IoT device inventory.",
+     "Check external attack surface results and perimeter firewall NAT rules for any inbound exposure of controller web interfaces or management ports.",
+     "Review firewall and VPN logs for inbound connections from public IP addresses to controller network segments, and for logins to monitoring portals from unusual sources.",
+     "Check controller and monitoring platform logs for unexpected setpoint changes, forced defrost or heating cycles, configuration changes and gaps in temperature reporting.",
+     "Identify which internal hosts communicate with controller IPs, and confirm that only approved management workstations or gateways do."
+    ],
+    "hunting_queries": [
+     {
+      "title": "IoT/OT devices discovered by Defender, with any public IP observed",
+      "kql": "DeviceInfo | where Timestamp > ago(30d) | where DeviceCategory in~ (\"IoT\", \"OT\") | summarize arg_max(Timestamp, DeviceName, DeviceType, DeviceSubtype, Vendor, Model, PublicIP, OSPlatform) by DeviceId | project Timestamp, DeviceId, DeviceName, DeviceType, DeviceSubtype, Vendor, Model, PublicIP, OSPlatform | order by Vendor asc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Managed endpoints communicating with discovered IoT/OT device IPs",
+      "kql": "let iotIps = DeviceNetworkInfo | where Timestamp > ago(30d) | join kind=inner (DeviceInfo | where Timestamp > ago(30d) | where DeviceCategory in~ (\"IoT\", \"OT\") | distinct DeviceId) on DeviceId | mv-expand ip = todynamic(IPAddresses) | extend IoTIp = tostring(ip.IPAddress) | where isnotempty(IoTIp) | distinct IoTIp; DeviceNetworkEvents | where Timestamp > ago(30d) | where RemoteIP in (iotIps) | summarize Connections = count(), Ports = make_set(RemotePort, 20), Processes = make_set(InitiatingProcessFileName, 20) by DeviceName, RemoteIP | order by Connections desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-6",
+   "rank": 6,
+   "score": 51,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Three charged in alleged AI-assisted CEO and attorney impersonation fraud totaling $129 million",
+   "labels": {
+    "category": "other",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "other",
+    "vendor": "",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "SecurityWeek reported on 6 November 2026 that three people have been charged over a scheme that allegedly used AI to impersonate company executives and attorneys, with losses put at $129 million. According to the report, the group often targeted corporate accounting departments. The available reporting does not describe the channels used (email, voice, video), the victims, the charging jurisdiction, or any technical indicators.",
+    "why_it_matters": "The reported pattern fits executive-impersonation payment fraud aimed at finance staff. AI-generated voice or text can make these requests more convincing, which weakens verification that relies on recognizing a voice or writing style. No vulnerability is involved. Defense depends on payment verification processes and on monitoring for business email compromise in Microsoft 365, not on patching.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Require out-of-band callback verification, using independently sourced contact details, for any wire transfer or change to payment details requested by an executive or attorney.",
+     "Brief accounting and treasury staff that voice, video and written requests from executives or legal counsel can be convincingly faked with AI, and that urgency or secrecy is a red flag.",
+     "Enforce dual approval for high-value or first-time payments and for changes to vendor bank details.",
+     "Review Microsoft 365 impersonation protection settings so that key executives and legal contacts are covered by anti-phishing policies.",
+     "Establish a fast escalation path to the bank and to law enforcement when a fraudulent transfer is suspected, to improve the chance of recovering funds."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "3 Charged in Scheme to Use AI to Impersonate CEOs and Attorneys to Steal $129 Million",
+     "url": "https://www.securityweek.com/3-charged-in-scheme-to-use-ai-to-impersonate-ceos-and-attorneys-to-steal-129-million/",
+     "source": "SecurityWeek",
+     "kind": "news",
+     "published": "2026-11-06T03:03:29Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-7",
+   "rank": 7,
+   "score": 31,
+   "factors": {
+    "exploitation": 0,
+    "prevalence": 8,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Microsoft: about 7.3 billion email phishing threats in Q3 2026, with policy overrides letting spoofed mail through",
+   "labels": {
+    "category": "research",
+    "exploitation": "none_known",
+    "prevalence": "unknown",
+    "platform": "m365_entra",
+    "vendor": "Microsoft",
+    "product": "Microsoft Teams"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "Microsoft Threat Intelligence says it detected roughly 7.3 billion email phishing threats from July through September 2026, with September alone reaching nearly 3 billion, a 41% rise over August. Microsoft reports that QR code phishing stayed well below its early-year peak, while CAPTCHA-gated phishing grew again, partly through SVG attachments. It also counted about 129 million malicious messages spoofing tracked business service domains, many of which were delivered because organization or user exceptions overrode protections after the messages failed authentication. Microsoft highlighted an August campaign against legal organizations that used salary review documents and QR codes to lead to device code phishing, a September campaign that used purchase order and payroll lures with disguised archives to deliver Agent Tesla, and Teams social engineering that increasingly uses ordinary personal names rather than help desk personas.",
+    "why_it_matters": "This report covers no vulnerability, but it points to a configuration weakness many M365 tenants have: broad allow rules and safe-sender exceptions that deliver mail Defender has already flagged as malicious. Device code phishing, SVG-borne CAPTCHA lures, archive-delivered infostealers and Teams impersonation all lead to credential theft. Each can be checked with existing Defender XDR email, identity and endpoint telemetry.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Audit tenant allow lists, transport rules that bypass filtering, and user safe-sender lists. Remove broad domain-level exceptions that override failed authentication or malicious verdicts.",
+     "Restrict or block the device code authentication flow with Entra Conditional Access for users who do not need it.",
+     "Review external access settings in Microsoft Teams. Tell staff that unsolicited external chats or calls may use ordinary personal names rather than help desk titles.",
+     "Consider quarantining or blocking SVG attachments and password-protected or disguised archive attachments from external senders.",
+     "Hunt for malicious mail that was delivered despite a threat verdict, and for executables launched from archive extraction folders."
+    ],
+    "confidence": "high",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Email threat landscape: Q3 2026 trends and insights",
+     "url": "https://www.microsoft.com/en-us/security/blog/2026/11/05/email-threat-landscape-q3-2026-trends-and-insights/",
+     "source": "Microsoft Security Blog",
+     "kind": "news",
+     "published": "2026-11-05T16:00:00Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Query EmailEvents for messages with phish or malware verdicts that were still delivered because of organization or user allow policies, and list the policies responsible.",
+     "For delivered messages from domains that failed SPF, DKIM or DMARC, check whether recipients clicked links or opened attachments, and review their subsequent sign-ins.",
+     "Look for SVG attachments from external senders and review the recipients for follow-on credential phishing activity.",
+     "Review Entra sign-in logs for device code authentication by users who do not normally use it, especially in legal or HR teams that may have received salary review lures.",
+     "On endpoints, look for executables run from archive extraction temp folders shortly after mail delivery. This could indicate Agent Tesla or similar infostealers, and affected users' credentials should be rotated."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Malicious email delivered due to org or user allow overrides",
+      "kql": "EmailEvents | where Timestamp > ago(30d) | where ThreatTypes has_any (\"Phish\", \"Malware\") | where DeliveryAction == \"Delivered\" | where OrgLevelAction == \"Allow\" or UserLevelAction == \"Allow\" | summarize Messages = count(), Recipients = dcount(RecipientEmailAddress) by SenderFromDomain, OrgLevelPolicy, UserLevelPolicy | order by Messages desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Inbound SVG attachments from external senders",
+      "kql": "EmailAttachmentInfo | where Timestamp > ago(30d) | where FileName endswith \".svg\" | join kind=inner (EmailEvents | where Timestamp > ago(30d) | where EmailDirection == \"Inbound\" | project NetworkMessageId, RecipientEmailAddress, Subject, DeliveryAction, ThreatTypes) on NetworkMessageId | project Timestamp, SenderFromAddress, RecipientEmailAddress, Subject, FileName, DeliveryAction, ThreatTypes",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Executables launched from archive extraction temp folders",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(14d) | where FolderPath has_any (@\"\\AppData\\Local\\Temp\\Rar$\", @\"\\AppData\\Local\\Temp\\7z\", @\"\\AppData\\Local\\Temp\\Temp1_\") | where FileName endswith \".exe\" or FileName endswith \".scr\" or FileName endswith \".com\" | project Timestamp, DeviceName, AccountName, FileName, FolderPath, ProcessCommandLine, InitiatingProcessFileName, SHA256",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-8",
+   "rank": 8,
+   "score": 29,
+   "factors": {
+    "exploitation": 0,
+    "prevalence": 18,
+    "platform": 8,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "OpenSSH \"sshole\" flaw allows logins to password-disabled accounts on musl-based Linux",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "none_known",
+    "prevalence": "widespread",
+    "platform": "linux_server",
+    "vendor": "OpenSSH",
+    "product": "OpenSSH"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "BleepingComputer reports a newly disclosed OpenSSH vulnerability, nicknamed \"sshole\". It lets attackers log in to certain accounts on Alpine Linux and other musl-based distributions that are configured to block password authentication, by submitting an oversized password. The sources available here give no CVE identifier, affected or fixed OpenSSH versions, or the exact account configurations that are vulnerable. No exploitation in the wild is reported.",
+    "why_it_matters": "Alpine and other musl-based images are common in containers, appliances and some edge devices. Any of these that expose SSH could allow access to accounts that administrators assumed could not be reached with a password. Severity scores, EPSS and KEV status are not available, so the immediate task is finding exposed musl-based SSH hosts and applying vendor fixes once they are published.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory Alpine Linux and other musl-based hosts, containers and appliances that run an OpenSSH server, starting with those reachable from the internet.",
+     "Watch Alpine and OpenSSH advisories for the CVE and fixed package versions, and update sshd on affected systems as soon as fixed packages ship.",
+     "Restrict SSH exposure on musl-based systems to management networks or VPN until patched.",
+     "Where possible, explicitly disable password and keyboard-interactive authentication in sshd configuration rather than relying only on account password locking, then confirm this mitigates the issue once technical details are published.",
+     "Review SSH authentication logs on musl-based hosts for successful logins to service or locked accounts that normally never log in interactively."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "OpenSSH flaw lets attackers log into password-disabled Linux accounts",
+     "url": "https://www.bleepingcomputer.com/news/security/openssh-flaw-lets-attackers-log-into-password-disabled-linux-accounts/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-05T17:45:29Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Use Defender device inventory to list Linux devices and their distributions. Flag Alpine or other musl-based systems, noting that Defender for Endpoint may not cover all of them.",
+     "Cross-reference those hosts with internet-facing exposure, such as inbound connections on TCP 22 from public IP addresses.",
+     "On onboarded Linux hosts, review successful remote logons to accounts that should have password login disabled, such as service accounts or root.",
+     "For hosts without Defender coverage, including containers and appliances, review sshd authentication logs directly for accepted password logins to locked accounts.",
+     "Once fixed versions are published, use vulnerability management data to confirm remediation."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Linux devices by distribution to find Alpine/musl-based hosts",
+      "kql": "DeviceInfo | where Timestamp > ago(7d) | where OSPlatform =~ \"Linux\" | summarize arg_max(Timestamp, OSDistribution, OSVersion, PublicIP, IsInternetFacing) by DeviceId, DeviceName | order by OSDistribution asc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Inbound SSH from public IPs to Linux devices",
+      "kql": "let linux = DeviceInfo | where Timestamp > ago(7d) | where OSPlatform =~ \"Linux\" | distinct DeviceId; DeviceNetworkEvents | where Timestamp > ago(7d) | where DeviceId in (linux) | where LocalPort == 22 and ActionType in (\"InboundConnectionAccepted\", \"ConnectionSuccess\") | where RemoteIPType == \"Public\" | summarize Connections = count(), RemoteIPs = dcount(RemoteIP) by DeviceName | order by Connections desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Successful remote logons on Linux devices by account",
+      "kql": "let linux = DeviceInfo | where Timestamp > ago(7d) | where OSPlatform =~ \"Linux\" | distinct DeviceId; DeviceLogonEvents | where Timestamp > ago(14d) | where DeviceId in (linux) | where ActionType == \"LogonSuccess\" | where isnotempty(RemoteIP) | summarize Logons = count(), FirstSeen = min(Timestamp), LastSeen = max(Timestamp), RemoteIPs = make_set(RemoteIP, 20) by DeviceName, AccountName, LogonType | order by Logons asc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-9",
+   "rank": 9,
+   "score": 28,
+   "factors": {
+    "exploitation": 0,
+    "prevalence": 8,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 0,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "SigmaHQ publishes rules for DNS queries to public wildcard DNS services",
+   "labels": {
+    "category": "research",
+    "exploitation": "none_known",
+    "prevalence": "unknown",
+    "platform": "windows",
+    "vendor": "",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "On 5 November 2026 SigmaHQ added two detection rules, one for network DNS logs and one for Windows DNS query telemetry, that flag lookups to public wildcard DNS services. According to SigmaHQ, these services resolve any subdomain to the IP address written into that subdomain. SigmaHQ says adversaries abuse them for command-and-control channels or phishing infrastructure without registering their own domain, which can help them avoid detection and attribution. The rule descriptions do not name a specific threat actor or campaign, and the specific service domains covered are not listed in the descriptions.",
+    "why_it_matters": "Wildcard DNS hostnames let an attacker point a Windows endpoint at an arbitrary IP while looking like an ordinary domain name, which defeats domain-reputation and newly-registered-domain controls. No active exploitation is tied to this research, but the queries are cheap to hunt for in Defender XDR and Sentinel. Developers and test labs use these services legitimately, so expect benign hits that need baselining.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Deploy the new SigmaHQ wildcard DNS rules (network and Windows variants) to Sentinel or your SIEM, starting in alert-only mode to build a baseline.",
+     "Hunt for hostnames embedding IPv4 addresses in DNS and network telemetry, and review which processes made the lookups, prioritizing scripting engines, Office apps and unsigned binaries.",
+     "Allowlist known developer, CI/CD and lab hosts that legitimately use wildcard DNS services, then alert on the rest.",
+     "Consider blocking or sinkholing public wildcard DNS service domains at DNS resolvers or the web proxy for user workstations where there is no business need.",
+     "When hits occur, check the embedded IP against threat intelligence and look for follow-on downloads, beacon-like periodic connections or credential-harvesting pages."
+    ],
+    "confidence": "high",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "DNS Query to Wildcard DNS Services - Network",
+     "url": "https://github.com/SigmaHQ/sigma/blob/master/rules/network/dns/net_dns_wildcard_dns_service.yml",
+     "source": "SigmaHQ",
+     "kind": "sigma",
+     "published": "2026-11-05T11:58:28+05:45"
+    },
+    {
+     "title": "DNS Query to Wildcard DNS Services - Windows",
+     "url": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/dns_query/dns_query_win_wildcard_dns_service.yml",
+     "source": "SigmaHQ",
+     "kind": "sigma",
+     "published": "2026-11-05T11:58:28+05:45"
+    }
+   ],
+   "detection": {
+    "type": "behavioral",
+    "sigma": null,
+    "hunting_steps": [
+     "Run the IP-embedded hostname queries below over the last 7 to 30 days to see how common these lookups are in your estate.",
+     "Group results by initiating process and device; separate developer tools and browsers on engineering hosts from unusual processes such as powershell.exe, mshta.exe, rundll32.exe, wscript.exe or Office binaries.",
+     "For suspicious hits, extract the IP embedded in the hostname and check whether the device then connected to that IP and how often (regular intervals suggest beaconing).",
+     "Pivot on the device timeline around the first lookup for file downloads, new scheduled tasks or persistence changes.",
+     "For phishing staging, correlate with EmailEvents and browser activity to see whether users reached the hostnames from links in email.",
+     "Document recurring benign sources and feed them back as filters to the deployed Sigma rules."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Network events to hostnames embedding an IPv4 address",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(7d) | where isnotempty(RemoteUrl) | extend Host = tolower(RemoteUrl) | where Host matches regex @\"(^|[\\.-])(\\d{1,3}[\\.-]){3}\\d{1,3}\\.[a-z0-9-]+\\.[a-z]{2,}\" | where not(Host endswith \"in-addr.arpa\") | summarize Hits = count(), Processes = make_set(InitiatingProcessFileName, 20), RemoteIPs = make_set(RemoteIP, 20), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by Host, DeviceName | order by Hits desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "DNS query responses for IP-embedded hostnames",
+      "kql": "DeviceEvents | where Timestamp > ago(7d) | where ActionType == \"DnsQueryResponse\" | extend QueryName = tolower(tostring(parse_json(AdditionalFields).DnsQueryString)) | where isnotempty(QueryName) | where QueryName matches regex @\"(^|[\\.-])(\\d{1,3}[\\.-]){3}\\d{1,3}\\.[a-z0-9-]+\\.[a-z]{2,}\" | where not(QueryName endswith \"in-addr.arpa\") | summarize Hits = count(), Processes = make_set(InitiatingProcessFileName, 20), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by QueryName, DeviceName | order by Hits desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Unusual processes resolving IP-embedded hostnames",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(30d) | where isnotempty(RemoteUrl) | extend Host = tolower(RemoteUrl) | where Host matches regex @\"(^|[\\.-])(\\d{1,3}[\\.-]){3}\\d{1,3}\\.[a-z0-9-]+\\.[a-z]{2,}\" | where InitiatingProcessFileName in~ (\"powershell.exe\", \"pwsh.exe\", \"mshta.exe\", \"rundll32.exe\", \"regsvr32.exe\", \"wscript.exe\", \"cscript.exe\", \"winword.exe\", \"excel.exe\", \"curl.exe\", \"certutil.exe\", \"bitsadmin.exe\") | project Timestamp, DeviceName, InitiatingProcessAccountName, InitiatingProcessFileName, InitiatingProcessCommandLine, Host, RemoteIP, RemotePort | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  }
+ ],
+ "more_stories": [
+  {
+   "title": "BTCPay Server flaw exposes LND macaroon files, allowing unauthenticated fund theft (CVE-2026-119757)",
+   "score": 9,
+   "cves": [
+    "CVE-2026-119757"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-119757 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-119757",
+     "source": "NVD"
+    }
+   ]
+  }
+ ],
+ "kev_new": [],
+ "early_signals": [
+  {
+   "cve": "CVE-2026-83844",
+   "authors": 3,
+   "platforms": [
+    "Hacker News"
+   ],
+   "posts": [
+    {
+     "url": "https://news.ycombinator.com/item?id=50384233",
+     "platform": "Hacker News",
+     "account": "@kuberwastaken",
+     "published": "2026-11-05T20:43:42Z"
+    },
+    {
+     "url": "https://news.ycombinator.com/item?id=50383612",
+     "platform": "Hacker News",
+     "account": "@fortran77",
+     "published": "2026-11-05T19:53:29Z"
+    },
+    {
+     "url": "https://news.ycombinator.com/item?id=50384602",
+     "platform": "Hacker News",
+     "account": "@nonethewiser",
+     "published": "2026-11-05T21:19:55Z"
+    }
+   ],
+   "first_seen": "2026-11-05T19:53:29Z",
+   "epss": {
+    "epss": 0.00734,
+    "percentile": 0.54577
+   },
+   "vendor_advisory": false,
+   "nvd": {
+    "cvss": 8.1,
+    "severity": "HIGH",
+    "products": [],
+    "description": "Out-of-bounds read in Windows Paint allows an unauthorized attacker to execute code over a network."
+   },
+   "poc": [
+    {
+     "url": "https://github.com/LilPoule/CVE-2026-83844",
+     "name": "LilPoule/CVE-2026-83844",
+     "stars": 2,
+     "created": "2026-11-06"
+    },
+    {
+     "url": "https://github.com/0xBlackash/CVE-2026-83844",
+     "name": "0xBlackash/CVE-2026-83844",
+     "stars": 0,
+     "created": "2026-11-06"
+    },
+    {
+     "url": "https://github.com/mokshshah18/CVE-2026-83844-PoC-MS-paint-v-11.2609.401.0",
+     "name": "mokshshah18/CVE-2026-83844-PoC-MS-paint-v-11.2609.401.0",
+     "stars": 0,
+     "created": "2026-11-06"
+    }
+   ]
+  }
+ ],
+ "explainer": {
+  "concept": "Service principals and multitenant app credentials in Entra ID",
+  "dek": "A service principal is the identity an application uses to sign in to a Microsoft Entra ID tenant, and anyone holding its secret or certificate can act as that application with whatever permissions it was granted.",
+  "why_today": "Microsoft reports attackers harvesting application secrets from public GitHub repositories, signing in as service principals across multiple app IDs, and using a compromised multitenant vendor application credential to reach downstream customer tenants and their Key Vaults and Storage Accounts.",
+  "related_story_ids": [
+   "story-4"
+  ],
+  "parts": [
+   {
+    "heading": "Application objects, service principals and credentials",
+    "paragraphs": [
+     "In Entra ID an app registration creates an application object in its home tenant. Every tenant that uses the app, including the home tenant, gets a service principal, which appears as an enterprise application. Permissions, role assignments and Azure RBAC grants attach to the service principal in each tenant.",
+     "The app proves its identity with a credential: a client secret, a certificate, or a federated credential that trusts tokens from an outside issuer such as GitHub Actions. Client secrets are plain strings, which is why they end up in source code, configuration files and CI pipelines. A secret leaked to a public repository can be used from anywhere, with no device, user or MFA involved."
+    ]
+   },
+   {
+    "heading": "Why a multitenant app credential reaches many tenants",
+    "paragraphs": [
+     "For a multitenant app, credentials live on the application object in the vendor's home tenant. Each customer that consented to the app has its own service principal, but that principal accepts tokens from the same app credential. An attacker who steals the vendor's secret or certificate can request tokens for any customer tenant where the app is consented and receive whatever permissions that customer granted.",
+     "This is why application permissions matter so much. Permissions such as reading all mail or files, or Azure roles over Key Vaults and Storage Accounts, are exercised without a signed-in user. Activity therefore appears as the application, not as any person in the customer tenant."
+    ]
+   },
+   {
+    "heading": "Why user-focused controls miss it",
+    "paragraphs": [
+     "Service principal sign-ins do not go through MFA, and Conditional Access policies built for users do not apply to them. Conditional Access for workload identities can restrict sign-ins by location or risk, but it requires a Workload Identities Premium license. It also applies only to single-tenant service principals registered in your own tenant. Microsoft documents third-party multitenant and SaaS apps as out of scope, so a stolen vendor credential is largely governed by what you consented to and what you monitor."
+    ]
+   },
+   {
+    "heading": "What it looks like in telemetry",
+    "paragraphs": [
+     "Service principal sign-ins are logged separately from user sign-ins. In Sentinel they arrive in the AADServicePrincipalSignInLogs table when that diagnostic category is enabled. In Defender XDR advanced hunting they appear in the AADSpnSignInEventsBeta table. Hunt for sign-ins from IP addresses or ASNs an app has never used, or one IP authenticating as several different app IDs, which matches the pattern Microsoft describes.",
+     "For follow-on activity, look at Entra audit logs for credentials added to applications or service principals and new role or permission grants. In Key Vault diagnostic logs, look for secret, key or certificate reads by unfamiliar identities or from new IPs. Storage account logs show bulk listing or downloads. Microsoft Entra ID Protection can flag leaked credentials and suspicious sign-ins for workload identities, subject to licensing."
+    ]
+   },
+   {
+    "heading": "Reducing the risk",
+    "paragraphs": [
+     "For your own workloads, prefer managed identities or workload identity federation, which leave no long-lived secret to leak. Where a credential is unavoidable, prefer certificates over client secrets, keep lifetimes short and store them in a vault rather than in code. Enable secret scanning and push protection on repositories.",
+     "For third-party apps, the controls are consent and scope. Restrict user consent, require admin review, and periodically audit which multitenant apps hold application permissions or Azure roles in your tenant. Remove grants that are no longer needed, and limit Key Vault and storage access with least-privilege RBAC and network restrictions so a stolen app identity reaches as little as possible."
+    ]
+   }
+  ],
+  "takeaways": [
+   "Hunt AADServicePrincipalSignInLogs or AADSpnSignInEventsBeta for sign-ins from 199.19.77.84 and for any single IP authenticating as multiple application IDs since 28 October 2026.",
+   "Inventory multitenant enterprise applications that hold application permissions or Azure RBAC roles in your tenant, and remove grants that are unused or broader than needed.",
+   "Review Entra audit logs for recently added secrets or certificates on applications and service principals, and rotate any credential found in a public or internal repository.",
+   "Check Key Vault and Storage Account diagnostic logs for secret reads and bulk data access by service principals from new IP addresses, and confirm those logs are actually enabled and sent to Sentinel.",
+   "Move your own workloads from client secrets to managed identities or workload identity federation, and enable secret scanning with push protection on code repositories."
+  ],
+  "unsupported_cves": [],
+  "model": "claude-opus-5-5"
+ },
+ "good_news": [
+  {
+   "headline": "Truffle Security launches free program to revoke 1.4 million exposed, still-valid secrets",
+   "summary": "BleepingComputer reports that Truffle Security has launched the Secrets Revocation Program, a free initiative that helps API key issuers revoke publicly exposed secrets. The program targets about 1.4 million exposed secrets that remain valid.",
+   "kind": "new_defense",
+   "sources": [
+    {
+     "title": "Nearly 1.5 million exposed secrets targeted in new revocation program",
+     "url": "https://www.bleepingcomputer.com/news/security/truffle-security-launches-program-to-revoke-14-million-live-secrets/",
+     "source": "BleepingComputer",
+     "published": "2026-11-05T20:15:08Z"
+    }
+   ],
+   "unsupported_cves": [],
+   "model": "claude-opus-5-5"
+  },
+  {
+   "headline": "CISA, NSA and Australia's ACSC publish post-quantum readiness questions for vendors",
+   "summary": "CISA reports that it released joint guidance with the Australian Signals Directorate's Australian Cyber Security Centre and the NSA to help organizations assess vendor readiness for the move to post-quantum cryptography. The guidance includes a quick-reference list of questions to ask vendors, as widely used public-key cryptography is expected to become vulnerable to cryptographically relevant quantum computers.",
+   "kind": "policy",
+   "sources": [
+    {
+     "title": "Post-Quantum Questions to Ask Your Vendors",
+     "url": "https://www.cisa.gov/resources-tools/resources/post-quantum-questions-ask-your-vendors",
+     "source": "CISA Advisories",
+     "published": "2026-11-05T12:00:00Z"
+    }
+   ],
+   "unsupported_cves": [],
+   "model": "claude-opus-5-5"
+  }
+ ],
+ "explainer_status": "ok",
+ "sources_status": {
+  "CISA KEV": "ok 0",
+  "NVD": "ok 12",
+  "BleepingComputer": "ok 5",
+  "The Record": "ok 1",
+  "The DFIR Report": "ok 0",
+  "Cisco Talos": "ok 1",
+  "Unit 42": "ok 0",
+  "Microsoft Security Blog": "ok 3",
+  "SANS ISC": "ok 3",
+  "Huntress": "ok 2",
+  "watchTowr Labs": "ok 1",
+  "Rapid7": "ok 1",
+  "SecurityWeek": "ok 1",
+  "Krebs on Security": "ok 0",
+  "CISA Advisories": "ok 2",
+  "MSRC Security Update Guide": "ok 0",
+  "Bluesky": "ok 0",
+  "Mastodon": "ok 0",
+  "r/netsec": "ok 1",
+  "Hacker News": "ok 9",
+  "SigmaHQ new rules": "ok 2",
+  "EPSS": "ok 22"
+ },
+ "stats": {
+  "items": {
+   "news": 18,
+   "advisory": 2,
+   "kev": 0,
+   "nvd": 12,
+   "social": 10,
+   "sigma": 2
+  },
+  "stories_found": 10,
+  "kql_parser": "available"
+ }
+}
