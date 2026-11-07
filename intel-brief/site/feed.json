@@ -12,6 +12,74 @@
  "language": "en-US",
  "items": [
   {
+   "id": "https://intel.brycemaxheimer.com/editions/2026-11-06/",
+   "url": "https://intel.brycemaxheimer.com/editions/2026-11-06/",
+   "title": "Daily Intel Brief: 2026-11-06",
+   "content_text": "1. Barracuda ESG pre-auth bypass and command injection chain to root RCE; fixed in 9.4.0.029\n2. Scanners still probing Cisco IOS XE web UI flaw CVE-2023-20198, SANS honeypot shows\n3. Fake OpenAI, SpaceX and Anthropic event invitations used to steal Microsoft and Google accounts\n4. Microsoft: threat actors use agentic AI framework to harvest GitHub secrets and pivot into Azure\n5. FBI, CISA and partners warn of active attacks on industrial refrigeration and cold-chain controllers\n6. Three charged in alleged AI-assisted CEO and attorney impersonation fraud totaling $129 million\n7. Microsoft: about 7.3 billion email phishing threats in Q3 2026, with policy overrides letting spoofed mail through\n8. OpenSSH \"sshole\" flaw allows logins to password-disabled accounts on musl-based Linux\n9. SigmaHQ publishes rules for DNS queries to public wildcard DNS services\nEarly signals: CVE-2026-83844\nExplainer: Service principals and multitenant app credentials in Entra ID\nGood news: Truffle Security launches free program to revoke 1.4 million exposed, still-valid secrets\nGood news: CISA, NSA and Australia's ACSC publish post-quantum readiness questions for vendors",
+   "date_published": "2026-11-07T07:42:53Z",
+   "_intel_brief": {
+    "data": "https://intel.brycemaxheimer.com/editions/2026-11-06/edition.json",
+    "stories": [
+     {
+      "title": "Barracuda ESG pre-auth bypass and command injection chain to root RCE; fixed in 9.4.0.029",
+      "cves": [
+       "CVE-2026-116606",
+       "CVE-2026-111560",
+       "CVE-2023-2868"
+      ],
+      "score": 95
+     },
+     {
+      "title": "Scanners still probing Cisco IOS XE web UI flaw CVE-2023-20198, SANS honeypot shows",
+      "cves": [
+       "CVE-2023-20198"
+      ],
+      "score": 91
+     },
+     {
+      "title": "Fake OpenAI, SpaceX and Anthropic event invitations used to steal Microsoft and Google accounts",
+      "cves": [],
+      "score": 81
+     },
+     {
+      "title": "Microsoft: threat actors use agentic AI framework to harvest GitHub secrets and pivot into Azure",
+      "cves": [],
+      "score": 59
+     },
+     {
+      "title": "FBI, CISA and partners warn of active attacks on industrial refrigeration and cold-chain controllers",
+      "cves": [],
+      "score": 54
+     },
+     {
+      "title": "Three charged in alleged AI-assisted CEO and attorney impersonation fraud totaling $129 million",
+      "cves": [],
+      "score": 51
+     },
+     {
+      "title": "Microsoft: about 7.3 billion email phishing threats in Q3 2026, with policy overrides letting spoofed mail through",
+      "cves": [],
+      "score": 31
+     },
+     {
+      "title": "OpenSSH \"sshole\" flaw allows logins to password-disabled accounts on musl-based Linux",
+      "cves": [],
+      "score": 29
+     },
+     {
+      "title": "SigmaHQ publishes rules for DNS queries to public wildcard DNS services",
+      "cves": [],
+      "score": 28
+     }
+    ],
+    "explainer": "Service principals and multitenant app credentials in Entra ID",
+    "good_news": [
+     "Truffle Security launches free program to revoke 1.4 million exposed, still-valid secrets",
+     "CISA, NSA and Australia's ACSC publish post-quantum readiness questions for vendors"
+    ]
+   }
+  },
+  {
    "id": "https://intel.brycemaxheimer.com/editions/2026-11-05/",
    "url": "https://intel.brycemaxheimer.com/editions/2026-11-05/",
    "title": "Daily Intel Brief: 2026-11-05",
