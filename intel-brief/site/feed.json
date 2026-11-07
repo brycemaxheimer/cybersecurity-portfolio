@@ -12,6 +12,78 @@
  "language": "en-US",
  "items": [
   {
+   "id": "https://intel.brycemaxheimer.com/editions/2026-11-07/",
+   "url": "https://intel.brycemaxheimer.com/editions/2026-11-07/",
+   "title": "Daily Intel Brief: 2026-11-07",
+   "content_text": "1. SonicWall SonicOS SSLVPN flaw exploited to bypass SAML MFA; CISA adds CVE-2026-19868 to KEV\n2. WorkOS says AI hacking agent run by a researcher breached its internal sales application\n3. Microsoft fixes Windows Paint remote code execution flaw CVE-2026-83844 in Paint build 11.2609.401.0\n4. Fake security tools on GitHub target security professionals with backdoor and infostealer\n5. US seeks extradition of three suspects in AI-assisted CEO-impersonation fraud over $100 million\n6. Researchers report residential proxy services routing traffic through White House network addresses\n7. Chainalysis breach exposed credentials and live tokens for all customers\n8. DigiCert reports breach of business customer contact data through unauthorized internal account\n9. Attacks hit European refrigeration controllers; US agencies publish hardening guidance\n10. QNAP warns of in-the-wild Plex2Shell attacks on NAS devices running Plex Media Server\nNew KEV entries: CVE-2026-19868\nEarly signals: CVE-2026-98432, CVE-2026-83844\nExplainer: Authentication downgrade: when an alternate login path skips SAML-enforced MFA\nGood news: OpenSSH ships fixes for 'SSHole' password authentication bypass\nGood news: Japan announces emergency cybersecurity package after wave of attacks\nGood news: Four states settle with Perry Johnson subsidiaries over 2023 patient data hack",
+   "date_published": "2026-11-07T16:21:35Z",
+   "_intel_brief": {
+    "data": "https://intel.brycemaxheimer.com/editions/2026-11-07/edition.json",
+    "stories": [
+     {
+      "title": "SonicWall SonicOS SSLVPN flaw exploited to bypass SAML MFA; CISA adds CVE-2026-19868 to KEV",
+      "cves": [
+       "CVE-2026-19868"
+      ],
+      "score": 98
+     },
+     {
+      "title": "WorkOS says AI hacking agent run by a researcher breached its internal sales application",
+      "cves": [],
+      "score": 55
+     },
+     {
+      "title": "Microsoft fixes Windows Paint remote code execution flaw CVE-2026-83844 in Paint build 11.2609.401.0",
+      "cves": [
+       "CVE-2026-83844"
+      ],
+      "score": 52
+     },
+     {
+      "title": "Fake security tools on GitHub target security professionals with backdoor and infostealer",
+      "cves": [],
+      "score": 51
+     },
+     {
+      "title": "US seeks extradition of three suspects in AI-assisted CEO-impersonation fraud over $100 million",
+      "cves": [],
+      "score": 51
+     },
+     {
+      "title": "Researchers report residential proxy services routing traffic through White House network addresses",
+      "cves": [],
+      "score": 51
+     },
+     {
+      "title": "Chainalysis breach exposed credentials and live tokens for all customers",
+      "cves": [],
+      "score": 50
+     },
+     {
+      "title": "DigiCert reports breach of business customer contact data through unauthorized internal account",
+      "cves": [],
+      "score": 50
+     },
+     {
+      "title": "Attacks hit European refrigeration controllers; US agencies publish hardening guidance",
+      "cves": [],
+      "score": 50
+     },
+     {
+      "title": "QNAP warns of in-the-wild Plex2Shell attacks on NAS devices running Plex Media Server",
+      "cves": [],
+      "score": 47
+     }
+    ],
+    "explainer": "Authentication downgrade: when an alternate login path skips SAML-enforced MFA",
+    "good_news": [
+     "OpenSSH ships fixes for 'SSHole' password authentication bypass",
+     "Japan announces emergency cybersecurity package after wave of attacks",
+     "Four states settle with Perry Johnson subsidiaries over 2023 patient data hack"
+    ]
+   }
+  },
+  {
    "id": "https://intel.brycemaxheimer.com/editions/2026-11-06/",
    "url": "https://intel.brycemaxheimer.com/editions/2026-11-06/",
    "title": "Daily Intel Brief: 2026-11-06",
