@@ -12,6 +12,58 @@
  "language": "en-US",
  "items": [
   {
+   "id": "https://intel.brycemaxheimer.com/editions/2026-11-08/",
+   "url": "https://intel.brycemaxheimer.com/editions/2026-11-08/",
+   "title": "Daily Intel Brief: 2026-11-08",
+   "content_text": "1. SonicWall patches exploited SonicOS flaw CVE-2026-19868 that bypasses SAML VPN logins\n2. Crédit Mutuel Arkéa hit by attack via service provider enabling up to $133 million in fraudulent transactions\n3. MSRC updates advisory for Windows Paint remote code execution flaw CVE-2026-83844\n4. Tenda AC19 router heap overflow CVE-2026-123966 rated critical, exploit details public\n5. Nine buffer overflow CVEs in TOTOLINK CA300-PoE firmware 6.2c.884, exploit details public\nExplainer: Trusted relationship attacks: breaching a target through its service providers",
+   "date_published": "2026-11-08T16:39:51Z",
+   "_intel_brief": {
+    "data": "https://intel.brycemaxheimer.com/editions/2026-11-08/edition.json",
+    "stories": [
+     {
+      "title": "SonicWall patches exploited SonicOS flaw CVE-2026-19868 that bypasses SAML VPN logins",
+      "cves": [
+       "CVE-2026-19868"
+      ],
+      "score": 81
+     },
+     {
+      "title": "Crédit Mutuel Arkéa hit by attack via service provider enabling up to $133 million in fraudulent transactions",
+      "cves": [],
+      "score": 51
+     },
+     {
+      "title": "MSRC updates advisory for Windows Paint remote code execution flaw CVE-2026-83844",
+      "cves": [
+       "CVE-2026-83844"
+      ],
+      "score": 48
+     },
+     {
+      "title": "Tenda AC19 router heap overflow CVE-2026-123966 rated critical, exploit details public",
+      "cves": [
+       "CVE-2026-123966"
+      ],
+      "score": 47
+     },
+     {
+      "title": "Nine buffer overflow CVEs in TOTOLINK CA300-PoE firmware 6.2c.884, exploit details public",
+      "cves": [
+       "CVE-2026-123957",
+       "CVE-2026-123958",
+       "CVE-2026-123959",
+       "CVE-2026-123960",
+       "CVE-2026-123961",
+       "CVE-2026-124057"
+      ],
+      "score": 42
+     }
+    ],
+    "explainer": "Trusted relationship attacks: breaching a target through its service providers",
+    "good_news": []
+   }
+  },
+  {
    "id": "https://intel.brycemaxheimer.com/editions/2026-11-07/",
    "url": "https://intel.brycemaxheimer.com/editions/2026-11-07/",
    "title": "Daily Intel Brief: 2026-11-07",

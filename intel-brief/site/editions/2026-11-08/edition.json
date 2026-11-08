@@ -1,0 +1,951 @@
+{
+ "schema": 1,
+ "date": "2026-11-08",
+ "generated_at": "2026-11-08T16:39:51Z",
+ "generator": "intel-brief 0.1.0",
+ "models": {
+  "triage": "claude-haiku-5-5",
+  "writeup": "claude-opus-5-5",
+  "triage_method": "model"
+ },
+ "window": {
+  "since": "2026-11-07T05:00:00+00:00",
+  "until": "2026-11-08T05:00:00+00:00"
+ },
+ "stories": [
+  {
+   "id": "story-1",
+   "rank": 1,
+   "score": 81,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 18,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": true,
+    "epss_max": 0.0062,
+    "cvss_max": 0
+   },
+   "title": "SonicWall patches exploited SonicOS flaw CVE-2026-19868 that bypasses SAML VPN logins",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "widespread",
+    "platform": "edge_device",
+    "vendor": "SonicWall",
+    "product": "SonicOS"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-19868",
+     "cvss": 7.5,
+     "severity": "HIGH",
+     "products": [],
+     "epss": 0.00621,
+     "percentile": 0.50046,
+     "in_kev": true,
+     "kev_due": null,
+     "poc": [
+      {
+       "url": "https://github.com/EXEcution-py/CVE-2026-19868",
+       "name": "EXEcution-py/CVE-2026-19868",
+       "stars": 0,
+       "created": "2026-11-07"
+      },
+      {
+       "url": "https://github.com/foxcornlab/sonicwall-sonicos-scanner",
+       "name": "foxcornlab/sonicwall-sonicos-scanner",
+       "stars": 0,
+       "created": "2026-11-08"
+      }
+     ],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "SonicWall has patched CVE-2026-19868 in SonicOS, and SecurityWeek reports that the flaw is being exploited. According to SecurityWeek, an attacker who already holds valid credentials for a different login method can get past SAML checks, including multi-factor authentication enforced through SAML. CISA lists the CVE in its Known Exploited Vulnerabilities catalog, and public proof-of-concept code exists. The sources do not name affected or fixed SonicOS versions.",
+    "why_it_matters": "Organizations that rely on SAML-enforced MFA for SonicWall VPN access may be exposed: stolen or reused local or LDAP credentials could be enough to reach the internal network without passing the MFA step. The flaw is rated CVSS 7.5 with an EPSS of 0.6%, but confirmed exploitation, KEV listing and public PoC code make it urgent regardless of the low score. CISA has not published a due date.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Apply SonicWall's SonicOS update for CVE-2026-19868 on all firewalls and VPN gateways, using the version listed in SonicWall's advisory.",
+     "Until patched, disable or restrict non-SAML authentication methods (local and LDAP users) on VPN portals where SAML with MFA is meant to be enforced.",
+     "Review SonicWall VPN authentication logs for successful logins that used a non-SAML method by users who are supposed to authenticate only through SAML, especially from unfamiliar IP addresses.",
+     "Reset credentials for any VPN accounts with suspicious logins, and rotate local SonicWall account passwords.",
+     "Hunt for internal lateral movement originating from VPN-assigned address pools after any suspicious VPN session."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "SonicWall Patches Exploited SonicOS Vulnerability That Weakens VPN Logins",
+     "url": "https://www.securityweek.com/sonicwall-patches-exploited-sonicos-bug-that-weakens-vpn-logins/",
+     "source": "SecurityWeek",
+     "kind": "news",
+     "published": "2026-11-07T10:16:23Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Inventory all internet-facing SonicWall appliances, record their SonicOS versions, and compare them against SonicWall's advisory.",
+     "Export SonicWall VPN authentication events into Sentinel and identify successful logins that used a non-SAML method (local or LDAP) on portals configured for SAML.",
+     "Correlate those logins with users' normal SAML and Entra ID sign-in patterns, and flag users with no matching SAML or MFA event.",
+     "For suspicious sessions, find the VPN-assigned IP and trace its activity on endpoints: logons, SMB and RDP connections, and remote admin tool use.",
+     "Check whether Defender vulnerability management has detected the CVE on any discovered network devices."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Devices flagged by Defender TVM for CVE-2026-19868",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where CveId == \"CVE-2026-19868\" | project DeviceId, DeviceName, OSPlatform, SoftwareVendor, SoftwareName, SoftwareVersion, VulnerabilitySeverityLevel, RecommendedSecurityUpdate",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": [
+     "Dropped a hunting query with indicators not found in any source: 10.0.0.0",
+     "Dropped a hunting query with indicators not found in any source: 10.0.0.0"
+    ]
+   }
+  },
+  {
+   "id": "story-2",
+   "rank": 2,
+   "score": 51,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Crédit Mutuel Arkéa hit by attack via service provider enabling up to $133 million in fraudulent transactions",
+   "labels": {
+    "category": "breach",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "other",
+    "vendor": "",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "BleepingComputer reports that French cooperative bank Crédit Mutuel Arkéa was targeted in a cyberattack, reportedly carried out through a service provider, that enabled fraudulent transactions of up to $133 million. According to the report, the bank responded by suspending certain systems. The sources do not describe the initial access method, the provider involved, the systems affected, or the attackers.",
+    "why_it_matters": "The incident shows that compromise of a trusted third party can be enough to move large sums through a bank's systems, which makes supplier access paths a priority for financial-sector defenders. Because no technical details, indicators, or vulnerabilities have been published, there is nothing specific to hunt for yet. The practical value now is to review how much access your own service providers hold.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory service provider and MSP accounts, remote access tools and VPN connections that can reach payment or core banking systems, and remove any that are unused.",
+     "Require phishing-resistant MFA and conditional access for all third-party accounts in Entra ID, and limit them to named locations or devices where possible.",
+     "Review recent sign-ins and privileged actions by vendor and guest accounts for unusual times, locations or volumes.",
+     "Confirm that high-value or bulk transactions require out-of-band approval that a single compromised provider account cannot bypass.",
+     "Watch for follow-up reporting from the bank or French authorities that names the provider, the access method or indicators."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Hackers pull off $133 million French bank heist via service provider",
+     "url": "https://www.bleepingcomputer.com/news/security/hackers-pull-off-133-million-french-bank-heist-via-service-provider/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-07T15:25:35Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-3",
+   "rank": 3,
+   "score": 48,
+   "factors": {
+    "exploitation": 0,
+    "prevalence": 25,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0038,
+    "cvss_max": 0
+   },
+   "title": "MSRC updates advisory for Windows Paint remote code execution flaw CVE-2026-83844",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "none_known",
+    "prevalence": "ubiquitous",
+    "platform": "windows",
+    "vendor": "Microsoft",
+    "product": "Windows Paint"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-83844",
+     "cvss": 7.0,
+     "severity": "HIGH",
+     "products": [],
+     "epss": 0.00384,
+     "percentile": 0.32758,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [
+      {
+       "url": "https://github.com/LilPoule/CVE-2026-83844",
+       "name": "LilPoule/CVE-2026-83844",
+       "stars": 3,
+       "created": "2026-11-06"
+      },
+      {
+       "url": "https://github.com/ashrafzaryouh/CVE-2026-83844",
+       "name": "ashrafzaryouh/CVE-2026-83844",
+       "stars": 0,
+       "created": "2026-11-06"
+      },
+      {
+       "url": "https://github.com/mokshshah18/CVE-2026-83844-PoC-MS-paint-v-11.2609.401.0",
+       "name": "mokshshah18/CVE-2026-83844-PoC-MS-paint-v-11.2609.401.0",
+       "stars": 0,
+       "created": "2026-11-06"
+      }
+     ],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "Microsoft revised its Security Update Guide entry for CVE-2026-83844, a remote code execution vulnerability in Windows Paint, on 7 November 2026. Microsoft says it added an FAQ and updated the CVSS score, and it describes the revision as informational only. The advisory text available here does not describe the attack vector, the affected builds or the fixed versions. The current CVSS score is 7.0 (High), and public proof-of-concept code is reported to exist.",
+    "why_it_matters": "Paint ships on essentially every Windows client, so exposure is broad. A flaw like this would most likely be triggered when a user opens a crafted file, which makes phishing attachments and downloads the probable delivery path. No exploitation is known, the CVE is not in CISA KEV and EPSS is 0.4%, but the reported public proof of concept means patching should not wait for the next routine cycle.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Look up CVE-2026-83844 in the MSRC Security Update Guide to confirm the affected Windows or Paint builds, then deploy the listed update or Microsoft Store app update.",
+     "Use Defender Vulnerability Management to list devices still exposed to CVE-2026-83844 and track them until they are remediated.",
+     "Because a public proof of concept is reported, hunt for mspaint.exe starting unusual child processes or making outbound network connections.",
+     "Check that mail and web gateways scan inbound image attachments and downloads, which are a likely way to deliver a crafted file."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "CVE-2026-83844 Windows Paint Remote Code Execution Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-83844",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-07T16:00:00Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Query DeviceTvmSoftwareVulnerabilities for CVE-2026-83844 to list exposed devices and confirm patch coverage.",
+     "Hunt for mspaint.exe launching command interpreters, script hosts or other unexpected child processes over the last 30 days.",
+     "Review outbound network connections made by mspaint.exe, which normally has little reason to reach the internet.",
+     "For any hit, identify the image file opened just before the activity and trace where it came from, such as an email attachment or a download."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Devices exposed to CVE-2026-83844",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where CveId == \"CVE-2026-83844\" | summarize Devices = dcount(DeviceId), DeviceNames = make_set(DeviceName, 100) by SoftwareName, SoftwareVersion, RecommendedSecurityUpdate",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Unusual child processes spawned by Paint",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where InitiatingProcessFileName =~ \"mspaint.exe\" | where FileName in~ (\"cmd.exe\",\"powershell.exe\",\"pwsh.exe\",\"wscript.exe\",\"cscript.exe\",\"mshta.exe\",\"rundll32.exe\",\"regsvr32.exe\",\"certutil.exe\",\"bitsadmin.exe\") | project Timestamp, DeviceName, AccountName, InitiatingProcessCommandLine, FileName, ProcessCommandLine",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Outbound network connections from Paint",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(30d) | where InitiatingProcessFileName =~ \"mspaint.exe\" | where RemoteIPType == \"Public\" | summarize Count = count(), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by DeviceName, RemoteIP, RemoteUrl, RemotePort",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-4",
+   "rank": 4,
+   "score": 47,
+   "factors": {
+    "exploitation": 18,
+    "prevalence": 4,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 5,
+    "sources": 0,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0102,
+    "cvss_max": 9.3
+   },
+   "title": "Tenda AC19 router heap overflow CVE-2026-123966 rated critical, exploit details public",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "public_poc",
+    "prevalence": "niche",
+    "platform": "edge_device",
+    "vendor": "Tenda",
+    "product": "AC19"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-123966",
+     "cvss": 9.3,
+     "severity": "CRITICAL",
+     "products": [],
+     "epss": 0.01021,
+     "percentile": 0.6366,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "NVD published CVE-2026-123966 on 7 November 2026. It is a heap-based buffer overflow in the saveParentControlInfo handler of Tenda AC19 firmware 16.03.10.07, triggered through the deviceId parameter. NVD rates it CVSS 9.3 and says it can be reached remotely and that an exploit has been publicly disclosed. The sources do not mention a vendor advisory or fixed firmware, and the enrichment data does not confirm that working proof-of-concept code exists, so the public-exploit claim rests on NVD alone.",
+    "why_it_matters": "The AC19 is a consumer and small-office router, so it is most likely to appear at branch sites, home offices of remote workers, or as unmanaged shadow IT, not in core enterprise edge estates. The flaw is not in CISA KEV and has an EPSS of 1.0%, but public exploit details and remote reachability mean any exposed management interface is at real risk of compromise and of being turned into a botnet node or pivot point.",
+    "affected_versions": [
+     "Tenda AC19 16.03.10.07"
+    ],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory Tenda AC19 routers on corporate and branch networks, and treat any found as untrusted until a fixed firmware is confirmed.",
+     "Make sure the router web management interface is not reachable from the internet or from guest and untrusted network segments.",
+     "Replace AC19 devices in business use with managed, supported edge equipment if Tenda does not publish a fix.",
+     "Check Tenda's support channels for a firmware update that addresses CVE-2026-123966, and apply it once available.",
+     "Watch for unexpected outbound traffic from router IP addresses that could show compromise or botnet enrollment."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "CVE-2026-123966 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123966",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-07T14:17:01.800Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Use Defender for Endpoint device discovery to list network devices whose vendor or model points to Tenda or AC19.",
+     "Check perimeter firewall and external attack surface data for Tenda management interfaces exposed to the internet.",
+     "For each AC19 found, record the firmware version and confirm whether it runs 16.03.10.07.",
+     "Review firewall or proxy logs for HTTP requests to the /goform/saveParentControlInfo path aimed at router addresses from unexpected sources.",
+     "Look for managed endpoints whose default gateway or connections lead to Tenda devices, to judge which users depend on them."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Discovered Tenda or AC19 network devices",
+      "kql": "DeviceInfo | where Timestamp > ago(30d) | where Vendor has \"Tenda\" or Model has \"AC19\" | summarize arg_max(Timestamp, *) by DeviceId | project Timestamp, DeviceId, DeviceName, DeviceType, Vendor, Model, OSVersion, OnboardingStatus",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Endpoint connections to discovered Tenda device addresses",
+      "kql": "let tenda = DeviceInfo | where Timestamp > ago(30d) | where Vendor has \"Tenda\" or Model has \"AC19\" | distinct DeviceId; let tendaIps = DeviceNetworkInfo | where Timestamp > ago(30d) | where DeviceId in (tenda) | mv-expand ip = todynamic(IPAddresses) | extend IP = tostring(ip.IPAddress) | where isnotempty(IP) | distinct IP; DeviceNetworkEvents | where Timestamp > ago(7d) | where RemoteIP in (tendaIps) | summarize Connections = count(), Ports = make_set(RemotePort) by DeviceName, RemoteIP",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-5",
+   "rank": 5,
+   "score": 42,
+   "factors": {
+    "exploitation": 18,
+    "prevalence": 4,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 0,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0084,
+    "cvss_max": 8.6
+   },
+   "title": "Nine buffer overflow CVEs in TOTOLINK CA300-PoE firmware 6.2c.884, exploit details public",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "public_poc",
+    "prevalence": "niche",
+    "platform": "edge_device",
+    "vendor": "TOTOLINK",
+    "product": "CA300-PoE"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-123957",
+     "cvss": 8.6,
+     "severity": "HIGH",
+     "products": [],
+     "epss": 0.00466,
+     "percentile": 0.40625,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-123958",
+     "cvss": 8.6,
+     "severity": "HIGH",
+     "products": [],
+     "epss": 0.00466,
+     "percentile": 0.40623,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-123959",
+     "cvss": 8.5,
+     "severity": "HIGH",
+     "products": [],
+     "epss": 0.00841,
+     "percentile": 0.5813,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-123960",
+     "cvss": 8.6,
+     "severity": "HIGH",
+     "products": [],
+     "epss": 0.00796,
+     "percentile": 0.56705,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-123961",
+     "cvss": 8.6,
+     "severity": "HIGH",
+     "products": [],
+     "epss": 0.00796,
+     "percentile": 0.56705,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-124057",
+     "cvss": 8.5,
+     "severity": "HIGH",
+     "products": [],
+     "epss": 0.00635,
+     "percentile": 0.50728,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "On 7 November 2026, NVD published nine high-severity CVEs (CVSS 8.5 to 8.6) for the TOTOLINK CA300-PoE access point running firmware 6.2c.884. Each is a buffer overflow in a different handler of the device's cstecgi.cgi web management interface, including the QoS, LAN, WAN, language, Wi-Fi, repeater, WDS and custom module upload functions. NVD says all of them can be triggered remotely and that exploit details have been publicly disclosed, but separate proof-of-concept tracking did not confirm public code for the six CVEs it scored. No vendor advisory or fixed firmware is named in the sources.",
+    "why_it_matters": "The CA300-PoE is a niche device, but any unit with its web management interface reachable from untrusted networks could be crashed or possibly taken over, giving an attacker a foothold on the network edge. None of the CVEs is in CISA KEV, and EPSS scores are low (EPSS 0.5% to 0.8%). Because exploit details are reportedly public and no patch is identified, the immediate defence is to find these devices and restrict access to them.",
+    "affected_versions": [
+     "TOTOLINK CA300-PoE 6.2c.884"
+    ],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory TOTOLINK CA300-PoE devices and confirm whether any run firmware 6.2c.884.",
+     "Block access to the device web management interface (cstecgi.cgi) from the internet and from untrusted or guest VLANs, and allow it only from a dedicated management network.",
+     "Check TOTOLINK for a firmware update addressing these CVEs and apply it when one is available. Plan replacement if the vendor does not respond.",
+     "Review firewall and proxy logs for unexpected HTTP requests to the devices' management interfaces, and watch for repeated reboots or crashes that could indicate exploitation attempts.",
+     "Change administrative credentials on affected devices and disable remote management features that are not needed."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "CVE-2026-123957 (HIGH 8.6)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123957",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-07T09:17:14.890Z"
+    },
+    {
+     "title": "CVE-2026-123958 (HIGH 8.6)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123958",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-07T09:17:15.177Z"
+    },
+    {
+     "title": "CVE-2026-123959 (HIGH 8.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123959",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-07T10:17:12.123Z"
+    },
+    {
+     "title": "CVE-2026-123960 (HIGH 8.6)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123960",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-07T10:17:12.357Z"
+    },
+    {
+     "title": "CVE-2026-123961 (HIGH 8.6)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123961",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-07T11:17:01.290Z"
+    },
+    {
+     "title": "CVE-2026-124057 (HIGH 8.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-124057",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-07T18:17:21.607Z"
+    },
+    {
+     "title": "CVE-2026-124058 (HIGH 8.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-124058",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-07T19:17:28.263Z"
+    },
+    {
+     "title": "CVE-2026-124059 (HIGH 8.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-124059",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-07T19:17:28.480Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Use Defender device discovery to list network devices whose vendor or model matches TOTOLINK or CA300.",
+     "Check whether Defender vulnerability management maps any of the nine CVEs to assets.",
+     "For each device found, record its firmware version and determine whether the management interface is reachable from the internet or from user and guest segments.",
+     "Review perimeter firewall logs for inbound HTTP or HTTPS connections to these device IPs from external addresses.",
+     "Watch device uptime and syslog, if collected, for unexplained reboots or management service crashes."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Discovered TOTOLINK or CA300 network devices",
+      "kql": "DeviceInfo | where Timestamp > ago(30d) | where Vendor has \"totolink\" or Model has \"CA300\" | summarize arg_max(Timestamp, *) by DeviceId | project Timestamp, DeviceId, DeviceName, DeviceType, Vendor, Model, OSVersion, PublicIP",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Assets mapped to the TOTOLINK CA300-PoE CVEs",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where CveId in (\"CVE-2026-123957\",\"CVE-2026-123958\",\"CVE-2026-123959\",\"CVE-2026-123960\",\"CVE-2026-123961\",\"CVE-2026-124057\",\"CVE-2026-124058\",\"CVE-2026-124059\",\"CVE-2026-124060\") | project DeviceId, DeviceName, SoftwareVendor, SoftwareName, SoftwareVersion, CveId, VulnerabilitySeverityLevel",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  }
+ ],
+ "more_stories": [
+  {
+   "title": "Keycloak client policy upload flaw CVE-2026-120984 allows server-side JavaScript execution",
+   "score": 23,
+   "cves": [
+    "CVE-2026-120984"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-120984 (CRITICAL 9.1)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-120984",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "DataEase SQL injection and unrestricted upload flaws with public disclosure",
+   "score": 22,
+   "cves": [
+    "CVE-2026-123990",
+    "CVE-2026-123991"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-123990 (MEDIUM 5.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123990",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-123991 (MEDIUM 5.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123991",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "OpenBMB Internet of Agents flaws CVE-2026-123881 and CVE-2026-123963 publicly disclosed",
+   "score": 22,
+   "cves": [
+    "CVE-2026-123881",
+    "CVE-2026-123963"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-123881 (MEDIUM 5.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123881",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-123963 (MEDIUM 5.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123963",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Hickory DNS resolver, parser and DNSSEC flaws fixed in 0.26.2 enable DoS and validation bypass",
+   "score": 12,
+   "cves": [
+    "CVE-2026-123570",
+    "CVE-2026-123571",
+    "CVE-2026-123572"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-123570 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123570",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-123571 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123571",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-123572 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123572",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "IBM API Connect advisory: dozens of CVEs including critical auth bypass and code execution flaws",
+   "score": 9,
+   "cves": [
+    "CVE-2026-16720",
+    "CVE-2026-16884",
+    "CVE-2026-16918"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-16720 (CRITICAL 9.8)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-16720",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-16884 (CRITICAL 9.9)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-16884",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-16918 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-16918",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "OpenAM authentication bypass and admin takeover flaws fixed in 16.1.4",
+   "score": 9,
+   "cves": [
+    "CVE-2026-123549",
+    "CVE-2026-123550",
+    "CVE-2026-123551"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-123549 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123549",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-123550 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123550",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-123551 (CRITICAL 10.0)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123551",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "imgproxy ICO loader heap overflow and memory exhaustion flaws fixed in 4.0.16 and 4.0.17",
+   "score": 9,
+   "cves": [
+    "CVE-2026-123614",
+    "CVE-2026-123615",
+    "CVE-2026-123616"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-123614 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123614",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-123615 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123615",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-123616 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123616",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Zebra node denial of service flaws fixed in version 7.0.0 allow peers to stall sync",
+   "score": 4,
+   "cves": [
+    "CVE-2026-123554",
+    "CVE-2026-123555",
+    "CVE-2026-123558"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-123554 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123554",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-123555 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123555",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-123558 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123558",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "devalue serialization flaws enable denial of service via sparse arrays and promise handling",
+   "score": 4,
+   "cves": [
+    "CVE-2026-123562",
+    "CVE-2026-123563",
+    "CVE-2026-123564"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-123562 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123562",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-123563 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123563",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-123564 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123564",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Vikunja privilege escalation and authorization bypass flaws fixed in 2.7.1",
+   "score": 4,
+   "cves": [
+    "CVE-2026-123520",
+    "CVE-2026-123522",
+    "CVE-2026-123531"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-123520 (HIGH 7.1)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123520",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-123522 (HIGH 7.1)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123522",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-123531 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123531",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Treeio insecure deserialization allows code execution by staff users via Django admin",
+   "score": 4,
+   "cves": [
+    "CVE-2026-124318"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-124318 (HIGH 8.6)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-124318",
+     "source": "NVD"
+    }
+   ]
+  }
+ ],
+ "kev_new": [],
+ "early_signals": [],
+ "explainer": {
+  "concept": "Trusted relationship attacks: breaching a target through its service providers",
+  "dek": "A trusted relationship attack compromises a third party that already has legitimate access to the real target, such as an IT provider, payments processor or software vendor, and then uses that access to reach the target's systems.",
+  "why_today": "Crédit Mutuel Arkéa's losses of up to $133 million reportedly came through a service provider, not a direct breach of the bank's own perimeter. That pattern deserves its own threat model, separate from patching edge devices.",
+  "related_story_ids": [
+   "story-2"
+  ],
+  "parts": [
+   {
+    "heading": "How it works",
+    "paragraphs": [
+     "Organizations give outside parties standing access: managed service providers run remote management tools, outsourcers hold VPN accounts, Microsoft partners hold delegated admin rights in customer tenants, and integrators connect to payment or core banking systems through APIs and service accounts. MITRE ATT&CK tracks this as Trusted Relationship (T1199) under Initial Access.",
+     "The attacker targets the provider, which is often smaller and less monitored than its customers. Once inside, they use the provider's existing credentials, tools and network paths. To the victim, the activity arrives from an expected source, through an approved channel, with valid authentication."
+    ]
+   },
+   {
+    "heading": "What the attacker gains",
+    "paragraphs": [
+     "The main gain is trust that has already been granted. Provider connections are often allow-listed at the firewall, excluded from Conditional Access or MFA prompts, and run with broad privileges because nobody scoped them tightly. Activity from a provider's remote management agent or admin account looks like normal maintenance.",
+     "A compromised provider can also lead to many customers at once. In a financial setting, the attacker may go straight for business processes, such as initiating or approving transactions through the provider's integration, rather than deploying malware that endpoint tools would catch. The public reporting on the Arkéa case does not say which route was used."
+    ]
+   },
+   {
+    "heading": "What it looks like in telemetry",
+    "paragraphs": [
+     "In Entra ID, sign-ins by a Microsoft partner through delegated admin access are recorded in the customer tenant with a cross-tenant access type indicating a service provider, and the actor's home tenant differs from the resource tenant. B2B guest sign-ins show up as cross-tenant too. Unusual source IPs, times or operations on these sign-ins are worth hunting.",
+     "On endpoints, look for remote management and remote access tools spawning shells, scripting engines or credential access tools, or starting sessions outside the provider's normal maintenance windows. In Defender XDR, the parent process of suspicious activity often turns out to be the provider's agent. Baselining what that agent normally does makes deviations stand out."
+    ]
+   },
+   {
+    "heading": "How to reduce the risk",
+    "paragraphs": [
+     "Keep an inventory of every third party with access: accounts, tenants, agents, VPN profiles, API keys and network paths. Then cut each one down to least privilege and limit it in time. For Microsoft partners, replace legacy delegated admin privileges with granular delegated admin privileges (GDAP), which assign specific Entra roles for a defined period instead of standing Global Administrator.",
+     "Don't exempt provider access from the controls you apply to staff. Require phishing-resistant MFA, enforce Conditional Access on cross-tenant and guest access, and use just-in-time activation where possible. For high-value business actions such as payments, add an out-of-band approval step that a single compromised integration cannot complete by itself."
+    ]
+   }
+  ],
+  "takeaways": [
+   "List every tenant with delegated admin or GDAP access to your Entra ID tenant, and remove legacy delegated admin relationships and roles you don't need.",
+   "In Sentinel, hunt SigninLogs for cross-tenant sign-ins by service providers and guests. Alert on new source IPs, off-hours activity and privileged operations by those identities.",
+   "Inventory remote management and remote access agents installed by providers, and build Defender XDR detections for those agents launching shells, scripting engines or credential dumping tools.",
+   "Review Conditional Access policies for exclusions covering vendor accounts, guest users or partner IP ranges, and remove exclusions that are not strictly needed.",
+   "For payment and other high-impact workflows, confirm that actions coming from third-party integrations need independent approval, and that their API credentials are scoped and rotated."
+  ],
+  "unsupported_cves": [],
+  "model": "claude-opus-5-5"
+ },
+ "good_news": [],
+ "explainer_status": "ok",
+ "sources_status": {
+  "CISA KEV": "ok 0",
+  "NVD": "ok 176",
+  "BleepingComputer": "ok 2",
+  "The Record": "ok 0",
+  "The DFIR Report": "ok 0",
+  "Cisco Talos": "ok 0",
+  "Unit 42": "ok 0",
+  "Microsoft Security Blog": "ok 0",
+  "SANS ISC": "ok 0",
+  "Huntress": "ok 0",
+  "watchTowr Labs": "ok 0",
+  "Rapid7": "ok 0",
+  "SecurityWeek": "ok 1",
+  "Krebs on Security": "ok 0",
+  "CISA Advisories": "ok 0",
+  "MSRC Security Update Guide": "ok 1",
+  "Bluesky": "ok 0",
+  "Mastodon": "ok 8",
+  "r/netsec": "ok 0",
+  "Hacker News": "ok 2",
+  "SigmaHQ new rules": "ok 0",
+  "EPSS": "ok 185"
+ },
+ "stats": {
+  "items": {
+   "news": 3,
+   "advisory": 1,
+   "kev": 0,
+   "nvd": 176,
+   "social": 10,
+   "sigma": 0
+  },
+  "stories_found": 16,
+  "kql_parser": "available"
+ }
+}
