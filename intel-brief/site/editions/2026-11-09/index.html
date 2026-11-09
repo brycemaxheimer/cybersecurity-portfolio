@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Intel Brief: 9 November 2026</title>
+<meta name="description" content="Threat-intel brief for 9 November 2026: Iris Ohyama discloses third-party cloud breach that may have exposed data of about 7.7 million people; SANS ISC honeypots record rising exploit attempts against OpenSSH &#39;sshole&#39; flaw CVE-2026-123158; D-Link DIR-878 HNAP handler buffer overflows disclosed; end-of-life routers will not be patched">
+<meta name="color-scheme" content="only light">
+<meta name="theme-color" content="#B3141B">
+<link rel="canonical" href="https://intel.brycemaxheimer.com/editions/2026-11-09/"><link rel="alternate" type="application/rss+xml" title="Daily Intel Brief (RSS)" href="https://intel.brycemaxheimer.com/feed.xml">
+<link rel="alternate" type="application/feed+json" title="Daily Intel Brief (JSON Feed)" href="https://intel.brycemaxheimer.com/feed.json">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="../../assets/fonts/LibreFranklin-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../assets/fonts/PlayfairDisplay-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="mast">
+  <div class="wrap mast-band">
+    <a class="brand" href="../../">Daily Intel Brief</a>
+<div class="mast-meta">
+  <p class="eyebrow">Monday edition</p>
+  <h1 id="edition-title">9 November 2026</h1>
+</div>
+  </div>
+  <div class="mast-bar">
+    <div class="wrap">
+      <nav aria-label="Site">
+        <a href="../../">Latest</a>
+        <a href="../../archive/">Archive</a>
+        <a href="https://intel.brycemaxheimer.com/feed.xml">RSS</a>
+        <a href="https://intel.brycemaxheimer.com/feed.json">JSON Feed</a>
+        <a href="../../methodology/">Methodology</a>
+      </nav>
+      <p class="mast-dek">Threat intelligence for teams defending Windows, Microsoft 365 and internet-facing edge devices.</p>
+    </div>
+  </div>
+</header>
+<div id="main" class="wrap">
+
+<div class="edition-strip">
+  <dl class="stats" aria-labelledby="edition-title">
+    <div><dd>3</dd><dt>Top stories</dt></div>
+    <div class="crit"><dd>0</dd><dt>New KEV entries</dt></div>
+    <div class="ai"><dd>0</dd><dt>Early signals</dt></div>
+    <div><dd>22<small>/22</small></dd><dt>Sources collected</dt></div>
+  </dl>
+  <section class="provenance" aria-label="How this edition was made">
+  <p><strong>How this edition was made.</strong>
+    Collected from 22 public sources between 8 Nov 05:00 and 9 Nov 05:00 UTC.
+Ranked by Claude Haiku 5.5, summarized by Claude Opus 5.5, and reviewed by a person before publishing.
+    Summaries can be wrong, so check the linked sources before acting. <a href="../../methodology/">Read the methodology</a></p>
+  </section>
+</div>
+
+<div class="layout">
+<main class="main">
+  <div class="section-head" id="stories">
+    <h2>Top stories</h2>
+    <span>Ranked by exploitation, reach and platform</span>
+  </div>
+
+  <article class="story lead-story" id="story-1" aria-labelledby="story-1-h">
+    <div class="story-top">
+      <div class="story-flags">
+        <div class="tags">
+<span class="tag crit-solid">Exploited</span>
+<span class="tag info">Cloud / SaaS</span><span class="tag">breach</span>        </div>
+        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span class="rank">No. 01</span> · Priority <b>55</b>
+        </div>
+      </div>
+      <h3 id="story-1-h">Iris Ohyama discloses third-party cloud breach that may have exposed data of about 7.7 million people</h3>
+      <p class="meta">Iris Ohyama Iris Plaza · 1 source · first reported 8 November 2026</p>
+    </div>
+
+
+    <div class="story-body">
+      <div class="cols2">
+        <section><h4 class="label">What happened</h4><p>According to BleepingComputer, Japanese manufacturer Iris Ohyama, which operates the Iris Plaza online shopping platform, disclosed that personal information of roughly 7.7 million people may have been exposed. The company attributes the exposure to unauthorized access to a third-party cloud service it used. The available reporting does not identify the cloud provider, the attacker, the access method, the dates involved or exactly which data fields were affected.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>This is a supply-chain style breach through a SaaS or cloud provider rather than a flaw in Windows, M365 or edge devices. For most SOCs the direct exposure is limited, but exposed customer data can fuel phishing and impersonation aimed at employees who shop on Iris Plaza. It also shows again that customer data held by third-party cloud vendors can leak without any compromise of the organization&#39;s own perimeter.</p></section>
+      </div>
+      <div class="actions">
+        <h4 class="label">What to do</h4>
+        <ol class="steps"><li>If your organization or its staff use Iris Plaza, warn users to expect phishing that references Iris Ohyama or Iris Plaza orders, and tell them to verify any account or payment requests through official channels.</li><li>Check whether any corporate accounts or corporate email addresses are registered with Iris Plaza, and reset those passwords where they may have been reused elsewhere.</li><li>Review your own third-party cloud and SaaS vendors that store customer personal data, confirming access logging, MFA on administrative accounts and breach-notification terms.</li><li>Follow Iris Ohyama&#39;s official notices for confirmed data types and timelines before drawing conclusions about specific risk.</li></ol>
+      </div>
+    </div>
+
+    <div class="sources">
+      <h4 class="label">Sources</h4>
+      <ul>
+        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/iris-ohyama-data-cloud-breach-exposes-info-of-77-million-customers/" rel="noopener noreferrer nofollow">Iris Ohyama data cloud breach exposes info of 7.7 million customers</a><span class="where">bleepingcomputer.com · 8 Nov</span></li>
+      </ul>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
+
+
+  </article>
+  <article class="story" id="story-2" aria-labelledby="story-2-h">
+    <div class="story-top">
+      <div class="story-flags">
+        <div class="tags">
+<span class="tag crit-solid">Exploited</span>
+<span class="tag crit">In CISA KEV</span><span class="tag high">Public PoC</span>        </div>
+        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span class="rank">No. 02</span> · Priority <b>51</b>
+        </div>
+      </div>
+      <h3 id="story-2-h">SANS ISC honeypots record rising exploit attempts against OpenSSH &#39;sshole&#39; flaw <span class="nowrap">CVE-2026-123158</span></h3>
+      <p class="meta">1 source · first reported 8 November 2026</p>
+    </div>
+
+    <dl class="facts">
+      <div><dt>CVE</dt><dd><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-123158">CVE-2026-123158</a></dd></div>
+      <div><dt>CVSS</dt><dd><strong>8.1</strong> <span class="high">High</span></dd></div>
+      <div><dt>EPSS</dt><dd><strong>1.0%</strong> <span class="muted">30-day</span></dd></div>
+      <div><dt>CISA KEV</dt><dd>Listed earlier</dd></div>
+      <div><dt>Public PoC</dt><dd><strong class="high">3 repos</strong></dd></div>
+    </dl>
+
+    <div class="story-body">
+      <div class="cols2">
+        <section><h4 class="label">What happened</h4><p>SANS ISC reports that its Cowrie SSH honeypots began logging exploit attempts for the &#39;sshole&#39; OpenSSH vulnerability (CVE-2026-123158) on 5 November 2026, using unusually long passwords made entirely of the letter &#39;A&#39;. Long-password attempts peaked at 713 on 6 November 2026 and then fell to 51 by 8 November 2026. SANS notes that its honeypots only capture the first 255 characters of a password, so its view of the attempts is limited. It also says that earlier long passwords seen from 1 November 2026 were unrelated: they came from buggy brute-force scripts that placed malware-download shell commands in the password field.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>The flaw is rated CVSS 8.1 (high), is listed in CISA KEV with no due date stated, and has public proof-of-concept code, so any internet-facing OpenSSH server is a target. This includes Linux servers, appliances and edge devices that ship OpenSSH. EPSS is only about 1.0%, but the honeypot data shows active scanning, so exposed SSH services should be prioritized now rather than in the next routine patch cycle.</p></section>
+      </div>
+      <div class="actions">
+        <h4 class="label">What to do</h4>
+        <ol class="steps"><li>Inventory internet-facing SSH services, including Linux servers, appliances, firewalls and VPN gateways that embed OpenSSH, and apply the vendor&#39;s fixed OpenSSH release for CVE-2026-123158 as soon as it is available. The sources do not name fixed versions.</li><li>Until patched, restrict SSH exposure to management networks or VPN, or allow-list source addresses at the perimeter.</li><li>Review SSH authentication logs on exposed hosts for failed logins with abnormally long passwords or repeated-character passwords since 1 November 2026.</li><li>Hunt for inbound connections from the scanner IPs SANS ISC published, and for outbound connections to the malware host 156.238.252.37 tied to the brute-force bot downloads.</li><li>On any host that received these attempts, check for unexpected binaries written to /tmp, chmod 777 activity, and new outbound connections, which could indicate compromise.</li></ol>
+      </div>
+    </div>
+
+    <div class="sources">
+      <h4 class="label">Sources</h4>
+      <ul>
+        <li><span class="pub">SANS ISC</span><a href="https://isc.sans.edu/diary/rss/33498" rel="noopener noreferrer nofollow">Scans for Sshole Vulnerability (CVE-2026-123158), (Sun, Nov 8th)</a><span class="where">isc.sans.edu · 8 Nov</span></li>
+      </ul>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
+
+    <details class="poc">
+      <summary>Public proof-of-concept repos (3)</summary>
+      <p class="warn">Links only, not vetted. Public PoC repos are often fake or backdoored. Don't run them on a work machine.</p>
+      <ul><li><a href="https://github.com/gabrielunknown/CVE-2026-123158_SSHole" rel="noopener noreferrer nofollow">gabrielunknown/CVE-2026-123158_SSHole</a> <span class="muted">CVE-2026-123158 · 7 stars · created 5 Nov</span></li><li><a href="https://github.com/Maalfer/CVE-2026-123158" rel="noopener noreferrer nofollow">Maalfer/CVE-2026-123158</a> <span class="muted">CVE-2026-123158 · 4 stars · created 6 Nov</span></li><li><a href="https://github.com/coboliqcom/cve-2026-123158-sshole-safe-rust" rel="noopener noreferrer nofollow">coboliqcom/cve-2026-123158-sshole-safe-rust</a> <span class="muted">CVE-2026-123158 · 1 stars · created 5 Nov</span></li></ul>
+    </details>
+
+    <section class="detect" aria-label="Detection">
+      <div class="detect-head">
+        <div class="t">Detection
+<span class="tag ai">AI-generated · untested</span>        </div>
+        <span class="why">Hunting only: no endpoint behavior to write a rule against</span>
+      </div>
+      <div class="tabs">
+        <input class="tab-input" type="radio" name="fmt-story-2" id="story-2-hunt" checked>
+        <label for="story-2-hunt">Hunting</label>
+        <div class="tab-panels">
+          <div class="tab-panel">
+<ol class="steps-plain"><li>Use Defender Vulnerability Management to list devices flagged for CVE-2026-123158, along with their OpenSSH versions.</li><li>Cross-check that list against assets with TCP 22 exposed to the internet, using external attack surface data and firewall rules.</li><li>Search network telemetry for inbound connections from the scanner IPs SANS ISC reported. Many of these are ISP or hosting addresses that may be compromised hosts, so treat a match as a lead, not proof of compromise.</li><li>Search process and network telemetry on Linux devices for downloads from 156.238.252.37 or for files named bot.x86_64, which SANS ties to opportunistic brute-force bots.</li><li>On exposed hosts without Defender coverage, review sshd logs and edge device logs for long or repeated-character password attempts since 1 November 2026, then look for new files in /tmp and unexpected outbound connections.</li></ol><div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Devices exposed to CVE-2026-123158 (sshole)</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceTvmSoftwareVulnerabilities | where CveId == &#34;CVE-2026-123158&#34; | summarize Software = make_set(strcat(SoftwareName, &#34; &#34;, SoftwareVersion)) by DeviceId, DeviceName, OSPlatform</code></pre>
+</div>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Inbound connections from SANS-reported sshole scanner IPs</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceNetworkEvents | where Timestamp &gt; ago(14d) | where RemoteIP in (&#34;213.86.169.133&#34;,&#34;152.233.50.185&#34;,&#34;92.255.57.7&#34;,&#34;195.178.110.78&#34;,&#34;109.94.173.13&#34;,&#34;87.241.132.12&#34;,&#34;52.119.124.122&#34;,&#34;185.2.148.137&#34;,&#34;220.77.237.35&#34;,&#34;82.74.132.129&#34;,&#34;220.70.219.98&#34;,&#34;154.80.128.173&#34;,&#34;121.190.39.238&#34;,&#34;121.163.224.97&#34;,&#34;58.151.184.226&#34;,&#34;62.210.173.100&#34;,&#34;183.99.38.238&#34;) | summarize Connections = count(), FirstSeen = min(Timestamp), LastSeen = max(Timestamp), Ports = make_set(LocalPort) by DeviceName, RemoteIP, ActionType</code></pre>
+</div>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Brute-force bot download activity linked to 156.238.252.37</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(14d) | where ProcessCommandLine has_any (&#34;156.238.252.37&#34;, &#34;bot.x86_64&#34;) | project Timestamp, DeviceName, AccountName, FileName, ProcessCommandLine, InitiatingProcessFileName, InitiatingProcessCommandLine</code></pre>
+</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </article>
+  <article class="story" id="story-3" aria-labelledby="story-3-h">
+    <div class="story-top">
+      <div class="story-flags">
+        <div class="tags">
+<span class="tag high">Public PoC</span><span class="tag info">Edge device</span>        </div>
+        <div class="priority high" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span class="rank">No. 03</span> · Priority <b>42</b>
+        </div>
+      </div>
+      <h3 id="story-3-h">D-Link DIR-878 HNAP handler buffer overflows disclosed; end-of-life routers will not be patched</h3>
+      <p class="meta">D-Link DIR-878 · 3 sources · first reported 9 November 2026</p>
+    </div>
+
+    <dl class="facts">
+      <div><dt>CVE</dt><dd><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-124560">CVE-2026-124560</a></dd></div>
+      <div><dt>CVSS</dt><dd><strong>8.9</strong> <span class="high">High</span></dd></div>
+      <div><dt>EPSS</dt><dd><strong>0.7%</strong> <span class="muted">30-day</span></dd></div>
+      <div><dt>CISA KEV</dt><dd><span class="muted">Not listed</span></dd></div>
+      <div><dt>Public PoC</dt><dd>None known</dd></div>
+    </dl>
+    <p class="related">Also: <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-124561">CVE-2026-124561</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-124563">CVE-2026-124563</a></p>
+
+    <div class="story-body">
+      <div class="cols2">
+        <section><h4 class="label">What happened</h4><p>NVD has published three high-severity buffer overflow flaws (CVE-2026-124560, CVE-2026-124561, CVE-2026-124563) in the HNAP handler of D-Link DIR-878 firmware 1.20B05. They sit in the GetCAPTCHAsetting, SetVLANSettings and SetWanSettings functions of prog.cgi, and NVD says all three can be triggered remotely. NVD states that exploits have been made public, but separate proof-of-concept tracking did not confirm public code, so that point is unverified. NVD also notes that the product is no longer supported by D-Link.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>The DIR-878 is a consumer and small-office router. It is most likely to turn up at branch sites or in remote workers&#39; homes, where a compromised device could intercept or redirect traffic. None of the CVEs is in CISA KEV, and EPSS is low (0.7% for CVE-2026-124560, 0.5% for the other two), but these devices will never receive a fix. Exposed units should be treated as permanently vulnerable.</p></section>
+      </div>
+      <div class="actions">
+        <h4 class="label">What to do</h4>
+        <ol class="steps"><li>Inventory DIR-878 routers on corporate networks and branch sites and replace them with supported hardware, since D-Link will not release a fix for this end-of-life product.</li><li>Until replacement, disable remote (WAN-side) management on any DIR-878 and confirm the HNAP web interface is not reachable from the internet.</li><li>Restrict LAN access to the router management interface to a dedicated admin host or VLAN.</li><li>Tell remote workers who use DIR-878 routers at home to replace them, and rely on VPN or ZTNA rather than trusting the home network.</li><li>After replacement, reset credentials that were stored on or passed through affected routers, such as Wi-Fi keys and PPPoE accounts.</li></ol>
+      <div class="cols2 versions">
+        <div><div class="k">Affected</div><ul><li>D-Link DIR-878 1.20B05</li></ul></div>
+        <div><div class="k">Fixed</div><span class="muted">Not stated in the sources</span></div>
+      </div>
+      </div>
+    </div>
+
+    <div class="sources">
+      <h4 class="label">Sources</h4>
+      <ul>
+        <li><span class="pub">NVD</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-124560" rel="noopener noreferrer nofollow">CVE-2026-124560 (HIGH 8.9)</a><span class="where">nvd.nist.gov · 9 Nov</span></li>
+        <li><span class="pub">NVD</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-124561" rel="noopener noreferrer nofollow">CVE-2026-124561 (HIGH 7.7)</a><span class="where">nvd.nist.gov · 9 Nov</span></li>
+        <li><span class="pub">NVD</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-124563" rel="noopener noreferrer nofollow">CVE-2026-124563 (HIGH 7.7)</a><span class="where">nvd.nist.gov · 9 Nov</span></li>
+      </ul>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
+
+
+    <section class="detect" aria-label="Detection">
+      <div class="detect-head">
+        <div class="t">Detection
+<span class="tag ai">AI-generated · untested</span>        </div>
+        <span class="why">Hunting only: no endpoint behavior to write a rule against</span>
+      </div>
+      <div class="tabs">
+        <input class="tab-input" type="radio" name="fmt-story-3" id="story-3-hunt" checked>
+        <label for="story-3-hunt">Hunting</label>
+        <div class="tab-panels">
+          <div class="tab-panel">
+<ol class="steps-plain"><li>Use Defender for Endpoint device discovery to list network devices whose vendor is D-Link or whose model is DIR-878.</li><li>Check vulnerability management for the three CVE IDs to see whether any discovered devices are flagged.</li><li>Scan external attack surface tooling or perimeter scans for internet-exposed D-Link management interfaces belonging to your organisation.</li><li>For any DIR-878 found, record its location and owner, confirm the firmware version, and schedule replacement.</li><li>Review firewall or proxy logs for unexpected inbound connections to router management ports at sites where these devices sit.</li></ol><div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Discovered D-Link network devices, including DIR-878</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceInfo | where Timestamp &gt; ago(30d) | where Vendor has &#34;D-Link&#34; or Model has &#34;DIR-878&#34; | summarize arg_max(Timestamp, *) by DeviceId | project Timestamp, DeviceId, DeviceName, DeviceType, Vendor, Model, OSVersion, PublicIP</code></pre>
+</div>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Devices flagged for the DIR-878 HNAP buffer overflow CVEs</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceTvmSoftwareVulnerabilities | where CveId in (&#34;CVE-2026-124560&#34;, &#34;CVE-2026-124561&#34;, &#34;CVE-2026-124563&#34;) | project DeviceId, DeviceName, SoftwareVendor, SoftwareName, SoftwareVersion, CveId, VulnerabilitySeverityLevel</code></pre>
+</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </article>
+
+  <section class="block" id="kev" aria-labelledby="h-kev">
+    <div class="section-head"><h2 id="h-kev">New CISA KEV entries</h2></div>
+    <p class="muted">CISA added no KEV entries in this window.</p>
+  </section>
+
+  <section class="block" id="signals" aria-labelledby="h-signals">
+    <div class="section-head"><h2 id="h-signals">Early signals</h2><span>Counted by code, not AI</span></div>
+    <p class="lead">CVEs that several independent accounts posted about in the window but that are not in KEV or the news feeds yet. Counted from Bluesky, Mastodon (infosec.exchange), r/netsec and Hacker News after dropping CVE-feed bots and digest posts. Chatter is a lead, not confirmation.</p>
+    <p class="muted">No CVE crossed the threshold in this window.</p>
+  </section>
+
+  <section class="block explainer" id="explainer" aria-labelledby="h-explainer">
+    <div class="section-head"><h2 id="h-explainer">Explainer</h2><span>Background, not news</span></div>
+    <h3>Honeypot telemetry: what sensor data does and does not tell you</h3>
+    <p class="dek">Honeypots are decoy systems exposed to the internet to record unsolicited attack traffic, and their logs are a widely used early signal that exploitation of a new vulnerability has begun.</p>
+<p class="why-today"><strong>Why today.</strong> SANS ISC&#39;s report of rising exploit attempts against the OpenSSH &#39;sshole&#39; flaw comes from its Cowrie SSH honeypots. Reading that data well means knowing what those sensors capture, what they miss and how much weight the numbers can bear. See <a href="#story-2">story 2</a>.</p>    <div class="ex-body">
+<h4>How honeypots like Cowrie work</h4><p>A honeypot is a system with no legitimate users, so any connection to it is unsolicited and worth recording. Low-interaction honeypots only accept connections and log what arrives. Medium-interaction honeypots emulate enough of a service to keep an attacker talking.</p><p>Cowrie is a widely used open-source medium-interaction honeypot for SSH and Telnet. It emulates the login exchange and a fake shell, then logs source addresses, client version strings, attempted usernames and passwords, and any commands or downloads that follow. Projects such as the SANS Internet Storm Center run many such sensors across different networks and aggregate the results, which shows trends across the internet rather than activity aimed at one organisation.</p><h4>What the data can tell you</h4><p>Honeypot data is good at answering whether a technique is being used at scale and roughly when it started. A sudden shift in traffic, such as a burst of abnormally long passwords after a vulnerability disclosure, is a strong sign that someone has turned a bug into an automated attempt and is spraying it across the internet.</p><p>It also gives timing and volume trends: when attempts began, when they peaked and whether they are fading or growing. For patch prioritisation, mass scanning against a flaw in a service you expose to the internet is often a better urgency signal than a severity score alone.</p><h4>Limits and pitfalls</h4><p>Sensors only record what they are built to record. SANS notes its honeypots keep only the first 255 characters of an SSH password, so any payload longer than that is cut off, and the full shape of the exploit attempt is not visible. An emulated service also does not behave exactly like the real software, so an exploit that would crash or compromise genuine OpenSSH may simply fail against the decoy, and later stages of an attack may never be seen.</p><p>Not every anomaly is the exploit. SANS found that long passwords seen days earlier came from buggy brute-force scripts that put shell download commands in the password field, not from &#39;sshole&#39; attempts. A drop in volume, like the fall from 713 to 51 daily attempts, can mean attackers changed tooling, began avoiding known sensor ranges or moved to targeted use. It does not mean the risk has passed. And because honeypots see untargeted traffic, they say little about whether a capable actor is aiming at your organisation specifically.</p><h4>Turning it into defensive action</h4><p>Use honeypot reports as a prioritisation and hunting signal, not as proof of exposure or compromise. The useful questions are whether you run the affected software where the internet can reach it, whether it is patched, and whether your own logs show the same pattern.</p><p>Your own SSH servers do not log submitted passwords, so you usually cannot match the honeypot signature directly. Look instead for indirect signs: repeated failed authentication bursts from single sources, sshd child process crashes or restarts, and unexpected processes or outbound connections spawned by sshd after authentication events. Treat source addresses published from honeypot data as short-lived context rather than a durable blocklist, since scanning infrastructure changes quickly.</p>    </div>
+    <div class="actions">
+      <h4 class="label">For defenders</h4>
+      <ol class="steps"><li>Inventory every internet-reachable SSH service, including on appliances, cloud VMs and edge devices, and confirm which are running OpenSSH builds affected by CVE-2026-123158 according to your distribution&#39;s or vendor&#39;s advisory.</li><li>Patch or restrict exposed SSH to VPN or allowlisted management networks first, using active mass scanning as the reason to move it ahead of other medium-priority work.</li><li>On Linux hosts onboarded to Defender for Endpoint or sending syslog to Sentinel, hunt for unusual processes or network connections whose parent is sshd, and for repeated sshd crashes or restarts since 1 November 2026.</li><li>Alert on high-volume failed SSH authentication from single sources against servers that should only see administrative logins, and review any successful login that follows such a burst.</li><li>Read honeypot trend reports for timing and scale, and do not treat a falling attempt count as a reason to delay patching.</li></ol>
+    </div>
+    <p class="ai-line">AI-generated explainer by Claude Opus 5.5 · from the model's background knowledge, not today's sources · check vendor documentation before acting on it</p>
+  </section>
+
+
+  <section class="block" id="radar" aria-labelledby="h-radar">
+    <div class="section-head"><h2 id="h-radar">Also on the radar</h2><span>Lower-ranked, links only</span></div>
+    <ul class="radar">
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-124441" rel="noopener noreferrer nofollow">Kyverno before 1.19.2 lets namespaced tenants write resources into other namespaces</a><span class="where">NVD · CVE-2026-124441</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-124450" rel="noopener noreferrer nofollow">OpenEMR fax/SMS file path traversal flaws allow credential theft and code execution before 8.3.0</a><span class="where">NVD · CVE-2026-124450, CVE-2026-124490, CVE-2026-124446</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-124427" rel="noopener noreferrer nofollow">Craft CMS 5.11.2 fixes authorization bypass, privilege escalation and remote code execution flaws</a><span class="where">NVD · CVE-2026-124427, CVE-2026-124429, CVE-2026-124430</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-124445" rel="noopener noreferrer nofollow">Multiple OpenEMR flaws before 8.3.0 and 8.4.0 expose patient records and billing data</a><span class="where">NVD · CVE-2026-124445, CVE-2026-124469, CVE-2026-124447</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-15266" rel="noopener noreferrer nofollow">IBM Concert 1.0 through 3.0.1.1 vulnerabilities allow operating system command execution</a><span class="where">NVD · CVE-2026-15266, CVE-2026-6715</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-107331" rel="noopener noreferrer nofollow">IBM DataStage on Cloud Pak for Data 5.4.0.0 flaws allow remote disclosure of sensitive information</a><span class="where">NVD · CVE-2026-107331, CVE-2026-107330</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-124437" rel="noopener noreferrer nofollow">Scriban template engine flaws before 7.5.3 allow resource exhaustion and information disclosure</a><span class="where">NVD · CVE-2026-124437, CVE-2026-124438, CVE-2026-124439</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-118904" rel="noopener noreferrer nofollow">IBM webMethods Integration Server 12.1 authentication bypass vulnerability</a><span class="where">NVD · CVE-2026-118904</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-9764" rel="noopener noreferrer nofollow">IBM Bob 1.0.4 through 2.0.1 allows remote code injection via improper user input control</a><span class="where">NVD · CVE-2026-9764</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-18893" rel="noopener noreferrer nofollow">IBM CockroachDB PostgreSQL for IBM VPC privilege escalation via user-defined function</a><span class="where">NVD · CVE-2026-18893</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-18093" rel="noopener noreferrer nofollow">IBM App Connect Enterprise 13.0.1.0 through 13.0.8.2 broken access control exposes information</a><span class="where">NVD · CVE-2026-18093</span></li>
+    </ul>
+  </section>
+
+  <details class="status">
+    <summary>Collection status: 22 of 22 sources returned data</summary>
+    <ul><li><span class="">BleepingComputer</span> <span class="muted">ok 1</span></li><li><span class="">Bluesky</span> <span class="muted">ok 0</span></li><li><span class="">CISA Advisories</span> <span class="muted">ok 0</span></li><li><span class="">CISA KEV</span> <span class="muted">ok 0</span></li><li><span class="">Cisco Talos</span> <span class="muted">ok 0</span></li><li><span class="">EPSS</span> <span class="muted">ok 48</span></li><li><span class="">Hacker News</span> <span class="muted">ok 0</span></li><li><span class="">Huntress</span> <span class="muted">ok 0</span></li><li><span class="">Krebs on Security</span> <span class="muted">ok 0</span></li><li><span class="">Mastodon</span> <span class="muted">ok 0</span></li><li><span class="">Microsoft Security Blog</span> <span class="muted">ok 0</span></li><li><span class="">MSRC Security Update Guide</span> <span class="muted">ok 0</span></li><li><span class="">NVD</span> <span class="muted">ok 47</span></li><li><span class="">r/netsec</span> <span class="muted">ok 0</span></li><li><span class="">Rapid7</span> <span class="muted">ok 0</span></li><li><span class="">SANS ISC</span> <span class="muted">ok 2</span></li><li><span class="">SecurityWeek</span> <span class="muted">ok 1</span></li><li><span class="">SigmaHQ new rules</span> <span class="muted">ok 0</span></li><li><span class="">The DFIR Report</span> <span class="muted">ok 0</span></li><li><span class="">The Record</span> <span class="muted">ok 0</span></li><li><span class="">Unit 42</span> <span class="muted">ok 0</span></li><li><span class="">watchTowr Labs</span> <span class="muted">ok 0</span></li></ul>
+    <p>Data for this edition: <a href="../../editions/2026-11-09/edition.json">edition.json</a>. KQL parser: available.</p>
+  </details>
+</main>
+
+<aside class="rail" aria-label="Edition summary">
+  <section class="panel also">
+    <h2>Also today</h2>
+    <ol class="toc">
+      <li><b class="num crit">2</b><span><span class="tier crit">Exploited · KEV · PoC</span><a href="#story-2">SANS ISC honeypots record rising exploit attempts against OpenSSH &#39;sshole&#39; flaw <span class="nowrap">CVE-2026-123158</span></a><span class="toc-warn"><b>3 public PoC repos.</b> Links only, not vetted. Public PoC repos are often fake or backdoored. Don't run them on a work machine.</span></span></li>
+      <li><b class="num high">3</b><span><span class="tier high">High risk · PoC</span><a href="#story-3">D-Link DIR-878 HNAP handler buffer overflows disclosed; end-of-life routers will not be patched</a></span></li>
+    </ol>
+  </section>
+  <section class="panel learn">
+    <h2>Also in this edition</h2>
+<p><span class="k">Explainer</span><a href="#explainer">Honeypot telemetry: what sensor data does and does not tell you</a></p>  </section>
+  <section class="panel">
+    <h2>Collection</h2>
+    <div class="meter"><svg class="bar" viewBox="0 0 100 6" preserveAspectRatio="none" aria-hidden="true"><rect class="track" width="100" height="6" rx="3"/><rect class="fill" width="100" height="6" rx="3"/></svg><span class="mono">22/22</span></div>
+    <p>Every source returned data. 51 items collected.</p>
+  </section>
+  <section class="panel follow">
+    <h2>Follow the brief</h2>
+    <p>A new edition every morning, 07:15 US Eastern.</p>
+    <div class="btns"><a class="btn primary" href="https://intel.brycemaxheimer.com/feed.xml">RSS feed</a><a class="btn ghost" href="https://intel.brycemaxheimer.com/feed.json">JSON Feed</a></div>
+  </section>
+  <nav class="panel" aria-label="Other editions">
+    <h2>Other editions</h2>
+<div class="kv"><span>Older</span><a href="../../editions/2026-11-08/">8 November 2026</a></div>  </nav>
+</aside>
+</div>
+</div>
+<footer class="foot">
+  <div class="wrap">
+    <p>Summaries and detections are AI-generated and can be wrong. This site publishes summaries and links only, never copies of articles. Detections are labelled with their origin and are untested in your environment.</p>
+    <p>Maintained by Bryce Maxheimer · <a href="../../methodology/">Methodology</a> · <a href="../../archive/">Archive</a></p>
+  </div>
+</footer>
+</body>
+</html>
