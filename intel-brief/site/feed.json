@@ -12,6 +12,41 @@
  "language": "en-US",
  "items": [
   {
+   "id": "https://intel.brycemaxheimer.com/editions/2026-11-09/",
+   "url": "https://intel.brycemaxheimer.com/editions/2026-11-09/",
+   "title": "Daily Intel Brief: 2026-11-09",
+   "content_text": "1. Iris Ohyama discloses third-party cloud breach that may have exposed data of about 7.7 million people\n2. SANS ISC honeypots record rising exploit attempts against OpenSSH 'sshole' flaw CVE-2026-123158\n3. D-Link DIR-878 HNAP handler buffer overflows disclosed; end-of-life routers will not be patched\nExplainer: Honeypot telemetry: what sensor data does and does not tell you",
+   "date_published": "2026-11-09T20:40:20Z",
+   "_intel_brief": {
+    "data": "https://intel.brycemaxheimer.com/editions/2026-11-09/edition.json",
+    "stories": [
+     {
+      "title": "Iris Ohyama discloses third-party cloud breach that may have exposed data of about 7.7 million people",
+      "cves": [],
+      "score": 55
+     },
+     {
+      "title": "SANS ISC honeypots record rising exploit attempts against OpenSSH 'sshole' flaw CVE-2026-123158",
+      "cves": [
+       "CVE-2026-123158"
+      ],
+      "score": 51
+     },
+     {
+      "title": "D-Link DIR-878 HNAP handler buffer overflows disclosed; end-of-life routers will not be patched",
+      "cves": [
+       "CVE-2026-124560",
+       "CVE-2026-124561",
+       "CVE-2026-124563"
+      ],
+      "score": 42
+     }
+    ],
+    "explainer": "Honeypot telemetry: what sensor data does and does not tell you",
+    "good_news": []
+   }
+  },
+  {
    "id": "https://intel.brycemaxheimer.com/editions/2026-11-08/",
    "url": "https://intel.brycemaxheimer.com/editions/2026-11-08/",
    "title": "Daily Intel Brief: 2026-11-08",

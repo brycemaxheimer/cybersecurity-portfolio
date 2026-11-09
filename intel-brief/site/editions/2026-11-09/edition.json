@@ -1,0 +1,643 @@
+{
+ "schema": 1,
+ "date": "2026-11-09",
+ "generated_at": "2026-11-09T20:40:20Z",
+ "generator": "intel-brief 0.1.0",
+ "models": {
+  "triage": "claude-haiku-5-5",
+  "writeup": "claude-opus-5-5",
+  "triage_method": "model"
+ },
+ "window": {
+  "since": "2026-11-08T05:00:00+00:00",
+  "until": "2026-11-09T05:00:00+00:00"
+ },
+ "stories": [
+  {
+   "id": "story-1",
+   "rank": 1,
+   "score": 55,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 4,
+    "platform": 8,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Iris Ohyama discloses third-party cloud breach that may have exposed data of about 7.7 million people",
+   "labels": {
+    "category": "breach",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "niche",
+    "platform": "cloud_saas",
+    "vendor": "Iris Ohyama",
+    "product": "Iris Plaza"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "According to BleepingComputer, Japanese manufacturer Iris Ohyama, which operates the Iris Plaza online shopping platform, disclosed that personal information of roughly 7.7 million people may have been exposed. The company attributes the exposure to unauthorized access to a third-party cloud service it used. The available reporting does not identify the cloud provider, the attacker, the access method, the dates involved or exactly which data fields were affected.",
+    "why_it_matters": "This is a supply-chain style breach through a SaaS or cloud provider rather than a flaw in Windows, M365 or edge devices. For most SOCs the direct exposure is limited, but exposed customer data can fuel phishing and impersonation aimed at employees who shop on Iris Plaza. It also shows again that customer data held by third-party cloud vendors can leak without any compromise of the organization's own perimeter.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "If your organization or its staff use Iris Plaza, warn users to expect phishing that references Iris Ohyama or Iris Plaza orders, and tell them to verify any account or payment requests through official channels.",
+     "Check whether any corporate accounts or corporate email addresses are registered with Iris Plaza, and reset those passwords where they may have been reused elsewhere.",
+     "Review your own third-party cloud and SaaS vendors that store customer personal data, confirming access logging, MFA on administrative accounts and breach-notification terms.",
+     "Follow Iris Ohyama's official notices for confirmed data types and timelines before drawing conclusions about specific risk."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Iris Ohyama data cloud breach exposes info of 7.7 million customers",
+     "url": "https://www.bleepingcomputer.com/news/security/iris-ohyama-data-cloud-breach-exposes-info-of-77-million-customers/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-08T15:43:08Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-2",
+   "rank": 2,
+   "score": 51,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": true,
+    "epss_max": 0.0101,
+    "cvss_max": 0
+   },
+   "title": "SANS ISC honeypots record rising exploit attempts against OpenSSH 'sshole' flaw CVE-2026-123158",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "other",
+    "vendor": "",
+    "product": ""
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-123158",
+     "cvss": 8.1,
+     "severity": "HIGH",
+     "products": [
+      "openbsd openssh"
+     ],
+     "epss": 0.01014,
+     "percentile": 0.63482,
+     "in_kev": true,
+     "kev_due": null,
+     "poc": [
+      {
+       "url": "https://github.com/gabrielunknown/CVE-2026-123158_SSHole",
+       "name": "gabrielunknown/CVE-2026-123158_SSHole",
+       "stars": 7,
+       "created": "2026-11-05"
+      },
+      {
+       "url": "https://github.com/Maalfer/CVE-2026-123158",
+       "name": "Maalfer/CVE-2026-123158",
+       "stars": 4,
+       "created": "2026-11-06"
+      },
+      {
+       "url": "https://github.com/coboliqcom/cve-2026-123158-sshole-safe-rust",
+       "name": "coboliqcom/cve-2026-123158-sshole-safe-rust",
+       "stars": 1,
+       "created": "2026-11-05"
+      }
+     ],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "SANS ISC reports that its Cowrie SSH honeypots began logging exploit attempts for the 'sshole' OpenSSH vulnerability (CVE-2026-123158) on 5 November 2026, using unusually long passwords made entirely of the letter 'A'. Long-password attempts peaked at 713 on 6 November 2026 and then fell to 51 by 8 November 2026. SANS notes that its honeypots only capture the first 255 characters of a password, so its view of the attempts is limited. It also says that earlier long passwords seen from 1 November 2026 were unrelated: they came from buggy brute-force scripts that placed malware-download shell commands in the password field.",
+    "why_it_matters": "The flaw is rated CVSS 8.1 (high), is listed in CISA KEV with no due date stated, and has public proof-of-concept code, so any internet-facing OpenSSH server is a target. This includes Linux servers, appliances and edge devices that ship OpenSSH. EPSS is only about 1.0%, but the honeypot data shows active scanning, so exposed SSH services should be prioritized now rather than in the next routine patch cycle.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory internet-facing SSH services, including Linux servers, appliances, firewalls and VPN gateways that embed OpenSSH, and apply the vendor's fixed OpenSSH release for CVE-2026-123158 as soon as it is available. The sources do not name fixed versions.",
+     "Until patched, restrict SSH exposure to management networks or VPN, or allow-list source addresses at the perimeter.",
+     "Review SSH authentication logs on exposed hosts for failed logins with abnormally long passwords or repeated-character passwords since 1 November 2026.",
+     "Hunt for inbound connections from the scanner IPs SANS ISC published, and for outbound connections to the malware host 156.238.252.37 tied to the brute-force bot downloads.",
+     "On any host that received these attempts, check for unexpected binaries written to /tmp, chmod 777 activity, and new outbound connections, which could indicate compromise."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Scans for Sshole Vulnerability (CVE-2026-123158), (Sun, Nov 8th)",
+     "url": "https://isc.sans.edu/diary/rss/33498",
+     "source": "SANS ISC",
+     "kind": "news",
+     "published": "2026-11-08T15:44:33Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Use Defender Vulnerability Management to list devices flagged for CVE-2026-123158, along with their OpenSSH versions.",
+     "Cross-check that list against assets with TCP 22 exposed to the internet, using external attack surface data and firewall rules.",
+     "Search network telemetry for inbound connections from the scanner IPs SANS ISC reported. Many of these are ISP or hosting addresses that may be compromised hosts, so treat a match as a lead, not proof of compromise.",
+     "Search process and network telemetry on Linux devices for downloads from 156.238.252.37 or for files named bot.x86_64, which SANS ties to opportunistic brute-force bots.",
+     "On exposed hosts without Defender coverage, review sshd logs and edge device logs for long or repeated-character password attempts since 1 November 2026, then look for new files in /tmp and unexpected outbound connections."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Devices exposed to CVE-2026-123158 (sshole)",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where CveId == \"CVE-2026-123158\" | summarize Software = make_set(strcat(SoftwareName, \" \", SoftwareVersion)) by DeviceId, DeviceName, OSPlatform",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Inbound connections from SANS-reported sshole scanner IPs",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(14d) | where RemoteIP in (\"213.86.169.133\",\"152.233.50.185\",\"92.255.57.7\",\"195.178.110.78\",\"109.94.173.13\",\"87.241.132.12\",\"52.119.124.122\",\"185.2.148.137\",\"220.77.237.35\",\"82.74.132.129\",\"220.70.219.98\",\"154.80.128.173\",\"121.190.39.238\",\"121.163.224.97\",\"58.151.184.226\",\"62.210.173.100\",\"183.99.38.238\") | summarize Connections = count(), FirstSeen = min(Timestamp), LastSeen = max(Timestamp), Ports = make_set(LocalPort) by DeviceName, RemoteIP, ActionType",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Brute-force bot download activity linked to 156.238.252.37",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(14d) | where ProcessCommandLine has_any (\"156.238.252.37\", \"bot.x86_64\") | project Timestamp, DeviceName, AccountName, FileName, ProcessCommandLine, InitiatingProcessFileName, InitiatingProcessCommandLine",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-3",
+   "rank": 3,
+   "score": 42,
+   "factors": {
+    "exploitation": 18,
+    "prevalence": 4,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 0,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0072,
+    "cvss_max": 8.9
+   },
+   "title": "D-Link DIR-878 HNAP handler buffer overflows disclosed; end-of-life routers will not be patched",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "public_poc",
+    "prevalence": "niche",
+    "platform": "edge_device",
+    "vendor": "D-Link",
+    "product": "DIR-878"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-124560",
+     "cvss": 8.9,
+     "severity": "HIGH",
+     "products": [],
+     "epss": 0.00721,
+     "percentile": 0.54228,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-124561",
+     "cvss": 7.7,
+     "severity": "HIGH",
+     "products": [],
+     "epss": 0.00538,
+     "percentile": 0.45572,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-124563",
+     "cvss": 7.7,
+     "severity": "HIGH",
+     "products": [],
+     "epss": 0.00538,
+     "percentile": 0.45571,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "NVD has published three high-severity buffer overflow flaws (CVE-2026-124560, CVE-2026-124561, CVE-2026-124563) in the HNAP handler of D-Link DIR-878 firmware 1.20B05. They sit in the GetCAPTCHAsetting, SetVLANSettings and SetWanSettings functions of prog.cgi, and NVD says all three can be triggered remotely. NVD states that exploits have been made public, but separate proof-of-concept tracking did not confirm public code, so that point is unverified. NVD also notes that the product is no longer supported by D-Link.",
+    "why_it_matters": "The DIR-878 is a consumer and small-office router. It is most likely to turn up at branch sites or in remote workers' homes, where a compromised device could intercept or redirect traffic. None of the CVEs is in CISA KEV, and EPSS is low (0.7% for CVE-2026-124560, 0.5% for the other two), but these devices will never receive a fix. Exposed units should be treated as permanently vulnerable.",
+    "affected_versions": [
+     "D-Link DIR-878 1.20B05"
+    ],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory DIR-878 routers on corporate networks and branch sites and replace them with supported hardware, since D-Link will not release a fix for this end-of-life product.",
+     "Until replacement, disable remote (WAN-side) management on any DIR-878 and confirm the HNAP web interface is not reachable from the internet.",
+     "Restrict LAN access to the router management interface to a dedicated admin host or VLAN.",
+     "Tell remote workers who use DIR-878 routers at home to replace them, and rely on VPN or ZTNA rather than trusting the home network.",
+     "After replacement, reset credentials that were stored on or passed through affected routers, such as Wi-Fi keys and PPPoE accounts."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "CVE-2026-124560 (HIGH 8.9)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-124560",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-09T03:16:38.117Z"
+    },
+    {
+     "title": "CVE-2026-124561 (HIGH 7.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-124561",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-09T04:17:06.317Z"
+    },
+    {
+     "title": "CVE-2026-124563 (HIGH 7.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-124563",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-09T04:17:06.773Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Use Defender for Endpoint device discovery to list network devices whose vendor is D-Link or whose model is DIR-878.",
+     "Check vulnerability management for the three CVE IDs to see whether any discovered devices are flagged.",
+     "Scan external attack surface tooling or perimeter scans for internet-exposed D-Link management interfaces belonging to your organisation.",
+     "For any DIR-878 found, record its location and owner, confirm the firmware version, and schedule replacement.",
+     "Review firewall or proxy logs for unexpected inbound connections to router management ports at sites where these devices sit."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Discovered D-Link network devices, including DIR-878",
+      "kql": "DeviceInfo | where Timestamp > ago(30d) | where Vendor has \"D-Link\" or Model has \"DIR-878\" | summarize arg_max(Timestamp, *) by DeviceId | project Timestamp, DeviceId, DeviceName, DeviceType, Vendor, Model, OSVersion, PublicIP",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Devices flagged for the DIR-878 HNAP buffer overflow CVEs",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where CveId in (\"CVE-2026-124560\", \"CVE-2026-124561\", \"CVE-2026-124563\") | project DeviceId, DeviceName, SoftwareVendor, SoftwareName, SoftwareVersion, CveId, VulnerabilitySeverityLevel",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  }
+ ],
+ "more_stories": [
+  {
+   "title": "Kyverno before 1.19.2 lets namespaced tenants write resources into other namespaces",
+   "score": 12,
+   "cves": [
+    "CVE-2026-124441"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-124441 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-124441",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "OpenEMR fax/SMS file path traversal flaws allow credential theft and code execution before 8.3.0",
+   "score": 9,
+   "cves": [
+    "CVE-2026-124450",
+    "CVE-2026-124490",
+    "CVE-2026-124446"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-124450 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-124450",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-124490 (CRITICAL 9.4)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-124490",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-124446 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-124446",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Craft CMS 5.11.2 fixes authorization bypass, privilege escalation and remote code execution flaws",
+   "score": 9,
+   "cves": [
+    "CVE-2026-124427",
+    "CVE-2026-124429",
+    "CVE-2026-124430"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-124427 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-124427",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-124429 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-124429",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-124430 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-124430",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Multiple OpenEMR flaws before 8.3.0 and 8.4.0 expose patient records and billing data",
+   "score": 9,
+   "cves": [
+    "CVE-2026-124445",
+    "CVE-2026-124469",
+    "CVE-2026-124447"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-124445 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-124445",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-124469 (CRITICAL 9.4)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-124469",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-124447 (HIGH 8.6)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-124447",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "IBM Concert 1.0 through 3.0.1.1 vulnerabilities allow operating system command execution",
+   "score": 9,
+   "cves": [
+    "CVE-2026-15266",
+    "CVE-2026-6715"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-15266 (CRITICAL 9.8)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-15266",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-6715 (CRITICAL 9.8)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-6715",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "IBM DataStage on Cloud Pak for Data 5.4.0.0 flaws allow remote disclosure of sensitive information",
+   "score": 9,
+   "cves": [
+    "CVE-2026-107331",
+    "CVE-2026-107330"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-107331 (CRITICAL 9.9)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107331",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-107330 (HIGH 7.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107330",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Scriban template engine flaws before 7.5.3 allow resource exhaustion and information disclosure",
+   "score": 9,
+   "cves": [
+    "CVE-2026-124437",
+    "CVE-2026-124438",
+    "CVE-2026-124439"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-124437 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-124437",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-124438 (CRITICAL 9.1)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-124438",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-124439 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-124439",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "IBM webMethods Integration Server 12.1 authentication bypass vulnerability",
+   "score": 4,
+   "cves": [
+    "CVE-2026-118904"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-118904 (HIGH 8.1)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-118904",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "IBM Bob 1.0.4 through 2.0.1 allows remote code injection via improper user input control",
+   "score": 4,
+   "cves": [
+    "CVE-2026-9764"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-9764 (HIGH 8.8)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-9764",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "IBM CockroachDB PostgreSQL for IBM VPC privilege escalation via user-defined function",
+   "score": 4,
+   "cves": [
+    "CVE-2026-18893"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-18893 (HIGH 7.1)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-18893",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "IBM App Connect Enterprise 13.0.1.0 through 13.0.8.2 broken access control exposes information",
+   "score": 4,
+   "cves": [
+    "CVE-2026-18093"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-18093 (HIGH 7.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-18093",
+     "source": "NVD"
+    }
+   ]
+  }
+ ],
+ "kev_new": [],
+ "early_signals": [],
+ "explainer": {
+  "concept": "Honeypot telemetry: what sensor data does and does not tell you",
+  "dek": "Honeypots are decoy systems exposed to the internet to record unsolicited attack traffic, and their logs are a widely used early signal that exploitation of a new vulnerability has begun.",
+  "why_today": "SANS ISC's report of rising exploit attempts against the OpenSSH 'sshole' flaw comes from its Cowrie SSH honeypots. Reading that data well means knowing what those sensors capture, what they miss and how much weight the numbers can bear.",
+  "related_story_ids": [
+   "story-2"
+  ],
+  "parts": [
+   {
+    "heading": "How honeypots like Cowrie work",
+    "paragraphs": [
+     "A honeypot is a system with no legitimate users, so any connection to it is unsolicited and worth recording. Low-interaction honeypots only accept connections and log what arrives. Medium-interaction honeypots emulate enough of a service to keep an attacker talking.",
+     "Cowrie is a widely used open-source medium-interaction honeypot for SSH and Telnet. It emulates the login exchange and a fake shell, then logs source addresses, client version strings, attempted usernames and passwords, and any commands or downloads that follow. Projects such as the SANS Internet Storm Center run many such sensors across different networks and aggregate the results, which shows trends across the internet rather than activity aimed at one organisation."
+    ]
+   },
+   {
+    "heading": "What the data can tell you",
+    "paragraphs": [
+     "Honeypot data is good at answering whether a technique is being used at scale and roughly when it started. A sudden shift in traffic, such as a burst of abnormally long passwords after a vulnerability disclosure, is a strong sign that someone has turned a bug into an automated attempt and is spraying it across the internet.",
+     "It also gives timing and volume trends: when attempts began, when they peaked and whether they are fading or growing. For patch prioritisation, mass scanning against a flaw in a service you expose to the internet is often a better urgency signal than a severity score alone."
+    ]
+   },
+   {
+    "heading": "Limits and pitfalls",
+    "paragraphs": [
+     "Sensors only record what they are built to record. SANS notes its honeypots keep only the first 255 characters of an SSH password, so any payload longer than that is cut off, and the full shape of the exploit attempt is not visible. An emulated service also does not behave exactly like the real software, so an exploit that would crash or compromise genuine OpenSSH may simply fail against the decoy, and later stages of an attack may never be seen.",
+     "Not every anomaly is the exploit. SANS found that long passwords seen days earlier came from buggy brute-force scripts that put shell download commands in the password field, not from 'sshole' attempts. A drop in volume, like the fall from 713 to 51 daily attempts, can mean attackers changed tooling, began avoiding known sensor ranges or moved to targeted use. It does not mean the risk has passed. And because honeypots see untargeted traffic, they say little about whether a capable actor is aiming at your organisation specifically."
+    ]
+   },
+   {
+    "heading": "Turning it into defensive action",
+    "paragraphs": [
+     "Use honeypot reports as a prioritisation and hunting signal, not as proof of exposure or compromise. The useful questions are whether you run the affected software where the internet can reach it, whether it is patched, and whether your own logs show the same pattern.",
+     "Your own SSH servers do not log submitted passwords, so you usually cannot match the honeypot signature directly. Look instead for indirect signs: repeated failed authentication bursts from single sources, sshd child process crashes or restarts, and unexpected processes or outbound connections spawned by sshd after authentication events. Treat source addresses published from honeypot data as short-lived context rather than a durable blocklist, since scanning infrastructure changes quickly."
+    ]
+   }
+  ],
+  "takeaways": [
+   "Inventory every internet-reachable SSH service, including on appliances, cloud VMs and edge devices, and confirm which are running OpenSSH builds affected by CVE-2026-123158 according to your distribution's or vendor's advisory.",
+   "Patch or restrict exposed SSH to VPN or allowlisted management networks first, using active mass scanning as the reason to move it ahead of other medium-priority work.",
+   "On Linux hosts onboarded to Defender for Endpoint or sending syslog to Sentinel, hunt for unusual processes or network connections whose parent is sshd, and for repeated sshd crashes or restarts since 1 November 2026.",
+   "Alert on high-volume failed SSH authentication from single sources against servers that should only see administrative logins, and review any successful login that follows such a burst.",
+   "Read honeypot trend reports for timing and scale, and do not treat a falling attempt count as a reason to delay patching."
+  ],
+  "unsupported_cves": [],
+  "model": "claude-opus-5-5"
+ },
+ "good_news": [],
+ "explainer_status": "ok",
+ "sources_status": {
+  "CISA KEV": "ok 0",
+  "NVD": "ok 47",
+  "BleepingComputer": "ok 1",
+  "The Record": "ok 0",
+  "The DFIR Report": "ok 0",
+  "Cisco Talos": "ok 0",
+  "Unit 42": "ok 0",
+  "Microsoft Security Blog": "ok 0",
+  "SANS ISC": "ok 2",
+  "Huntress": "ok 0",
+  "watchTowr Labs": "ok 0",
+  "Rapid7": "ok 0",
+  "SecurityWeek": "ok 1",
+  "Krebs on Security": "ok 0",
+  "CISA Advisories": "ok 0",
+  "MSRC Security Update Guide": "ok 0",
+  "Bluesky": "ok 0",
+  "Mastodon": "ok 0",
+  "r/netsec": "ok 0",
+  "Hacker News": "ok 0",
+  "SigmaHQ new rules": "ok 0",
+  "EPSS": "ok 48"
+ },
+ "stats": {
+  "items": {
+   "news": 4,
+   "advisory": 0,
+   "kev": 0,
+   "nvd": 47,
+   "social": 0,
+   "sigma": 0
+  },
+  "stories_found": 14,
+  "kql_parser": "available"
+ }
+}
