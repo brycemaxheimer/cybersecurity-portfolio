@@ -13,31 +13,32 @@ The Marine Corps is where it started. I went in as a Cyber Warfare Operator and 
 
 NCL is a collegiate CTF run on Cyber Skyline's platform, with an Individual Game and a Team Game each season. Challenges cover the nine NCL skill categories: open source intelligence, cryptography, password cracking, log analysis, network traffic analysis, forensics, scanning & reconnaissance, enumeration & exploitation, and web application exploitation.
 
-### Score reports
+### Fall 2026 season
 
-All links below are the public validation links from Cyber Skyline, so anyone can open the full report.
+<!-- TODO(Bryce): fill in once the Fall 2026 score reports are released (about 2 weeks after the Team Game). -->
 
-| Season | Game | Result | Report |
-|---|---|---|---|
-| Fall 2025 | Individual | 30th of 620 (Experienced Students bracket), 96th percentile, Diamond 1 Medal | [cyberskyline.com/report/QCBEMP8D263T](https://cyberskyline.com/report/QCBEMP8D263T) &middot; [PDF](Cyber%20Skyline/Bryce%20Maxheimer%20-%20Cyber%20Skyline%20Report.pdf) &middot; [Certificate](Cyber%20Skyline/Bryce%20Maxheimer%20-%20Cyber%20Skyline%20Certificate.pdf) |
-| Fall 2026 | Team (SANS) | <!-- TODO --> Pending, score reports are released about 2 weeks after the Team Game | <!-- TODO: public share link --> |
-| Fall 2026 | Individual | <!-- TODO --> Pending | <!-- TODO: public share link --> |
+| Game | Result | Report |
+|---|---|---|
+| Team Game (SANS) | <!-- TODO: rank / bracket / percentile --> Pending | <!-- TODO: public share link --> Pending |
+| Individual Game | <!-- TODO: rank / bracket / percentile --> Pending | <!-- TODO: public share link --> Pending |
 
-### Highlights (Fall 2025 Individual Game)
+Both links are public Cyber Skyline validation links, so anyone can open the full report.
 
-- **2680 / 3000 points**, against a bracket average of 1394.2.
-- **94.0% completion**, against a bracket average of 53.8%.
-- **Perfect category scores** in Open Source Intelligence (385/385), Log Analysis, Network Traffic Analysis, and Scanning & Reconnaissance (300/300 each).
-- **Password Cracking at 90.0% accuracy**, the highest accuracy of any category for me.
+#### Highlights
 
-### Reflection
+<!-- TODO(Bryce): 2-4 highlights from the Fall 2026 reports, e.g. placement, category scores, completion/accuracy vs. bracket average. -->
 
-<!-- TODO(Bryce): personalize this, and add your Team Game experience once the report is out. -->
-The categories that went cleanly were the ones closest to my day job: logs, network traffic, and recon are the same muscles I use on shift. OSINT was the surprise, full marks but at 44.4% accuracy, which means I got there by brute persistence more than by method.
+#### Reflection
 
-Accuracy is the number I'm least happy with. 57.4% overall against a bracket average of 70.8% says I was submitting answers before I'd confirmed them. While the completion rate made up for it this time, in a tighter game that habit costs placement. Going forward the goal is to verify before submitting, as well as to close the gaps in web application exploitation (75% completion) and password cracking (78.3% completion).
+<!-- TODO(Bryce): your Fall 2026 reflection. Individual vs. Team Game, what went well, what you'd change, and what changed since Fall 2025. -->
 
 Per NCL rules, I don't publish write-ups of NCL challenges. Write-ups from other CTFs go on the [blog](https://brycemaxheimer.com/blog/).
+
+### Previous season: Fall 2025
+
+| Game | Result | Report |
+|---|---|---|
+| Individual Game | 30th of 620 (Experienced Students bracket), 96th percentile, Diamond 1 Medal. 2680/3000 points, 94.0% completion. | [cyberskyline.com/report/QCBEMP8D263T](https://cyberskyline.com/report/QCBEMP8D263T) &middot; [PDF](Cyber%20Skyline/Bryce%20Maxheimer%20-%20Cyber%20Skyline%20Report.pdf) &middot; [Certificate](Cyber%20Skyline/Bryce%20Maxheimer%20-%20Cyber%20Skyline%20Certificate.pdf) |
 
 ## What's here
 
