@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>Daily Intel Brief</title><link>https://intel.brycemaxheimer.com/</link><description>Daily AI-generated threat-intel brief: top stories, new KEV entries, early signals and detections.</description><language>en-us</language><item><title>Daily Intel Brief: 2026-11-09</title><link>https://intel.brycemaxheimer.com/editions/2026-11-09/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-09/</guid><pubDate>Mon, 09 Nov 2026 20:40:20 +0000</pubDate><description>1. Iris Ohyama discloses third-party cloud breach that may have exposed data of about 7.7 million people
+<rss version="2.0"><channel><title>Daily Intel Brief</title><link>https://intel.brycemaxheimer.com/</link><description>Daily AI-generated threat-intel brief: top stories, new KEV entries, early signals and detections.</description><language>en-us</language><item><title>Daily Intel Brief: 2026-11-10</title><link>https://intel.brycemaxheimer.com/editions/2026-11-10/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-10/</guid><pubDate>Tue, 10 Nov 2026 17:42:51 +0000</pubDate><description>1. Scanning for SAP NetWeaver CVE-2025-31324 webshells continues, per SANS ISC honeypots
+2. CISA adds exploited GPUStack, OpenSSH, FreeSWITCH and IBM Aspera Faspex flaws to KEV
+3. SEGA says breach at newsletter provider ARARA exposed 2.2 million subscriber email addresses
+4. France attributes October attacks on supermarket refrigeration systems to Iranian state-backed hackers
+5. York University says attacker stole personal data submitted through online forms, some dating to 2007
+6. Amplifon US notifies thousands of customers of early-2026 breach exposing medical data
+7. Huntress details AhsayCBS backup server intrusions with webshells, cryptominers and a Python implant
+8. Russian cloud provider Beget rebuilding infrastructure from scratch after data wiper attack
+9. Binance denies breach claim made under the ShinyHunters handle on new cybercrime forum
+10. Vanderbilt University responding to cyberattack claimed by BYOD ransomware gang
+New KEV entries: CVE-2026-102895, CVE-2026-123158, CVE-2026-116779, CVE-2026-123218
+Explainer: Webshells: persistent backdoors planted through web server vulnerabilities
+Good news: Microsoft FORGE Lab finds memory safety bugs in Rust's standard library using agentic tools</description></item><item><title>Daily Intel Brief: 2026-11-09</title><link>https://intel.brycemaxheimer.com/editions/2026-11-09/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-09/</guid><pubDate>Mon, 09 Nov 2026 20:40:20 +0000</pubDate><description>1. Iris Ohyama discloses third-party cloud breach that may have exposed data of about 7.7 million people
 2. SANS ISC honeypots record rising exploit attempts against OpenSSH 'sshole' flaw CVE-2026-123158
 3. D-Link DIR-878 HNAP handler buffer overflows disclosed; end-of-life routers will not be patched
 Explainer: Honeypot telemetry: what sensor data does and does not tell you</description></item><item><title>Daily Intel Brief: 2026-11-08</title><link>https://intel.brycemaxheimer.com/editions/2026-11-08/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-08/</guid><pubDate>Sun, 08 Nov 2026 16:39:51 +0000</pubDate><description>1. SonicWall patches exploited SonicOS flaw CVE-2026-19868 that bypasses SAML VPN logins
