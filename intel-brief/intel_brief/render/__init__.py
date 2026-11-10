@@ -155,7 +155,8 @@ def detection_tabs(det: dict) -> list[dict]:
             conv = (sig.get("conversions") or {}).get(key) or {}
             if conv.get("query"):
                 label = {"kql": "Defender KQL", "spl": "Splunk SPL", "elastic": "Elastic"}[key]
-                tabs.append({"key": key, "label": label, "code": conv["query"], "name": conv.get("label", label), "validation": conv.get("validation")})
+                tabs.append({"key": key, "label": label, "code": conv["query"], "name": conv.get("label", label),
+                             "validation": conv.get("validation"), "receipt": conv.get("receipt")})
     if det and (det.get("hunting_steps") or det.get("hunting_queries")):
         tabs.append({"key": "hunt", "label": "Hunting", "code": None, "name": "Hunting", "validation": None})
     keys = [t["key"] for t in tabs]

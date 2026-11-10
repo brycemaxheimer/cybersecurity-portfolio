@@ -6,7 +6,7 @@ import json
 import logging
 from datetime import date, datetime, timezone
 
-from . import __version__, detections, explainer, signals
+from . import __version__, detections, explainer, receipts, signals
 from .collect import Collection, collect_all, nvd, poc
 from .config import CACHE_DIR, EDITIONS_DIR, RUNS_DIR
 from .detections import sigma_repo
@@ -234,6 +234,9 @@ def run(
         )
 
     kql_parser = detections.validate_all(dets)
+    # Free: runs on the local Kusto emulator. Without one, pages keep "untested".
+    receipt_status = receipts.run(dets)
+    log.info("receipts: %s", receipt_status.get("reason") or receipts.summarize(dets))
 
     # Explainer and good news: one call, only after every story had its turn.
     ex_cfg = settings.get("explainer", {})
@@ -285,6 +288,7 @@ def run(
             "items": {k: len(col.of_kind(k)) for k in ("news", "advisory", "kev", "nvd", "social", "sigma")},
             "stories_found": len(stories),
             "kql_parser": kql_parser,
+            "receipts": receipt_status,
         },
     }
     for sig in edition["early_signals"]:

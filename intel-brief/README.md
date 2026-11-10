@@ -64,6 +64,7 @@ collect (plain code)  ->  triage (Haiku 5.5)  ->  write-ups (Opus 5.5 / Sonnet 5
 | 3. Write-ups | `intel_brief/writeup.py` | One call per top story with `claude-opus-5-5` (default) or `claude-sonnet-5-5`, so one refusal costs one story, not the edition. |
 | 3b. Explainer and good news | `intel_brief/explainer.py` | One call with the write-up model after all write-ups, so it never takes budget from them. It picks a concept tied to the day's stories (skipping concepts from the last 30 editions) and up to 4 good-news items from the collected news and advisories. Good-news entries without a collected source are dropped; links come from the collector. CVE IDs the explainer names that no source mentions are flagged on the page. Settings in `[explainer]` in `config/settings.toml`. |
 | 4. Detections | `intel_brief/detections/` | SigmaHQ rule lookup by CVE tag. If there is none, Claude's structured Sigma draft is turned into YAML by code, checked with `sigma check` (one repair attempt), and converted with pySigma (`kusto` + `microsoft_xdr`, `splunk_windows`, `ecs_windows`). All KQL goes through `tools/validate_kql.ps1` (Kusto.Language, with the table schemas in `config/kql_schema.json`). |
+| 4b. Receipts | `intel_brief/receipts/` | Every KQL query runs on Microsoft's Kusto emulator. Sigma conversions run on labelled cases built from the rule; hunting queries run on a synthetic benign baseline. See [Detection receipts](#detection-receipts). Free: no model calls. |
 | 5. Render | `intel_brief/render/` | Jinja2 templates with autoescaping, no JavaScript (detection format tabs are CSS-only radio buttons), no inline styles, and a strict CSP in `site/_headers`. Playfair Display, Libre Franklin and IBM Plex Mono are self-hosted from `intel_brief/render/static/fonts/` (SIL OFL 1.1, license files alongside; design in `docs/design/red-top-spec.md`), so readers' browsers never contact a font CDN. Pages: latest edition, one page per edition, archive, methodology, RSS, JSON Feed. |
 
 Early signals (`intel_brief/signals.py`) are counted by code, not by a model.
@@ -93,6 +94,46 @@ Everything the collector fetches is untrusted. It may contain prompt injection.
   source item are dropped, so invented indicators don't get published.
 - **Labels.** AI-drafted rules and hunting guidance are marked "AI-generated,
   untested". SigmaHQ rules are marked "SigmaHQ community rule, converted, untested".
+  A rule whose KQL conversion passes its labelled cases is marked "KQL tested"
+  instead (its tooltip, badge and note say the cases are synthetic), and every
+  query shows its receipt.
+
+## Detection receipts
+
+The Kusto parser says a query is well-formed. A receipt says what it did when it
+ran. `intel_brief/receipts/` runs every KQL query on Microsoft's Kusto emulator
+(`mcr.microsoft.com/azuredataexplorer/kustainer-linux`, started with
+`ACCEPT_EULA=Y`) during the daily build.
+
+- **Labelled cases, for Sigma conversions.** `cases.py` builds events from the
+  rule's own values: every selection met, each alternative value, each filter
+  applied, letter case changed, and each field broken in turn. `oracle.py`, an
+  independent Sigma evaluator that shares no code with pySigma, labels each
+  event. The KQL runs once per event, with the table replaced by that one row.
+  A conversion that disagrees with the oracle fails. The Sigma to Defender XDR
+  column map is written from Microsoft's schema, apart from pySigma's pipeline,
+  so a mapping mistake also shows up.
+- **Benign baseline, for every query.** `baseline.py` generates about 1,300
+  events of ordinary activity on a fictional estate (documentation domains and
+  address ranges only), anchored to the run time. Rows a query returns there are
+  shown on the page. For a hunting query that lists candidates, some rows are
+  expected; the count tells a reader how broad it is.
+
+Neither is a test on real attack data, and the page says so. Without a
+reachable engine, nothing is attached and the labels stay "untested".
+
+Run it locally with the emulator in Docker or WSL:
+
+```powershell
+docker run -d --name kusto -e ACCEPT_EULA=Y -p 8080:8080 mcr.microsoft.com/azuredataexplorer/kustainer-linux:latest
+.\.venv\Scripts\python -m intel_brief.receipts --wait 120              # totals for every edition
+.\.venv\Scripts\python -m intel_brief.receipts --date 2026-11-10 --write  # store receipts, then re-render
+```
+
+The engine tests in `tests/test_receipts.py` run when the emulator answers at
+`KUSTO_EMULATOR_URL` (default `http://localhost:8080`) and are skipped otherwise.
+They include broken conversions (an operator swapped, a filter dropped, case
+sensitivity added) that must fail.
 - **Summaries and links only.** Feed text goes to the model as context but is
   never published. PoC repos are links only, with a warning.
 - **Secrets.** The key is read from `INTEL_BRIEF_ANTHROPIC_API_KEY` (a User

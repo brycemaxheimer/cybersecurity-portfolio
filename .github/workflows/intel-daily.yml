@@ -70,6 +70,19 @@ jobs:
       contents: write        # push the edition branch, merge the PR
       pull-requests: write   # open and merge the review PR
       issues: write          # label a held edition
+    # Microsoft's Kusto emulator, for detection receipts (intel_brief/receipts/).
+    # Starting it accepts its EULA. Pinned by digest, like the Actions below.
+    # If it never answers, receipts are skipped and pages keep "untested".
+    services:
+      kusto:
+        image: mcr.microsoft.com/azuredataexplorer/kustainer-linux@sha256:983a27314b6dfa91a950bdf8fb4c6c2b8ce0d61fecf7decbcf370b3fdbfaa3a7
+        env:
+          ACCEPT_EULA: "Y"
+        ports:
+          - 8080:8080
+    env:
+      KUSTO_EMULATOR_URL: http://localhost:8080
+      KUSTO_EMULATOR_WAIT: "180"
     steps:
       # ref: main, not the commit that triggered the run. A scheduled run is
       # queued against main as it was at the cron time and can start many hours

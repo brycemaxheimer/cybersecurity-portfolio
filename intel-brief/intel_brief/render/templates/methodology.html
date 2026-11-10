@@ -26,7 +26,8 @@
   </section>
   <section class="panel">
     <h2>4. Detections (model and code)</h2>
-    <p>If SigmaHQ already has a rule for a CVE, that rule is used and converted automatically. Otherwise the model drafts a Sigma rule, which code assembles and checks with <code>sigma check</code>; rules that fail are dropped. Rules are converted with pySigma to Defender XDR KQL, Splunk SPL and Elastic, and every KQL query is parsed with Microsoft's Kusto.Language against the Defender XDR and Sentinel schemas. Hunting queries that contain an indicator not found in the sources are dropped. Everything AI-generated is labelled "AI-generated, untested". Test and tune before you deploy anything.</p>
+    <p>If SigmaHQ already has a rule for a CVE, that rule is used and converted automatically. Otherwise the model drafts a Sigma rule, which code assembles and checks with <code>sigma check</code>; rules that fail are dropped. Rules are converted with pySigma to Defender XDR KQL, Splunk SPL and Elastic, and every KQL query is parsed with Microsoft's Kusto.Language against the Defender XDR and Sentinel schemas. Hunting queries that contain an indicator not found in the sources are dropped.</p>
+    <p>Every KQL query then runs on Microsoft's Kusto emulator. A Sigma rule's KQL conversion runs on labelled cases built from the rule: each selection met, each alternative value tried, each filter applied, letter case changed, and each field broken in turn. An independent Sigma evaluator, which shares no code with pySigma, decides which cases should match, so a conversion that misses or over-matches shows up. Every query also runs on a small synthetic baseline of ordinary activity, and the page shows how many rows it returned there. None of this is a test on real attack data. A rule whose conversion passes its cases is labelled "KQL tested", meaning tested on those synthetic cases only; everything else AI-generated stays "AI-generated, untested". Test and tune before you deploy anything.</p>
   </section>
   <section class="panel">
     <h2>5. Early signals (code)</h2>
@@ -51,6 +52,7 @@
   <section class="panel">
     <h2>Labels</h2>
     <div class="kv"><span class="tag ai">AI-generated · untested</span></div>
+    <div class="kv"><span class="tag ai">AI-generated · KQL tested</span></div>
     <div class="kv"><span class="tag info">SigmaHQ rule · untested here</span></div>
     <div class="kv"><span class="tag crit">In CISA KEV</span></div>
   </section>

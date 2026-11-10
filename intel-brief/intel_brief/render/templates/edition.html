@@ -2,7 +2,7 @@
 {% block title %}{{ site.title }}: {{ ed.date|longdate }}{% endblock %}
 {% block description %}Threat-intel brief for {{ ed.date|longdate }}: {% for s in ed.stories[:3] %}{{ s.title }}{% if not loop.last %}; {% endif %}{% endfor %}{% endblock %}
 
-{% macro code_block(name, code, validation=None) %}
+{% macro code_block(name, code, validation=None, receipt=None) %}
 <div class="code">
   <div class="code-bar">
     <span class="name">{{ name }}</span>
@@ -11,12 +11,28 @@
       {% elif validation.status == "fail" %}<span class="fail">Kusto parser: errors</span>
       {% else %}<span>Kusto parser: not run</span>{% endif %}
     {% endif %}
+    {% if receipt and receipt.cases and receipt.cases.status == "pass" %}<span class="pass" title="Ran on the Kusto emulator against labelled cases built from the Sigma rule">Labelled cases: pass</span>
+    {% elif receipt and receipt.cases and receipt.cases.status == "fail" %}<span class="fail">Labelled cases: fail</span>{% endif %}
   </div>
   <pre><code>{{ code }}</code></pre>
   {% if validation and validation.status == "fail" and validation.messages %}
   <ul class="diag">{% for m in validation.messages %}<li>{{ m }}</li>{% endfor %}</ul>
   {% endif %}
 </div>
+{% if receipt %}{{ receipt_note(receipt) }}{% endif %}
+{% endmacro %}
+
+{% macro receipt_note(r) %}
+<p class="conv-note receipt">
+  {%- if r.engine != "ran" %}Kusto engine: the query did not run.
+  {%- else %}
+    {%- set c = r.cases %}
+    {%- if c and c.status in ("pass", "fail") %}On the Kusto engine it fired on {{ c.positive_fired }} of {{ c.positive }} labelled cases that should match and {{ c.negative_fired }} of {{ c.negative }} that should not.{{ " " }}
+    {%- elif c %}No labelled cases: {{ c.reason }}.{{ " " }}{% endif %}
+    {%- if r.baseline.events %}On {{ "{:,}".format(r.baseline.events) }} synthetic benign events it returned {{ r.baseline.hits }} row{{ "" if r.baseline.hits == 1 else "s" }}.
+    {%- else %}The synthetic baseline has no data for its tables.{% endif %}
+    {{- " " }}Not tested on real attack data.
+  {%- endif %}</p>
 {% endmacro %}
 
 {% block mast_meta %}
@@ -145,10 +161,12 @@
     {% set tabs = detection_tabs(d) %}
     {% if tabs %}
     {% set sg = d.sigma %}
+    {% set kql_tested = sg and sg.conversions and sg.conversions.kql and sg.conversions.kql.receipt and sg.conversions.kql.receipt.cases and sg.conversions.kql.receipt.cases.status == "pass" %}
     <section class="detect" aria-label="Detection">
       <div class="detect-head">
         <div class="t">Detection
-          {% if sg and sg.origin == "sigmahq" %}<span class="tag info">SigmaHQ rule · untested here</span>{% else %}<span class="tag ai">AI-generated · untested</span>{% endif %}
+          {% set tested_title = "KQL conversion passed labelled synthetic cases on the Kusto engine. Not tested on real attack data." if kql_tested else none %}
+          {% if sg and sg.origin == "sigmahq" %}<span class="tag info"{% if tested_title %} title="{{ tested_title }}"{% endif %}>SigmaHQ rule · {{ "KQL tested" if kql_tested else "untested here" }}</span>{% else %}<span class="tag ai"{% if tested_title %} title="{{ tested_title }}"{% endif %}>AI-generated · {{ "KQL tested" if kql_tested else "untested" }}</span>{% endif %}
         </div>
         <span class="why">
           {%- if sg and sg.origin == "sigmahq" %}Community rule from SigmaHQ, converted with pySigma
@@ -169,14 +187,15 @@
             {% set failed = [] %}{% for k in ("kql", "spl", "elastic") %}{% set conv = sg.conversions[k] %}{% if conv and not conv.query %}{% set _ = failed.append(conv) %}{% endif %}{% endfor %}
             <p class="conv-note">
               {%- if sg.origin == "sigmahq" %}{% set h = sg.url|href %}Source: {% if h %}<a href="{{ h }}" rel="noopener noreferrer nofollow">{{ sg.title }}</a>{% else %}{{ sg.title }}{% endif %} on SigmaHQ.
+              {%- elif kql_tested %}AI-generated. Its KQL conversion passed labelled cases built from this rule on the Kusto engine. That checks the conversion only; real attack coverage is untested. Test and tune it in your environment before you deploy it.
               {%- else %}AI-generated, untested. Test and tune it in your environment before you deploy it.{% endif %}
               {%- for conv in failed %} Not converted to {{ conv.label }}: {{ conv.error }}.{% endfor %}</p>
           {% elif tab.key == "hunt" %}
             {% if sg and sg.origin == "sigmahq" %}<p class="intro"><span class="tag ai">AI-generated · untested</span></p>{% endif %}
             {% if d.hunting_steps %}<ol class="steps-plain">{% for h in d.hunting_steps %}<li>{{ h }}</li>{% endfor %}</ol>{% endif %}
-            {% for q in d.hunting_queries %}{{ code_block("Defender XDR KQL · " ~ q.title, q.kql, q.validation) }}{% endfor %}
+            {% for q in d.hunting_queries %}{{ code_block("Defender XDR KQL · " ~ q.title, q.kql, q.validation, q.receipt) }}{% endfor %}
           {% else %}
-            {{ code_block(tab.name, tab.code, tab.validation) }}
+            {{ code_block(tab.name, tab.code, tab.validation, tab.receipt) }}
             <p class="conv-note">Converted from the Sigma rule with pySigma{% if tab.key == "kql" %} (kusto backend, microsoft_xdr pipeline){% endif %}.</p>
           {% endif %}
           </div>
