@@ -1,0 +1,1308 @@
+{
+ "schema": 1,
+ "date": "2026-11-10",
+ "generated_at": "2026-11-10T17:42:51Z",
+ "generator": "intel-brief 0.1.0",
+ "models": {
+  "triage": "claude-haiku-5-5",
+  "writeup": "claude-opus-5-5",
+  "triage_method": "model"
+ },
+ "window": {
+  "since": "2026-11-09T05:00:00+00:00",
+  "until": "2026-11-10T05:00:00+00:00"
+ },
+ "stories": [
+  {
+   "id": "story-1",
+   "rank": 1,
+   "score": 71,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 18,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 10,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": true,
+    "epss_max": 0.9949,
+    "cvss_max": 0
+   },
+   "title": "Scanning for SAP NetWeaver CVE-2025-31324 webshells continues, per SANS ISC honeypots",
+   "labels": {
+    "category": "campaign",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "widespread",
+    "platform": "other",
+    "vendor": "SAP",
+    "product": "NetWeaver"
+   },
+   "cves": [
+    {
+     "id": "CVE-2025-31324",
+     "cvss": 10.0,
+     "severity": "CRITICAL",
+     "products": [
+      "sap netweaver"
+     ],
+     "epss": 0.99486,
+     "percentile": 0.99944,
+     "in_kev": true,
+     "kev_due": null,
+     "poc": [
+      {
+       "url": "https://github.com/redrays-io/CVE-2025-31324",
+       "name": "redrays-io/CVE-2025-31324",
+       "stars": 25,
+       "created": "2025-04-27"
+      },
+      {
+       "url": "https://github.com/antichainalysis/sap-netweaver-0day-CVE-2025-31324",
+       "name": "antichainalysis/sap-netweaver-0day-CVE-2025-31324",
+       "stars": 21,
+       "created": "2025-08-15"
+      },
+      {
+       "url": "https://github.com/Onapsis/Onapsis_CVE-2025-31324_Scanner_Tools",
+       "name": "Onapsis/Onapsis_CVE-2025-31324_Scanner_Tools",
+       "stars": 12,
+       "created": "2025-04-27"
+      }
+     ],
+     "sigmahq_rules": 6
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "SANS ISC reported on 9 November 2026 that its honeypots are receiving requests for webshell paths such as ant.jsp under the SAP NetWeaver /irj/servlet_jsp/irj/root/ directory, along with requests to the vulnerable metadata uploader endpoint. These requests are tied to CVE-2025-31324, an unauthenticated file upload flaw rated CVSS 10.0. According to SANS, one source address (82.26.72.21) is probing a broad list of upload and webshell paths across many products, including SharePoint, Joomla extensions, Samsung MagicInfo and WhatsUp Gold, alongside SAP. SANS frames the activity as attempts either to exploit NetWeaver or to find webshells that earlier attackers already planted.",
+    "why_it_matters": "CVE-2025-31324 is in CISA KEV, has public proof-of-concept code and an EPSS of 99.5%, so any unpatched internet-facing NetWeaver Visual Composer instance should be assumed at risk or already compromised. Scanners checking for existing webshells means earlier compromises can be reused by new actors, so patching alone is not enough without a compromise check. The same scanner also targets SharePoint and other upload endpoints, which may be present on edge-facing Windows servers.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Apply SAP's security fix for CVE-2025-31324 to all NetWeaver systems, prioritizing those reachable from the internet, or block access to the /developmentserver/metadatauploader endpoint until patched.",
+     "Inspect the /irj/servlet_jsp/irj/root/ directory and related NetWeaver web directories for unexpected .jsp, .java or .class files and treat any found as a compromise.",
+     "Review web server and reverse proxy logs for requests to the metadatauploader endpoint and to ant.jsp or other unknown JSP files, and for traffic from 82.26.72.21.",
+     "Hunt for shells or reconnaissance commands spawned by the NetWeaver Java server processes.",
+     "If a webshell is found, isolate the host, rotate SAP service and connected credentials, and investigate lateral movement."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Attackers Searching for SAP Netweaver Webshells, (Mon, Nov 9th)",
+     "url": "https://isc.sans.edu/diary/rss/33502",
+     "source": "SANS ISC",
+     "kind": "news",
+     "published": "2026-11-09T18:18:15Z"
+    }
+   ],
+   "detection": {
+    "type": "behavioral",
+    "sigma": {
+     "origin": "sigmahq",
+     "title": "Potential Java WebShell Upload in SAP NetViewer Server",
+     "url": "https://github.com/SigmaHQ/sigma/blob/master/rules-emerging-threats/2025/Exploits/CVE-2025-31324/web_lnx_exploit_cve_2025_31324_sap_netviewer_webshell_uploaded.yml",
+     "yaml": "title: Potential Java WebShell Upload in SAP NetViewer Server\nid: 639b893f-f93a-4e53-a7c8-f08cf73fe7f7\nstatus: experimental\ndescription: |\n    Detects potential Java webshell uploads via HTTP requests with Content-Type 'application/octet-stream' and Java file extensions.\n    This behavior might indicate exploitation of vulnerabilities like CVE-2025-31324, which allows remote code execution through webshells in SAP NetViewer.\nreferences:\n    - https://blog.eclecticiq.com/china-nexus-nation-state-actors-exploit-sap-netweaver-cve-2025-31324-to-target-critical-infrastructures\nauthor: Swachchhanda Shrawan Poudel (Nextron Systems)\ndate: 2025-05-14\ntags:\n    - attack.persistence\n    - attack.t1505.003\n    - detection.emerging-threats\n    - cve.2025-31324\nlogsource:\n    category: webserver\ndetection:\n    selection:\n        cs-content-type: 'application/octet-stream'\n        cs-method: 'POST'\n        cs-uri-stem|contains|all:\n            - '/irj/'\n            - '.jsp'\n        cs-uri-stem|endswith:\n            - '.class'\n            - '.java'\n            - '.jsp'\n    condition: selection\nfalsepositives:\n    - Legitimate uploads of Java files in development environments\nlevel: high\n",
+     "check": {
+      "status": "upstream",
+      "messages": []
+     },
+     "conversions": {
+      "kql": {
+       "label": "Defender XDR / Sentinel KQL",
+       "query": null,
+       "error": "SigmaTransformationError: Unable to determine table name from rule.  The query table is determined in the following order of priority:\n  1) The value provided to processing pipeline's query_table parameter, if using a Python script.\n  2) If the query_table is already set in the pipeline state, such as from a custom user-defined pipeline if using sigma-cli.\n  3) If the rule's logsource category is "
+      },
+      "spl": {
+       "label": "Splunk SPL",
+       "query": "\"cs-content-type\"=\"application/octet-stream\" \"cs-method\"=\"POST\" \"cs-uri-stem\"=\"*/irj/*\" \"cs-uri-stem\"=\"*.jsp*\" \"cs-uri-stem\" IN (\"*.class\", \"*.java\", \"*.jsp\")",
+       "error": null
+      },
+      "elastic": {
+       "label": "Elastic (Lucene, ECS)",
+       "query": "cs-content-type:application\\/octet\\-stream AND cs-method:POST AND (cs-uri-stem:*\\/irj\\/* AND cs-uri-stem:*.jsp*) AND (cs-uri-stem:(*.class OR *.java OR *.jsp))",
+       "error": null
+      }
+     }
+    },
+    "hunting_steps": [
+     "Inventory SAP NetWeaver hosts, confirm patch status for CVE-2025-31324 and check whether the Visual Composer metadata uploader is exposed.",
+     "Search file events for JSP or class files created under servlet_jsp\\irj\\root on NetWeaver hosts.",
+     "Search for child processes such as cmd, powershell, sh or bash launched by java or jstart processes.",
+     "Search inbound network and web logs for connections from 82.26.72.21 and for requests to metadatauploader or ant.jsp.",
+     "Check other exposed servers (SharePoint, MagicInfo, WhatsUp Gold) for the same upload and webshell path probes listed by SANS."
+    ],
+    "hunting_queries": [
+     {
+      "title": "JSP or class files written to NetWeaver irj root webshell directory",
+      "kql": "DeviceFileEvents | where Timestamp > ago(30d) | where ActionType in (\"FileCreated\", \"FileModified\", \"FileRenamed\") | where FolderPath has @\"servlet_jsp\\irj\\root\" or FolderPath has \"servlet_jsp/irj/root\" | where FileName endswith \".jsp\" or FileName endswith \".java\" or FileName endswith \".class\" | project Timestamp, DeviceName, FolderPath, FileName, SHA256, InitiatingProcessFileName, InitiatingProcessCommandLine",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Shell processes spawned by SAP NetWeaver Java server processes",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where InitiatingProcessFileName in~ (\"java.exe\", \"jstart.exe\", \"java\", \"jstart\") | where FileName in~ (\"cmd.exe\", \"powershell.exe\", \"pwsh.exe\", \"sh\", \"bash\", \"dash\", \"whoami.exe\", \"whoami\", \"curl\", \"wget\", \"certutil.exe\") | project Timestamp, DeviceName, AccountName, InitiatingProcessFileName, InitiatingProcessCommandLine, FileName, ProcessCommandLine",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Network activity involving scanner IP reported by SANS ISC",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(30d) | where RemoteIP == \"82.26.72.21\" | project Timestamp, DeviceName, ActionType, LocalIP, LocalPort, RemoteIP, RemotePort, InitiatingProcessFileName",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": [
+     "6 SigmaHQ rules reference this CVE; showing the first."
+    ]
+   }
+  },
+  {
+   "id": "story-2",
+   "rank": 2,
+   "score": 70,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 10,
+    "epss": 5,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 4,
+    "in_kev": true,
+    "epss_max": 0.165,
+    "cvss_max": 0
+   },
+   "title": "CISA adds exploited GPUStack, OpenSSH, FreeSWITCH and IBM Aspera Faspex flaws to KEV",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "other",
+    "vendor": "",
+    "product": ""
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-102895",
+     "cvss": 9.8,
+     "severity": "CRITICAL",
+     "products": [
+      "gpustack gpustack"
+     ],
+     "epss": 0.00555,
+     "percentile": 0.46664,
+     "in_kev": true,
+     "kev_due": "2026-11-12",
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-123158",
+     "cvss": 8.1,
+     "severity": "HIGH",
+     "products": [
+      "openbsd openssh"
+     ],
+     "epss": 0.16501,
+     "percentile": 0.97016,
+     "in_kev": true,
+     "kev_due": "2026-11-12",
+     "poc": [
+      {
+       "url": "https://github.com/gabrielunknown/CVE-2026-123158_SSHole",
+       "name": "gabrielunknown/CVE-2026-123158_SSHole",
+       "stars": 8,
+       "created": "2026-11-05"
+      },
+      {
+       "url": "https://github.com/Maalfer/CVE-2026-123158",
+       "name": "Maalfer/CVE-2026-123158",
+       "stars": 4,
+       "created": "2026-11-06"
+      },
+      {
+       "url": "https://github.com/coboliqcom/cve-2026-123158-sshole-safe-rust",
+       "name": "coboliqcom/cve-2026-123158-sshole-safe-rust",
+       "stars": 1,
+       "created": "2026-11-05"
+      }
+     ],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-116779",
+     "cvss": 9.8,
+     "severity": "CRITICAL",
+     "products": [
+      "freeswitch freeswitch"
+     ],
+     "epss": 0.02177,
+     "percentile": 0.82481,
+     "in_kev": true,
+     "kev_due": "2026-11-12",
+     "poc": [
+      {
+       "url": "https://github.com/hackzuoji/freeswitch-cve-2026-116779-POC",
+       "name": "hackzuoji/freeswitch-cve-2026-116779-POC",
+       "stars": 2,
+       "created": "2026-11-06"
+      },
+      {
+       "url": "https://github.com/majidrahimi5020-lgtm/Poc-exploit-for-CVE-2026-116779-FreeSWITCH-",
+       "name": "majidrahimi5020-lgtm/Poc-exploit-for-CVE-2026-116779-FreeSWITCH-",
+       "stars": 1,
+       "created": "2026-11-01"
+      }
+     ],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-123218",
+     "cvss": 9.8,
+     "severity": "CRITICAL",
+     "products": [
+      "ibm aspera faspex"
+     ],
+     "epss": 0.00705,
+     "percentile": 0.53668,
+     "in_kev": true,
+     "kev_due": "2026-11-12",
+     "poc": [
+      {
+       "url": "https://github.com/foxcornlab/faspex-scanner",
+       "name": "foxcornlab/faspex-scanner",
+       "stars": 0,
+       "created": "2026-11-10"
+      }
+     ],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "On 9 November 2026 CISA added four vulnerabilities to its Known Exploited Vulnerabilities catalog, citing evidence of active exploitation. According to CISA, CVE-2026-102895 in GPUStack lets an unauthenticated attacker gain administrative access, create persistent admin API keys, expose worker and cloud-provider secrets, and execute code through the inference-backend import endpoint. CVE-2026-123158 is an authentication bypass in OpenSSH on Linux, and CVE-2026-116779 is a code injection flaw in SignalWire FreeSWITCH that can lead to credential disclosure, call control and command execution. CVE-2026-123218 in IBM Aspera Faspex lets an authenticated user bypass authorization and escalate privileges. The sources do not name affected or fixed versions or describe the attackers.",
+    "why_it_matters": "All four flaws are confirmed exploited and carry a federal remediation due date of 12 November 2026. The OpenSSH bypass is the broadest exposure: it affects internet-facing Linux servers and appliances, has public proof-of-concept code and an EPSS of 16.5%. GPUStack AI servers, FreeSWITCH VoIP systems and Aspera Faspex file-transfer portals are often exposed to the internet, and exploitation can hand over full control or leak cloud credentials (EPSS 0.6%, 2.2% and 0.7% respectively).",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory internet-facing Linux hosts running OpenSSH and apply the vendor or distribution fix for CVE-2026-123158 by 12 November 2026. Until patched, restrict SSH to VPN or allow-listed source addresses.",
+     "Patch or take offline any exposed GPUStack, FreeSWITCH and IBM Aspera Faspex instances according to vendor guidance, and block internet access to GPUStack and FreeSWITCH management interfaces.",
+     "On GPUStack, review admin accounts and API keys for unexpected creation, revoke unknown keys, and rotate worker and cloud-provider secrets stored in the platform.",
+     "On FreeSWITCH, rotate SIP and configuration credentials, and review the host for unexpected child processes and call-routing changes.",
+     "Follow CISA's forensics triage expectation: check each affected system for signs of compromise from before the patch, not only after it."
+    ],
+    "confidence": "high",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "CISA Adds Four Known Exploited Vulnerabilities to Catalog",
+     "url": "https://www.cisa.gov/news-events/alerts/2026/11/09/cisa-adds-four-known-exploited-vulnerabilities-catalog",
+     "source": "CISA Advisories",
+     "kind": "advisory",
+     "published": "2026-11-09T12:00:00Z"
+    },
+    {
+     "title": "CVE-2026-102895: GPUStack Improper Authentication Vulnerability",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-102895",
+     "source": "CISA KEV",
+     "kind": "kev",
+     "published": "2026-11-09T00:00:00Z"
+    },
+    {
+     "title": "CVE-2026-123158: OpenBSD OpenSSH Unexpected Status Code or Return Value Vulnerability",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123158",
+     "source": "CISA KEV",
+     "kind": "kev",
+     "published": "2026-11-09T00:00:00Z"
+    },
+    {
+     "title": "CVE-2026-116779: SignalWire FreeSwitch Code Injection Vulnerability",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-116779",
+     "source": "CISA KEV",
+     "kind": "kev",
+     "published": "2026-11-09T00:00:00Z"
+    },
+    {
+     "title": "CVE-2026-123218: IBM Aspera Faspex Incorrect Authorization Vulnerability",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123218",
+     "source": "CISA KEV",
+     "kind": "kev",
+     "published": "2026-11-09T00:00:00Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Use Defender Vulnerability Management to list devices exposed to the four CVEs, then confirm against your external asset inventory for systems Defender does not cover.",
+     "Identify Linux hosts accepting inbound SSH from public IP addresses and prioritize them for patching.",
+     "On GPUStack and FreeSWITCH hosts, look for shells, download utilities or interpreters launched by the service process.",
+     "Review GPUStack audit data for new administrator users or API keys created by sources you do not recognize.",
+     "Review Aspera Faspex user roles for unexpected privilege changes since late October 2026."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Devices exposed to the four newly added KEV CVEs",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where CveId in (\"CVE-2026-102895\",\"CVE-2026-123158\",\"CVE-2026-116779\",\"CVE-2026-123218\") | summarize Devices = dcount(DeviceId), DeviceNames = make_set(DeviceName, 50) by CveId, SoftwareVendor, SoftwareName, SoftwareVersion",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Shells or tools spawned by GPUStack or FreeSWITCH processes",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where InitiatingProcessFileName has_any (\"freeswitch\",\"gpustack\") or InitiatingProcessCommandLine has_any (\"freeswitch\",\"gpustack\") | where FileName in~ (\"sh\",\"bash\",\"dash\",\"zsh\",\"curl\",\"wget\",\"nc\",\"ncat\",\"python\",\"python3\",\"perl\",\"cmd.exe\",\"powershell.exe\") | project Timestamp, DeviceName, AccountName, InitiatingProcessFileName, InitiatingProcessCommandLine, FileName, ProcessCommandLine",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Inbound SSH accepted from public IPs on Linux hosts",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(14d) | where ActionType == \"InboundConnectionAccepted\" and LocalPort == 22 and RemoteIPType == \"Public\" | join kind=inner (DeviceInfo | where OSPlatform == \"Linux\" | summarize arg_max(Timestamp, OSPlatform) by DeviceId) on DeviceId | summarize Connections = count(), RemoteIPs = dcount(RemoteIP), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by DeviceName | order by RemoteIPs desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-3",
+   "rank": 3,
+   "score": 59,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 8,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "SEGA says breach at newsletter provider ARARA exposed 2.2 million subscriber email addresses",
+   "labels": {
+    "category": "breach",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "cloud_saas",
+    "vendor": "",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "According to BleepingComputer, SEGA has disclosed that its third-party newsletter provider, ARARA, suffered a data breach. SEGA says the incident exposed the email addresses of about 2.2 million newsletter subscribers. The available reporting does not describe how ARARA was compromised, when the breach happened, or whether any data beyond email addresses was taken.",
+    "why_it_matters": "This is a third-party supply-chain breach of a consumer marketing service, so it has no direct exposure path into Windows, Microsoft 365 or edge infrastructure. The practical risk is follow-on phishing: corporate addresses that were subscribed to SEGA newsletters may receive convincing SEGA-themed lures. The sources give no indicators or technical details to hunt for.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Warn users that SEGA-branded emails asking for logins, payment details or account verification may be phishing tied to this breach.",
+     "Watch email security reporting for a rise in SEGA-themed phishing and add sender or URL blocks as concrete lures show up.",
+     "Review your own third-party marketing and newsletter providers to confirm what subscriber data they hold and how they will notify you of a breach."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "SEGA newsletter data breach exposes 2.2 million email addresses",
+     "url": "https://www.bleepingcomputer.com/news/security/sega-newsletter-data-breach-exposes-22-million-email-addresses/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-09T22:09:33Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-4",
+   "rank": 4,
+   "score": 51,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "France attributes October attacks on supermarket refrigeration systems to Iranian state-backed hackers",
+   "labels": {
+    "category": "campaign",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "ics_ot",
+    "vendor": "",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "According to BleepingComputer, France has attributed cyberattacks in October to Iranian state-backed hackers. The attacks disrupted refrigeration systems at more than 700 supermarkets and other retail sites. French officials say they caused food losses and at least 15 fires. The report does not name the affected vendors or products, and it does not describe how the attackers got in or which techniques they used.",
+    "why_it_matters": "This is a confirmed state-backed operation that caused physical damage through building and refrigeration control systems, which often sit outside normal IT security monitoring. Organizations with remotely managed HVAC, refrigeration or building-management controllers, especially in retail, may face similar risk. No technical indicators or vulnerabilities have been published, so defenders currently have nothing specific to hunt for.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory refrigeration, HVAC and building-management controllers and their remote-access paths, and remove any direct internet exposure.",
+     "Require MFA and allow-listed access for vendor and third-party remote management portals and VPNs that reach these systems.",
+     "Replace default or shared credentials on OT controllers and management interfaces.",
+     "Segment building and OT networks from corporate IT and restrict inbound management traffic to defined jump hosts.",
+     "Watch for technical details or indicators released by French authorities and apply them to hunting once they are available."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "France blames Iranian hackers for supermarket attacks that sparked fires",
+     "url": "https://www.bleepingcomputer.com/news/security/france-blames-iranian-hackers-for-supermarket-attacks-that-sparked-fires/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-09T18:32:42Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-5",
+   "rank": 5,
+   "score": 51,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "York University says attacker stole personal data submitted through online forms, some dating to 2007",
+   "labels": {
+    "category": "breach",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "web_app",
+    "vendor": "York University",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "According to BleepingComputer, York University has disclosed a cybersecurity incident in which a threat actor stole personal information that people had submitted through the university's online forms. BleepingComputer reports that the exposed records date back as far as 2007. The sources do not say how the attacker got in, which systems or form platform were involved, what data fields were exposed, or how many people are affected.",
+    "why_it_matters": "This is a third-party data breach with no named vulnerability, product or attacker technique, so there is nothing specific to patch or detect in your own environment. The main risk to defenders is follow-on phishing or social engineering aimed at staff, students or partners whose details may have been in the stolen form submissions. It is also a reminder that long-retained web form data on internet-facing applications is an attractive, often overlooked target.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "If your organization has ties to York University, warn affected users to expect targeted phishing that references university forms or applications.",
+     "Review retention of personal data collected through your own web forms and purge submissions you no longer need.",
+     "Check that web form back ends and their data stores are covered by access logging and alerting for bulk data export."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "York University breach exposed personal information dating to 2007",
+     "url": "https://www.bleepingcomputer.com/news/security/york-university-breach-exposed-personal-information-dating-to-2007/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-09T21:22:31Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-6",
+   "rank": 6,
+   "score": 51,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Amplifon US notifies thousands of customers of early-2026 breach exposing medical data",
+   "labels": {
+    "category": "breach",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "other",
+    "vendor": "Amplifon",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "The Record reports that the US arm of hearing aid company Amplifon is notifying customers about a data breach that occurred earlier this year. According to the report, the exposed data included medical information and the incident affects thousands of people. The sources do not describe how attackers got in, which systems were involved, or who was responsible.",
+    "why_it_matters": "No technical details, vulnerabilities or indicators have been published, so there is nothing specific to hunt for in Windows, M365 or edge telemetry. The main risk to most organizations is indirect: affected customers, possibly including employees, may be targeted with phishing or fraud that uses the exposed medical and personal details. Organizations that share data or integrations with Amplifon should check what they exchange with the company.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "If your organization shares data or system integrations with Amplifon, contact the vendor to find out whether your data or connections were in scope.",
+     "Warn staff and help desk teams about phishing or social engineering that cites hearing care or medical details, since these may follow breach notifications.",
+     "Track follow-up reporting and regulatory filings for details on the intrusion method or any indicators before planning hunts."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Data breach at hearing aid giant Amplifon impacts thousands",
+     "url": "https://therecord.media/amplifon-hearing-aid-company-data-breach",
+     "source": "The Record",
+     "kind": "news",
+     "published": "2026-11-09T20:44:00Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-7",
+   "rank": 7,
+   "score": 47,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 4,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Huntress details AhsayCBS backup server intrusions with webshells, cryptominers and a Python implant",
+   "labels": {
+    "category": "campaign",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "niche",
+    "platform": "other",
+    "vendor": "Ahsay",
+    "product": "AhsayCBS"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "Huntress has published a follow-up analysis of intrusions against AhsayCBS backup servers. According to Huntress, attackers exploited the servers and left hidden webshells, a second cryptocurrency miner, and a Python-based command-and-control implant tied to the specific compromised host. The available summary does not name a CVE, the initial access vector, affected versions or indicators of compromise.",
+    "why_it_matters": "Backup servers hold copies of sensitive data and often have broad network access and stored credentials, so a foothold there threatens both data and recovery capability. Huntress reports in-the-wild exploitation, but no patch or affected version range is identified in the sources, so defenders should treat internet-facing AhsayCBS instances as potentially compromised until checked.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory AhsayCBS servers and remove direct internet exposure of the management web interface, or restrict it to trusted IP ranges, until Ahsay guidance is confirmed.",
+     "Check AhsayCBS web application directories for unexpected or recently modified script files such as JSP pages that could be webshells.",
+     "Hunt for shells, scripting interpreters or Python processes started by the AhsayCBS service, and for sustained high CPU usage indicating miners.",
+     "Review Ahsay vendor advisories and apply any available AhsayCBS updates.",
+     "If compromise is found, rebuild the server, rotate credentials stored on or used by it, and verify backup integrity."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Inside an AhsayCBS Intrusion: Hidden Webshells, a CryptoMiner, and a C2 Implant",
+     "url": "https://www.huntress.com/blog/ahsaycbs-webshells",
+     "source": "Huntress",
+     "kind": "news",
+     "published": "2026-11-09T14:00:00Z"
+    }
+   ],
+   "detection": {
+    "type": "behavioral",
+    "sigma": {
+     "origin": "ai",
+     "title": "Suspicious Child Process Spawned From AhsayCBS Server Process",
+     "url": null,
+     "yaml": "title: Suspicious Child Process Spawned From AhsayCBS Server Process\nid: 83e1de6c-6e50-51fb-9523-5619eee953be\nstatus: experimental\ndescription: Detects command shells, scripting engines or Python launched from a process running out of the AhsayCBS install directory, which may indicate webshell activity or implant deployment as reported by Huntress in AhsayCBS intrusions. AI-generated, untested.\nreferences:\n- https://www.huntress.com/blog/ahsaycbs-webshells\nauthor: intel-brief (AI-generated, untested)\ndate: '2026-11-10'\ntags:\n- attack.persistence\n- attack.t1505.003\n- attack.execution\n- attack.t1059\n- attack.impact\n- attack.t1496\nlogsource:\n  product: windows\n  category: process_creation\ndetection:\n  selection_parent:\n    ParentImage|contains: \\AhsayCBS\\\n  selection_child:\n    Image|endswith:\n    - \\cmd.exe\n    - \\powershell.exe\n    - \\pwsh.exe\n    - \\python.exe\n    - \\pythonw.exe\n    - \\certutil.exe\n    - \\bitsadmin.exe\n    - \\curl.exe\n    - \\whoami.exe\n    - \\net.exe\n    - \\net1.exe\n    - \\mshta.exe\n    - \\rundll32.exe\n  condition: selection_parent and selection_child\nfalsepositives:\n- Legitimate AhsayCBS maintenance or upgrade scripts that invoke cmd.exe\n- Administrator-initiated scripts run from the AhsayCBS directory\nlevel: high\n",
+     "check": {
+      "status": "pass",
+      "messages": [
+       "No rule errors found.",
+       "No condition errors found.",
+       "No validation issues found.",
+       "Parsing Sigma rules",
+       "Checking Sigma rules"
+      ]
+     },
+     "conversions": {
+      "kql": {
+       "label": "Defender XDR / Sentinel KQL",
+       "query": "DeviceProcessEvents\n| where InitiatingProcessFolderPath contains \"\\\\AhsayCBS\\\\\" and (FolderPath endswith \"\\\\cmd.exe\" or FolderPath endswith \"\\\\powershell.exe\" or FolderPath endswith \"\\\\pwsh.exe\" or FolderPath endswith \"\\\\python.exe\" or FolderPath endswith \"\\\\pythonw.exe\" or FolderPath endswith \"\\\\certutil.exe\" or FolderPath endswith \"\\\\bitsadmin.exe\" or FolderPath endswith \"\\\\curl.exe\" or FolderPath endswith \"\\\\whoami.exe\" or FolderPath endswith \"\\\\net.exe\" or FolderPath endswith \"\\\\net1.exe\" or FolderPath endswith \"\\\\mshta.exe\" or FolderPath endswith \"\\\\rundll32.exe\")",
+       "error": null,
+       "validation": {
+        "status": "pass",
+        "messages": []
+       }
+      },
+      "spl": {
+       "label": "Splunk SPL",
+       "query": "ParentImage=\"*\\\\AhsayCBS\\\\*\" Image IN (\"*\\\\cmd.exe\", \"*\\\\powershell.exe\", \"*\\\\pwsh.exe\", \"*\\\\python.exe\", \"*\\\\pythonw.exe\", \"*\\\\certutil.exe\", \"*\\\\bitsadmin.exe\", \"*\\\\curl.exe\", \"*\\\\whoami.exe\", \"*\\\\net.exe\", \"*\\\\net1.exe\", \"*\\\\mshta.exe\", \"*\\\\rundll32.exe\")",
+       "error": null
+      },
+      "elastic": {
+       "label": "Elastic (Lucene, ECS)",
+       "query": "process.parent.executable.caseless:*\\\\AhsayCBS\\\\* AND (process.executable.caseless:(*\\\\cmd.exe OR *\\\\powershell.exe OR *\\\\pwsh.exe OR *\\\\python.exe OR *\\\\pythonw.exe OR *\\\\certutil.exe OR *\\\\bitsadmin.exe OR *\\\\curl.exe OR *\\\\whoami.exe OR *\\\\net.exe OR *\\\\net1.exe OR *\\\\mshta.exe OR *\\\\rundll32.exe))",
+       "error": null
+      }
+     }
+    },
+    "hunting_steps": [
+     "Identify all devices running AhsayCBS using software inventory or process names under an AhsayCBS install path.",
+     "Look for shells, Python or download utilities spawned by processes running from the AhsayCBS directory.",
+     "Review file creations of script files such as JSP in AhsayCBS web directories over the last 30 days.",
+     "Check those hosts for new Python interpreters or scripts, persistence entries and long-running high-CPU processes consistent with miners.",
+     "Review outbound connections from AhsayCBS hosts to unfamiliar external addresses, especially from Python or unsigned binaries."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Child processes spawned from AhsayCBS processes",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where InitiatingProcessFolderPath has \"AhsayCBS\" | where FileName in~ (\"cmd.exe\",\"powershell.exe\",\"pwsh.exe\",\"python.exe\",\"pythonw.exe\",\"certutil.exe\",\"curl.exe\",\"whoami.exe\",\"net.exe\",\"mshta.exe\",\"rundll32.exe\") | project Timestamp, DeviceName, AccountName, InitiatingProcessFileName, InitiatingProcessFolderPath, FileName, ProcessCommandLine",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Script files written to AhsayCBS directories",
+      "kql": "DeviceFileEvents | where Timestamp > ago(30d) | where FolderPath has \"AhsayCBS\" | where ActionType in (\"FileCreated\",\"FileModified\") | where FileName endswith \".jsp\" or FileName endswith \".jspx\" or FileName endswith \".py\" or FileName endswith \".war\" | project Timestamp, DeviceName, FolderPath, FileName, InitiatingProcessFileName, InitiatingProcessCommandLine",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     },
+     {
+      "title": "Outbound connections by Python on AhsayCBS hosts",
+      "kql": "let ahsayHosts = DeviceProcessEvents | where Timestamp > ago(30d) | where FolderPath has \"AhsayCBS\" or InitiatingProcessFolderPath has \"AhsayCBS\" | distinct DeviceId; DeviceNetworkEvents | where Timestamp > ago(30d) | where DeviceId in (ahsayHosts) | where RemoteIPType == \"Public\" | where InitiatingProcessFileName in~ (\"python.exe\",\"pythonw.exe\",\"powershell.exe\",\"cmd.exe\") | summarize Connections=count(), FirstSeen=min(Timestamp), LastSeen=max(Timestamp) by DeviceName, InitiatingProcessFileName, RemoteIP, RemotePort",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-8",
+   "rank": 8,
+   "score": 47,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 4,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Russian cloud provider Beget rebuilding infrastructure from scratch after data wiper attack",
+   "labels": {
+    "category": "malware",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "niche",
+    "platform": "other",
+    "vendor": "Beget",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "BleepingComputer reports that Russian cloud services provider Beget says a data-wiping malware attack forced it to rebuild its cloud infrastructure from scratch. The sources do not name the wiper, the attacker, the initial access method, or how many customers were affected. No technical indicators or timeline beyond the company's statement have been published.",
+    "why_it_matters": "Beget is a Russia-based hosting and cloud provider, so direct exposure for most Windows, M365 and edge-device environments is limited to any workloads, websites or vendors hosted there. The incident shows that destructive attacks against hosting providers can take down customer services and data without any compromise of the customer's own network. With no indicators or technique details released, there is nothing specific to hunt for yet.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Check whether your organization or any third-party supplier hosts websites, applications or data with Beget, and confirm the status of those services and their backups.",
+     "For any assets hosted with Beget, rotate credentials and API keys stored on or used against that infrastructure as a precaution.",
+     "Confirm that your own cloud and hosted workloads keep offline or immutable backups that a provider-side wipe cannot destroy.",
+     "Watch for follow-up reporting that names the wiper or publishes indicators, and hunt once those are available."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Russian cloud firm Beget rebuilds from scratch after data wiper attack",
+     "url": "https://www.bleepingcomputer.com/news/security/russian-cloud-firm-beget-rebuilds-from-scratch-after-data-wiper-attack/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-09T17:50:32Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-9",
+   "rank": 9,
+   "score": 47,
+   "factors": {
+    "exploitation": 28,
+    "prevalence": 8,
+    "platform": 8,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Binance denies breach claim made under the ShinyHunters handle on new cybercrime forum",
+   "labels": {
+    "category": "breach",
+    "exploitation": "reported",
+    "prevalence": "unknown",
+    "platform": "cloud_saas",
+    "vendor": "Binance",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "According to BleepingComputer, a threat actor using the ShinyHunters handle claimed on a newly emerged underground forum to have breached Binance, the largest cryptocurrency exchange. Binance has denied that any new security breach occurred. The sources give no details on what data was allegedly taken, how access was supposedly obtained, or whether the claim has been independently verified.",
+    "why_it_matters": "No vulnerability, product flaw or attack technique has been disclosed, so there is nothing to patch or detect in Windows, M365 or edge environments from this report. The claim is unverified and disputed by Binance, and actors reusing well-known handles on new forums often exaggerate or recycle old data. The main relevance is to organisations whose staff or treasury use Binance, since breach claims like this are often followed by phishing that uses the news as a lure.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Treat the breach claim as unverified until Binance or independent researchers confirm it.",
+     "Warn staff who hold Binance accounts for business use to expect phishing that cites the alleged breach, and to verify any security notices through the official app rather than email links.",
+     "Confirm that corporate Binance accounts, if any, use phishing-resistant MFA and withdrawal allowlists."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Binance denies data breach after alleged ShinyHunters claims",
+     "url": "https://www.bleepingcomputer.com/news/security/binance-denies-data-breach-after-alleged-shinyhunters-claims/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-09T16:12:39Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-10",
+   "rank": 10,
+   "score": 39,
+   "factors": {
+    "exploitation": 28,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Vanderbilt University responding to cyberattack claimed by BYOD ransomware gang",
+   "labels": {
+    "category": "breach",
+    "exploitation": "reported",
+    "prevalence": "unknown",
+    "platform": "other",
+    "vendor": "",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "According to BleepingComputer, Vanderbilt University has said it is responding to a cyberattack that the BYOD ransomware gang has claimed. The gang says it encrypted the university's databases and stole sensitive student, employee and research data. The sources do not describe the initial access vector, the tools used, or any indicators, and the data theft claim has not been independently confirmed.",
+    "why_it_matters": "No vulnerability, product or technique is named, so defenders cannot map this incident directly to exposure in their own environments. It is one more ransomware operation that pairs database encryption with data theft for extortion, which matters most to education and research organizations that hold large stores of personal and research data. Treat it as situational awareness until technical details or indicators are published.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Watch for follow-up reporting from Vanderbilt or security vendors that names the initial access vector or indicators for the BYOD ransomware group, and hunt on them if they are published.",
+     "Confirm that database servers have offline or immutable backups and that restores have been tested.",
+     "Review outbound data transfer monitoring for database and file servers so that large exfiltration is flagged before encryption begins.",
+     "If your organization shares vendors, identities or data exchanges with Vanderbilt, assess third-party exposure and watch for phishing that uses the incident as a lure."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Vanderbilt University hit in BYOD ransomware attack, data theft claimed",
+     "url": "https://www.bleepingcomputer.com/news/security/vanderbilt-university-hit-in-byod-ransomware-attack-data-theft-claimed/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-09T23:52:12Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  }
+ ],
+ "more_stories": [
+  {
+   "title": "N-able takes N-central offline after researcher publishes 30+ alleged zero-days",
+   "score": 38,
+   "cves": [],
+   "sources": [
+    {
+     "title": "N-able takes cloud platform offline after 30+ \"zero-days\" published",
+     "url": "https://www.bleepingcomputer.com/news/security/n-able-takes-cloud-platform-offline-after-30-plus-zero-days-published/",
+     "source": "BleepingComputer"
+    },
+    {
+     "title": "N-able Disables Cloud Services Following Disclosure of \"Able2Shell\" Exploit Chains",
+     "url": "https://www.huntress.com/blog/n-able-disables-cloud-services-following-disclosure-of-able2shell-exploit-chains",
+     "source": "Huntress"
+    }
+   ]
+  },
+  {
+   "title": "SAP NetWeaver and related SAP products: multiple critical and high flaws disclosed",
+   "score": 27,
+   "cves": [
+    "CVE-2026-109795",
+    "CVE-2026-109798",
+    "CVE-2026-109803"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-109795 (CRITICAL 9.9)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109795",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-109798 (CRITICAL 9.1)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109798",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-109803 (CRITICAL 9.9)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109803",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Embedded device flaws with public exploits in Intelbras, Feiyuxing and D-Link devices",
+   "score": 27,
+   "cves": [
+    "CVE-2026-124577",
+    "CVE-2026-124580",
+    "CVE-2026-124585"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-124577 (HIGH 8.9)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-124577",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-124580 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-124580",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-124585 (HIGH 8.6)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-124585",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "FFmpeg through 9.0.2: many heap memory corruption flaws in codecs and decoders",
+   "score": 26,
+   "cves": [
+    "CVE-2026-125181",
+    "CVE-2026-125201",
+    "CVE-2026-125202"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-125181 (HIGH 7.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-125181",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-125201 (HIGH 7.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-125201",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-125202 (HIGH 7.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-125202",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "GStreamer flaws: file URI fetch in adaptive demuxers and H.264 RTP heap read",
+   "score": 26,
+   "cves": [
+    "CVE-2026-121629",
+    "CVE-2026-119610"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-121629 (HIGH 7.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-121629",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-119610 (HIGH 8.2)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-119610",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "MIT Kerberos krb5 denial-of-service flaws affect kadmind and the KDC",
+   "score": 26,
+   "cves": [
+    "CVE-2026-112320",
+    "CVE-2026-112323",
+    "CVE-2026-119079"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-112320 (HIGH 7.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112320",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-112323 (HIGH 7.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112323",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-119079 (HIGH 7.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-119079",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Webmin command injection lets authenticated Samba maintainers run commands as root",
+   "score": 12,
+   "cves": [
+    "CVE-2026-125391"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-125391 (HIGH 8.6)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-125391",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "WildFly Core flaw lets Maintainer role read credentials and gain SuperUser control",
+   "score": 12,
+   "cves": [
+    "CVE-2026-12977"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-12977 (HIGH 8.8)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-12977",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Ettercap through 0.8.4.1 has multiple memory corruption flaws",
+   "score": 12,
+   "cves": [
+    "CVE-2026-125401",
+    "CVE-2026-125402",
+    "CVE-2026-125403"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-125401 (HIGH 7.2)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-125401",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-125402 (HIGH 7.2)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-125402",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-125403 (HIGH 7.2)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-125403",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "rConfig unauthenticated deserialization flaw allows remote code execution",
+   "score": 9,
+   "cves": [
+    "CVE-2026-124079"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-124079 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-124079",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Hard-coded JWT signing secrets enable administrator authentication bypass in web apps",
+   "score": 9,
+   "cves": [
+    "CVE-2026-125370",
+    "CVE-2026-125383"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-125370 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-125370",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-125383 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-125383",
+     "source": "NVD"
+    }
+   ]
+  }
+ ],
+ "kev_new": [
+  {
+   "cve": "CVE-2026-102895",
+   "vendor": "GPUStack",
+   "product": "GPUStack",
+   "name": "GPUStack Improper Authentication Vulnerability",
+   "date_added": "2026-11-09",
+   "due_date": "2026-11-12",
+   "ransomware": "Unknown",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-102895"
+  },
+  {
+   "cve": "CVE-2026-123158",
+   "vendor": "OpenBSD",
+   "product": "OpenSSH",
+   "name": "OpenBSD OpenSSH Unexpected Status Code or Return Value Vulnerability",
+   "date_added": "2026-11-09",
+   "due_date": "2026-11-12",
+   "ransomware": "Unknown",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123158"
+  },
+  {
+   "cve": "CVE-2026-116779",
+   "vendor": "SignalWire",
+   "product": "FreeSwitch",
+   "name": "SignalWire FreeSwitch Code Injection Vulnerability",
+   "date_added": "2026-11-09",
+   "due_date": "2026-11-12",
+   "ransomware": "Unknown",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-116779"
+  },
+  {
+   "cve": "CVE-2026-123218",
+   "vendor": "IBM",
+   "product": "Aspera Faspex",
+   "name": "IBM Aspera Faspex Incorrect Authorization Vulnerability",
+   "date_added": "2026-11-09",
+   "due_date": "2026-11-12",
+   "ransomware": "Unknown",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123218"
+  }
+ ],
+ "early_signals": [],
+ "explainer": {
+  "concept": "Webshells: persistent backdoors planted through web server vulnerabilities",
+  "dek": "A webshell is a small script file dropped into a web application's served directory that lets an attacker run commands on the server by sending ordinary HTTP requests to it.",
+  "why_today": "SANS honeypots show attackers still hunting for SAP NetWeaver webshells planted through CVE-2025-31324, and Huntress found hidden webshells left on exploited AhsayCBS backup servers. In both cases the webshell outlives the original flaw.",
+  "related_story_ids": [
+   "story-1",
+   "story-7"
+  ],
+  "parts": [
+   {
+    "heading": "How a webshell works",
+    "paragraphs": [
+     "A webshell is a script in whatever language the server executes, such as JSP on Java application servers, ASPX on IIS, or PHP on many Linux stacks. Once it sits in a directory the server serves, any HTTP request to its path makes the server run it with the privileges of the web application process. A typical webshell takes a command or file operation from a request parameter, runs it, and returns the output in the response.",
+     "Attackers usually plant webshells by abusing an unauthenticated file upload, a path traversal, or a code execution bug. CVE-2025-31324 is the textbook case: the SAP NetWeaver Visual Composer metadata uploader accepted files without authentication, and attackers used it to write JSP files into the portal's servlet_jsp/irj/root directory, where the server would execute them."
+    ]
+   },
+   {
+    "heading": "Why patching does not remove it",
+    "paragraphs": [
+     "The vulnerability is only the delivery route. Once the file is on disk, the webshell is a standalone backdoor that needs no exploit, so applying the vendor fix closes the door but leaves anything already planted in place. That is why SANS sees requests for known webshell names like ant.jsp: scanners are checking whether an earlier attacker's shell is still answering, which is cheaper than exploiting the bug again.",
+     "Webshells are also commonly used to drop second-stage tools. The Huntress AhsayCBS findings, with cryptominers and a Python command-and-control implant alongside the shells, fit that pattern: the webshell is the foothold, and the follow-on payloads do the long-term work."
+    ]
+   },
+   {
+    "heading": "What it looks like in telemetry",
+    "paragraphs": [
+     "The strongest endpoint signal is the web server or application server process spawning a command interpreter or reconnaissance tool. On Windows that means processes such as w3wp.exe, or the Java process hosting an application server, launching cmd.exe, powershell.exe, whoami.exe or similar. On Linux, look for the Java or web server process starting sh or bash. In Defender XDR this shows up in DeviceProcessEvents with the server process as InitiatingProcessFileName.",
+     "The second signal is script files created in web-served directories by the server process itself, visible in DeviceFileEvents. In web access logs, watch for requests to newly appearing script paths that return success, especially from a small set of source addresses, and for successful POST requests to upload endpoints that should not be reachable from the internet. Many webshells are tiny and evade antivirus signatures, so behavior matters more than file hashes."
+    ]
+   },
+   {
+    "heading": "Prevention and response",
+    "paragraphs": [
+     "Keep administrative and upload components off the internet where possible, patch exposed application servers quickly, and restrict write permissions so the service account cannot write into executable web directories. File integrity monitoring on web roots catches new script files that signatures miss.",
+     "If you find a webshell, treat the host as compromised rather than simply deleting the file. Check for additional shells, scheduled tasks, new accounts, dropped binaries and credential access performed through the shell, and review what that server's service account could reach."
+    ]
+   }
+  ],
+  "takeaways": [
+   "Inventory internet-facing SAP NetWeaver Java systems, confirm the CVE-2025-31324 fix is applied, and check whether the Visual Composer metadata uploader is reachable from the internet.",
+   "Search the NetWeaver servlet_jsp/irj/root directory and other web roots for JSP, ASPX or PHP files that do not belong to the vendor installation, and compare against a known-good baseline.",
+   "Hunt in DeviceProcessEvents for web and application server processes (w3wp.exe, Java-based servers, Apache, nginx) spawning cmd.exe, powershell.exe, sh, bash, whoami or other recon tools.",
+   "Alert in DeviceFileEvents on script files created in web-served directories by the server's own process.",
+   "When a webshell is found, scope the whole host for follow-on payloads such as miners, implants, new accounts and scheduled tasks before deciding whether to rebuild."
+  ],
+  "unsupported_cves": [],
+  "model": "claude-opus-5-5"
+ },
+ "good_news": [
+  {
+   "headline": "Microsoft FORGE Lab finds memory safety bugs in Rust's standard library using agentic tools",
+   "summary": "Microsoft Security Blog reports that its FORGE Lab used AI-assisted agentic tools to find and validate several memory safety issues in Rust's standard library, including cases where code written entirely in safe Rust can trigger undefined behavior. The write-up groups the findings into recurring patterns, such as trusting code not to panic and trusting user-provided implementations to be correct, to help others look for similar flaws.",
+   "kind": "research",
+   "sources": [
+    {
+     "title": "FORGE Lab uses agentic tools to identify memory safety issues in Rust",
+     "url": "https://www.microsoft.com/en-us/security/blog/2026/11/09/forge-lab-uses-agentic-tools-to-identify-memory-safety-issues-in-rust/",
+     "source": "Microsoft Security Blog",
+     "published": "2026-11-09T20:17:31Z"
+    }
+   ],
+   "unsupported_cves": [],
+   "model": "claude-opus-5-5"
+  }
+ ],
+ "explainer_status": "ok",
+ "sources_status": {
+  "CISA KEV": "ok 4",
+  "NVD": "ok 92",
+  "BleepingComputer": "ok 7",
+  "The Record": "ok 1",
+  "The DFIR Report": "ok 0",
+  "Cisco Talos": "ok 0",
+  "Unit 42": "ok 0",
+  "Microsoft Security Blog": "ok 1",
+  "SANS ISC": "ok 2",
+  "Huntress": "ok 3",
+  "watchTowr Labs": "ok 0",
+  "Rapid7": "ok 0",
+  "SecurityWeek": "ok 0",
+  "Krebs on Security": "ok 0",
+  "CISA Advisories": "ok 1",
+  "MSRC Security Update Guide": "ok 0",
+  "Bluesky": "ok 0",
+  "Mastodon": "ok 10",
+  "r/netsec": "ok 0",
+  "Hacker News": "ok 3",
+  "SigmaHQ new rules": "ok 0",
+  "EPSS": "ok 109"
+ },
+ "stats": {
+  "items": {
+   "news": 14,
+   "advisory": 1,
+   "kev": 4,
+   "nvd": 92,
+   "social": 13,
+   "sigma": 0
+  },
+  "stories_found": 22,
+  "kql_parser": "available"
+ }
+}

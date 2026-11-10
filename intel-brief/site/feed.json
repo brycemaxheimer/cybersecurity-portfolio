@@ -12,6 +12,79 @@
  "language": "en-US",
  "items": [
   {
+   "id": "https://intel.brycemaxheimer.com/editions/2026-11-10/",
+   "url": "https://intel.brycemaxheimer.com/editions/2026-11-10/",
+   "title": "Daily Intel Brief: 2026-11-10",
+   "content_text": "1. Scanning for SAP NetWeaver CVE-2025-31324 webshells continues, per SANS ISC honeypots\n2. CISA adds exploited GPUStack, OpenSSH, FreeSWITCH and IBM Aspera Faspex flaws to KEV\n3. SEGA says breach at newsletter provider ARARA exposed 2.2 million subscriber email addresses\n4. France attributes October attacks on supermarket refrigeration systems to Iranian state-backed hackers\n5. York University says attacker stole personal data submitted through online forms, some dating to 2007\n6. Amplifon US notifies thousands of customers of early-2026 breach exposing medical data\n7. Huntress details AhsayCBS backup server intrusions with webshells, cryptominers and a Python implant\n8. Russian cloud provider Beget rebuilding infrastructure from scratch after data wiper attack\n9. Binance denies breach claim made under the ShinyHunters handle on new cybercrime forum\n10. Vanderbilt University responding to cyberattack claimed by BYOD ransomware gang\nNew KEV entries: CVE-2026-102895, CVE-2026-123158, CVE-2026-116779, CVE-2026-123218\nExplainer: Webshells: persistent backdoors planted through web server vulnerabilities\nGood news: Microsoft FORGE Lab finds memory safety bugs in Rust's standard library using agentic tools",
+   "date_published": "2026-11-10T17:42:51Z",
+   "_intel_brief": {
+    "data": "https://intel.brycemaxheimer.com/editions/2026-11-10/edition.json",
+    "stories": [
+     {
+      "title": "Scanning for SAP NetWeaver CVE-2025-31324 webshells continues, per SANS ISC honeypots",
+      "cves": [
+       "CVE-2025-31324"
+      ],
+      "score": 71
+     },
+     {
+      "title": "CISA adds exploited GPUStack, OpenSSH, FreeSWITCH and IBM Aspera Faspex flaws to KEV",
+      "cves": [
+       "CVE-2026-102895",
+       "CVE-2026-123158",
+       "CVE-2026-116779",
+       "CVE-2026-123218"
+      ],
+      "score": 70
+     },
+     {
+      "title": "SEGA says breach at newsletter provider ARARA exposed 2.2 million subscriber email addresses",
+      "cves": [],
+      "score": 59
+     },
+     {
+      "title": "France attributes October attacks on supermarket refrigeration systems to Iranian state-backed hackers",
+      "cves": [],
+      "score": 51
+     },
+     {
+      "title": "York University says attacker stole personal data submitted through online forms, some dating to 2007",
+      "cves": [],
+      "score": 51
+     },
+     {
+      "title": "Amplifon US notifies thousands of customers of early-2026 breach exposing medical data",
+      "cves": [],
+      "score": 51
+     },
+     {
+      "title": "Huntress details AhsayCBS backup server intrusions with webshells, cryptominers and a Python implant",
+      "cves": [],
+      "score": 47
+     },
+     {
+      "title": "Russian cloud provider Beget rebuilding infrastructure from scratch after data wiper attack",
+      "cves": [],
+      "score": 47
+     },
+     {
+      "title": "Binance denies breach claim made under the ShinyHunters handle on new cybercrime forum",
+      "cves": [],
+      "score": 47
+     },
+     {
+      "title": "Vanderbilt University responding to cyberattack claimed by BYOD ransomware gang",
+      "cves": [],
+      "score": 39
+     }
+    ],
+    "explainer": "Webshells: persistent backdoors planted through web server vulnerabilities",
+    "good_news": [
+     "Microsoft FORGE Lab finds memory safety bugs in Rust's standard library using agentic tools"
+    ]
+   }
+  },
+  {
    "id": "https://intel.brycemaxheimer.com/editions/2026-11-09/",
    "url": "https://intel.brycemaxheimer.com/editions/2026-11-09/",
    "title": "Daily Intel Brief: 2026-11-09",
