@@ -127,6 +127,19 @@ Every call's tokens (input, cache write, cache read, output) and cost go to
 `data/runs/<date>.json`, which is committed with the edition. The PR body shows
 the total.
 
+**Cost per accepted artifact.** An edition is accepted when its PR merges. A
+closed, unmerged edition PR is rejected, and its run log never reaches `main`.
+`python -m intel_brief.cost_report` therefore reads every edition PR's run log
+and edition at the PR's head commit, through `gh`. It reports:
+
+- the acceptance rate;
+- the spend that bought rejected editions;
+- the cost per published edition, per published story and per hunting query
+  that passed the Kusto parser.
+
+`--json` gives machine-readable output. `--local data` reads `data/` offline,
+where every edition counts as published.
+
 Other cost details:
 
 - The write-up system prompt is identical for every call and has a cache
