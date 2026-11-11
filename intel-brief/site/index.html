@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Daily Intel Brief: 10 November 2026</title>
-<meta name="description" content="Threat-intel brief for 10 November 2026: Scanning for SAP NetWeaver CVE-2025-31324 webshells continues, per SANS ISC honeypots; CISA adds exploited GPUStack, OpenSSH, FreeSWITCH and IBM Aspera Faspex flaws to KEV; SEGA says breach at newsletter provider ARARA exposed 2.2 million subscriber email addresses">
+<title>Daily Intel Brief: 11 November 2026</title>
+<meta name="description" content="Threat-intel brief for 11 November 2026: Exploited Outlook spoofing zero-day CVE-2026-124194 leaks NTLMv2 hashes, added to CISA KEV; CISA adds chained Barracuda ESG auth bypass and root command injection flaws to KEV; Huntress details four evolving ClickFix attack chains, including lateral movement and PNG-hidden payloads">
 <meta name="color-scheme" content="only light">
 <meta name="theme-color" content="#B3141B">
-<link rel="canonical" href="https://intel.brycemaxheimer.com/editions/2026-11-10/"><link rel="alternate" type="application/rss+xml" title="Daily Intel Brief (RSS)" href="https://intel.brycemaxheimer.com/feed.xml">
+<link rel="canonical" href="https://intel.brycemaxheimer.com/editions/2026-11-11/"><link rel="alternate" type="application/rss+xml" title="Daily Intel Brief (RSS)" href="https://intel.brycemaxheimer.com/feed.xml">
 <link rel="alternate" type="application/feed+json" title="Daily Intel Brief (JSON Feed)" href="https://intel.brycemaxheimer.com/feed.json">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/LibreFranklin-Variable.woff2" as="font" type="font/woff2" crossorigin>
@@ -20,8 +20,8 @@
   <div class="wrap mast-band">
     <a class="brand" href="/">Daily Intel Brief</a>
 <div class="mast-meta">
-  <p class="eyebrow">Tuesday edition</p>
-  <h1 id="edition-title">10 November 2026</h1>
+  <p class="eyebrow">Wednesday edition</p>
+  <h1 id="edition-title">11 November 2026</h1>
 </div>
   </div>
   <div class="mast-bar">
@@ -42,13 +42,13 @@
 <div class="edition-strip">
   <dl class="stats" aria-labelledby="edition-title">
     <div><dd>10</dd><dt>Top stories</dt></div>
-    <div class="crit"><dd>4</dd><dt>New KEV entries</dt></div>
+    <div class="crit"><dd>6</dd><dt>New KEV entries</dt></div>
     <div class="ai"><dd>0</dd><dt>Early signals</dt></div>
     <div><dd>22<small>/22</small></dd><dt>Sources collected</dt></div>
   </dl>
   <section class="provenance" aria-label="How this edition was made">
   <p><strong>How this edition was made.</strong>
-    Collected from 22 public sources between 9 Nov 05:00 and 10 Nov 05:00 UTC.
+    Collected from 22 public sources between 10 Nov 05:00 and 11 Nov 05:00 UTC.
 Ranked by Claude Haiku 5.5, summarized by Claude Opus 5.5, and reviewed by a person before publishing.
     Summaries can be wrong, so check the linked sources before acting. <a href="methodology/">Read the methodology</a></p>
   </section>
@@ -66,204 +66,149 @@ Ranked by Claude Haiku 5.5, summarized by Claude Opus 5.5, and reviewed by a per
       <div class="story-flags">
         <div class="tags">
 <span class="tag crit-solid">Exploited</span>
-<span class="tag crit">In CISA KEV</span><span class="tag high">Public PoC</span><span class="tag">campaign</span>        </div>
+<span class="tag crit">In CISA KEV</span><span class="tag high">Public PoC</span><span class="tag info">M365 / Entra</span>        </div>
         <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span class="rank">No. 01</span> · Priority <b>71</b>
+          <span class="rank">No. 01</span> · Priority <b>100</b>
         </div>
       </div>
-      <h3 id="story-1-h">Scanning for SAP NetWeaver <span class="nowrap">CVE-2025-31324</span> webshells continues, per SANS ISC honeypots</h3>
-      <p class="meta">SAP NetWeaver · 1 source · first reported 9 November 2026</p>
+      <h3 id="story-1-h">Exploited Outlook spoofing zero-day <span class="nowrap">CVE-2026-124194</span> leaks NTLMv2 hashes, added to CISA KEV</h3>
+      <p class="meta">Microsoft Outlook · 8 sources · first reported 10 November 2026</p>
     </div>
 
     <dl class="facts">
-      <div><dt>CVE</dt><dd><a href="https://nvd.nist.gov/vuln/detail/CVE-2025-31324">CVE-2025-31324</a></dd></div>
-      <div><dt>CVSS</dt><dd><strong>10.0</strong> <span class="crit">Critical</span></dd></div>
-      <div><dt>EPSS</dt><dd><strong>99%</strong> <span class="muted">30-day</span></dd></div>
-      <div><dt>CISA KEV</dt><dd>Listed earlier</dd></div>
-      <div><dt>Public PoC</dt><dd><strong class="high">3 repos</strong></dd></div>
+      <div><dt>CVE</dt><dd><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-124194">CVE-2026-124194</a></dd></div>
+      <div><dt>CVSS</dt><dd><strong>6.5</strong> <span class="">Medium</span></dd></div>
+      <div><dt>EPSS</dt><dd><span class="muted">n/a</span></dd></div>
+      <div class="due"><dt>KEV deadline</dt><dd><strong class="crit">24 November 2026</strong></dd></div>
+      <div><dt>Public PoC</dt><dd><strong class="high">1 repo</strong></dd></div>
     </dl>
+    <p class="related">Also: <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-118146">CVE-2026-118146</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-113862">CVE-2026-113862</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-119952">CVE-2026-119952</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-118148">CVE-2026-118148</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-118207">CVE-2026-118207</a></p>
 
     <div class="story-body">
       <div class="cols2">
-        <section><h4 class="label">What happened</h4><p>SANS ISC reported on 9 November 2026 that its honeypots are receiving requests for webshell paths such as ant.jsp under the SAP NetWeaver /irj/servlet_jsp/irj/root/ directory, along with requests to the vulnerable metadata uploader endpoint. These requests are tied to CVE-2025-31324, an unauthenticated file upload flaw rated CVSS 10.0. According to SANS, one source address (82.26.72.21) is probing a broad list of upload and webshell paths across many products, including SharePoint, Joomla extensions, Samsung MagicInfo and WhatsUp Gold, alongside SAP. SANS frames the activity as attempts either to exploit NetWeaver or to find webshells that earlier attackers already planted.</p></section>
-        <section><h4 class="label">Why it matters</h4><p>CVE-2025-31324 is in CISA KEV, has public proof-of-concept code and an EPSS of 99.5%, so any unpatched internet-facing NetWeaver Visual Composer instance should be assumed at risk or already compromised. Scanners checking for existing webshells means earlier compromises can be reused by new actors, so patching alone is not enough without a compromise check. The same scanner also targets SharePoint and other upload endpoints, which may be present on edge-facing Windows servers.</p></section>
+        <section><h4 class="label">What happened</h4><p>Microsoft&#39;s November 2026 Patch Tuesday fixed CVE-2026-124194, a spoofing flaw in classic Outlook (CVSS 6.5) that Microsoft says is being exploited in the wild. CISA added it to the Known Exploited Vulnerabilities catalog on 10 November 2026. Rapid7 reports that opening a specially crafted file makes Outlook silently connect to an attacker-controlled location and leak the user&#39;s NTLMv2 hash, which can be cracked or relayed live to services lacking SMB/LDAP signing or Extended Protection. Sources disagree on the release&#39;s total size, with counts ranging from about 1,092 to 1,260 fixes.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>Outlook runs on nearly every Windows endpoint, and leaked NTLMv2 hashes give attackers a path to impersonate users against file servers, LDAP and other internal services. The flaw is confirmed exploited, CISA&#39;s federal remediation deadline is 24 November 2026, and public proof-of-concept code is reported to exist, although Rapid7 says there was no public disclosure before release. No EPSS score is available yet. Rapid7 notes the moderate CVSS score understates its value for both mass credential harvesting and targeted intrusions.</p></section>
       </div>
       <div class="actions">
         <h4 class="label">What to do</h4>
-        <ol class="steps"><li>Apply SAP&#39;s security fix for CVE-2025-31324 to all NetWeaver systems, prioritizing those reachable from the internet, or block access to the /developmentserver/metadatauploader endpoint until patched.</li><li>Inspect the /irj/servlet_jsp/irj/root/ directory and related NetWeaver web directories for unexpected .jsp, .java or .class files and treat any found as a compromise.</li><li>Review web server and reverse proxy logs for requests to the metadatauploader endpoint and to ant.jsp or other unknown JSP files, and for traffic from 82.26.72.21.</li><li>Hunt for shells or reconnaissance commands spawned by the NetWeaver Java server processes.</li><li>If a webshell is found, isolate the host, rotate SAP service and connected credentials, and investigate lateral movement.</li></ol>
+        <ol class="steps"><li>Deploy the November 2026 Office and Microsoft 365 Apps updates to all classic Outlook installations before 24 November 2026, and confirm update channels have picked up the build.</li><li>Block outbound SMB (TCP 445 and 139) from endpoints to the internet at the perimeter and host firewall to stop hash leakage to external hosts.</li><li>Add high-value accounts to the Protected Users group and restrict outbound NTLM where possible to blunt captured-hash abuse.</li><li>Enforce SMB signing, LDAP signing and channel binding, and Extended Protection for Authentication to reduce NTLM relay risk.</li><li>Hunt for Outlook-initiated SMB or WebDAV connections to public addresses, and reset passwords for affected users if any are found.</li></ol>
+      <div class="cols2 versions">
+        <div><div class="k">Affected</div><ul><li>Microsoft 365 Apps for Enterprise</li><li>Microsoft Office 2021</li><li>Microsoft Office 2024</li><li>All supported versions of classic Outlook (per Rapid7)</li></ul></div>
+        <div><div class="k">Fixed</div><ul><li>Microsoft November 2026 security updates for Office and Microsoft 365 Apps (released 10 November 2026)</li></ul></div>
+      </div>
       </div>
     </div>
 
     <div class="sources">
       <h4 class="label">Sources</h4>
       <ul>
-        <li><span class="pub">SANS ISC</span><a href="https://isc.sans.edu/diary/rss/33502" rel="noopener noreferrer nofollow">Attackers Searching for SAP Netweaver Webshells, (Mon, Nov 9th)</a><span class="where">isc.sans.edu · 9 Nov</span></li>
+        <li><span class="pub">CISA Advisories</span><a href="https://www.cisa.gov/news-events/alerts/2026/11/10/cisa-adds-six-known-exploited-vulnerabilities-catalog" rel="noopener noreferrer nofollow">CISA Adds Six Known Exploited Vulnerabilities to Catalog</a><span class="where">cisa.gov · 10 Nov</span></li>
+        <li><span class="pub">MSRC Security Update Guide</span><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-124194" rel="noopener noreferrer nofollow">CVE-2026-124194 Microsoft Outlook Spoofing Vulnerability</a><span class="where">msrc.microsoft.com · 10 Nov</span></li>
+        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/microsoft/microsoft-november-2026-patch-tuesday-fixes-1-235-flaws-outlook-zero-day/" rel="noopener noreferrer nofollow">Microsoft November 2026 Patch Tuesday fixes 1,235 flaws, Outlook zero-day</a><span class="where">bleepingcomputer.com · 10 Nov</span></li>
+        <li><span class="pub">SANS ISC</span><a href="https://isc.sans.edu/diary/rss/33508" rel="noopener noreferrer nofollow">Microsoft Patch Tuesday November 2027 , (Tue, Nov 10th)</a><span class="where">isc.sans.edu · 10 Nov</span></li>
+        <li><span class="pub">The Record</span><a href="https://therecord.media/patch-tuesday-microsoft-1000-bugs-again" rel="noopener noreferrer nofollow">Microsoft’s Patch Tuesday surpasses 1,000 bugs for second month in a row</a><span class="where">therecord.media · 10 Nov</span></li>
+        <li><span class="pub">Krebs on Security</span><a href="https://krebsonsecurity.com/2026/11/microsoft-fixes-nearly-1100-security-vulnerabilities/" rel="noopener noreferrer nofollow">Microsoft Fixes Nearly 1,100 Security Vulnerabilities</a><span class="where">krebsonsecurity.com · 10 Nov</span></li>
+        <li><span class="pub">Rapid7</span><a href="https://www.rapid7.com/blog/post/em-patch-tuesday-november-2026" rel="noopener noreferrer nofollow">Patch Tuesday - November 2026</a><span class="where">rapid7.com · 10 Nov</span></li>
+        <li><span class="pub">Cisco Talos</span><a href="https://blog.talosintelligence.com/microsoft-patch-tuesday-for-november-2026/" rel="noopener noreferrer nofollow">Microsoft Patch Tuesday for November 2026 — Snort rules and prominent vulnerabilities</a><span class="where">blog.talosintelligence.com · 11 Nov</span></li>
       </ul>
-<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: high</p>    </div>
 
     <details class="poc">
-      <summary>Public proof-of-concept repos (3)</summary>
+      <summary>Public proof-of-concept repos (1)</summary>
       <p class="warn">Links only, not vetted. Public PoC repos are often fake or backdoored. Don't run them on a work machine.</p>
-      <ul><li><a href="https://github.com/redrays-io/CVE-2025-31324" rel="noopener noreferrer nofollow">redrays-io/CVE-2025-31324</a> <span class="muted">CVE-2025-31324 · 25 stars · created 27 Apr</span></li><li><a href="https://github.com/antichainalysis/sap-netweaver-0day-CVE-2025-31324" rel="noopener noreferrer nofollow">antichainalysis/sap-netweaver-0day-CVE-2025-31324</a> <span class="muted">CVE-2025-31324 · 21 stars · created 15 Aug</span></li><li><a href="https://github.com/Onapsis/Onapsis_CVE-2025-31324_Scanner_Tools" rel="noopener noreferrer nofollow">Onapsis/Onapsis_CVE-2025-31324_Scanner_Tools</a> <span class="muted">CVE-2025-31324 · 12 stars · created 27 Apr</span></li></ul>
+      <ul><li><a href="https://github.com/AmesianX/CVE-2026-124194-poc" rel="noopener noreferrer nofollow">AmesianX/CVE-2026-124194-poc</a> <span class="muted">CVE-2026-124194 · 0 stars · created 11 Nov</span></li></ul>
     </details>
 
     <section class="detect" aria-label="Detection">
       <div class="detect-head">
         <div class="t">Detection
-<span class="tag info">SigmaHQ rule · untested here</span>        </div>
-        <span class="why">Community rule from SigmaHQ, converted with pySigma</span>
+<span class="tag ai">AI-generated · untested</span>        </div>
+        <span class="why">Hunting guidance</span>
       </div>
       <div class="tabs">
-        <input class="tab-input" type="radio" name="fmt-story-1" id="story-1-sigma" checked>
-        <label for="story-1-sigma">Sigma</label>
-        <input class="tab-input" type="radio" name="fmt-story-1" id="story-1-spl">
-        <label for="story-1-spl">Splunk SPL</label>
-        <input class="tab-input" type="radio" name="fmt-story-1" id="story-1-elastic">
-        <label for="story-1-elastic">Elastic</label>
-        <input class="tab-input" type="radio" name="fmt-story-1" id="story-1-hunt">
+        <input class="tab-input" type="radio" name="fmt-story-1" id="story-1-hunt" checked>
         <label for="story-1-hunt">Hunting</label>
         <div class="tab-panels">
           <div class="tab-panel">
-            <div class="code">
+<ol class="steps-plain"><li>Use the vulnerability inventory to list devices still exposed to CVE-2026-124194 and prioritize them for patching.</li><li>Search network telemetry for outlook.exe connecting to public IPs on TCP 445 or 139 since late October 2026, and note the user and remote address.</li><li>For each hit, review emails and attachments the user received shortly before the connection to identify the lure and other recipients.</li><li>Check identity logs for NTLM authentications by affected accounts from unfamiliar devices or IPs, which may indicate relay or cracked-hash use.</li><li>Reset credentials for confirmed affected users and block the identified external hosts at the perimeter.</li></ol><div class="code">
   <div class="code-bar">
-    <span class="name">Potential Java WebShell Upload in SAP NetViewer Server</span>
-  </div>
-  <pre><code>title: Potential Java WebShell Upload in SAP NetViewer Server
-id: 639b893f-f93a-4e53-a7c8-f08cf73fe7f7
-status: experimental
-description: |
-    Detects potential Java webshell uploads via HTTP requests with Content-Type &#39;application/octet-stream&#39; and Java file extensions.
-    This behavior might indicate exploitation of vulnerabilities like CVE-2025-31324, which allows remote code execution through webshells in SAP NetViewer.
-references:
-    - https://blog.eclecticiq.com/china-nexus-nation-state-actors-exploit-sap-netweaver-cve-2025-31324-to-target-critical-infrastructures
-author: Swachchhanda Shrawan Poudel (Nextron Systems)
-date: 2025-05-14
-tags:
-    - attack.persistence
-    - attack.t1505.003
-    - detection.emerging-threats
-    - cve.2025-31324
-logsource:
-    category: webserver
-detection:
-    selection:
-        cs-content-type: &#39;application/octet-stream&#39;
-        cs-method: &#39;POST&#39;
-        cs-uri-stem|contains|all:
-            - &#39;/irj/&#39;
-            - &#39;.jsp&#39;
-        cs-uri-stem|endswith:
-            - &#39;.class&#39;
-            - &#39;.java&#39;
-            - &#39;.jsp&#39;
-    condition: selection
-falsepositives:
-    - Legitimate uploads of Java files in development environments
-level: high
-</code></pre>
-</div>
-
-            <p class="conv-note">Source: <a href="https://github.com/SigmaHQ/sigma/blob/master/rules-emerging-threats/2025/Exploits/CVE-2025-31324/web_lnx_exploit_cve_2025_31324_sap_netviewer_webshell_uploaded.yml" rel="noopener noreferrer nofollow">Potential Java WebShell Upload in SAP NetViewer Server</a> on SigmaHQ. Not converted to Defender XDR / Sentinel KQL: SigmaTransformationError: Unable to determine table name from rule.  The query table is determined in the following order of priority:
-  1) The value provided to processing pipeline&#39;s query_table parameter, if using a Python script.
-  2) If the query_table is already set in the pipeline state, such as from a custom user-defined pipeline if using sigma-cli.
-  3) If the rule&#39;s logsource category is .</p>
-          </div>
-          <div class="tab-panel">
-            <div class="code">
-  <div class="code-bar">
-    <span class="name">Splunk SPL</span>
-  </div>
-  <pre><code>&#34;cs-content-type&#34;=&#34;application/octet-stream&#34; &#34;cs-method&#34;=&#34;POST&#34; &#34;cs-uri-stem&#34;=&#34;*/irj/*&#34; &#34;cs-uri-stem&#34;=&#34;*.jsp*&#34; &#34;cs-uri-stem&#34; IN (&#34;*.class&#34;, &#34;*.java&#34;, &#34;*.jsp&#34;)</code></pre>
-</div>
-
-            <p class="conv-note">Converted from the Sigma rule with pySigma.</p>
-          </div>
-          <div class="tab-panel">
-            <div class="code">
-  <div class="code-bar">
-    <span class="name">Elastic (Lucene, ECS)</span>
-  </div>
-  <pre><code>cs-content-type:application\/octet\-stream AND cs-method:POST AND (cs-uri-stem:*\/irj\/* AND cs-uri-stem:*.jsp*) AND (cs-uri-stem:(*.class OR *.java OR *.jsp))</code></pre>
-</div>
-
-            <p class="conv-note">Converted from the Sigma rule with pySigma.</p>
-          </div>
-          <div class="tab-panel">
-<p class="intro"><span class="tag ai">AI-generated · untested</span></p><ol class="steps-plain"><li>Inventory SAP NetWeaver hosts, confirm patch status for CVE-2025-31324 and check whether the Visual Composer metadata uploader is exposed.</li><li>Search file events for JSP or class files created under servlet_jsp\irj\root on NetWeaver hosts.</li><li>Search for child processes such as cmd, powershell, sh or bash launched by java or jstart processes.</li><li>Search inbound network and web logs for connections from 82.26.72.21 and for requests to metadatauploader or ant.jsp.</li><li>Check other exposed servers (SharePoint, MagicInfo, WhatsUp Gold) for the same upload and webshell path probes listed by SANS.</li></ol><div class="code">
-  <div class="code-bar">
-    <span class="name">Defender XDR KQL · JSP or class files written to NetWeaver irj root webshell directory</span>
+    <span class="name">Defender XDR KQL · Outlook SMB connections to public IP addresses</span>
 <span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
   </div>
-  <pre><code>DeviceFileEvents | where Timestamp &gt; ago(30d) | where ActionType in (&#34;FileCreated&#34;, &#34;FileModified&#34;, &#34;FileRenamed&#34;) | where FolderPath has @&#34;servlet_jsp\irj\root&#34; or FolderPath has &#34;servlet_jsp/irj/root&#34; | where FileName endswith &#34;.jsp&#34; or FileName endswith &#34;.java&#34; or FileName endswith &#34;.class&#34; | project Timestamp, DeviceName, FolderPath, FileName, SHA256, InitiatingProcessFileName, InitiatingProcessCommandLine</code></pre>
+  <pre><code>DeviceNetworkEvents | where Timestamp &gt; ago(30d) | where InitiatingProcessFileName =~ &#34;outlook.exe&#34; | where RemotePort in (445, 139) | where RemoteIPType == &#34;Public&#34; | project Timestamp, DeviceName, InitiatingProcessAccountName, RemoteIP, RemotePort, RemoteUrl, ActionType | order by Timestamp desc</code></pre>
 </div>
+<p class="conv-note receipt">On 300 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
 <div class="code">
   <div class="code-bar">
-    <span class="name">Defender XDR KQL · Shell processes spawned by SAP NetWeaver Java server processes</span>
+    <span class="name">Defender XDR KQL · Devices still vulnerable to CVE-2026-124194</span>
 <span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
   </div>
-  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(30d) | where InitiatingProcessFileName in~ (&#34;java.exe&#34;, &#34;jstart.exe&#34;, &#34;java&#34;, &#34;jstart&#34;) | where FileName in~ (&#34;cmd.exe&#34;, &#34;powershell.exe&#34;, &#34;pwsh.exe&#34;, &#34;sh&#34;, &#34;bash&#34;, &#34;dash&#34;, &#34;whoami.exe&#34;, &#34;whoami&#34;, &#34;curl&#34;, &#34;wget&#34;, &#34;certutil.exe&#34;) | project Timestamp, DeviceName, AccountName, InitiatingProcessFileName, InitiatingProcessCommandLine, FileName, ProcessCommandLine</code></pre>
+  <pre><code>DeviceTvmSoftwareVulnerabilities | where CveId == &#34;CVE-2026-124194&#34; | project DeviceName, OSPlatform, SoftwareVendor, SoftwareName, SoftwareVersion, RecommendedSecurityUpdate | order by DeviceName asc</code></pre>
 </div>
+<p class="conv-note receipt">The synthetic baseline has no data for its tables. Not tested on real attack data.</p>
 <div class="code">
   <div class="code-bar">
-    <span class="name">Defender XDR KQL · Network activity involving scanner IP reported by SANS ISC</span>
+    <span class="name">Defender XDR KQL · NTLM authentication volume and sources per account</span>
 <span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
   </div>
-  <pre><code>DeviceNetworkEvents | where Timestamp &gt; ago(30d) | where RemoteIP == &#34;82.26.72.21&#34; | project Timestamp, DeviceName, ActionType, LocalIP, LocalPort, RemoteIP, RemotePort, InitiatingProcessFileName</code></pre>
+  <pre><code>IdentityLogonEvents | where Timestamp &gt; ago(14d) | where Protocol =~ &#34;Ntlm&#34; | summarize Logons = count(), Devices = make_set(DeviceName, 20), SourceIPs = make_set(IPAddress, 20) by AccountUpn | order by Logons desc</code></pre>
 </div>
+<p class="conv-note receipt">The synthetic baseline has no data for its tables. Not tested on real attack data.</p>
           </div>
         </div>
       </div>
-<p class="notes">6 SigmaHQ rules reference this CVE; showing the first. </p>    </section>
+<p class="notes">An AI-drafted Sigma rule failed validation and was dropped. </p>    </section>
   </article>
   <article class="story" id="story-2" aria-labelledby="story-2-h">
     <div class="story-top">
       <div class="story-flags">
         <div class="tags">
 <span class="tag crit-solid">Exploited</span>
-<span class="tag crit">In CISA KEV</span><span class="tag high">Public PoC</span>        </div>
+<span class="tag crit">In CISA KEV</span><span class="tag high">Public PoC</span><span class="tag info">Edge device</span>        </div>
         <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span class="rank">No. 02</span> · Priority <b>70</b>
+          <span class="rank">No. 02</span> · Priority <b>88</b>
         </div>
       </div>
-      <h3 id="story-2-h">CISA adds exploited GPUStack, OpenSSH, FreeSWITCH and IBM Aspera Faspex flaws to KEV</h3>
-      <p class="meta">5 sources · first reported 9 November 2026</p>
+      <h3 id="story-2-h">CISA adds chained Barracuda ESG auth bypass and root command injection flaws to KEV</h3>
+      <p class="meta">Barracuda Networks Email Security Gateway · 2 sources · first reported 10 November 2026</p>
     </div>
 
     <dl class="facts">
-      <div><dt>CVE</dt><dd><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-116779">CVE-2026-116779</a></dd></div>
-      <div><dt>CVSS</dt><dd><strong>9.8</strong> <span class="crit">Critical</span></dd></div>
-      <div><dt>EPSS</dt><dd><strong>2.2%</strong> <span class="muted">30-day</span></dd></div>
-      <div class="due"><dt>KEV deadline</dt><dd><strong class="crit">12 November 2026</strong></dd></div>
+      <div><dt>CVE</dt><dd><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-116606">CVE-2026-116606</a></dd></div>
+      <div><dt>CVSS</dt><dd><strong>9.3</strong> <span class="crit">Critical</span></dd></div>
+      <div><dt>EPSS</dt><dd><strong>1.6%</strong> <span class="muted">30-day</span></dd></div>
+      <div class="due"><dt>KEV deadline</dt><dd><strong class="crit">13 November 2026</strong></dd></div>
       <div><dt>Public PoC</dt><dd><strong class="high">2 repos</strong></dd></div>
     </dl>
-    <p class="related">Also: <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-123218">CVE-2026-123218</a> (KEV, due 12 Nov), <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-102895">CVE-2026-102895</a> (KEV, due 12 Nov), <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-123158">CVE-2026-123158</a> (KEV, due 12 Nov)</p>
+    <p class="related">Also: <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-111560">CVE-2026-111560</a> (KEV, due 13 Nov)</p>
 
     <div class="story-body">
       <div class="cols2">
-        <section><h4 class="label">What happened</h4><p>On 9 November 2026 CISA added four vulnerabilities to its Known Exploited Vulnerabilities catalog, citing evidence of active exploitation. According to CISA, CVE-2026-102895 in GPUStack lets an unauthenticated attacker gain administrative access, create persistent admin API keys, expose worker and cloud-provider secrets, and execute code through the inference-backend import endpoint. CVE-2026-123158 is an authentication bypass in OpenSSH on Linux, and CVE-2026-116779 is a code injection flaw in SignalWire FreeSWITCH that can lead to credential disclosure, call control and command execution. CVE-2026-123218 in IBM Aspera Faspex lets an authenticated user bypass authorization and escalate privileges. The sources do not name affected or fixed versions or describe the attackers.</p></section>
-        <section><h4 class="label">Why it matters</h4><p>All four flaws are confirmed exploited and carry a federal remediation due date of 12 November 2026. The OpenSSH bypass is the broadest exposure: it affects internet-facing Linux servers and appliances, has public proof-of-concept code and an EPSS of 16.5%. GPUStack AI servers, FreeSWITCH VoIP systems and Aspera Faspex file-transfer portals are often exposed to the internet, and exploitation can hand over full control or leak cloud credentials (EPSS 0.6%, 2.2% and 0.7% respectively).</p></section>
+        <section><h4 class="label">What happened</h4><p>On 10 November 2026, CISA added two Barracuda Networks flaws to its Known Exploited Vulnerabilities catalog. CVE-2026-116606 (CVSS 9.3) is an authentication bypass in Email Security Gateway (ESG). It lets an unauthenticated remote attacker call a configuration-import function and restore a crafted backup archive, which changes the appliance&#39;s global configuration. CVE-2026-111560 (CVSS 8.6) is an OS command injection in a timezone value that runs commands as root; CISA says it affects ESG plus Load Balancer, ADC, Message Archiver, WAF Control Center, WAF and Web Security Gateway, and that the two flaws can be chained.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>CISA lists both flaws as exploited in the wild, and chained together they could plausibly let an unauthenticated attacker run root commands on an internet-facing mail gateway that sees all inbound mail. Public proof-of-concept code is reported for the authentication bypass (EPSS 1.6%; 1.1% for the command injection). The KEV remediation due date is 13 November 2026, only three days after the listing.</p></section>
       </div>
       <div class="actions">
         <h4 class="label">What to do</h4>
-        <ol class="steps"><li>Inventory internet-facing Linux hosts running OpenSSH and apply the vendor or distribution fix for CVE-2026-123158 by 12 November 2026. Until patched, restrict SSH to VPN or allow-listed source addresses.</li><li>Patch or take offline any exposed GPUStack, FreeSWITCH and IBM Aspera Faspex instances according to vendor guidance, and block internet access to GPUStack and FreeSWITCH management interfaces.</li><li>On GPUStack, review admin accounts and API keys for unexpected creation, revoke unknown keys, and rotate worker and cloud-provider secrets stored in the platform.</li><li>On FreeSWITCH, rotate SIP and configuration credentials, and review the host for unexpected child processes and call-routing changes.</li><li>Follow CISA&#39;s forensics triage expectation: check each affected system for signs of compromise from before the patch, not only after it.</li></ol>
+        <ol class="steps"><li>Apply Barracuda&#39;s mitigations and updates for both CVEs on all ESG and other affected Barracuda appliances before the 13 November 2026 KEV deadline, or take exposed appliances offline if no mitigation is available.</li><li>Restrict the ESG administrative interface so it is not reachable from the internet, allowing only trusted management networks.</li><li>Review ESG configuration, admin accounts, timezone settings and configuration-import or restore history for changes you cannot explain, and follow CISA&#39;s forensics triage guidance on any appliance that was exposed.</li><li>Treat any appliance showing tampering as compromised: rebuild or replace it, and rotate credentials and keys stored on or passing through it, including LDAP and SMTP relay credentials and admin passwords.</li><li>Check outbound traffic from the appliance&#39;s IP for unusual destinations, and review mail-flow and routing rules for unauthorized changes.</li></ol>
+      <div class="cols2 versions">
+        <div><div class="k">Affected</div><ul><li>Barracuda Email Security Gateway (ESG): CVE-2026-116606 and CVE-2026-111560, versions not stated</li><li>Barracuda Load Balancer, Application Delivery Controller (ADC), Message Archiver (BMA), WAF Control Center (WCC), Web Application Firewall (WAF), Web Security Gateway (WSG): CVE-2026-111560, versions…</li></ul></div>
+        <div><div class="k">Fixed</div><span class="muted">Not stated in the sources</span></div>
+      </div>
       </div>
     </div>
 
     <div class="sources">
       <h4 class="label">Sources</h4>
       <ul>
-        <li><span class="pub">CISA Advisories</span><a href="https://www.cisa.gov/news-events/alerts/2026/11/09/cisa-adds-four-known-exploited-vulnerabilities-catalog" rel="noopener noreferrer nofollow">CISA Adds Four Known Exploited Vulnerabilities to Catalog</a><span class="where">cisa.gov · 9 Nov</span></li>
-        <li><span class="pub">CISA KEV</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-102895" rel="noopener noreferrer nofollow">CVE-2026-102895: GPUStack Improper Authentication Vulnerability</a><span class="where">nvd.nist.gov · 9 Nov</span></li>
-        <li><span class="pub">CISA KEV</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-123158" rel="noopener noreferrer nofollow">CVE-2026-123158: OpenBSD OpenSSH Unexpected Status Code or Return Value Vulnerability</a><span class="where">nvd.nist.gov · 9 Nov</span></li>
-        <li><span class="pub">CISA KEV</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-116779" rel="noopener noreferrer nofollow">CVE-2026-116779: SignalWire FreeSwitch Code Injection Vulnerability</a><span class="where">nvd.nist.gov · 9 Nov</span></li>
-        <li><span class="pub">CISA KEV</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-123218" rel="noopener noreferrer nofollow">CVE-2026-123218: IBM Aspera Faspex Incorrect Authorization Vulnerability</a><span class="where">nvd.nist.gov · 9 Nov</span></li>
+        <li><span class="pub">CISA KEV</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-111560" rel="noopener noreferrer nofollow">CVE-2026-111560: Barracuda Networks Multiple Products OS Command Injection Vulnerability</a><span class="where">nvd.nist.gov · 10 Nov</span></li>
+        <li><span class="pub">CISA KEV</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-116606" rel="noopener noreferrer nofollow">CVE-2026-116606: Barracuda Networks Email Security Gateway (ESG) Authentication Bypass Using an Alternate Path or Channel Vulnerability</a><span class="where">nvd.nist.gov · 10 Nov</span></li>
       </ul>
 <p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: high</p>    </div>
 
     <details class="poc">
-      <summary>Public proof-of-concept repos (6)</summary>
+      <summary>Public proof-of-concept repos (2)</summary>
       <p class="warn">Links only, not vetted. Public PoC repos are often fake or backdoored. Don't run them on a work machine.</p>
-      <ul><li><a href="https://github.com/gabrielunknown/CVE-2026-123158_SSHole" rel="noopener noreferrer nofollow">gabrielunknown/CVE-2026-123158_SSHole</a> <span class="muted">CVE-2026-123158 · 8 stars · created 5 Nov</span></li><li><a href="https://github.com/Maalfer/CVE-2026-123158" rel="noopener noreferrer nofollow">Maalfer/CVE-2026-123158</a> <span class="muted">CVE-2026-123158 · 4 stars · created 6 Nov</span></li><li><a href="https://github.com/coboliqcom/cve-2026-123158-sshole-safe-rust" rel="noopener noreferrer nofollow">coboliqcom/cve-2026-123158-sshole-safe-rust</a> <span class="muted">CVE-2026-123158 · 1 stars · created 5 Nov</span></li><li><a href="https://github.com/hackzuoji/freeswitch-cve-2026-116779-POC" rel="noopener noreferrer nofollow">hackzuoji/freeswitch-cve-2026-116779-POC</a> <span class="muted">CVE-2026-116779 · 2 stars · created 6 Nov</span></li><li><a href="https://github.com/majidrahimi5020-lgtm/Poc-exploit-for-CVE-2026-116779-FreeSWITCH-" rel="noopener noreferrer nofollow">majidrahimi5020-lgtm/Poc-exploit-for-CVE-2026-116779-FreeSWITCH-</a> <span class="muted">CVE-2026-116779 · 1 stars · created 1 Nov</span></li><li><a href="https://github.com/foxcornlab/faspex-scanner" rel="noopener noreferrer nofollow">foxcornlab/faspex-scanner</a> <span class="muted">CVE-2026-123218 · 0 stars · created 10 Nov</span></li></ul>
+      <ul><li><a href="https://github.com/watchtowrlabs/watchTowr-vs-Barracuda-RCE-CVE-2026-116606-CVE-2026-111560" rel="noopener noreferrer nofollow">watchtowrlabs/watchTowr-vs-Barracuda-RCE-CVE-2026-116606-CVE-2026-111560</a> <span class="muted">CVE-2026-116606 · 4 stars · created 3 Nov</span></li><li><a href="https://github.com/ZeroHackOrg/barracuda-esg-zeroday-cve-2026-116606-analysis" rel="noopener noreferrer nofollow">ZeroHackOrg/barracuda-esg-zeroday-cve-2026-116606-analysis</a> <span class="muted">CVE-2026-116606 · 1 stars · created 11 Nov</span></li></ul>
     </details>
 
     <section class="detect" aria-label="Detection">
@@ -277,27 +222,14 @@ level: high
         <label for="story-2-hunt">Hunting</label>
         <div class="tab-panels">
           <div class="tab-panel">
-<ol class="steps-plain"><li>Use Defender Vulnerability Management to list devices exposed to the four CVEs, then confirm against your external asset inventory for systems Defender does not cover.</li><li>Identify Linux hosts accepting inbound SSH from public IP addresses and prioritize them for patching.</li><li>On GPUStack and FreeSWITCH hosts, look for shells, download utilities or interpreters launched by the service process.</li><li>Review GPUStack audit data for new administrator users or API keys created by sources you do not recognize.</li><li>Review Aspera Faspex user roles for unexpected privilege changes since late October 2026.</li></ol><div class="code">
+<ol class="steps-plain"><li>Inventory all Barracuda ESG, BMA, WAF, WCC, WSG, Load Balancer and ADC appliances and identify which have internet-reachable management interfaces.</li><li>Confirm each appliance&#39;s patch or mitigation status against Barracuda&#39;s advisory.</li><li>Pull appliance admin and audit logs and look for configuration import or backup restore events that no administrator initiated, and for unexpected timezone changes.</li><li>In firewall or Sentinel network logs, look for outbound connections from appliance IPs to unfamiliar external hosts, which may indicate post-exploitation activity.</li><li>Check Defender vulnerability management for any Barracuda assets it tracks with these CVEs.</li></ol><div class="code">
   <div class="code-bar">
-    <span class="name">Defender XDR KQL · Devices exposed to the four newly added KEV CVEs</span>
+    <span class="name">Defender XDR KQL · Devices with Barracuda CVE-2026-116606 or CVE-2026-111560 exposure</span>
 <span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
   </div>
-  <pre><code>DeviceTvmSoftwareVulnerabilities | where CveId in (&#34;CVE-2026-102895&#34;,&#34;CVE-2026-123158&#34;,&#34;CVE-2026-116779&#34;,&#34;CVE-2026-123218&#34;) | summarize Devices = dcount(DeviceId), DeviceNames = make_set(DeviceName, 50) by CveId, SoftwareVendor, SoftwareName, SoftwareVersion</code></pre>
+  <pre><code>DeviceTvmSoftwareVulnerabilities | where CveId in (&#39;CVE-2026-116606&#39;,&#39;CVE-2026-111560&#39;) | project DeviceId, DeviceName, OSPlatform, SoftwareVendor, SoftwareName, SoftwareVersion, CveId, VulnerabilitySeverityLevel, RecommendedSecurityUpdate</code></pre>
 </div>
-<div class="code">
-  <div class="code-bar">
-    <span class="name">Defender XDR KQL · Shells or tools spawned by GPUStack or FreeSWITCH processes</span>
-<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
-  </div>
-  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(30d) | where InitiatingProcessFileName has_any (&#34;freeswitch&#34;,&#34;gpustack&#34;) or InitiatingProcessCommandLine has_any (&#34;freeswitch&#34;,&#34;gpustack&#34;) | where FileName in~ (&#34;sh&#34;,&#34;bash&#34;,&#34;dash&#34;,&#34;zsh&#34;,&#34;curl&#34;,&#34;wget&#34;,&#34;nc&#34;,&#34;ncat&#34;,&#34;python&#34;,&#34;python3&#34;,&#34;perl&#34;,&#34;cmd.exe&#34;,&#34;powershell.exe&#34;) | project Timestamp, DeviceName, AccountName, InitiatingProcessFileName, InitiatingProcessCommandLine, FileName, ProcessCommandLine</code></pre>
-</div>
-<div class="code">
-  <div class="code-bar">
-    <span class="name">Defender XDR KQL · Inbound SSH accepted from public IPs on Linux hosts</span>
-<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
-  </div>
-  <pre><code>DeviceNetworkEvents | where Timestamp &gt; ago(14d) | where ActionType == &#34;InboundConnectionAccepted&#34; and LocalPort == 22 and RemoteIPType == &#34;Public&#34; | join kind=inner (DeviceInfo | where OSPlatform == &#34;Linux&#34; | summarize arg_max(Timestamp, OSPlatform) by DeviceId) on DeviceId | summarize Connections = count(), RemoteIPs = dcount(RemoteIP), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by DeviceName | order by RemoteIPs desc</code></pre>
-</div>
+<p class="conv-note receipt">The synthetic baseline has no data for its tables. Not tested on real attack data.</p>
           </div>
         </div>
       </div>
@@ -308,171 +240,31 @@ level: high
       <div class="story-flags">
         <div class="tags">
 <span class="tag crit-solid">Exploited</span>
-<span class="tag info">Cloud / SaaS</span><span class="tag">breach</span>        </div>
+<span class="tag info">Windows</span><span class="tag">campaign</span>        </div>
         <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span class="rank">No. 03</span> · Priority <b>59</b>
+          <span class="rank">No. 03</span> · Priority <b>81</b>
         </div>
       </div>
-      <h3 id="story-3-h">SEGA says breach at newsletter provider ARARA exposed 2.2 million subscriber email addresses</h3>
-      <p class="meta">1 source · first reported 9 November 2026</p>
+      <h3 id="story-3-h">Huntress details four evolving ClickFix attack chains, including lateral movement and PNG-hidden payloads</h3>
+      <p class="meta">1 source · first reported 10 November 2026</p>
     </div>
 
 
     <div class="story-body">
       <div class="cols2">
-        <section><h4 class="label">What happened</h4><p>According to BleepingComputer, SEGA has disclosed that its third-party newsletter provider, ARARA, suffered a data breach. SEGA says the incident exposed the email addresses of about 2.2 million newsletter subscribers. The available reporting does not describe how ARARA was compromised, when the breach happened, or whether any data beyond email addresses was taken.</p></section>
-        <section><h4 class="label">Why it matters</h4><p>This is a third-party supply-chain breach of a consumer marketing service, so it has no direct exposure path into Windows, Microsoft 365 or edge infrastructure. The practical risk is follow-on phishing: corporate addresses that were subscribed to SEGA newsletters may receive convincing SEGA-themed lures. The sources give no indicators or technical details to hunt for.</p></section>
+        <section><h4 class="label">What happened</h4><p>Huntress reports that ClickFix, a social engineering technique that tricks users into pasting and running attacker-supplied commands, has evolved. According to Huntress, recent chains add lateral movement, payloads hidden inside PNG image files, Node.js-based remote access trojans, and a browser cache abuse technique. The available summary does not give indicators, specific malware families, or victim details.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>ClickFix gets around many email and download controls because the user runs the command themselves, usually through the Windows Run dialog or a terminal, so any Windows endpoint with a human user is exposed. Huntress says the activity now goes beyond a single host to lateral movement, which raises the impact of one successful lure. No CVE or patch applies, so detection and user controls are the main defenses.</p></section>
       </div>
       <div class="actions">
         <h4 class="label">What to do</h4>
-        <ol class="steps"><li>Warn users that SEGA-branded emails asking for logins, payment details or account verification may be phishing tied to this breach.</li><li>Watch email security reporting for a rise in SEGA-themed phishing and add sender or URL blocks as concrete lures show up.</li><li>Review your own third-party marketing and newsletter providers to confirm what subscriber data they hold and how they will notify you of a breach.</li></ol>
+        <ol class="steps"><li>Hunt for Run dialog (RunMRU) entries and explorer.exe-spawned shells that contain PowerShell, mshta, curl or encoded commands, and investigate any hits.</li><li>Hunt for node.exe running from user-writable paths such as AppData or Temp and making outbound connections, which may indicate a Node.js RAT.</li><li>Where business needs allow, restrict the Win+R Run dialog for standard users through Group Policy and enable Attack Surface Reduction rules that block obfuscated scripts and Office or script child processes.</li><li>After any confirmed ClickFix execution, check for lateral movement from the affected host and rotate the user&#39;s credentials.</li><li>Brief users that legitimate sites never ask them to paste commands into Run, PowerShell or a terminal to fix errors or pass CAPTCHA checks.</li></ol>
       </div>
     </div>
 
     <div class="sources">
       <h4 class="label">Sources</h4>
       <ul>
-        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/sega-newsletter-data-breach-exposes-22-million-email-addresses/" rel="noopener noreferrer nofollow">SEGA newsletter data breach exposes 2.2 million email addresses</a><span class="where">bleepingcomputer.com · 9 Nov</span></li>
-      </ul>
-<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
-
-
-  </article>
-  <article class="story" id="story-4" aria-labelledby="story-4-h">
-    <div class="story-top">
-      <div class="story-flags">
-        <div class="tags">
-<span class="tag crit-solid">Exploited</span>
-<span class="tag info">ICS / OT</span><span class="tag">campaign</span>        </div>
-        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span class="rank">No. 04</span> · Priority <b>51</b>
-        </div>
-      </div>
-      <h3 id="story-4-h">France attributes October attacks on supermarket refrigeration systems to Iranian state-backed hackers</h3>
-      <p class="meta">1 source · first reported 9 November 2026</p>
-    </div>
-
-
-    <div class="story-body">
-      <div class="cols2">
-        <section><h4 class="label">What happened</h4><p>According to BleepingComputer, France has attributed cyberattacks in October to Iranian state-backed hackers. The attacks disrupted refrigeration systems at more than 700 supermarkets and other retail sites. French officials say they caused food losses and at least 15 fires. The report does not name the affected vendors or products, and it does not describe how the attackers got in or which techniques they used.</p></section>
-        <section><h4 class="label">Why it matters</h4><p>This is a confirmed state-backed operation that caused physical damage through building and refrigeration control systems, which often sit outside normal IT security monitoring. Organizations with remotely managed HVAC, refrigeration or building-management controllers, especially in retail, may face similar risk. No technical indicators or vulnerabilities have been published, so defenders currently have nothing specific to hunt for.</p></section>
-      </div>
-      <div class="actions">
-        <h4 class="label">What to do</h4>
-        <ol class="steps"><li>Inventory refrigeration, HVAC and building-management controllers and their remote-access paths, and remove any direct internet exposure.</li><li>Require MFA and allow-listed access for vendor and third-party remote management portals and VPNs that reach these systems.</li><li>Replace default or shared credentials on OT controllers and management interfaces.</li><li>Segment building and OT networks from corporate IT and restrict inbound management traffic to defined jump hosts.</li><li>Watch for technical details or indicators released by French authorities and apply them to hunting once they are available.</li></ol>
-      </div>
-    </div>
-
-    <div class="sources">
-      <h4 class="label">Sources</h4>
-      <ul>
-        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/france-blames-iranian-hackers-for-supermarket-attacks-that-sparked-fires/" rel="noopener noreferrer nofollow">France blames Iranian hackers for supermarket attacks that sparked fires</a><span class="where">bleepingcomputer.com · 9 Nov</span></li>
-      </ul>
-<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
-
-
-  </article>
-  <article class="story" id="story-5" aria-labelledby="story-5-h">
-    <div class="story-top">
-      <div class="story-flags">
-        <div class="tags">
-<span class="tag crit-solid">Exploited</span>
-<span class="tag info">Web app</span><span class="tag">breach</span>        </div>
-        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span class="rank">No. 05</span> · Priority <b>51</b>
-        </div>
-      </div>
-      <h3 id="story-5-h">York University says attacker stole personal data submitted through online forms, some dating to 2007</h3>
-      <p class="meta">York University  · 1 source · first reported 9 November 2026</p>
-    </div>
-
-
-    <div class="story-body">
-      <div class="cols2">
-        <section><h4 class="label">What happened</h4><p>According to BleepingComputer, York University has disclosed a cybersecurity incident in which a threat actor stole personal information that people had submitted through the university&#39;s online forms. BleepingComputer reports that the exposed records date back as far as 2007. The sources do not say how the attacker got in, which systems or form platform were involved, what data fields were exposed, or how many people are affected.</p></section>
-        <section><h4 class="label">Why it matters</h4><p>This is a third-party data breach with no named vulnerability, product or attacker technique, so there is nothing specific to patch or detect in your own environment. The main risk to defenders is follow-on phishing or social engineering aimed at staff, students or partners whose details may have been in the stolen form submissions. It is also a reminder that long-retained web form data on internet-facing applications is an attractive, often overlooked target.</p></section>
-      </div>
-      <div class="actions">
-        <h4 class="label">What to do</h4>
-        <ol class="steps"><li>If your organization has ties to York University, warn affected users to expect targeted phishing that references university forms or applications.</li><li>Review retention of personal data collected through your own web forms and purge submissions you no longer need.</li><li>Check that web form back ends and their data stores are covered by access logging and alerting for bulk data export.</li></ol>
-      </div>
-    </div>
-
-    <div class="sources">
-      <h4 class="label">Sources</h4>
-      <ul>
-        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/york-university-breach-exposed-personal-information-dating-to-2007/" rel="noopener noreferrer nofollow">York University breach exposed personal information dating to 2007</a><span class="where">bleepingcomputer.com · 9 Nov</span></li>
-      </ul>
-<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
-
-
-  </article>
-  <article class="story" id="story-6" aria-labelledby="story-6-h">
-    <div class="story-top">
-      <div class="story-flags">
-        <div class="tags">
-<span class="tag crit-solid">Exploited</span>
-<span class="tag">breach</span>        </div>
-        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span class="rank">No. 06</span> · Priority <b>51</b>
-        </div>
-      </div>
-      <h3 id="story-6-h">Amplifon US notifies thousands of customers of early-2026 breach exposing medical data</h3>
-      <p class="meta">Amplifon  · 1 source · first reported 9 November 2026</p>
-    </div>
-
-
-    <div class="story-body">
-      <div class="cols2">
-        <section><h4 class="label">What happened</h4><p>The Record reports that the US arm of hearing aid company Amplifon is notifying customers about a data breach that occurred earlier this year. According to the report, the exposed data included medical information and the incident affects thousands of people. The sources do not describe how attackers got in, which systems were involved, or who was responsible.</p></section>
-        <section><h4 class="label">Why it matters</h4><p>No technical details, vulnerabilities or indicators have been published, so there is nothing specific to hunt for in Windows, M365 or edge telemetry. The main risk to most organizations is indirect: affected customers, possibly including employees, may be targeted with phishing or fraud that uses the exposed medical and personal details. Organizations that share data or integrations with Amplifon should check what they exchange with the company.</p></section>
-      </div>
-      <div class="actions">
-        <h4 class="label">What to do</h4>
-        <ol class="steps"><li>If your organization shares data or system integrations with Amplifon, contact the vendor to find out whether your data or connections were in scope.</li><li>Warn staff and help desk teams about phishing or social engineering that cites hearing care or medical details, since these may follow breach notifications.</li><li>Track follow-up reporting and regulatory filings for details on the intrusion method or any indicators before planning hunts.</li></ol>
-      </div>
-    </div>
-
-    <div class="sources">
-      <h4 class="label">Sources</h4>
-      <ul>
-        <li><span class="pub">The Record</span><a href="https://therecord.media/amplifon-hearing-aid-company-data-breach" rel="noopener noreferrer nofollow">Data breach at hearing aid giant Amplifon impacts thousands</a><span class="where">therecord.media · 9 Nov</span></li>
-      </ul>
-<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: low</p>    </div>
-
-
-  </article>
-  <article class="story" id="story-7" aria-labelledby="story-7-h">
-    <div class="story-top">
-      <div class="story-flags">
-        <div class="tags">
-<span class="tag crit-solid">Exploited</span>
-<span class="tag">campaign</span>        </div>
-        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span class="rank">No. 07</span> · Priority <b>47</b>
-        </div>
-      </div>
-      <h3 id="story-7-h">Huntress details AhsayCBS backup server intrusions with webshells, cryptominers and a Python implant</h3>
-      <p class="meta">Ahsay AhsayCBS · 1 source · first reported 9 November 2026</p>
-    </div>
-
-
-    <div class="story-body">
-      <div class="cols2">
-        <section><h4 class="label">What happened</h4><p>Huntress has published a follow-up analysis of intrusions against AhsayCBS backup servers. According to Huntress, attackers exploited the servers and left hidden webshells, a second cryptocurrency miner, and a Python-based command-and-control implant tied to the specific compromised host. The available summary does not name a CVE, the initial access vector, affected versions or indicators of compromise.</p></section>
-        <section><h4 class="label">Why it matters</h4><p>Backup servers hold copies of sensitive data and often have broad network access and stored credentials, so a foothold there threatens both data and recovery capability. Huntress reports in-the-wild exploitation, but no patch or affected version range is identified in the sources, so defenders should treat internet-facing AhsayCBS instances as potentially compromised until checked.</p></section>
-      </div>
-      <div class="actions">
-        <h4 class="label">What to do</h4>
-        <ol class="steps"><li>Inventory AhsayCBS servers and remove direct internet exposure of the management web interface, or restrict it to trusted IP ranges, until Ahsay guidance is confirmed.</li><li>Check AhsayCBS web application directories for unexpected or recently modified script files such as JSP pages that could be webshells.</li><li>Hunt for shells, scripting interpreters or Python processes started by the AhsayCBS service, and for sustained high CPU usage indicating miners.</li><li>Review Ahsay vendor advisories and apply any available AhsayCBS updates.</li><li>If compromise is found, rebuild the server, rotate credentials stored on or used by it, and verify backup integrity.</li></ol>
-      </div>
-    </div>
-
-    <div class="sources">
-      <h4 class="label">Sources</h4>
-      <ul>
-        <li><span class="pub">Huntress</span><a href="https://www.huntress.com/blog/ahsaycbs-webshells" rel="noopener noreferrer nofollow">Inside an AhsayCBS Intrusion: Hidden Webshells, a CryptoMiner, and a C2 Implant</a><span class="where">huntress.com · 9 Nov</span></li>
+        <li><span class="pub">Huntress</span><a href="https://www.huntress.com/blog/the-evolving-tradecraft-of-clickfix" rel="noopener noreferrer nofollow">Beyond the clipboard: The evolving tradecraft of ClickFix</a><span class="where">huntress.com · 10 Nov</span></li>
       </ul>
 <p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: low</p>    </div>
 
@@ -484,63 +276,62 @@ level: high
         <span class="why">Sigma rule drafted by Claude Opus 5.5 · passed sigma check</span>
       </div>
       <div class="tabs">
-        <input class="tab-input" type="radio" name="fmt-story-7" id="story-7-sigma">
-        <label for="story-7-sigma">Sigma</label>
-        <input class="tab-input" type="radio" name="fmt-story-7" id="story-7-kql" checked>
-        <label for="story-7-kql">Defender KQL</label>
-        <input class="tab-input" type="radio" name="fmt-story-7" id="story-7-spl">
-        <label for="story-7-spl">Splunk SPL</label>
-        <input class="tab-input" type="radio" name="fmt-story-7" id="story-7-elastic">
-        <label for="story-7-elastic">Elastic</label>
-        <input class="tab-input" type="radio" name="fmt-story-7" id="story-7-hunt">
-        <label for="story-7-hunt">Hunting</label>
+        <input class="tab-input" type="radio" name="fmt-story-3" id="story-3-sigma">
+        <label for="story-3-sigma">Sigma</label>
+        <input class="tab-input" type="radio" name="fmt-story-3" id="story-3-kql" checked>
+        <label for="story-3-kql">Defender KQL</label>
+        <input class="tab-input" type="radio" name="fmt-story-3" id="story-3-spl">
+        <label for="story-3-spl">Splunk SPL</label>
+        <input class="tab-input" type="radio" name="fmt-story-3" id="story-3-elastic">
+        <label for="story-3-elastic">Elastic</label>
+        <input class="tab-input" type="radio" name="fmt-story-3" id="story-3-hunt">
+        <label for="story-3-hunt">Hunting</label>
         <div class="tab-panels">
           <div class="tab-panel">
             <div class="code">
   <div class="code-bar">
-    <span class="name">Suspicious Child Process Spawned From AhsayCBS Server Process</span>
+    <span class="name">Suspicious Command Entered in Windows Run Dialog (ClickFix)</span>
   </div>
-  <pre><code>title: Suspicious Child Process Spawned From AhsayCBS Server Process
-id: 83e1de6c-6e50-51fb-9523-5619eee953be
+  <pre><code>title: Suspicious Command Entered in Windows Run Dialog (ClickFix)
+id: 6087785c-4d91-5d4a-abd2-15842af17c21
 status: experimental
-description: Detects command shells, scripting engines or Python launched from a process running out of the AhsayCBS install directory, which may indicate webshell activity or implant deployment as reported by Huntress in AhsayCBS intrusions. AI-generated, untested.
+description: Detects Run dialog history (RunMRU) entries containing script interpreters or download utilities, which matches ClickFix lures that get users to paste and run malicious commands. Huntress reports this tradecraft is evolving and in active use. AI-generated, untested.
 references:
-- https://www.huntress.com/blog/ahsaycbs-webshells
+- https://www.huntress.com/blog/the-evolving-tradecraft-of-clickfix
 author: intel-brief (AI-generated, untested)
-date: &#39;2026-11-10&#39;
+date: &#39;2026-11-11&#39;
 tags:
-- attack.persistence
-- attack.t1505.003
 - attack.execution
-- attack.t1059
-- attack.impact
-- attack.t1496
+- attack.t1204.004
+- attack.t1059.001
+- attack.initial-access
 logsource:
   product: windows
-  category: process_creation
+  category: registry_set
 detection:
-  selection_parent:
-    ParentImage|contains: \AhsayCBS\
-  selection_child:
-    Image|endswith:
-    - \cmd.exe
-    - \powershell.exe
-    - \pwsh.exe
-    - \python.exe
-    - \pythonw.exe
-    - \certutil.exe
-    - \bitsadmin.exe
-    - \curl.exe
-    - \whoami.exe
-    - \net.exe
-    - \net1.exe
-    - \mshta.exe
-    - \rundll32.exe
-  condition: selection_parent and selection_child
+  selection_key:
+    TargetObject|contains: \Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU\
+  selection_tools:
+    Details|contains:
+    - powershell
+    - pwsh
+    - mshta
+    - curl
+    - wget
+    - bitsadmin
+    - certutil
+    - rundll32
+    - regsvr32
+    - msiexec
+    - cmd /c
+    - cmd.exe /c
+    - conhost
+  filter_mrulist:
+    TargetObject|endswith: \MRUList
+  condition: selection_key and selection_tools and not filter_mrulist
 falsepositives:
-- Legitimate AhsayCBS maintenance or upgrade scripts that invoke cmd.exe
-- Administrator-initiated scripts run from the AhsayCBS directory
-level: high
+- Administrators or power users who start PowerShell or cmd one-liners from the Run dialog
+level: medium
 </code></pre>
 </div>
 
@@ -551,10 +342,11 @@ level: high
   <div class="code-bar">
     <span class="name">Defender XDR / Sentinel KQL</span>
 <span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
-  </div>
-  <pre><code>DeviceProcessEvents
-| where InitiatingProcessFolderPath contains &#34;\\AhsayCBS\\&#34; and (FolderPath endswith &#34;\\cmd.exe&#34; or FolderPath endswith &#34;\\powershell.exe&#34; or FolderPath endswith &#34;\\pwsh.exe&#34; or FolderPath endswith &#34;\\python.exe&#34; or FolderPath endswith &#34;\\pythonw.exe&#34; or FolderPath endswith &#34;\\certutil.exe&#34; or FolderPath endswith &#34;\\bitsadmin.exe&#34; or FolderPath endswith &#34;\\curl.exe&#34; or FolderPath endswith &#34;\\whoami.exe&#34; or FolderPath endswith &#34;\\net.exe&#34; or FolderPath endswith &#34;\\net1.exe&#34; or FolderPath endswith &#34;\\mshta.exe&#34; or FolderPath endswith &#34;\\rundll32.exe&#34;)</code></pre>
+<span class="fail">Labelled cases: fail</span>  </div>
+  <pre><code>DeviceRegistryEvents
+| where RegistryKey endswith &#34;\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\RunMRU*&#34; and (RegistryValueData contains &#34;powershell&#34; or RegistryValueData contains &#34;pwsh&#34; or RegistryValueData contains &#34;mshta&#34; or RegistryValueData contains &#34;curl&#34; or RegistryValueData contains &#34;wget&#34; or RegistryValueData contains &#34;bitsadmin&#34; or RegistryValueData contains &#34;certutil&#34; or RegistryValueData contains &#34;rundll32&#34; or RegistryValueData contains &#34;regsvr32&#34; or RegistryValueData contains &#34;msiexec&#34; or RegistryValueData contains &#34;cmd /c&#34; or RegistryValueData contains &#34;cmd.exe /c&#34; or RegistryValueData contains &#34;conhost&#34;) and (not(RegistryKey endswith &#34;\\MRUList&#34;))</code></pre>
 </div>
+<p class="conv-note receipt">On the Kusto engine it fired on 0 of 27 labelled cases that should match and 0 of 6 that should not. On 60 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
 
             <p class="conv-note">Converted from the Sigma rule with pySigma (kusto backend, microsoft_xdr pipeline).</p>
           </div>
@@ -563,7 +355,7 @@ level: high
   <div class="code-bar">
     <span class="name">Splunk SPL</span>
   </div>
-  <pre><code>ParentImage=&#34;*\\AhsayCBS\\*&#34; Image IN (&#34;*\\cmd.exe&#34;, &#34;*\\powershell.exe&#34;, &#34;*\\pwsh.exe&#34;, &#34;*\\python.exe&#34;, &#34;*\\pythonw.exe&#34;, &#34;*\\certutil.exe&#34;, &#34;*\\bitsadmin.exe&#34;, &#34;*\\curl.exe&#34;, &#34;*\\whoami.exe&#34;, &#34;*\\net.exe&#34;, &#34;*\\net1.exe&#34;, &#34;*\\mshta.exe&#34;, &#34;*\\rundll32.exe&#34;)</code></pre>
+  <pre><code>TargetObject=&#34;*\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\RunMRU\\*&#34; Details IN (&#34;*powershell*&#34;, &#34;*pwsh*&#34;, &#34;*mshta*&#34;, &#34;*curl*&#34;, &#34;*wget*&#34;, &#34;*bitsadmin*&#34;, &#34;*certutil*&#34;, &#34;*rundll32*&#34;, &#34;*regsvr32*&#34;, &#34;*msiexec*&#34;, &#34;*cmd /c*&#34;, &#34;*cmd.exe /c*&#34;, &#34;*conhost*&#34;) NOT TargetObject=&#34;*\\MRUList&#34;</code></pre>
 </div>
 
             <p class="conv-note">Converted from the Sigma rule with pySigma.</p>
@@ -573,33 +365,540 @@ level: high
   <div class="code-bar">
     <span class="name">Elastic (Lucene, ECS)</span>
   </div>
-  <pre><code>process.parent.executable.caseless:*\\AhsayCBS\\* AND (process.executable.caseless:(*\\cmd.exe OR *\\powershell.exe OR *\\pwsh.exe OR *\\python.exe OR *\\pythonw.exe OR *\\certutil.exe OR *\\bitsadmin.exe OR *\\curl.exe OR *\\whoami.exe OR *\\net.exe OR *\\net1.exe OR *\\mshta.exe OR *\\rundll32.exe))</code></pre>
+  <pre><code>registry.path:*\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\RunMRU\\* AND (winlog.event_data.Details:(*powershell* OR *pwsh* OR *mshta* OR *curl* OR *wget* OR *bitsadmin* OR *certutil* OR *rundll32* OR *regsvr32* OR *msiexec* OR *cmd\ \/c* OR *cmd.exe\ \/c* OR *conhost*)) AND (NOT registry.path:*\\MRUList)</code></pre>
 </div>
 
             <p class="conv-note">Converted from the Sigma rule with pySigma.</p>
           </div>
           <div class="tab-panel">
-<ol class="steps-plain"><li>Identify all devices running AhsayCBS using software inventory or process names under an AhsayCBS install path.</li><li>Look for shells, Python or download utilities spawned by processes running from the AhsayCBS directory.</li><li>Review file creations of script files such as JSP in AhsayCBS web directories over the last 30 days.</li><li>Check those hosts for new Python interpreters or scripts, persistence entries and long-running high-CPU processes consistent with miners.</li><li>Review outbound connections from AhsayCBS hosts to unfamiliar external addresses, especially from Python or unsigned binaries.</li></ol><div class="code">
+<ol class="steps-plain"><li>Query RunMRU registry writes over the last 30 days for entries with interpreters, download tools, URLs or encoded content.</li><li>Correlate hits with process creation where explorer.exe is the parent of powershell, mshta, cmd or curl, and look at the command lines.</li><li>Look for follow-on activity on affected hosts: network connections to newly seen domains, image files written then read by script hosts, and node.exe running from user profile paths.</li><li>For confirmed hosts, check remote logons, SMB, WMI or WinRM activity to other devices to scope lateral movement.</li><li>Review browser history around the execution time to find the lure site and block it.</li></ol><div class="code">
   <div class="code-bar">
-    <span class="name">Defender XDR KQL · Child processes spawned from AhsayCBS processes</span>
+    <span class="name">Defender XDR KQL · ClickFix-style commands written to RunMRU</span>
 <span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
   </div>
-  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(30d) | where InitiatingProcessFolderPath has &#34;AhsayCBS&#34; | where FileName in~ (&#34;cmd.exe&#34;,&#34;powershell.exe&#34;,&#34;pwsh.exe&#34;,&#34;python.exe&#34;,&#34;pythonw.exe&#34;,&#34;certutil.exe&#34;,&#34;curl.exe&#34;,&#34;whoami.exe&#34;,&#34;net.exe&#34;,&#34;mshta.exe&#34;,&#34;rundll32.exe&#34;) | project Timestamp, DeviceName, AccountName, InitiatingProcessFileName, InitiatingProcessFolderPath, FileName, ProcessCommandLine</code></pre>
+  <pre><code>DeviceRegistryEvents | where Timestamp &gt; ago(30d) | where RegistryKey has @&#34;Explorer\RunMRU&#34; and RegistryValueName != &#34;MRUList&#34; | where RegistryValueData has_any (&#34;powershell&#34;, &#34;pwsh&#34;, &#34;mshta&#34;, &#34;curl&#34;, &#34;certutil&#34;, &#34;bitsadmin&#34;, &#34;rundll32&#34;, &#34;regsvr32&#34;, &#34;msiexec&#34;, &#34;http&#34;) | project Timestamp, DeviceName, InitiatingProcessAccountName, RegistryValueName, RegistryValueData | order by Timestamp desc</code></pre>
 </div>
+<p class="conv-note receipt">On 60 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
 <div class="code">
   <div class="code-bar">
-    <span class="name">Defender XDR KQL · Script files written to AhsayCBS directories</span>
+    <span class="name">Defender XDR KQL · Explorer-spawned script interpreters with network or encoded commands</span>
 <span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
   </div>
-  <pre><code>DeviceFileEvents | where Timestamp &gt; ago(30d) | where FolderPath has &#34;AhsayCBS&#34; | where ActionType in (&#34;FileCreated&#34;,&#34;FileModified&#34;) | where FileName endswith &#34;.jsp&#34; or FileName endswith &#34;.jspx&#34; or FileName endswith &#34;.py&#34; or FileName endswith &#34;.war&#34; | project Timestamp, DeviceName, FolderPath, FileName, InitiatingProcessFileName, InitiatingProcessCommandLine</code></pre>
+  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(30d) | where InitiatingProcessFileName =~ &#34;explorer.exe&#34; | where FileName in~ (&#34;powershell.exe&#34;, &#34;pwsh.exe&#34;, &#34;mshta.exe&#34;, &#34;cmd.exe&#34;, &#34;curl.exe&#34;) | where ProcessCommandLine has_any (&#34;http&#34;, &#34;-enc&#34;, &#34;-e &#34;, &#34;iex&#34;, &#34;invoke-expression&#34;, &#34;downloadstring&#34;, &#34;-w hidden&#34;, &#34;hidden&#34;) | project Timestamp, DeviceName, AccountName, FileName, ProcessCommandLine | order by Timestamp desc</code></pre>
 </div>
+<p class="conv-note receipt">On 500 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
 <div class="code">
   <div class="code-bar">
-    <span class="name">Defender XDR KQL · Outbound connections by Python on AhsayCBS hosts</span>
+    <span class="name">Defender XDR KQL · Node.js running from user-writable paths with outbound connections</span>
 <span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
   </div>
-  <pre><code>let ahsayHosts = DeviceProcessEvents | where Timestamp &gt; ago(30d) | where FolderPath has &#34;AhsayCBS&#34; or InitiatingProcessFolderPath has &#34;AhsayCBS&#34; | distinct DeviceId; DeviceNetworkEvents | where Timestamp &gt; ago(30d) | where DeviceId in (ahsayHosts) | where RemoteIPType == &#34;Public&#34; | where InitiatingProcessFileName in~ (&#34;python.exe&#34;,&#34;pythonw.exe&#34;,&#34;powershell.exe&#34;,&#34;cmd.exe&#34;) | summarize Connections=count(), FirstSeen=min(Timestamp), LastSeen=max(Timestamp) by DeviceName, InitiatingProcessFileName, RemoteIP, RemotePort</code></pre>
+  <pre><code>DeviceNetworkEvents | where Timestamp &gt; ago(30d) | where InitiatingProcessFileName =~ &#34;node.exe&#34; | where InitiatingProcessFolderPath has_any (@&#34;\AppData\&#34;, @&#34;\Temp\&#34;, @&#34;\ProgramData\&#34;, @&#34;\Users\Public\&#34;) | where RemoteIPType == &#34;Public&#34; | summarize Connections = count(), RemoteUrls = make_set(RemoteUrl, 20), RemoteIPs = make_set(RemoteIP, 20) by DeviceName, InitiatingProcessAccountName, InitiatingProcessFolderPath, InitiatingProcessCommandLine | order by Connections desc</code></pre>
 </div>
+<p class="conv-note receipt">On 300 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </article>
+  <article class="story" id="story-4" aria-labelledby="story-4-h">
+    <div class="story-top">
+      <div class="story-flags">
+        <div class="tags">
+<span class="tag crit-solid">Exploited</span>
+<span class="tag info">Cloud / SaaS</span><span class="tag">breach</span>        </div>
+        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span class="rank">No. 04</span> · Priority <b>55</b>
+        </div>
+      </div>
+      <h3 id="story-4-h">Railway says attackers stole customer secrets, generating about $740,000 in fraudulent AI usage</h3>
+      <p class="meta">Railway Railway hosting platform · 1 source · first reported 10 November 2026</p>
+    </div>
+
+
+    <div class="story-body">
+      <div class="cols2">
+        <section><h4 class="label">What happened</h4><p>BleepingComputer reports that cloud hosting provider Railway says attackers exploited vulnerabilities in its infrastructure and stole customer authentication secrets. According to Railway, the stolen secrets were used to run up roughly $740,000 in fraudulent AI usage. Credentials for as many as 100,000 workspaces may have been exposed. The sources do not name the vulnerabilities, the timeline, or which secret types were taken.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>Railway confirms the stolen secrets were abused. Any API keys, cloud credentials, database passwords or Entra ID app secrets stored as Railway environment variables should be treated as compromised. AI provider keys are the confirmed target, but the same secrets may give access to Microsoft 365, Azure or other SaaS tenants your teams connected to Railway-hosted apps.</p></section>
+      </div>
+      <div class="actions">
+        <h4 class="label">What to do</h4>
+        <ol class="steps"><li>Identify every team and project that uses Railway, including shadow IT and developer side projects.</li><li>Rotate all secrets stored in Railway workspaces: AI provider API keys, cloud access keys, database credentials, OAuth tokens and Entra ID application client secrets or certificates.</li><li>Review billing and usage logs for AI services (OpenAI, Azure OpenAI, Anthropic and others) for unexplained spikes, and set spending caps and alerts.</li><li>Review sign-ins for Entra ID service principals whose credentials were stored in Railway, looking for unfamiliar IP addresses or unusual resource access.</li><li>Follow Railway&#39;s official notifications for any indicators or detail on the exploited vulnerabilities.</li></ol>
+      </div>
+    </div>
+
+    <div class="sources">
+      <h4 class="label">Sources</h4>
+      <ul>
+        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/apple/railway-breach-leads-to-740-000-in-fraudulent-ai-charges/" rel="noopener noreferrer nofollow">Railway breach leads to $740,000 in fraudulent AI charges</a><span class="where">bleepingcomputer.com · 10 Nov</span></li>
+      </ul>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
+
+
+    <section class="detect" aria-label="Detection">
+      <div class="detect-head">
+        <div class="t">Detection
+<span class="tag ai">AI-generated · untested</span>        </div>
+        <span class="why">Hunting only: no endpoint behavior to write a rule against</span>
+      </div>
+      <div class="tabs">
+        <input class="tab-input" type="radio" name="fmt-story-4" id="story-4-hunt" checked>
+        <label for="story-4-hunt">Hunting</label>
+        <div class="tab-panels">
+          <div class="tab-panel">
+<ol class="steps-plain"><li>Inventory Railway usage by finding endpoints where the Railway CLI has been run, then contact those owners.</li><li>List the secrets each Railway project held and map them to the services they unlock (AI providers, Azure, M365, databases).</li><li>For Entra ID applications whose secrets lived in Railway, review service principal sign-ins and audit logs for unfamiliar source IPs or new activity after the suspected exposure window.</li><li>Check AI provider and Azure OpenAI usage and billing for anomalous consumption.</li><li>Confirm that every exposed credential has been rotated and the old one revoked, not just replaced.</li></ol><div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Endpoints running the Railway CLI (inventory of Railway users)</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceProcessEvents
+| where Timestamp &gt; ago(30d)
+| where FileName in~ (&#34;railway&#34;, &#34;railway.exe&#34;) or ProcessCommandLine has_any (&#34;railway login&#34;, &#34;railway up&#34;, &#34;railway variables&#34;, &#34;@railway/cli&#34;)
+| summarize Executions = count(), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by DeviceName, AccountName
+| order by LastSeen desc</code></pre>
+</div>
+<p class="conv-note receipt">On 500 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Cloud app activity by OAuth or service apps from new IP addresses</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>CloudAppEvents
+| where Timestamp &gt; ago(30d)
+| where isnotempty(IPAddress) and isnotempty(ApplicationId)
+| summarize FirstSeen = min(Timestamp), LastSeen = max(Timestamp), Actions = count() by Application, ApplicationId, IPAddress, CountryCode
+| where FirstSeen &gt; ago(14d)
+| order by Actions desc</code></pre>
+</div>
+<p class="conv-note receipt">On 30 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </article>
+  <article class="story" id="story-5" aria-labelledby="story-5-h">
+    <div class="story-top">
+      <div class="story-flags">
+        <div class="tags">
+<span class="tag crit-solid">Exploited</span>
+<span class="tag info">Cloud / SaaS</span><span class="tag">breach</span>        </div>
+        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span class="rank">No. 05</span> · Priority <b>55</b>
+        </div>
+      </div>
+      <h3 id="story-5-h">Compromised Qubole AWS IAM credentials used to steal data from multiple customer AWS environments</h3>
+      <p class="meta">Qubole Qubole AWS account · 1 source · first reported 10 November 2026</p>
+    </div>
+
+
+    <div class="story-body">
+      <div class="cols2">
+        <section><h4 class="label">What happened</h4><p>BleepingComputer reported on 10 November 2026 that a threat actor obtained IAM credentials tied to the AWS account of Qubole, a big data platform. According to the report, the attacker used that trusted access to reach the AWS environments of several Qubole customers and exfiltrate data from them. The available reporting does not name the affected customers, explain how the credentials were compromised, or list indicators of compromise.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>Third-party SaaS platforms such as Qubole usually get cross-account IAM roles or access keys with broad read access to customer S3 data. Abuse of that access looks like normal vendor activity unless it is baselined. Exploitation is confirmed, so any organization that has granted Qubole access to its AWS accounts should treat its environment as potentially exposed until it has reviewed the logs.</p></section>
+      </div>
+      <div class="actions">
+        <h4 class="label">What to do</h4>
+        <ol class="steps"><li>Inventory every IAM role, trust policy and access key that grants Qubole or other third-party platforms access to your AWS accounts. Revoke or suspend that access if it is not actively needed.</li><li>Rotate any access keys shared with Qubole. Require a unique external ID on cross-account roles and restrict them to known source IP ranges where the vendor supports it.</li><li>Review CloudTrail for AssumeRole calls and data-access events by vendor roles during the past months. Look for unusual source IPs, new regions, bulk S3 GetObject or ListBucket activity, and large egress.</li><li>Reduce vendor role permissions to the specific buckets and actions the integration needs, and turn on S3 data events and GuardDuty for exfiltration anomalies.</li><li>Contact Qubole for confirmation of whether your tenant was affected and for any indicators they can share.</li></ol>
+      <div class="cols2 versions">
+        <div><div class="k">Affected</div><ul><li>Organizations that granted Qubole IAM access (cross-account roles or access keys) to their AWS environments</li></ul></div>
+        <div><div class="k">Fixed</div><span class="muted">Not stated in the sources</span></div>
+      </div>
+      </div>
+    </div>
+
+    <div class="sources">
+      <h4 class="label">Sources</h4>
+      <ul>
+        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/hackers-exploit-trusted-aws-access-to-breach-multiple-cloud-environments/" rel="noopener noreferrer nofollow">Hackers exploit trusted AWS access to breach multiple cloud environments</a><span class="where">bleepingcomputer.com · 10 Nov</span></li>
+      </ul>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
+
+
+    <section class="detect" aria-label="Detection">
+      <div class="detect-head">
+        <div class="t">Detection
+<span class="tag ai">AI-generated · untested</span>        </div>
+        <span class="why">Hunting only: no endpoint behavior to write a rule against</span>
+      </div>
+      <div class="tabs">
+        <input class="tab-input" type="radio" name="fmt-story-5" id="story-5-hunt" checked>
+        <label for="story-5-hunt">Hunting</label>
+        <div class="tab-panels">
+          <div class="tab-panel">
+<ol class="steps-plain"><li>List all IAM roles whose trust policy references Qubole or another external vendor account, and record the role ARNs.</li><li>If AWS is connected to Defender for Cloud Apps, search CloudAppEvents for AssumeRole activity by those roles. Otherwise search CloudTrail directly in Sentinel.</li><li>Baseline the source IPs, user agents and regions normally used by the vendor role. Flag sessions that fall outside that baseline.</li><li>For suspicious sessions, pivot to S3 data events (GetObject, ListObjects, ListBuckets) and measure volume per session to spot bulk exfiltration.</li><li>Check for persistence created by the vendor role, such as CreateAccessKey, CreateUser, PutBucketPolicy or changes to role trust policies.</li></ol><div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · AWS activity referencing Qubole roles or principals</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>CloudAppEvents | where Timestamp &gt; ago(90d) | where Application == &#34;Amazon Web Services&#34; | where tostring(RawEventData) has &#34;qubole&#34; | summarize Events = count(), IPs = make_set(IPAddress, 50), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by AccountDisplayName, ActionType | order by Events desc</code></pre>
+</div>
+<p class="conv-note receipt">On 30 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · AssumeRole and S3 data access volume per principal and source IP</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>CloudAppEvents | where Timestamp &gt; ago(30d) | where Application == &#34;Amazon Web Services&#34; | where ActionType in (&#34;AssumeRole&#34;, &#34;GetObject&#34;, &#34;ListBuckets&#34;, &#34;ListObjects&#34;, &#34;ListObjectsV2&#34;) | summarize Events = count(), Actions = make_set(ActionType, 10) by AccountDisplayName, IPAddress, CountryCode | order by Events desc</code></pre>
+</div>
+<p class="conv-note receipt">On 30 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Persistence or policy changes made in AWS</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>CloudAppEvents | where Timestamp &gt; ago(30d) | where Application == &#34;Amazon Web Services&#34; | where ActionType in (&#34;CreateAccessKey&#34;, &#34;CreateUser&#34;, &#34;UpdateAssumeRolePolicy&#34;, &#34;PutBucketPolicy&#34;, &#34;AttachRolePolicy&#34;, &#34;PutRolePolicy&#34;) | project Timestamp, AccountDisplayName, ActionType, IPAddress, CountryCode, ObjectName | order by Timestamp desc</code></pre>
+</div>
+<p class="conv-note receipt">On 30 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </article>
+  <article class="story" id="story-6" aria-labelledby="story-6-h">
+    <div class="story-top">
+      <div class="story-flags">
+        <div class="tags">
+<span class="tag info">M365 / Entra</span>        </div>
+        <div class="priority high" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span class="rank">No. 06</span> · Priority <b>53</b>
+        </div>
+      </div>
+      <h3 id="story-6-h">Microsoft November 2026 updates fix dozens of Office, Excel, Outlook and SharePoint flaws</h3>
+      <p class="meta">Microsoft Office and SharePoint · 8 sources · first reported 10 November 2026</p>
+    </div>
+
+    <dl class="facts">
+      <div><dt>CVE</dt><dd><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-120002">CVE-2026-120002</a></dd></div>
+      <div><dt>CVSS</dt><dd><strong>9.9</strong> <span class="crit">Critical</span></dd></div>
+      <div><dt>EPSS</dt><dd><span class="muted">n/a</span></dd></div>
+      <div><dt>CISA KEV</dt><dd><span class="muted">Not listed</span></dd></div>
+      <div><dt>Public PoC</dt><dd>None known</dd></div>
+    </dl>
+    <p class="related">Also: <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-119986">CVE-2026-119986</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-120001">CVE-2026-120001</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-119995">CVE-2026-119995</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-119996">CVE-2026-119996</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-120000">CVE-2026-120000</a></p>
+
+    <div class="story-body">
+      <div class="cols2">
+        <section><h4 class="label">What happened</h4><p>Microsoft&#39;s Security Update Guide lists a large batch of Office-family vulnerabilities fixed on 10 November 2026, most of them remote code execution bugs in Excel (heap and stack overflows, use-after-free, double free), plus RCE flaws in PowerPoint, Access, Outlook and Office itself. On SharePoint, Microsoft fixed two deserialization RCE flaws that require an authenticated attacker (CVE-2026-120000, CVE-2026-109464), a cross-site scripting spoofing bug, and an incorrect-authorization privilege escalation flaw (CVE-2026-120002) that NVD scores CVSS 9.9. The release also includes two network-exploitable Outlook heap overflows (CVE-2026-119995, CVE-2026-119996), a local Outlook RCE, an Office security feature bypass where the UI fails to warn of unsafe actions (CVE-2026-119998), and several information disclosure bugs. The sources do not list affected build numbers, and neither Microsoft nor CISA reports exploitation or public proof-of-concept code.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>Office and Outlook run on nearly every Windows endpoint, and malicious documents and email remain a primary initial access route, so this volume of document-parsing RCE bugs widens the phishing attack surface until clients are updated. On-premises SharePoint servers face an authenticated privilege escalation rated CVSS 9.9 and authenticated deserialization RCE, which matter most where SharePoint is internet-facing or broadly accessible to users. None of the CVEs are in CISA KEV, no EPSS scores are available yet, and no exploitation is known, so this is a standard but broad patch priority with SharePoint first.</p></section>
+      </div>
+      <div class="actions">
+        <h4 class="label">What to do</h4>
+        <ol class="steps"><li>Apply the November 2026 SharePoint Server updates first, prioritizing internet-facing or widely accessible farms, given the CVSS 9.9 elevation of privilege flaw CVE-2026-120002 and the deserialization RCE flaws.</li><li>Push the November 2026 Office, Microsoft 365 Apps, Outlook and Access updates to all endpoints and confirm update channel compliance in Defender Vulnerability Management.</li><li>Enforce Attack Surface Reduction rules that block Office applications from creating child processes and from injecting into other processes.</li><li>Keep Protected View and Mark-of-the-Web handling enabled for documents from the internet and email, given the Office security feature bypass CVE-2026-119998.</li><li>Hunt for Office applications and SharePoint IIS worker processes spawning shells or script interpreters until patching is complete.</li></ol>
+      <div class="cols2 versions">
+        <div><div class="k">Affected</div><span class="muted">Not stated in the sources</span></div>
+        <div><div class="k">Fixed</div><ul><li>Microsoft security updates released 10 November 2026 (build numbers not stated in the sources)</li></ul></div>
+      </div>
+      </div>
+    </div>
+
+    <div class="sources">
+      <h4 class="label">Sources</h4>
+      <ul>
+        <li><span class="pub">MSRC Security Update Guide</span><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-109454" rel="noopener noreferrer nofollow">CVE-2026-109454 Microsoft Office SharePoint Spoofing Vulnerability</a><span class="where">msrc.microsoft.com · 10 Nov</span></li>
+        <li><span class="pub">MSRC Security Update Guide</span><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-109464" rel="noopener noreferrer nofollow">CVE-2026-109464 Microsoft Office SharePoint Remote Code Execution Vulnerability</a><span class="where">msrc.microsoft.com · 10 Nov</span></li>
+        <li><span class="pub">MSRC Security Update Guide</span><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-124229" rel="noopener noreferrer nofollow">CVE-2026-124229 Microsoft Office Excel Remote Code Execution Vulnerability</a><span class="where">msrc.microsoft.com · 10 Nov</span></li>
+        <li><span class="pub">MSRC Security Update Guide</span><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-119986" rel="noopener noreferrer nofollow">CVE-2026-119986 Microsoft Office Excel Remote Code Execution Vulnerability</a><span class="where">msrc.microsoft.com · 10 Nov</span></li>
+        <li><span class="pub">MSRC Security Update Guide</span><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-120785" rel="noopener noreferrer nofollow">CVE-2026-120785 Microsoft Office Excel Remote Code Execution Vulnerability</a><span class="where">msrc.microsoft.com · 10 Nov</span></li>
+        <li><span class="pub">MSRC Security Update Guide</span><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-120786" rel="noopener noreferrer nofollow">CVE-2026-120786 Microsoft Office Excel Remote Code Execution Vulnerability</a><span class="where">msrc.microsoft.com · 10 Nov</span></li>
+        <li><span class="pub">MSRC Security Update Guide</span><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-120788" rel="noopener noreferrer nofollow">CVE-2026-120788 Microsoft Office Excel Remote Code Execution Vulnerability</a><span class="where">msrc.microsoft.com · 10 Nov</span></li>
+        <li><span class="pub">MSRC Security Update Guide</span><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-120790" rel="noopener noreferrer nofollow">CVE-2026-120790 Microsoft Office Excel Remote Code Execution Vulnerability</a><span class="where">msrc.microsoft.com · 10 Nov</span></li>
+      </ul>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: high</p>    </div>
+
+
+    <section class="detect" aria-label="Detection">
+      <div class="detect-head">
+        <div class="t">Detection
+<span class="tag ai" title="KQL conversion passed labelled synthetic cases on the Kusto engine. Not tested on real attack data.">AI-generated · KQL tested</span>        </div>
+        <span class="why">Sigma rule drafted by Claude Opus 5.5 · passed sigma check</span>
+      </div>
+      <div class="tabs">
+        <input class="tab-input" type="radio" name="fmt-story-6" id="story-6-sigma">
+        <label for="story-6-sigma">Sigma</label>
+        <input class="tab-input" type="radio" name="fmt-story-6" id="story-6-kql" checked>
+        <label for="story-6-kql">Defender KQL</label>
+        <input class="tab-input" type="radio" name="fmt-story-6" id="story-6-spl">
+        <label for="story-6-spl">Splunk SPL</label>
+        <input class="tab-input" type="radio" name="fmt-story-6" id="story-6-elastic">
+        <label for="story-6-elastic">Elastic</label>
+        <input class="tab-input" type="radio" name="fmt-story-6" id="story-6-hunt">
+        <label for="story-6-hunt">Hunting</label>
+        <div class="tab-panels">
+          <div class="tab-panel">
+            <div class="code">
+  <div class="code-bar">
+    <span class="name">Office Application Spawning Script Interpreter or LOLBin</span>
+  </div>
+  <pre><code>title: Office Application Spawning Script Interpreter or LOLBin
+id: ff5430a2-66b8-53b7-88a9-11c8a1ee9356
+status: experimental
+description: Detects Excel, PowerPoint, Outlook, Access or Word starting command shells, script hosts or common living-off-the-land binaries, a typical result of successful document-based code execution such as the Office RCE flaws fixed in November 2026. AI-generated, untested.
+references:
+- https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-109454
+- https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-109464
+- https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-124229
+- https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-119986
+- https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-120785
+- https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-120786
+author: intel-brief (AI-generated, untested)
+date: &#39;2026-11-11&#39;
+tags:
+- attack.execution
+- attack.t1203
+- attack.t1566.001
+- cve.2026-120002
+- cve.2026-119986
+- cve.2026-119995
+- cve.2026-119996
+- cve.2026-120000
+- cve.2026-120001
+- cve.2026-120003
+- cve.2026-120005
+- cve.2026-109454
+- cve.2026-109464
+- cve.2026-124229
+- cve.2026-120785
+- cve.2026-120786
+- cve.2026-120788
+- cve.2026-120790
+- cve.2026-120791
+- cve.2026-123385
+- cve.2026-123395
+- cve.2026-124170
+- cve.2026-124174
+- cve.2026-124176
+- cve.2026-124178
+- cve.2026-124179
+- cve.2026-124183
+- cve.2026-124187
+- cve.2026-116927
+- cve.2026-118292
+- cve.2026-118293
+- cve.2026-118294
+- cve.2026-118295
+- cve.2026-118296
+- cve.2026-118297
+- cve.2026-118298
+- cve.2026-118299
+- cve.2026-118300
+- cve.2026-118301
+- cve.2026-118302
+- cve.2026-118700
+- cve.2026-118701
+- cve.2026-118702
+- cve.2026-118703
+- cve.2026-118704
+- cve.2026-118705
+- cve.2026-118706
+- cve.2026-118707
+- cve.2026-118708
+- cve.2026-118709
+- cve.2026-118710
+- cve.2026-118711
+- cve.2026-118712
+- cve.2026-118713
+- cve.2026-118714
+- cve.2026-118715
+- cve.2026-118716
+- cve.2026-118717
+- cve.2026-118718
+- cve.2026-118719
+- cve.2026-118720
+- cve.2026-111301
+- cve.2026-111305
+- cve.2026-112731
+- cve.2026-112734
+- cve.2026-112737
+- cve.2026-112738
+- cve.2026-116717
+- cve.2026-116922
+- cve.2026-119993
+- cve.2026-119997
+- cve.2026-119998
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection_parent:
+    ParentImage|endswith:
+    - \EXCEL.EXE
+    - \POWERPNT.EXE
+    - \OUTLOOK.EXE
+    - \MSACCESS.EXE
+    - \WINWORD.EXE
+  selection_child:
+    Image|endswith:
+    - \cmd.exe
+    - \powershell.exe
+    - \pwsh.exe
+    - \wscript.exe
+    - \cscript.exe
+    - \mshta.exe
+    - \rundll32.exe
+    - \regsvr32.exe
+    - \certutil.exe
+    - \bitsadmin.exe
+    - \msiexec.exe
+  condition: selection_parent and selection_child
+falsepositives:
+- Legacy macros or add-ins that legitimately launch scripts or command shells
+- Line-of-business integrations that start helper tools from Office
+level: medium
+</code></pre>
+</div>
+
+            <p class="conv-note">AI-generated. Its KQL conversion passed labelled cases built from this rule on the Kusto engine. That checks the conversion only; real attack coverage is untested. Test and tune it in your environment before you deploy it.</p>
+          </div>
+          <div class="tab-panel">
+            <div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR / Sentinel KQL</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+<span class="pass" title="Ran on the Kusto emulator against labelled cases built from the Sigma rule">Labelled cases: pass</span>
+  </div>
+  <pre><code>DeviceProcessEvents
+| where (InitiatingProcessFolderPath endswith &#34;\\EXCEL.EXE&#34; or InitiatingProcessFolderPath endswith &#34;\\POWERPNT.EXE&#34; or InitiatingProcessFolderPath endswith &#34;\\OUTLOOK.EXE&#34; or InitiatingProcessFolderPath endswith &#34;\\MSACCESS.EXE&#34; or InitiatingProcessFolderPath endswith &#34;\\WINWORD.EXE&#34;) and (FolderPath endswith &#34;\\cmd.exe&#34; or FolderPath endswith &#34;\\powershell.exe&#34; or FolderPath endswith &#34;\\pwsh.exe&#34; or FolderPath endswith &#34;\\wscript.exe&#34; or FolderPath endswith &#34;\\cscript.exe&#34; or FolderPath endswith &#34;\\mshta.exe&#34; or FolderPath endswith &#34;\\rundll32.exe&#34; or FolderPath endswith &#34;\\regsvr32.exe&#34; or FolderPath endswith &#34;\\certutil.exe&#34; or FolderPath endswith &#34;\\bitsadmin.exe&#34; or FolderPath endswith &#34;\\msiexec.exe&#34;)</code></pre>
+</div>
+<p class="conv-note receipt">On the Kusto engine it fired on 16 of 16 labelled cases that should match and 0 of 4 that should not. On 500 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+
+            <p class="conv-note">Converted from the Sigma rule with pySigma (kusto backend, microsoft_xdr pipeline).</p>
+          </div>
+          <div class="tab-panel">
+            <div class="code">
+  <div class="code-bar">
+    <span class="name">Splunk SPL</span>
+  </div>
+  <pre><code>ParentImage IN (&#34;*\\EXCEL.EXE&#34;, &#34;*\\POWERPNT.EXE&#34;, &#34;*\\OUTLOOK.EXE&#34;, &#34;*\\MSACCESS.EXE&#34;, &#34;*\\WINWORD.EXE&#34;) Image IN (&#34;*\\cmd.exe&#34;, &#34;*\\powershell.exe&#34;, &#34;*\\pwsh.exe&#34;, &#34;*\\wscript.exe&#34;, &#34;*\\cscript.exe&#34;, &#34;*\\mshta.exe&#34;, &#34;*\\rundll32.exe&#34;, &#34;*\\regsvr32.exe&#34;, &#34;*\\certutil.exe&#34;, &#34;*\\bitsadmin.exe&#34;, &#34;*\\msiexec.exe&#34;)</code></pre>
+</div>
+
+            <p class="conv-note">Converted from the Sigma rule with pySigma.</p>
+          </div>
+          <div class="tab-panel">
+            <div class="code">
+  <div class="code-bar">
+    <span class="name">Elastic (Lucene, ECS)</span>
+  </div>
+  <pre><code>(process.parent.executable.caseless:(*\\EXCEL.EXE OR *\\POWERPNT.EXE OR *\\OUTLOOK.EXE OR *\\MSACCESS.EXE OR *\\WINWORD.EXE)) AND (process.executable.caseless:(*\\cmd.exe OR *\\powershell.exe OR *\\pwsh.exe OR *\\wscript.exe OR *\\cscript.exe OR *\\mshta.exe OR *\\rundll32.exe OR *\\regsvr32.exe OR *\\certutil.exe OR *\\bitsadmin.exe OR *\\msiexec.exe))</code></pre>
+</div>
+
+            <p class="conv-note">Converted from the Sigma rule with pySigma.</p>
+          </div>
+          <div class="tab-panel">
+<ol class="steps-plain"><li>Use Defender Vulnerability Management to list devices still exposed to the November 2026 Office, Outlook and SharePoint CVEs and track remediation.</li><li>Inventory on-premises SharePoint servers and identify any reachable from the internet; patch those first.</li><li>Hunt for Office applications spawning shells, script hosts or LOLBins over the last 14 days and review the document and email that preceded each hit.</li><li>On SharePoint servers, hunt for the IIS worker process spawning cmd, PowerShell or other interpreters, which would indicate server-side code execution.</li><li>Review unexpected file writes of scripts or executables by Office processes into user-writable paths such as AppData and Temp.</li></ol><div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Office apps spawning shells, script hosts or LOLBins</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(14d) | where InitiatingProcessFileName in~ (&#34;excel.exe&#34;,&#34;powerpnt.exe&#34;,&#34;outlook.exe&#34;,&#34;msaccess.exe&#34;,&#34;winword.exe&#34;) | where FileName in~ (&#34;cmd.exe&#34;,&#34;powershell.exe&#34;,&#34;pwsh.exe&#34;,&#34;wscript.exe&#34;,&#34;cscript.exe&#34;,&#34;mshta.exe&#34;,&#34;rundll32.exe&#34;,&#34;regsvr32.exe&#34;,&#34;certutil.exe&#34;,&#34;bitsadmin.exe&#34;,&#34;msiexec.exe&#34;) | project Timestamp, DeviceName, AccountName, InitiatingProcessFileName, InitiatingProcessCommandLine, FileName, ProcessCommandLine | order by Timestamp desc</code></pre>
+</div>
+<p class="conv-note receipt">On 500 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · SharePoint IIS worker process spawning command interpreters</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(14d) | where InitiatingProcessFileName =~ &#34;w3wp.exe&#34; | where InitiatingProcessCommandLine has &#34;SharePoint&#34; or InitiatingProcessFolderPath has &#34;SharePoint&#34; | where FileName in~ (&#34;cmd.exe&#34;,&#34;powershell.exe&#34;,&#34;pwsh.exe&#34;,&#34;cscript.exe&#34;,&#34;wscript.exe&#34;,&#34;mshta.exe&#34;,&#34;rundll32.exe&#34;,&#34;certutil.exe&#34;) | project Timestamp, DeviceName, AccountName, InitiatingProcessCommandLine, FileName, ProcessCommandLine | order by Timestamp desc</code></pre>
+</div>
+<p class="conv-note receipt">On 500 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Devices exposed to key November 2026 Office and SharePoint CVEs</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceTvmSoftwareVulnerabilities | where CveId in (&#34;CVE-2026-120002&#34;,&#34;CVE-2026-120000&#34;,&#34;CVE-2026-109464&#34;,&#34;CVE-2026-119995&#34;,&#34;CVE-2026-119996&#34;,&#34;CVE-2026-119997&#34;,&#34;CVE-2026-119998&#34;,&#34;CVE-2026-119986&#34;,&#34;CVE-2026-120001&#34;,&#34;CVE-2026-120003&#34;,&#34;CVE-2026-120005&#34;,&#34;CVE-2026-116717&#34;) | summarize Devices = dcount(DeviceId), CVEs = make_set(CveId) by SoftwareName, SoftwareVersion | order by Devices desc</code></pre>
+</div>
+<p class="conv-note receipt">The synthetic baseline has no data for its tables. Not tested on real attack data.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </article>
+  <article class="story" id="story-7" aria-labelledby="story-7-h">
+    <div class="story-top">
+      <div class="story-flags">
+        <div class="tags">
+<span class="tag info">Windows</span>        </div>
+        <div class="priority watch" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span class="rank">No. 07</span> · Priority <b>51</b>
+        </div>
+      </div>
+      <h3 id="story-7-h">Microsoft November 2026 Patch Tuesday fixes Windows RCE and privilege escalation flaws</h3>
+      <p class="meta">Microsoft Windows · 8 sources · first reported 10 November 2026</p>
+    </div>
+
+    <dl class="facts">
+      <div><dt>CVE</dt><dd><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-119908">CVE-2026-119908</a></dd></div>
+      <div><dt>CVSS</dt><dd><strong>8.8</strong> <span class="high">High</span></dd></div>
+      <div><dt>EPSS</dt><dd><span class="muted">n/a</span></dd></div>
+      <div><dt>CISA KEV</dt><dd><span class="muted">Not listed</span></dd></div>
+      <div><dt>Public PoC</dt><dd>None known</dd></div>
+    </dl>
+    <p class="related">Also: <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-119899">CVE-2026-119899</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-119932">CVE-2026-119932</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-119938">CVE-2026-119938</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-119948">CVE-2026-119948</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-119900">CVE-2026-119900</a></p>
+
+    <div class="story-body">
+      <div class="cols2">
+        <section><h4 class="label">What happened</h4><p>On 10 November 2026 Microsoft released its November Patch Tuesday updates, shipped as cumulative updates for Windows 11 26H2, 25H2, 24H2 and 23H2 and as extended security update KB5131096 for Windows 10, according to BleepingComputer. Microsoft and NVD describe remote code execution flaws in Windows DNS, Windows Shell, Storage Spaces Controller, Active Directory and the Remote Desktop Gateway Service. They also list a network-reachable Print Spooler privilege escalation (CVSS 8.8), local privilege escalation in Win32K, NTFS and the DWM Core Library, and information disclosure in Windows Shell and the iSCSI Target Service. None of the sources report exploitation in the wild or public proof-of-concept code.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>These components run across most Windows estates. The DNS, Active Directory, Print Spooler and RD Gateway flaws affect high-value servers that attackers often target soon after patches are reverse-engineered. None of the CVEs is in CISA KEV and no EPSS scores are available yet, so this is routine but broad patching, with servers prioritized.</p></section>
+      </div>
+      <div class="actions">
+        <h4 class="label">What to do</h4>
+        <ol class="steps"><li>Patch domain controllers, Windows DNS servers, Remote Desktop Gateway hosts and print servers first with the November 2026 cumulative updates.</li><li>Deploy KB5132061 or KB5131087 to Windows 11 devices and KB5131096 to Windows 10 ESU devices through your normal update rings.</li><li>Disable the Print Spooler service on servers that do not need printing, especially domain controllers.</li><li>Limit internet exposure of Remote Desktop and RD Gateway, and require MFA in front of remote access.</li><li>Confirm patch coverage with Defender Vulnerability Management and follow up on devices still exposed to the listed CVEs.</li></ol>
+      <div class="cols2 versions">
+        <div><div class="k">Affected</div><ul><li>Windows 11 versions 26H2, 25H2, 24H2 and 23H2</li><li>Windows 10 (extended security updates)</li></ul></div>
+        <div><div class="k">Fixed</div><ul><li>Windows 10 KB5131096 extended security update</li><li>Windows 11 cumulative updates KB5132061 and KB5131087 (the sources do not map each KB to a version)</li></ul></div>
+      </div>
+      </div>
+    </div>
+
+    <div class="sources">
+      <h4 class="label">Sources</h4>
+      <ul>
+        <li><span class="pub">MSRC Security Update Guide</span><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-102868" rel="noopener noreferrer nofollow">CVE-2026-102868 Windows Shell Information Disclosure Vulnerability</a><span class="where">msrc.microsoft.com · 10 Nov</span></li>
+        <li><span class="pub">MSRC Security Update Guide</span><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-105582" rel="noopener noreferrer nofollow">CVE-2026-105582 Windows DWM Core Library Elevation of Privilege Vulnerability</a><span class="where">msrc.microsoft.com · 10 Nov</span></li>
+        <li><span class="pub">MSRC Security Update Guide</span><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-109463" rel="noopener noreferrer nofollow">CVE-2026-109463 Windows DNS Remote Code Execution Vulnerability</a><span class="where">msrc.microsoft.com · 10 Nov</span></li>
+        <li><span class="pub">MSRC Security Update Guide</span><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-83684" rel="noopener noreferrer nofollow">CVE-2026-83684 Windows iSCSI Target Service Information Disclosure Vulnerability</a><span class="where">msrc.microsoft.com · 10 Nov</span></li>
+        <li><span class="pub">MSRC Security Update Guide</span><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-69565" rel="noopener noreferrer nofollow">CVE-2026-69565 Windows Remote Desktop Services Remote Code Execution Vulnerability</a><span class="where">msrc.microsoft.com · 10 Nov</span></li>
+        <li><span class="pub">MSRC Security Update Guide</span><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-69327" rel="noopener noreferrer nofollow">CVE-2026-69327 Windows Remote Desktop Services Remote Code Execution Vulnerability</a><span class="where">msrc.microsoft.com · 10 Nov</span></li>
+        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/microsoft/windows-11-kb5132061-and-kb5131087-cumulative-updates-released/" rel="noopener noreferrer nofollow">Windows 11 KB5132061 &amp; KB5131087 cumulative updates released</a><span class="where">bleepingcomputer.com · 10 Nov</span></li>
+        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/microsoft/microsoft-releases-windows-10-kb5131096-extended-security-update/" rel="noopener noreferrer nofollow">Microsoft releases Windows 10 KB5131096 extended security update</a><span class="where">bleepingcomputer.com · 10 Nov</span></li>
+      </ul>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: high</p>    </div>
+
+
+    <section class="detect" aria-label="Detection">
+      <div class="detect-head">
+        <div class="t">Detection
+<span class="tag ai">AI-generated · untested</span>        </div>
+        <span class="why">Hunting only: no endpoint behavior to write a rule against</span>
+      </div>
+      <div class="tabs">
+        <input class="tab-input" type="radio" name="fmt-story-7" id="story-7-hunt" checked>
+        <label for="story-7-hunt">Hunting</label>
+        <div class="tab-panels">
+          <div class="tab-panel">
+<ol class="steps-plain"><li>Query Defender Vulnerability Management for devices still exposed to the November 2026 CVEs and track remediation by CVE.</li><li>Find hosts running the Windows DNS Server role and the Print Spooler, and patch those servers first.</li><li>Find hosts that accept inbound RDP from public IP addresses and confirm they are patched or placed behind a VPN or gateway.</li><li>Re-run the exposure queries after each deployment ring to confirm coverage.</li></ol><div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Devices exposed to November 2026 Patch Tuesday CVEs</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceTvmSoftwareVulnerabilities | where CveId in (&#34;CVE-2026-119899&#34;,&#34;CVE-2026-119900&#34;,&#34;CVE-2026-119908&#34;,&#34;CVE-2026-119932&#34;,&#34;CVE-2026-119938&#34;,&#34;CVE-2026-119948&#34;,&#34;CVE-2026-119950&#34;,&#34;CVE-2026-102868&#34;,&#34;CVE-2026-105582&#34;,&#34;CVE-2026-109463&#34;,&#34;CVE-2026-83684&#34;,&#34;CVE-2026-69565&#34;,&#34;CVE-2026-69327&#34;) | summarize ExposedDevices = dcount(DeviceId), SampleDevices = make_set(DeviceName, 50) by CveId, VulnerabilitySeverityLevel | order by ExposedDevices desc</code></pre>
+</div>
+<p class="conv-note receipt">The synthetic baseline has no data for its tables. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Hosts running Windows DNS Server or Print Spooler processes</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(7d) | where FileName in~ (&#34;dns.exe&#34;, &#34;spoolsv.exe&#34;) | summarize LastSeen = max(Timestamp) by DeviceId, DeviceName, FileName | order by FileName asc, DeviceName asc</code></pre>
+</div>
+<p class="conv-note receipt">On 500 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Hosts accepting inbound RDP from public IP addresses</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceNetworkEvents | where Timestamp &gt; ago(7d) | where ActionType == &#34;InboundConnectionAccepted&#34; and LocalPort == 3389 and RemoteIPType == &#34;Public&#34; | summarize Connections = count(), DistinctRemoteIPs = dcount(RemoteIP), LastSeen = max(Timestamp) by DeviceId, DeviceName | order by DistinctRemoteIPs desc</code></pre>
+</div>
+<p class="conv-note receipt">On 300 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
           </div>
         </div>
       </div>
@@ -610,31 +909,31 @@ level: high
       <div class="story-flags">
         <div class="tags">
 <span class="tag crit-solid">Exploited</span>
-<span class="tag">malware</span>        </div>
+<span class="tag">breach</span>        </div>
         <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span class="rank">No. 08</span> · Priority <b>47</b>
+          <span class="rank">No. 08</span> · Priority <b>51</b>
         </div>
       </div>
-      <h3 id="story-8-h">Russian cloud provider Beget rebuilding infrastructure from scratch after data wiper attack</h3>
-      <p class="meta">Beget  · 1 source · first reported 9 November 2026</p>
+      <h3 id="story-8-h">Nitori discloses network intrusion with possible theft of 37.62 million customer records</h3>
+      <p class="meta">Nitori  · 1 source · first reported 10 November 2026</p>
     </div>
 
 
     <div class="story-body">
       <div class="cols2">
-        <section><h4 class="label">What happened</h4><p>BleepingComputer reports that Russian cloud services provider Beget says a data-wiping malware attack forced it to rebuild its cloud infrastructure from scratch. The sources do not name the wiper, the attacker, the initial access method, or how many customers were affected. No technical indicators or timeline beyond the company&#39;s statement have been published.</p></section>
-        <section><h4 class="label">Why it matters</h4><p>Beget is a Russia-based hosting and cloud provider, so direct exposure for most Windows, M365 and edge-device environments is limited to any workloads, websites or vendors hosted there. The incident shows that destructive attacks against hosting providers can take down customer services and data without any compromise of the customer&#39;s own network. With no indicators or technique details released, there is nothing specific to hunt for yet.</p></section>
+        <section><h4 class="label">What happened</h4><p>Japanese furniture and home goods retailer Nitori says an attacker gained access to a system on its network and may have stolen about 37.62 million customer records, according to BleepingComputer. The sources do not say how the attacker got in, which system was reached, what data fields the records contain, or when the intrusion took place. No threat actor has been named.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>No vulnerability, product or attacker technique has been disclosed, so there is nothing specific to hunt for in Windows, M365 or edge telemetry. The main risk to most organizations is secondary: phishing and credential-stuffing campaigns that reuse the leaked customer data, especially aimed at staff or customers with ties to Japanese retail.</p></section>
       </div>
       <div class="actions">
         <h4 class="label">What to do</h4>
-        <ol class="steps"><li>Check whether your organization or any third-party supplier hosts websites, applications or data with Beget, and confirm the status of those services and their backups.</li><li>For any assets hosted with Beget, rotate credentials and API keys stored on or used against that infrastructure as a precaution.</li><li>Confirm that your own cloud and hosted workloads keep offline or immutable backups that a provider-side wipe cannot destroy.</li><li>Watch for follow-up reporting that names the wiper or publishes indicators, and hunt once those are available.</li></ol>
+        <ol class="steps"><li>Watch for further disclosures from Nitori on the initial access vector and the exposed data types, and reassess if a product vulnerability or attacker tooling is named.</li><li>If your organization has a business relationship with Nitori, review data-sharing agreements and confirm which of your data could be in scope.</li><li>Brief users and helpdesk staff on likely phishing lures that pose as Nitori or reference recent Nitori purchases.</li></ol>
       </div>
     </div>
 
     <div class="sources">
       <h4 class="label">Sources</h4>
       <ul>
-        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/russian-cloud-firm-beget-rebuilds-from-scratch-after-data-wiper-attack/" rel="noopener noreferrer nofollow">Russian cloud firm Beget rebuilds from scratch after data wiper attack</a><span class="where">bleepingcomputer.com · 9 Nov</span></li>
+        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/japanese-furniture-giant-nitori-says-hackers-stole-376m-customer-records/" rel="noopener noreferrer nofollow">Japanese furniture giant Nitori says hackers stole 37.6M customer records</a><span class="where">bleepingcomputer.com · 10 Nov</span></li>
       </ul>
 <p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
 
@@ -644,103 +943,233 @@ level: high
     <div class="story-top">
       <div class="story-flags">
         <div class="tags">
-<span class="tag crit">Exploitation reported</span><span class="tag info">Cloud / SaaS</span><span class="tag">breach</span>        </div>
-        <div class="priority high" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span class="rank">No. 09</span> · Priority <b>47</b>
+<span class="tag info">Windows</span>        </div>
+        <div class="priority watch" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span class="rank">No. 09</span> · Priority <b>48</b>
         </div>
       </div>
-      <h3 id="story-9-h">Binance denies breach claim made under the ShinyHunters handle on new cybercrime forum</h3>
-      <p class="meta">Binance  · 1 source · first reported 9 November 2026</p>
+      <h3 id="story-9-h">Microsoft&#39;s November 2026 updates fix a large batch of Windows elevation of privilege flaws</h3>
+      <p class="meta">Microsoft Windows · 8 sources · first reported 10 November 2026</p>
     </div>
 
+    <dl class="facts">
+      <div><dt>CVE</dt><dd><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-96055">CVE-2026-96055</a></dd></div>
+      <div><dt>CVSS</dt><dd><strong>7.8</strong> <span class="high">High</span></dd></div>
+      <div><dt>EPSS</dt><dd><span class="muted">n/a</span></dd></div>
+      <div><dt>CISA KEV</dt><dd><span class="muted">Not listed</span></dd></div>
+      <div><dt>Public PoC</dt><dd>None known</dd></div>
+    </dl>
+    <p class="related">Also: <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-96057">CVE-2026-96057</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-96060">CVE-2026-96060</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-96051">CVE-2026-96051</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-96061">CVE-2026-96061</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-96073">CVE-2026-96073</a></p>
 
     <div class="story-body">
       <div class="cols2">
-        <section><h4 class="label">What happened</h4><p>According to BleepingComputer, a threat actor using the ShinyHunters handle claimed on a newly emerged underground forum to have breached Binance, the largest cryptocurrency exchange. Binance has denied that any new security breach occurred. The sources give no details on what data was allegedly taken, how access was supposedly obtained, or whether the claim has been independently verified.</p></section>
-        <section><h4 class="label">Why it matters</h4><p>No vulnerability, product flaw or attack technique has been disclosed, so there is nothing to patch or detect in Windows, M365 or edge environments from this report. The claim is unverified and disputed by Binance, and actors reusing well-known handles on new forums often exaggerate or recycle old data. The main relevance is to organisations whose staff or treasury use Binance, since breach claims like this are often followed by phishing that uses the news as a lure.</p></section>
+        <section><h4 class="label">What happened</h4><p>Microsoft&#39;s Security Update Guide published fixes on 10 November 2026 for a large set of Windows elevation of privilege vulnerabilities. They span the kernel, Win32k, the graphics kernel, Desktop Window Manager, Print Spooler components, Windows Installer, Hyper-V, SMB Client, WMI, and a long run of Advanced Rasterization Platform bugs. Most require an attacker who is already authenticated locally. A smaller group is described as network-reachable: Microsoft lists Kerberos (CVE-2026-85844), a Print Spooler path traversal (CVE-2026-112762), NetBIOS (CVE-2026-105551) and File Server Resource Management (CVE-2026-108421) as exploitable by an unauthorized attacker over a network, and the DHCP Client (CVE-2026-113863) over an adjacent network.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>Local privilege escalation is the step that turns a phished user or a foothold from a stolen session into SYSTEM, credential theft and EDR tampering, and these flaws affect every Windows fleet. No exploitation, KEV listing or public proof-of-concept is reported, and the few scored CVEs sit at CVSS 7.0 to 7.8 with no EPSS data yet. The network-reachable Kerberos, Active Directory Domain Services (CVE-2026-118735, CVE-2026-123387), Print Spooler, NetBIOS and DNS issues deserve priority on domain controllers and servers.</p></section>
       </div>
       <div class="actions">
         <h4 class="label">What to do</h4>
-        <ol class="steps"><li>Treat the breach claim as unverified until Binance or independent researchers confirm it.</li><li>Warn staff who hold Binance accounts for business use to expect phishing that cites the alleged breach, and to verify any security notices through the official app rather than email links.</li><li>Confirm that corporate Binance accounts, if any, use phishing-resistant MFA and withdrawal allowlists.</li></ol>
+        <ol class="steps"><li>Deploy the November 2026 cumulative updates to domain controllers first. Kerberos (CVE-2026-85844) and Active Directory Domain Services (CVE-2026-118735, CVE-2026-123387) are network-reachable.</li><li>Next, patch servers exposed to the network-reachable flaws: Print Spooler (CVE-2026-112762), NetBIOS (CVE-2026-105551), File Server Resource Management (CVE-2026-108421), DNS (CVE-2026-105520) and Event Collector (CVE-2026-112793).</li><li>Disable the Print Spooler service on domain controllers and on servers that do not need printing.</li><li>Roll the updates to all workstations and Hyper-V hosts in the normal cycle, then confirm coverage with Defender Vulnerability Management.</li><li>Hunt for SYSTEM-level shells spawned from Print Spooler or Windows Installer, a common outcome of local privilege escalation.</li></ol>
+      <div class="cols2 versions">
+        <div><div class="k">Affected</div><span class="muted">Not stated in the sources</span></div>
+        <div><div class="k">Fixed</div><ul><li>Microsoft November 2026 security updates (released 10 November 2026)</li></ul></div>
+      </div>
       </div>
     </div>
 
     <div class="sources">
       <h4 class="label">Sources</h4>
       <ul>
-        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/binance-denies-data-breach-after-alleged-shinyhunters-claims/" rel="noopener noreferrer nofollow">Binance denies data breach after alleged ShinyHunters claims</a><span class="where">bleepingcomputer.com · 9 Nov</span></li>
+        <li><span class="pub">MSRC Security Update Guide</span><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-96051" rel="noopener noreferrer nofollow">CVE-2026-96051 Windows USB Driver Elevation of Privilege Vulnerability</a><span class="where">msrc.microsoft.com · 10 Nov</span></li>
+        <li><span class="pub">MSRC Security Update Guide</span><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-96060" rel="noopener noreferrer nofollow">CVE-2026-96060 Windows Installer Elevation of Privilege Vulnerability</a><span class="where">msrc.microsoft.com · 10 Nov</span></li>
+        <li><span class="pub">MSRC Security Update Guide</span><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-112752" rel="noopener noreferrer nofollow">CVE-2026-112752 Windows Print Spooler Components Elevation of Privilege Vulnerability</a><span class="where">msrc.microsoft.com · 10 Nov</span></li>
+        <li><span class="pub">MSRC Security Update Guide</span><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-112762" rel="noopener noreferrer nofollow">CVE-2026-112762 Windows Print Spooler Components Elevation of Privilege Vulnerability</a><span class="where">msrc.microsoft.com · 10 Nov</span></li>
+        <li><span class="pub">MSRC Security Update Guide</span><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-112790" rel="noopener noreferrer nofollow">CVE-2026-112790 Windows Kernel Elevation of Privilege Vulnerability</a><span class="where">msrc.microsoft.com · 10 Nov</span></li>
+        <li><span class="pub">MSRC Security Update Guide</span><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-112969" rel="noopener noreferrer nofollow">CVE-2026-112969 Windows Kernel Elevation of Privilege Vulnerability</a><span class="where">msrc.microsoft.com · 10 Nov</span></li>
+        <li><span class="pub">MSRC Security Update Guide</span><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-113860" rel="noopener noreferrer nofollow">CVE-2026-113860 Windows Hyper-V Elevation of Privilege Vulnerability</a><span class="where">msrc.microsoft.com · 10 Nov</span></li>
+        <li><span class="pub">MSRC Security Update Guide</span><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-113863" rel="noopener noreferrer nofollow">CVE-2026-113863 Windows DHCP Client Elevation of Privilege Vulnerability</a><span class="where">msrc.microsoft.com · 10 Nov</span></li>
       </ul>
-<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: low</p>    </div>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: high</p>    </div>
 
 
+    <section class="detect" aria-label="Detection">
+      <div class="detect-head">
+        <div class="t">Detection
+<span class="tag ai">AI-generated · untested</span>        </div>
+        <span class="why">Hunting only: no endpoint behavior to write a rule against</span>
+      </div>
+      <div class="tabs">
+        <input class="tab-input" type="radio" name="fmt-story-9" id="story-9-hunt" checked>
+        <label for="story-9-hunt">Hunting</label>
+        <div class="tab-panels">
+          <div class="tab-panel">
+<ol class="steps-plain"><li>Use Defender Vulnerability Management to list devices still exposed to the network-reachable CVEs, starting with domain controllers.</li><li>Confirm the Print Spooler service is stopped or disabled on domain controllers and on servers that do not need it.</li><li>Review processes spawned by spoolsv.exe and msiexec.exe in the last 14 days for unexpected shells or script hosts.</li><li>Treat any SYSTEM shell on an unpatched host as a possible privilege escalation, and investigate the logged-on user and the parent process chain.</li></ol><div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Devices exposed to network-reachable November 2026 EoP CVEs</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceTvmSoftwareVulnerabilities | where CveId in (&#34;CVE-2026-85844&#34;,&#34;CVE-2026-112762&#34;,&#34;CVE-2026-105551&#34;,&#34;CVE-2026-108421&#34;,&#34;CVE-2026-113863&#34;,&#34;CVE-2026-118735&#34;,&#34;CVE-2026-123387&#34;,&#34;CVE-2026-105520&#34;,&#34;CVE-2026-112793&#34;) | summarize Devices = dcount(DeviceId), DeviceNames = make_set(DeviceName, 100) by CveId, VulnerabilitySeverityLevel | order by Devices desc</code></pre>
+</div>
+<p class="conv-note receipt">The synthetic baseline has no data for its tables. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Shells or script hosts spawned by the Print Spooler service</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(14d) | where InitiatingProcessFileName =~ &#34;spoolsv.exe&#34; | where FileName in~ (&#34;cmd.exe&#34;,&#34;powershell.exe&#34;,&#34;pwsh.exe&#34;,&#34;rundll32.exe&#34;,&#34;regsvr32.exe&#34;,&#34;mshta.exe&#34;,&#34;wscript.exe&#34;,&#34;cscript.exe&#34;) | project Timestamp, DeviceName, AccountName, FileName, ProcessCommandLine, InitiatingProcessCommandLine</code></pre>
+</div>
+<p class="conv-note receipt">On 500 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · SYSTEM shells spawned by Windows Installer</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(14d) | where InitiatingProcessFileName =~ &#34;msiexec.exe&#34; | where FileName in~ (&#34;cmd.exe&#34;,&#34;powershell.exe&#34;,&#34;pwsh.exe&#34;,&#34;conhost.exe&#34;) | where AccountSid == &#34;S-1-5-18&#34; | project Timestamp, DeviceName, AccountName, FileName, ProcessCommandLine, InitiatingProcessCommandLine, InitiatingProcessParentFileName</code></pre>
+</div>
+<p class="conv-note receipt">On 500 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+          </div>
+        </div>
+      </div>
+    </section>
   </article>
   <article class="story" id="story-10" aria-labelledby="story-10-h">
     <div class="story-top">
       <div class="story-flags">
         <div class="tags">
-<span class="tag crit">Exploitation reported</span><span class="tag">breach</span>        </div>
-        <div class="priority high" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span class="rank">No. 10</span> · Priority <b>39</b>
+<span class="tag info">Windows</span>        </div>
+        <div class="priority watch" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span class="rank">No. 10</span> · Priority <b>48</b>
         </div>
       </div>
-      <h3 id="story-10-h">Vanderbilt University responding to cyberattack claimed by BYOD ransomware gang</h3>
-      <p class="meta">1 source · first reported 9 November 2026</p>
+      <h3 id="story-10-h">Microsoft November 2026 Windows updates fix dozens of information disclosure and DoS flaws</h3>
+      <p class="meta">Microsoft Windows · 8 sources · first reported 10 November 2026</p>
     </div>
 
+    <dl class="facts">
+      <div><dt>CVE</dt><dd><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-96086">CVE-2026-96086</a></dd></div>
+      <div><dt>CVSS</dt><dd><strong>6.5</strong> <span class="">Medium</span></dd></div>
+      <div><dt>EPSS</dt><dd><span class="muted">n/a</span></dd></div>
+      <div><dt>CISA KEV</dt><dd><span class="muted">Not listed</span></dd></div>
+      <div><dt>Public PoC</dt><dd>None known</dd></div>
+    </dl>
+    <p class="related">Also: <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-96110">CVE-2026-96110</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-96156">CVE-2026-96156</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-96093">CVE-2026-96093</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-96989">CVE-2026-96989</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-96983">CVE-2026-96983</a></p>
 
     <div class="story-body">
       <div class="cols2">
-        <section><h4 class="label">What happened</h4><p>According to BleepingComputer, Vanderbilt University has said it is responding to a cyberattack that the BYOD ransomware gang has claimed. The gang says it encrypted the university&#39;s databases and stole sensitive student, employee and research data. The sources do not describe the initial access vector, the tools used, or any indicators, and the data theft claim has not been independently confirmed.</p></section>
-        <section><h4 class="label">Why it matters</h4><p>No vulnerability, product or technique is named, so defenders cannot map this incident directly to exposure in their own environments. It is one more ransomware operation that pairs database encryption with data theft for extortion, which matters most to education and research organizations that hold large stores of personal and research data. Treat it as situational awareness until technical details or indicators are published.</p></section>
+        <section><h4 class="label">What happened</h4><p>On 10 November 2026, Microsoft&#39;s Security Update Guide published fixes for 66 Windows CVEs. Most are local information disclosure bugs. The rest are denial of service, security feature bypass, tampering and spoofing issues in components including DNS Server, LSASS, Security Account Manager, Active Directory, DHCP Server, Windows Deployment Services, SSTP, QUIC, Message Queuing, Print Spooler and PowerShell. Microsoft does not report any of these as exploited, and none are in CISA KEV. The scores that are available are moderate, with the highest at CVSS 6.5 for the WLAN Service DoS (CVE-2026-96086).</p></section>
+        <section><h4 class="label">Why it matters</h4><p>Several flaws can be triggered over the network without authentication, which puts infrastructure servers in scope. They include DNS Server DoS (CVE-2026-96975), DNS information disclosure (CVE-2026-105579), SAM DoS (CVE-2026-112966), SSTP DoS (CVE-2026-105561), QUIC DoS (CVE-2026-105512), Message Queuing DoS (CVE-2026-105515), RMCAST DoS (CVE-2026-116697), DHCP Server spoofing and disclosure (CVE-2026-113773, CVE-2026-105557), WDS path traversal (CVE-2026-118213) and a PowerShell XML external entity disclosure (CVE-2026-122985). Authenticated network DoS bugs in LSASS (CVE-2026-112807) and Active Directory (CVE-2026-105568, CVE-2026-105559) could disrupt domain controllers. There is no known exploitation or public proof of concept, so normal patch cadence is reasonable, with domain controllers, DNS, DHCP, WDS and RRAS/SSTP servers first.</p></section>
       </div>
       <div class="actions">
         <h4 class="label">What to do</h4>
-        <ol class="steps"><li>Watch for follow-up reporting from Vanderbilt or security vendors that names the initial access vector or indicators for the BYOD ransomware group, and hunt on them if they are published.</li><li>Confirm that database servers have offline or immutable backups and that restores have been tested.</li><li>Review outbound data transfer monitoring for database and file servers so that large exfiltration is flagged before encryption begins.</li><li>If your organization shares vendors, identities or data exchanges with Vanderbilt, assess third-party exposure and watch for phishing that uses the incident as a lure.</li></ol>
+        <ol class="steps"><li>Deploy the November 2026 Windows cumulative updates to domain controllers and to DNS, DHCP, WDS, RRAS/SSTP and Message Queuing servers first.</li><li>Confirm that no DNS Server, Message Queuing, WDS or SSTP endpoint is reachable from the internet unless required, and restrict exposed ones at the edge firewall.</li><li>Disable unused roles and services such as Message Queuing, Remote Registry, WDS and RMCAST/PGM on servers that do not need them.</li><li>Roll the updates out to all remaining Windows endpoints within the standard patch window.</li><li>Use Defender Vulnerability Management to verify coverage and chase devices still missing the update.</li></ol>
+      <div class="cols2 versions">
+        <div><div class="k">Affected</div><span class="muted">Not stated in the sources</span></div>
+        <div><div class="k">Fixed</div><ul><li>Microsoft November 2026 security updates released 10 November 2026</li></ul></div>
+      </div>
       </div>
     </div>
 
     <div class="sources">
       <h4 class="label">Sources</h4>
       <ul>
-        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/vanderbilt-university-hit-in-byod-ransomware-attack-data-theft-claimed/" rel="noopener noreferrer nofollow">Vanderbilt University hit in BYOD ransomware attack, data theft claimed</a><span class="where">bleepingcomputer.com · 9 Nov</span></li>
+        <li><span class="pub">MSRC Security Update Guide</span><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-96086" rel="noopener noreferrer nofollow">CVE-2026-96086 Windows WLAN Service Denial of Service Vulnerability</a><span class="where">msrc.microsoft.com · 10 Nov</span></li>
+        <li><span class="pub">MSRC Security Update Guide</span><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-96093" rel="noopener noreferrer nofollow">CVE-2026-96093 Windows Internet (wininet.dll) Information Disclosure Vulnerability</a><span class="where">msrc.microsoft.com · 10 Nov</span></li>
+        <li><span class="pub">MSRC Security Update Guide</span><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-96110" rel="noopener noreferrer nofollow">CVE-2026-96110 Windows OLE Information Disclosure Vulnerability</a><span class="where">msrc.microsoft.com · 10 Nov</span></li>
+        <li><span class="pub">MSRC Security Update Guide</span><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-96156" rel="noopener noreferrer nofollow">CVE-2026-96156 Windows Broker Infrastructure Service Information Disclosure Vulnerability</a><span class="where">msrc.microsoft.com · 10 Nov</span></li>
+        <li><span class="pub">MSRC Security Update Guide</span><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-96989" rel="noopener noreferrer nofollow">CVE-2026-96989 Secondary Logon Information Disclosure Vulnerability</a><span class="where">msrc.microsoft.com · 10 Nov</span></li>
+        <li><span class="pub">MSRC Security Update Guide</span><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-96983" rel="noopener noreferrer nofollow">CVE-2026-96983 Windows DNS Denial of Service Vulnerability</a><span class="where">msrc.microsoft.com · 10 Nov</span></li>
+        <li><span class="pub">MSRC Security Update Guide</span><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-96975" rel="noopener noreferrer nofollow">CVE-2026-96975 Role: DNS Server Denial of Service Vulnerability</a><span class="where">msrc.microsoft.com · 10 Nov</span></li>
+        <li><span class="pub">MSRC Security Update Guide</span><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-96980" rel="noopener noreferrer nofollow">CVE-2026-96980 Windows DNS Information Disclosure Vulnerability</a><span class="where">msrc.microsoft.com · 10 Nov</span></li>
       </ul>
-<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: low</p>    </div>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: high</p>    </div>
 
 
+    <section class="detect" aria-label="Detection">
+      <div class="detect-head">
+        <div class="t">Detection
+<span class="tag ai">AI-generated · untested</span>        </div>
+        <span class="why">Hunting only: no endpoint behavior to write a rule against</span>
+      </div>
+      <div class="tabs">
+        <input class="tab-input" type="radio" name="fmt-story-10" id="story-10-hunt" checked>
+        <label for="story-10-hunt">Hunting</label>
+        <div class="tab-panels">
+          <div class="tab-panel">
+<ol class="steps-plain"><li>Query Defender Vulnerability Management for devices still exposed to the network-reachable November CVEs.</li><li>Identify servers running DNS Server, Message Queuing, DHCP or WDS by looking for listening ports and service processes.</li><li>Cross-reference internet-facing devices with the missing-patch list and prioritise those.</li><li>Review unexpected crashes or restarts of dns.exe, lsass.exe or mqsvc.exe on unpatched servers as possible DoS attempts.</li></ol><div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Devices missing fixes for network-reachable November 2026 Windows CVEs</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceTvmSoftwareVulnerabilities | where CveId in (&#34;CVE-2026-96975&#34;,&#34;CVE-2026-105579&#34;,&#34;CVE-2026-112966&#34;,&#34;CVE-2026-105561&#34;,&#34;CVE-2026-105512&#34;,&#34;CVE-2026-105515&#34;,&#34;CVE-2026-116697&#34;,&#34;CVE-2026-113773&#34;,&#34;CVE-2026-105557&#34;,&#34;CVE-2026-118213&#34;,&#34;CVE-2026-122985&#34;,&#34;CVE-2026-112807&#34;,&#34;CVE-2026-105568&#34;,&#34;CVE-2026-105559&#34;) | summarize Cves = make_set(CveId), CveCount = dcount(CveId) by DeviceName, OSPlatform | order by CveCount desc</code></pre>
+</div>
+<p class="conv-note receipt">The synthetic baseline has no data for its tables. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Servers listening for DNS, DHCP, Message Queuing or WDS traffic</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceNetworkEvents | where Timestamp &gt; ago(7d) | where ActionType == &#34;ListeningConnectionCreated&#34; | where InitiatingProcessFileName in~ (&#34;dns.exe&#34;,&#34;mqsvc.exe&#34;) or LocalPort in (53, 67, 1801, 4011) | summarize Ports = make_set(LocalPort), Processes = make_set(InitiatingProcessFileName) by DeviceName</code></pre>
+</div>
+<p class="conv-note receipt">On 300 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Internet-facing devices exposed to November 2026 Windows CVEs</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceInfo | where Timestamp &gt; ago(7d) | where IsInternetFacing == true | summarize arg_max(Timestamp, *) by DeviceId | join kind=inner (DeviceTvmSoftwareVulnerabilities | where CveId in (&#34;CVE-2026-96975&#34;,&#34;CVE-2026-105579&#34;,&#34;CVE-2026-112966&#34;,&#34;CVE-2026-105561&#34;,&#34;CVE-2026-105512&#34;,&#34;CVE-2026-105515&#34;,&#34;CVE-2026-116697&#34;,&#34;CVE-2026-118213&#34;,&#34;CVE-2026-122985&#34;) | distinct DeviceId, CveId) on DeviceId | summarize Cves = make_set(CveId) by DeviceName, PublicIP</code></pre>
+</div>
+<p class="conv-note receipt">On 60 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+          </div>
+        </div>
+      </div>
+    </section>
   </article>
 
   <section class="block" id="kev" aria-labelledby="h-kev">
-    <div class="section-head"><h2 id="h-kev">New CISA KEV entries</h2><span>Added 9 November 2026</span></div>
+    <div class="section-head"><h2 id="h-kev">New CISA KEV entries</h2><span>Added 10 November 2026</span></div>
     <div class="table-box">
       <table class="tbl">
         <thead><tr><th scope="col">CVE</th><th scope="col">Vendor / product</th><th scope="col">Vulnerability</th><th scope="col">Deadline</th><th scope="col">Ransomware use</th></tr></thead>
         <tbody>
           <tr>
-            <td class="cve nowrap"><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-102895">CVE-2026-102895</a></td>
-            <td>GPUStack GPUStack</td>
-            <td>GPUStack Improper Authentication Vulnerability</td>
-            <td class="nowrap"><strong class="due-soon">12 November 2026</strong><div class="sub">3 days after listing</div></td>
+            <td class="cve nowrap"><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-111560">CVE-2026-111560</a></td>
+            <td>Barracuda Networks Multiple Products</td>
+            <td>Barracuda Networks Multiple Products OS Command Injection Vulnerability</td>
+            <td class="nowrap"><strong class="due-soon">13 November 2026</strong><div class="sub">3 days after listing</div></td>
             <td>Unknown</td>
           </tr>
           <tr>
-            <td class="cve nowrap"><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-123158">CVE-2026-123158</a></td>
-            <td>OpenBSD OpenSSH</td>
-            <td>OpenBSD OpenSSH Unexpected Status Code or Return Value Vulnerability</td>
-            <td class="nowrap"><strong class="due-soon">12 November 2026</strong><div class="sub">3 days after listing</div></td>
+            <td class="cve nowrap"><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-116606">CVE-2026-116606</a></td>
+            <td>Barracuda Networks Barracuda Email Security Gateway (ESG)</td>
+            <td>Barracuda Networks Email Security Gateway (ESG) Authentication Bypass Using an Alternate Path or Channel Vulnerability</td>
+            <td class="nowrap"><strong class="due-soon">13 November 2026</strong><div class="sub">3 days after listing</div></td>
             <td>Unknown</td>
           </tr>
           <tr>
-            <td class="cve nowrap"><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-116779">CVE-2026-116779</a></td>
-            <td>SignalWire FreeSwitch</td>
-            <td>SignalWire FreeSwitch Code Injection Vulnerability</td>
-            <td class="nowrap"><strong class="due-soon">12 November 2026</strong><div class="sub">3 days after listing</div></td>
+            <td class="cve nowrap"><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-124194">CVE-2026-124194</a></td>
+            <td>Microsoft Office</td>
+            <td>Microsoft Office Outlook Missing User Interaction for Potentially Unsafe Action Vulnerability</td>
+            <td class="nowrap"><strong class="">24 November 2026</strong><div class="sub">14 days after listing</div></td>
             <td>Unknown</td>
           </tr>
           <tr>
-            <td class="cve nowrap"><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-123218">CVE-2026-123218</a></td>
-            <td>IBM Aspera Faspex</td>
-            <td>IBM Aspera Faspex Incorrect Authorization Vulnerability</td>
-            <td class="nowrap"><strong class="due-soon">12 November 2026</strong><div class="sub">3 days after listing</div></td>
+            <td class="cve nowrap"><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-111793">CVE-2026-111793</a></td>
+            <td>Openwave Messaging Limited Webtop Media Transcoder</td>
+            <td>Openwave Messaging Limited Webtop Media Transcoder Incorrect Resource Transfer Between Spheres Vulnerability</td>
+            <td class="nowrap"><strong class="">24 November 2026</strong><div class="sub">14 days after listing</div></td>
+            <td>Unknown</td>
+          </tr>
+          <tr>
+            <td class="cve nowrap"><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-20320">CVE-2026-20320</a></td>
+            <td>Cisco BroadWorks</td>
+            <td>Cisco BroadWorks Improper Restriction of XML External Entity Reference Vulnerability</td>
+            <td class="nowrap"><strong class="">24 November 2026</strong><div class="sub">14 days after listing</div></td>
+            <td>Unknown</td>
+          </tr>
+          <tr>
+            <td class="cve nowrap"><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-125350">CVE-2026-125350</a></td>
+            <td>Google Chromium</td>
+            <td>Google Chromium Use-After-Free Vulnerability</td>
+            <td class="nowrap"><strong class="">24 November 2026</strong><div class="sub">14 days after listing</div></td>
             <td>Unknown</td>
           </tr>
         </tbody>
@@ -757,13 +1186,13 @@ level: high
 
   <section class="block explainer" id="explainer" aria-labelledby="h-explainer">
     <div class="section-head"><h2 id="h-explainer">Explainer</h2><span>Background, not news</span></div>
-    <h3>Webshells: persistent backdoors planted through web server vulnerabilities</h3>
-    <p class="dek">A webshell is a small script file dropped into a web application&#39;s served directory that lets an attacker run commands on the server by sending ordinary HTTP requests to it.</p>
-<p class="why-today"><strong>Why today.</strong> SANS honeypots show attackers still hunting for SAP NetWeaver webshells planted through CVE-2025-31324, and Huntress found hidden webshells left on exploited AhsayCBS backup servers. In both cases the webshell outlives the original flaw. See <a href="#story-1">story 1</a>, <a href="#story-7">story 7</a>.</p>    <div class="ex-body">
-<h4>How a webshell works</h4><p>A webshell is a script in whatever language the server executes, such as JSP on Java application servers, ASPX on IIS, or PHP on many Linux stacks. Once it sits in a directory the server serves, any HTTP request to its path makes the server run it with the privileges of the web application process. A typical webshell takes a command or file operation from a request parameter, runs it, and returns the output in the response.</p><p>Attackers usually plant webshells by abusing an unauthenticated file upload, a path traversal, or a code execution bug. CVE-2025-31324 is the textbook case: the SAP NetWeaver Visual Composer metadata uploader accepted files without authentication, and attackers used it to write JSP files into the portal&#39;s servlet_jsp/irj/root directory, where the server would execute them.</p><h4>Why patching does not remove it</h4><p>The vulnerability is only the delivery route. Once the file is on disk, the webshell is a standalone backdoor that needs no exploit, so applying the vendor fix closes the door but leaves anything already planted in place. That is why SANS sees requests for known webshell names like ant.jsp: scanners are checking whether an earlier attacker&#39;s shell is still answering, which is cheaper than exploiting the bug again.</p><p>Webshells are also commonly used to drop second-stage tools. The Huntress AhsayCBS findings, with cryptominers and a Python command-and-control implant alongside the shells, fit that pattern: the webshell is the foothold, and the follow-on payloads do the long-term work.</p><h4>What it looks like in telemetry</h4><p>The strongest endpoint signal is the web server or application server process spawning a command interpreter or reconnaissance tool. On Windows that means processes such as w3wp.exe, or the Java process hosting an application server, launching cmd.exe, powershell.exe, whoami.exe or similar. On Linux, look for the Java or web server process starting sh or bash. In Defender XDR this shows up in DeviceProcessEvents with the server process as InitiatingProcessFileName.</p><p>The second signal is script files created in web-served directories by the server process itself, visible in DeviceFileEvents. In web access logs, watch for requests to newly appearing script paths that return success, especially from a small set of source addresses, and for successful POST requests to upload endpoints that should not be reachable from the internet. Many webshells are tiny and evade antivirus signatures, so behavior matters more than file hashes.</p><h4>Prevention and response</h4><p>Keep administrative and upload components off the internet where possible, patch exposed application servers quickly, and restrict write permissions so the service account cannot write into executable web directories. File integrity monitoring on web roots catches new script files that signatures miss.</p><p>If you find a webshell, treat the host as compromised rather than simply deleting the file. Check for additional shells, scheduled tasks, new accounts, dropped binaries and credential access performed through the shell, and review what that server&#39;s service account could reach.</p>    </div>
+    <h3>NTLM hash leakage and relay: how a file can hand over a user&#39;s credentials</h3>
+    <p class="dek">NTLM hash leakage happens when Windows is made to authenticate automatically to an attacker&#39;s server, exposing a challenge-response that can be cracked offline or relayed live to another service as that user.</p>
+<p class="why-today"><strong>Why today.</strong> The exploited Outlook zero-day in today&#39;s lead story works by making Outlook silently connect to an attacker-controlled location and send the user&#39;s NTLMv2 response. Whether that becomes a cracked password or a relayed login depends on controls most environments have only partly deployed. See <a href="#story-1">story 1</a>, <a href="#story-9">story 9</a>, <a href="#story-7">story 7</a>.</p>    <div class="ex-body">
+<h4>How the leak works</h4><p>NTLM is a challenge-response protocol. When a Windows client connects to a server that asks for NTLM, the client proves it knows the user&#39;s password hash by answering a server-chosen challenge, without sending the password itself. Windows will often do this automatically and silently for resources it treats as reachable, such as a UNC path over SMB or a WebDAV location over HTTP.</p><p>Coerced-authentication bugs abuse this. A crafted email, document or file contains a reference to a remote path the attacker controls. When the client processes it, Windows reaches out and performs the NTLM handshake with the attacker&#39;s server, which records the NTLMv2 response. No code runs on the victim and no prompt appears, so a medium-severity spoofing or information disclosure label can understate the risk.</p><h4>Cracking versus relaying</h4><p>The captured NTLMv2 response can be attacked offline: the attacker guesses passwords and checks each guess against the response. Strong, long passwords make this impractical, while weak or reused ones fall quickly. Machine accounts and managed service accounts with long random passwords are effectively uncrackable this way.</p><p>Relaying is the more dangerous outcome because password strength does not matter. The attacker forwards the victim&#39;s handshake in real time to a different server, such as a file server, LDAP on a domain controller, AD CS web enrollment or another HTTP service, and is authenticated there as the victim. Relay succeeds only where the target does not bind the authentication to the session: SMB without required signing, LDAP without signing or channel binding, and HTTP services without Extended Protection for Authentication.</p><h4>What it looks like in telemetry</h4><p>The leak itself is an outbound connection from a user process to an unusual destination. In Defender XDR, look in DeviceNetworkEvents for Outlook or other Office processes connecting to TCP 445 or to HTTP/WebDAV on public IP addresses, and in DeviceProcessEvents or service events for the WebClient service starting unexpectedly. On endpoints with NTLM outbound auditing enabled, the Microsoft-Windows-NTLM/Operational log records outgoing NTLM authentication attempts with the target server name.</p><p>A successful relay shows up on the target: a network logon (event 4624, logon type 3) using NTLM for a user, arriving from an IP address that is not that user&#39;s workstation, often followed by LDAP changes, certificate requests or file access the user would not normally perform. Defender for Identity has detections for suspected NTLM relay and NTLM authentication anomalies against domain controllers.</p><h4>How to shut it down</h4><p>Patch the coercion bug first, but treat the class as permanent: new coercion paths appear regularly. The durable fix is to make leaked handshakes useless. Block outbound SMB to the internet at the perimeter and on host firewalls, require SMB signing on servers and clients, enforce LDAP signing and channel binding on domain controllers, and enable Extended Protection on IIS, Exchange and AD CS web endpoints. Defaults differ by Windows and Exchange version, so verify the effective setting rather than assuming it.</p><p>Reduce NTLM use itself. Put privileged accounts in the Protected Users group, which prevents them from using NTLM, and use the Restrict NTLM group policies in audit mode first to find what still depends on NTLM before blocking outgoing NTLM to remote servers.</p>    </div>
     <div class="actions">
       <h4 class="label">For defenders</h4>
-      <ol class="steps"><li>Inventory internet-facing SAP NetWeaver Java systems, confirm the CVE-2025-31324 fix is applied, and check whether the Visual Composer metadata uploader is reachable from the internet.</li><li>Search the NetWeaver servlet_jsp/irj/root directory and other web roots for JSP, ASPX or PHP files that do not belong to the vendor installation, and compare against a known-good baseline.</li><li>Hunt in DeviceProcessEvents for web and application server processes (w3wp.exe, Java-based servers, Apache, nginx) spawning cmd.exe, powershell.exe, sh, bash, whoami or other recon tools.</li><li>Alert in DeviceFileEvents on script files created in web-served directories by the server&#39;s own process.</li><li>When a webshell is found, scope the whole host for follow-on payloads such as miners, implants, new accounts and scheduled tasks before deciding whether to rebuild.</li></ol>
+      <ol class="steps"><li>Deploy the November 2026 Outlook update for the exploited spoofing flaw and confirm coverage of classic Outlook installs, since it is in CISA KEV.</li><li>Hunt in DeviceNetworkEvents for OUTLOOK.EXE and other Office processes connecting to public IPs on port 445 or over WebDAV, and confirm outbound SMB to the internet is blocked at the edge and on host firewalls.</li><li>Verify SMB signing is required on file servers and domain controllers, and that LDAP signing and channel binding are enforced on every domain controller.</li><li>Enable Extended Protection for Authentication on Exchange, AD CS web enrollment and other internal IIS services that accept Windows authentication.</li><li>Add admin and other high-value accounts to Protected Users, and turn on NTLM outbound auditing to inventory remaining NTLM dependencies before restricting it.</li></ol>
     </div>
     <p class="ai-line">AI-generated explainer by Claude Opus 5.5 · from the model's background knowledge, not today's sources · check vendor documentation before acting on it</p>
   </section>
@@ -773,9 +1202,15 @@ level: high
     <ol class="good">
       <li>
         <span class="tag ok">Research</span>
-        <h3>Microsoft FORGE Lab finds memory safety bugs in Rust&#39;s standard library using agentic tools</h3>
-        <p>Microsoft Security Blog reports that its FORGE Lab used AI-assisted agentic tools to find and validate several memory safety issues in Rust&#39;s standard library, including cases where code written entirely in safe Rust can trigger undefined behavior. The write-up groups the findings into recurring patterns, such as trusting code not to panic and trusting user-provided implementations to be correct, to help others look for similar flaws.</p>
-        <p class="where"><a href="https://www.microsoft.com/en-us/security/blog/2026/11/09/forge-lab-uses-agentic-tools-to-identify-memory-safety-issues-in-rust/" rel="noopener noreferrer nofollow">Microsoft Security Blog</a> · 9 Nov</p>
+        <h3>Microsoft Research publishes method for detecting backdoored &#39;sleeper agent&#39; AI models</h3>
+        <p>The Microsoft Security Blog reports that Microsoft Research has released threat research showing a capable agent model can be turned into a sleeper agent by editing fewer than 10 neurons, passing evaluations but running an attacker&#39;s command when a trigger string appears. The work focuses on detecting such tampering, framing model weight integrity as a security concern for both third-party and internally developed models used by unattended, privileged agents.</p>
+        <p class="where"><a href="https://www.microsoft.com/en-us/security/blog/2026/11/10/detecting-sleeper-agents-hiding-in-ai-model-neurons/" rel="noopener noreferrer nofollow">Microsoft Security Blog</a> · 10 Nov</p>
+      </li>
+      <li>
+        <span class="tag ok">Fix shipped</span>
+        <h3>Microsoft fixes remote code execution flaws in SQL Server and the WDAC OLE DB provider for SQL</h3>
+        <p>Microsoft&#39;s Security Update Guide lists November 2026 fixes for heap-based buffer overflows in SQL Server that allow an authorized attacker to execute code or elevate privileges over a network. It also lists two heap overflows in the Microsoft WDAC OLE DB provider for SQL that allow an unauthorized attacker to execute code over a network. No exploitation is reported for these flaws.</p>
+        <p class="where"><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-94511" rel="noopener noreferrer nofollow">MSRC Security Update Guide</a> · 10 Nov; <a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-67391" rel="noopener noreferrer nofollow">MSRC Security Update Guide</a> · 10 Nov; <a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-94513" rel="noopener noreferrer nofollow">MSRC Security Update Guide</a> · 10 Nov</p>
       </li>
     </ol>
     <p class="ai-line">AI-generated summaries by Claude Opus 5.5 of the linked sources</p>
@@ -784,24 +1219,28 @@ level: high
   <section class="block" id="radar" aria-labelledby="h-radar">
     <div class="section-head"><h2 id="h-radar">Also on the radar</h2><span>Lower-ranked, links only</span></div>
     <ul class="radar">
-      <li><a href="https://www.bleepingcomputer.com/news/security/n-able-takes-cloud-platform-offline-after-30-plus-zero-days-published/" rel="noopener noreferrer nofollow">N-able takes N-central offline after researcher publishes 30+ alleged zero-days</a><span class="where">BleepingComputer</span></li>
-      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-109795" rel="noopener noreferrer nofollow">SAP NetWeaver and related SAP products: multiple critical and high flaws disclosed</a><span class="where">NVD · CVE-2026-109795, CVE-2026-109798, CVE-2026-109803</span></li>
-      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-124577" rel="noopener noreferrer nofollow">Embedded device flaws with public exploits in Intelbras, Feiyuxing and D-Link devices</a><span class="where">NVD · CVE-2026-124577, CVE-2026-124580, CVE-2026-124585</span></li>
-      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-125181" rel="noopener noreferrer nofollow">FFmpeg through 9.0.2: many heap memory corruption flaws in codecs and decoders</a><span class="where">NVD · CVE-2026-125181, CVE-2026-125201, CVE-2026-125202</span></li>
-      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-121629" rel="noopener noreferrer nofollow">GStreamer flaws: file URI fetch in adaptive demuxers and H.264 RTP heap read</a><span class="where">NVD · CVE-2026-121629, CVE-2026-119610</span></li>
-      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-112320" rel="noopener noreferrer nofollow">MIT Kerberos krb5 denial-of-service flaws affect kadmind and the KDC</a><span class="where">NVD · CVE-2026-112320, CVE-2026-112323, CVE-2026-119079</span></li>
-      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-125391" rel="noopener noreferrer nofollow">Webmin command injection lets authenticated Samba maintainers run commands as root</a><span class="where">NVD · CVE-2026-125391</span></li>
-      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-12977" rel="noopener noreferrer nofollow">WildFly Core flaw lets Maintainer role read credentials and gain SuperUser control</a><span class="where">NVD · CVE-2026-12977</span></li>
-      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-125401" rel="noopener noreferrer nofollow">Ettercap through 0.8.4.1 has multiple memory corruption flaws</a><span class="where">NVD · CVE-2026-125401, CVE-2026-125402, CVE-2026-125403</span></li>
-      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-124079" rel="noopener noreferrer nofollow">rConfig unauthenticated deserialization flaw allows remote code execution</a><span class="where">NVD · CVE-2026-124079</span></li>
-      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-125370" rel="noopener noreferrer nofollow">Hard-coded JWT signing secrets enable administrator authentication bypass in web apps</a><span class="where">NVD · CVE-2026-125370, CVE-2026-125383</span></li>
+      <li><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-124224" rel="noopener noreferrer nofollow">Windows PowerShell and PowerShell Core: security advisories</a><span class="where">MSRC Security Update Guide · CVE-2026-124224, CVE-2026-124225, CVE-2026-124226</span></li>
+      <li><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-118721" rel="noopener noreferrer nofollow">Microsoft Excel vulnerabilities including remote code execution, published Nov 2026</a><span class="where">MSRC Security Update Guide · CVE-2026-118721, CVE-2026-118722, CVE-2026-118723</span></li>
+      <li><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-111300" rel="noopener noreferrer nofollow">Microsoft SharePoint: spoofing, RCE, privilege escalation and SSRF advisories</a><span class="where">MSRC Security Update Guide · CVE-2026-111300, CVE-2026-111303, CVE-2026-112736</span></li>
+      <li><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-84010" rel="noopener noreferrer nofollow">Microsoft SQL Server: many privilege escalation and RCE advisories</a><span class="where">MSRC Security Update Guide · CVE-2026-84010, CVE-2026-116929, CVE-2026-116930</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-125742" rel="noopener noreferrer nofollow">7-Zip LZX decoder heap overflow allows code execution via crafted CAB archives</a><span class="where">NVD · CVE-2026-125742</span></li>
+      <li><a href="https://www.bleepingcomputer.com/news/security/critical-xen-orchestra-auth-bypass-flaw-exploited-to-hijack-vm-servers/" rel="noopener noreferrer nofollow">Xen Orchestra authentication bypass reportedly exploited to take over XCP-ng hosts</a><span class="where">BleepingComputer</span></li>
+      <li><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-113822" rel="noopener noreferrer nofollow">Microsoft November 2026 updates fix Azure, ASP.NET Core, Visual Studio and Teams flaws</a><span class="where">MSRC Security Update Guide · CVE-2026-113822, CVE-2026-113823, CVE-2026-114146</span></li>
+      <li><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-105494" rel="noopener noreferrer nofollow">Azure services, Microsoft Graph and Teams: security advisories</a><span class="where">MSRC Security Update Guide · CVE-2026-105494, CVE-2026-114162, CVE-2026-121668</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-120779" rel="noopener noreferrer nofollow">Visual Studio Code flaws disclosed in November 2026 including code injection and XSS</a><span class="where">NVD · CVE-2026-120779, CVE-2026-119975, CVE-2026-119981</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-124747" rel="noopener noreferrer nofollow">BusyBox wget FTP resume flaw can cause heap overflow from malicious server</a><span class="where">NVD · CVE-2026-124747</span></li>
+      <li><a href="https://www.rapid7.com/blog/post/etr-critical-vulnerabilities-in-n-able-n-central-prompt-hosted-shutdown" rel="noopener noreferrer nofollow">N-able N-central critical flaws with public proof-of-concept prompt hosted shutdown</a><span class="where">Rapid7</span></li>
+      <li><a href="https://isc.sans.edu/diary/rss/33506" rel="noopener noreferrer nofollow">Apple patches iOS and macOS flaws; Binance warns of iOS flaw exposing wallet secrets</a><span class="where">SANS ISC · CVE-2026-113971, CVE-2026-113960, CVE-2026-113961</span></li>
+      <li><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-67374" rel="noopener noreferrer nofollow">Microsoft November 2026 updates fix SQL Server and WDAC OLE DB provider flaws</a><span class="where">MSRC Security Update Guide · CVE-2026-67374, CVE-2026-68783, CVE-2026-67375</span></li>
+      <li><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-119990" rel="noopener noreferrer nofollow">Azure OpenAI elevation of privilege vulnerability due to missing authentication</a><span class="where">MSRC Security Update Guide · CVE-2026-119990</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-121355" rel="noopener noreferrer nofollow">Multiple adobe Connect flaws including privilege escalation, XSS and XXE disclosed</a><span class="where">NVD · CVE-2026-121355, CVE-2026-121904, CVE-2026-121350</span></li>
     </ul>
   </section>
 
   <details class="status">
     <summary>Collection status: 22 of 22 sources returned data</summary>
-    <ul><li><span class="">BleepingComputer</span> <span class="muted">ok 7</span></li><li><span class="">Bluesky</span> <span class="muted">ok 0</span></li><li><span class="">CISA Advisories</span> <span class="muted">ok 1</span></li><li><span class="">CISA KEV</span> <span class="muted">ok 4</span></li><li><span class="">Cisco Talos</span> <span class="muted">ok 0</span></li><li><span class="">EPSS</span> <span class="muted">ok 109</span></li><li><span class="">Hacker News</span> <span class="muted">ok 3</span></li><li><span class="">Huntress</span> <span class="muted">ok 3</span></li><li><span class="">Krebs on Security</span> <span class="muted">ok 0</span></li><li><span class="">Mastodon</span> <span class="muted">ok 10</span></li><li><span class="">Microsoft Security Blog</span> <span class="muted">ok 1</span></li><li><span class="">MSRC Security Update Guide</span> <span class="muted">ok 0</span></li><li><span class="">NVD</span> <span class="muted">ok 92</span></li><li><span class="">r/netsec</span> <span class="muted">ok 0</span></li><li><span class="">Rapid7</span> <span class="muted">ok 0</span></li><li><span class="">SANS ISC</span> <span class="muted">ok 2</span></li><li><span class="">SecurityWeek</span> <span class="muted">ok 0</span></li><li><span class="">SigmaHQ new rules</span> <span class="muted">ok 0</span></li><li><span class="">The DFIR Report</span> <span class="muted">ok 0</span></li><li><span class="">The Record</span> <span class="muted">ok 1</span></li><li><span class="">Unit 42</span> <span class="muted">ok 0</span></li><li><span class="">watchTowr Labs</span> <span class="muted">ok 0</span></li></ul>
-    <p>Data for this edition: <a href="editions/2026-11-10/edition.json">edition.json</a>. KQL parser: available.</p>
+    <ul><li><span class="">BleepingComputer</span> <span class="muted">ok 8</span></li><li><span class="">Bluesky</span> <span class="muted">ok 0</span></li><li><span class="">CISA Advisories</span> <span class="muted">ok 1</span></li><li><span class="">CISA KEV</span> <span class="muted">ok 6</span></li><li><span class="">Cisco Talos</span> <span class="muted">ok 1</span></li><li><span class="">EPSS</span> <span class="muted">ok 113</span></li><li><span class="">Hacker News</span> <span class="muted">ok 3</span></li><li><span class="">Huntress</span> <span class="muted">ok 1</span></li><li><span class="">Krebs on Security</span> <span class="muted">ok 1</span></li><li><span class="">Mastodon</span> <span class="muted">ok 0</span></li><li><span class="">Microsoft Security Blog</span> <span class="muted">ok 1</span></li><li><span class="">MSRC Security Update Guide</span> <span class="muted">ok 1187</span></li><li><span class="">NVD</span> <span class="muted">ok 101</span></li><li><span class="">r/netsec</span> <span class="muted">ok 0</span></li><li><span class="">Rapid7</span> <span class="muted">ok 3</span></li><li><span class="">SANS ISC</span> <span class="muted">ok 3</span></li><li><span class="">SecurityWeek</span> <span class="muted">ok 0</span></li><li><span class="">SigmaHQ new rules</span> <span class="muted">ok 0</span></li><li><span class="">The DFIR Report</span> <span class="muted">ok 0</span></li><li><span class="">The Record</span> <span class="muted">ok 2</span></li><li><span class="">Unit 42</span> <span class="muted">ok 0</span></li><li><span class="">watchTowr Labs</span> <span class="muted">ok 0</span></li></ul>
+    <p>Data for this edition: <a href="editions/2026-11-11/edition.json">edition.json</a>. KQL parser: available.</p>
   </details>
 </main>
 
@@ -809,31 +1248,33 @@ level: high
   <section class="panel also">
     <h2>Also today</h2>
     <ol class="toc">
-      <li><b class="num crit">2</b><span><span class="tier crit">Exploited · KEV · PoC</span><a href="#story-2">CISA adds exploited GPUStack, OpenSSH, FreeSWITCH and IBM Aspera Faspex flaws to KEV</a><span class="toc-warn"><b>6 public PoC repos.</b> Links only, not vetted. Public PoC repos are often fake or backdoored. Don't run them on a work machine.</span></span></li>
-      <li><b class="num crit">3</b><span><span class="tier crit">Exploited</span><a href="#story-3">SEGA says breach at newsletter provider ARARA exposed 2.2 million subscriber email addresses</a></span></li>
-      <li><b class="num crit">4</b><span><span class="tier crit">Exploited</span><a href="#story-4">France attributes October attacks on supermarket refrigeration systems to Iranian state-backed hackers</a></span></li>
-      <li><b class="num crit">5</b><span><span class="tier crit">Exploited</span><a href="#story-5">York University says attacker stole personal data submitted through online forms, some dating to 2007</a></span></li>
-      <li><b class="num crit">6</b><span><span class="tier crit">Exploited</span><a href="#story-6">Amplifon US notifies thousands of customers of early-2026 breach exposing medical data</a></span></li>
-      <li><b class="num crit">7</b><span><span class="tier crit">Exploited</span><a href="#story-7">Huntress details AhsayCBS backup server intrusions with webshells, cryptominers and a Python implant</a></span></li>
-      <li><b class="num crit">8</b><span><span class="tier crit">Exploited</span><a href="#story-8">Russian cloud provider Beget rebuilding infrastructure from scratch after data wiper attack</a></span></li>
-      <li><b class="num high">9</b><span><span class="tier high">High risk</span><a href="#story-9">Binance denies breach claim made under the ShinyHunters handle on new cybercrime forum</a></span></li>
-      <li><b class="num high">10</b><span><span class="tier high">High risk</span><a href="#story-10">Vanderbilt University responding to cyberattack claimed by BYOD ransomware gang</a></span></li>
+      <li><b class="num crit">2</b><span><span class="tier crit">Exploited · KEV · PoC</span><a href="#story-2">CISA adds chained Barracuda ESG auth bypass and root command injection flaws to KEV</a><span class="toc-warn"><b>2 public PoC repos.</b> Links only, not vetted. Public PoC repos are often fake or backdoored. Don't run them on a work machine.</span></span></li>
+      <li><b class="num crit">3</b><span><span class="tier crit">Exploited</span><a href="#story-3">Huntress details four evolving ClickFix attack chains, including lateral movement and PNG-hidden payloads</a></span></li>
+      <li><b class="num crit">4</b><span><span class="tier crit">Exploited</span><a href="#story-4">Railway says attackers stole customer secrets, generating about $740,000 in fraudulent AI usage</a></span></li>
+      <li><b class="num crit">5</b><span><span class="tier crit">Exploited</span><a href="#story-5">Compromised Qubole AWS IAM credentials used to steal data from multiple customer AWS environments</a></span></li>
+      <li><b class="num high">6</b><span><span class="tier high">High risk</span><a href="#story-6">Microsoft November 2026 updates fix dozens of Office, Excel, Outlook and SharePoint flaws</a></span></li>
+      <li><b class="num watch">7</b><span><span class="tier watch">Watch</span><a href="#story-7">Microsoft November 2026 Patch Tuesday fixes Windows RCE and privilege escalation flaws</a></span></li>
+      <li><b class="num crit">8</b><span><span class="tier crit">Exploited</span><a href="#story-8">Nitori discloses network intrusion with possible theft of 37.62 million customer records</a></span></li>
+      <li><b class="num watch">9</b><span><span class="tier watch">Watch</span><a href="#story-9">Microsoft&#39;s November 2026 updates fix a large batch of Windows elevation of privilege flaws</a></span></li>
+      <li><b class="num watch">10</b><span><span class="tier watch">Watch</span><a href="#story-10">Microsoft November 2026 Windows updates fix dozens of information disclosure and DoS flaws</a></span></li>
     </ol>
   </section>
   <section class="panel kev">
     <h2>KEV deadlines</h2>
-    <div class="kv"><a href="#kev">CVE-2026-102895</a><span class="due"><b class="crit">Due 12 Nov</b><small>3 days after listing</small></span></div>
-    <div class="kv"><a href="#kev">CVE-2026-123158</a><span class="due"><b class="crit">Due 12 Nov</b><small>3 days after listing</small></span></div>
-    <div class="kv"><a href="#kev">CVE-2026-116779</a><span class="due"><b class="crit">Due 12 Nov</b><small>3 days after listing</small></span></div>
-    <div class="kv"><a href="#kev">CVE-2026-123218</a><span class="due"><b class="crit">Due 12 Nov</b><small>3 days after listing</small></span></div>
+    <div class="kv"><a href="#kev">CVE-2026-111560</a><span class="due"><b class="crit">Due 13 Nov</b><small>3 days after listing</small></span></div>
+    <div class="kv"><a href="#kev">CVE-2026-116606</a><span class="due"><b class="crit">Due 13 Nov</b><small>3 days after listing</small></span></div>
+    <div class="kv"><a href="#kev">CVE-2026-124194</a><span class="due"><b class="">Due 24 Nov</b><small>14 days after listing</small></span></div>
+    <div class="kv"><a href="#kev">CVE-2026-111793</a><span class="due"><b class="">Due 24 Nov</b><small>14 days after listing</small></span></div>
+    <div class="kv"><a href="#kev">CVE-2026-20320</a><span class="due"><b class="">Due 24 Nov</b><small>14 days after listing</small></span></div>
+    <div class="kv"><a href="#kev">CVE-2026-125350</a><span class="due"><b class="">Due 24 Nov</b><small>14 days after listing</small></span></div>
   </section>
   <section class="panel learn">
     <h2>Also in this edition</h2>
-<p><span class="k">Explainer</span><a href="#explainer">Webshells: persistent backdoors planted through web server vulnerabilities</a></p><p><span class="k">Good news</span><a href="#good-news">1 win for defenders</a></p>  </section>
+<p><span class="k">Explainer</span><a href="#explainer">NTLM hash leakage and relay: how a file can hand over a user&#39;s credentials</a></p><p><span class="k">Good news</span><a href="#good-news">2 wins for defenders</a></p>  </section>
   <section class="panel">
     <h2>Collection</h2>
     <div class="meter"><svg class="bar" viewBox="0 0 100 6" preserveAspectRatio="none" aria-hidden="true"><rect class="track" width="100" height="6" rx="3"/><rect class="fill" width="100" height="6" rx="3"/></svg><span class="mono">22/22</span></div>
-    <p>Every source returned data. 124 items collected.</p>
+    <p>Every source returned data. 1318 items collected.</p>
   </section>
   <section class="panel follow">
     <h2>Follow the brief</h2>
@@ -842,7 +1283,7 @@ level: high
   </section>
   <nav class="panel" aria-label="Other editions">
     <h2>Other editions</h2>
-<div class="kv"><span>Older</span><a href="editions/2026-11-09/">9 November 2026</a></div>  </nav>
+<div class="kv"><span>Older</span><a href="editions/2026-11-10/">10 November 2026</a></div>  </nav>
 </aside>
 </div>
 </div>

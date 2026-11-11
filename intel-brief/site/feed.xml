@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>Daily Intel Brief</title><link>https://intel.brycemaxheimer.com/</link><description>Daily AI-generated threat-intel brief: top stories, new KEV entries, early signals and detections.</description><language>en-us</language><item><title>Daily Intel Brief: 2026-11-10</title><link>https://intel.brycemaxheimer.com/editions/2026-11-10/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-10/</guid><pubDate>Tue, 10 Nov 2026 17:42:51 +0000</pubDate><description>1. Scanning for SAP NetWeaver CVE-2025-31324 webshells continues, per SANS ISC honeypots
+<rss version="2.0"><channel><title>Daily Intel Brief</title><link>https://intel.brycemaxheimer.com/</link><description>Daily AI-generated threat-intel brief: top stories, new KEV entries, early signals and detections.</description><language>en-us</language><item><title>Daily Intel Brief: 2026-11-11</title><link>https://intel.brycemaxheimer.com/editions/2026-11-11/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-11/</guid><pubDate>Wed, 11 Nov 2026 18:02:21 +0000</pubDate><description>1. Exploited Outlook spoofing zero-day CVE-2026-124194 leaks NTLMv2 hashes, added to CISA KEV
+2. CISA adds chained Barracuda ESG auth bypass and root command injection flaws to KEV
+3. Huntress details four evolving ClickFix attack chains, including lateral movement and PNG-hidden payloads
+4. Railway says attackers stole customer secrets, generating about $740,000 in fraudulent AI usage
+5. Compromised Qubole AWS IAM credentials used to steal data from multiple customer AWS environments
+6. Microsoft November 2026 updates fix dozens of Office, Excel, Outlook and SharePoint flaws
+7. Microsoft November 2026 Patch Tuesday fixes Windows RCE and privilege escalation flaws
+8. Nitori discloses network intrusion with possible theft of 37.62 million customer records
+9. Microsoft's November 2026 updates fix a large batch of Windows elevation of privilege flaws
+10. Microsoft November 2026 Windows updates fix dozens of information disclosure and DoS flaws
+New KEV entries: CVE-2026-124194, CVE-2026-111793, CVE-2026-20320, CVE-2026-111560, CVE-2026-116606, CVE-2026-125350
+Explainer: NTLM hash leakage and relay: how a file can hand over a user's credentials
+Good news: Microsoft Research publishes method for detecting backdoored 'sleeper agent' AI models
+Good news: Microsoft fixes remote code execution flaws in SQL Server and the WDAC OLE DB provider for SQL</description></item><item><title>Daily Intel Brief: 2026-11-10</title><link>https://intel.brycemaxheimer.com/editions/2026-11-10/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-10/</guid><pubDate>Tue, 10 Nov 2026 17:42:51 +0000</pubDate><description>1. Scanning for SAP NetWeaver CVE-2025-31324 webshells continues, per SANS ISC honeypots
 2. CISA adds exploited GPUStack, OpenSSH, FreeSWITCH and IBM Aspera Faspex flaws to KEV
 3. SEGA says breach at newsletter provider ARARA exposed 2.2 million subscriber email addresses
 4. France attributes October attacks on supermarket refrigeration systems to Iranian state-backed hackers
