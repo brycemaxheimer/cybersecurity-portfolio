@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inspector - Bryce Maxheimer</title>
+<meta name="description" content="Bryce Maxheimer's portfolio as a design-tool canvas: tools, writing, resume and credentials, with live honeypot data.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/v2/inspector/inspector.css?v=7">
+<script src="/v2/common.js?v=7" defer></script>
+<script src="/v2/inspector/inspector.js?v=7" defer></script>
+</head>
+<body>
+<div class="app" id="app">
+
+<header class="toolbar">
+  <button type="button" class="brand" data-page="network"><svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="3.5" class="brand-dot"></circle><circle cx="10" cy="10" r="8.5" fill="none" stroke="currentColor" stroke-width="1.2"></circle></svg>bryce.maxheimer</button>
+  <span class="crumb hidesm">brycemaxheimer.com / <b id="crumb">network</b></span>
+  <span class="toolbar-right">
+    <button type="button" class="switch" id="inspect-toggle" aria-pressed="true"><span class="switch-track"><span class="switch-knob"></span></span>Inspect</button>
+    <a class="btn-accent" href="/lab/">Open lab ↗</a>
+  </span>
+</header>
+
+<div class="body">
+  <aside class="panel left" id="left" aria-label="Pages and layers">
+    <div class="panel-head"><span>PAGES</span><span class="mono">1 to 5</span></div>
+    <nav class="pages" id="pages" aria-label="Pages"></nav>
+    <div class="panel-head layers-head"><span>LAYERS</span><span class="mono">↑ ↓</span></div>
+    <div class="layers" id="layers"></div>
+  </aside>
+
+  <main class="canvas" id="canvas">
+    <div class="frame-wrap">
+      <span class="frame-label" id="frame-label">Frame / Network</span>
+      <div class="frame" id="frame"><p class="loading">Loading site data…</p></div>
+    </div>
+  </main>
+
+  <aside class="panel right" aria-label="Inspector">
+    <div class="panel-head"><span>INSPECTOR</span><span class="mono" id="sel-kind"></span></div>
+    <div class="inspector" id="inspector"></div>
+  </aside>
+</div>
+
+<footer class="status">
+  <span id="status-sel">selected: none</span>
+  <span id="status-live" class="hidesm">connecting to honeypot feed…</span>
+  <span class="status-right"><a href="mailto:contact@brycemaxheimer.com">contact@brycemaxheimer.com</a> · <span id="status-built"></span></span>
+</footer>
+
+</div>
+</body>
+</html>

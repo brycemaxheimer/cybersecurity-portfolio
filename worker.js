@@ -16,6 +16,7 @@
 
 import { handleLookup } from './functions/api/intel/lookup.js';
 import { handleHealth } from './functions/api/intel/health.js';
+import { handleHoneypotFeed } from './functions/api/live/honeypot.js';
 
 export default {
     async fetch(request, env, ctx) {
@@ -26,6 +27,9 @@ export default {
         }
         if (url.pathname === '/api/intel/health') {
             return handleHealth(request, env);
+        }
+        if (url.pathname === '/api/live/honeypot') {
+            return handleHoneypotFeed(request, env, ctx);
         }
 
         // Static-asset fallback. The ASSETS binding is declared in
