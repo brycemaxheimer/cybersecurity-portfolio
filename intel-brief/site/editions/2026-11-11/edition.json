@@ -1,0 +1,2507 @@
+{
+ "schema": 1,
+ "date": "2026-11-11",
+ "generated_at": "2026-11-11T18:02:21Z",
+ "generator": "intel-brief 0.1.0",
+ "models": {
+  "triage": "claude-haiku-5-5",
+  "writeup": "claude-opus-5-5",
+  "triage_method": "model"
+ },
+ "window": {
+  "since": "2026-11-10T05:00:00+00:00",
+  "until": "2026-11-11T05:00:00+00:00"
+ },
+ "stories": [
+  {
+   "id": "story-1",
+   "rank": 1,
+   "score": 100,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 25,
+    "platform": 20,
+    "new_kev": 10,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 9,
+    "chatter": 0,
+    "in_kev": true,
+    "epss_max": 0.016,
+    "cvss_max": 0
+   },
+   "title": "Exploited Outlook spoofing zero-day CVE-2026-124194 leaks NTLMv2 hashes, added to CISA KEV",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "ubiquitous",
+    "platform": "m365_entra",
+    "vendor": "Microsoft",
+    "product": "Outlook"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-124194",
+     "cvss": 6.5,
+     "severity": "MEDIUM",
+     "products": [
+      "microsoft 365 apps",
+      "microsoft office 2021",
+      "microsoft office 2024"
+     ],
+     "epss": null,
+     "percentile": null,
+     "in_kev": true,
+     "kev_due": "2026-11-24",
+     "poc": [
+      {
+       "url": "https://github.com/AmesianX/CVE-2026-124194-poc",
+       "name": "AmesianX/CVE-2026-124194-poc",
+       "stars": 0,
+       "created": "2026-11-11"
+      }
+     ],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-113862",
+     "cvss": 8.1,
+     "severity": "HIGH",
+     "products": [],
+     "epss": null,
+     "percentile": null,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-118146",
+     "cvss": 8.8,
+     "severity": "HIGH",
+     "products": [],
+     "epss": null,
+     "percentile": null,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-118148",
+     "cvss": 7.5,
+     "severity": "HIGH",
+     "products": [],
+     "epss": null,
+     "percentile": null,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-118207",
+     "cvss": null,
+     "severity": "",
+     "products": [],
+     "epss": null,
+     "percentile": null,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-119952",
+     "cvss": 8.1,
+     "severity": "HIGH",
+     "products": [],
+     "epss": null,
+     "percentile": null,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "Microsoft's November 2026 Patch Tuesday fixed CVE-2026-124194, a spoofing flaw in classic Outlook (CVSS 6.5) that Microsoft says is being exploited in the wild. CISA added it to the Known Exploited Vulnerabilities catalog on 10 November 2026. Rapid7 reports that opening a specially crafted file makes Outlook silently connect to an attacker-controlled location and leak the user's NTLMv2 hash, which can be cracked or relayed live to services lacking SMB/LDAP signing or Extended Protection. Sources disagree on the release's total size, with counts ranging from about 1,092 to 1,260 fixes.",
+    "why_it_matters": "Outlook runs on nearly every Windows endpoint, and leaked NTLMv2 hashes give attackers a path to impersonate users against file servers, LDAP and other internal services. The flaw is confirmed exploited, CISA's federal remediation deadline is 24 November 2026, and public proof-of-concept code is reported to exist, although Rapid7 says there was no public disclosure before release. No EPSS score is available yet. Rapid7 notes the moderate CVSS score understates its value for both mass credential harvesting and targeted intrusions.",
+    "affected_versions": [
+     "Microsoft 365 Apps for Enterprise",
+     "Microsoft Office 2021",
+     "Microsoft Office 2024",
+     "All supported versions of classic Outlook (per Rapid7)"
+    ],
+    "fixed_versions": [
+     "Microsoft November 2026 security updates for Office and Microsoft 365 Apps (released 10 November 2026)"
+    ],
+    "recommended_actions": [
+     "Deploy the November 2026 Office and Microsoft 365 Apps updates to all classic Outlook installations before 24 November 2026, and confirm update channels have picked up the build.",
+     "Block outbound SMB (TCP 445 and 139) from endpoints to the internet at the perimeter and host firewall to stop hash leakage to external hosts.",
+     "Add high-value accounts to the Protected Users group and restrict outbound NTLM where possible to blunt captured-hash abuse.",
+     "Enforce SMB signing, LDAP signing and channel binding, and Extended Protection for Authentication to reduce NTLM relay risk.",
+     "Hunt for Outlook-initiated SMB or WebDAV connections to public addresses, and reset passwords for affected users if any are found."
+    ],
+    "confidence": "high",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "CISA Adds Six Known Exploited Vulnerabilities to Catalog",
+     "url": "https://www.cisa.gov/news-events/alerts/2026/11/10/cisa-adds-six-known-exploited-vulnerabilities-catalog",
+     "source": "CISA Advisories",
+     "kind": "advisory",
+     "published": "2026-11-10T12:00:00Z"
+    },
+    {
+     "title": "CVE-2026-124194 Microsoft Outlook Spoofing Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-124194",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-10T16:00:00Z"
+    },
+    {
+     "title": "Microsoft November 2026 Patch Tuesday fixes 1,235 flaws, Outlook zero-day",
+     "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-november-2026-patch-tuesday-fixes-1-235-flaws-outlook-zero-day/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-10T19:07:36Z"
+    },
+    {
+     "title": "Microsoft Patch Tuesday November 2027 , (Tue, Nov 10th)",
+     "url": "https://isc.sans.edu/diary/rss/33508",
+     "source": "SANS ISC",
+     "kind": "news",
+     "published": "2026-11-10T19:09:32Z"
+    },
+    {
+     "title": "Microsoft’s Patch Tuesday surpasses 1,000 bugs for second month in a row",
+     "url": "https://therecord.media/patch-tuesday-microsoft-1000-bugs-again",
+     "source": "The Record",
+     "kind": "news",
+     "published": "2026-11-10T20:55:00Z"
+    },
+    {
+     "title": "Microsoft Fixes Nearly 1,100 Security Vulnerabilities",
+     "url": "https://krebsonsecurity.com/2026/11/microsoft-fixes-nearly-1100-security-vulnerabilities/",
+     "source": "Krebs on Security",
+     "kind": "news",
+     "published": "2026-11-10T21:55:03Z"
+    },
+    {
+     "title": "Patch Tuesday - November 2026",
+     "url": "https://www.rapid7.com/blog/post/em-patch-tuesday-november-2026",
+     "source": "Rapid7",
+     "kind": "news",
+     "published": "2026-11-10T21:55:37Z"
+    },
+    {
+     "title": "Microsoft Patch Tuesday for November 2026 — Snort rules and prominent vulnerabilities",
+     "url": "https://blog.talosintelligence.com/microsoft-patch-tuesday-for-november-2026/",
+     "source": "Cisco Talos",
+     "kind": "news",
+     "published": "2026-11-11T01:41:17Z"
+    }
+   ],
+   "detection": {
+    "type": "behavioral",
+    "sigma": null,
+    "hunting_steps": [
+     "Use the vulnerability inventory to list devices still exposed to CVE-2026-124194 and prioritize them for patching.",
+     "Search network telemetry for outlook.exe connecting to public IPs on TCP 445 or 139 since late October 2026, and note the user and remote address.",
+     "For each hit, review emails and attachments the user received shortly before the connection to identify the lure and other recipients.",
+     "Check identity logs for NTLM authentications by affected accounts from unfamiliar devices or IPs, which may indicate relay or cracked-hash use.",
+     "Reset credentials for confirmed affected users and block the identified external hosts at the perimeter."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Outlook SMB connections to public IP addresses",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(30d) | where InitiatingProcessFileName =~ \"outlook.exe\" | where RemotePort in (445, 139) | where RemoteIPType == \"Public\" | project Timestamp, DeviceName, InitiatingProcessAccountName, RemoteIP, RemotePort, RemoteUrl, ActionType | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 300,
+        "hits": 0,
+        "tables": [
+         "DeviceNetworkEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Devices still vulnerable to CVE-2026-124194",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where CveId == \"CVE-2026-124194\" | project DeviceName, OSPlatform, SoftwareVendor, SoftwareName, SoftwareVersion, RecommendedSecurityUpdate | order by DeviceName asc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 0,
+        "hits": 0,
+        "tables": [
+         "DeviceTvmSoftwareVulnerabilities"
+        ]
+       }
+      }
+     },
+     {
+      "title": "NTLM authentication volume and sources per account",
+      "kql": "IdentityLogonEvents | where Timestamp > ago(14d) | where Protocol =~ \"Ntlm\" | summarize Logons = count(), Devices = make_set(DeviceName, 20), SourceIPs = make_set(IPAddress, 20) by AccountUpn | order by Logons desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 0,
+        "hits": 0,
+        "tables": [
+         "IdentityLogonEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": [
+     "An AI-drafted Sigma rule failed validation and was dropped."
+    ],
+    "rejected_sigma": {
+     "messages": [
+      "No condition errors found.",
+      "Validation issue summary:",
+      "+-------+---------------------+----------+----------------------------------+",
+      "| Count | Issue               | Severity | Description                      |",
+      "+-------+---------------------+----------+----------------------------------+",
+      "| 2     | NumberAsStringIssue | LOW      | A number was expressed as string |",
+      "+-------+---------------------+----------+----------------------------------+",
+      "Check failure",
+      "Parsing Sigma rules",
+      "Checking Sigma rules"
+     ]
+    }
+   }
+  },
+  {
+   "id": "story-2",
+   "rank": 2,
+   "score": 88,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 18,
+    "platform": 20,
+    "new_kev": 10,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 0,
+    "chatter": 0,
+    "in_kev": true,
+    "epss_max": 0.016,
+    "cvss_max": 0
+   },
+   "title": "CISA adds chained Barracuda ESG auth bypass and root command injection flaws to KEV",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "widespread",
+    "platform": "edge_device",
+    "vendor": "Barracuda Networks",
+    "product": "Email Security Gateway"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-111560",
+     "cvss": 8.6,
+     "severity": "HIGH",
+     "products": [],
+     "epss": 0.0106,
+     "percentile": 0.6483,
+     "in_kev": true,
+     "kev_due": "2026-11-13",
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-116606",
+     "cvss": 9.3,
+     "severity": "CRITICAL",
+     "products": [],
+     "epss": 0.01602,
+     "percentile": 0.76026,
+     "in_kev": true,
+     "kev_due": "2026-11-13",
+     "poc": [
+      {
+       "url": "https://github.com/watchtowrlabs/watchTowr-vs-Barracuda-RCE-CVE-2026-116606-CVE-2026-111560",
+       "name": "watchtowrlabs/watchTowr-vs-Barracuda-RCE-CVE-2026-116606-CVE-2026-111560",
+       "stars": 4,
+       "created": "2026-11-03"
+      },
+      {
+       "url": "https://github.com/ZeroHackOrg/barracuda-esg-zeroday-cve-2026-116606-analysis",
+       "name": "ZeroHackOrg/barracuda-esg-zeroday-cve-2026-116606-analysis",
+       "stars": 1,
+       "created": "2026-11-11"
+      }
+     ],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "On 10 November 2026, CISA added two Barracuda Networks flaws to its Known Exploited Vulnerabilities catalog. CVE-2026-116606 (CVSS 9.3) is an authentication bypass in Email Security Gateway (ESG). It lets an unauthenticated remote attacker call a configuration-import function and restore a crafted backup archive, which changes the appliance's global configuration. CVE-2026-111560 (CVSS 8.6) is an OS command injection in a timezone value that runs commands as root; CISA says it affects ESG plus Load Balancer, ADC, Message Archiver, WAF Control Center, WAF and Web Security Gateway, and that the two flaws can be chained.",
+    "why_it_matters": "CISA lists both flaws as exploited in the wild, and chained together they could plausibly let an unauthenticated attacker run root commands on an internet-facing mail gateway that sees all inbound mail. Public proof-of-concept code is reported for the authentication bypass (EPSS 1.6%; 1.1% for the command injection). The KEV remediation due date is 13 November 2026, only three days after the listing.",
+    "affected_versions": [
+     "Barracuda Email Security Gateway (ESG): CVE-2026-116606 and CVE-2026-111560, versions not stated",
+     "Barracuda Load Balancer, Application Delivery Controller (ADC), Message Archiver (BMA), WAF Control Center (WCC), Web Application Firewall (WAF), Web Security Gateway (WSG): CVE-2026-111560, versions…"
+    ],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Apply Barracuda's mitigations and updates for both CVEs on all ESG and other affected Barracuda appliances before the 13 November 2026 KEV deadline, or take exposed appliances offline if no mitigation is available.",
+     "Restrict the ESG administrative interface so it is not reachable from the internet, allowing only trusted management networks.",
+     "Review ESG configuration, admin accounts, timezone settings and configuration-import or restore history for changes you cannot explain, and follow CISA's forensics triage guidance on any appliance that was exposed.",
+     "Treat any appliance showing tampering as compromised: rebuild or replace it, and rotate credentials and keys stored on or passing through it, including LDAP and SMTP relay credentials and admin passwords.",
+     "Check outbound traffic from the appliance's IP for unusual destinations, and review mail-flow and routing rules for unauthorized changes."
+    ],
+    "confidence": "high",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "CVE-2026-111560: Barracuda Networks Multiple Products OS Command Injection Vulnerability",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-111560",
+     "source": "CISA KEV",
+     "kind": "kev",
+     "published": "2026-11-10T00:00:00Z"
+    },
+    {
+     "title": "CVE-2026-116606: Barracuda Networks Email Security Gateway (ESG) Authentication Bypass Using an Alternate Path or Channel Vulnerability",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-116606",
+     "source": "CISA KEV",
+     "kind": "kev",
+     "published": "2026-11-10T00:00:00Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Inventory all Barracuda ESG, BMA, WAF, WCC, WSG, Load Balancer and ADC appliances and identify which have internet-reachable management interfaces.",
+     "Confirm each appliance's patch or mitigation status against Barracuda's advisory.",
+     "Pull appliance admin and audit logs and look for configuration import or backup restore events that no administrator initiated, and for unexpected timezone changes.",
+     "In firewall or Sentinel network logs, look for outbound connections from appliance IPs to unfamiliar external hosts, which may indicate post-exploitation activity.",
+     "Check Defender vulnerability management for any Barracuda assets it tracks with these CVEs."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Devices with Barracuda CVE-2026-116606 or CVE-2026-111560 exposure",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where CveId in ('CVE-2026-116606','CVE-2026-111560') | project DeviceId, DeviceName, OSPlatform, SoftwareVendor, SoftwareName, SoftwareVersion, CveId, VulnerabilitySeverityLevel, RecommendedSecurityUpdate",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 0,
+        "hits": 0,
+        "tables": [
+         "DeviceTvmSoftwareVulnerabilities"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-3",
+   "rank": 3,
+   "score": 81,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 18,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Huntress details four evolving ClickFix attack chains, including lateral movement and PNG-hidden payloads",
+   "labels": {
+    "category": "campaign",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "widespread",
+    "platform": "windows",
+    "vendor": "",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "Huntress reports that ClickFix, a social engineering technique that tricks users into pasting and running attacker-supplied commands, has evolved. According to Huntress, recent chains add lateral movement, payloads hidden inside PNG image files, Node.js-based remote access trojans, and a browser cache abuse technique. The available summary does not give indicators, specific malware families, or victim details.",
+    "why_it_matters": "ClickFix gets around many email and download controls because the user runs the command themselves, usually through the Windows Run dialog or a terminal, so any Windows endpoint with a human user is exposed. Huntress says the activity now goes beyond a single host to lateral movement, which raises the impact of one successful lure. No CVE or patch applies, so detection and user controls are the main defenses.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Hunt for Run dialog (RunMRU) entries and explorer.exe-spawned shells that contain PowerShell, mshta, curl or encoded commands, and investigate any hits.",
+     "Hunt for node.exe running from user-writable paths such as AppData or Temp and making outbound connections, which may indicate a Node.js RAT.",
+     "Where business needs allow, restrict the Win+R Run dialog for standard users through Group Policy and enable Attack Surface Reduction rules that block obfuscated scripts and Office or script child processes.",
+     "After any confirmed ClickFix execution, check for lateral movement from the affected host and rotate the user's credentials.",
+     "Brief users that legitimate sites never ask them to paste commands into Run, PowerShell or a terminal to fix errors or pass CAPTCHA checks."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Beyond the clipboard: The evolving tradecraft of ClickFix",
+     "url": "https://www.huntress.com/blog/the-evolving-tradecraft-of-clickfix",
+     "source": "Huntress",
+     "kind": "news",
+     "published": "2026-11-10T14:00:00Z"
+    }
+   ],
+   "detection": {
+    "type": "behavioral",
+    "sigma": {
+     "origin": "ai",
+     "title": "Suspicious Command Entered in Windows Run Dialog (ClickFix)",
+     "url": null,
+     "yaml": "title: Suspicious Command Entered in Windows Run Dialog (ClickFix)\nid: 6087785c-4d91-5d4a-abd2-15842af17c21\nstatus: experimental\ndescription: Detects Run dialog history (RunMRU) entries containing script interpreters or download utilities, which matches ClickFix lures that get users to paste and run malicious commands. Huntress reports this tradecraft is evolving and in active use. AI-generated, untested.\nreferences:\n- https://www.huntress.com/blog/the-evolving-tradecraft-of-clickfix\nauthor: intel-brief (AI-generated, untested)\ndate: '2026-11-11'\ntags:\n- attack.execution\n- attack.t1204.004\n- attack.t1059.001\n- attack.initial-access\nlogsource:\n  product: windows\n  category: registry_set\ndetection:\n  selection_key:\n    TargetObject|contains: \\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\RunMRU\\\n  selection_tools:\n    Details|contains:\n    - powershell\n    - pwsh\n    - mshta\n    - curl\n    - wget\n    - bitsadmin\n    - certutil\n    - rundll32\n    - regsvr32\n    - msiexec\n    - cmd /c\n    - cmd.exe /c\n    - conhost\n  filter_mrulist:\n    TargetObject|endswith: \\MRUList\n  condition: selection_key and selection_tools and not filter_mrulist\nfalsepositives:\n- Administrators or power users who start PowerShell or cmd one-liners from the Run dialog\nlevel: medium\n",
+     "check": {
+      "status": "pass",
+      "messages": [
+       "No rule errors found.",
+       "No condition errors found.",
+       "No validation issues found.",
+       "Parsing Sigma rules",
+       "Checking Sigma rules"
+      ]
+     },
+     "conversions": {
+      "kql": {
+       "label": "Defender XDR / Sentinel KQL",
+       "query": "DeviceRegistryEvents\n| where RegistryKey endswith \"\\\\Software\\\\Microsoft\\\\Windows\\\\CurrentVersion\\\\Explorer\\\\RunMRU*\" and (RegistryValueData contains \"powershell\" or RegistryValueData contains \"pwsh\" or RegistryValueData contains \"mshta\" or RegistryValueData contains \"curl\" or RegistryValueData contains \"wget\" or RegistryValueData contains \"bitsadmin\" or RegistryValueData contains \"certutil\" or RegistryValueData contains \"rundll32\" or RegistryValueData contains \"regsvr32\" or RegistryValueData contains \"msiexec\" or RegistryValueData contains \"cmd /c\" or RegistryValueData contains \"cmd.exe /c\" or RegistryValueData contains \"conhost\") and (not(RegistryKey endswith \"\\\\MRUList\"))",
+       "error": null,
+       "validation": {
+        "status": "pass",
+        "messages": []
+       },
+       "receipt": {
+        "engine": "ran",
+        "baseline": {
+         "events": 60,
+         "hits": 0,
+         "tables": [
+          "DeviceRegistryEvents"
+         ]
+        },
+        "cases": {
+         "status": "fail",
+         "positive": 27,
+         "positive_fired": 0,
+         "negative": 6,
+         "negative_fired": 0,
+         "disagreements": [
+          {
+           "case": "every selection",
+           "expected": true,
+           "fired": false
+          },
+          {
+           "case": "letter case changed",
+           "expected": true,
+           "fired": false
+          },
+          {
+           "case": "selection_key alternative 1, contained text at the end",
+           "expected": true,
+           "fired": false
+          },
+          {
+           "case": "selection_tools alternative 2",
+           "expected": true,
+           "fired": false
+          },
+          {
+           "case": "selection_tools alternative 2, contained text at the end",
+           "expected": true,
+           "fired": false
+          },
+          {
+           "case": "selection_tools alternative 3",
+           "expected": true,
+           "fired": false
+          },
+          {
+           "case": "selection_tools alternative 3, contained text at the end",
+           "expected": true,
+           "fired": false
+          },
+          {
+           "case": "selection_tools alternative 4",
+           "expected": true,
+           "fired": false
+          },
+          {
+           "case": "selection_tools alternative 4, contained text at the end",
+           "expected": true,
+           "fired": false
+          },
+          {
+           "case": "selection_tools alternative 5",
+           "expected": true,
+           "fired": false
+          }
+         ],
+         "skipped": 0
+        }
+       }
+      },
+      "spl": {
+       "label": "Splunk SPL",
+       "query": "TargetObject=\"*\\\\Software\\\\Microsoft\\\\Windows\\\\CurrentVersion\\\\Explorer\\\\RunMRU\\\\*\" Details IN (\"*powershell*\", \"*pwsh*\", \"*mshta*\", \"*curl*\", \"*wget*\", \"*bitsadmin*\", \"*certutil*\", \"*rundll32*\", \"*regsvr32*\", \"*msiexec*\", \"*cmd /c*\", \"*cmd.exe /c*\", \"*conhost*\") NOT TargetObject=\"*\\\\MRUList\"",
+       "error": null
+      },
+      "elastic": {
+       "label": "Elastic (Lucene, ECS)",
+       "query": "registry.path:*\\\\Software\\\\Microsoft\\\\Windows\\\\CurrentVersion\\\\Explorer\\\\RunMRU\\\\* AND (winlog.event_data.Details:(*powershell* OR *pwsh* OR *mshta* OR *curl* OR *wget* OR *bitsadmin* OR *certutil* OR *rundll32* OR *regsvr32* OR *msiexec* OR *cmd\\ \\/c* OR *cmd.exe\\ \\/c* OR *conhost*)) AND (NOT registry.path:*\\\\MRUList)",
+       "error": null
+      }
+     }
+    },
+    "hunting_steps": [
+     "Query RunMRU registry writes over the last 30 days for entries with interpreters, download tools, URLs or encoded content.",
+     "Correlate hits with process creation where explorer.exe is the parent of powershell, mshta, cmd or curl, and look at the command lines.",
+     "Look for follow-on activity on affected hosts: network connections to newly seen domains, image files written then read by script hosts, and node.exe running from user profile paths.",
+     "For confirmed hosts, check remote logons, SMB, WMI or WinRM activity to other devices to scope lateral movement.",
+     "Review browser history around the execution time to find the lure site and block it."
+    ],
+    "hunting_queries": [
+     {
+      "title": "ClickFix-style commands written to RunMRU",
+      "kql": "DeviceRegistryEvents | where Timestamp > ago(30d) | where RegistryKey has @\"Explorer\\RunMRU\" and RegistryValueName != \"MRUList\" | where RegistryValueData has_any (\"powershell\", \"pwsh\", \"mshta\", \"curl\", \"certutil\", \"bitsadmin\", \"rundll32\", \"regsvr32\", \"msiexec\", \"http\") | project Timestamp, DeviceName, InitiatingProcessAccountName, RegistryValueName, RegistryValueData | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 60,
+        "hits": 0,
+        "tables": [
+         "DeviceRegistryEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Explorer-spawned script interpreters with network or encoded commands",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where InitiatingProcessFileName =~ \"explorer.exe\" | where FileName in~ (\"powershell.exe\", \"pwsh.exe\", \"mshta.exe\", \"cmd.exe\", \"curl.exe\") | where ProcessCommandLine has_any (\"http\", \"-enc\", \"-e \", \"iex\", \"invoke-expression\", \"downloadstring\", \"-w hidden\", \"hidden\") | project Timestamp, DeviceName, AccountName, FileName, ProcessCommandLine | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Node.js running from user-writable paths with outbound connections",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(30d) | where InitiatingProcessFileName =~ \"node.exe\" | where InitiatingProcessFolderPath has_any (@\"\\AppData\\\", @\"\\Temp\\\", @\"\\ProgramData\\\", @\"\\Users\\Public\\\") | where RemoteIPType == \"Public\" | summarize Connections = count(), RemoteUrls = make_set(RemoteUrl, 20), RemoteIPs = make_set(RemoteIP, 20) by DeviceName, InitiatingProcessAccountName, InitiatingProcessFolderPath, InitiatingProcessCommandLine | order by Connections desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 300,
+        "hits": 0,
+        "tables": [
+         "DeviceNetworkEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-4",
+   "rank": 4,
+   "score": 55,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 4,
+    "platform": 8,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Railway says attackers stole customer secrets, generating about $740,000 in fraudulent AI usage",
+   "labels": {
+    "category": "breach",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "niche",
+    "platform": "cloud_saas",
+    "vendor": "Railway",
+    "product": "Railway hosting platform"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "BleepingComputer reports that cloud hosting provider Railway says attackers exploited vulnerabilities in its infrastructure and stole customer authentication secrets. According to Railway, the stolen secrets were used to run up roughly $740,000 in fraudulent AI usage. Credentials for as many as 100,000 workspaces may have been exposed. The sources do not name the vulnerabilities, the timeline, or which secret types were taken.",
+    "why_it_matters": "Railway confirms the stolen secrets were abused. Any API keys, cloud credentials, database passwords or Entra ID app secrets stored as Railway environment variables should be treated as compromised. AI provider keys are the confirmed target, but the same secrets may give access to Microsoft 365, Azure or other SaaS tenants your teams connected to Railway-hosted apps.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Identify every team and project that uses Railway, including shadow IT and developer side projects.",
+     "Rotate all secrets stored in Railway workspaces: AI provider API keys, cloud access keys, database credentials, OAuth tokens and Entra ID application client secrets or certificates.",
+     "Review billing and usage logs for AI services (OpenAI, Azure OpenAI, Anthropic and others) for unexplained spikes, and set spending caps and alerts.",
+     "Review sign-ins for Entra ID service principals whose credentials were stored in Railway, looking for unfamiliar IP addresses or unusual resource access.",
+     "Follow Railway's official notifications for any indicators or detail on the exploited vulnerabilities."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Railway breach leads to $740,000 in fraudulent AI charges",
+     "url": "https://www.bleepingcomputer.com/news/apple/railway-breach-leads-to-740-000-in-fraudulent-ai-charges/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-10T22:20:19Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Inventory Railway usage by finding endpoints where the Railway CLI has been run, then contact those owners.",
+     "List the secrets each Railway project held and map them to the services they unlock (AI providers, Azure, M365, databases).",
+     "For Entra ID applications whose secrets lived in Railway, review service principal sign-ins and audit logs for unfamiliar source IPs or new activity after the suspected exposure window.",
+     "Check AI provider and Azure OpenAI usage and billing for anomalous consumption.",
+     "Confirm that every exposed credential has been rotated and the old one revoked, not just replaced."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Endpoints running the Railway CLI (inventory of Railway users)",
+      "kql": "DeviceProcessEvents\n| where Timestamp > ago(30d)\n| where FileName in~ (\"railway\", \"railway.exe\") or ProcessCommandLine has_any (\"railway login\", \"railway up\", \"railway variables\", \"@railway/cli\")\n| summarize Executions = count(), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by DeviceName, AccountName\n| order by LastSeen desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Cloud app activity by OAuth or service apps from new IP addresses",
+      "kql": "CloudAppEvents\n| where Timestamp > ago(30d)\n| where isnotempty(IPAddress) and isnotempty(ApplicationId)\n| summarize FirstSeen = min(Timestamp), LastSeen = max(Timestamp), Actions = count() by Application, ApplicationId, IPAddress, CountryCode\n| where FirstSeen > ago(14d)\n| order by Actions desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 30,
+        "hits": 0,
+        "tables": [
+         "CloudAppEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-5",
+   "rank": 5,
+   "score": 55,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 4,
+    "platform": 8,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Compromised Qubole AWS IAM credentials used to steal data from multiple customer AWS environments",
+   "labels": {
+    "category": "breach",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "niche",
+    "platform": "cloud_saas",
+    "vendor": "Qubole",
+    "product": "Qubole AWS account"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "BleepingComputer reported on 10 November 2026 that a threat actor obtained IAM credentials tied to the AWS account of Qubole, a big data platform. According to the report, the attacker used that trusted access to reach the AWS environments of several Qubole customers and exfiltrate data from them. The available reporting does not name the affected customers, explain how the credentials were compromised, or list indicators of compromise.",
+    "why_it_matters": "Third-party SaaS platforms such as Qubole usually get cross-account IAM roles or access keys with broad read access to customer S3 data. Abuse of that access looks like normal vendor activity unless it is baselined. Exploitation is confirmed, so any organization that has granted Qubole access to its AWS accounts should treat its environment as potentially exposed until it has reviewed the logs.",
+    "affected_versions": [
+     "Organizations that granted Qubole IAM access (cross-account roles or access keys) to their AWS environments"
+    ],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory every IAM role, trust policy and access key that grants Qubole or other third-party platforms access to your AWS accounts. Revoke or suspend that access if it is not actively needed.",
+     "Rotate any access keys shared with Qubole. Require a unique external ID on cross-account roles and restrict them to known source IP ranges where the vendor supports it.",
+     "Review CloudTrail for AssumeRole calls and data-access events by vendor roles during the past months. Look for unusual source IPs, new regions, bulk S3 GetObject or ListBucket activity, and large egress.",
+     "Reduce vendor role permissions to the specific buckets and actions the integration needs, and turn on S3 data events and GuardDuty for exfiltration anomalies.",
+     "Contact Qubole for confirmation of whether your tenant was affected and for any indicators they can share."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Hackers exploit trusted AWS access to breach multiple cloud environments",
+     "url": "https://www.bleepingcomputer.com/news/security/hackers-exploit-trusted-aws-access-to-breach-multiple-cloud-environments/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-10T19:31:11Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "List all IAM roles whose trust policy references Qubole or another external vendor account, and record the role ARNs.",
+     "If AWS is connected to Defender for Cloud Apps, search CloudAppEvents for AssumeRole activity by those roles. Otherwise search CloudTrail directly in Sentinel.",
+     "Baseline the source IPs, user agents and regions normally used by the vendor role. Flag sessions that fall outside that baseline.",
+     "For suspicious sessions, pivot to S3 data events (GetObject, ListObjects, ListBuckets) and measure volume per session to spot bulk exfiltration.",
+     "Check for persistence created by the vendor role, such as CreateAccessKey, CreateUser, PutBucketPolicy or changes to role trust policies."
+    ],
+    "hunting_queries": [
+     {
+      "title": "AWS activity referencing Qubole roles or principals",
+      "kql": "CloudAppEvents | where Timestamp > ago(90d) | where Application == \"Amazon Web Services\" | where tostring(RawEventData) has \"qubole\" | summarize Events = count(), IPs = make_set(IPAddress, 50), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by AccountDisplayName, ActionType | order by Events desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 30,
+        "hits": 0,
+        "tables": [
+         "CloudAppEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "AssumeRole and S3 data access volume per principal and source IP",
+      "kql": "CloudAppEvents | where Timestamp > ago(30d) | where Application == \"Amazon Web Services\" | where ActionType in (\"AssumeRole\", \"GetObject\", \"ListBuckets\", \"ListObjects\", \"ListObjectsV2\") | summarize Events = count(), Actions = make_set(ActionType, 10) by AccountDisplayName, IPAddress, CountryCode | order by Events desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 30,
+        "hits": 0,
+        "tables": [
+         "CloudAppEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Persistence or policy changes made in AWS",
+      "kql": "CloudAppEvents | where Timestamp > ago(30d) | where Application == \"Amazon Web Services\" | where ActionType in (\"CreateAccessKey\", \"CreateUser\", \"UpdateAssumeRolePolicy\", \"PutBucketPolicy\", \"AttachRolePolicy\", \"PutRolePolicy\") | project Timestamp, AccountDisplayName, ActionType, IPAddress, CountryCode, ObjectName | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 30,
+        "hits": 0,
+        "tables": [
+         "CloudAppEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-6",
+   "rank": 6,
+   "score": 53,
+   "factors": {
+    "exploitation": 0,
+    "prevalence": 25,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 5,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 9.9
+   },
+   "title": "Microsoft November 2026 updates fix dozens of Office, Excel, Outlook and SharePoint flaws",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "none_known",
+    "prevalence": "ubiquitous",
+    "platform": "m365_entra",
+    "vendor": "Microsoft",
+    "product": "Office and SharePoint"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-120002",
+     "cvss": 9.9,
+     "severity": "CRITICAL",
+     "products": [],
+     "epss": null,
+     "percentile": null,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-119986",
+     "cvss": 8.8,
+     "severity": "HIGH",
+     "products": [],
+     "epss": null,
+     "percentile": null,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-119995",
+     "cvss": 7.5,
+     "severity": "HIGH",
+     "products": [],
+     "epss": null,
+     "percentile": null,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-119996",
+     "cvss": 7.5,
+     "severity": "HIGH",
+     "products": [],
+     "epss": null,
+     "percentile": null,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-120000",
+     "cvss": 7.5,
+     "severity": "HIGH",
+     "products": [],
+     "epss": null,
+     "percentile": null,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-120001",
+     "cvss": 8.8,
+     "severity": "HIGH",
+     "products": [],
+     "epss": null,
+     "percentile": null,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "Microsoft's Security Update Guide lists a large batch of Office-family vulnerabilities fixed on 10 November 2026, most of them remote code execution bugs in Excel (heap and stack overflows, use-after-free, double free), plus RCE flaws in PowerPoint, Access, Outlook and Office itself. On SharePoint, Microsoft fixed two deserialization RCE flaws that require an authenticated attacker (CVE-2026-120000, CVE-2026-109464), a cross-site scripting spoofing bug, and an incorrect-authorization privilege escalation flaw (CVE-2026-120002) that NVD scores CVSS 9.9. The release also includes two network-exploitable Outlook heap overflows (CVE-2026-119995, CVE-2026-119996), a local Outlook RCE, an Office security feature bypass where the UI fails to warn of unsafe actions (CVE-2026-119998), and several information disclosure bugs. The sources do not list affected build numbers, and neither Microsoft nor CISA reports exploitation or public proof-of-concept code.",
+    "why_it_matters": "Office and Outlook run on nearly every Windows endpoint, and malicious documents and email remain a primary initial access route, so this volume of document-parsing RCE bugs widens the phishing attack surface until clients are updated. On-premises SharePoint servers face an authenticated privilege escalation rated CVSS 9.9 and authenticated deserialization RCE, which matter most where SharePoint is internet-facing or broadly accessible to users. None of the CVEs are in CISA KEV, no EPSS scores are available yet, and no exploitation is known, so this is a standard but broad patch priority with SharePoint first.",
+    "affected_versions": [],
+    "fixed_versions": [
+     "Microsoft security updates released 10 November 2026 (build numbers not stated in the sources)"
+    ],
+    "recommended_actions": [
+     "Apply the November 2026 SharePoint Server updates first, prioritizing internet-facing or widely accessible farms, given the CVSS 9.9 elevation of privilege flaw CVE-2026-120002 and the deserialization RCE flaws.",
+     "Push the November 2026 Office, Microsoft 365 Apps, Outlook and Access updates to all endpoints and confirm update channel compliance in Defender Vulnerability Management.",
+     "Enforce Attack Surface Reduction rules that block Office applications from creating child processes and from injecting into other processes.",
+     "Keep Protected View and Mark-of-the-Web handling enabled for documents from the internet and email, given the Office security feature bypass CVE-2026-119998.",
+     "Hunt for Office applications and SharePoint IIS worker processes spawning shells or script interpreters until patching is complete."
+    ],
+    "confidence": "high",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "CVE-2026-109454 Microsoft Office SharePoint Spoofing Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-109454",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-10T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-109464 Microsoft Office SharePoint Remote Code Execution Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-109464",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-10T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-124229 Microsoft Office Excel Remote Code Execution Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-124229",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-10T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-119986 Microsoft Office Excel Remote Code Execution Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-119986",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-10T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-120785 Microsoft Office Excel Remote Code Execution Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-120785",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-10T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-120786 Microsoft Office Excel Remote Code Execution Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-120786",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-10T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-120788 Microsoft Office Excel Remote Code Execution Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-120788",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-10T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-120790 Microsoft Office Excel Remote Code Execution Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-120790",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-10T16:00:00Z"
+    }
+   ],
+   "detection": {
+    "type": "behavioral",
+    "sigma": {
+     "origin": "ai",
+     "title": "Office Application Spawning Script Interpreter or LOLBin",
+     "url": null,
+     "yaml": "title: Office Application Spawning Script Interpreter or LOLBin\nid: ff5430a2-66b8-53b7-88a9-11c8a1ee9356\nstatus: experimental\ndescription: Detects Excel, PowerPoint, Outlook, Access or Word starting command shells, script hosts or common living-off-the-land binaries, a typical result of successful document-based code execution such as the Office RCE flaws fixed in November 2026. AI-generated, untested.\nreferences:\n- https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-109454\n- https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-109464\n- https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-124229\n- https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-119986\n- https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-120785\n- https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-120786\nauthor: intel-brief (AI-generated, untested)\ndate: '2026-11-11'\ntags:\n- attack.execution\n- attack.t1203\n- attack.t1566.001\n- cve.2026-120002\n- cve.2026-119986\n- cve.2026-119995\n- cve.2026-119996\n- cve.2026-120000\n- cve.2026-120001\n- cve.2026-120003\n- cve.2026-120005\n- cve.2026-109454\n- cve.2026-109464\n- cve.2026-124229\n- cve.2026-120785\n- cve.2026-120786\n- cve.2026-120788\n- cve.2026-120790\n- cve.2026-120791\n- cve.2026-123385\n- cve.2026-123395\n- cve.2026-124170\n- cve.2026-124174\n- cve.2026-124176\n- cve.2026-124178\n- cve.2026-124179\n- cve.2026-124183\n- cve.2026-124187\n- cve.2026-116927\n- cve.2026-118292\n- cve.2026-118293\n- cve.2026-118294\n- cve.2026-118295\n- cve.2026-118296\n- cve.2026-118297\n- cve.2026-118298\n- cve.2026-118299\n- cve.2026-118300\n- cve.2026-118301\n- cve.2026-118302\n- cve.2026-118700\n- cve.2026-118701\n- cve.2026-118702\n- cve.2026-118703\n- cve.2026-118704\n- cve.2026-118705\n- cve.2026-118706\n- cve.2026-118707\n- cve.2026-118708\n- cve.2026-118709\n- cve.2026-118710\n- cve.2026-118711\n- cve.2026-118712\n- cve.2026-118713\n- cve.2026-118714\n- cve.2026-118715\n- cve.2026-118716\n- cve.2026-118717\n- cve.2026-118718\n- cve.2026-118719\n- cve.2026-118720\n- cve.2026-111301\n- cve.2026-111305\n- cve.2026-112731\n- cve.2026-112734\n- cve.2026-112737\n- cve.2026-112738\n- cve.2026-116717\n- cve.2026-116922\n- cve.2026-119993\n- cve.2026-119997\n- cve.2026-119998\nlogsource:\n  product: windows\n  category: process_creation\ndetection:\n  selection_parent:\n    ParentImage|endswith:\n    - \\EXCEL.EXE\n    - \\POWERPNT.EXE\n    - \\OUTLOOK.EXE\n    - \\MSACCESS.EXE\n    - \\WINWORD.EXE\n  selection_child:\n    Image|endswith:\n    - \\cmd.exe\n    - \\powershell.exe\n    - \\pwsh.exe\n    - \\wscript.exe\n    - \\cscript.exe\n    - \\mshta.exe\n    - \\rundll32.exe\n    - \\regsvr32.exe\n    - \\certutil.exe\n    - \\bitsadmin.exe\n    - \\msiexec.exe\n  condition: selection_parent and selection_child\nfalsepositives:\n- Legacy macros or add-ins that legitimately launch scripts or command shells\n- Line-of-business integrations that start helper tools from Office\nlevel: medium\n",
+     "check": {
+      "status": "pass",
+      "messages": [
+       "No rule errors found.",
+       "No condition errors found.",
+       "No validation issues found.",
+       "Parsing Sigma rules",
+       "Checking Sigma rules"
+      ]
+     },
+     "conversions": {
+      "kql": {
+       "label": "Defender XDR / Sentinel KQL",
+       "query": "DeviceProcessEvents\n| where (InitiatingProcessFolderPath endswith \"\\\\EXCEL.EXE\" or InitiatingProcessFolderPath endswith \"\\\\POWERPNT.EXE\" or InitiatingProcessFolderPath endswith \"\\\\OUTLOOK.EXE\" or InitiatingProcessFolderPath endswith \"\\\\MSACCESS.EXE\" or InitiatingProcessFolderPath endswith \"\\\\WINWORD.EXE\") and (FolderPath endswith \"\\\\cmd.exe\" or FolderPath endswith \"\\\\powershell.exe\" or FolderPath endswith \"\\\\pwsh.exe\" or FolderPath endswith \"\\\\wscript.exe\" or FolderPath endswith \"\\\\cscript.exe\" or FolderPath endswith \"\\\\mshta.exe\" or FolderPath endswith \"\\\\rundll32.exe\" or FolderPath endswith \"\\\\regsvr32.exe\" or FolderPath endswith \"\\\\certutil.exe\" or FolderPath endswith \"\\\\bitsadmin.exe\" or FolderPath endswith \"\\\\msiexec.exe\")",
+       "error": null,
+       "validation": {
+        "status": "pass",
+        "messages": []
+       },
+       "receipt": {
+        "engine": "ran",
+        "baseline": {
+         "events": 500,
+         "hits": 0,
+         "tables": [
+          "DeviceProcessEvents"
+         ]
+        },
+        "cases": {
+         "status": "pass",
+         "positive": 16,
+         "positive_fired": 16,
+         "negative": 4,
+         "negative_fired": 0,
+         "disagreements": [],
+         "skipped": 0
+        }
+       }
+      },
+      "spl": {
+       "label": "Splunk SPL",
+       "query": "ParentImage IN (\"*\\\\EXCEL.EXE\", \"*\\\\POWERPNT.EXE\", \"*\\\\OUTLOOK.EXE\", \"*\\\\MSACCESS.EXE\", \"*\\\\WINWORD.EXE\") Image IN (\"*\\\\cmd.exe\", \"*\\\\powershell.exe\", \"*\\\\pwsh.exe\", \"*\\\\wscript.exe\", \"*\\\\cscript.exe\", \"*\\\\mshta.exe\", \"*\\\\rundll32.exe\", \"*\\\\regsvr32.exe\", \"*\\\\certutil.exe\", \"*\\\\bitsadmin.exe\", \"*\\\\msiexec.exe\")",
+       "error": null
+      },
+      "elastic": {
+       "label": "Elastic (Lucene, ECS)",
+       "query": "(process.parent.executable.caseless:(*\\\\EXCEL.EXE OR *\\\\POWERPNT.EXE OR *\\\\OUTLOOK.EXE OR *\\\\MSACCESS.EXE OR *\\\\WINWORD.EXE)) AND (process.executable.caseless:(*\\\\cmd.exe OR *\\\\powershell.exe OR *\\\\pwsh.exe OR *\\\\wscript.exe OR *\\\\cscript.exe OR *\\\\mshta.exe OR *\\\\rundll32.exe OR *\\\\regsvr32.exe OR *\\\\certutil.exe OR *\\\\bitsadmin.exe OR *\\\\msiexec.exe))",
+       "error": null
+      }
+     }
+    },
+    "hunting_steps": [
+     "Use Defender Vulnerability Management to list devices still exposed to the November 2026 Office, Outlook and SharePoint CVEs and track remediation.",
+     "Inventory on-premises SharePoint servers and identify any reachable from the internet; patch those first.",
+     "Hunt for Office applications spawning shells, script hosts or LOLBins over the last 14 days and review the document and email that preceded each hit.",
+     "On SharePoint servers, hunt for the IIS worker process spawning cmd, PowerShell or other interpreters, which would indicate server-side code execution.",
+     "Review unexpected file writes of scripts or executables by Office processes into user-writable paths such as AppData and Temp."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Office apps spawning shells, script hosts or LOLBins",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(14d) | where InitiatingProcessFileName in~ (\"excel.exe\",\"powerpnt.exe\",\"outlook.exe\",\"msaccess.exe\",\"winword.exe\") | where FileName in~ (\"cmd.exe\",\"powershell.exe\",\"pwsh.exe\",\"wscript.exe\",\"cscript.exe\",\"mshta.exe\",\"rundll32.exe\",\"regsvr32.exe\",\"certutil.exe\",\"bitsadmin.exe\",\"msiexec.exe\") | project Timestamp, DeviceName, AccountName, InitiatingProcessFileName, InitiatingProcessCommandLine, FileName, ProcessCommandLine | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "SharePoint IIS worker process spawning command interpreters",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(14d) | where InitiatingProcessFileName =~ \"w3wp.exe\" | where InitiatingProcessCommandLine has \"SharePoint\" or InitiatingProcessFolderPath has \"SharePoint\" | where FileName in~ (\"cmd.exe\",\"powershell.exe\",\"pwsh.exe\",\"cscript.exe\",\"wscript.exe\",\"mshta.exe\",\"rundll32.exe\",\"certutil.exe\") | project Timestamp, DeviceName, AccountName, InitiatingProcessCommandLine, FileName, ProcessCommandLine | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Devices exposed to key November 2026 Office and SharePoint CVEs",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where CveId in (\"CVE-2026-120002\",\"CVE-2026-120000\",\"CVE-2026-109464\",\"CVE-2026-119995\",\"CVE-2026-119996\",\"CVE-2026-119997\",\"CVE-2026-119998\",\"CVE-2026-119986\",\"CVE-2026-120001\",\"CVE-2026-120003\",\"CVE-2026-120005\",\"CVE-2026-116717\") | summarize Devices = dcount(DeviceId), CVEs = make_set(CveId) by SoftwareName, SoftwareVersion | order by Devices desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 0,
+        "hits": 0,
+        "tables": [
+         "DeviceTvmSoftwareVulnerabilities"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-7",
+   "rank": 7,
+   "score": 51,
+   "factors": {
+    "exploitation": 0,
+    "prevalence": 25,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 6,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 8.8
+   },
+   "title": "Microsoft November 2026 Patch Tuesday fixes Windows RCE and privilege escalation flaws",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "none_known",
+    "prevalence": "ubiquitous",
+    "platform": "windows",
+    "vendor": "Microsoft",
+    "product": "Windows"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-119899",
+     "cvss": 7.8,
+     "severity": "HIGH",
+     "products": [],
+     "epss": null,
+     "percentile": null,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-119900",
+     "cvss": 7.3,
+     "severity": "HIGH",
+     "products": [],
+     "epss": null,
+     "percentile": null,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-119908",
+     "cvss": 8.8,
+     "severity": "HIGH",
+     "products": [],
+     "epss": null,
+     "percentile": null,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-119932",
+     "cvss": 7.5,
+     "severity": "HIGH",
+     "products": [],
+     "epss": null,
+     "percentile": null,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-119938",
+     "cvss": 7.5,
+     "severity": "HIGH",
+     "products": [],
+     "epss": null,
+     "percentile": null,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-119948",
+     "cvss": 7.5,
+     "severity": "HIGH",
+     "products": [],
+     "epss": null,
+     "percentile": null,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "On 10 November 2026 Microsoft released its November Patch Tuesday updates, shipped as cumulative updates for Windows 11 26H2, 25H2, 24H2 and 23H2 and as extended security update KB5131096 for Windows 10, according to BleepingComputer. Microsoft and NVD describe remote code execution flaws in Windows DNS, Windows Shell, Storage Spaces Controller, Active Directory and the Remote Desktop Gateway Service. They also list a network-reachable Print Spooler privilege escalation (CVSS 8.8), local privilege escalation in Win32K, NTFS and the DWM Core Library, and information disclosure in Windows Shell and the iSCSI Target Service. None of the sources report exploitation in the wild or public proof-of-concept code.",
+    "why_it_matters": "These components run across most Windows estates. The DNS, Active Directory, Print Spooler and RD Gateway flaws affect high-value servers that attackers often target soon after patches are reverse-engineered. None of the CVEs is in CISA KEV and no EPSS scores are available yet, so this is routine but broad patching, with servers prioritized.",
+    "affected_versions": [
+     "Windows 11 versions 26H2, 25H2, 24H2 and 23H2",
+     "Windows 10 (extended security updates)"
+    ],
+    "fixed_versions": [
+     "Windows 10 KB5131096 extended security update",
+     "Windows 11 cumulative updates KB5132061 and KB5131087 (the sources do not map each KB to a version)"
+    ],
+    "recommended_actions": [
+     "Patch domain controllers, Windows DNS servers, Remote Desktop Gateway hosts and print servers first with the November 2026 cumulative updates.",
+     "Deploy KB5132061 or KB5131087 to Windows 11 devices and KB5131096 to Windows 10 ESU devices through your normal update rings.",
+     "Disable the Print Spooler service on servers that do not need printing, especially domain controllers.",
+     "Limit internet exposure of Remote Desktop and RD Gateway, and require MFA in front of remote access.",
+     "Confirm patch coverage with Defender Vulnerability Management and follow up on devices still exposed to the listed CVEs."
+    ],
+    "confidence": "high",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "CVE-2026-102868 Windows Shell Information Disclosure Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-102868",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-10T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-105582 Windows DWM Core Library Elevation of Privilege Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-105582",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-10T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-109463 Windows DNS Remote Code Execution Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-109463",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-10T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-83684 Windows iSCSI Target Service Information Disclosure Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-83684",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-10T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-69565 Windows Remote Desktop Services Remote Code Execution Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-69565",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-10T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-69327 Windows Remote Desktop Services Remote Code Execution Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-69327",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-10T16:00:00Z"
+    },
+    {
+     "title": "Windows 11 KB5132061 & KB5131087 cumulative updates released",
+     "url": "https://www.bleepingcomputer.com/news/microsoft/windows-11-kb5132061-and-kb5131087-cumulative-updates-released/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-10T18:33:26Z"
+    },
+    {
+     "title": "Microsoft releases Windows 10 KB5131096 extended security update",
+     "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-releases-windows-10-kb5131096-extended-security-update/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-10T20:04:36Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Query Defender Vulnerability Management for devices still exposed to the November 2026 CVEs and track remediation by CVE.",
+     "Find hosts running the Windows DNS Server role and the Print Spooler, and patch those servers first.",
+     "Find hosts that accept inbound RDP from public IP addresses and confirm they are patched or placed behind a VPN or gateway.",
+     "Re-run the exposure queries after each deployment ring to confirm coverage."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Devices exposed to November 2026 Patch Tuesday CVEs",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where CveId in (\"CVE-2026-119899\",\"CVE-2026-119900\",\"CVE-2026-119908\",\"CVE-2026-119932\",\"CVE-2026-119938\",\"CVE-2026-119948\",\"CVE-2026-119950\",\"CVE-2026-102868\",\"CVE-2026-105582\",\"CVE-2026-109463\",\"CVE-2026-83684\",\"CVE-2026-69565\",\"CVE-2026-69327\") | summarize ExposedDevices = dcount(DeviceId), SampleDevices = make_set(DeviceName, 50) by CveId, VulnerabilitySeverityLevel | order by ExposedDevices desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 0,
+        "hits": 0,
+        "tables": [
+         "DeviceTvmSoftwareVulnerabilities"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Hosts running Windows DNS Server or Print Spooler processes",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(7d) | where FileName in~ (\"dns.exe\", \"spoolsv.exe\") | summarize LastSeen = max(Timestamp) by DeviceId, DeviceName, FileName | order by FileName asc, DeviceName asc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Hosts accepting inbound RDP from public IP addresses",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(7d) | where ActionType == \"InboundConnectionAccepted\" and LocalPort == 3389 and RemoteIPType == \"Public\" | summarize Connections = count(), DistinctRemoteIPs = dcount(RemoteIP), LastSeen = max(Timestamp) by DeviceId, DeviceName | order by DistinctRemoteIPs desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 300,
+        "hits": 0,
+        "tables": [
+         "DeviceNetworkEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-8",
+   "rank": 8,
+   "score": 51,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Nitori discloses network intrusion with possible theft of 37.62 million customer records",
+   "labels": {
+    "category": "breach",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "other",
+    "vendor": "Nitori",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "Japanese furniture and home goods retailer Nitori says an attacker gained access to a system on its network and may have stolen about 37.62 million customer records, according to BleepingComputer. The sources do not say how the attacker got in, which system was reached, what data fields the records contain, or when the intrusion took place. No threat actor has been named.",
+    "why_it_matters": "No vulnerability, product or attacker technique has been disclosed, so there is nothing specific to hunt for in Windows, M365 or edge telemetry. The main risk to most organizations is secondary: phishing and credential-stuffing campaigns that reuse the leaked customer data, especially aimed at staff or customers with ties to Japanese retail.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Watch for further disclosures from Nitori on the initial access vector and the exposed data types, and reassess if a product vulnerability or attacker tooling is named.",
+     "If your organization has a business relationship with Nitori, review data-sharing agreements and confirm which of your data could be in scope.",
+     "Brief users and helpdesk staff on likely phishing lures that pose as Nitori or reference recent Nitori purchases."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Japanese furniture giant Nitori says hackers stole 37.6M customer records",
+     "url": "https://www.bleepingcomputer.com/news/security/japanese-furniture-giant-nitori-says-hackers-stole-376m-customer-records/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-10T20:54:55Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-9",
+   "rank": 9,
+   "score": 48,
+   "factors": {
+    "exploitation": 0,
+    "prevalence": 25,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Microsoft's November 2026 updates fix a large batch of Windows elevation of privilege flaws",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "none_known",
+    "prevalence": "ubiquitous",
+    "platform": "windows",
+    "vendor": "Microsoft",
+    "product": "Windows"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-96051",
+     "cvss": 7.0,
+     "severity": "HIGH",
+     "products": [],
+     "epss": null,
+     "percentile": null,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-96055",
+     "cvss": 7.8,
+     "severity": "HIGH",
+     "products": [],
+     "epss": null,
+     "percentile": null,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-96057",
+     "cvss": 7.8,
+     "severity": "HIGH",
+     "products": [],
+     "epss": null,
+     "percentile": null,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-96060",
+     "cvss": 7.8,
+     "severity": "HIGH",
+     "products": [],
+     "epss": null,
+     "percentile": null,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-96061",
+     "cvss": null,
+     "severity": "",
+     "products": [],
+     "epss": null,
+     "percentile": null,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-96073",
+     "cvss": null,
+     "severity": "",
+     "products": [],
+     "epss": null,
+     "percentile": null,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "Microsoft's Security Update Guide published fixes on 10 November 2026 for a large set of Windows elevation of privilege vulnerabilities. They span the kernel, Win32k, the graphics kernel, Desktop Window Manager, Print Spooler components, Windows Installer, Hyper-V, SMB Client, WMI, and a long run of Advanced Rasterization Platform bugs. Most require an attacker who is already authenticated locally. A smaller group is described as network-reachable: Microsoft lists Kerberos (CVE-2026-85844), a Print Spooler path traversal (CVE-2026-112762), NetBIOS (CVE-2026-105551) and File Server Resource Management (CVE-2026-108421) as exploitable by an unauthorized attacker over a network, and the DHCP Client (CVE-2026-113863) over an adjacent network.",
+    "why_it_matters": "Local privilege escalation is the step that turns a phished user or a foothold from a stolen session into SYSTEM, credential theft and EDR tampering, and these flaws affect every Windows fleet. No exploitation, KEV listing or public proof-of-concept is reported, and the few scored CVEs sit at CVSS 7.0 to 7.8 with no EPSS data yet. The network-reachable Kerberos, Active Directory Domain Services (CVE-2026-118735, CVE-2026-123387), Print Spooler, NetBIOS and DNS issues deserve priority on domain controllers and servers.",
+    "affected_versions": [],
+    "fixed_versions": [
+     "Microsoft November 2026 security updates (released 10 November 2026)"
+    ],
+    "recommended_actions": [
+     "Deploy the November 2026 cumulative updates to domain controllers first. Kerberos (CVE-2026-85844) and Active Directory Domain Services (CVE-2026-118735, CVE-2026-123387) are network-reachable.",
+     "Next, patch servers exposed to the network-reachable flaws: Print Spooler (CVE-2026-112762), NetBIOS (CVE-2026-105551), File Server Resource Management (CVE-2026-108421), DNS (CVE-2026-105520) and Event Collector (CVE-2026-112793).",
+     "Disable the Print Spooler service on domain controllers and on servers that do not need printing.",
+     "Roll the updates to all workstations and Hyper-V hosts in the normal cycle, then confirm coverage with Defender Vulnerability Management.",
+     "Hunt for SYSTEM-level shells spawned from Print Spooler or Windows Installer, a common outcome of local privilege escalation."
+    ],
+    "confidence": "high",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "CVE-2026-96051 Windows USB Driver Elevation of Privilege Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-96051",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-10T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-96060 Windows Installer Elevation of Privilege Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-96060",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-10T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-112752 Windows Print Spooler Components Elevation of Privilege Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-112752",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-10T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-112762 Windows Print Spooler Components Elevation of Privilege Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-112762",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-10T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-112790 Windows Kernel Elevation of Privilege Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-112790",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-10T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-112969 Windows Kernel Elevation of Privilege Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-112969",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-10T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-113860 Windows Hyper-V Elevation of Privilege Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-113860",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-10T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-113863 Windows DHCP Client Elevation of Privilege Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-113863",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-10T16:00:00Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Use Defender Vulnerability Management to list devices still exposed to the network-reachable CVEs, starting with domain controllers.",
+     "Confirm the Print Spooler service is stopped or disabled on domain controllers and on servers that do not need it.",
+     "Review processes spawned by spoolsv.exe and msiexec.exe in the last 14 days for unexpected shells or script hosts.",
+     "Treat any SYSTEM shell on an unpatched host as a possible privilege escalation, and investigate the logged-on user and the parent process chain."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Devices exposed to network-reachable November 2026 EoP CVEs",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where CveId in (\"CVE-2026-85844\",\"CVE-2026-112762\",\"CVE-2026-105551\",\"CVE-2026-108421\",\"CVE-2026-113863\",\"CVE-2026-118735\",\"CVE-2026-123387\",\"CVE-2026-105520\",\"CVE-2026-112793\") | summarize Devices = dcount(DeviceId), DeviceNames = make_set(DeviceName, 100) by CveId, VulnerabilitySeverityLevel | order by Devices desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 0,
+        "hits": 0,
+        "tables": [
+         "DeviceTvmSoftwareVulnerabilities"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Shells or script hosts spawned by the Print Spooler service",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(14d) | where InitiatingProcessFileName =~ \"spoolsv.exe\" | where FileName in~ (\"cmd.exe\",\"powershell.exe\",\"pwsh.exe\",\"rundll32.exe\",\"regsvr32.exe\",\"mshta.exe\",\"wscript.exe\",\"cscript.exe\") | project Timestamp, DeviceName, AccountName, FileName, ProcessCommandLine, InitiatingProcessCommandLine",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "SYSTEM shells spawned by Windows Installer",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(14d) | where InitiatingProcessFileName =~ \"msiexec.exe\" | where FileName in~ (\"cmd.exe\",\"powershell.exe\",\"pwsh.exe\",\"conhost.exe\") | where AccountSid == \"S-1-5-18\" | project Timestamp, DeviceName, AccountName, FileName, ProcessCommandLine, InitiatingProcessCommandLine, InitiatingProcessParentFileName",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-10",
+   "rank": 10,
+   "score": 48,
+   "factors": {
+    "exploitation": 0,
+    "prevalence": 25,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Microsoft November 2026 Windows updates fix dozens of information disclosure and DoS flaws",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "none_known",
+    "prevalence": "ubiquitous",
+    "platform": "windows",
+    "vendor": "Microsoft",
+    "product": "Windows"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-96086",
+     "cvss": 6.5,
+     "severity": "MEDIUM",
+     "products": [],
+     "epss": null,
+     "percentile": null,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-96093",
+     "cvss": 4.7,
+     "severity": "MEDIUM",
+     "products": [],
+     "epss": null,
+     "percentile": null,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-96110",
+     "cvss": 5.5,
+     "severity": "MEDIUM",
+     "products": [],
+     "epss": null,
+     "percentile": null,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-96156",
+     "cvss": 5.5,
+     "severity": "MEDIUM",
+     "products": [],
+     "epss": null,
+     "percentile": null,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-96989",
+     "cvss": null,
+     "severity": "",
+     "products": [],
+     "epss": null,
+     "percentile": null,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-96983",
+     "cvss": null,
+     "severity": "",
+     "products": [],
+     "epss": null,
+     "percentile": null,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "On 10 November 2026, Microsoft's Security Update Guide published fixes for 66 Windows CVEs. Most are local information disclosure bugs. The rest are denial of service, security feature bypass, tampering and spoofing issues in components including DNS Server, LSASS, Security Account Manager, Active Directory, DHCP Server, Windows Deployment Services, SSTP, QUIC, Message Queuing, Print Spooler and PowerShell. Microsoft does not report any of these as exploited, and none are in CISA KEV. The scores that are available are moderate, with the highest at CVSS 6.5 for the WLAN Service DoS (CVE-2026-96086).",
+    "why_it_matters": "Several flaws can be triggered over the network without authentication, which puts infrastructure servers in scope. They include DNS Server DoS (CVE-2026-96975), DNS information disclosure (CVE-2026-105579), SAM DoS (CVE-2026-112966), SSTP DoS (CVE-2026-105561), QUIC DoS (CVE-2026-105512), Message Queuing DoS (CVE-2026-105515), RMCAST DoS (CVE-2026-116697), DHCP Server spoofing and disclosure (CVE-2026-113773, CVE-2026-105557), WDS path traversal (CVE-2026-118213) and a PowerShell XML external entity disclosure (CVE-2026-122985). Authenticated network DoS bugs in LSASS (CVE-2026-112807) and Active Directory (CVE-2026-105568, CVE-2026-105559) could disrupt domain controllers. There is no known exploitation or public proof of concept, so normal patch cadence is reasonable, with domain controllers, DNS, DHCP, WDS and RRAS/SSTP servers first.",
+    "affected_versions": [],
+    "fixed_versions": [
+     "Microsoft November 2026 security updates released 10 November 2026"
+    ],
+    "recommended_actions": [
+     "Deploy the November 2026 Windows cumulative updates to domain controllers and to DNS, DHCP, WDS, RRAS/SSTP and Message Queuing servers first.",
+     "Confirm that no DNS Server, Message Queuing, WDS or SSTP endpoint is reachable from the internet unless required, and restrict exposed ones at the edge firewall.",
+     "Disable unused roles and services such as Message Queuing, Remote Registry, WDS and RMCAST/PGM on servers that do not need them.",
+     "Roll the updates out to all remaining Windows endpoints within the standard patch window.",
+     "Use Defender Vulnerability Management to verify coverage and chase devices still missing the update."
+    ],
+    "confidence": "high",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "CVE-2026-96086 Windows WLAN Service Denial of Service Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-96086",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-10T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-96093 Windows Internet (wininet.dll) Information Disclosure Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-96093",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-10T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-96110 Windows OLE Information Disclosure Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-96110",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-10T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-96156 Windows Broker Infrastructure Service Information Disclosure Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-96156",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-10T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-96989 Secondary Logon Information Disclosure Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-96989",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-10T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-96983 Windows DNS Denial of Service Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-96983",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-10T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-96975 Role: DNS Server Denial of Service Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-96975",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-10T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-96980 Windows DNS Information Disclosure Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-96980",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-10T16:00:00Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Query Defender Vulnerability Management for devices still exposed to the network-reachable November CVEs.",
+     "Identify servers running DNS Server, Message Queuing, DHCP or WDS by looking for listening ports and service processes.",
+     "Cross-reference internet-facing devices with the missing-patch list and prioritise those.",
+     "Review unexpected crashes or restarts of dns.exe, lsass.exe or mqsvc.exe on unpatched servers as possible DoS attempts."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Devices missing fixes for network-reachable November 2026 Windows CVEs",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where CveId in (\"CVE-2026-96975\",\"CVE-2026-105579\",\"CVE-2026-112966\",\"CVE-2026-105561\",\"CVE-2026-105512\",\"CVE-2026-105515\",\"CVE-2026-116697\",\"CVE-2026-113773\",\"CVE-2026-105557\",\"CVE-2026-118213\",\"CVE-2026-122985\",\"CVE-2026-112807\",\"CVE-2026-105568\",\"CVE-2026-105559\") | summarize Cves = make_set(CveId), CveCount = dcount(CveId) by DeviceName, OSPlatform | order by CveCount desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 0,
+        "hits": 0,
+        "tables": [
+         "DeviceTvmSoftwareVulnerabilities"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Servers listening for DNS, DHCP, Message Queuing or WDS traffic",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(7d) | where ActionType == \"ListeningConnectionCreated\" | where InitiatingProcessFileName in~ (\"dns.exe\",\"mqsvc.exe\") or LocalPort in (53, 67, 1801, 4011) | summarize Ports = make_set(LocalPort), Processes = make_set(InitiatingProcessFileName) by DeviceName",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 300,
+        "hits": 0,
+        "tables": [
+         "DeviceNetworkEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Internet-facing devices exposed to November 2026 Windows CVEs",
+      "kql": "DeviceInfo | where Timestamp > ago(7d) | where IsInternetFacing == true | summarize arg_max(Timestamp, *) by DeviceId | join kind=inner (DeviceTvmSoftwareVulnerabilities | where CveId in (\"CVE-2026-96975\",\"CVE-2026-105579\",\"CVE-2026-112966\",\"CVE-2026-105561\",\"CVE-2026-105512\",\"CVE-2026-105515\",\"CVE-2026-116697\",\"CVE-2026-118213\",\"CVE-2026-122985\") | distinct DeviceId, CveId) on DeviceId | summarize Cves = make_set(CveId) by DeviceName, PublicIP",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 60,
+        "hits": 0,
+        "tables": [
+         "DeviceInfo",
+         "DeviceTvmSoftwareVulnerabilities"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  }
+ ],
+ "more_stories": [
+  {
+   "title": "Windows PowerShell and PowerShell Core: security advisories",
+   "score": 48,
+   "cves": [
+    "CVE-2026-124224",
+    "CVE-2026-124225",
+    "CVE-2026-124226"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-124224 PowerShell Elevation of Privilege Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-124224",
+     "source": "MSRC Security Update Guide"
+    },
+    {
+     "title": "CVE-2026-124225 Windows PowerShell Remote Code Execution Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-124225",
+     "source": "MSRC Security Update Guide"
+    },
+    {
+     "title": "CVE-2026-124226 Microsoft PowerShell Security Feature Bypass Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-124226",
+     "source": "MSRC Security Update Guide"
+    }
+   ]
+  },
+  {
+   "title": "Microsoft Excel vulnerabilities including remote code execution, published Nov 2026",
+   "score": 48,
+   "cves": [
+    "CVE-2026-118721",
+    "CVE-2026-118722",
+    "CVE-2026-118723"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-118721 Microsoft Office Excel Remote Code Execution Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-118721",
+     "source": "MSRC Security Update Guide"
+    },
+    {
+     "title": "CVE-2026-118722 Microsoft Office Excel Remote Code Execution Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-118722",
+     "source": "MSRC Security Update Guide"
+    },
+    {
+     "title": "CVE-2026-118723 Microsoft Office Excel Remote Code Execution Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-118723",
+     "source": "MSRC Security Update Guide"
+    }
+   ]
+  },
+  {
+   "title": "Microsoft SharePoint: spoofing, RCE, privilege escalation and SSRF advisories",
+   "score": 41,
+   "cves": [
+    "CVE-2026-111300",
+    "CVE-2026-111303",
+    "CVE-2026-112736"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-111300 Microsoft Office SharePoint Spoofing Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-111300",
+     "source": "MSRC Security Update Guide"
+    },
+    {
+     "title": "CVE-2026-111303 Microsoft Office SharePoint Spoofing Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-111303",
+     "source": "MSRC Security Update Guide"
+    },
+    {
+     "title": "CVE-2026-112736 Microsoft Office SharePoint Spoofing Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-112736",
+     "source": "MSRC Security Update Guide"
+    }
+   ]
+  },
+  {
+   "title": "Microsoft SQL Server: many privilege escalation and RCE advisories",
+   "score": 41,
+   "cves": [
+    "CVE-2026-84010",
+    "CVE-2026-116929",
+    "CVE-2026-116930"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-84010 Microsoft SQL Server Elevation of Privilege Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-84010",
+     "source": "MSRC Security Update Guide"
+    },
+    {
+     "title": "CVE-2026-116929 Microsoft SQL Server Elevation of Privilege Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-116929",
+     "source": "MSRC Security Update Guide"
+    },
+    {
+     "title": "CVE-2026-116930 Microsoft SQL Server Remote Code Execution Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-116930",
+     "source": "MSRC Security Update Guide"
+    }
+   ]
+  },
+  {
+   "title": "7-Zip LZX decoder heap overflow allows code execution via crafted CAB archives",
+   "score": 38,
+   "cves": [
+    "CVE-2026-125742"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-125742 (HIGH 8.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-125742",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Xen Orchestra authentication bypass reportedly exploited to take over XCP-ng hosts",
+   "score": 35,
+   "cves": [],
+   "sources": [
+    {
+     "title": "Critical Xen Orchestra auth bypass flaw exploited to hijack VM servers",
+     "url": "https://www.bleepingcomputer.com/news/security/critical-xen-orchestra-auth-bypass-flaw-exploited-to-hijack-vm-servers/",
+     "source": "BleepingComputer"
+    }
+   ]
+  },
+  {
+   "title": "Microsoft November 2026 updates fix Azure, ASP.NET Core, Visual Studio and Teams flaws",
+   "score": 29,
+   "cves": [
+    "CVE-2026-113822",
+    "CVE-2026-113823",
+    "CVE-2026-114146"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-113822 Azure CycleCloud Elevation of Privilege Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-113822",
+     "source": "MSRC Security Update Guide"
+    },
+    {
+     "title": "CVE-2026-113823 Azure CycleCloud Information Disclosure Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-113823",
+     "source": "MSRC Security Update Guide"
+    },
+    {
+     "title": "CVE-2026-114146 ASP.NET Core Elevation of Privilege Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-114146",
+     "source": "MSRC Security Update Guide"
+    }
+   ]
+  },
+  {
+   "title": "Azure services, Microsoft Graph and Teams: security advisories",
+   "score": 29,
+   "cves": [
+    "CVE-2026-105494",
+    "CVE-2026-114162",
+    "CVE-2026-121668"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-105494 Azure NFS mount helper (aznfs) Elevation of Privilege Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-105494",
+     "source": "MSRC Security Update Guide"
+    },
+    {
+     "title": "CVE-2026-114162 Microsoft Graph Elevation of Privilege Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-114162",
+     "source": "MSRC Security Update Guide"
+    },
+    {
+     "title": "CVE-2026-121668 Azure Confidential Clean Rooms Tampering Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-121668",
+     "source": "MSRC Security Update Guide"
+    }
+   ]
+  },
+  {
+   "title": "Visual Studio Code flaws disclosed in November 2026 including code injection and XSS",
+   "score": 26,
+   "cves": [
+    "CVE-2026-120779",
+    "CVE-2026-119975",
+    "CVE-2026-119981"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-120779 (CRITICAL 9.6)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-120779",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-119975 (HIGH 8.8)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-119975",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-119981 (HIGH 7.0)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-119981",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "BusyBox wget FTP resume flaw can cause heap overflow from malicious server",
+   "score": 26,
+   "cves": [
+    "CVE-2026-124747"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-124747 (HIGH 7.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-124747",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "N-able N-central critical flaws with public proof-of-concept prompt hosted shutdown",
+   "score": 25,
+   "cves": [],
+   "sources": [
+    {
+     "title": "Critical vulnerabilities in N-able N-central prompt hosted shutdown",
+     "url": "https://www.rapid7.com/blog/post/etr-critical-vulnerabilities-in-n-able-n-central-prompt-hosted-shutdown",
+     "source": "Rapid7"
+    }
+   ]
+  },
+  {
+   "title": "Apple patches iOS and macOS flaws; Binance warns of iOS flaw exposing wallet secrets",
+   "score": 24,
+   "cves": [
+    "CVE-2026-113971",
+    "CVE-2026-113960",
+    "CVE-2026-113961"
+   ],
+   "sources": [
+    {
+     "title": "Apple Patches Everyting: November 2026 Edition, (Tue, Nov 10th)",
+     "url": "https://isc.sans.edu/diary/rss/33506",
+     "source": "SANS ISC"
+    },
+    {
+     "title": "Binance warns of iOS flaw that could leak crypto wallet secrets",
+     "url": "https://www.bleepingcomputer.com/news/security/binance-warns-of-ios-flaw-that-could-leak-crypto-wallet-secrets/",
+     "source": "BleepingComputer"
+    }
+   ]
+  },
+  {
+   "title": "Microsoft November 2026 updates fix SQL Server and WDAC OLE DB provider flaws",
+   "score": 21,
+   "cves": [
+    "CVE-2026-67374",
+    "CVE-2026-68783",
+    "CVE-2026-67375"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-67374 Microsoft SQL Server Remote Code Execution Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-67374",
+     "source": "MSRC Security Update Guide"
+    },
+    {
+     "title": "CVE-2026-68783 Microsoft SQL Server Information Disclosure Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-68783",
+     "source": "MSRC Security Update Guide"
+    },
+    {
+     "title": "CVE-2026-67375 Microsoft SQL Server Elevation of Privilege Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-67375",
+     "source": "MSRC Security Update Guide"
+    }
+   ]
+  },
+  {
+   "title": "Azure OpenAI elevation of privilege vulnerability due to missing authentication",
+   "score": 19,
+   "cves": [
+    "CVE-2026-119990"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-119990 Azure OpenAI Elevation of Privilege Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-119990",
+     "source": "MSRC Security Update Guide"
+    }
+   ]
+  },
+  {
+   "title": "Multiple adobe Connect flaws including privilege escalation, XSS and XXE disclosed",
+   "score": 9,
+   "cves": [
+    "CVE-2026-121355",
+    "CVE-2026-121904",
+    "CVE-2026-121350"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-121355 (CRITICAL 9.1)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-121355",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-121904 (CRITICAL 9.6)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-121904",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-121350 (HIGH 7.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-121350",
+     "source": "NVD"
+    }
+   ]
+  }
+ ],
+ "kev_new": [
+  {
+   "cve": "CVE-2026-124194",
+   "vendor": "Microsoft",
+   "product": "Office",
+   "name": "Microsoft Office Outlook Missing User Interaction for Potentially Unsafe Action Vulnerability",
+   "date_added": "2026-11-10",
+   "due_date": "2026-11-24",
+   "ransomware": "Unknown",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-124194"
+  },
+  {
+   "cve": "CVE-2026-111793",
+   "vendor": "Openwave Messaging Limited",
+   "product": "Webtop Media Transcoder",
+   "name": "Openwave Messaging Limited Webtop Media Transcoder Incorrect Resource Transfer Between Spheres Vulnerability",
+   "date_added": "2026-11-10",
+   "due_date": "2026-11-24",
+   "ransomware": "Unknown",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-111793"
+  },
+  {
+   "cve": "CVE-2026-20320",
+   "vendor": "Cisco",
+   "product": "BroadWorks",
+   "name": "Cisco BroadWorks Improper Restriction of XML External Entity Reference Vulnerability",
+   "date_added": "2026-11-10",
+   "due_date": "2026-11-24",
+   "ransomware": "Unknown",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-20320"
+  },
+  {
+   "cve": "CVE-2026-111560",
+   "vendor": "Barracuda Networks",
+   "product": "Multiple Products",
+   "name": "Barracuda Networks Multiple Products OS Command Injection Vulnerability",
+   "date_added": "2026-11-10",
+   "due_date": "2026-11-13",
+   "ransomware": "Unknown",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-111560"
+  },
+  {
+   "cve": "CVE-2026-116606",
+   "vendor": "Barracuda Networks",
+   "product": "Barracuda Email Security Gateway (ESG)",
+   "name": "Barracuda Networks Email Security Gateway (ESG) Authentication Bypass Using an Alternate Path or Channel Vulnerability",
+   "date_added": "2026-11-10",
+   "due_date": "2026-11-13",
+   "ransomware": "Unknown",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-116606"
+  },
+  {
+   "cve": "CVE-2026-125350",
+   "vendor": "Google",
+   "product": "Chromium",
+   "name": "Google Chromium Use-After-Free Vulnerability",
+   "date_added": "2026-11-10",
+   "due_date": "2026-11-24",
+   "ransomware": "Unknown",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-125350"
+  }
+ ],
+ "early_signals": [],
+ "explainer": {
+  "concept": "NTLM hash leakage and relay: how a file can hand over a user's credentials",
+  "dek": "NTLM hash leakage happens when Windows is made to authenticate automatically to an attacker's server, exposing a challenge-response that can be cracked offline or relayed live to another service as that user.",
+  "why_today": "The exploited Outlook zero-day in today's lead story works by making Outlook silently connect to an attacker-controlled location and send the user's NTLMv2 response. Whether that becomes a cracked password or a relayed login depends on controls most environments have only partly deployed.",
+  "related_story_ids": [
+   "story-1",
+   "story-9",
+   "story-7"
+  ],
+  "parts": [
+   {
+    "heading": "How the leak works",
+    "paragraphs": [
+     "NTLM is a challenge-response protocol. When a Windows client connects to a server that asks for NTLM, the client proves it knows the user's password hash by answering a server-chosen challenge, without sending the password itself. Windows will often do this automatically and silently for resources it treats as reachable, such as a UNC path over SMB or a WebDAV location over HTTP.",
+     "Coerced-authentication bugs abuse this. A crafted email, document or file contains a reference to a remote path the attacker controls. When the client processes it, Windows reaches out and performs the NTLM handshake with the attacker's server, which records the NTLMv2 response. No code runs on the victim and no prompt appears, so a medium-severity spoofing or information disclosure label can understate the risk."
+    ]
+   },
+   {
+    "heading": "Cracking versus relaying",
+    "paragraphs": [
+     "The captured NTLMv2 response can be attacked offline: the attacker guesses passwords and checks each guess against the response. Strong, long passwords make this impractical, while weak or reused ones fall quickly. Machine accounts and managed service accounts with long random passwords are effectively uncrackable this way.",
+     "Relaying is the more dangerous outcome because password strength does not matter. The attacker forwards the victim's handshake in real time to a different server, such as a file server, LDAP on a domain controller, AD CS web enrollment or another HTTP service, and is authenticated there as the victim. Relay succeeds only where the target does not bind the authentication to the session: SMB without required signing, LDAP without signing or channel binding, and HTTP services without Extended Protection for Authentication."
+    ]
+   },
+   {
+    "heading": "What it looks like in telemetry",
+    "paragraphs": [
+     "The leak itself is an outbound connection from a user process to an unusual destination. In Defender XDR, look in DeviceNetworkEvents for Outlook or other Office processes connecting to TCP 445 or to HTTP/WebDAV on public IP addresses, and in DeviceProcessEvents or service events for the WebClient service starting unexpectedly. On endpoints with NTLM outbound auditing enabled, the Microsoft-Windows-NTLM/Operational log records outgoing NTLM authentication attempts with the target server name.",
+     "A successful relay shows up on the target: a network logon (event 4624, logon type 3) using NTLM for a user, arriving from an IP address that is not that user's workstation, often followed by LDAP changes, certificate requests or file access the user would not normally perform. Defender for Identity has detections for suspected NTLM relay and NTLM authentication anomalies against domain controllers."
+    ]
+   },
+   {
+    "heading": "How to shut it down",
+    "paragraphs": [
+     "Patch the coercion bug first, but treat the class as permanent: new coercion paths appear regularly. The durable fix is to make leaked handshakes useless. Block outbound SMB to the internet at the perimeter and on host firewalls, require SMB signing on servers and clients, enforce LDAP signing and channel binding on domain controllers, and enable Extended Protection on IIS, Exchange and AD CS web endpoints. Defaults differ by Windows and Exchange version, so verify the effective setting rather than assuming it.",
+     "Reduce NTLM use itself. Put privileged accounts in the Protected Users group, which prevents them from using NTLM, and use the Restrict NTLM group policies in audit mode first to find what still depends on NTLM before blocking outgoing NTLM to remote servers."
+    ]
+   }
+  ],
+  "takeaways": [
+   "Deploy the November 2026 Outlook update for the exploited spoofing flaw and confirm coverage of classic Outlook installs, since it is in CISA KEV.",
+   "Hunt in DeviceNetworkEvents for OUTLOOK.EXE and other Office processes connecting to public IPs on port 445 or over WebDAV, and confirm outbound SMB to the internet is blocked at the edge and on host firewalls.",
+   "Verify SMB signing is required on file servers and domain controllers, and that LDAP signing and channel binding are enforced on every domain controller.",
+   "Enable Extended Protection for Authentication on Exchange, AD CS web enrollment and other internal IIS services that accept Windows authentication.",
+   "Add admin and other high-value accounts to Protected Users, and turn on NTLM outbound auditing to inventory remaining NTLM dependencies before restricting it."
+  ],
+  "unsupported_cves": [],
+  "model": "claude-opus-5-5"
+ },
+ "good_news": [
+  {
+   "headline": "Microsoft Research publishes method for detecting backdoored 'sleeper agent' AI models",
+   "summary": "The Microsoft Security Blog reports that Microsoft Research has released threat research showing a capable agent model can be turned into a sleeper agent by editing fewer than 10 neurons, passing evaluations but running an attacker's command when a trigger string appears. The work focuses on detecting such tampering, framing model weight integrity as a security concern for both third-party and internally developed models used by unattended, privileged agents.",
+   "kind": "research",
+   "sources": [
+    {
+     "title": "Detecting sleeper agents hiding in AI model neurons",
+     "url": "https://www.microsoft.com/en-us/security/blog/2026/11/10/detecting-sleeper-agents-hiding-in-ai-model-neurons/",
+     "source": "Microsoft Security Blog",
+     "published": "2026-11-10T23:00:00Z"
+    }
+   ],
+   "unsupported_cves": [],
+   "model": "claude-opus-5-5"
+  },
+  {
+   "headline": "Microsoft fixes remote code execution flaws in SQL Server and the WDAC OLE DB provider for SQL",
+   "summary": "Microsoft's Security Update Guide lists November 2026 fixes for heap-based buffer overflows in SQL Server that allow an authorized attacker to execute code or elevate privileges over a network. It also lists two heap overflows in the Microsoft WDAC OLE DB provider for SQL that allow an unauthorized attacker to execute code over a network. No exploitation is reported for these flaws.",
+   "kind": "fix_shipped",
+   "sources": [
+    {
+     "title": "CVE-2026-94511 SQL Server Remote Code Execution Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-94511",
+     "source": "MSRC Security Update Guide",
+     "published": "2026-11-10T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-67391 Microsoft SQL Server Remote Code Execution Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-67391",
+     "source": "MSRC Security Update Guide",
+     "published": "2026-11-10T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-94513 Microsoft SQL Server Elevation of Privilege Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-94513",
+     "source": "MSRC Security Update Guide",
+     "published": "2026-11-10T16:00:00Z"
+    }
+   ],
+   "unsupported_cves": [],
+   "model": "claude-opus-5-5"
+  }
+ ],
+ "explainer_status": "ok",
+ "sources_status": {
+  "CISA KEV": "ok 6",
+  "NVD": "ok 101",
+  "BleepingComputer": "ok 8",
+  "The Record": "ok 2",
+  "The DFIR Report": "ok 0",
+  "Cisco Talos": "ok 1",
+  "Unit 42": "ok 0",
+  "Microsoft Security Blog": "ok 1",
+  "SANS ISC": "ok 3",
+  "Huntress": "ok 1",
+  "watchTowr Labs": "ok 0",
+  "Rapid7": "ok 3",
+  "SecurityWeek": "ok 0",
+  "Krebs on Security": "ok 1",
+  "CISA Advisories": "ok 1",
+  "MSRC Security Update Guide": "ok 1187",
+  "Bluesky": "ok 0",
+  "Mastodon": "ok 0",
+  "r/netsec": "ok 0",
+  "Hacker News": "ok 3",
+  "SigmaHQ new rules": "ok 0",
+  "EPSS": "ok 113"
+ },
+ "stats": {
+  "items": {
+   "news": 20,
+   "advisory": 1188,
+   "kev": 6,
+   "nvd": 101,
+   "social": 3,
+   "sigma": 0
+  },
+  "stories_found": 27,
+  "kql_parser": "available",
+  "receipts": {
+   "status": "ran",
+   "engine": "Kusto emulator 1.0.9810.23682",
+   "baseline_events": 1338,
+   "baseline_seed": 20261110
+  }
+ }
+}

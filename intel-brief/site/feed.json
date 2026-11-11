@@ -12,6 +12,111 @@
  "language": "en-US",
  "items": [
   {
+   "id": "https://intel.brycemaxheimer.com/editions/2026-11-11/",
+   "url": "https://intel.brycemaxheimer.com/editions/2026-11-11/",
+   "title": "Daily Intel Brief: 2026-11-11",
+   "content_text": "1. Exploited Outlook spoofing zero-day CVE-2026-124194 leaks NTLMv2 hashes, added to CISA KEV\n2. CISA adds chained Barracuda ESG auth bypass and root command injection flaws to KEV\n3. Huntress details four evolving ClickFix attack chains, including lateral movement and PNG-hidden payloads\n4. Railway says attackers stole customer secrets, generating about $740,000 in fraudulent AI usage\n5. Compromised Qubole AWS IAM credentials used to steal data from multiple customer AWS environments\n6. Microsoft November 2026 updates fix dozens of Office, Excel, Outlook and SharePoint flaws\n7. Microsoft November 2026 Patch Tuesday fixes Windows RCE and privilege escalation flaws\n8. Nitori discloses network intrusion with possible theft of 37.62 million customer records\n9. Microsoft's November 2026 updates fix a large batch of Windows elevation of privilege flaws\n10. Microsoft November 2026 Windows updates fix dozens of information disclosure and DoS flaws\nNew KEV entries: CVE-2026-124194, CVE-2026-111793, CVE-2026-20320, CVE-2026-111560, CVE-2026-116606, CVE-2026-125350\nExplainer: NTLM hash leakage and relay: how a file can hand over a user's credentials\nGood news: Microsoft Research publishes method for detecting backdoored 'sleeper agent' AI models\nGood news: Microsoft fixes remote code execution flaws in SQL Server and the WDAC OLE DB provider for SQL",
+   "date_published": "2026-11-11T18:02:21Z",
+   "_intel_brief": {
+    "data": "https://intel.brycemaxheimer.com/editions/2026-11-11/edition.json",
+    "stories": [
+     {
+      "title": "Exploited Outlook spoofing zero-day CVE-2026-124194 leaks NTLMv2 hashes, added to CISA KEV",
+      "cves": [
+       "CVE-2026-124194",
+       "CVE-2026-113862",
+       "CVE-2026-118146",
+       "CVE-2026-118148",
+       "CVE-2026-118207",
+       "CVE-2026-119952"
+      ],
+      "score": 100
+     },
+     {
+      "title": "CISA adds chained Barracuda ESG auth bypass and root command injection flaws to KEV",
+      "cves": [
+       "CVE-2026-111560",
+       "CVE-2026-116606"
+      ],
+      "score": 88
+     },
+     {
+      "title": "Huntress details four evolving ClickFix attack chains, including lateral movement and PNG-hidden payloads",
+      "cves": [],
+      "score": 81
+     },
+     {
+      "title": "Railway says attackers stole customer secrets, generating about $740,000 in fraudulent AI usage",
+      "cves": [],
+      "score": 55
+     },
+     {
+      "title": "Compromised Qubole AWS IAM credentials used to steal data from multiple customer AWS environments",
+      "cves": [],
+      "score": 55
+     },
+     {
+      "title": "Microsoft November 2026 updates fix dozens of Office, Excel, Outlook and SharePoint flaws",
+      "cves": [
+       "CVE-2026-120002",
+       "CVE-2026-119986",
+       "CVE-2026-119995",
+       "CVE-2026-119996",
+       "CVE-2026-120000",
+       "CVE-2026-120001"
+      ],
+      "score": 53
+     },
+     {
+      "title": "Microsoft November 2026 Patch Tuesday fixes Windows RCE and privilege escalation flaws",
+      "cves": [
+       "CVE-2026-119899",
+       "CVE-2026-119900",
+       "CVE-2026-119908",
+       "CVE-2026-119932",
+       "CVE-2026-119938",
+       "CVE-2026-119948"
+      ],
+      "score": 51
+     },
+     {
+      "title": "Nitori discloses network intrusion with possible theft of 37.62 million customer records",
+      "cves": [],
+      "score": 51
+     },
+     {
+      "title": "Microsoft's November 2026 updates fix a large batch of Windows elevation of privilege flaws",
+      "cves": [
+       "CVE-2026-96051",
+       "CVE-2026-96055",
+       "CVE-2026-96057",
+       "CVE-2026-96060",
+       "CVE-2026-96061",
+       "CVE-2026-96073"
+      ],
+      "score": 48
+     },
+     {
+      "title": "Microsoft November 2026 Windows updates fix dozens of information disclosure and DoS flaws",
+      "cves": [
+       "CVE-2026-96086",
+       "CVE-2026-96093",
+       "CVE-2026-96110",
+       "CVE-2026-96156",
+       "CVE-2026-96989",
+       "CVE-2026-96983"
+      ],
+      "score": 48
+     }
+    ],
+    "explainer": "NTLM hash leakage and relay: how a file can hand over a user's credentials",
+    "good_news": [
+     "Microsoft Research publishes method for detecting backdoored 'sleeper agent' AI models",
+     "Microsoft fixes remote code execution flaws in SQL Server and the WDAC OLE DB provider for SQL"
+    ]
+   }
+  },
+  {
    "id": "https://intel.brycemaxheimer.com/editions/2026-11-10/",
    "url": "https://intel.brycemaxheimer.com/editions/2026-11-10/",
    "title": "Daily Intel Brief: 2026-11-10",
