@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>Daily Intel Brief</title><link>https://intel.brycemaxheimer.com/</link><description>Daily AI-generated threat-intel brief: top stories, new KEV entries, early signals and detections.</description><language>en-us</language><item><title>Daily Intel Brief: 2026-11-11</title><link>https://intel.brycemaxheimer.com/editions/2026-11-11/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-11/</guid><pubDate>Wed, 11 Nov 2026 18:02:21 +0000</pubDate><description>1. Exploited Outlook spoofing zero-day CVE-2026-124194 leaks NTLMv2 hashes, added to CISA KEV
+<rss version="2.0"><channel><title>Daily Intel Brief</title><link>https://intel.brycemaxheimer.com/</link><description>Daily AI-generated threat-intel brief: top stories, new KEV entries, early signals and detections.</description><language>en-us</language><item><title>Daily Intel Brief: 2026-11-12</title><link>https://intel.brycemaxheimer.com/editions/2026-11-12/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-12/</guid><pubDate>Thu, 12 Nov 2026 18:13:15 +0000</pubDate><description>1. Microsoft November 2026 Patch Tuesday fixes 1,260 flaws, including exploited Outlook spoofing bug CVE-2026-124194
+2. Microsoft: multiple threat actors deploy GSocket for persistent C2 on compromised Linux servers
+3. Notion says breach at AI provider Fireworks AI exposed Notion AI chat transcripts
+4. Rogue ScreenConnect clients pushed to MSP customer endpoints in active campaign
+5. Attackers run self-hosted AntiFox AI pentest agents on Alibaba Cloud to steal AWS credentials
+6. Krebs links Qilin ransomware administrator 'Haise' to a man in St. Petersburg, Russia
+7. Maersk confirms data theft from inherited legacy system; WhiteArmor demands $5 million
+8. Baker Tilly notifies clients of personal data exposure in breach at third-party provider
+9. Synology DSM updates fix ten flaws, including critical unauthenticated SQL injection with public PoC
+10. Microsoft revises 29 .NET, ASP.NET Core, Visual Studio and Aspire advisories; no technical changes
+Early signals: CVE-2026-119618
+Explainer: Legitimate remote access software as attacker persistence and C2
+Good news: Microsoft research effort yields 59 Linux kernel bug reports and 33 CVEs
+Good news: N-able ships hotfixes for N-central RMM zero-day vulnerabilities</description></item><item><title>Daily Intel Brief: 2026-11-11</title><link>https://intel.brycemaxheimer.com/editions/2026-11-11/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-11/</guid><pubDate>Wed, 11 Nov 2026 18:02:21 +0000</pubDate><description>1. Exploited Outlook spoofing zero-day CVE-2026-124194 leaks NTLMv2 hashes, added to CISA KEV
 2. CISA adds chained Barracuda ESG auth bypass and root command injection flaws to KEV
 3. Huntress details four evolving ClickFix attack chains, including lateral movement and PNG-hidden payloads
 4. Railway says attackers stole customer secrets, generating about $740,000 in fraudulent AI usage
