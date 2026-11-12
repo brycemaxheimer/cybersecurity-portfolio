@@ -12,6 +12,94 @@
  "language": "en-US",
  "items": [
   {
+   "id": "https://intel.brycemaxheimer.com/editions/2026-11-12/",
+   "url": "https://intel.brycemaxheimer.com/editions/2026-11-12/",
+   "title": "Daily Intel Brief: 2026-11-12",
+   "content_text": "1. Microsoft November 2026 Patch Tuesday fixes 1,260 flaws, including exploited Outlook spoofing bug CVE-2026-124194\n2. Microsoft: multiple threat actors deploy GSocket for persistent C2 on compromised Linux servers\n3. Notion says breach at AI provider Fireworks AI exposed Notion AI chat transcripts\n4. Rogue ScreenConnect clients pushed to MSP customer endpoints in active campaign\n5. Attackers run self-hosted AntiFox AI pentest agents on Alibaba Cloud to steal AWS credentials\n6. Krebs links Qilin ransomware administrator 'Haise' to a man in St. Petersburg, Russia\n7. Maersk confirms data theft from inherited legacy system; WhiteArmor demands $5 million\n8. Baker Tilly notifies clients of personal data exposure in breach at third-party provider\n9. Synology DSM updates fix ten flaws, including critical unauthenticated SQL injection with public PoC\n10. Microsoft revises 29 .NET, ASP.NET Core, Visual Studio and Aspire advisories; no technical changes\nEarly signals: CVE-2026-119618\nExplainer: Legitimate remote access software as attacker persistence and C2\nGood news: Microsoft research effort yields 59 Linux kernel bug reports and 33 CVEs\nGood news: N-able ships hotfixes for N-central RMM zero-day vulnerabilities",
+   "date_published": "2026-11-12T18:13:15Z",
+   "_intel_brief": {
+    "data": "https://intel.brycemaxheimer.com/editions/2026-11-12/edition.json",
+    "stories": [
+     {
+      "title": "Microsoft November 2026 Patch Tuesday fixes 1,260 flaws, including exploited Outlook spoofing bug CVE-2026-124194",
+      "cves": [
+       "CVE-2026-124194",
+       "CVE-2026-119958",
+       "CVE-2026-109459",
+       "CVE-2026-119967",
+       "CVE-2026-116710",
+       "CVE-2026-119963"
+      ],
+      "score": 88
+     },
+     {
+      "title": "Microsoft: multiple threat actors deploy GSocket for persistent C2 on compromised Linux servers",
+      "cves": [],
+      "score": 69
+     },
+     {
+      "title": "Notion says breach at AI provider Fireworks AI exposed Notion AI chat transcripts",
+      "cves": [],
+      "score": 69
+     },
+     {
+      "title": "Rogue ScreenConnect clients pushed to MSP customer endpoints in active campaign",
+      "cves": [],
+      "score": 64
+     },
+     {
+      "title": "Attackers run self-hosted AntiFox AI pentest agents on Alibaba Cloud to steal AWS credentials",
+      "cves": [],
+      "score": 59
+     },
+     {
+      "title": "Krebs links Qilin ransomware administrator 'Haise' to a man in St. Petersburg, Russia",
+      "cves": [],
+      "score": 51
+     },
+     {
+      "title": "Maersk confirms data theft from inherited legacy system; WhiteArmor demands $5 million",
+      "cves": [],
+      "score": 51
+     },
+     {
+      "title": "Baker Tilly notifies clients of personal data exposure in breach at third-party provider",
+      "cves": [],
+      "score": 51
+     },
+     {
+      "title": "Synology DSM updates fix ten flaws, including critical unauthenticated SQL injection with public PoC",
+      "cves": [
+       "CVE-2026-76954",
+       "CVE-2026-13672",
+       "CVE-2026-18596",
+       "CVE-2026-18633",
+       "CVE-2026-18792",
+       "CVE-2026-19048"
+      ],
+      "score": 43
+     },
+     {
+      "title": "Microsoft revises 29 .NET, ASP.NET Core, Visual Studio and Aspire advisories; no technical changes",
+      "cves": [
+       "CVE-2026-105544",
+       "CVE-2026-109475",
+       "CVE-2026-109476",
+       "CVE-2026-109478",
+       "CVE-2026-109481",
+       "CVE-2026-114146"
+      ],
+      "score": 41
+     }
+    ],
+    "explainer": "Legitimate remote access software as attacker persistence and C2",
+    "good_news": [
+     "Microsoft research effort yields 59 Linux kernel bug reports and 33 CVEs",
+     "N-able ships hotfixes for N-central RMM zero-day vulnerabilities"
+    ]
+   }
+  },
+  {
    "id": "https://intel.brycemaxheimer.com/editions/2026-11-11/",
    "url": "https://intel.brycemaxheimer.com/editions/2026-11-11/",
    "title": "Daily Intel Brief: 2026-11-11",

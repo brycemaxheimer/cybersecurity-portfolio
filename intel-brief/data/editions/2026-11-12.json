@@ -1,0 +1,1859 @@
+{
+ "schema": 1,
+ "date": "2026-11-12",
+ "generated_at": "2026-11-12T18:13:15Z",
+ "generator": "intel-brief 0.1.0",
+ "models": {
+  "triage": "claude-haiku-5-5",
+  "writeup": "claude-opus-5-5",
+  "triage_method": "model"
+ },
+ "window": {
+  "since": "2026-11-11T05:00:00+00:00",
+  "until": "2026-11-12T05:00:00+00:00"
+ },
+ "stories": [
+  {
+   "id": "story-1",
+   "rank": 1,
+   "score": 88,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 25,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": true,
+    "epss_max": 0.0162,
+    "cvss_max": 0
+   },
+   "title": "Microsoft November 2026 Patch Tuesday fixes 1,260 flaws, including exploited Outlook spoofing bug CVE-2026-124194",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "ubiquitous",
+    "platform": "windows",
+    "vendor": "Microsoft",
+    "product": ""
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-124194",
+     "cvss": 6.5,
+     "severity": "MEDIUM",
+     "products": [
+      "microsoft 365 apps",
+      "microsoft office 2021",
+      "microsoft office 2024"
+     ],
+     "epss": 0.0162,
+     "percentile": 0.76419,
+     "in_kev": true,
+     "kev_due": null,
+     "poc": [
+      {
+       "url": "https://github.com/AmesianX/CVE-2026-124194-poc",
+       "name": "AmesianX/CVE-2026-124194-poc",
+       "stars": 3,
+       "created": "2026-11-11"
+      },
+      {
+       "url": "https://github.com/Ghost-Bx1/cve-2026-124194-outlook-ntlm-hash-leak",
+       "name": "Ghost-Bx1/cve-2026-124194-outlook-ntlm-hash-leak",
+       "stars": 1,
+       "created": "2026-11-11"
+      }
+     ],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-119958",
+     "cvss": 9.8,
+     "severity": "CRITICAL",
+     "products": [],
+     "epss": 0.01279,
+     "percentile": 0.70412,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [
+      {
+       "url": "https://github.com/googlesky/CVE-2026-119958",
+       "name": "googlesky/CVE-2026-119958",
+       "stars": 0,
+       "created": "2026-11-12"
+      }
+     ],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-109459",
+     "cvss": 8.1,
+     "severity": "HIGH",
+     "products": [],
+     "epss": 0.00723,
+     "percentile": 0.54511,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-119967",
+     "cvss": 8.1,
+     "severity": "HIGH",
+     "products": [],
+     "epss": 0.00723,
+     "percentile": 0.54511,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-116710",
+     "cvss": null,
+     "severity": "",
+     "products": [],
+     "epss": 0.00723,
+     "percentile": 0.54511,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-119963",
+     "cvss": null,
+     "severity": "",
+     "products": [],
+     "epss": 0.00857,
+     "percentile": 0.58896,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "SANS ISC reports that Microsoft's November 2026 Patch Tuesday, released 10 November 2026, addresses 1,260 vulnerabilities. Of these, 68 are rated critical and 167 are Chromium issues affecting Edge. According to SANS ISC, the Outlook spoofing vulnerability CVE-2026-124194 is already being exploited. Other notable fixes include a critical LDAP remote code execution flaw (CVE-2026-119958), several critical Microsoft Message Queuing and Queue Manager flaws (CVE-2026-109459, CVE-2026-119967, CVE-2026-116710, CVE-2026-119963, CVE-2026-119964), and a Windows TCP/IP remote code execution flaw (CVE-2026-113859) that carries a CVSS score of 7.5.",
+    "why_it_matters": "CVE-2026-124194 is listed in CISA KEV, public proof-of-concept code exists, and its EPSS is 1.6%. No KEV due date is given, and the sources do not describe how the spoofing is triggered or what attackers gain from it. The LDAP flaw CVE-2026-119958 has CVSS 9.8, EPSS 1.3% and public proof-of-concept code, which puts domain controllers and other LDAP-exposed servers at risk. MSMQ hosts reachable on the network should also be patched quickly.",
+    "affected_versions": [
+     "Microsoft 365 Apps (CVE-2026-124194; versions not stated)",
+     "Microsoft Office 2021 (CVE-2026-124194; versions not stated)",
+     "Microsoft Office 2024 (CVE-2026-124194; versions not stated)"
+    ],
+    "fixed_versions": [
+     "Microsoft November 2026 security updates (released 10 November 2026)"
+    ],
+    "recommended_actions": [
+     "Deploy the November 2026 Office and Microsoft 365 Apps updates for CVE-2026-124194 first, because it is exploited in the wild.",
+     "Patch domain controllers and other servers exposed to LDAP for CVE-2026-119958 (CVSS 9.8, public PoC).",
+     "Patch hosts running Microsoft Message Queuing, and block TCP 1801 at the perimeter or disable MSMQ where it is not needed.",
+     "Apply the Windows cumulative update for CVE-2026-113859 (TCP/IP RCE) across endpoints and servers.",
+     "Use Defender Vulnerability Management to confirm patch coverage, and track remaining exposure to these CVEs."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Microsoft Patch Tuesday November 2026, (Tue, Nov 10th)",
+     "url": "https://isc.sans.edu/diary/rss/33508",
+     "source": "SANS ISC",
+     "kind": "news",
+     "published": "2026-11-11T18:28:43Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Query Defender Vulnerability Management for devices still exposed to the listed CVEs, starting with CVE-2026-124194 and CVE-2026-119958.",
+     "Identify hosts where the MSMQ service (mqsvc.exe) runs, and check whether they accept inbound TCP 1801 connections from the internet.",
+     "Prioritize internet-facing or widely reachable LDAP and MSMQ hosts for emergency patching.",
+     "Review the Outlook client update status on user devices, and watch for any vendor guidance on how the exploited spoofing bug appears in telemetry."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Devices exposed to November 2026 highlighted CVEs",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where CveId in ('CVE-2026-124194','CVE-2026-119958','CVE-2026-109459','CVE-2026-119967','CVE-2026-116710','CVE-2026-119963','CVE-2026-119964','CVE-2026-113859') | summarize Devices=dcount(DeviceId), DeviceNames=make_set(DeviceName, 50) by CveId, SoftwareName, VulnerabilitySeverityLevel | order by Devices desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 0,
+        "hits": 0,
+        "tables": [
+         "DeviceTvmSoftwareVulnerabilities"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Inbound public connections to MSMQ port 1801",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(7d) | where ActionType == 'InboundConnectionAccepted' and LocalPort == 1801 and RemoteIPType == 'Public' | summarize Connections=count(), RemoteIPs=make_set(RemoteIP, 50) by DeviceName | order by Connections desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 300,
+        "hits": 0,
+        "tables": [
+         "DeviceNetworkEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Hosts running the MSMQ service process",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(14d) | where FileName =~ 'mqsvc.exe' | summarize LastSeen=max(Timestamp) by DeviceName",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-2",
+   "rank": 2,
+   "score": 69,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 18,
+    "platform": 8,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Microsoft: multiple threat actors deploy GSocket for persistent C2 on compromised Linux servers",
+   "labels": {
+    "category": "campaign",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "widespread",
+    "platform": "linux_server",
+    "vendor": "",
+    "product": "GSocket"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "Microsoft reports several incidents in which threat actors installed GSocket, an open source remote access tool, on Linux servers after exploiting web application vulnerabilities. According to Microsoft, the tool let attackers keep access after the original vulnerabilities were patched. Defender for Endpoint telemetry shows the activity growing over recent months, concentrated on web applications and hosting environments. Microsoft notes that GSocket traffic goes through the public Global Socket Relay Network, so attackers need no infrastructure of their own.",
+    "why_it_matters": "Patching an exploited web application does not evict an attacker who has already installed GSocket. Both ends connect outbound to a shared public relay, so there is no attacker-owned IP address or domain to block, and the host needs no inbound listener. Any Linux web or hosting server in your estate that was compromised and then only patched may still be under attacker control, and the sources describe exploitation as confirmed and widespread.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "On any Linux web server with a past or suspected application compromise, check for GSocket binaries, processes and persistence before declaring the incident remediated.",
+     "Hunt for GSocket tool names (gs-netcat, gsocket, gs-sftp, gs-mount) in process and file telemetry across Linux devices onboarded to Defender for Endpoint.",
+     "Review cron jobs, systemd units, shell profile files and authorized_keys on affected hosts for persistence, and check for signs of privilege escalation.",
+     "Restrict outbound traffic from servers to the Global Socket Relay Network at the egress firewall or proxy, as Microsoft suggests, and alert on attempts to reach it.",
+     "Rebuild confirmed-compromised hosts where possible and rotate credentials and secrets stored on them."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "The global socket: how threat actors are weaponizing GSocket for stealthy C2",
+     "url": "https://www.microsoft.com/en-us/security/blog/2026/11/11/global-socket-how-threat-actors-weaponizing-gsocket-stealthy-c2/",
+     "source": "Microsoft Security Blog",
+     "kind": "news",
+     "published": "2026-11-11T19:49:57Z"
+    }
+   ],
+   "detection": {
+    "type": "behavioral",
+    "sigma": {
+     "origin": "ai",
+     "title": "GSocket Remote Access Tool Execution on Linux",
+     "url": null,
+     "yaml": "title: GSocket Remote Access Tool Execution on Linux\nid: 9053fa0d-fce8-5be5-b367-974dd6d77c2d\nstatus: experimental\ndescription: Detects execution of GSocket components (gs-netcat, gsocket, gs-sftp, gs-mount), which Microsoft reports threat actors use for persistent relay-based C2 on compromised Linux servers. AI-generated, untested.\nreferences:\n- https://www.microsoft.com/en-us/security/blog/2026/11/11/global-socket-how-threat-actors-weaponizing-gsocket-stealthy-c2/\nauthor: intel-brief (AI-generated, untested)\ndate: '2026-11-12'\ntags:\n- attack.command-and-control\n- attack.t1219\n- attack.t1090\n- attack.persistence\nlogsource:\n  product: linux\n  category: process_creation\ndetection:\n  selection_image:\n    Image|endswith:\n    - /gs-netcat\n    - /gsocket\n    - /gs-sftp\n    - /gs-mount\n  selection_cmdline:\n    CommandLine|contains:\n    - 'gs-netcat '\n    - 'gsocket '\n    - GS_ARGS=\n    - 'gs-sftp '\n    - 'gs-mount '\n  condition: 1 of selection_*\nfalsepositives:\n- Administrators legitimately using GSocket for remote access\nlevel: high\n",
+     "check": {
+      "status": "pass",
+      "messages": [
+       "No rule errors found.",
+       "No condition errors found.",
+       "No validation issues found.",
+       "Parsing Sigma rules",
+       "Checking Sigma rules"
+      ]
+     },
+     "conversions": {
+      "kql": {
+       "label": "Defender XDR / Sentinel KQL",
+       "query": "DeviceProcessEvents\n| where (FolderPath endswith \"/gs-netcat\" or FolderPath endswith \"/gsocket\" or FolderPath endswith \"/gs-sftp\" or FolderPath endswith \"/gs-mount\") or (ProcessCommandLine contains \"gs-netcat \" or ProcessCommandLine contains \"gsocket \" or ProcessCommandLine contains \"GS_ARGS=\" or ProcessCommandLine contains \"gs-sftp \" or ProcessCommandLine contains \"gs-mount \")",
+       "error": null,
+       "validation": {
+        "status": "pass",
+        "messages": []
+       },
+       "receipt": {
+        "engine": "ran",
+        "baseline": {
+         "events": 500,
+         "hits": 0,
+         "tables": [
+          "DeviceProcessEvents"
+         ]
+        },
+        "cases": {
+         "status": "pass",
+         "positive": 21,
+         "positive_fired": 21,
+         "negative": 0,
+         "negative_fired": 0,
+         "disagreements": [],
+         "skipped": 0
+        }
+       }
+      },
+      "spl": {
+       "label": "Splunk SPL",
+       "query": "Image IN (\"*/gs-netcat\", \"*/gsocket\", \"*/gs-sftp\", \"*/gs-mount\") OR CommandLine IN (\"*gs-netcat *\", \"*gsocket *\", \"*GS_ARGS=*\", \"*gs-sftp *\", \"*gs-mount *\")",
+       "error": null
+      },
+      "elastic": {
+       "label": "Elastic (Lucene, ECS)",
+       "query": "(Image:(*\\/gs\\-netcat OR *\\/gsocket OR *\\/gs\\-sftp OR *\\/gs\\-mount)) OR (CommandLine:(*gs\\-netcat\\ * OR *gsocket\\ * OR *GS_ARGS\\=* OR *gs\\-sftp\\ * OR *gs\\-mount\\ *))",
+       "error": null
+      }
+     }
+    },
+    "hunting_steps": [
+     "List Linux servers, especially internet-facing web and hosting hosts, onboarded to Defender for Endpoint.",
+     "Search process and file events for GSocket tool names and related command-line arguments over the last 30 days.",
+     "Look for web server processes (apache, nginx, php-fpm, java, node) spawning shells that download and run scripts, which often precedes GSocket installation.",
+     "On hits, inspect persistence locations (crontab, systemd units, .bashrc, .profile) and identify the parent process and user that installed the tool.",
+     "Review outbound network connections from those hosts for long-lived sessions to unfamiliar relay endpoints, and compare with the timeline of the original application compromise."
+    ],
+    "hunting_queries": [
+     {
+      "title": "GSocket tool execution on Linux devices",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where FileName in~ (\"gs-netcat\",\"gsocket\",\"gs-sftp\",\"gs-mount\") or ProcessCommandLine has_any (\"gs-netcat\",\"gsocket\",\"GS_ARGS\",\"gs-sftp\",\"gs-mount\") | project Timestamp, DeviceName, AccountName, FileName, FolderPath, ProcessCommandLine, InitiatingProcessFileName, InitiatingProcessCommandLine",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "GSocket files written to disk",
+      "kql": "DeviceFileEvents | where Timestamp > ago(30d) | where ActionType in (\"FileCreated\",\"FileModified\",\"FileRenamed\") | where FileName in~ (\"gs-netcat\",\"gsocket\",\"gs-sftp\",\"gs-mount\") or InitiatingProcessCommandLine has_any (\"gs-netcat\",\"gsocket\",\"GS_ARGS\") | project Timestamp, DeviceName, FileName, FolderPath, InitiatingProcessAccountName, InitiatingProcessFileName, InitiatingProcessCommandLine",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 150,
+        "hits": 0,
+        "tables": [
+         "DeviceFileEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Web server processes spawning shells that fetch remote content",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where InitiatingProcessFileName in~ (\"apache2\",\"httpd\",\"nginx\",\"php-fpm\",\"php\",\"java\",\"node\") | where FileName in~ (\"sh\",\"bash\",\"dash\") | where ProcessCommandLine has_any (\"curl\",\"wget\") | project Timestamp, DeviceName, AccountName, InitiatingProcessFileName, ProcessCommandLine",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-3",
+   "rank": 3,
+   "score": 69,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 18,
+    "platform": 8,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Notion says breach at AI provider Fireworks AI exposed Notion AI chat transcripts",
+   "labels": {
+    "category": "breach",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "widespread",
+    "platform": "cloud_saas",
+    "vendor": "Notion",
+    "product": "Notion AI"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "According to BleepingComputer, Notion disclosed that a security breach at Fireworks AI, a third-party AI infrastructure provider it uses, exposed Notion AI chat transcripts belonging to a small number of workspaces. The sources do not say how Fireworks AI was breached, when the breach occurred, which workspaces were affected, or what data the transcripts contained.",
+    "why_it_matters": "Users often paste sensitive material into AI assistants, including credentials, internal documents and customer data, so exposed transcripts can leak secrets beyond Notion itself. This is a supply-chain exposure at a SaaS subprocessor, so nothing in Windows, M365 or edge-device telemetry would show it. The main risk for most organizations is credentials or tokens shared in chats that are now in a third party's hands.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Check whether Notion has notified your organization that any of your workspaces were affected, and contact Notion support to confirm.",
+     "If your workspaces were affected, review the exposed Notion AI conversations for secrets such as passwords, API keys and tokens, and rotate any you find.",
+     "Watch for targeted phishing that refers to internal projects or content discussed in Notion AI chats.",
+     "Review your AI-assistant usage policy and data-handling settings so that secrets are not shared with SaaS AI features.",
+     "Add Fireworks AI to your third-party risk register as a Notion subprocessor, and track Notion's follow-up disclosures."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Notion says Fireworks breach exposed customer AI chat transcripts",
+     "url": "https://www.bleepingcomputer.com/news/security/notion-says-fireworks-breach-exposed-customer-ai-chat-transcripts/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-11T20:54:20Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-4",
+   "rank": 4,
+   "score": 64,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 18,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 6,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Rogue ScreenConnect clients pushed to MSP customer endpoints in active campaign",
+   "labels": {
+    "category": "campaign",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "widespread",
+    "platform": "other",
+    "vendor": "ConnectWise",
+    "product": "ScreenConnect"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "BleepingComputer reported on 11 November 2026 that ConnectWise is investigating an active malware campaign against managed service providers. Attackers are using compromised ScreenConnect environments to install rogue remote-access clients on customer devices, and dozens of organizations are affected. Huntress, writing on 12 November 2026, describes the activity as a worm it calls SCKit. According to Huntress, it uses cloud-hosted ScreenConnect panels to install rogue ScreenConnect clients and session cookie relays across hundreds of managed endpoints. Neither source names a CVE, and neither gives details on how the panels were first compromised.",
+    "why_it_matters": "Exploitation is confirmed and widespread. Any organization whose MSP uses ScreenConnect may already have an attacker-controlled remote-access client running alongside, or instead of, the legitimate one. These clients are signed, legitimate software, so they often get past antivirus and give the attacker interactive, SYSTEM-level access that persists after the original panel is cleaned up. The session cookie relays Huntress mentions also point to a risk of browser session or token theft affecting M365 and other cloud accounts.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory every ScreenConnect client service on your endpoints and confirm each relay host it connects to belongs to your own or your MSP's approved instance; isolate devices that report to unknown instances.",
+     "Contact your MSP to confirm whether their ScreenConnect environment is affected by the campaign ConnectWise is investigating, and ask for their list of legitimate instance hostnames.",
+     "Uninstall unauthorized ScreenConnect clients and block unapproved ScreenConnect relay domains at the proxy and firewall.",
+     "On affected hosts, revoke and reissue browser sessions and refresh tokens for signed-in users (for example by revoking Entra ID sessions), because Huntress reports that session cookie relays were deployed.",
+     "Restrict remote-access tool installation with application control so that only approved RMM instances can run."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Active ScreenConnect attacks breach MSPs, impact dozens of organizations",
+     "url": "https://www.bleepingcomputer.com/news/security/active-screenconnect-attacks-breach-msps-impact-dozens-of-organizations/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-11T22:56:21Z"
+    },
+    {
+     "title": "SCKit Worm Installs Rogue ScreenConnect Clients and Session Cookie Relays Across Hundreds of Endpoints",
+     "url": "https://www.huntress.com/blog/sckit-worm-rogue-screenconnect",
+     "source": "Huntress",
+     "kind": "news",
+     "published": "2026-11-12T02:00:00Z"
+    }
+   ],
+   "detection": {
+    "type": "behavioral",
+    "sigma": {
+     "origin": "ai",
+     "title": "ScreenConnect Session Installing Additional ScreenConnect Client",
+     "url": null,
+     "yaml": "title: ScreenConnect Session Installing Additional ScreenConnect Client\nid: 6b8fe8f4-a602-566a-8e86-d04b8d5b4c99\nstatus: experimental\ndescription: Detects a ScreenConnect client process launching msiexec or a setup binary that installs another ScreenConnect client. This pattern fits the reported campaign in which compromised ScreenConnect environments push rogue clients to managed endpoints. AI-generated, untested.\nreferences:\n- https://www.bleepingcomputer.com/news/security/active-screenconnect-attacks-breach-msps-impact-dozens-of-organizations/\n- https://www.huntress.com/blog/sckit-worm-rogue-screenconnect\nauthor: intel-brief (AI-generated, untested)\ndate: '2026-11-12'\ntags:\n- attack.t1219\n- attack.persistence\nlogsource:\n  product: windows\n  category: process_creation\ndetection:\n  selection_parent:\n    ParentImage|endswith:\n    - \\ScreenConnect.ClientService.exe\n    - \\ScreenConnect.WindowsClient.exe\n  selection_child:\n    CommandLine|contains:\n    - ScreenConnect\n    - ClientSetup\n    Image|endswith:\n    - \\msiexec.exe\n    - \\ScreenConnect.ClientSetup.exe\n    - \\cmd.exe\n    - \\powershell.exe\n  condition: selection_parent and selection_child\nfalsepositives:\n- Legitimate MSP technicians upgrading or redeploying their own ScreenConnect client through an existing session\nlevel: medium\n",
+     "check": {
+      "status": "pass",
+      "messages": [
+       "No rule errors found.",
+       "No condition errors found.",
+       "No validation issues found.",
+       "Parsing Sigma rules",
+       "Checking Sigma rules"
+      ]
+     },
+     "conversions": {
+      "kql": {
+       "label": "Defender XDR / Sentinel KQL",
+       "query": "DeviceProcessEvents\n| where (InitiatingProcessFolderPath endswith \"\\\\ScreenConnect.ClientService.exe\" or InitiatingProcessFolderPath endswith \"\\\\ScreenConnect.WindowsClient.exe\") and ((ProcessCommandLine contains \"ScreenConnect\" or ProcessCommandLine contains \"ClientSetup\") and (FolderPath endswith \"\\\\msiexec.exe\" or FolderPath endswith \"\\\\ScreenConnect.ClientSetup.exe\" or FolderPath endswith \"\\\\cmd.exe\" or FolderPath endswith \"\\\\powershell.exe\"))",
+       "error": null,
+       "validation": {
+        "status": "pass",
+        "messages": []
+       },
+       "receipt": {
+        "engine": "ran",
+        "baseline": {
+         "events": 500,
+         "hits": 0,
+         "tables": [
+          "DeviceProcessEvents"
+         ]
+        },
+        "cases": {
+         "status": "pass",
+         "positive": 13,
+         "positive_fired": 13,
+         "negative": 5,
+         "negative_fired": 0,
+         "disagreements": [],
+         "skipped": 0
+        }
+       }
+      },
+      "spl": {
+       "label": "Splunk SPL",
+       "query": "ParentImage IN (\"*\\\\ScreenConnect.ClientService.exe\", \"*\\\\ScreenConnect.WindowsClient.exe\") CommandLine IN (\"*ScreenConnect*\", \"*ClientSetup*\") Image IN (\"*\\\\msiexec.exe\", \"*\\\\ScreenConnect.ClientSetup.exe\", \"*\\\\cmd.exe\", \"*\\\\powershell.exe\")",
+       "error": null
+      },
+      "elastic": {
+       "label": "Elastic (Lucene, ECS)",
+       "query": "(process.parent.executable.caseless:(*\\\\ScreenConnect.ClientService.exe OR *\\\\ScreenConnect.WindowsClient.exe)) AND ((process.command_line:(*ScreenConnect* OR *ClientSetup*)) AND (process.executable.caseless:(*\\\\msiexec.exe OR *\\\\ScreenConnect.ClientSetup.exe OR *\\\\cmd.exe OR *\\\\powershell.exe)))",
+       "error": null
+      }
+     }
+    },
+    "hunting_steps": [
+     "List all ScreenConnect client services and extract the relay host from each command line. Compare the hosts against your approved instances.",
+     "Find devices running more than one distinct ScreenConnect client instance. A second instance is a strong sign of a rogue install.",
+     "Review the child processes of ScreenConnect client services for installer activity, script interpreters and reconnaissance commands since late October 2026.",
+     "Check the registry for ScreenConnect Client services created recently, and match their creation times to the timing of MSP sessions.",
+     "For any suspicious host, review sign-in logs for the users on that device to spot session reuse from unfamiliar IP addresses."
+    ],
+    "hunting_queries": [
+     {
+      "title": "ScreenConnect client relay hosts across the estate",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where FileName =~ \"ScreenConnect.ClientService.exe\" | extend RelayHost = extract(@\"h=([^&]+)\", 1, ProcessCommandLine) | summarize Devices = dcount(DeviceId), DeviceNames = make_set(DeviceName, 50), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by RelayHost | sort by Devices asc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "ScreenConnect sessions installing another ScreenConnect client",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where InitiatingProcessFileName in~ (\"ScreenConnect.ClientService.exe\", \"ScreenConnect.WindowsClient.exe\") | where FileName in~ (\"msiexec.exe\", \"cmd.exe\", \"powershell.exe\") or FileName startswith \"ScreenConnect\" | where ProcessCommandLine has_any (\"ScreenConnect\", \"ClientSetup\") | project Timestamp, DeviceName, AccountName, InitiatingProcessCommandLine, FileName, ProcessCommandLine",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Recently created ScreenConnect client services",
+      "kql": "DeviceRegistryEvents | where Timestamp > ago(30d) | where ActionType in (\"RegistryKeyCreated\", \"RegistryValueSet\") | where RegistryKey has @\"\\Services\\ScreenConnect Client\" | summarize FirstSeen = min(Timestamp), Keys = make_set(RegistryKey, 10), ImagePaths = make_set(RegistryValueData, 10) by DeviceName | extend ServiceCount = array_length(Keys) | sort by ServiceCount desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 60,
+        "hits": 0,
+        "tables": [
+         "DeviceRegistryEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-5",
+   "rank": 5,
+   "score": 59,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 8,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Attackers run self-hosted AntiFox AI pentest agents on Alibaba Cloud to steal AWS credentials",
+   "labels": {
+    "category": "campaign",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "cloud_saas",
+    "vendor": "",
+    "product": "AntiFox"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "BleepingComputer reports that attackers are hosting their own instances of AntiFox, an open-source agentic penetration testing platform, on Alibaba Cloud infrastructure. According to the report, they use these instances to target web services and AWS environments in order to steal AWS credentials. The available reporting is brief. It does not name victims, specific vulnerabilities, indicators of compromise or the exact techniques the AI agents use.",
+    "why_it_matters": "Agentic pentest tooling lets attackers automate reconnaissance and credential harvesting against internet-facing web applications at scale. Any public web service in your estate that holds or can reach AWS credentials is a potential target, including keys stored in config files, environment variables or instance metadata. Exploitation is confirmed in the wild, but no indicators have been published, so defenders must rely on behavior and exposure review.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory internet-facing web applications that store AWS access keys, or can retrieve them from environment variables, config files or instance metadata. Move them to short-lived role credentials where possible.",
+     "Enforce IMDSv2 on AWS EC2 instances so that server-side request forgery from a web app cannot easily read role credentials.",
+     "Review AWS CloudTrail and Defender for Cloud Apps for access key use from unfamiliar cloud provider IP ranges, including Alibaba Cloud. Rotate any keys used unexpectedly.",
+     "Look in web server and WAF logs for high-volume automated scanning that probes for exposed secrets such as .env files, configuration backups and cloud credential files.",
+     "Remove long-lived IAM user access keys that are not needed and apply least privilege to those that remain."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Hackers use AntiFox AI agents in AWS credential-theft attacks",
+     "url": "https://www.bleepingcomputer.com/news/security/hackers-use-antifox-ai-agents-in-aws-credential-theft-attacks/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-11T15:12:59Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "List internet-facing servers running web workloads and identify which of them hold AWS credentials or run in AWS.",
+     "Hunt for web server or application processes connecting to the cloud instance metadata address. This can indicate credential retrieval through server-side request forgery.",
+     "In Defender for Cloud Apps or CloudTrail, review AWS identity-discovery and enumeration calls such as GetCallerIdentity, ListBuckets and ListUsers. Focus on calls from IP addresses outside your known ranges, especially cloud hosting providers.",
+     "Check web access logs for automated requests for secrets files such as .env, .aws/credentials and config backups, and for bursts of requests from single hosting-provider IP addresses.",
+     "Rotate any AWS keys found exposed or used anomalously, then review the activity performed with them."
+    ],
+    "hunting_queries": [
+     {
+      "title": "AWS discovery and enumeration API calls by source IP",
+      "kql": "CloudAppEvents | where Timestamp > ago(14d) | where Application == \"Amazon Web Services\" | where ActionType in (\"GetCallerIdentity\", \"ListBuckets\", \"ListUsers\", \"ListRoles\", \"ListAccessKeys\", \"GetSecretValue\", \"DescribeInstances\") | summarize Calls = count(), Actions = make_set(ActionType), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by AccountDisplayName, IPAddress, CountryCode, ISP | order by Calls desc",
+      "validation": {
+       "status": "fail",
+       "messages": [
+        "Error KS142: The name 'ISP' does not refer to any known column, table, variable or function."
+       ]
+      },
+      "receipt": {
+       "engine": "error",
+       "message": "General_BadRequest: Request is invalid and cannot be executed."
+      }
+     }
+    ],
+    "notes": [
+     "Dropped a hunting query with indicators not found in any source: 169.254.169.254"
+    ]
+   }
+  },
+  {
+   "id": "story-6",
+   "rank": 6,
+   "score": 51,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Krebs links Qilin ransomware administrator 'Haise' to a man in St. Petersburg, Russia",
+   "labels": {
+    "category": "campaign",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "other",
+    "vendor": "",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "Krebs on Security reports that the administrator of the Qilin ransomware-as-a-service program, known as 'Haise', made operational security mistakes over roughly a decade that point to a 36-year-old man living in St. Petersburg, Russia. The attribution draws partly on Intel 471's indexed direct messages from the RAMP cybercrime forum, which the FBI seized in January 2026. These messages show RAMP's administrator approving Haise's June 2022 membership application and naming a Telegram username tied to the person. Citing NCC Group, Krebs describes Qilin as the most active ransomware affiliate program, claiming at least 365 victims in the past three months.",
+    "why_it_matters": "Krebs says Qilin offers affiliates at least 80 percent of ransom proceeds and uses double extortion, stealing data before encrypting systems. It also works with English-speaking affiliates and has claimed ties to Scattered Spider and RansomHub. The attribution itself does not change Qilin's tradecraft and gives defenders no new indicators or techniques to search for. Its high victim count keeps it a top-priority ransomware threat for enterprise environments.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Review your ransomware readiness against Qilin specifically, given its current volume: offline backups, tested restores and an incident response retainer.",
+     "Because Qilin works with Scattered Spider-style affiliates, harden help desk identity verification and MFA reset procedures for Entra ID accounts.",
+     "Check that internet-facing VPNs, firewalls and remote access gateways are patched and protected by MFA, since these are common initial access points for ransomware affiliates.",
+     "Monitor for large outbound data transfers that may signal theft before encryption under the double extortion model.",
+     "Track vendor threat intelligence on Qilin for current TTPs and indicators, as this report contains none."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Who Runs the Ransomware Group Qilin?",
+     "url": "https://krebsonsecurity.com/2026/11/who-runs-the-ransomware-group-qilin/",
+     "source": "Krebs on Security",
+     "kind": "news",
+     "published": "2026-11-11T18:06:01Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-7",
+   "rank": 7,
+   "score": 51,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Maersk confirms data theft from inherited legacy system; WhiteArmor demands $5 million",
+   "labels": {
+    "category": "breach",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "other",
+    "vendor": "Maersk",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "According to BleepingComputer, Maersk has confirmed that a threat actor gained unauthorized access to a local legacy system it inherited through an earlier acquisition and took data from it. BleepingComputer reports that the WhiteArmor ransomware group is demanding $5 million. The sources do not say how the attacker got in, what data was taken, or whether any systems were encrypted.",
+    "why_it_matters": "The breach targeted a legacy system that came with an acquisition. Such systems often sit outside standard patching, monitoring and identity controls, so they make easy entry points into larger networks. No CVE, initial access vector or indicators have been published, which leaves defenders with nothing specific to hunt for. The practical lesson is to check your own inherited and legacy assets.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory systems inherited through acquisitions and confirm each one is covered by EDR, logging, patching and central identity controls.",
+     "Decommission or network-isolate legacy systems that are no longer needed, and restrict their outbound internet access to block bulk data exfiltration.",
+     "Review accounts and credentials on legacy systems, disable stale ones, and rotate shared or service credentials.",
+     "If Maersk is a supplier or partner, watch for its breach notifications and expect phishing that impersonates Maersk using stolen data.",
+     "Track further reporting on WhiteArmor for disclosed tactics or indicators before building targeted detections."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Maersk confirms data breach as WhiteArmor ransomware demands $5 million",
+     "url": "https://www.bleepingcomputer.com/news/security/maersk-confirms-data-breach-as-whitearmor-ransomware-demands-5-million/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-11T16:24:18Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-8",
+   "rank": 8,
+   "score": 51,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Baker Tilly notifies clients of personal data exposure in breach at third-party provider",
+   "labels": {
+    "category": "breach",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "other",
+    "vendor": "Baker Tilly",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "BleepingComputer reports that Baker Tilly Advisory Group is notifying clients that a data breach at a third-party provider exposed certain personal information about those clients and their dependents. The available reporting does not name the provider, describe how the breach happened, give the date of the intrusion, or specify which data types were affected. No CVEs, malware, or indicators of compromise have been disclosed.",
+    "why_it_matters": "For most SOCs this is a third-party risk and fraud-awareness issue, not a direct technical threat to Windows, M365 or edge infrastructure. Organizations that use Baker Tilly for advisory, tax or accounting work may have employee or dependent data in the exposed set, which raises the risk of targeted phishing or impersonation that references Baker Tilly.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "If your organization is a Baker Tilly client, contact them to confirm whether your data or your employees' data was involved and what categories of information were exposed.",
+     "Warn finance, HR and executive staff to expect phishing or invoice-fraud attempts that impersonate Baker Tilly, and to verify any payment or banking changes out of band.",
+     "Review third-party risk records for Baker Tilly and its subprocessors and confirm breach notification obligations under your contracts and applicable regulations.",
+     "Watch for further disclosures naming the third-party provider or listing indicators, and reassess if technical details emerge."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Baker Tilly notifies clients of data breach at third-party provider",
+     "url": "https://www.bleepingcomputer.com/news/security/baker-tilly-notifies-clients-of-data-breach-at-third-party-provider/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-11T23:01:31Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-9",
+   "rank": 9,
+   "score": 43,
+   "factors": {
+    "exploitation": 0,
+    "prevalence": 18,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 5,
+    "sources": 0,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0092,
+    "cvss_max": 9.8
+   },
+   "title": "Synology DSM updates fix ten flaws, including critical unauthenticated SQL injection with public PoC",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "none_known",
+    "prevalence": "widespread",
+    "platform": "edge_device",
+    "vendor": "Synology",
+    "product": "DiskStation Manager"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-76954",
+     "cvss": 9.8,
+     "severity": "CRITICAL",
+     "products": [],
+     "epss": 0.00634,
+     "percentile": 0.50912,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [
+      {
+       "url": "https://github.com/ansonhsu-ai/synology-dsm-cve-2026-76954-ste",
+       "name": "ansonhsu-ai/synology-dsm-cve-2026-76954-ste",
+       "stars": 0,
+       "created": "2026-11-12"
+      }
+     ],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-13672",
+     "cvss": 8.8,
+     "severity": "HIGH",
+     "products": [],
+     "epss": 0.0073,
+     "percentile": 0.5478,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-18596",
+     "cvss": 8.1,
+     "severity": "HIGH",
+     "products": [],
+     "epss": 0.00664,
+     "percentile": 0.52252,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-18633",
+     "cvss": 7.5,
+     "severity": "HIGH",
+     "products": [],
+     "epss": 0.00759,
+     "percentile": 0.55736,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-18792",
+     "cvss": 8.8,
+     "severity": "HIGH",
+     "products": [],
+     "epss": 0.00919,
+     "percentile": 0.60728,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-19048",
+     "cvss": 8.1,
+     "severity": "HIGH",
+     "products": [],
+     "epss": 0.00832,
+     "percentile": 0.58086,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "On 12 November 2026, NVD published ten CVEs for Synology DiskStation Manager (DSM). The most severe is CVE-2026-76954 (CVSS 9.8), a SQL injection in the DSM Auth API that NVD says lets remote attackers read or write arbitrary files and cause denial of service, and public proof-of-concept code exists for it. CVE-2026-85101 (CVSS 8.6) is an authentication bypass in the rsync service that also needs no credentials. The remaining flaws cover the SSOAuth, OTP, Auth, Sharing, User, VPN and thumbnail components plus nfsd, and most require authentication, administrator rights, valid credentials or control of a compromised LDAP or Active Directory server.",
+    "why_it_matters": "Synology NAS devices are common in branch offices and small sites, and their DSM web interface and rsync service are often exposed to the internet. The CVEs are not in CISA KEV, no exploitation is reported, and EPSS scores are low (0.6% to 0.9%), but a public PoC for an unauthenticated 9.8 file read and write flaw makes internet-facing DSM the priority. A compromised NAS that stores backups or file shares gives attackers both a foothold and a target for ransomware.",
+    "affected_versions": [
+     "Synology DSM before 7.2.1-69057-13, 7.2.2-72806-10, 7.3.2-86009-5 and 7.4.1-90080-1 (CVE-2026-76954, CVE-2026-85101)",
+     "Synology DSM before 7.3.2-86009-5 and 7.4.1-90080-1 (CVE-2026-13672, CVE-2026-18596, CVE-2026-18633, CVE-2026-18792, CVE-2026-19048, CVE-2026-74857, CVE-2026-75785, CVE-2026-81584)"
+    ],
+    "fixed_versions": [
+     "DSM 7.2.1-69057-13",
+     "DSM 7.2.2-72806-10",
+     "DSM 7.3.2-86009-5",
+     "DSM 7.4.1-90080-1"
+    ],
+    "recommended_actions": [
+     "Update internet-facing DSM devices first, to 7.3.2-86009-5 or 7.4.1-90080-1, or to 7.2.1-69057-13 or 7.2.2-72806-10 on the 7.2 branches. The sources list 7.2 fixes only for CVE-2026-76954 and CVE-2026-85101, so check Synology's advisory for the other eight flaws on 7.2.",
+     "Remove direct internet exposure of the DSM web interface (ports 5000 and 5001) and the rsync service (port 873). Put access behind a VPN or an IP allowlist.",
+     "Disable rsync and NFS services where they are not needed.",
+     "Review the integrity of LDAP or Active Directory servers bound to DSM, since CVE-2026-81584 can be triggered from a compromised directory server.",
+     "Review DSM logs for unexpected logins, new accounts, configuration changes or file changes, and restrict DSM admin access to a management network."
+    ],
+    "confidence": "high",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "CVE-2026-13672 (HIGH 8.8)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-13672",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-12T04:17:18.343Z"
+    },
+    {
+     "title": "CVE-2026-18596 (HIGH 8.1)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-18596",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-12T04:17:18.880Z"
+    },
+    {
+     "title": "CVE-2026-18633 (HIGH 7.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-18633",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-12T04:17:19.007Z"
+    },
+    {
+     "title": "CVE-2026-18792 (HIGH 8.8)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-18792",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-12T04:17:19.127Z"
+    },
+    {
+     "title": "CVE-2026-19048 (HIGH 8.1)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-19048",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-12T04:17:19.253Z"
+    },
+    {
+     "title": "CVE-2026-74857 (HIGH 8.8)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-74857",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-12T04:17:20.040Z"
+    },
+    {
+     "title": "CVE-2026-75785 (HIGH 7.2)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-75785",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-12T04:17:20.213Z"
+    },
+    {
+     "title": "CVE-2026-76954 (CRITICAL 9.8)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-76954",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-12T04:17:20.407Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Build an inventory of Synology NAS devices from asset records and network scans, and record each DSM version.",
+     "Use endpoint network telemetry to find internal hosts that act as DSM or rsync servers (ports 5000, 5001 and 873) and that may be missing from the inventory.",
+     "Check perimeter firewall and NAT rules, and external attack surface scans, for DSM or rsync exposed to the internet.",
+     "On any device below the fixed builds, review DSM connection and system logs for unusual authentication, new admin accounts, scheduled tasks or unexpected file writes.",
+     "Look for unusual hosts or volumes of rsync traffic to NAS devices, which could indicate abuse of the rsync authentication bypass."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Find internal hosts serving Synology DSM or rsync ports",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(14d) | where ActionType == \"ConnectionSuccess\" | where RemotePort in (5000, 5001, 873) | where RemoteIPType == \"Private\" | summarize Clients = dcount(DeviceId), Connections = count(), Ports = make_set(RemotePort) by RemoteIP | order by Clients desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 300,
+        "hits": 0,
+        "tables": [
+         "DeviceNetworkEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Endpoints connecting to DSM or rsync ports on public IPs",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(14d) | where RemotePort in (5000, 5001, 873) | where RemoteIPType == \"Public\" | summarize Connections = count(), Devices = make_set(DeviceName, 50), Processes = make_set(InitiatingProcessFileName, 20) by RemoteIP, RemotePort | order by Connections desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 300,
+        "hits": 0,
+        "tables": [
+         "DeviceNetworkEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-10",
+   "rank": 10,
+   "score": 41,
+   "factors": {
+    "exploitation": 0,
+    "prevalence": 18,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0149,
+    "cvss_max": 0
+   },
+   "title": "Microsoft revises 29 .NET, ASP.NET Core, Visual Studio and Aspire advisories; no technical changes",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "none_known",
+    "prevalence": "widespread",
+    "platform": "windows",
+    "vendor": "Microsoft",
+    "product": ".NET"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-105544",
+     "cvss": 7.5,
+     "severity": "HIGH",
+     "products": [],
+     "epss": 0.00336,
+     "percentile": 0.27389,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-109475",
+     "cvss": 7.5,
+     "severity": "HIGH",
+     "products": [],
+     "epss": 0.01279,
+     "percentile": 0.70407,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-109476",
+     "cvss": 6.1,
+     "severity": "MEDIUM",
+     "products": [],
+     "epss": 0.00637,
+     "percentile": 0.51037,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-109478",
+     "cvss": 7.5,
+     "severity": "HIGH",
+     "products": [],
+     "epss": 0.01245,
+     "percentile": 0.69693,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-109481",
+     "cvss": null,
+     "severity": "",
+     "products": [],
+     "epss": 0.00345,
+     "percentile": 0.28387,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-114146",
+     "cvss": null,
+     "severity": "",
+     "products": [],
+     "epss": 0.00758,
+     "percentile": 0.55708,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "On 11 November 2026 Microsoft updated 29 entries in its Security Update Guide covering .NET, ASP.NET Core, Visual Studio and Aspire. The CVEs include denial of service, elevation of privilege, information disclosure, security feature bypass and Visual Studio remote code execution flaws. Microsoft describes every revision as informational only: it changed security update links, corrected download links, or updated the products listed in the Security Updates table. The revisions do not include new technical details, version ranges or fix versions.",
+    "why_it_matters": "No exploitation is known and none of the CVEs is in CISA KEV. No public proof-of-concept is reported, and the highest available EPSS scores are low (about 1.3% for CVE-2026-109475 and 1.2% for CVE-2026-109478). The practical risk is that changes to product tables and download links can mean more products are now in scope or earlier links were wrong, so hosts you thought were patched may still be exposed. ASP.NET Core denial of service flaws on internet-facing web apps and the Visual Studio RCE flaws on developer workstations deserve the closest review.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Re-check the revised Security Updates tables for the listed CVEs, especially those marked as having updated product lists, and confirm your installed .NET, ASP.NET Core, Visual Studio and Aspire versions are covered.",
+     "Re-download any updates obtained through earlier links for CVE-2026-118740 and other advisories with corrected download links, and verify they installed.",
+     "Prioritise patching internet-facing ASP.NET Core applications and their hosting runtimes for the denial of service and security feature bypass CVEs.",
+     "Update Visual Studio on developer workstations and build servers for the remote code execution CVEs.",
+     "Make sure self-contained .NET applications are rebuilt and redeployed against the patched runtime, because they do not pick up system runtime updates."
+    ],
+    "confidence": "high",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "CVE-2026-105544 .NET Elevation of Privilege Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-105544",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-11T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-109475 .NET Denial of Service Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-109475",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-11T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-109476 ASP.NET Core Information Disclosure Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-109476",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-11T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-109478 ASP.NET Core Denial of Service Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-109478",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-11T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-109481 ASP.NET Core Elevation of Privilege Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-109481",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-11T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-114146 ASP.NET Core Elevation of Privilege Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-114146",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-11T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-114147 ASP.NET Core Denial of Service Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-114147",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-11T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-114149 ASP.NET Core Denial of Service Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-114149",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-11T16:00:00Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Query Defender Vulnerability Management for devices still exposed to any of the 29 CVEs.",
+     "Separate internet-facing web servers running ASP.NET Core from developer workstations running Visual Studio, and patch the web servers first.",
+     "Compare the results with your patch deployment records to find hosts where updates obtained from the earlier, now-corrected links did not apply.",
+     "Identify self-contained or containerised .NET applications that Defender may not inventory, and confirm their owners rebuild them on patched runtimes."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Devices exposed to the revised .NET, ASP.NET Core, Visual Studio and Aspire CVEs",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where CveId in ('CVE-2026-105544','CVE-2026-109475','CVE-2026-109476','CVE-2026-109478','CVE-2026-109481','CVE-2026-114146','CVE-2026-114147','CVE-2026-114149','CVE-2026-114150','CVE-2026-114151','CVE-2026-114152','CVE-2026-114154','CVE-2026-114155','CVE-2026-114156','CVE-2026-114157','CVE-2026-114158','CVE-2026-114159','CVE-2026-120006','CVE-2026-118745','CVE-2026-118746','CVE-2026-118747','CVE-2026-118748','CVE-2026-118749','CVE-2026-118750','CVE-2026-120792','CVE-2026-120778','CVE-2026-120796','CVE-2026-118740','CVE-2026-118741') | summarize CVEs = make_set(CveId), Software = make_set(strcat(SoftwareName, ' ', SoftwareVersion)) by DeviceName, OSPlatform | order by array_length(CVEs) desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 0,
+        "hits": 0,
+        "tables": [
+         "DeviceTvmSoftwareVulnerabilities"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Recently active ASP.NET Core hosts accepting inbound connections",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(7d) | where ActionType == 'InboundConnectionAccepted' | where InitiatingProcessFileName in~ ('dotnet.exe','w3wp.exe') | summarize Connections = count(), Ports = make_set(LocalPort) by DeviceName, InitiatingProcessFileName | order by Connections desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 300,
+        "hits": 0,
+        "tables": [
+         "DeviceNetworkEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  }
+ ],
+ "more_stories": [
+  {
+   "title": "Unit 42 uncovers Falcon C2, a browser-based framework reportedly targeting governments",
+   "score": 39,
+   "cves": [],
+   "sources": [
+    {
+     "title": "The XG Files: Falcon C2 Flying Under The (Browser) Radar",
+     "url": "https://unit42.paloaltonetworks.com/falcon-c2-browser-compromise/",
+     "source": "Unit 42"
+    }
+   ]
+  },
+  {
+   "title": "Lenovo tablet and System Update flaws allow local privilege escalation",
+   "score": 38,
+   "cves": [
+    "CVE-2026-116633",
+    "CVE-2026-77873",
+    "CVE-2026-77882"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-116633 (MEDIUM 6.9)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-116633",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-77873 (HIGH 7.0)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-77873",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-77882 (HIGH 8.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-77882",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "TR-VISION HOME IOCTL handler flaw enables local privilege escalation via driver",
+   "score": 29,
+   "cves": [
+    "CVE-2026-126785"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-126785 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-126785",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "TcRouter.sys IOCTL flaws let local low-privileged users access physical memory",
+   "score": 28,
+   "cves": [
+    "CVE-2026-18768",
+    "CVE-2026-18769"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-18768 (HIGH 8.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-18768",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-18769 (HIGH 8.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-18769",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "BusyBox TFTP client and httpd flaws allow heap and stack buffer overflows",
+   "score": 26,
+   "cves": [
+    "CVE-2026-124737",
+    "CVE-2026-124739"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-124737 (HIGH 7.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-124737",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-124739 (HIGH 7.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-124739",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "ToolJet onboarding endpoint lacks authentication; public exploit disclosed",
+   "score": 22,
+   "cves": [
+    "CVE-2026-126795"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-126795 (MEDIUM 5.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-126795",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Flare reports eBPF rootkit source code and tutorials spreading in underground forums",
+   "score": 19,
+   "cves": [],
+   "sources": [
+    {
+     "title": "eBPF Rootkits: Why Underground Actors Are Taking Notice",
+     "url": "https://www.bleepingcomputer.com/news/security/ebpf-rootkits-why-underground-actors-are-taking-notice/",
+     "source": "BleepingComputer"
+    }
+   ]
+  },
+  {
+   "title": "Webmin through 2.670 privilege escalation flaws allow root command execution",
+   "score": 12,
+   "cves": [
+    "CVE-2026-126780",
+    "CVE-2026-126781"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-126780 (HIGH 8.6)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-126780",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-126781 (HIGH 7.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-126781",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "pappl-retrofit path traversal allows unauthenticated file upload and deletion",
+   "score": 12,
+   "cves": [
+    "CVE-2026-123747"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-123747 (HIGH 7.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123747",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Unit 42 reports attacker use of AI-powered red team tools",
+   "score": 11,
+   "cves": [],
+   "sources": [
+    {
+     "title": "ARTEX and AI-Powered Red Teaming Tools: What Defenders Need to Know",
+     "url": "https://unit42.paloaltonetworks.com/artex-and-ai-powered-red-teaming-tools/",
+     "source": "Unit 42"
+    }
+   ]
+  },
+  {
+   "title": "Traccar LDAP login accepts empty passwords, enabling admin sessions via unauthenticated bind",
+   "score": 9,
+   "cves": [
+    "CVE-2026-126777"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-126777 (CRITICAL 9.1)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-126777",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "OpsTree REMS authentication bypass and missing auth on governance API expose credentials",
+   "score": 9,
+   "cves": [
+    "CVE-2026-126768",
+    "CVE-2026-126769"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-126768 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-126768",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-126769 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-126769",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "NextScan ns-admin hardcoded keys and credentials allow unauthenticated admin access",
+   "score": 9,
+   "cves": [
+    "CVE-2026-126797",
+    "CVE-2026-126802"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-126797 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-126797",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-126802 (HIGH 8.8)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-126802",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "blueprintUE Docker defaults allow root database login and anonymous storage exhaustion",
+   "score": 9,
+   "cves": [
+    "CVE-2026-126812",
+    "CVE-2026-126659"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-126812 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-126812",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-126659 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-126659",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "WWBN AVideo flaws allow auth bypass, file deletion, stored XSS and unauthorized imports",
+   "score": 9,
+   "cves": [
+    "CVE-2026-126804",
+    "CVE-2026-126805",
+    "CVE-2026-126806"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-126804 (HIGH 7.2)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-126804",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-126805 (HIGH 8.6)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-126805",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-126806 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-126806",
+     "source": "NVD"
+    }
+   ]
+  }
+ ],
+ "kev_new": [],
+ "early_signals": [
+  {
+   "cve": "CVE-2026-119618",
+   "authors": 5,
+   "platforms": [
+    "Hacker News"
+   ],
+   "posts": [
+    {
+     "url": "https://news.ycombinator.com/item?id=50462177",
+     "platform": "Hacker News",
+     "account": "@soheilpro",
+     "published": "2026-11-12T02:11:11Z"
+    },
+    {
+     "url": "https://news.ycombinator.com/item?id=50453368",
+     "platform": "Hacker News",
+     "account": "@klaas-",
+     "published": "2026-11-11T13:47:26Z"
+    },
+    {
+     "url": "https://news.ycombinator.com/item?id=50457987",
+     "platform": "Hacker News",
+     "account": "@linsomniac",
+     "published": "2026-11-11T20:09:56Z"
+    },
+    {
+     "url": "https://news.ycombinator.com/item?id=50462841",
+     "platform": "Hacker News",
+     "account": "@perching_aix",
+     "published": "2026-11-12T03:48:37Z"
+    },
+    {
+     "url": "https://news.ycombinator.com/item?id=50462602",
+     "platform": "Hacker News",
+     "account": "@thehamkercat",
+     "published": "2026-11-12T03:16:34Z"
+    }
+   ],
+   "first_seen": "2026-11-11T13:47:26Z",
+   "epss": {
+    "epss": 0.00398,
+    "percentile": 0.34546
+   },
+   "vendor_advisory": false,
+   "nvd": {
+    "cvss": null,
+    "severity": "",
+    "products": [],
+    "description": "Concurrent Execution using Shared Resource with Improper Synchronization vulnerability in Apache HTTP Server's mod_http2 in assign_headers() can lead to RCE.\n\nThis issue affects Apache HTTP Server: from 2.4.55 through 2.4.70.\nAffected releases of mod_h2 from GitHub: from 2.0.8 through 2.0.42."
+   },
+   "poc": [
+    {
+     "url": "https://github.com/googlesky/CVE-2026-119618",
+     "name": "googlesky/CVE-2026-119618",
+     "stars": 2,
+     "created": "2026-11-12"
+    },
+    {
+     "url": "https://github.com/foxcornlab/apache-httpd-scanner",
+     "name": "foxcornlab/apache-httpd-scanner",
+     "stars": 0,
+     "created": "2026-11-12"
+    },
+    {
+     "url": "https://github.com/suominen/CVE-2026-119618",
+     "name": "suominen/CVE-2026-119618",
+     "stars": 0,
+     "created": "2026-11-12"
+    }
+   ]
+  }
+ ],
+ "explainer": {
+  "concept": "Legitimate remote access software as attacker persistence and C2",
+  "dek": "Attackers install or hijack real remote management and remote access tools so their control channel looks like normal IT administration traffic and survives the removal of their original entry point.",
+  "why_today": "The SCKit campaign pushes rogue ScreenConnect clients to MSP-managed endpoints, and Microsoft describes attackers using the open source GSocket tool, relayed through a public network, to keep access to Linux servers after the original flaws were patched. Both are the same playbook: a trusted, signed or open source tool in place of custom malware.",
+  "related_story_ids": [
+   "story-4",
+   "story-2",
+   "story-5"
+  ],
+  "parts": [
+   {
+    "heading": "How the technique works",
+    "paragraphs": [
+     "MITRE ATT&CK tracks this as Remote Access Software (T1219). Instead of writing a custom implant, the attacker installs a legitimate remote monitoring and management (RMM) or remote access product, such as ScreenConnect, AnyDesk or a similar agent, or an open source tunnelling tool like GSocket. The tool is configured to call out to a server or relay the attacker controls or can use.",
+     "There are two common variants. In the first, the attacker installs a new agent that reports to their own instance, for example a trial or cloud-hosted panel. In the second, which is what SCKit appears to exploit, the attacker compromises a legitimate management panel the victim or its provider already trusts and uses it to push extra clients or run commands across every endpoint it manages."
+    ]
+   },
+   {
+    "heading": "Why attackers prefer it",
+    "paragraphs": [
+     "These tools are often code-signed by a known vendor, are widely allowlisted, and are designed to run as a service, start at boot and reconnect on their own. That gives persistence and interactive control without the attacker writing or maintaining malware, and many antivirus products do not flag them because they are legitimate software.",
+     "The connections are outbound, usually over HTTPS or to vendor or public relay infrastructure, so they pass through firewalls that only block inbound traffic. With relay-based tools like GSocket, the attacker needs no server of their own and there is no fixed attacker IP address to block. Because the access does not depend on the original vulnerability, patching the entry point leaves the backdoor in place."
+    ]
+   },
+   {
+    "heading": "What it looks like in telemetry",
+    "paragraphs": [
+     "On Windows, look for remote access agents installed as new services, executables running from unusual paths, or a second instance of a product you already use. ScreenConnect clients typically install as a service whose name includes a unique instance identifier, so an unfamiliar identifier next to your sanctioned one is a strong signal. In Defender XDR, DeviceProcessEvents, DeviceFileEvents, DeviceRegistryEvents and DeviceNetworkEvents together show the installer, the new service, and the outbound connection to the relay host.",
+     "The relay hostname is often more telling than the binary. A sanctioned RMM agent talks to your tenant's known host. A rogue agent talks to a different instance or a different vendor's cloud. On Linux, watch for long-lived processes making outbound connections to public relay networks and for new cron, systemd or shell profile entries that relaunch them."
+    ]
+   },
+   {
+    "heading": "How to prevent and contain it",
+    "paragraphs": [
+     "Define which remote access products are allowed and enforce it with application control, such as App Control for Business or AppLocker, plus Defender for Endpoint indicators that block unsanctioned tools. Restrict egress so only approved RMM relay hosts are reachable from endpoints and servers.",
+     "Treat RMM consoles and MSP access as privileged identities: require phishing-resistant MFA, limit who can deploy agents or run scripts at scale, and review console audit logs. After any compromise, inventory every remote access agent and scheduled relaunch mechanism before declaring the host clean, because removing the initial exploit does not remove these."
+    ]
+   }
+  ],
+  "takeaways": [
+   "Build an inventory of every remote access and RMM product running across your estate using Defender for Endpoint software inventory and process data, and flag any vendor or instance identifier you did not deploy.",
+   "Alert on new services or processes from remote access vendors whose outbound connections go to hosts other than your sanctioned RMM instance, joining DeviceProcessEvents with DeviceNetworkEvents.",
+   "Block unapproved remote access tools with application control policy and file or certificate indicators, and restrict endpoint and server egress to approved relay hosts.",
+   "If you use an MSP, confirm with them which agents and consoles touch your environment, how console access is protected, and whether they have reviewed for rogue ScreenConnect clients this week.",
+   "On Linux web servers, hunt for persistent outbound processes, new cron or systemd entries, and connections to public relay networks, especially on hosts that previously had an exploited web vulnerability."
+  ],
+  "unsupported_cves": [],
+  "model": "claude-opus-5-5"
+ },
+ "good_news": [
+  {
+   "headline": "Microsoft research effort yields 59 Linux kernel bug reports and 33 CVEs",
+   "summary": "The Microsoft Security Blog reports that its FORGE Lab scanned a subset of Linux kernel subsystems and has so far filed 59 public upstream reports, with 33 CVEs assigned. Microsoft says it confirmed working root privilege-escalation exploits for eight of those CVEs, and fixes for 38 of the reports have been merged into the mainline kernel.",
+   "kind": "research",
+   "sources": [
+    {
+     "title": "Lessons from 59 Linux Kernel Bug Reports",
+     "url": "https://www.microsoft.com/en-us/security/blog/2026/11/11/lessons-from-59-linux-kernel-bug-reports/",
+     "source": "Microsoft Security Blog",
+     "published": "2026-11-11T16:55:00Z"
+    }
+   ],
+   "unsupported_cves": [],
+   "model": "claude-opus-5-5"
+  },
+  {
+   "headline": "N-able ships hotfixes for N-central RMM zero-day vulnerabilities",
+   "summary": "BleepingComputer reports that N-able released security hotfixes for zero-day vulnerabilities in its N-central remote monitoring and management platform. The flaws were publicly disclosed over the weekend and led N-able to take vulnerable hosted environments offline before the fixes shipped.",
+   "kind": "fix_shipped",
+   "sources": [
+    {
+     "title": "N-able releases security hotfixes for zero-day vulnerabilities",
+     "url": "https://www.bleepingcomputer.com/news/security/n-able-releases-security-hotfixes-for-zero-day-vulnerabilities/",
+     "source": "BleepingComputer",
+     "published": "2026-11-11T12:32:27Z"
+    }
+   ],
+   "unsupported_cves": [],
+   "model": "claude-opus-5-5"
+  }
+ ],
+ "explainer_status": "ok",
+ "sources_status": {
+  "CISA KEV": "ok 0",
+  "NVD": "ok 47",
+  "BleepingComputer": "ok 8",
+  "The Record": "ok 0",
+  "The DFIR Report": "ok 0",
+  "Cisco Talos": "ok 0",
+  "Unit 42": "ok 2",
+  "Microsoft Security Blog": "ok 2",
+  "SANS ISC": "ok 2",
+  "Huntress": "ok 1",
+  "watchTowr Labs": "ok 0",
+  "Rapid7": "ok 0",
+  "SecurityWeek": "ok 1",
+  "Krebs on Security": "ok 1",
+  "CISA Advisories": "ok 0",
+  "MSRC Security Update Guide": "ok 29",
+  "Bluesky": "ok 0",
+  "Mastodon": "ok 3",
+  "r/netsec": "ok 0",
+  "Hacker News": "ok 10",
+  "SigmaHQ new rules": "ok 0",
+  "EPSS": "ok 93"
+ },
+ "stats": {
+  "items": {
+   "news": 17,
+   "advisory": 29,
+   "kev": 0,
+   "nvd": 47,
+   "social": 13,
+   "sigma": 0
+  },
+  "stories_found": 36,
+  "kql_parser": "available",
+  "receipts": {
+   "status": "ran",
+   "engine": "Kusto emulator 1.0.9810.23682",
+   "baseline_events": 1338,
+   "baseline_seed": 20261110
+  }
+ }
+}
