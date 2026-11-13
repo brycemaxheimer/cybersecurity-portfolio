@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Daily Intel Brief: 12 November 2026</title>
-<meta name="description" content="Threat-intel brief for 12 November 2026: Microsoft November 2026 Patch Tuesday fixes 1,260 flaws, including exploited Outlook spoofing bug CVE-2026-124194; Microsoft: multiple threat actors deploy GSocket for persistent C2 on compromised Linux servers; Notion says breach at AI provider Fireworks AI exposed Notion AI chat transcripts">
+<title>Daily Intel Brief: 13 November 2026</title>
+<meta name="description" content="Threat-intel brief for 13 November 2026: Huntress: Teams meeting-booking lure used to hide device code phishing; Critical Brotli decoder flaw CVE-2026-111497 (Node2Shell) in KEV; Siemens and Microsoft issue advisories; PHP2Shell: two unauthenticated PHP runtime RCE flaws in CISA KEV, reaching PAN-OS and Siemens products">
 <meta name="color-scheme" content="only light">
 <meta name="theme-color" content="#B3141B">
-<link rel="canonical" href="https://intel.brycemaxheimer.com/editions/2026-11-12/"><link rel="alternate" type="application/rss+xml" title="Daily Intel Brief (RSS)" href="https://intel.brycemaxheimer.com/feed.xml">
+<link rel="canonical" href="https://intel.brycemaxheimer.com/editions/2026-11-13/"><link rel="alternate" type="application/rss+xml" title="Daily Intel Brief (RSS)" href="https://intel.brycemaxheimer.com/feed.xml">
 <link rel="alternate" type="application/feed+json" title="Daily Intel Brief (JSON Feed)" href="https://intel.brycemaxheimer.com/feed.json">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/LibreFranklin-Variable.woff2" as="font" type="font/woff2" crossorigin>
@@ -20,8 +20,8 @@
   <div class="wrap mast-band">
     <a class="brand" href="/">Daily Intel Brief</a>
 <div class="mast-meta">
-  <p class="eyebrow">Thursday edition</p>
-  <h1 id="edition-title">12 November 2026</h1>
+  <p class="eyebrow">Friday edition</p>
+  <h1 id="edition-title">13 November 2026</h1>
 </div>
   </div>
   <div class="mast-bar">
@@ -43,12 +43,12 @@
   <dl class="stats" aria-labelledby="edition-title">
     <div><dd>10</dd><dt>Top stories</dt></div>
     <div class="crit"><dd>0</dd><dt>New KEV entries</dt></div>
-    <div class="ai"><dd>1</dd><dt>Early signal</dt></div>
+    <div class="ai"><dd>0</dd><dt>Early signals</dt></div>
     <div><dd>22<small>/22</small></dd><dt>Sources collected</dt></div>
   </dl>
   <section class="provenance" aria-label="How this edition was made">
   <p><strong>How this edition was made.</strong>
-    Collected from 22 public sources between 11 Nov 05:00 and 12 Nov 05:00 UTC.
+    Collected from 22 public sources between 12 Nov 05:00 and 13 Nov 05:00 UTC.
 Ranked by Claude Haiku 5.5, summarized by Claude Opus 5.5, and reviewed by a person before publishing.
     Summaries can be wrong, so check the linked sources before acting. <a href="methodology/">Read the methodology</a></p>
   </section>
@@ -66,87 +66,139 @@ Ranked by Claude Haiku 5.5, summarized by Claude Opus 5.5, and reviewed by a per
       <div class="story-flags">
         <div class="tags">
 <span class="tag crit-solid">Exploited</span>
-<span class="tag crit">In CISA KEV</span><span class="tag high">Public PoC</span><span class="tag info">Windows</span>        </div>
+<span class="tag info">M365 / Entra</span><span class="tag">campaign</span>        </div>
         <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span class="rank">No. 01</span> · Priority <b>88</b>
+          <span class="rank">No. 01</span> · Priority <b>81</b>
         </div>
       </div>
-      <h3 id="story-1-h">Microsoft November 2026 Patch Tuesday fixes 1,260 flaws, including exploited Outlook spoofing bug <span class="nowrap">CVE-2026-124194</span></h3>
-      <p class="meta">Microsoft  · 1 source · first reported 11 November 2026</p>
+      <h3 id="story-1-h">Huntress: Teams meeting-booking lure used to hide device code phishing</h3>
+      <p class="meta">Microsoft Teams · 1 source · first reported 12 November 2026</p>
     </div>
 
-    <dl class="facts">
-      <div><dt>CVE</dt><dd><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-124194">CVE-2026-124194</a></dd></div>
-      <div><dt>CVSS</dt><dd><strong>6.5</strong> <span class="">Medium</span></dd></div>
-      <div><dt>EPSS</dt><dd><strong>1.6%</strong> <span class="muted">30-day</span></dd></div>
-      <div><dt>CISA KEV</dt><dd>Listed earlier</dd></div>
-      <div><dt>Public PoC</dt><dd><strong class="high">2 repos</strong></dd></div>
-    </dl>
-    <p class="related">Also: <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-119958">CVE-2026-119958</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-109459">CVE-2026-109459</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-119967">CVE-2026-119967</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-119963">CVE-2026-119963</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-116710">CVE-2026-116710</a></p>
 
     <div class="story-body">
       <div class="cols2">
-        <section><h4 class="label">What happened</h4><p>SANS ISC reports that Microsoft&#39;s November 2026 Patch Tuesday, released 10 November 2026, addresses 1,260 vulnerabilities. Of these, 68 are rated critical and 167 are Chromium issues affecting Edge. According to SANS ISC, the Outlook spoofing vulnerability CVE-2026-124194 is already being exploited. Other notable fixes include a critical LDAP remote code execution flaw (CVE-2026-119958), several critical Microsoft Message Queuing and Queue Manager flaws (CVE-2026-109459, CVE-2026-119967, CVE-2026-116710, CVE-2026-119963, CVE-2026-119964), and a Windows TCP/IP remote code execution flaw (CVE-2026-113859) that carries a CVSS score of 7.5.</p></section>
-        <section><h4 class="label">Why it matters</h4><p>CVE-2026-124194 is listed in CISA KEV, public proof-of-concept code exists, and its EPSS is 1.6%. No KEV due date is given, and the sources do not describe how the spoofing is triggered or what attackers gain from it. The LDAP flaw CVE-2026-119958 has CVSS 9.8, EPSS 1.3% and public proof-of-concept code, which puts domain controllers and other LDAP-exposed servers at risk. MSMQ hosts reachable on the network should also be patched quickly.</p></section>
+        <section><h4 class="label">What happened</h4><p>Huntress reports that threat actors built a convincing Microsoft Teams meeting-booking flow to disguise device code phishing. The lure leads victims to complete a legitimate Microsoft device code sign-in, which authorizes the attacker&#39;s session and gives them access to the victim&#39;s account. The sources do not name the actor, the targeted sectors, the scale of the campaign or any indicators.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>Device code phishing uses Microsoft&#39;s real sign-in pages, so URL reputation checks and user awareness of fake login pages often miss it. When it succeeds, the attacker receives tokens for the victim&#39;s Entra ID account, and MFA does not stop that. Huntress describes this as active use against victims. Any tenant that still allows the device code flow for ordinary users is exposed.</p></section>
       </div>
       <div class="actions">
         <h4 class="label">What to do</h4>
-        <ol class="steps"><li>Deploy the November 2026 Office and Microsoft 365 Apps updates for CVE-2026-124194 first, because it is exploited in the wild.</li><li>Patch domain controllers and other servers exposed to LDAP for CVE-2026-119958 (CVSS 9.8, public PoC).</li><li>Patch hosts running Microsoft Message Queuing, and block TCP 1801 at the perimeter or disable MSMQ where it is not needed.</li><li>Apply the Windows cumulative update for CVE-2026-113859 (TCP/IP RCE) across endpoints and servers.</li><li>Use Defender Vulnerability Management to confirm patch coverage, and track remaining exposure to these CVEs.</li></ol>
-      <div class="cols2 versions">
-        <div><div class="k">Affected</div><ul><li>Microsoft 365 Apps (CVE-2026-124194; versions not stated)</li><li>Microsoft Office 2021 (CVE-2026-124194; versions not stated)</li><li>Microsoft Office 2024 (CVE-2026-124194; versions not stated)</li></ul></div>
-        <div><div class="k">Fixed</div><ul><li>Microsoft November 2026 security updates (released 10 November 2026)</li></ul></div>
-      </div>
+        <ol class="steps"><li>Block the device code authentication flow with a Conditional Access authentication flows policy, and allow it only for named accounts or devices that need it, such as meeting room or kiosk devices.</li><li>Review Entra ID sign-in logs for recent device code authentications by users who do not normally use them, especially sign-ins from unfamiliar IPs or countries.</li><li>For any suspected compromised account, revoke sessions and refresh tokens, reset credentials, and check for new mailbox rules, MFA methods and device registrations.</li><li>Tell users that an unexpected Teams or meeting-booking page asking them to enter a code at a Microsoft sign-in page is a phishing indicator, and give them a way to report it.</li></ol>
       </div>
     </div>
 
     <div class="sources">
       <h4 class="label">Sources</h4>
       <ul>
-        <li><span class="pub">SANS ISC</span><a href="https://isc.sans.edu/diary/rss/33508" rel="noopener noreferrer nofollow">Microsoft Patch Tuesday November 2026, (Tue, Nov 10th)</a><span class="where">isc.sans.edu · 11 Nov</span></li>
+        <li><span class="pub">Huntress</span><a href="https://www.huntress.com/blog/crafty-microsoft-teams-booking-flow-disguises-device-code-phishing" rel="noopener noreferrer nofollow">Crafty Microsoft Teams Booking Flow Disguises Device Code Phishing</a><span class="where">huntress.com · 12 Nov</span></li>
       </ul>
 <p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
 
-    <details class="poc">
-      <summary>Public proof-of-concept repos (3)</summary>
-      <p class="warn">Links only, not vetted. Public PoC repos are often fake or backdoored. Don't run them on a work machine.</p>
-      <ul><li><a href="https://github.com/AmesianX/CVE-2026-124194-poc" rel="noopener noreferrer nofollow">AmesianX/CVE-2026-124194-poc</a> <span class="muted">CVE-2026-124194 · 3 stars · created 11 Nov</span></li><li><a href="https://github.com/Ghost-Bx1/cve-2026-124194-outlook-ntlm-hash-leak" rel="noopener noreferrer nofollow">Ghost-Bx1/cve-2026-124194-outlook-ntlm-hash-leak</a> <span class="muted">CVE-2026-124194 · 1 stars · created 11 Nov</span></li><li><a href="https://github.com/googlesky/CVE-2026-119958" rel="noopener noreferrer nofollow">googlesky/CVE-2026-119958</a> <span class="muted">CVE-2026-119958 · 0 stars · created 12 Nov</span></li></ul>
-    </details>
 
     <section class="detect" aria-label="Detection">
       <div class="detect-head">
         <div class="t">Detection
 <span class="tag ai">AI-generated · untested</span>        </div>
-        <span class="why">Hunting only: no endpoint behavior to write a rule against</span>
+        <span class="why">Sigma rule drafted by Claude Opus 5.5 · passed sigma check</span>
       </div>
       <div class="tabs">
-        <input class="tab-input" type="radio" name="fmt-story-1" id="story-1-hunt" checked>
+        <input class="tab-input" type="radio" name="fmt-story-1" id="story-1-sigma" checked>
+        <label for="story-1-sigma">Sigma</label>
+        <input class="tab-input" type="radio" name="fmt-story-1" id="story-1-spl">
+        <label for="story-1-spl">Splunk SPL</label>
+        <input class="tab-input" type="radio" name="fmt-story-1" id="story-1-elastic">
+        <label for="story-1-elastic">Elastic</label>
+        <input class="tab-input" type="radio" name="fmt-story-1" id="story-1-hunt">
         <label for="story-1-hunt">Hunting</label>
         <div class="tab-panels">
           <div class="tab-panel">
-<ol class="steps-plain"><li>Query Defender Vulnerability Management for devices still exposed to the listed CVEs, starting with CVE-2026-124194 and CVE-2026-119958.</li><li>Identify hosts where the MSMQ service (mqsvc.exe) runs, and check whether they accept inbound TCP 1801 connections from the internet.</li><li>Prioritize internet-facing or widely reachable LDAP and MSMQ hosts for emergency patching.</li><li>Review the Outlook client update status on user devices, and watch for any vendor guidance on how the exploited spoofing bug appears in telemetry.</li></ol><div class="code">
+            <div class="code">
   <div class="code-bar">
-    <span class="name">Defender XDR KQL · Devices exposed to November 2026 highlighted CVEs</span>
+    <span class="name">Entra ID Sign-In Using Device Code Authentication Flow</span>
+  </div>
+  <pre><code>title: Entra ID Sign-In Using Device Code Authentication Flow
+id: 02d9ef5d-b771-5919-8a74-e3a78053a02f
+status: experimental
+description: Detects successful Entra ID sign-ins that use the device code authentication flow. Device code phishing campaigns, including one Huntress reports hidden behind a Teams meeting-booking lure, abuse this flow to obtain tokens for victim accounts. AI-generated, untested.
+references:
+- https://www.huntress.com/blog/crafty-microsoft-teams-booking-flow-disguises-device-code-phishing
+author: intel-brief (AI-generated, untested)
+date: &#39;2026-11-13&#39;
+tags:
+- attack.t1566
+- attack.t1528
+logsource:
+  product: azure
+  service: signinlogs
+detection:
+  selection_devicecode:
+    AuthenticationProtocol: deviceCode
+    ResultType|re: ^0$
+  condition: selection_devicecode
+falsepositives:
+- Legitimate device code sign-ins from Teams Rooms, shared or kiosk devices, IoT or CLI tooling such as Azure CLI and PowerShell used by administrators
+level: medium
+</code></pre>
+</div>
+
+            <p class="conv-note">AI-generated, untested. Test and tune it in your environment before you deploy it. Not converted to Defender XDR / Sentinel KQL: SigmaTransformationError: Unable to determine table name from rule.  The query table is determined in the following order of priority:
+  1) The value provided to processing pipeline&#39;s query_table parameter, if using a Python script.
+  2) If the query_table is already set in the pipeline state, such as from a custom user-defined pipeline if using sigma-cli.
+  3) If the rule&#39;s logsource category is .</p>
+          </div>
+          <div class="tab-panel">
+            <div class="code">
+  <div class="code-bar">
+    <span class="name">Splunk SPL</span>
+  </div>
+  <pre><code>AuthenticationProtocol=&#34;deviceCode&#34;
+| regex ResultType=&#34;^0$&#34;</code></pre>
+</div>
+
+            <p class="conv-note">Converted from the Sigma rule with pySigma.</p>
+          </div>
+          <div class="tab-panel">
+            <div class="code">
+  <div class="code-bar">
+    <span class="name">Elastic (Lucene, ECS)</span>
+  </div>
+  <pre><code>AuthenticationProtocol:deviceCode AND ResultType:/^0$/</code></pre>
+</div>
+
+            <p class="conv-note">Converted from the Sigma rule with pySigma.</p>
+          </div>
+          <div class="tab-panel">
+<ol class="steps-plain"><li>Find successful device code sign-ins over the last 30 days and group them by user, application, IP address and location.</li><li>Exclude known legitimate users of the flow, such as meeting room accounts and admin tooling, and focus on regular end users.</li><li>For each remaining sign-in, check whether the user recently received a Teams meeting or booking-themed message, and whether the sign-in IP or location differs from their normal activity.</li><li>Review post-authentication activity for flagged accounts: mailbox rule creation, mail access, file downloads, new device registrations and MFA method changes.</li><li>Contain confirmed cases by revoking refresh tokens and disabling the account until it is remediated.</li></ol><div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Successful device code sign-ins in Entra ID (Sentinel SigninLogs)</span>
 <span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
   </div>
-  <pre><code>DeviceTvmSoftwareVulnerabilities | where CveId in (&#39;CVE-2026-124194&#39;,&#39;CVE-2026-119958&#39;,&#39;CVE-2026-109459&#39;,&#39;CVE-2026-119967&#39;,&#39;CVE-2026-116710&#39;,&#39;CVE-2026-119963&#39;,&#39;CVE-2026-119964&#39;,&#39;CVE-2026-113859&#39;) | summarize Devices=dcount(DeviceId), DeviceNames=make_set(DeviceName, 50) by CveId, SoftwareName, VulnerabilitySeverityLevel | order by Devices desc</code></pre>
+  <pre><code>SigninLogs
+| where TimeGenerated &gt; ago(30d)
+| where AuthenticationProtocol =~ &#34;deviceCode&#34;
+| where ResultType == &#34;0&#34;
+| project TimeGenerated, UserPrincipalName, AppDisplayName, IPAddress, Location, ClientAppUsed, UserAgent, ResourceDisplayName
+| order by TimeGenerated desc</code></pre>
 </div>
 <p class="conv-note receipt">The synthetic baseline has no data for its tables. Not tested on real attack data.</p>
 <div class="code">
   <div class="code-bar">
-    <span class="name">Defender XDR KQL · Inbound public connections to MSMQ port 1801</span>
+    <span class="name">Defender XDR KQL · Users with first-seen device code sign-ins in the last 7 days</span>
 <span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
   </div>
-  <pre><code>DeviceNetworkEvents | where Timestamp &gt; ago(7d) | where ActionType == &#39;InboundConnectionAccepted&#39; and LocalPort == 1801 and RemoteIPType == &#39;Public&#39; | summarize Connections=count(), RemoteIPs=make_set(RemoteIP, 50) by DeviceName | order by Connections desc</code></pre>
+  <pre><code>SigninLogs
+| where TimeGenerated &gt; ago(7d)
+| where AuthenticationProtocol =~ &#34;deviceCode&#34; and ResultType == &#34;0&#34;
+| summarize FirstSeen = min(TimeGenerated), IPs = make_set(IPAddress), Apps = make_set(AppDisplayName) by UserPrincipalName
+| join kind=leftanti (
+    SigninLogs
+    | where TimeGenerated between (ago(90d) .. ago(7d))
+    | where AuthenticationProtocol =~ &#34;deviceCode&#34;
+    | distinct UserPrincipalName
+) on UserPrincipalName
+| order by FirstSeen desc</code></pre>
 </div>
-<p class="conv-note receipt">On 300 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
-<div class="code">
-  <div class="code-bar">
-    <span class="name">Defender XDR KQL · Hosts running the MSMQ service process</span>
-<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
-  </div>
-  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(14d) | where FileName =~ &#39;mqsvc.exe&#39; | summarize LastSeen=max(Timestamp) by DeviceName</code></pre>
-</div>
-<p class="conv-note receipt">On 500 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<p class="conv-note receipt">The synthetic baseline has no data for its tables. Not tested on real attack data.</p>
           </div>
         </div>
       </div>
@@ -157,34 +209,53 @@ Ranked by Claude Haiku 5.5, summarized by Claude Opus 5.5, and reviewed by a per
       <div class="story-flags">
         <div class="tags">
 <span class="tag crit-solid">Exploited</span>
-<span class="tag info">Linux</span><span class="tag">campaign</span>        </div>
+<span class="tag crit">In CISA KEV</span><span class="tag high">Public PoC</span>        </div>
         <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span class="rank">No. 02</span> · Priority <b>69</b>
+          <span class="rank">No. 02</span> · Priority <b>74</b>
         </div>
       </div>
-      <h3 id="story-2-h">Microsoft: multiple threat actors deploy GSocket for persistent C2 on compromised Linux servers</h3>
-      <p class="meta"> GSocket · 1 source · first reported 11 November 2026</p>
+      <h3 id="story-2-h">Critical Brotli decoder flaw <span class="nowrap">CVE-2026-111497</span> (Node2Shell) in KEV; Siemens and Microsoft issue advisories</h3>
+      <p class="meta">Node.js Brotli decoder · 4 sources · first reported 12 November 2026</p>
     </div>
 
+    <dl class="facts">
+      <div><dt>CVE</dt><dd><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-111497">CVE-2026-111497</a></dd></div>
+      <div><dt>CVSS</dt><dd><strong>9.2</strong> <span class="crit">Critical</span></dd></div>
+      <div><dt>EPSS</dt><dd><strong>83%</strong> <span class="muted">30-day</span></dd></div>
+      <div><dt>CISA KEV</dt><dd>Listed earlier</dd></div>
+      <div><dt>Public PoC</dt><dd><strong class="high">3 repos</strong></dd></div>
+    </dl>
 
     <div class="story-body">
       <div class="cols2">
-        <section><h4 class="label">What happened</h4><p>Microsoft reports several incidents in which threat actors installed GSocket, an open source remote access tool, on Linux servers after exploiting web application vulnerabilities. According to Microsoft, the tool let attackers keep access after the original vulnerabilities were patched. Defender for Endpoint telemetry shows the activity growing over recent months, concentrated on web applications and hosting environments. Microsoft notes that GSocket traffic goes through the public Global Socket Relay Network, so attackers need no infrastructure of their own.</p></section>
-        <section><h4 class="label">Why it matters</h4><p>Patching an exploited web application does not evict an attacker who has already installed GSocket. Both ends connect outbound to a shared public relay, so there is no attacker-owned IP address or domain to block, and the host needs no inbound listener. Any Linux web or hosting server in your estate that was compromised and then only patched may still be under attacker control, and the sources describe exploitation as confirmed and widespread.</p></section>
+        <section><h4 class="label">What happened</h4><p>CVE-2026-111497, nicknamed Node2Shell, is an out-of-bounds write in the Google Brotli decoder that a remote, unauthenticated attacker can trigger with a crafted compressed stream, causing memory disclosure, denial of service or possibly code execution. Siemens advisories republished by CISA say the Node.js project shipped fixes on 21 October 2026 and list affected Desigo CC, Gridscale X, RUGGEDCOM APE1808 (PAN-OS based) and Industrial Edge products. Microsoft has updated its guide with affected Windows versions and the November 2026 security updates. The CVE is in CISA KEV and the story is tagged as exploited in the wild, but none of the advisories describe the attacks.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>Brotli is embedded in Node.js, .NET, Python bindings, Linux distributions and appliances such as PAN-OS, so any internet-facing service that decompresses attacker-supplied Brotli data may be reachable. The flaw is in KEV with no stated due date, public proof-of-concept code exists and EPSS is 82.6%, so treat patching as urgent. Severity figures differ: Siemens gives CVSS 9.8 and other scoring gives 9.2.</p></section>
       </div>
       <div class="actions">
         <h4 class="label">What to do</h4>
-        <ol class="steps"><li>On any Linux web server with a past or suspected application compromise, check for GSocket binaries, processes and persistence before declaring the incident remediated.</li><li>Hunt for GSocket tool names (gs-netcat, gsocket, gs-sftp, gs-mount) in process and file telemetry across Linux devices onboarded to Defender for Endpoint.</li><li>Review cron jobs, systemd units, shell profile files and authorized_keys on affected hosts for persistence, and check for signs of privilege escalation.</li><li>Restrict outbound traffic from servers to the Global Socket Relay Network at the egress firewall or proxy, as Microsoft suggests, and alert on attempts to reach it.</li><li>Rebuild confirmed-compromised hosts where possible and rotate credentials and secrets stored on them.</li></ol>
+        <ol class="steps"><li>Install the Microsoft November 2026 Windows and .NET security updates, prioritizing internet-facing servers.</li><li>Update Node.js runtimes to the 21 October 2026 security releases and update bundled or standalone Brotli libraries to 1.0.10, 1.1.1 or 1.2.1.</li><li>Upgrade PAN-OS on firewalls (including RUGGEDCOM APE1808) to the fixed release Palo Alto Networks specifies and apply its workarounds meanwhile.</li><li>Apply Siemens updates for Gridscale X and Industrial Edge apps, and Siemens&#39; interim mitigations where no fix exists; restrict network access to OT management interfaces.</li><li>Hunt for Node.js and web worker processes spawning shells or unexpected crashes on exposed services.</li></ol>
+      <div class="cols2 versions">
+        <div><div class="k">Affected</div><ul><li>Google Brotli 1.0.3 through 1.2.0</li><li>Windows versions listed by Microsoft (via .NET / Brotli component) prior to November 2026 security updates</li><li>Siemens Desigo CC family V8 and V9 (all versions)</li><li>Siemens Gridscale X DSA &gt;= V5.3 &lt; V5.4</li><li>Siemens Gridscale X PSS®E &lt; V36.8.0</li><li>Siemens RUGGEDCOM APE1808 with Palo Alto Networks PAN-OS (all versions)</li><li>Siemens Cloud Connector Configurator &lt; 1.24.3</li><li>Siemens Common Configurator on IEM and on Edge (all versions)</li><li>Siemens Data Flow Monitoring &lt; 3.0.18</li><li>Siemens Databus Configurator &lt; 4.0.1</li></ul></div>
+        <div><div class="k">Fixed</div><ul><li>Google Brotli 1.0.10, 1.1.1 or 1.2.1</li><li>Node.js security releases of 21 October 2026</li><li>Microsoft November 2026 security updates (Windows and .NET)</li><li>Siemens Gridscale X DSA V5.4 or later</li><li>Siemens Gridscale X PSS®E V36.8.0 or later</li><li>RUGGEDCOM APE1808: corresponding fixed PAN-OS version per Palo Alto Networks</li></ul></div>
+      </div>
       </div>
     </div>
 
     <div class="sources">
       <h4 class="label">Sources</h4>
       <ul>
-        <li><span class="pub">Microsoft Security Blog</span><a href="https://www.microsoft.com/en-us/security/blog/2026/11/11/global-socket-how-threat-actors-weaponizing-gsocket-stealthy-c2/" rel="noopener noreferrer nofollow">The global socket: how threat actors are weaponizing GSocket for stealthy C2</a><span class="where">microsoft.com · 11 Nov</span></li>
+        <li><span class="pub">CISA Advisories</span><a href="https://www.cisa.gov/news-events/ics-advisories/icsa-26-316-02" rel="noopener noreferrer nofollow">Siemens Desigo, Gridscale</a><span class="where">cisa.gov · 12 Nov</span></li>
+        <li><span class="pub">CISA Advisories</span><a href="https://www.cisa.gov/news-events/ics-advisories/icsa-26-316-04" rel="noopener noreferrer nofollow">Siemens RUGGEDCOM APE1808</a><span class="where">cisa.gov · 12 Nov</span></li>
+        <li><span class="pub">CISA Advisories</span><a href="https://www.cisa.gov/news-events/ics-advisories/icsa-26-316-03" rel="noopener noreferrer nofollow">Siemens Industrial Edge Management</a><span class="where">cisa.gov · 12 Nov</span></li>
+        <li><span class="pub">MSRC Security Update Guide</span><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-111497" rel="noopener noreferrer nofollow">CVE-2026-111497 Google: CVE-2026-111497 Buffer overflow vulnerability in the Brotli decoder</a><span class="where">msrc.microsoft.com · 12 Nov</span></li>
       </ul>
 <p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
 
+    <details class="poc">
+      <summary>Public proof-of-concept repos (3)</summary>
+      <p class="warn">Links only, not vetted. Public PoC repos are often fake or backdoored. Don't run them on a work machine.</p>
+      <ul><li><a href="https://github.com/assetnote/node2shell-scanner" rel="noopener noreferrer nofollow">assetnote/node2shell-scanner</a> <span class="muted">CVE-2026-111497 · 86 stars · created 25 Oct</span></li><li><a href="https://github.com/dimasma0305/CVE-2026-111497-POC" rel="noopener noreferrer nofollow">dimasma0305/CVE-2026-111497-POC</a> <span class="muted">CVE-2026-111497 · 81 stars · created 22 Oct</span></li><li><a href="https://github.com/trailofbits/brotli-checker" rel="noopener noreferrer nofollow">trailofbits/brotli-checker</a> <span class="muted">CVE-2026-111497 · 70 stars · created 23 Oct</span></li></ul>
+    </details>
 
     <section class="detect" aria-label="Detection">
       <div class="detect-head">
@@ -207,236 +278,53 @@ Ranked by Claude Haiku 5.5, summarized by Claude Opus 5.5, and reviewed by a per
           <div class="tab-panel">
             <div class="code">
   <div class="code-bar">
-    <span class="name">GSocket Remote Access Tool Execution on Linux</span>
+    <span class="name">Shell or Script Interpreter Spawned by Node.js Process</span>
   </div>
-  <pre><code>title: GSocket Remote Access Tool Execution on Linux
-id: 9053fa0d-fce8-5be5-b367-974dd6d77c2d
+  <pre><code>title: Shell or Script Interpreter Spawned by Node.js Process
+id: dc3c1cfd-68b2-5fb5-b027-e41af9919bea
 status: experimental
-description: Detects execution of GSocket components (gs-netcat, gsocket, gs-sftp, gs-mount), which Microsoft reports threat actors use for persistent relay-based C2 on compromised Linux servers. AI-generated, untested.
+description: Detects node.exe spawning command shells or script interpreters, a common sign of remote code execution in Node.js services such as exploitation of the Node2Shell Brotli flaw (CVE-2026-111497). AI-generated, untested.
 references:
-- https://www.microsoft.com/en-us/security/blog/2026/11/11/global-socket-how-threat-actors-weaponizing-gsocket-stealthy-c2/
+- https://www.cisa.gov/news-events/ics-advisories/icsa-26-316-02
+- https://www.cisa.gov/news-events/ics-advisories/icsa-26-316-04
+- https://www.cisa.gov/news-events/ics-advisories/icsa-26-316-03
+- https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-111497
 author: intel-brief (AI-generated, untested)
-date: &#39;2026-11-12&#39;
+date: &#39;2026-11-13&#39;
 tags:
-- attack.command-and-control
-- attack.t1219
-- attack.t1090
-- attack.persistence
-logsource:
-  product: linux
-  category: process_creation
-detection:
-  selection_image:
-    Image|endswith:
-    - /gs-netcat
-    - /gsocket
-    - /gs-sftp
-    - /gs-mount
-  selection_cmdline:
-    CommandLine|contains:
-    - &#39;gs-netcat &#39;
-    - &#39;gsocket &#39;
-    - GS_ARGS=
-    - &#39;gs-sftp &#39;
-    - &#39;gs-mount &#39;
-  condition: 1 of selection_*
-falsepositives:
-- Administrators legitimately using GSocket for remote access
-level: high
-</code></pre>
-</div>
-
-            <p class="conv-note">AI-generated. Its KQL conversion passed labelled cases built from this rule on the Kusto engine. That checks the conversion only; real attack coverage is untested. Test and tune it in your environment before you deploy it.</p>
-          </div>
-          <div class="tab-panel">
-            <div class="code">
-  <div class="code-bar">
-    <span class="name">Defender XDR / Sentinel KQL</span>
-<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
-<span class="pass" title="Ran on the Kusto emulator against labelled cases built from the Sigma rule">Labelled cases: pass</span>
-  </div>
-  <pre><code>DeviceProcessEvents
-| where (FolderPath endswith &#34;/gs-netcat&#34; or FolderPath endswith &#34;/gsocket&#34; or FolderPath endswith &#34;/gs-sftp&#34; or FolderPath endswith &#34;/gs-mount&#34;) or (ProcessCommandLine contains &#34;gs-netcat &#34; or ProcessCommandLine contains &#34;gsocket &#34; or ProcessCommandLine contains &#34;GS_ARGS=&#34; or ProcessCommandLine contains &#34;gs-sftp &#34; or ProcessCommandLine contains &#34;gs-mount &#34;)</code></pre>
-</div>
-<p class="conv-note receipt">On the Kusto engine it fired on 21 of 21 labelled cases that should match and 0 of 0 that should not. On 500 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
-
-            <p class="conv-note">Converted from the Sigma rule with pySigma (kusto backend, microsoft_xdr pipeline).</p>
-          </div>
-          <div class="tab-panel">
-            <div class="code">
-  <div class="code-bar">
-    <span class="name">Splunk SPL</span>
-  </div>
-  <pre><code>Image IN (&#34;*/gs-netcat&#34;, &#34;*/gsocket&#34;, &#34;*/gs-sftp&#34;, &#34;*/gs-mount&#34;) OR CommandLine IN (&#34;*gs-netcat *&#34;, &#34;*gsocket *&#34;, &#34;*GS_ARGS=*&#34;, &#34;*gs-sftp *&#34;, &#34;*gs-mount *&#34;)</code></pre>
-</div>
-
-            <p class="conv-note">Converted from the Sigma rule with pySigma.</p>
-          </div>
-          <div class="tab-panel">
-            <div class="code">
-  <div class="code-bar">
-    <span class="name">Elastic (Lucene, ECS)</span>
-  </div>
-  <pre><code>(Image:(*\/gs\-netcat OR *\/gsocket OR *\/gs\-sftp OR *\/gs\-mount)) OR (CommandLine:(*gs\-netcat\ * OR *gsocket\ * OR *GS_ARGS\=* OR *gs\-sftp\ * OR *gs\-mount\ *))</code></pre>
-</div>
-
-            <p class="conv-note">Converted from the Sigma rule with pySigma.</p>
-          </div>
-          <div class="tab-panel">
-<ol class="steps-plain"><li>List Linux servers, especially internet-facing web and hosting hosts, onboarded to Defender for Endpoint.</li><li>Search process and file events for GSocket tool names and related command-line arguments over the last 30 days.</li><li>Look for web server processes (apache, nginx, php-fpm, java, node) spawning shells that download and run scripts, which often precedes GSocket installation.</li><li>On hits, inspect persistence locations (crontab, systemd units, .bashrc, .profile) and identify the parent process and user that installed the tool.</li><li>Review outbound network connections from those hosts for long-lived sessions to unfamiliar relay endpoints, and compare with the timeline of the original application compromise.</li></ol><div class="code">
-  <div class="code-bar">
-    <span class="name">Defender XDR KQL · GSocket tool execution on Linux devices</span>
-<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
-  </div>
-  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(30d) | where FileName in~ (&#34;gs-netcat&#34;,&#34;gsocket&#34;,&#34;gs-sftp&#34;,&#34;gs-mount&#34;) or ProcessCommandLine has_any (&#34;gs-netcat&#34;,&#34;gsocket&#34;,&#34;GS_ARGS&#34;,&#34;gs-sftp&#34;,&#34;gs-mount&#34;) | project Timestamp, DeviceName, AccountName, FileName, FolderPath, ProcessCommandLine, InitiatingProcessFileName, InitiatingProcessCommandLine</code></pre>
-</div>
-<p class="conv-note receipt">On 500 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
-<div class="code">
-  <div class="code-bar">
-    <span class="name">Defender XDR KQL · GSocket files written to disk</span>
-<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
-  </div>
-  <pre><code>DeviceFileEvents | where Timestamp &gt; ago(30d) | where ActionType in (&#34;FileCreated&#34;,&#34;FileModified&#34;,&#34;FileRenamed&#34;) | where FileName in~ (&#34;gs-netcat&#34;,&#34;gsocket&#34;,&#34;gs-sftp&#34;,&#34;gs-mount&#34;) or InitiatingProcessCommandLine has_any (&#34;gs-netcat&#34;,&#34;gsocket&#34;,&#34;GS_ARGS&#34;) | project Timestamp, DeviceName, FileName, FolderPath, InitiatingProcessAccountName, InitiatingProcessFileName, InitiatingProcessCommandLine</code></pre>
-</div>
-<p class="conv-note receipt">On 150 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
-<div class="code">
-  <div class="code-bar">
-    <span class="name">Defender XDR KQL · Web server processes spawning shells that fetch remote content</span>
-<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
-  </div>
-  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(30d) | where InitiatingProcessFileName in~ (&#34;apache2&#34;,&#34;httpd&#34;,&#34;nginx&#34;,&#34;php-fpm&#34;,&#34;php&#34;,&#34;java&#34;,&#34;node&#34;) | where FileName in~ (&#34;sh&#34;,&#34;bash&#34;,&#34;dash&#34;) | where ProcessCommandLine has_any (&#34;curl&#34;,&#34;wget&#34;) | project Timestamp, DeviceName, AccountName, InitiatingProcessFileName, ProcessCommandLine</code></pre>
-</div>
-<p class="conv-note receipt">On 500 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-  </article>
-  <article class="story" id="story-3" aria-labelledby="story-3-h">
-    <div class="story-top">
-      <div class="story-flags">
-        <div class="tags">
-<span class="tag crit-solid">Exploited</span>
-<span class="tag info">Cloud / SaaS</span><span class="tag">breach</span>        </div>
-        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span class="rank">No. 03</span> · Priority <b>69</b>
-        </div>
-      </div>
-      <h3 id="story-3-h">Notion says breach at AI provider Fireworks AI exposed Notion AI chat transcripts</h3>
-      <p class="meta">Notion Notion AI · 1 source · first reported 11 November 2026</p>
-    </div>
-
-
-    <div class="story-body">
-      <div class="cols2">
-        <section><h4 class="label">What happened</h4><p>According to BleepingComputer, Notion disclosed that a security breach at Fireworks AI, a third-party AI infrastructure provider it uses, exposed Notion AI chat transcripts belonging to a small number of workspaces. The sources do not say how Fireworks AI was breached, when the breach occurred, which workspaces were affected, or what data the transcripts contained.</p></section>
-        <section><h4 class="label">Why it matters</h4><p>Users often paste sensitive material into AI assistants, including credentials, internal documents and customer data, so exposed transcripts can leak secrets beyond Notion itself. This is a supply-chain exposure at a SaaS subprocessor, so nothing in Windows, M365 or edge-device telemetry would show it. The main risk for most organizations is credentials or tokens shared in chats that are now in a third party&#39;s hands.</p></section>
-      </div>
-      <div class="actions">
-        <h4 class="label">What to do</h4>
-        <ol class="steps"><li>Check whether Notion has notified your organization that any of your workspaces were affected, and contact Notion support to confirm.</li><li>If your workspaces were affected, review the exposed Notion AI conversations for secrets such as passwords, API keys and tokens, and rotate any you find.</li><li>Watch for targeted phishing that refers to internal projects or content discussed in Notion AI chats.</li><li>Review your AI-assistant usage policy and data-handling settings so that secrets are not shared with SaaS AI features.</li><li>Add Fireworks AI to your third-party risk register as a Notion subprocessor, and track Notion&#39;s follow-up disclosures.</li></ol>
-      </div>
-    </div>
-
-    <div class="sources">
-      <h4 class="label">Sources</h4>
-      <ul>
-        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/notion-says-fireworks-breach-exposed-customer-ai-chat-transcripts/" rel="noopener noreferrer nofollow">Notion says Fireworks breach exposed customer AI chat transcripts</a><span class="where">bleepingcomputer.com · 11 Nov</span></li>
-      </ul>
-<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
-
-
-  </article>
-  <article class="story" id="story-4" aria-labelledby="story-4-h">
-    <div class="story-top">
-      <div class="story-flags">
-        <div class="tags">
-<span class="tag crit-solid">Exploited</span>
-<span class="tag">campaign</span>        </div>
-        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span class="rank">No. 04</span> · Priority <b>64</b>
-        </div>
-      </div>
-      <h3 id="story-4-h">Rogue ScreenConnect clients pushed to MSP customer endpoints in active campaign</h3>
-      <p class="meta">ConnectWise ScreenConnect · 2 sources · first reported 11 November 2026</p>
-    </div>
-
-
-    <div class="story-body">
-      <div class="cols2">
-        <section><h4 class="label">What happened</h4><p>BleepingComputer reported on 11 November 2026 that ConnectWise is investigating an active malware campaign against managed service providers. Attackers are using compromised ScreenConnect environments to install rogue remote-access clients on customer devices, and dozens of organizations are affected. Huntress, writing on 12 November 2026, describes the activity as a worm it calls SCKit. According to Huntress, it uses cloud-hosted ScreenConnect panels to install rogue ScreenConnect clients and session cookie relays across hundreds of managed endpoints. Neither source names a CVE, and neither gives details on how the panels were first compromised.</p></section>
-        <section><h4 class="label">Why it matters</h4><p>Exploitation is confirmed and widespread. Any organization whose MSP uses ScreenConnect may already have an attacker-controlled remote-access client running alongside, or instead of, the legitimate one. These clients are signed, legitimate software, so they often get past antivirus and give the attacker interactive, SYSTEM-level access that persists after the original panel is cleaned up. The session cookie relays Huntress mentions also point to a risk of browser session or token theft affecting M365 and other cloud accounts.</p></section>
-      </div>
-      <div class="actions">
-        <h4 class="label">What to do</h4>
-        <ol class="steps"><li>Inventory every ScreenConnect client service on your endpoints and confirm each relay host it connects to belongs to your own or your MSP&#39;s approved instance; isolate devices that report to unknown instances.</li><li>Contact your MSP to confirm whether their ScreenConnect environment is affected by the campaign ConnectWise is investigating, and ask for their list of legitimate instance hostnames.</li><li>Uninstall unauthorized ScreenConnect clients and block unapproved ScreenConnect relay domains at the proxy and firewall.</li><li>On affected hosts, revoke and reissue browser sessions and refresh tokens for signed-in users (for example by revoking Entra ID sessions), because Huntress reports that session cookie relays were deployed.</li><li>Restrict remote-access tool installation with application control so that only approved RMM instances can run.</li></ol>
-      </div>
-    </div>
-
-    <div class="sources">
-      <h4 class="label">Sources</h4>
-      <ul>
-        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/active-screenconnect-attacks-breach-msps-impact-dozens-of-organizations/" rel="noopener noreferrer nofollow">Active ScreenConnect attacks breach MSPs, impact dozens of organizations</a><span class="where">bleepingcomputer.com · 11 Nov</span></li>
-        <li><span class="pub">Huntress</span><a href="https://www.huntress.com/blog/sckit-worm-rogue-screenconnect" rel="noopener noreferrer nofollow">SCKit Worm Installs Rogue ScreenConnect Clients and Session Cookie Relays Across Hundreds of Endpoints</a><span class="where">huntress.com · 12 Nov</span></li>
-      </ul>
-<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
-
-
-    <section class="detect" aria-label="Detection">
-      <div class="detect-head">
-        <div class="t">Detection
-<span class="tag ai" title="KQL conversion passed labelled synthetic cases on the Kusto engine. Not tested on real attack data.">AI-generated · KQL tested</span>        </div>
-        <span class="why">Sigma rule drafted by Claude Opus 5.5 · passed sigma check</span>
-      </div>
-      <div class="tabs">
-        <input class="tab-input" type="radio" name="fmt-story-4" id="story-4-sigma">
-        <label for="story-4-sigma">Sigma</label>
-        <input class="tab-input" type="radio" name="fmt-story-4" id="story-4-kql" checked>
-        <label for="story-4-kql">Defender KQL</label>
-        <input class="tab-input" type="radio" name="fmt-story-4" id="story-4-spl">
-        <label for="story-4-spl">Splunk SPL</label>
-        <input class="tab-input" type="radio" name="fmt-story-4" id="story-4-elastic">
-        <label for="story-4-elastic">Elastic</label>
-        <input class="tab-input" type="radio" name="fmt-story-4" id="story-4-hunt">
-        <label for="story-4-hunt">Hunting</label>
-        <div class="tab-panels">
-          <div class="tab-panel">
-            <div class="code">
-  <div class="code-bar">
-    <span class="name">ScreenConnect Session Installing Additional ScreenConnect Client</span>
-  </div>
-  <pre><code>title: ScreenConnect Session Installing Additional ScreenConnect Client
-id: 6b8fe8f4-a602-566a-8e86-d04b8d5b4c99
-status: experimental
-description: Detects a ScreenConnect client process launching msiexec or a setup binary that installs another ScreenConnect client. This pattern fits the reported campaign in which compromised ScreenConnect environments push rogue clients to managed endpoints. AI-generated, untested.
-references:
-- https://www.bleepingcomputer.com/news/security/active-screenconnect-attacks-breach-msps-impact-dozens-of-organizations/
-- https://www.huntress.com/blog/sckit-worm-rogue-screenconnect
-author: intel-brief (AI-generated, untested)
-date: &#39;2026-11-12&#39;
-tags:
-- attack.t1219
-- attack.persistence
+- attack.t1190
+- attack.execution
+- attack.t1059
+- cve.2026-111497
 logsource:
   product: windows
   category: process_creation
 detection:
   selection_parent:
-    ParentImage|endswith:
-    - \ScreenConnect.ClientService.exe
-    - \ScreenConnect.WindowsClient.exe
+    ParentImage|endswith: \node.exe
   selection_child:
-    CommandLine|contains:
-    - ScreenConnect
-    - ClientSetup
     Image|endswith:
-    - \msiexec.exe
-    - \ScreenConnect.ClientSetup.exe
     - \cmd.exe
     - \powershell.exe
-  condition: selection_parent and selection_child
+    - \pwsh.exe
+    - \wscript.exe
+    - \cscript.exe
+    - \mshta.exe
+    - \rundll32.exe
+    - \certutil.exe
+    - \bitsadmin.exe
+    - \whoami.exe
+  filter_devtools:
+    CommandLine|contains:
+    - npm
+    - npx
+    - yarn
+    - git.exe
+    - node_modules\.bin
+  condition: selection_parent and selection_child and not filter_devtools
 falsepositives:
-- Legitimate MSP technicians upgrading or redeploying their own ScreenConnect client through an existing session
+- Developer workstations and build servers where Node.js tooling launches shells
+- Electron or Node-based applications that legitimately run scripts
 level: medium
 </code></pre>
 </div>
@@ -451,9 +339,9 @@ level: medium
 <span class="pass" title="Ran on the Kusto emulator against labelled cases built from the Sigma rule">Labelled cases: pass</span>
   </div>
   <pre><code>DeviceProcessEvents
-| where (InitiatingProcessFolderPath endswith &#34;\\ScreenConnect.ClientService.exe&#34; or InitiatingProcessFolderPath endswith &#34;\\ScreenConnect.WindowsClient.exe&#34;) and ((ProcessCommandLine contains &#34;ScreenConnect&#34; or ProcessCommandLine contains &#34;ClientSetup&#34;) and (FolderPath endswith &#34;\\msiexec.exe&#34; or FolderPath endswith &#34;\\ScreenConnect.ClientSetup.exe&#34; or FolderPath endswith &#34;\\cmd.exe&#34; or FolderPath endswith &#34;\\powershell.exe&#34;))</code></pre>
+| where InitiatingProcessFolderPath endswith &#34;\\node.exe&#34; and (FolderPath endswith &#34;\\cmd.exe&#34; or FolderPath endswith &#34;\\powershell.exe&#34; or FolderPath endswith &#34;\\pwsh.exe&#34; or FolderPath endswith &#34;\\wscript.exe&#34; or FolderPath endswith &#34;\\cscript.exe&#34; or FolderPath endswith &#34;\\mshta.exe&#34; or FolderPath endswith &#34;\\rundll32.exe&#34; or FolderPath endswith &#34;\\certutil.exe&#34; or FolderPath endswith &#34;\\bitsadmin.exe&#34; or FolderPath endswith &#34;\\whoami.exe&#34;) and (not((ProcessCommandLine contains &#34;npm&#34; or ProcessCommandLine contains &#34;npx&#34; or ProcessCommandLine contains &#34;yarn&#34; or ProcessCommandLine contains &#34;git.exe&#34; or ProcessCommandLine contains &#34;node_modules\\.bin&#34;)))</code></pre>
 </div>
-<p class="conv-note receipt">On the Kusto engine it fired on 13 of 13 labelled cases that should match and 0 of 5 that should not. On 500 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<p class="conv-note receipt">On the Kusto engine it fired on 11 of 11 labelled cases that should match and 0 of 6 that should not. On 500 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
 
             <p class="conv-note">Converted from the Sigma rule with pySigma (kusto backend, microsoft_xdr pipeline).</p>
           </div>
@@ -462,7 +350,7 @@ level: medium
   <div class="code-bar">
     <span class="name">Splunk SPL</span>
   </div>
-  <pre><code>ParentImage IN (&#34;*\\ScreenConnect.ClientService.exe&#34;, &#34;*\\ScreenConnect.WindowsClient.exe&#34;) CommandLine IN (&#34;*ScreenConnect*&#34;, &#34;*ClientSetup*&#34;) Image IN (&#34;*\\msiexec.exe&#34;, &#34;*\\ScreenConnect.ClientSetup.exe&#34;, &#34;*\\cmd.exe&#34;, &#34;*\\powershell.exe&#34;)</code></pre>
+  <pre><code>ParentImage=&#34;*\\node.exe&#34; Image IN (&#34;*\\cmd.exe&#34;, &#34;*\\powershell.exe&#34;, &#34;*\\pwsh.exe&#34;, &#34;*\\wscript.exe&#34;, &#34;*\\cscript.exe&#34;, &#34;*\\mshta.exe&#34;, &#34;*\\rundll32.exe&#34;, &#34;*\\certutil.exe&#34;, &#34;*\\bitsadmin.exe&#34;, &#34;*\\whoami.exe&#34;) NOT (CommandLine IN (&#34;*npm*&#34;, &#34;*npx*&#34;, &#34;*yarn*&#34;, &#34;*git.exe*&#34;, &#34;*node_modules\\.bin*&#34;))</code></pre>
 </div>
 
             <p class="conv-note">Converted from the Sigma rule with pySigma.</p>
@@ -472,36 +360,306 @@ level: medium
   <div class="code-bar">
     <span class="name">Elastic (Lucene, ECS)</span>
   </div>
-  <pre><code>(process.parent.executable.caseless:(*\\ScreenConnect.ClientService.exe OR *\\ScreenConnect.WindowsClient.exe)) AND ((process.command_line:(*ScreenConnect* OR *ClientSetup*)) AND (process.executable.caseless:(*\\msiexec.exe OR *\\ScreenConnect.ClientSetup.exe OR *\\cmd.exe OR *\\powershell.exe)))</code></pre>
+  <pre><code>process.parent.executable.caseless:*\\node.exe AND (process.executable.caseless:(*\\cmd.exe OR *\\powershell.exe OR *\\pwsh.exe OR *\\wscript.exe OR *\\cscript.exe OR *\\mshta.exe OR *\\rundll32.exe OR *\\certutil.exe OR *\\bitsadmin.exe OR *\\whoami.exe)) AND (NOT (process.command_line:(*npm* OR *npx* OR *yarn* OR *git.exe* OR *node_modules\\.bin*)))</code></pre>
 </div>
 
             <p class="conv-note">Converted from the Sigma rule with pySigma.</p>
           </div>
           <div class="tab-panel">
-<ol class="steps-plain"><li>List all ScreenConnect client services and extract the relay host from each command line. Compare the hosts against your approved instances.</li><li>Find devices running more than one distinct ScreenConnect client instance. A second instance is a strong sign of a rogue install.</li><li>Review the child processes of ScreenConnect client services for installer activity, script interpreters and reconnaissance commands since late October 2026.</li><li>Check the registry for ScreenConnect Client services created recently, and match their creation times to the timing of MSP sessions.</li><li>For any suspicious host, review sign-in logs for the users on that device to spot session reuse from unfamiliar IP addresses.</li></ol><div class="code">
+<ol class="steps-plain"><li>List devices exposed to CVE-2026-111497 using Defender vulnerability management and prioritize internet-facing ones.</li><li>Inventory Node.js runtimes and confirm they are on the 21 October 2026 releases or later.</li><li>Review node.exe, w3wp.exe and other web service processes for spawned shells or LOLBins since mid-October 2026.</li><li>Check exposed services for repeated crashes of node.exe or .NET worker processes, which may indicate failed exploitation attempts.</li><li>Confirm PAN-OS and Siemens appliance versions against vendor advisories, since these devices lack EDR coverage.</li></ol><div class="code">
   <div class="code-bar">
-    <span class="name">Defender XDR KQL · ScreenConnect client relay hosts across the estate</span>
+    <span class="name">Defender XDR KQL · Devices vulnerable to CVE-2026-111497</span>
 <span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
   </div>
-  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(30d) | where FileName =~ &#34;ScreenConnect.ClientService.exe&#34; | extend RelayHost = extract(@&#34;h=([^&amp;]+)&#34;, 1, ProcessCommandLine) | summarize Devices = dcount(DeviceId), DeviceNames = make_set(DeviceName, 50), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by RelayHost | sort by Devices asc</code></pre>
+  <pre><code>DeviceTvmSoftwareVulnerabilities | where CveId == &#34;CVE-2026-111497&#34; | summarize Software=make_set(SoftwareName), Versions=make_set(SoftwareVersion) by DeviceId, DeviceName, VulnerabilitySeverityLevel</code></pre>
+</div>
+<p class="conv-note receipt">The synthetic baseline has no data for its tables. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Node.js or IIS workers spawning shells or LOLBins</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(30d) | where InitiatingProcessFileName in~ (&#34;node.exe&#34;,&#34;w3wp.exe&#34;) | where FileName in~ (&#34;cmd.exe&#34;,&#34;powershell.exe&#34;,&#34;pwsh.exe&#34;,&#34;mshta.exe&#34;,&#34;rundll32.exe&#34;,&#34;certutil.exe&#34;,&#34;bitsadmin.exe&#34;,&#34;whoami.exe&#34;,&#34;wscript.exe&#34;,&#34;cscript.exe&#34;) | where not(ProcessCommandLine has_any (&#34;npm&#34;,&#34;npx&#34;,&#34;yarn&#34;)) | project Timestamp, DeviceName, InitiatingProcessFileName, InitiatingProcessCommandLine, FileName, ProcessCommandLine, AccountName</code></pre>
 </div>
 <p class="conv-note receipt">On 500 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
 <div class="code">
   <div class="code-bar">
-    <span class="name">Defender XDR KQL · ScreenConnect sessions installing another ScreenConnect client</span>
+    <span class="name">Defender XDR KQL · Node.js runtime inventory by version</span>
 <span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
   </div>
-  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(30d) | where InitiatingProcessFileName in~ (&#34;ScreenConnect.ClientService.exe&#34;, &#34;ScreenConnect.WindowsClient.exe&#34;) | where FileName in~ (&#34;msiexec.exe&#34;, &#34;cmd.exe&#34;, &#34;powershell.exe&#34;) or FileName startswith &#34;ScreenConnect&#34; | where ProcessCommandLine has_any (&#34;ScreenConnect&#34;, &#34;ClientSetup&#34;) | project Timestamp, DeviceName, AccountName, InitiatingProcessCommandLine, FileName, ProcessCommandLine</code></pre>
+  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(7d) | where FileName =~ &#34;node.exe&#34; | summarize LastSeen=max(Timestamp), Paths=make_set(FolderPath, 10) by DeviceName, ProcessVersionInfoProductVersion</code></pre>
+</div>
+<p class="conv-note receipt">On 500 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </article>
+  <article class="story" id="story-3" aria-labelledby="story-3-h">
+    <div class="story-top">
+      <div class="story-flags">
+        <div class="tags">
+<span class="tag crit-solid">Exploited</span>
+<span class="tag crit">In CISA KEV</span><span class="tag high">Public PoC</span>        </div>
+        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span class="rank">No. 03</span> · Priority <b>71</b>
+        </div>
+      </div>
+      <h3 id="story-3-h">PHP2Shell: two unauthenticated PHP runtime RCE flaws in CISA KEV, reaching PAN-OS and Siemens products</h3>
+      <p class="meta">PHP PHP · 2 sources · first reported 12 November 2026</p>
+    </div>
+
+    <dl class="facts">
+      <div><dt>CVE</dt><dd><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-109618">CVE-2026-109618</a></dd></div>
+      <div><dt>CVSS</dt><dd><strong>9.2</strong> <span class="crit">Critical</span></dd></div>
+      <div><dt>EPSS</dt><dd><strong>100%</strong> <span class="muted">30-day</span></dd></div>
+      <div><dt>CISA KEV</dt><dd>Listed earlier</dd></div>
+      <div><dt>Public PoC</dt><dd><strong class="high">3 repos</strong></dd></div>
+    </dl>
+    <p class="related">Also: <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-109619">CVE-2026-109619</a> (KEV)</p>
+
+    <div class="story-body">
+      <div class="cols2">
+        <section><h4 class="label">What happened</h4><p>According to Siemens advisories republished by CISA on 12 November 2026, the PHP project and researchers disclosed two critical unauthenticated remote code execution flaws in the core PHP runtime on 21 October 2026, dubbed PHP2Shell (CVE-2026-109618 and CVE-2026-109619). The first involves request memory left uninitialized when PHP aborts on out-of-memory errors. The second involves global state that still points to freed request memory, which later requests can read. Both are listed in CISA KEV, and public proof-of-concept code exists. Downstream impact includes Palo Alto Networks PAN-OS, which runs on Siemens RUGGEDCOM APE1808, and many Siemens building automation and energy products.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>Any internet-facing PHP application, and appliances that embed PHP such as PAN-OS firewalls and Panorama, may be open to unauthenticated code execution. Both CVEs are on CISA KEV, public exploit code exists, and EPSS is 99.999% for each, so expect broad scanning and exploitation. No KEV due date is given. Severity scores differ between sources: NVD gives CVE-2026-109618 a CVSS of 9.2, while the Siemens advisories rate both at CVSS 3.1 9.8.</p></section>
+      </div>
+      <div class="actions">
+        <h4 class="label">What to do</h4>
+        <ol class="steps"><li>Inventory every internet-facing PHP application and appliance, including PAN-OS firewalls and Panorama, and apply PHP or vendor fixes immediately.</li><li>Apply the workarounds from Palo Alto Networks&#39; PHP2Shell notices to PAN-OS devices until fixed builds are installed, and restrict management interface exposure to trusted networks.</li><li>For Siemens energy and building automation products without fixes, isolate them behind firewalls following Siemens operational guidelines, and track Siemens advisory updates.</li><li>Hunt for PHP worker processes spawning shells or download utilities, and for new script files in web roots, on Windows and Linux web servers.</li><li>Treat any confirmed compromise of an appliance as full device compromise. Rotate credentials and secrets stored on it, and review VPN and admin sessions.</li></ol>
+      <div class="cols2 versions">
+        <div><div class="k">Affected</div><ul><li>PHP core runtime (affected PHP versions not stated in the sources)</li><li>RUGGEDCOM APE1808 with Palo Alto Networks PAN-OS 10.2 All, 11.1 All, 11.2 All, 12.1 All, 12.2 All</li><li>Siemens AMIS TS all versions</li><li>Siemens blueplanet 360 NX3 M6 WM OD IISX and IISX - S all versions</li><li>Siemens Energy Engage V2.0SP9 and V3.1SP1 all versions</li><li>Siemens Local Monitoring bt-monitoring-vm versions before 20261103</li><li>Siemens Spectrum Power 3 (CVE-2026-109619 only), Spectrum Power 4, Spectrum Power 7, Spectrum Power TG all versions</li><li>Palo Alto Networks PAN-OS and Panorama virtual appliance (per NVD product list; specific versions not stated)</li></ul></div>
+        <div><div class="k">Fixed</div><ul><li>Siemens Local Monitoring bt-monitoring-vm 20261103 or later</li><li>PAN-OS: upgrade to the corresponding fixed PAN-OS version per Palo Alto Networks guidance (specific version not stated)</li></ul></div>
+      </div>
+      </div>
+    </div>
+
+    <div class="sources">
+      <h4 class="label">Sources</h4>
+      <ul>
+        <li><span class="pub">CISA Advisories</span><a href="https://www.cisa.gov/news-events/ics-advisories/icsa-26-316-05" rel="noopener noreferrer nofollow">Siemens RUGGEDCOM APE1808</a><span class="where">cisa.gov · 12 Nov</span></li>
+        <li><span class="pub">CISA Advisories</span><a href="https://www.cisa.gov/news-events/ics-advisories/icsa-26-316-01" rel="noopener noreferrer nofollow">Siemens Building Automation and Energy Products</a><span class="where">cisa.gov · 12 Nov</span></li>
+      </ul>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
+
+    <details class="poc">
+      <summary>Public proof-of-concept repos (6)</summary>
+      <p class="warn">Links only, not vetted. Public PoC repos are often fake or backdoored. Don't run them on a work machine.</p>
+      <ul><li><a href="https://github.com/ikow/php2shell-poc" rel="noopener noreferrer nofollow">ikow/php2shell-poc</a> <span class="muted">CVE-2026-109618 · 1965 stars · created 21 Oct</span></li><li><a href="https://github.com/eness/php2shell-CVE-2026-109618-CVE-2026-109619-PoC" rel="noopener noreferrer nofollow">eness/php2shell-CVE-2026-109618-CVE-2026-109619-PoC</a> <span class="muted">CVE-2026-109618 · 1083 stars · created 21 Oct</span></li><li><a href="https://github.com/assetnote/php2shell-scanner" rel="noopener noreferrer nofollow">assetnote/php2shell-scanner</a> <span class="muted">CVE-2026-109618 · 1003 stars · created 22 Oct</span></li><li><a href="https://github.com/aarsaputra/php2shell" rel="noopener noreferrer nofollow">aarsaputra/php2shell</a> <span class="muted">CVE-2026-109619 · 146 stars · created 23 Oct</span></li><li><a href="https://github.com/unlimit0118/CVE-2026-109619-php2shell-poc" rel="noopener noreferrer nofollow">unlimit0118/CVE-2026-109619-php2shell-poc</a> <span class="muted">CVE-2026-109619 · 6 stars · created 21 Oct</span></li><li><a href="https://github.com/cozybear-dev/cve-2026-109619" rel="noopener noreferrer nofollow">cozybear-dev/cve-2026-109619</a> <span class="muted">CVE-2026-109619 · 4 stars · created 21 Oct</span></li></ul>
+    </details>
+
+    <section class="detect" aria-label="Detection">
+      <div class="detect-head">
+        <div class="t">Detection
+<span class="tag ai" title="KQL conversion passed labelled synthetic cases on the Kusto engine. Not tested on real attack data.">AI-generated · KQL tested</span>        </div>
+        <span class="why">Sigma rule drafted by Claude Opus 5.5 · passed sigma check</span>
+      </div>
+      <div class="tabs">
+        <input class="tab-input" type="radio" name="fmt-story-3" id="story-3-sigma">
+        <label for="story-3-sigma">Sigma</label>
+        <input class="tab-input" type="radio" name="fmt-story-3" id="story-3-kql" checked>
+        <label for="story-3-kql">Defender KQL</label>
+        <input class="tab-input" type="radio" name="fmt-story-3" id="story-3-spl">
+        <label for="story-3-spl">Splunk SPL</label>
+        <input class="tab-input" type="radio" name="fmt-story-3" id="story-3-elastic">
+        <label for="story-3-elastic">Elastic</label>
+        <input class="tab-input" type="radio" name="fmt-story-3" id="story-3-hunt">
+        <label for="story-3-hunt">Hunting</label>
+        <div class="tab-panels">
+          <div class="tab-panel">
+            <div class="code">
+  <div class="code-bar">
+    <span class="name">PHP Runtime Spawning Shell or LOLBin Child Process on Windows</span>
+  </div>
+  <pre><code>title: PHP Runtime Spawning Shell or LOLBin Child Process on Windows
+id: 449a50f5-498f-599b-a122-85da0f80170b
+status: experimental
+description: Detects PHP interpreter or CGI processes launching command shells, scripting engines or download utilities. This is a common outcome of remote code execution in PHP, such as the PHP2Shell flaws CVE-2026-109618 and CVE-2026-109619. AI-generated, untested.
+references:
+- https://www.cisa.gov/news-events/ics-advisories/icsa-26-316-05
+- https://www.cisa.gov/news-events/ics-advisories/icsa-26-316-01
+author: intel-brief (AI-generated, untested)
+date: &#39;2026-11-13&#39;
+tags:
+- attack.t1190
+- attack.execution
+- attack.t1059
+- attack.persistence
+- attack.t1505.003
+- cve.2026-109618
+- cve.2026-109619
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection_parent:
+    ParentImage|endswith:
+    - \php-cgi.exe
+    - \php.exe
+    - \php-win.exe
+  selection_child:
+    Image|endswith:
+    - \cmd.exe
+    - \powershell.exe
+    - \pwsh.exe
+    - \certutil.exe
+    - \bitsadmin.exe
+    - \mshta.exe
+    - \rundll32.exe
+    - \regsvr32.exe
+    - \whoami.exe
+    - \curl.exe
+    - \wscript.exe
+    - \cscript.exe
+    - \net.exe
+    - \net1.exe
+  filter_composer:
+    ParentCommandLine|contains:
+    - composer.phar
+    - \artisan
+  condition: selection_parent and selection_child and not filter_composer
+falsepositives:
+- PHP applications or CLI scripts that legitimately call system commands, such as deployment, backup or framework tooling
+level: high
+</code></pre>
+</div>
+
+            <p class="conv-note">AI-generated. Its KQL conversion passed labelled cases built from this rule on the Kusto engine. That checks the conversion only; real attack coverage is untested. Test and tune it in your environment before you deploy it.</p>
+          </div>
+          <div class="tab-panel">
+            <div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR / Sentinel KQL</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+<span class="pass" title="Ran on the Kusto emulator against labelled cases built from the Sigma rule">Labelled cases: pass</span>
+  </div>
+  <pre><code>DeviceProcessEvents
+| where (InitiatingProcessFolderPath endswith &#34;\\php-cgi.exe&#34; or InitiatingProcessFolderPath endswith &#34;\\php.exe&#34; or InitiatingProcessFolderPath endswith &#34;\\php-win.exe&#34;) and (FolderPath endswith &#34;\\cmd.exe&#34; or FolderPath endswith &#34;\\powershell.exe&#34; or FolderPath endswith &#34;\\pwsh.exe&#34; or FolderPath endswith &#34;\\certutil.exe&#34; or FolderPath endswith &#34;\\bitsadmin.exe&#34; or FolderPath endswith &#34;\\mshta.exe&#34; or FolderPath endswith &#34;\\rundll32.exe&#34; or FolderPath endswith &#34;\\regsvr32.exe&#34; or FolderPath endswith &#34;\\whoami.exe&#34; or FolderPath endswith &#34;\\curl.exe&#34; or FolderPath endswith &#34;\\wscript.exe&#34; or FolderPath endswith &#34;\\cscript.exe&#34; or FolderPath endswith &#34;\\net.exe&#34; or FolderPath endswith &#34;\\net1.exe&#34;) and (not((InitiatingProcessCommandLine contains &#34;composer.phar&#34; or InitiatingProcessCommandLine contains &#34;\\artisan&#34;)))</code></pre>
+</div>
+<p class="conv-note receipt">On the Kusto engine it fired on 17 of 17 labelled cases that should match and 0 of 6 that should not. On 500 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+
+            <p class="conv-note">Converted from the Sigma rule with pySigma (kusto backend, microsoft_xdr pipeline).</p>
+          </div>
+          <div class="tab-panel">
+            <div class="code">
+  <div class="code-bar">
+    <span class="name">Splunk SPL</span>
+  </div>
+  <pre><code>ParentImage IN (&#34;*\\php-cgi.exe&#34;, &#34;*\\php.exe&#34;, &#34;*\\php-win.exe&#34;) Image IN (&#34;*\\cmd.exe&#34;, &#34;*\\powershell.exe&#34;, &#34;*\\pwsh.exe&#34;, &#34;*\\certutil.exe&#34;, &#34;*\\bitsadmin.exe&#34;, &#34;*\\mshta.exe&#34;, &#34;*\\rundll32.exe&#34;, &#34;*\\regsvr32.exe&#34;, &#34;*\\whoami.exe&#34;, &#34;*\\curl.exe&#34;, &#34;*\\wscript.exe&#34;, &#34;*\\cscript.exe&#34;, &#34;*\\net.exe&#34;, &#34;*\\net1.exe&#34;) NOT (ParentCommandLine IN (&#34;*composer.phar*&#34;, &#34;*\\artisan*&#34;))</code></pre>
+</div>
+
+            <p class="conv-note">Converted from the Sigma rule with pySigma.</p>
+          </div>
+          <div class="tab-panel">
+            <div class="code">
+  <div class="code-bar">
+    <span class="name">Elastic (Lucene, ECS)</span>
+  </div>
+  <pre><code>(process.parent.executable.caseless:(*\\php\-cgi.exe OR *\\php.exe OR *\\php\-win.exe)) AND (process.executable.caseless:(*\\cmd.exe OR *\\powershell.exe OR *\\pwsh.exe OR *\\certutil.exe OR *\\bitsadmin.exe OR *\\mshta.exe OR *\\rundll32.exe OR *\\regsvr32.exe OR *\\whoami.exe OR *\\curl.exe OR *\\wscript.exe OR *\\cscript.exe OR *\\net.exe OR *\\net1.exe)) AND (NOT (process.parent.command_line:(*composer.phar* OR *\\artisan*)))</code></pre>
+</div>
+
+            <p class="conv-note">Converted from the Sigma rule with pySigma.</p>
+          </div>
+          <div class="tab-panel">
+<ol class="steps-plain"><li>Use Defender Vulnerability Management to list devices exposed to CVE-2026-109618 or CVE-2026-109619, and inventory installed PHP versions.</li><li>Identify internet-facing PAN-OS, Panorama and Siemens devices from asset records, since these appliances are not visible in endpoint telemetry, and confirm their patch or workaround status.</li><li>Search process telemetry for PHP processes (php-cgi, php, php-fpm) spawning shells, scripting engines or download tools since 21 October 2026.</li><li>Look for new .php or script files written into web roots by PHP or web server processes, and review web server logs for bursts of failing or out-of-memory requests from single sources.</li><li>Check outbound connections initiated by PHP processes to unusual external hosts.</li><li>For any hit, isolate the host, collect web logs and memory, and rotate credentials accessible to the web application.</li></ol><div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Devices exposed to PHP2Shell CVEs</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceTvmSoftwareVulnerabilities | where CveId in (&#39;CVE-2026-109618&#39;,&#39;CVE-2026-109619&#39;) | summarize Cves=make_set(CveId), Software=make_set(strcat(SoftwareName, &#39; &#39;, SoftwareVersion)) by DeviceId, DeviceName</code></pre>
+</div>
+<p class="conv-note receipt">The synthetic baseline has no data for its tables. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · PHP processes spawning shells or LOLBins</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(30d) | where InitiatingProcessFileName in~ (&#39;php-cgi.exe&#39;,&#39;php.exe&#39;,&#39;php-win.exe&#39;,&#39;php-fpm&#39;,&#39;php&#39;,&#39;php-cgi&#39;) or InitiatingProcessFileName matches regex @&#39;^php(-fpm|-cgi)?[0-9.]*$&#39; | where FileName in~ (&#39;cmd.exe&#39;,&#39;powershell.exe&#39;,&#39;pwsh.exe&#39;,&#39;certutil.exe&#39;,&#39;bitsadmin.exe&#39;,&#39;mshta.exe&#39;,&#39;rundll32.exe&#39;,&#39;regsvr32.exe&#39;,&#39;whoami.exe&#39;,&#39;curl.exe&#39;,&#39;sh&#39;,&#39;bash&#39;,&#39;dash&#39;,&#39;curl&#39;,&#39;wget&#39;,&#39;python&#39;,&#39;python3&#39;,&#39;perl&#39;,&#39;nc&#39;,&#39;ncat&#39;) | project Timestamp, DeviceName, AccountName, InitiatingProcessFileName, InitiatingProcessCommandLine, FileName, ProcessCommandLine | order by Timestamp desc</code></pre>
 </div>
 <p class="conv-note receipt">On 500 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
 <div class="code">
   <div class="code-bar">
-    <span class="name">Defender XDR KQL · Recently created ScreenConnect client services</span>
+    <span class="name">Defender XDR KQL · Script files written to web roots by PHP or web server processes</span>
 <span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
   </div>
-  <pre><code>DeviceRegistryEvents | where Timestamp &gt; ago(30d) | where ActionType in (&#34;RegistryKeyCreated&#34;, &#34;RegistryValueSet&#34;) | where RegistryKey has @&#34;\Services\ScreenConnect Client&#34; | summarize FirstSeen = min(Timestamp), Keys = make_set(RegistryKey, 10), ImagePaths = make_set(RegistryValueData, 10) by DeviceName | extend ServiceCount = array_length(Keys) | sort by ServiceCount desc</code></pre>
+  <pre><code>DeviceFileEvents | where Timestamp &gt; ago(30d) | where ActionType in (&#39;FileCreated&#39;,&#39;FileModified&#39;) | where InitiatingProcessFileName in~ (&#39;php-cgi.exe&#39;,&#39;php.exe&#39;,&#39;w3wp.exe&#39;,&#39;httpd.exe&#39;,&#39;nginx.exe&#39;,&#39;php-fpm&#39;,&#39;httpd&#39;,&#39;nginx&#39;,&#39;apache2&#39;) | where FileName endswith &#39;.php&#39; or FileName endswith &#39;.phtml&#39; or FileName endswith &#39;.aspx&#39; or FileName endswith &#39;.jsp&#39; | project Timestamp, DeviceName, InitiatingProcessFileName, FolderPath, FileName, SHA256 | order by Timestamp desc</code></pre>
 </div>
-<p class="conv-note receipt">On 60 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<p class="conv-note receipt">On 150 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </article>
+  <article class="story" id="story-4" aria-labelledby="story-4-h">
+    <div class="story-top">
+      <div class="story-flags">
+        <div class="tags">
+<span class="tag crit-solid">Exploited</span>
+<span class="tag info">Cloud / SaaS</span><span class="tag">campaign</span>        </div>
+        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span class="rank">No. 04</span> · Priority <b>69</b>
+        </div>
+      </div>
+      <h3 id="story-4-h">wfx-loot campaign used 4,837 compromised GitHub accounts to push secrets-stealing malware</h3>
+      <p class="meta">GitHub GitHub · 1 source · first reported 12 November 2026</p>
+    </div>
+
+
+    <div class="story-body">
+      <div class="cols2">
+        <section><h4 class="label">What happened</h4><p>BleepingComputer reports a campaign it calls wfx-loot, in which attackers used 4,837 compromised GitHub accounts to probe 61,764 repositories, open pull requests and push malware built to steal secrets, with cloud credentials as the stated goal. The available reporting does not describe how the accounts were compromised, how the malware works, which repositories or organizations were affected, or any indicators of compromise.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>Pull requests from accounts that look legitimate can bring malicious code into CI/CD pipelines and developer workstations, where cloud keys, tokens and repository secrets are often stored. The sources describe the activity as ongoing and widespread. Any organization that accepts outside pull requests or runs CI on them should treat exposed secrets as a live risk now.</p></section>
+      </div>
+      <div class="actions">
+        <h4 class="label">What to do</h4>
+        <ol class="steps"><li>Review recent pull requests and pushes to your GitHub organizations from unfamiliar or newly active contributors, and do not merge or run CI on them until they have been reviewed.</li><li>Require maintainer approval before workflows run on pull requests from forks or outside contributors, and limit workflow token permissions to read-only by default.</li><li>Rotate any cloud keys, GitHub tokens and repository or organization secrets that could have been exposed to untrusted pull request workflows or to developers who checked out suspicious branches.</li><li>Enforce phishing-resistant MFA and SSO for all GitHub organization members, and audit personal access tokens and OAuth app grants.</li><li>Enable GitHub secret scanning and push protection, and alert on use of cloud credentials from unexpected locations.</li></ol>
+      </div>
+    </div>
+
+    <div class="sources">
+      <h4 class="label">Sources</h4>
+      <ul>
+        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/hackers-compromise-4-800-github-accounts-to-steal-cloud-credentials/" rel="noopener noreferrer nofollow">Hackers compromise 4,800 GitHub accounts to steal cloud credentials</a><span class="where">bleepingcomputer.com · 12 Nov</span></li>
+      </ul>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
+
+
+    <section class="detect" aria-label="Detection">
+      <div class="detect-head">
+        <div class="t">Detection
+<span class="tag ai">AI-generated · untested</span>        </div>
+        <span class="why">Hunting only: no endpoint behavior to write a rule against</span>
+      </div>
+      <div class="tabs">
+        <input class="tab-input" type="radio" name="fmt-story-4" id="story-4-hunt" checked>
+        <label for="story-4-hunt">Hunting</label>
+        <div class="tab-panels">
+          <div class="tab-panel">
+<ol class="steps-plain"><li>Export GitHub organization audit logs for the last 30 days and list pull request, push and workflow events from accounts that are not regular contributors.</li><li>Identify workflow runs triggered by pull requests from forks or external accounts, and check whether those runs had access to secrets.</li><li>For any suspicious pull request, review the diff for added scripts, dependency changes, or workflow file edits that send environment variables or credentials elsewhere.</li><li>Correlate the timing of suspicious pull requests with cloud sign-ins or API activity that uses keys stored as repository or CI secrets.</li><li>Check for new personal access tokens, deploy keys, OAuth app authorizations or member additions in the GitHub organization during the same period.</li></ol><div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · GitHub pull request, workflow and secret activity by account</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>CloudAppEvents
+| where Timestamp &gt; ago(30d)
+| where Application has &#34;GitHub&#34;
+| where ActionType has_any (&#34;pull_request&#34;, &#34;workflow&#34;, &#34;secret&#34;, &#34;push&#34;)
+| summarize Events = count(), Actions = make_set(ActionType, 20), Objects = make_set(ObjectName, 50), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by AccountDisplayName, AccountObjectId
+| order by Events desc</code></pre>
+</div>
+<p class="conv-note receipt">On 30 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · GitHub token, key and member changes in the last 30 days</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>CloudAppEvents
+| where Timestamp &gt; ago(30d)
+| where Application has &#34;GitHub&#34;
+| where ActionType has_any (&#34;personal_access_token&#34;, &#34;oauth&#34;, &#34;deploy_key&#34;, &#34;add_member&#34;, &#34;public_key&#34;)
+| project Timestamp, AccountDisplayName, ActionType, ObjectName, IPAddress, CountryCode, UserAgent
+| order by Timestamp desc</code></pre>
+</div>
+<p class="conv-note receipt">On 30 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
           </div>
         </div>
       </div>
@@ -511,32 +669,31 @@ level: medium
     <div class="story-top">
       <div class="story-flags">
         <div class="tags">
-<span class="tag crit-solid">Exploited</span>
-<span class="tag info">Cloud / SaaS</span><span class="tag">campaign</span>        </div>
-        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span class="rank">No. 05</span> · Priority <b>59</b>
+<span class="tag high">Public PoC</span><span class="tag info">Windows</span>        </div>
+        <div class="priority high" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span class="rank">No. 05</span> · Priority <b>66</b>
         </div>
       </div>
-      <h3 id="story-5-h">Attackers run self-hosted AntiFox AI pentest agents on Alibaba Cloud to steal AWS credentials</h3>
-      <p class="meta"> AntiFox · 1 source · first reported 11 November 2026</p>
+      <h3 id="story-5-h">Researcher releases public SignDrop Windows zero-day exploit granting SYSTEM privileges</h3>
+      <p class="meta">Microsoft Windows · 1 source · first reported 12 November 2026</p>
     </div>
 
 
     <div class="story-body">
       <div class="cols2">
-        <section><h4 class="label">What happened</h4><p>BleepingComputer reports that attackers are hosting their own instances of AntiFox, an open-source agentic penetration testing platform, on Alibaba Cloud infrastructure. According to the report, they use these instances to target web services and AWS environments in order to steal AWS credentials. The available reporting is brief. It does not name victims, specific vulnerabilities, indicators of compromise or the exact techniques the AI agents use.</p></section>
-        <section><h4 class="label">Why it matters</h4><p>Agentic pentest tooling lets attackers automate reconnaissance and credential harvesting against internet-facing web applications at scale. Any public web service in your estate that holds or can reach AWS credentials is a potential target, including keys stored in config files, environment variables or instance metadata. Exploitation is confirmed in the wild, but no indicators have been published, so defenders must rely on behavior and exposure review.</p></section>
+        <section><h4 class="label">What happened</h4><p>BleepingComputer reported on 12 November 2026 that security researcher Abdelhamid Naceri, also known as Nightmare Eclipse, has publicly released a Windows zero-day exploit named SignDrop. According to the report, the exploit lets an attacker raise their privileges to SYSTEM. The available reporting does not name a CVE, list affected Windows versions, describe the vulnerable component, or mention a Microsoft patch or workaround.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>A working local privilege escalation to SYSTEM on Windows is useful to any attacker who already has a foothold, such as through phishing, stolen credentials or a compromised edge device, on workstations and servers. The exploit is public and no fix has been reported, so commodity and ransomware operators can adopt it quickly. Treat it as unpatched until Microsoft issues guidance.</p></section>
       </div>
       <div class="actions">
         <h4 class="label">What to do</h4>
-        <ol class="steps"><li>Inventory internet-facing web applications that store AWS access keys, or can retrieve them from environment variables, config files or instance metadata. Move them to short-lived role credentials where possible.</li><li>Enforce IMDSv2 on AWS EC2 instances so that server-side request forgery from a web app cannot easily read role credentials.</li><li>Review AWS CloudTrail and Defender for Cloud Apps for access key use from unfamiliar cloud provider IP ranges, including Alibaba Cloud. Rotate any keys used unexpectedly.</li><li>Look in web server and WAF logs for high-volume automated scanning that probes for exposed secrets such as .env files, configuration backups and cloud credential files.</li><li>Remove long-lived IAM user access keys that are not needed and apply least privilege to those that remain.</li></ol>
+        <ol class="steps"><li>Watch for a Microsoft advisory or out-of-band update for SignDrop and deploy it as soon as one is released.</li><li>Hunt for processes running as SYSTEM, especially shells and script hosts, that were launched by processes running under a standard user account.</li><li>Keep Defender for Endpoint and antivirus signatures current and confirm tamper protection and attack surface reduction rules are enabled, since vendors often add detections for public exploits quickly.</li><li>Cut down local footholds by enforcing application control (WDAC or AppLocker) on high-value hosts and by limiting who can run arbitrary binaries from user-writable paths.</li><li>Prioritize EDR alert triage on hosts with recent initial-access signals, where an attacker would be most likely to use a privilege escalation exploit.</li></ol>
       </div>
     </div>
 
     <div class="sources">
       <h4 class="label">Sources</h4>
       <ul>
-        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/hackers-use-antifox-ai-agents-in-aws-credential-theft-attacks/" rel="noopener noreferrer nofollow">Hackers use AntiFox AI agents in AWS credential-theft attacks</a><span class="where">bleepingcomputer.com · 11 Nov</span></li>
+        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/new-windows-signdrop-zero-day-gives-hackers-system-privileges/" rel="noopener noreferrer nofollow">New Windows SignDrop zero-day gives hackers SYSTEM privileges</a><span class="where">bleepingcomputer.com · 12 Nov</span></li>
       </ul>
 <p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: low</p>    </div>
 
@@ -552,87 +709,214 @@ level: medium
         <label for="story-5-hunt">Hunting</label>
         <div class="tab-panels">
           <div class="tab-panel">
-<ol class="steps-plain"><li>List internet-facing servers running web workloads and identify which of them hold AWS credentials or run in AWS.</li><li>Hunt for web server or application processes connecting to the cloud instance metadata address. This can indicate credential retrieval through server-side request forgery.</li><li>In Defender for Cloud Apps or CloudTrail, review AWS identity-discovery and enumeration calls such as GetCallerIdentity, ListBuckets and ListUsers. Focus on calls from IP addresses outside your known ranges, especially cloud hosting providers.</li><li>Check web access logs for automated requests for secrets files such as .env, .aws/credentials and config backups, and for bursts of requests from single hosting-provider IP addresses.</li><li>Rotate any AWS keys found exposed or used anomalously, then review the activity performed with them.</li></ol><div class="code">
+<ol class="steps-plain"><li>Find SYSTEM-context processes whose initiating process ran under a non-SYSTEM user account. This is the typical result of a local privilege escalation.</li><li>Review SYSTEM shells and script hosts (cmd, PowerShell, rundll32, mshta) whose parents are not normal service hosts, installers or management agents.</li><li>Look for unsigned or newly created executables in user-writable folders such as Downloads, Temp and AppData that ran just before a SYSTEM process appeared on the same host.</li><li>Allowlist known software deployment and management tools, then investigate the remaining hosts and correlate with sign-in and initial-access alerts.</li><li>Update these hunts once Microsoft or researchers publish technical details on the vulnerable component or the exploit&#39;s artifacts.</li></ol><div class="code">
   <div class="code-bar">
-    <span class="name">Defender XDR KQL · AWS discovery and enumeration API calls by source IP</span>
-<span class="fail">Kusto parser: errors</span>
+    <span class="name">Defender XDR KQL · SYSTEM processes launched by non-SYSTEM user-context parents</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
   </div>
-  <pre><code>CloudAppEvents | where Timestamp &gt; ago(14d) | where Application == &#34;Amazon Web Services&#34; | where ActionType in (&#34;GetCallerIdentity&#34;, &#34;ListBuckets&#34;, &#34;ListUsers&#34;, &#34;ListRoles&#34;, &#34;ListAccessKeys&#34;, &#34;GetSecretValue&#34;, &#34;DescribeInstances&#34;) | summarize Calls = count(), Actions = make_set(ActionType), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by AccountDisplayName, IPAddress, CountryCode, ISP | order by Calls desc</code></pre>
-  <ul class="diag"><li>Error KS142: The name &#39;ISP&#39; does not refer to any known column, table, variable or function.</li></ul>
+  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(14d) | where AccountSid == &#34;S-1-5-18&#34; | where isnotempty(InitiatingProcessAccountSid) and InitiatingProcessAccountSid !in (&#34;S-1-5-18&#34;, &#34;S-1-5-19&#34;, &#34;S-1-5-20&#34;) | where InitiatingProcessFileName !in~ (&#34;services.exe&#34;, &#34;svchost.exe&#34;, &#34;msiexec.exe&#34;, &#34;consent.exe&#34;) | summarize Count = count(), Hosts = dcount(DeviceId), SampleCmd = any(ProcessCommandLine) by FileName, InitiatingProcessFileName, InitiatingProcessFolderPath | order by Hosts asc</code></pre>
 </div>
-<p class="conv-note receipt">Kusto engine: the query did not run.</p>
+<p class="conv-note receipt">On 500 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · SYSTEM shells with unusual parent processes</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(14d) | where AccountSid == &#34;S-1-5-18&#34; | where FileName in~ (&#34;cmd.exe&#34;, &#34;powershell.exe&#34;, &#34;pwsh.exe&#34;, &#34;rundll32.exe&#34;, &#34;mshta.exe&#34;, &#34;wscript.exe&#34;, &#34;cscript.exe&#34;) | where InitiatingProcessFolderPath has_any (&#34;\\Users\\&#34;, &#34;\\Temp\\&#34;, &#34;\\ProgramData\\&#34;) | project Timestamp, DeviceName, FileName, ProcessCommandLine, InitiatingProcessFileName, InitiatingProcessFolderPath, InitiatingProcessAccountName, InitiatingProcessSHA256 | order by Timestamp desc</code></pre>
+</div>
+<p class="conv-note receipt">On 500 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
           </div>
         </div>
       </div>
-<p class="notes">Dropped a hunting query with indicators not found in any source: 169.254.169.254 </p>    </section>
+    </section>
   </article>
   <article class="story" id="story-6" aria-labelledby="story-6-h">
     <div class="story-top">
       <div class="story-flags">
         <div class="tags">
 <span class="tag crit-solid">Exploited</span>
-<span class="tag">campaign</span>        </div>
+<span class="tag">malware</span>        </div>
         <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
           <span class="rank">No. 06</span> · Priority <b>51</b>
         </div>
       </div>
-      <h3 id="story-6-h">Krebs links Qilin ransomware administrator &#39;Haise&#39; to a man in St. Petersburg, Russia</h3>
-      <p class="meta">1 source · first reported 11 November 2026</p>
+      <h3 id="story-6-h">Macfinger ClickFix campaign delivers DownTheDRAIN infostealer to macOS users</h3>
+      <p class="meta"> macOS · 1 source · first reported 13 November 2026</p>
     </div>
 
 
     <div class="story-body">
       <div class="cols2">
-        <section><h4 class="label">What happened</h4><p>Krebs on Security reports that the administrator of the Qilin ransomware-as-a-service program, known as &#39;Haise&#39;, made operational security mistakes over roughly a decade that point to a 36-year-old man living in St. Petersburg, Russia. The attribution draws partly on Intel 471&#39;s indexed direct messages from the RAMP cybercrime forum, which the FBI seized in January 2026. These messages show RAMP&#39;s administrator approving Haise&#39;s June 2022 membership application and naming a Telegram username tied to the person. Citing NCC Group, Krebs describes Qilin as the most active ransomware affiliate program, claiming at least 365 victims in the past three months.</p></section>
-        <section><h4 class="label">Why it matters</h4><p>Krebs says Qilin offers affiliates at least 80 percent of ransom proceeds and uses double extortion, stealing data before encrypting systems. It also works with English-speaking affiliates and has claimed ties to Scattered Spider and RansomHub. The attribution itself does not change Qilin&#39;s tradecraft and gives defenders no new indicators or techniques to search for. Its high victim count keeps it a top-priority ransomware threat for enterprise environments.</p></section>
+        <section><h4 class="label">What happened</h4><p>SANS ISC reports that the Macfinger ClickFix campaign is using fake CAPTCHA pages to trick macOS users into pasting a command into Terminal. That command retrieves a bash script, which installs an infostealer that SANS ISC has named DownTheDRAIN. The name comes from a DRAIN function described in earlier Huntress analysis, which identifies cryptocurrency wallet addresses and can redirect their contents to an attacker-controlled wallet. SANS ISC observed an infection on 11 November 2026 and published network and file indicators on 13 November 2026.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>Any managed Mac in your fleet is exposed if a user browses to a compromised or malicious page and follows the fake CAPTCHA instructions. Because the user runs the command, there is no vulnerability or patch involved, and the stealer can take credentials, browser data and crypto wallets. SANS ISC notes that built-in macOS protection on version 26.7.3 blocked its sample, but only after the malware had already sent several HTTP POST requests to its server.</p></section>
       </div>
       <div class="actions">
         <h4 class="label">What to do</h4>
-        <ol class="steps"><li>Review your ransomware readiness against Qilin specifically, given its current volume: offline backups, tested restores and an incident response retainer.</li><li>Because Qilin works with Scattered Spider-style affiliates, harden help desk identity verification and MFA reset procedures for Entra ID accounts.</li><li>Check that internet-facing VPNs, firewalls and remote access gateways are patched and protected by MFA, since these are common initial access points for ransomware affiliates.</li><li>Monitor for large outbound data transfers that may signal theft before encryption under the double extortion model.</li><li>Track vendor threat intelligence on Qilin for current TTPs and indicators, as this report contains none.</li></ol>
+        <ol class="steps"><li>Block the published infrastructure at the proxy, DNS and firewall layers: the domain quill-kraee-um2gf.pro and the IP addresses 45.150.32.130 and 171.22.131.24 (including port 8133).</li><li>Hunt Defender for Endpoint macOS telemetry for the published hashes and for connections to these indicators, then isolate any matching device.</li><li>On any Mac with signs of execution, reset the user&#39;s passwords, revoke Entra ID sessions and tokens, and treat browser-stored credentials and crypto wallets as compromised.</li><li>Alert on Terminal shells on macOS that launch curl or wget against bare IP addresses.</li><li>Tell users that a legitimate CAPTCHA never asks them to paste commands into Terminal, Run dialogs or PowerShell.</li></ol>
       </div>
     </div>
 
     <div class="sources">
       <h4 class="label">Sources</h4>
       <ul>
-        <li><span class="pub">Krebs on Security</span><a href="https://krebsonsecurity.com/2026/11/who-runs-the-ransomware-group-qilin/" rel="noopener noreferrer nofollow">Who Runs the Ransomware Group Qilin?</a><span class="where">krebsonsecurity.com · 11 Nov</span></li>
+        <li><span class="pub">SANS ISC</span><a href="https://isc.sans.edu/diary/rss/33518" rel="noopener noreferrer nofollow">Macfinger ClickFix campaign sends DownTheDRAIN infostealer for macOS, (Fri, Nov 13th)</a><span class="where">isc.sans.edu · 13 Nov</span></li>
       </ul>
 <p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
 
 
+    <section class="detect" aria-label="Detection">
+      <div class="detect-head">
+        <div class="t">Detection
+<span class="tag ai" title="KQL conversion passed labelled synthetic cases on the Kusto engine. Not tested on real attack data.">AI-generated · KQL tested</span>        </div>
+        <span class="why">Sigma rule drafted by Claude Opus 5.5 · passed sigma check</span>
+      </div>
+      <div class="tabs">
+        <input class="tab-input" type="radio" name="fmt-story-6" id="story-6-sigma">
+        <label for="story-6-sigma">Sigma</label>
+        <input class="tab-input" type="radio" name="fmt-story-6" id="story-6-kql" checked>
+        <label for="story-6-kql">Defender KQL</label>
+        <input class="tab-input" type="radio" name="fmt-story-6" id="story-6-spl">
+        <label for="story-6-spl">Splunk SPL</label>
+        <input class="tab-input" type="radio" name="fmt-story-6" id="story-6-elastic">
+        <label for="story-6-elastic">Elastic</label>
+        <input class="tab-input" type="radio" name="fmt-story-6" id="story-6-hunt">
+        <label for="story-6-hunt">Hunting</label>
+        <div class="tab-panels">
+          <div class="tab-panel">
+            <div class="code">
+  <div class="code-bar">
+    <span class="name">macOS Shell Spawning Curl or Wget to a Bare IP Address</span>
+  </div>
+  <pre><code>title: macOS Shell Spawning Curl or Wget to a Bare IP Address
+id: a4040562-5ea2-5139-929f-b66b0d43ddd1
+status: experimental
+description: Detects bash, zsh or sh on macOS launching curl or wget against a URL that uses a raw IP address. This matches ClickFix-style commands such as the Macfinger campaign&#39;s, which fetch an installer script for the DownTheDRAIN infostealer. AI-generated, untested.
+references:
+- https://isc.sans.edu/diary/rss/33518
+author: intel-brief (AI-generated, untested)
+date: &#39;2026-11-13&#39;
+tags:
+- attack.execution
+- attack.t1204.004
+- attack.t1059.004
+- attack.t1105
+logsource:
+  product: macos
+  category: process_creation
+detection:
+  selection_parent:
+    ParentImage|endswith:
+    - /bash
+    - /zsh
+    - /sh
+  selection_tool:
+    Image|endswith:
+    - /curl
+    - /wget
+  selection_ip_url:
+    CommandLine|re: https?://\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}
+  filter_private:
+    CommandLine|re: https?://(127\.|10\.|192\.168\.|172\.(1[6-9]|2[0-9]|3[01])\.)
+  condition: all of selection_* and not filter_private
+falsepositives:
+- Developers or administrators fetching scripts from internal or lab servers addressed by public IP
+- Management or deployment scripts that download from IP-addressed endpoints
+level: medium
+</code></pre>
+</div>
+
+            <p class="conv-note">AI-generated. Its KQL conversion passed labelled cases built from this rule on the Kusto engine. That checks the conversion only; real attack coverage is untested. Test and tune it in your environment before you deploy it.</p>
+          </div>
+          <div class="tab-panel">
+            <div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR / Sentinel KQL</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+<span class="pass" title="Ran on the Kusto emulator against labelled cases built from the Sigma rule">Labelled cases: pass</span>
+  </div>
+  <pre><code>DeviceProcessEvents
+| where ((InitiatingProcessFolderPath endswith &#34;/bash&#34; or InitiatingProcessFolderPath endswith &#34;/zsh&#34; or InitiatingProcessFolderPath endswith &#34;/sh&#34;) and (FolderPath endswith &#34;/curl&#34; or FolderPath endswith &#34;/wget&#34;) and ProcessCommandLine matches regex &#34;https?://\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}&#34;) and (not(ProcessCommandLine matches regex &#34;https?://(127\\.|10\\.|192\\.168\\.|172\\.(1[6-9]|2[0-9]|3[01])\\.)&#34;))</code></pre>
+</div>
+<p class="conv-note receipt">On the Kusto engine it fired on 4 of 4 labelled cases that should match and 0 of 7 that should not. On 500 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+
+            <p class="conv-note">Converted from the Sigma rule with pySigma (kusto backend, microsoft_xdr pipeline).</p>
+          </div>
+          <div class="tab-panel">
+            <div class="code">
+  <div class="code-bar">
+    <span class="name">Splunk SPL</span>
+  </div>
+  <pre><code>ParentImage IN (&#34;*/bash&#34;, &#34;*/zsh&#34;, &#34;*/sh&#34;) Image IN (&#34;*/curl&#34;, &#34;*/wget&#34;)
+| regex CommandLine=&#34;https?://\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}&#34;
+| regex CommandLine!=&#34;https?://(127\\.|10\\.|192\\.168\\.|172\\.(1[6-9]|2[0-9]|3[01])\\.)&#34;</code></pre>
+</div>
+
+            <p class="conv-note">Converted from the Sigma rule with pySigma.</p>
+          </div>
+          <div class="tab-panel">
+            <div class="code">
+  <div class="code-bar">
+    <span class="name">Elastic (Lucene, ECS)</span>
+  </div>
+  <pre><code>((ParentImage:(*\/bash OR *\/zsh OR *\/sh)) AND (Image:(*\/curl OR *\/wget)) AND CommandLine:/https?:\/\/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/) AND (NOT CommandLine:/https?:\/\/(127\.|10\.|192\.168\.|172\.(1[6-9]|2[0-9]|3[01])\.)/)</code></pre>
+</div>
+
+            <p class="conv-note">Converted from the Sigma rule with pySigma.</p>
+          </div>
+          <div class="tab-panel">
+<ol class="steps-plain"><li>Search network telemetry for connections to 45.150.32.130, 171.22.131.24 (port 8133) and the domain quill-kraee-um2gf.pro over the last 30 days.</li><li>Search file and process events for the SHA-256 hashes SANS ISC published for the installer script and the large follow-on payload.</li><li>On macOS devices, look for bash, zsh or sh spawning curl or wget against bare IP addresses, especially shortly after browser activity.</li><li>For any hit, review subsequent outbound HTTP POST traffic from the device and check the user&#39;s recent Entra ID sign-ins for unfamiliar locations or token reuse.</li><li>Isolate confirmed devices, collect artifacts, and reset the affected user&#39;s credentials and sessions.</li></ol><div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · DownTheDRAIN file hashes seen on devices</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceFileEvents | where Timestamp &gt; ago(30d) | where SHA256 in (&#34;58e503cc2e6aacc6bdba54f40a7edebf7a5362bef0a9039769baaba8c472c4db&#34;, &#34;8b5026d841aa93758ec3cb55c276f84d3ec1cf459810e0d9aa5624e2776f2fcd&#34;) | project Timestamp, DeviceName, ActionType, FolderPath, FileName, SHA256, InitiatingProcessCommandLine</code></pre>
+</div>
+<p class="conv-note receipt">On 150 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · macOS shells launching curl or wget to bare IP URLs</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(14d) | where FileName in~ (&#34;curl&#34;, &#34;wget&#34;) | where InitiatingProcessFileName in~ (&#34;bash&#34;, &#34;zsh&#34;, &#34;sh&#34;) | where ProcessCommandLine matches regex @&#34;https?://\d{1,3}(\.\d{1,3}){3}&#34; | join kind=inner (DeviceInfo | where Timestamp &gt; ago(14d) | where OSPlatform == &#34;macOS&#34; | distinct DeviceId) on DeviceId | project Timestamp, DeviceName, AccountName, InitiatingProcessCommandLine, ProcessCommandLine</code></pre>
+</div>
+<p class="conv-note receipt">On 560 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+          </div>
+        </div>
+      </div>
+<p class="notes">Dropped a hunting query with indicators not found in any source: 171.22.131.24, 45.150.32.130 </p>    </section>
   </article>
   <article class="story" id="story-7" aria-labelledby="story-7-h">
     <div class="story-top">
       <div class="story-flags">
         <div class="tags">
 <span class="tag crit-solid">Exploited</span>
-<span class="tag">breach</span>        </div>
+<span class="tag">campaign</span>        </div>
         <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
           <span class="rank">No. 07</span> · Priority <b>51</b>
         </div>
       </div>
-      <h3 id="story-7-h">Maersk confirms data theft from inherited legacy system; WhiteArmor demands $5 million</h3>
-      <p class="meta">Maersk  · 1 source · first reported 11 November 2026</p>
+      <h3 id="story-7-h">Unit 42: attackers used open-source Cairn AI agent framework to breach semiconductor, defense and civil society targets</h3>
+      <p class="meta">Palo Alto Networks Cairn AI agent framework · 1 source · first reported 12 November 2026</p>
     </div>
 
 
     <div class="story-body">
       <div class="cols2">
-        <section><h4 class="label">What happened</h4><p>According to BleepingComputer, Maersk has confirmed that a threat actor gained unauthorized access to a local legacy system it inherited through an earlier acquisition and took data from it. BleepingComputer reports that the WhiteArmor ransomware group is demanding $5 million. The sources do not say how the attacker got in, what data was taken, or whether any systems were encrypted.</p></section>
-        <section><h4 class="label">Why it matters</h4><p>The breach targeted a legacy system that came with an acquisition. Such systems often sit outside standard patching, monitoring and identity controls, so they make easy entry points into larger networks. No CVE, initial access vector or indicators have been published, which leaves defenders with nothing specific to hunt for. The practical lesson is to check your own inherited and legacy assets.</p></section>
+        <section><h4 class="label">What happened</h4><p>Palo Alto Networks Unit 42 published an analysis on 12 November 2026 describing attackers using the open-source Cairn AI agent framework to carry out intrusions autonomously. According to Unit 42, the targets were in the semiconductor, defense and civil society sectors. The available summary does not describe initial access methods, exploited vulnerabilities, tooling behavior, indicators or attribution.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>Unit 42 reports this activity as confirmed in the wild. AI-driven intrusion tooling can speed up reconnaissance and exploitation, which shortens the time between exposure and compromise for internet-facing edge devices and cloud identities. Organizations in the named sectors should treat the full report as priority reading. The summary alone does not give defenders specific behaviors or indicators to search for.</p></section>
       </div>
       <div class="actions">
         <h4 class="label">What to do</h4>
-        <ol class="steps"><li>Inventory systems inherited through acquisitions and confirm each one is covered by EDR, logging, patching and central identity controls.</li><li>Decommission or network-isolate legacy systems that are no longer needed, and restrict their outbound internet access to block bulk data exfiltration.</li><li>Review accounts and credentials on legacy systems, disable stale ones, and rotate shared or service credentials.</li><li>If Maersk is a supplier or partner, watch for its breach notifications and expect phishing that impersonates Maersk using stolen data.</li><li>Track further reporting on WhiteArmor for disclosed tactics or indicators before building targeted detections.</li></ol>
+        <ol class="steps"><li>Obtain the full Unit 42 report and extract any published indicators, TTPs and targeted technologies for your threat intel platform and Sentinel watchlists.</li><li>If you operate in the semiconductor, defense or civil society sectors, review recent alerts on edge devices and Entra ID sign-ins for automated, high-velocity reconnaissance or exploitation patterns.</li><li>Confirm internet-facing VPNs, firewalls and gateways are fully patched, since automated attack tooling shortens the time to exploit known vulnerabilities.</li><li>Inventory whether AI agent frameworks such as Cairn are installed or run in your environment, and confirm any such use is sanctioned.</li></ol>
       </div>
     </div>
 
     <div class="sources">
       <h4 class="label">Sources</h4>
       <ul>
-        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/maersk-confirms-data-breach-as-whitearmor-ransomware-demands-5-million/" rel="noopener noreferrer nofollow">Maersk confirms data breach as WhiteArmor ransomware demands $5 million</a><span class="where">bleepingcomputer.com · 11 Nov</span></li>
+        <li><span class="pub">Unit 42</span><a href="https://unit42.paloaltonetworks.com/cairn-framework-ai-autonomous-attacks/" rel="noopener noreferrer nofollow">Attackers Use Autonomous AI to Target Semiconductor, Defense and Civil Society Sectors</a><span class="where">unit42.paloaltonetworks.com · 12 Nov</span></li>
       </ul>
-<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: low</p>    </div>
 
 
   </article>
@@ -641,92 +925,108 @@ level: medium
       <div class="story-flags">
         <div class="tags">
 <span class="tag crit-solid">Exploited</span>
-<span class="tag">breach</span>        </div>
+        </div>
         <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span class="rank">No. 08</span> · Priority <b>51</b>
+          <span class="rank">No. 08</span> · Priority <b>47</b>
         </div>
       </div>
-      <h3 id="story-8-h">Baker Tilly notifies clients of personal data exposure in breach at third-party provider</h3>
-      <p class="meta">Baker Tilly  · 1 source · first reported 11 November 2026</p>
+      <h3 id="story-8-h">N-able N-central zero-day &#34;4EverAble2Shell&#34; exploited hours after PoC release to deploy cryptominers</h3>
+      <p class="meta">N-able N-central · 1 source · first reported 12 November 2026</p>
     </div>
 
 
     <div class="story-body">
       <div class="cols2">
-        <section><h4 class="label">What happened</h4><p>BleepingComputer reports that Baker Tilly Advisory Group is notifying clients that a data breach at a third-party provider exposed certain personal information about those clients and their dependents. The available reporting does not name the provider, describe how the breach happened, give the date of the intrusion, or specify which data types were affected. No CVEs, malware, or indicators of compromise have been disclosed.</p></section>
-        <section><h4 class="label">Why it matters</h4><p>For most SOCs this is a third-party risk and fraud-awareness issue, not a direct technical threat to Windows, M365 or edge infrastructure. Organizations that use Baker Tilly for advisory, tax or accounting work may have employee or dependent data in the exposed set, which raises the risk of targeted phishing or impersonation that references Baker Tilly.</p></section>
+        <section><h4 class="label">What happened</h4><p>BleepingComputer reports that attackers began exploiting a newly disclosed N-able N-central zero-day, dubbed &#34;4EverAble2Shell&#34;, within hours of public proof-of-concept code appearing. They are using it to compromise N-central servers and install cryptocurrency miners. Researchers cited by BleepingComputer count at least 21 compromised systems, 19 of which were running N-able&#39;s latest security update. No CVE identifier, affected version range or fix has been published in the available reporting.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>N-central is a remote monitoring and management platform, so a compromised server can give attackers a path to push commands to every managed Windows endpoint and server. Exploitation is confirmed and public PoC code exists. Most of the known victims were fully patched, so updating alone does not appear to protect against this flaw yet. Even if the current payload is a miner, organizations or MSPs running internet-facing N-central should treat this as urgent.</p></section>
       </div>
       <div class="actions">
         <h4 class="label">What to do</h4>
-        <ol class="steps"><li>If your organization is a Baker Tilly client, contact them to confirm whether your data or your employees&#39; data was involved and what categories of information were exposed.</li><li>Warn finance, HR and executive staff to expect phishing or invoice-fraud attempts that impersonate Baker Tilly, and to verify any payment or banking changes out of band.</li><li>Review third-party risk records for Baker Tilly and its subprocessors and confirm breach notification obligations under your contracts and applicable regulations.</li><li>Watch for further disclosures naming the third-party provider or listing indicators, and reassess if technical details emerge.</li></ol>
+        <ol class="steps"><li>Restrict internet access to N-central server management interfaces, for example with VPN-only access or IP allowlisting, until N-able releases a fix or mitigation guidance; the sources say even patched servers were compromised.</li><li>Inspect N-central servers for signs of compromise: unexpected processes, high sustained CPU use, new scheduled tasks or cron entries, and outbound connections to mining pools.</li><li>Review recent N-central activity for unexpected scripts, jobs or software deployments pushed to managed endpoints, and audit N-central administrator accounts.</li><li>If compromise is suspected, rotate N-central administrator credentials and any credentials or API keys stored in the platform.</li><li>Monitor N-able advisories for a CVE assignment, a patch and official indicators of compromise, then apply them as soon as they are available.</li></ol>
       </div>
     </div>
 
     <div class="sources">
       <h4 class="label">Sources</h4>
       <ul>
-        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/baker-tilly-notifies-clients-of-data-breach-at-third-party-provider/" rel="noopener noreferrer nofollow">Baker Tilly notifies clients of data breach at third-party provider</a><span class="where">bleepingcomputer.com · 11 Nov</span></li>
+        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/new-n-able-4everable2shell-zero-day-exploited-hours-after-poc-released/" rel="noopener noreferrer nofollow">New N-able &#34;4EverAble2Shell&#34; zero-day exploited hours after PoC released</a><span class="where">bleepingcomputer.com · 12 Nov</span></li>
       </ul>
-<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: low</p>    </div>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
 
 
+    <section class="detect" aria-label="Detection">
+      <div class="detect-head">
+        <div class="t">Detection
+<span class="tag ai">AI-generated · untested</span>        </div>
+        <span class="why">Hunting only: no endpoint behavior to write a rule against</span>
+      </div>
+      <div class="tabs">
+        <input class="tab-input" type="radio" name="fmt-story-8" id="story-8-hunt" checked>
+        <label for="story-8-hunt">Hunting</label>
+        <div class="tab-panels">
+          <div class="tab-panel">
+<ol class="steps-plain"><li>Identify all N-central servers and N-able agent installations in your environment and confirm which servers are reachable from the internet.</li><li>On N-central servers, check for cryptominer processes, unusual CPU load and outbound connections to mining pools since PoC code was released around 12 November 2026.</li><li>On managed endpoints, look for processes launched by the N-able agent that run unexpected scripts, download tools or start miner binaries.</li><li>Hunt across the fleet for miner command-line traits such as stratum pool URLs or XMRig-style options, then correlate any hits with recent N-central activity.</li><li>Escalate any confirmed hit as a potential RMM compromise and scope every endpoint managed by the affected server.</li></ol><div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Devices running N-able / N-central components</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(7d) | where FolderPath has_any (&#34;N-able&#34;, &#34;N-central&#34;) or InitiatingProcessFolderPath has_any (&#34;N-able&#34;, &#34;N-central&#34;) | summarize LastSeen = max(Timestamp), Processes = make_set(FileName, 20) by DeviceName</code></pre>
+</div>
+<p class="conv-note receipt">On 500 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Cryptominer command-line traits across the fleet</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(14d) | where ProcessCommandLine has_any (&#34;stratum+tcp&#34;, &#34;stratum+ssl&#34;, &#34;--donate-level&#34;, &#34;xmrig&#34;, &#34;--coin&#34;) or FileName =~ &#34;xmrig.exe&#34; | project Timestamp, DeviceName, AccountName, FileName, ProcessCommandLine, InitiatingProcessFileName, InitiatingProcessFolderPath</code></pre>
+</div>
+<p class="conv-note receipt">On 500 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Script or download activity spawned by N-able agent processes</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(14d) | where InitiatingProcessFolderPath has &#34;N-able&#34; | where FileName in~ (&#34;powershell.exe&#34;, &#34;pwsh.exe&#34;, &#34;cmd.exe&#34;, &#34;certutil.exe&#34;, &#34;bitsadmin.exe&#34;, &#34;curl.exe&#34;, &#34;mshta.exe&#34;) | where ProcessCommandLine has_any (&#34;http&#34;, &#34;DownloadString&#34;, &#34;DownloadFile&#34;, &#34;Invoke-WebRequest&#34;, &#34;-enc&#34;, &#34;urlcache&#34;) | project Timestamp, DeviceName, InitiatingProcessFileName, FileName, ProcessCommandLine</code></pre>
+</div>
+<p class="conv-note receipt">On 500 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+          </div>
+        </div>
+      </div>
+    </section>
   </article>
   <article class="story" id="story-9" aria-labelledby="story-9-h">
     <div class="story-top">
       <div class="story-flags">
         <div class="tags">
-<span class="tag high">Public PoC</span><span class="tag info">Edge device</span>        </div>
-        <div class="priority high" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span class="rank">No. 09</span> · Priority <b>43</b>
+<span class="tag crit-solid">Exploited</span>
+<span class="tag">malware</span>        </div>
+        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span class="rank">No. 09</span> · Priority <b>47</b>
         </div>
       </div>
-      <h3 id="story-9-h">Synology DSM updates fix ten flaws, including critical unauthenticated SQL injection with public PoC</h3>
-      <p class="meta">Synology DiskStation Manager · 8 sources · first reported 12 November 2026</p>
+      <h3 id="story-9-h">Worm-like SCKit malware used in ScreenConnect attacks to spread from MSP customers to technicians</h3>
+      <p class="meta"> ScreenConnect · 1 source · first reported 12 November 2026</p>
     </div>
 
-    <dl class="facts">
-      <div><dt>CVE</dt><dd><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-76954">CVE-2026-76954</a></dd></div>
-      <div><dt>CVSS</dt><dd><strong>9.8</strong> <span class="crit">Critical</span></dd></div>
-      <div><dt>EPSS</dt><dd><strong>0.6%</strong> <span class="muted">30-day</span></dd></div>
-      <div><dt>CISA KEV</dt><dd><span class="muted">Not listed</span></dd></div>
-      <div><dt>Public PoC</dt><dd><strong class="high">1 repo</strong></dd></div>
-    </dl>
-    <p class="related">Also: <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-18792">CVE-2026-18792</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-13672">CVE-2026-13672</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-19048">CVE-2026-19048</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-18596">CVE-2026-18596</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-18633">CVE-2026-18633</a></p>
 
     <div class="story-body">
       <div class="cols2">
-        <section><h4 class="label">What happened</h4><p>On 12 November 2026, NVD published ten CVEs for Synology DiskStation Manager (DSM). The most severe is CVE-2026-76954 (CVSS 9.8), a SQL injection in the DSM Auth API that NVD says lets remote attackers read or write arbitrary files and cause denial of service, and public proof-of-concept code exists for it. CVE-2026-85101 (CVSS 8.6) is an authentication bypass in the rsync service that also needs no credentials. The remaining flaws cover the SSOAuth, OTP, Auth, Sharing, User, VPN and thumbnail components plus nfsd, and most require authentication, administrator rights, valid credentials or control of a compromised LDAP or Active Directory server.</p></section>
-        <section><h4 class="label">Why it matters</h4><p>Synology NAS devices are common in branch offices and small sites, and their DSM web interface and rsync service are often exposed to the internet. The CVEs are not in CISA KEV, no exploitation is reported, and EPSS scores are low (0.6% to 0.9%), but a public PoC for an unauthenticated 9.8 file read and write flaw makes internet-facing DSM the priority. A compromised NAS that stores backups or file shares gives attackers both a foothold and a target for ransomware.</p></section>
+        <section><h4 class="label">What happened</h4><p>BleepingComputer reports that a new malware toolkit called SCKit was deployed in recent attacks abusing ConnectWise ScreenConnect against managed service providers. According to the report, the toolkit behaves like a worm. It is built to spread from infected customer devices back to MSP technicians&#39; computers, and from there to further managed networks. The available reporting does not name the initial access vector, any CVE, affected versions or indicators of compromise.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>An MSP&#39;s remote-management tool reaches into many customer networks at once, so one compromised technician workstation can expose every client that technician manages. Exploitation is described as active. Anyone who uses ScreenConnect or relies on an MSP that does should treat sessions between customer endpoints and technician machines as a possible propagation path.</p></section>
       </div>
       <div class="actions">
         <h4 class="label">What to do</h4>
-        <ol class="steps"><li>Update internet-facing DSM devices first, to 7.3.2-86009-5 or 7.4.1-90080-1, or to 7.2.1-69057-13 or 7.2.2-72806-10 on the 7.2 branches. The sources list 7.2 fixes only for CVE-2026-76954 and CVE-2026-85101, so check Synology&#39;s advisory for the other eight flaws on 7.2.</li><li>Remove direct internet exposure of the DSM web interface (ports 5000 and 5001) and the rsync service (port 873). Put access behind a VPN or an IP allowlist.</li><li>Disable rsync and NFS services where they are not needed.</li><li>Review the integrity of LDAP or Active Directory servers bound to DSM, since CVE-2026-81584 can be triggered from a compromised directory server.</li><li>Review DSM logs for unexpected logins, new accounts, configuration changes or file changes, and restrict DSM admin access to a management network.</li></ol>
-      <div class="cols2 versions">
-        <div><div class="k">Affected</div><ul><li>Synology DSM before 7.2.1-69057-13, 7.2.2-72806-10, 7.3.2-86009-5 and 7.4.1-90080-1 (CVE-2026-76954, CVE-2026-85101)</li><li>Synology DSM before 7.3.2-86009-5 and 7.4.1-90080-1 (CVE-2026-13672, CVE-2026-18596, CVE-2026-18633, CVE-2026-18792, CVE-2026-19048, CVE-2026-74857, CVE-2026-75785, CVE-2026-81584)</li></ul></div>
-        <div><div class="k">Fixed</div><ul><li>DSM 7.2.1-69057-13</li><li>DSM 7.2.2-72806-10</li><li>DSM 7.3.2-86009-5</li><li>DSM 7.4.1-90080-1</li></ul></div>
-      </div>
+        <ol class="steps"><li>Confirm with your MSP, or your own ScreenConnect administrators, whether the instance was affected by the recent ScreenConnect attacks. Make sure the server is on the latest vendor-supported release.</li><li>Review processes spawned by ScreenConnect client services on endpoints and technician workstations. Look for scripting engines, downloads and new executables that do not match approved administrative activity.</li><li>Isolate MSP technician workstations from routine browsing and email use, and require MFA on all ScreenConnect accounts.</li><li>Audit ScreenConnect installations across the estate and remove unauthorized or unexpected instances.</li><li>Watch vendor and researcher reporting for SCKit indicators, and hunt for them once they are published.</li></ol>
       </div>
     </div>
 
     <div class="sources">
       <h4 class="label">Sources</h4>
       <ul>
-        <li><span class="pub">NVD</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-13672" rel="noopener noreferrer nofollow">CVE-2026-13672 (HIGH 8.8)</a><span class="where">nvd.nist.gov · 12 Nov</span></li>
-        <li><span class="pub">NVD</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-18596" rel="noopener noreferrer nofollow">CVE-2026-18596 (HIGH 8.1)</a><span class="where">nvd.nist.gov · 12 Nov</span></li>
-        <li><span class="pub">NVD</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-18633" rel="noopener noreferrer nofollow">CVE-2026-18633 (HIGH 7.5)</a><span class="where">nvd.nist.gov · 12 Nov</span></li>
-        <li><span class="pub">NVD</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-18792" rel="noopener noreferrer nofollow">CVE-2026-18792 (HIGH 8.8)</a><span class="where">nvd.nist.gov · 12 Nov</span></li>
-        <li><span class="pub">NVD</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-19048" rel="noopener noreferrer nofollow">CVE-2026-19048 (HIGH 8.1)</a><span class="where">nvd.nist.gov · 12 Nov</span></li>
-        <li><span class="pub">NVD</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-74857" rel="noopener noreferrer nofollow">CVE-2026-74857 (HIGH 8.8)</a><span class="where">nvd.nist.gov · 12 Nov</span></li>
-        <li><span class="pub">NVD</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-75785" rel="noopener noreferrer nofollow">CVE-2026-75785 (HIGH 7.2)</a><span class="where">nvd.nist.gov · 12 Nov</span></li>
-        <li><span class="pub">NVD</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-76954" rel="noopener noreferrer nofollow">CVE-2026-76954 (CRITICAL 9.8)</a><span class="where">nvd.nist.gov · 12 Nov</span></li>
+        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/new-worm-like-sckit-malware-targets-msps-in-screenconnect-attacks/" rel="noopener noreferrer nofollow">New worm-like &#39;SCKit&#39; malware targets MSPs in ScreenConnect attacks</a><span class="where">bleepingcomputer.com · 12 Nov</span></li>
       </ul>
-<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: high</p>    </div>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: low</p>    </div>
 
-    <details class="poc">
-      <summary>Public proof-of-concept repos (1)</summary>
-      <p class="warn">Links only, not vetted. Public PoC repos are often fake or backdoored. Don't run them on a work machine.</p>
-      <ul><li><a href="https://github.com/ansonhsu-ai/synology-dsm-cve-2026-76954-ste" rel="noopener noreferrer nofollow">ansonhsu-ai/synology-dsm-cve-2026-76954-ste</a> <span class="muted">CVE-2026-76954 · 0 stars · created 12 Nov</span></li></ul>
-    </details>
 
     <section class="detect" aria-label="Detection">
       <div class="detect-head">
@@ -739,22 +1039,30 @@ level: medium
         <label for="story-9-hunt">Hunting</label>
         <div class="tab-panels">
           <div class="tab-panel">
-<ol class="steps-plain"><li>Build an inventory of Synology NAS devices from asset records and network scans, and record each DSM version.</li><li>Use endpoint network telemetry to find internal hosts that act as DSM or rsync servers (ports 5000, 5001 and 873) and that may be missing from the inventory.</li><li>Check perimeter firewall and NAT rules, and external attack surface scans, for DSM or rsync exposed to the internet.</li><li>On any device below the fixed builds, review DSM connection and system logs for unusual authentication, new admin accounts, scheduled tasks or unexpected file writes.</li><li>Look for unusual hosts or volumes of rsync traffic to NAS devices, which could indicate abuse of the rsync authentication bypass.</li></ol><div class="code">
+<ol class="steps-plain"><li>Inventory every device running ScreenConnect client components and identify which ones are MSP technician workstations.</li><li>Review child processes of ScreenConnect client services from the past 30 days, focusing on cmd, PowerShell, script hosts and LOLBins.</li><li>Look for executables, DLLs or scripts written to disk by ScreenConnect processes, especially on technician machines.</li><li>Correlate suspicious activity on a customer endpoint with ScreenConnect sessions to technician workstations around the same time.</li><li>Escalate any unexplained activity to the MSP and request their incident findings for the ScreenConnect attacks.</li></ol><div class="code">
   <div class="code-bar">
-    <span class="name">Defender XDR KQL · Find internal hosts serving Synology DSM or rsync ports</span>
+    <span class="name">Defender XDR KQL · Shells and script hosts spawned by ScreenConnect client</span>
 <span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
   </div>
-  <pre><code>DeviceNetworkEvents | where Timestamp &gt; ago(14d) | where ActionType == &#34;ConnectionSuccess&#34; | where RemotePort in (5000, 5001, 873) | where RemoteIPType == &#34;Private&#34; | summarize Clients = dcount(DeviceId), Connections = count(), Ports = make_set(RemotePort) by RemoteIP | order by Clients desc</code></pre>
+  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(30d) | where InitiatingProcessFileName startswith &#34;ScreenConnect&#34; | where FileName in~ (&#34;cmd.exe&#34;,&#34;powershell.exe&#34;,&#34;pwsh.exe&#34;,&#34;wscript.exe&#34;,&#34;cscript.exe&#34;,&#34;mshta.exe&#34;,&#34;rundll32.exe&#34;,&#34;regsvr32.exe&#34;,&#34;certutil.exe&#34;,&#34;bitsadmin.exe&#34;,&#34;curl.exe&#34;) | summarize Count=count(), Devices=dcount(DeviceName), SampleCmd=any(ProcessCommandLine) by FileName, InitiatingProcessFileName | order by Count desc</code></pre>
 </div>
-<p class="conv-note receipt">On 300 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<p class="conv-note receipt">On 500 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
 <div class="code">
   <div class="code-bar">
-    <span class="name">Defender XDR KQL · Endpoints connecting to DSM or rsync ports on public IPs</span>
+    <span class="name">Defender XDR KQL · Executable or script files written by ScreenConnect processes</span>
 <span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
   </div>
-  <pre><code>DeviceNetworkEvents | where Timestamp &gt; ago(14d) | where RemotePort in (5000, 5001, 873) | where RemoteIPType == &#34;Public&#34; | summarize Connections = count(), Devices = make_set(DeviceName, 50), Processes = make_set(InitiatingProcessFileName, 20) by RemoteIP, RemotePort | order by Connections desc</code></pre>
+  <pre><code>DeviceFileEvents | where Timestamp &gt; ago(30d) | where InitiatingProcessFileName startswith &#34;ScreenConnect&#34; | where ActionType == &#34;FileCreated&#34; | where FileName endswith &#34;.exe&#34; or FileName endswith &#34;.dll&#34; or FileName endswith &#34;.ps1&#34; or FileName endswith &#34;.bat&#34; or FileName endswith &#34;.vbs&#34; | project Timestamp, DeviceName, FolderPath, FileName, SHA256, InitiatingProcessFileName</code></pre>
 </div>
-<p class="conv-note receipt">On 300 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<p class="conv-note receipt">On 150 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Devices running ScreenConnect client components</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(14d) | where FileName startswith &#34;ScreenConnect&#34; | summarize LastSeen=max(Timestamp), Paths=make_set(FolderPath, 5) by DeviceName, FileName | order by DeviceName asc</code></pre>
+</div>
+<p class="conv-note receipt">On 500 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
           </div>
         </div>
       </div>
@@ -764,48 +1072,46 @@ level: medium
     <div class="story-top">
       <div class="story-flags">
         <div class="tags">
-<span class="tag info">Windows</span>        </div>
-        <div class="priority watch" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span class="rank">No. 10</span> · Priority <b>41</b>
+<span class="tag high">Public PoC</span><span class="tag info">Edge device</span>        </div>
+        <div class="priority high" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span class="rank">No. 10</span> · Priority <b>47</b>
         </div>
       </div>
-      <h3 id="story-10-h">Microsoft revises 29 .NET, ASP.NET Core, Visual Studio and Aspire advisories; no technical changes</h3>
-      <p class="meta">Microsoft .NET · 8 sources · first reported 11 November 2026</p>
+      <h3 id="story-10-h">Linksys EA8100 router flaws <span class="nowrap">CVE-2026-127275</span> and <span class="nowrap">CVE-2026-127277</span> disclosed with no vendor fix</h3>
+      <p class="meta">Linksys EA8100 · 2 sources · first reported 13 November 2026</p>
     </div>
 
     <dl class="facts">
-      <div><dt>CVE</dt><dd><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-109475">CVE-2026-109475</a></dd></div>
-      <div><dt>CVSS</dt><dd><strong>7.5</strong> <span class="high">High</span></dd></div>
-      <div><dt>EPSS</dt><dd><strong>1.3%</strong> <span class="muted">30-day</span></dd></div>
+      <div><dt>CVE</dt><dd><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-127275">CVE-2026-127275</a></dd></div>
+      <div><dt>CVSS</dt><dd><strong>9.3</strong> <span class="crit">Critical</span></dd></div>
+      <div><dt>EPSS</dt><dd><strong>0.8%</strong> <span class="muted">30-day</span></dd></div>
       <div><dt>CISA KEV</dt><dd><span class="muted">Not listed</span></dd></div>
       <div><dt>Public PoC</dt><dd>None known</dd></div>
     </dl>
-    <p class="related">Also: <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-109478">CVE-2026-109478</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-105544">CVE-2026-105544</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-109476">CVE-2026-109476</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-114146">CVE-2026-114146</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-109481">CVE-2026-109481</a></p>
+    <p class="related">Also: <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-127277">CVE-2026-127277</a></p>
 
     <div class="story-body">
       <div class="cols2">
-        <section><h4 class="label">What happened</h4><p>On 11 November 2026 Microsoft updated 29 entries in its Security Update Guide covering .NET, ASP.NET Core, Visual Studio and Aspire. The CVEs include denial of service, elevation of privilege, information disclosure, security feature bypass and Visual Studio remote code execution flaws. Microsoft describes every revision as informational only: it changed security update links, corrected download links, or updated the products listed in the Security Updates table. The revisions do not include new technical details, version ranges or fix versions.</p></section>
-        <section><h4 class="label">Why it matters</h4><p>No exploitation is known and none of the CVEs is in CISA KEV. No public proof-of-concept is reported, and the highest available EPSS scores are low (about 1.3% for CVE-2026-109475 and 1.2% for CVE-2026-109478). The practical risk is that changes to product tables and download links can mean more products are now in scope or earlier links were wrong, so hosts you thought were patched may still be exposed. ASP.NET Core denial of service flaws on internet-facing web apps and the Visual Studio RCE flaws on developer workstations deserve the closest review.</p></section>
+        <section><h4 class="label">What happened</h4><p>NVD published two critical flaws (CVSS 9.3) in Linksys EA8100 firmware 1.0.3.216940 on 13 November 2026. According to NVD, CVE-2026-127275 is a missing-authentication bug in the JNAP API&#39;s SetRemoteSetting and SetUnsecuredWiFiWarning functions, and CVE-2026-127277 is an improper-initialization flaw in the router&#39;s SMB service tied to its anonymous-access setting. Both can be triggered remotely. NVD says exploit details have been made public and that Linksys did not respond when contacted, though the public proof-of-concept tracking used for this brief does not yet confirm a public exploit.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>These are consumer or small-office routers, so the main exposure is branch offices, remote workers&#39; home networks, and shadow IT where an EA8100 might expose remote management or open SMB access. Neither CVE is in CISA KEV and EPSS scores are low (0.8% and 0.6%), but public exploit details and no vendor patch mean affected units stay vulnerable until they are replaced or reconfigured.</p></section>
       </div>
       <div class="actions">
         <h4 class="label">What to do</h4>
-        <ol class="steps"><li>Re-check the revised Security Updates tables for the listed CVEs, especially those marked as having updated product lists, and confirm your installed .NET, ASP.NET Core, Visual Studio and Aspire versions are covered.</li><li>Re-download any updates obtained through earlier links for CVE-2026-118740 and other advisories with corrected download links, and verify they installed.</li><li>Prioritise patching internet-facing ASP.NET Core applications and their hosting runtimes for the denial of service and security feature bypass CVEs.</li><li>Update Visual Studio on developer workstations and build servers for the remote code execution CVEs.</li><li>Make sure self-contained .NET applications are rebuilt and redeployed against the patched runtime, because they do not pick up system runtime updates.</li></ol>
+        <ol class="steps"><li>Inventory Linksys EA8100 routers on corporate, branch and remote-worker networks, and plan to replace any found because no vendor fix is stated.</li><li>Disable remote management on affected routers and ensure the JNAP and web management interfaces are not reachable from the internet.</li><li>Disable the router&#39;s SMB file-sharing service, or at least anonymous access, and block SMB from the WAN side.</li><li>Keep corporate endpoints behind such routers on VPN with host firewalls blocking inbound SMB, and treat home networks as untrusted.</li><li>Watch Linksys support channels for a firmware update, since the vendor has not responded so far.</li></ol>
+      <div class="cols2 versions">
+        <div><div class="k">Affected</div><ul><li>Linksys EA8100 firmware 1.0.3.216940</li></ul></div>
+        <div><div class="k">Fixed</div><span class="muted">Not stated in the sources</span></div>
+      </div>
       </div>
     </div>
 
     <div class="sources">
       <h4 class="label">Sources</h4>
       <ul>
-        <li><span class="pub">MSRC Security Update Guide</span><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-105544" rel="noopener noreferrer nofollow">CVE-2026-105544 .NET Elevation of Privilege Vulnerability</a><span class="where">msrc.microsoft.com · 11 Nov</span></li>
-        <li><span class="pub">MSRC Security Update Guide</span><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-109475" rel="noopener noreferrer nofollow">CVE-2026-109475 .NET Denial of Service Vulnerability</a><span class="where">msrc.microsoft.com · 11 Nov</span></li>
-        <li><span class="pub">MSRC Security Update Guide</span><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-109476" rel="noopener noreferrer nofollow">CVE-2026-109476 ASP.NET Core Information Disclosure Vulnerability</a><span class="where">msrc.microsoft.com · 11 Nov</span></li>
-        <li><span class="pub">MSRC Security Update Guide</span><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-109478" rel="noopener noreferrer nofollow">CVE-2026-109478 ASP.NET Core Denial of Service Vulnerability</a><span class="where">msrc.microsoft.com · 11 Nov</span></li>
-        <li><span class="pub">MSRC Security Update Guide</span><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-109481" rel="noopener noreferrer nofollow">CVE-2026-109481 ASP.NET Core Elevation of Privilege Vulnerability</a><span class="where">msrc.microsoft.com · 11 Nov</span></li>
-        <li><span class="pub">MSRC Security Update Guide</span><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-114146" rel="noopener noreferrer nofollow">CVE-2026-114146 ASP.NET Core Elevation of Privilege Vulnerability</a><span class="where">msrc.microsoft.com · 11 Nov</span></li>
-        <li><span class="pub">MSRC Security Update Guide</span><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-114147" rel="noopener noreferrer nofollow">CVE-2026-114147 ASP.NET Core Denial of Service Vulnerability</a><span class="where">msrc.microsoft.com · 11 Nov</span></li>
-        <li><span class="pub">MSRC Security Update Guide</span><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-114149" rel="noopener noreferrer nofollow">CVE-2026-114149 ASP.NET Core Denial of Service Vulnerability</a><span class="where">msrc.microsoft.com · 11 Nov</span></li>
+        <li><span class="pub">NVD</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-127275" rel="noopener noreferrer nofollow">CVE-2026-127275 (CRITICAL 9.3)</a><span class="where">nvd.nist.gov · 13 Nov</span></li>
+        <li><span class="pub">NVD</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-127277" rel="noopener noreferrer nofollow">CVE-2026-127277 (CRITICAL 9.3)</a><span class="where">nvd.nist.gov · 13 Nov</span></li>
       </ul>
-<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: high</p>    </div>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
 
 
     <section class="detect" aria-label="Detection">
@@ -819,22 +1125,22 @@ level: medium
         <label for="story-10-hunt">Hunting</label>
         <div class="tab-panels">
           <div class="tab-panel">
-<ol class="steps-plain"><li>Query Defender Vulnerability Management for devices still exposed to any of the 29 CVEs.</li><li>Separate internet-facing web servers running ASP.NET Core from developer workstations running Visual Studio, and patch the web servers first.</li><li>Compare the results with your patch deployment records to find hosts where updates obtained from the earlier, now-corrected links did not apply.</li><li>Identify self-contained or containerised .NET applications that Defender may not inventory, and confirm their owners rebuild them on patched runtimes.</li></ol><div class="code">
+<ol class="steps-plain"><li>Check Defender vulnerability management for any devices flagged with CVE-2026-127275 or CVE-2026-127277.</li><li>Use Defender device discovery inventory to find network devices reported with vendor Linksys or model EA8100.</li><li>Review external attack surface or perimeter scans for internet-exposed Linksys management interfaces or SMB on office IP ranges.</li><li>For any EA8100 found, confirm the firmware version and whether remote management and SMB sharing are enabled, then remediate or replace.</li></ol><div class="code">
   <div class="code-bar">
-    <span class="name">Defender XDR KQL · Devices exposed to the revised .NET, ASP.NET Core, Visual Studio and Aspire CVEs</span>
+    <span class="name">Defender XDR KQL · Devices flagged for the Linksys EA8100 CVEs in Defender TVM</span>
 <span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
   </div>
-  <pre><code>DeviceTvmSoftwareVulnerabilities | where CveId in (&#39;CVE-2026-105544&#39;,&#39;CVE-2026-109475&#39;,&#39;CVE-2026-109476&#39;,&#39;CVE-2026-109478&#39;,&#39;CVE-2026-109481&#39;,&#39;CVE-2026-114146&#39;,&#39;CVE-2026-114147&#39;,&#39;CVE-2026-114149&#39;,&#39;CVE-2026-114150&#39;,&#39;CVE-2026-114151&#39;,&#39;CVE-2026-114152&#39;,&#39;CVE-2026-114154&#39;,&#39;CVE-2026-114155&#39;,&#39;CVE-2026-114156&#39;,&#39;CVE-2026-114157&#39;,&#39;CVE-2026-114158&#39;,&#39;CVE-2026-114159&#39;,&#39;CVE-2026-120006&#39;,&#39;CVE-2026-118745&#39;,&#39;CVE-2026-118746&#39;,&#39;CVE-2026-118747&#39;,&#39;CVE-2026-118748&#39;,&#39;CVE-2026-118749&#39;,&#39;CVE-2026-118750&#39;,&#39;CVE-2026-120792&#39;,&#39;CVE-2026-120778&#39;,&#39;CVE-2026-120796&#39;,&#39;CVE-2026-118740&#39;,&#39;CVE-2026-118741&#39;) | summarize CVEs = make_set(CveId), Software = make_set(strcat(SoftwareName, &#39; &#39;, SoftwareVersion)) by DeviceName, OSPlatform | order by array_length(CVEs) desc</code></pre>
+  <pre><code>DeviceTvmSoftwareVulnerabilities | where CveId in (&#34;CVE-2026-127275&#34;, &#34;CVE-2026-127277&#34;) | project DeviceId, DeviceName, SoftwareVendor, SoftwareName, SoftwareVersion, CveId, VulnerabilitySeverityLevel</code></pre>
 </div>
 <p class="conv-note receipt">The synthetic baseline has no data for its tables. Not tested on real attack data.</p>
 <div class="code">
   <div class="code-bar">
-    <span class="name">Defender XDR KQL · Recently active ASP.NET Core hosts accepting inbound connections</span>
+    <span class="name">Defender XDR KQL · Discovered Linksys or EA8100 network devices</span>
 <span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
   </div>
-  <pre><code>DeviceNetworkEvents | where Timestamp &gt; ago(7d) | where ActionType == &#39;InboundConnectionAccepted&#39; | where InitiatingProcessFileName in~ (&#39;dotnet.exe&#39;,&#39;w3wp.exe&#39;) | summarize Connections = count(), Ports = make_set(LocalPort) by DeviceName, InitiatingProcessFileName | order by Connections desc</code></pre>
+  <pre><code>DeviceInfo | where Timestamp &gt; ago(30d) | where Vendor has &#34;Linksys&#34; or Model has &#34;EA8100&#34; | summarize LastSeen = max(Timestamp) by DeviceId, DeviceName, Vendor, Model, DeviceType, OSVersion</code></pre>
 </div>
-<p class="conv-note receipt">On 300 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<p class="conv-note receipt">On 60 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
           </div>
         </div>
       </div>
@@ -849,35 +1155,18 @@ level: medium
   <section class="block" id="signals" aria-labelledby="h-signals">
     <div class="section-head"><h2 id="h-signals">Early signals</h2><span>Counted by code, not AI</span></div>
     <p class="lead">CVEs that several independent accounts posted about in the window but that are not in KEV or the news feeds yet. Counted from Bluesky, Mastodon (infosec.exchange), r/netsec and Hacker News after dropping CVE-feed bots and digest posts. Chatter is a lead, not confirmation.</p>
-    <div class="signal">
-      <div class="id">
-        <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-119618">CVE-2026-119618</a>
-        <div class="tags">
-<span class="tag high">Public PoC</span>        </div>
-        <span class="k">Accounts posting</span>
-        <div class="count"><b>5</b><span>on Hacker News · EPSS 0.4%</span></div>
-      </div>
-      <div class="detail">
-        <span class="k">NVD summary</span>
-        <p>Concurrent Execution using Shared Resource with Improper Synchronization vulnerability in Apache HTTP Server&#39;s mod_http2 in assign_headers() can lead to RCE.
-
-This issue affects Apache HTTP Server: from 2.4.55 through 2.4.70.
-Affected releases of mod_h2 from GitHub: from 2.0.8 through 2.0.42.</p>
-        <span class="k">Posts</span>
-        <div class="posts"><a href="https://news.ycombinator.com/item?id=50462177" rel="noopener noreferrer nofollow" title="Hacker News">@soheilpro</a><a href="https://news.ycombinator.com/item?id=50453368" rel="noopener noreferrer nofollow" title="Hacker News">@klaas-</a><a href="https://news.ycombinator.com/item?id=50457987" rel="noopener noreferrer nofollow" title="Hacker News">@linsomniac</a><a href="https://news.ycombinator.com/item?id=50462841" rel="noopener noreferrer nofollow" title="Hacker News">@perching_aix</a><a href="https://news.ycombinator.com/item?id=50462602" rel="noopener noreferrer nofollow" title="Hacker News">@thehamkercat</a></div>
-      </div>
-    </div>
+    <p class="muted">No CVE crossed the threshold in this window.</p>
   </section>
 
   <section class="block explainer" id="explainer" aria-labelledby="h-explainer">
     <div class="section-head"><h2 id="h-explainer">Explainer</h2><span>Background, not news</span></div>
-    <h3>Legitimate remote access software as attacker persistence and C2</h3>
-    <p class="dek">Attackers install or hijack real remote management and remote access tools so their control channel looks like normal IT administration traffic and survives the removal of their original entry point.</p>
-<p class="why-today"><strong>Why today.</strong> The SCKit campaign pushes rogue ScreenConnect clients to MSP-managed endpoints, and Microsoft describes attackers using the open source GSocket tool, relayed through a public network, to keep access to Linux servers after the original flaws were patched. Both are the same playbook: a trusted, signed or open source tool in place of custom malware. See <a href="#story-4">story 4</a>, <a href="#story-2">story 2</a>, <a href="#story-5">story 5</a>.</p>    <div class="ex-body">
-<h4>How the technique works</h4><p>MITRE ATT&amp;CK tracks this as Remote Access Software (T1219). Instead of writing a custom implant, the attacker installs a legitimate remote monitoring and management (RMM) or remote access product, such as ScreenConnect, AnyDesk or a similar agent, or an open source tunnelling tool like GSocket. The tool is configured to call out to a server or relay the attacker controls or can use.</p><p>There are two common variants. In the first, the attacker installs a new agent that reports to their own instance, for example a trial or cloud-hosted panel. In the second, which is what SCKit appears to exploit, the attacker compromises a legitimate management panel the victim or its provider already trusts and uses it to push extra clients or run commands across every endpoint it manages.</p><h4>Why attackers prefer it</h4><p>These tools are often code-signed by a known vendor, are widely allowlisted, and are designed to run as a service, start at boot and reconnect on their own. That gives persistence and interactive control without the attacker writing or maintaining malware, and many antivirus products do not flag them because they are legitimate software.</p><p>The connections are outbound, usually over HTTPS or to vendor or public relay infrastructure, so they pass through firewalls that only block inbound traffic. With relay-based tools like GSocket, the attacker needs no server of their own and there is no fixed attacker IP address to block. Because the access does not depend on the original vulnerability, patching the entry point leaves the backdoor in place.</p><h4>What it looks like in telemetry</h4><p>On Windows, look for remote access agents installed as new services, executables running from unusual paths, or a second instance of a product you already use. ScreenConnect clients typically install as a service whose name includes a unique instance identifier, so an unfamiliar identifier next to your sanctioned one is a strong signal. In Defender XDR, DeviceProcessEvents, DeviceFileEvents, DeviceRegistryEvents and DeviceNetworkEvents together show the installer, the new service, and the outbound connection to the relay host.</p><p>The relay hostname is often more telling than the binary. A sanctioned RMM agent talks to your tenant&#39;s known host. A rogue agent talks to a different instance or a different vendor&#39;s cloud. On Linux, watch for long-lived processes making outbound connections to public relay networks and for new cron, systemd or shell profile entries that relaunch them.</p><h4>How to prevent and contain it</h4><p>Define which remote access products are allowed and enforce it with application control, such as App Control for Business or AppLocker, plus Defender for Endpoint indicators that block unsanctioned tools. Restrict egress so only approved RMM relay hosts are reachable from endpoints and servers.</p><p>Treat RMM consoles and MSP access as privileged identities: require phishing-resistant MFA, limit who can deploy agents or run scripts at scale, and review console audit logs. After any compromise, inventory every remote access agent and scheduled relaunch mechanism before declaring the host clean, because removing the initial exploit does not remove these.</p>    </div>
+    <h3>Device code phishing: abusing the OAuth device authorization grant</h3>
+    <p class="dek">Device code phishing tricks a user into entering an attacker-generated code on Microsoft&#39;s real sign-in page, which hands the attacker valid tokens for the user&#39;s account, MFA included.</p>
+<p class="why-today"><strong>Why today.</strong> Huntress describes attackers dressing up device code phishing as a Microsoft Teams meeting-booking flow, so victims complete a genuine Microsoft sign-in that authorizes the attacker&#39;s session. Knowing how the flow works shows why the usual phishing advice (check the URL, use MFA) does not stop it, and which controls and logs do. See <a href="#story-1">story 1</a>.</p>    <div class="ex-body">
+<h4>How the device code flow is meant to work</h4><p>The OAuth 2.0 device authorization grant, standardized in RFC 8628, exists for devices that cannot easily show a browser or take a password: smart TVs, printers, command-line tools. The device asks the identity provider for a device code and a short user code, then tells the user to visit a verification page on another device and type the user code in. In Microsoft Entra ID that page is Microsoft&#39;s own device login page.</p><p>While the user signs in on that page, including any MFA prompt, the original device keeps polling the token endpoint. Once the user finishes, the token endpoint issues an access token and a refresh token to whoever holds the device code. The codes are short-lived; Microsoft documents a lifetime of about 15 minutes.</p><h4>How attackers turn it into phishing</h4><p>The weakness is that the party who starts the flow and the person who approves it do not have to be the same, and the approval page does not reliably show the user which device or person they are authorizing. An attacker starts the flow from their own infrastructure, usually with the client ID of a legitimate Microsoft first-party public app, and gets a user code. They pass that code to the victim with a pretext such as joining a meeting, verifying an identity or, in this case, completing a Teams booking.</p><p>The victim goes to a real Microsoft domain, sees a real Microsoft page, enters the code and approves MFA. Nothing about the URL looks wrong, because nothing is wrong with it. The tokens go to the attacker&#39;s polling client. The short code lifetime is why these campaigns rely on live, interactive lures: the victim has to act within minutes of the attacker generating the code.</p><h4>What the attacker gains</h4><p>The attacker holds a refresh token as well as an access token, so access lasts well beyond the original session and survives the victim closing their browser. Depending on the client ID used, the refresh token can often be exchanged for tokens to other Microsoft resources such as Exchange Online, SharePoint, Teams or Microsoft Graph, giving mail, file and directory access. Changing the user&#39;s password does not on its own invalidate every issued refresh token; sessions have to be revoked explicitly. Security researchers have also shown the technique being extended to register attacker devices in Entra ID, which can make access more persistent.</p><h4>What it looks like in telemetry</h4><p>In Entra ID sign-in logs, device code sign-ins are labeled with an authentication protocol of device code. In Microsoft Sentinel you can filter SigninLogs on the AuthenticationProtocol column for deviceCode, and the Defender XDR advanced hunting sign-in tables carry similar fields. Most users never use this flow, so any device code sign-in for an ordinary office worker, rather than an admin running a CLI tool, deserves a look.</p><p>Follow-up activity usually shows up as non-interactive sign-ins (AADNonInteractiveUserSignInLogs in Sentinel) as the attacker redeems the refresh token, often from hosting-provider or VPN IP addresses and from client apps the user does not normally use. Look for a device code sign-in followed shortly by mailbox access, inbox rule creation, Graph API activity or new device registrations for that account.</p><h4>How to prevent it</h4><p>The most effective control is a Conditional Access policy using the authentication flows condition to block device code flow for everyone, with narrow exclusions only for users, devices or locations that genuinely need it, such as meeting-room devices or specific admin workstations. Microsoft recommends blocking device code flow wherever it is not required. Pair this with user awareness that is specific: a real colleague or meeting service will never ask you to type a code into the Microsoft device login page.</p>    </div>
     <div class="actions">
       <h4 class="label">For defenders</h4>
-      <ol class="steps"><li>Build an inventory of every remote access and RMM product running across your estate using Defender for Endpoint software inventory and process data, and flag any vendor or instance identifier you did not deploy.</li><li>Alert on new services or processes from remote access vendors whose outbound connections go to hosts other than your sanctioned RMM instance, joining DeviceProcessEvents with DeviceNetworkEvents.</li><li>Block unapproved remote access tools with application control policy and file or certificate indicators, and restrict endpoint and server egress to approved relay hosts.</li><li>If you use an MSP, confirm with them which agents and consoles touch your environment, how console access is protected, and whether they have reviewed for rogue ScreenConnect clients this week.</li><li>On Linux web servers, hunt for persistent outbound processes, new cron or systemd entries, and connections to public relay networks, especially on hosts that previously had an exploited web vulnerability.</li></ol>
+      <ol class="steps"><li>Create a Conditional Access policy that blocks the device code authentication flow for all users, run it in report-only mode first to find legitimate use, then enforce it with narrowly scoped exclusions.</li><li>Hunt the last 30 days of SigninLogs for AuthenticationProtocol equal to deviceCode and review every account that is not a known admin or shared device, especially sign-ins followed by non-interactive token use from unfamiliar IP addresses.</li><li>When a device code compromise is confirmed, revoke the user&#39;s sessions and refresh tokens, not just the password, and check for newly registered devices, inbox rules and app consents on the account.</li><li>Alert on device code sign-ins for high-value users such as executives, finance staff and admins, and on new device registrations that follow a device code sign-in.</li><li>Update phishing awareness material to state that entering a code on the Microsoft device login page at someone else&#39;s request grants them access, even though the site is genuine.</li></ol>
     </div>
     <p class="ai-line">AI-generated explainer by Claude Opus 5.5 · from the model's background knowledge, not today's sources · check vendor documentation before acting on it</p>
   </section>
@@ -886,16 +1175,22 @@ Affected releases of mod_h2 from GitHub: from 2.0.8 through 2.0.42.</p>
     <div class="section-head"><h2 id="h-good-news">Good news</h2><span>Wins for defenders</span></div>
     <ol class="good">
       <li>
-        <span class="tag ok">Research</span>
-        <h3>Microsoft research effort yields 59 Linux kernel bug reports and 33 CVEs</h3>
-        <p>The Microsoft Security Blog reports that its FORGE Lab scanned a subset of Linux kernel subsystems and has so far filed 59 public upstream reports, with 33 CVEs assigned. Microsoft says it confirmed working root privilege-escalation exploits for eight of those CVEs, and fixes for 38 of the reports have been merged into the mainline kernel.</p>
-        <p class="where"><a href="https://www.microsoft.com/en-us/security/blog/2026/11/11/lessons-from-59-linux-kernel-bug-reports/" rel="noopener noreferrer nofollow">Microsoft Security Blog</a> · 11 Nov</p>
+        <span class="tag ok">Takedown</span>
+        <h3>Europol-led operation seizes servers and domains of Gootloader, CastleRAT and StealC</h3>
+        <p>BleepingComputer reports that Europol and law enforcement partners from nine countries seized hundreds of servers and domains used by the Gootloader, CastleRAT and StealC malware operations. The action targets infrastructure behind a malware loader, a remote access trojan and an infostealer.</p>
+        <p class="where"><a href="https://www.bleepingcomputer.com/news/security/police-dismantles-gootloader-castlerat-stealc-malware-infrastructure/" rel="noopener noreferrer nofollow">BleepingComputer</a> · 12 Nov</p>
       </li>
       <li>
         <span class="tag ok">Fix shipped</span>
-        <h3>N-able ships hotfixes for N-central RMM zero-day vulnerabilities</h3>
-        <p>BleepingComputer reports that N-able released security hotfixes for zero-day vulnerabilities in its N-central remote monitoring and management platform. The flaws were publicly disclosed over the weekend and led N-able to take vulnerable hosted environments offline before the fixes shipped.</p>
-        <p class="where"><a href="https://www.bleepingcomputer.com/news/security/n-able-releases-security-hotfixes-for-zero-day-vulnerabilities/" rel="noopener noreferrer nofollow">BleepingComputer</a> · 11 Nov</p>
+        <h3>Apache HTTP Server patches critical HTTP/2 remote code execution flaw</h3>
+        <p>BleepingComputer reports that the Apache HTTP Server project has patched a critical vulnerability in its HTTP/2 module that an unauthenticated attacker could exploit for remote code execution. Administrators running Apache with HTTP/2 enabled should apply the update.</p>
+        <p class="where"><a href="https://www.bleepingcomputer.com/news/security/apache-http-server-patches-critical-http-2-remote-code-execution-flaw/" rel="noopener noreferrer nofollow">BleepingComputer</a> · 12 Nov</p>
+      </li>
+      <li>
+        <span class="tag ok">Research</span>
+        <h3>Microsoft research details backdoors planted in AI coding agents after training</h3>
+        <p>The Microsoft Security Blog published research on post-training supply chain attacks, covering how dataset poisoning and model poisoning can implant persistent backdoors that make coding agents misuse tools. The post includes mitigation and protection guidance for securing agents beyond the model itself.</p>
+        <p class="where"><a href="https://www.microsoft.com/en-us/security/blog/2026/11/12/trained-to-betray-how-post-training-supply-chain-attacks-hijack-coding-agents/" rel="noopener noreferrer nofollow">Microsoft Security Blog</a> · 12 Nov</p>
       </li>
     </ol>
     <p class="ai-line">AI-generated summaries by Claude Opus 5.5 of the linked sources</p>
@@ -904,28 +1199,16 @@ Affected releases of mod_h2 from GitHub: from 2.0.8 through 2.0.42.</p>
   <section class="block" id="radar" aria-labelledby="h-radar">
     <div class="section-head"><h2 id="h-radar">Also on the radar</h2><span>Lower-ranked, links only</span></div>
     <ul class="radar">
-      <li><a href="https://unit42.paloaltonetworks.com/falcon-c2-browser-compromise/" rel="noopener noreferrer nofollow">Unit 42 uncovers Falcon C2, a browser-based framework reportedly targeting governments</a><span class="where">Unit 42</span></li>
-      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-116633" rel="noopener noreferrer nofollow">Lenovo tablet and System Update flaws allow local privilege escalation</a><span class="where">NVD · CVE-2026-116633, CVE-2026-77873, CVE-2026-77882</span></li>
-      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-126785" rel="noopener noreferrer nofollow">TR-VISION HOME IOCTL handler flaw enables local privilege escalation via driver</a><span class="where">NVD · CVE-2026-126785</span></li>
-      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-18768" rel="noopener noreferrer nofollow">TcRouter.sys IOCTL flaws let local low-privileged users access physical memory</a><span class="where">NVD · CVE-2026-18768, CVE-2026-18769</span></li>
-      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-124737" rel="noopener noreferrer nofollow">BusyBox TFTP client and httpd flaws allow heap and stack buffer overflows</a><span class="where">NVD · CVE-2026-124737, CVE-2026-124739</span></li>
-      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-126795" rel="noopener noreferrer nofollow">ToolJet onboarding endpoint lacks authentication; public exploit disclosed</a><span class="where">NVD · CVE-2026-126795</span></li>
-      <li><a href="https://www.bleepingcomputer.com/news/security/ebpf-rootkits-why-underground-actors-are-taking-notice/" rel="noopener noreferrer nofollow">Flare reports eBPF rootkit source code and tutorials spreading in underground forums</a><span class="where">BleepingComputer</span></li>
-      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-126780" rel="noopener noreferrer nofollow">Webmin through 2.670 privilege escalation flaws allow root command execution</a><span class="where">NVD · CVE-2026-126780, CVE-2026-126781</span></li>
-      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-123747" rel="noopener noreferrer nofollow">pappl-retrofit path traversal allows unauthenticated file upload and deletion</a><span class="where">NVD · CVE-2026-123747</span></li>
-      <li><a href="https://unit42.paloaltonetworks.com/artex-and-ai-powered-red-teaming-tools/" rel="noopener noreferrer nofollow">Unit 42 reports attacker use of AI-powered red team tools</a><span class="where">Unit 42</span></li>
-      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-126777" rel="noopener noreferrer nofollow">Traccar LDAP login accepts empty passwords, enabling admin sessions via unauthenticated bind</a><span class="where">NVD · CVE-2026-126777</span></li>
-      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-126768" rel="noopener noreferrer nofollow">OpsTree REMS authentication bypass and missing auth on governance API expose credentials</a><span class="where">NVD · CVE-2026-126768, CVE-2026-126769</span></li>
-      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-126797" rel="noopener noreferrer nofollow">NextScan ns-admin hardcoded keys and credentials allow unauthenticated admin access</a><span class="where">NVD · CVE-2026-126797, CVE-2026-126802</span></li>
-      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-126812" rel="noopener noreferrer nofollow">blueprintUE Docker defaults allow root database login and anonymous storage exhaustion</a><span class="where">NVD · CVE-2026-126812, CVE-2026-126659</span></li>
-      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-126804" rel="noopener noreferrer nofollow">WWBN AVideo flaws allow auth bypass, file deletion, stored XSS and unauthorized imports</a><span class="where">NVD · CVE-2026-126804, CVE-2026-126805, CVE-2026-126806</span></li>
+      <li><a href="https://isc.sans.edu/diary/rss/33514" rel="noopener noreferrer nofollow">GPUStack authentication bypass CVE-2026-102895 sees exploit attempts</a><span class="where">SANS ISC · CVE-2026-102895</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-127111" rel="noopener noreferrer nofollow">SOGo password recovery and TOTP brute-force flaws CVE-2026-127111, CVE-2026-127131</a><span class="where">NVD · CVE-2026-127111, CVE-2026-127131</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-127029" rel="noopener noreferrer nofollow">FreeRADIUS EAP-SIM stack buffer overflow CVE-2026-127029 crashes service</a><span class="where">NVD · CVE-2026-127029</span></li>
     </ul>
   </section>
 
   <details class="status">
     <summary>Collection status: 22 of 22 sources returned data</summary>
-    <ul><li><span class="">BleepingComputer</span> <span class="muted">ok 8</span></li><li><span class="">Bluesky</span> <span class="muted">ok 0</span></li><li><span class="">CISA Advisories</span> <span class="muted">ok 0</span></li><li><span class="">CISA KEV</span> <span class="muted">ok 0</span></li><li><span class="">Cisco Talos</span> <span class="muted">ok 0</span></li><li><span class="">EPSS</span> <span class="muted">ok 93</span></li><li><span class="">Hacker News</span> <span class="muted">ok 10</span></li><li><span class="">Huntress</span> <span class="muted">ok 1</span></li><li><span class="">Krebs on Security</span> <span class="muted">ok 1</span></li><li><span class="">Mastodon</span> <span class="muted">ok 3</span></li><li><span class="">Microsoft Security Blog</span> <span class="muted">ok 2</span></li><li><span class="">MSRC Security Update Guide</span> <span class="muted">ok 29</span></li><li><span class="">NVD</span> <span class="muted">ok 47</span></li><li><span class="">r/netsec</span> <span class="muted">ok 0</span></li><li><span class="">Rapid7</span> <span class="muted">ok 0</span></li><li><span class="">SANS ISC</span> <span class="muted">ok 2</span></li><li><span class="">SecurityWeek</span> <span class="muted">ok 1</span></li><li><span class="">SigmaHQ new rules</span> <span class="muted">ok 0</span></li><li><span class="">The DFIR Report</span> <span class="muted">ok 0</span></li><li><span class="">The Record</span> <span class="muted">ok 0</span></li><li><span class="">Unit 42</span> <span class="muted">ok 2</span></li><li><span class="">watchTowr Labs</span> <span class="muted">ok 0</span></li></ul>
-    <p>Data for this edition: <a href="editions/2026-11-12/edition.json">edition.json</a>. KQL parser: available.</p>
+    <ul><li><span class="">BleepingComputer</span> <span class="muted">ok 8</span></li><li><span class="">Bluesky</span> <span class="muted">ok 0</span></li><li><span class="">CISA Advisories</span> <span class="muted">ok 5</span></li><li><span class="">CISA KEV</span> <span class="muted">ok 0</span></li><li><span class="">Cisco Talos</span> <span class="muted">ok 1</span></li><li><span class="">EPSS</span> <span class="muted">ok 31</span></li><li><span class="">Hacker News</span> <span class="muted">ok 9</span></li><li><span class="">Huntress</span> <span class="muted">ok 1</span></li><li><span class="">Krebs on Security</span> <span class="muted">ok 0</span></li><li><span class="">Mastodon</span> <span class="muted">ok 0</span></li><li><span class="">Microsoft Security Blog</span> <span class="muted">ok 1</span></li><li><span class="">MSRC Security Update Guide</span> <span class="muted">ok 1</span></li><li><span class="">NVD</span> <span class="muted">ok 19</span></li><li><span class="">r/netsec</span> <span class="muted">ok 2</span></li><li><span class="">Rapid7</span> <span class="muted">ok 0</span></li><li><span class="">SANS ISC</span> <span class="muted">ok 3</span></li><li><span class="">SecurityWeek</span> <span class="muted">ok 0</span></li><li><span class="">SigmaHQ new rules</span> <span class="muted">ok 0</span></li><li><span class="">The DFIR Report</span> <span class="muted">ok 0</span></li><li><span class="">The Record</span> <span class="muted">ok 0</span></li><li><span class="">Unit 42</span> <span class="muted">ok 1</span></li><li><span class="">watchTowr Labs</span> <span class="muted">ok 0</span></li></ul>
+    <p>Data for this edition: <a href="editions/2026-11-13/edition.json">edition.json</a>. KQL parser: available.</p>
   </details>
 </main>
 
@@ -933,29 +1216,24 @@ Affected releases of mod_h2 from GitHub: from 2.0.8 through 2.0.42.</p>
   <section class="panel also">
     <h2>Also today</h2>
     <ol class="toc">
-      <li><b class="num crit">2</b><span><span class="tier crit">Exploited</span><a href="#story-2">Microsoft: multiple threat actors deploy GSocket for persistent C2 on compromised Linux servers</a></span></li>
-      <li><b class="num crit">3</b><span><span class="tier crit">Exploited</span><a href="#story-3">Notion says breach at AI provider Fireworks AI exposed Notion AI chat transcripts</a></span></li>
-      <li><b class="num crit">4</b><span><span class="tier crit">Exploited</span><a href="#story-4">Rogue ScreenConnect clients pushed to MSP customer endpoints in active campaign</a></span></li>
-      <li><b class="num crit">5</b><span><span class="tier crit">Exploited</span><a href="#story-5">Attackers run self-hosted AntiFox AI pentest agents on Alibaba Cloud to steal AWS credentials</a></span></li>
-      <li><b class="num crit">6</b><span><span class="tier crit">Exploited</span><a href="#story-6">Krebs links Qilin ransomware administrator &#39;Haise&#39; to a man in St. Petersburg, Russia</a></span></li>
-      <li><b class="num crit">7</b><span><span class="tier crit">Exploited</span><a href="#story-7">Maersk confirms data theft from inherited legacy system; WhiteArmor demands $5 million</a></span></li>
-      <li><b class="num crit">8</b><span><span class="tier crit">Exploited</span><a href="#story-8">Baker Tilly notifies clients of personal data exposure in breach at third-party provider</a></span></li>
-      <li><b class="num high">9</b><span><span class="tier high">High risk · PoC</span><a href="#story-9">Synology DSM updates fix ten flaws, including critical unauthenticated SQL injection with public PoC</a><span class="toc-warn"><b>1 public PoC repo.</b> Links only, not vetted. Public PoC repos are often fake or backdoored. Don't run them on a work machine.</span></span></li>
-      <li><b class="num watch">10</b><span><span class="tier watch">Watch</span><a href="#story-10">Microsoft revises 29 .NET, ASP.NET Core, Visual Studio and Aspire advisories; no technical changes</a></span></li>
+      <li><b class="num crit">2</b><span><span class="tier crit">Exploited · KEV · PoC</span><a href="#story-2">Critical Brotli decoder flaw <span class="nowrap">CVE-2026-111497</span> (Node2Shell) in KEV; Siemens and Microsoft issue advisories</a><span class="toc-warn"><b>3 public PoC repos.</b> Links only, not vetted. Public PoC repos are often fake or backdoored. Don't run them on a work machine.</span></span></li>
+      <li><b class="num crit">3</b><span><span class="tier crit">Exploited · KEV · PoC</span><a href="#story-3">PHP2Shell: two unauthenticated PHP runtime RCE flaws in CISA KEV, reaching PAN-OS and Siemens products</a><span class="toc-warn"><b>6 public PoC repos.</b> Links only, not vetted. Public PoC repos are often fake or backdoored. Don't run them on a work machine.</span></span></li>
+      <li><b class="num crit">4</b><span><span class="tier crit">Exploited</span><a href="#story-4">wfx-loot campaign used 4,837 compromised GitHub accounts to push secrets-stealing malware</a></span></li>
+      <li><b class="num high">5</b><span><span class="tier high">High risk · PoC</span><a href="#story-5">Researcher releases public SignDrop Windows zero-day exploit granting SYSTEM privileges</a></span></li>
+      <li><b class="num crit">6</b><span><span class="tier crit">Exploited</span><a href="#story-6">Macfinger ClickFix campaign delivers DownTheDRAIN infostealer to macOS users</a></span></li>
+      <li><b class="num crit">7</b><span><span class="tier crit">Exploited</span><a href="#story-7">Unit 42: attackers used open-source Cairn AI agent framework to breach semiconductor, defense and civil society targets</a></span></li>
+      <li><b class="num crit">8</b><span><span class="tier crit">Exploited</span><a href="#story-8">N-able N-central zero-day &#34;4EverAble2Shell&#34; exploited hours after PoC release to deploy cryptominers</a></span></li>
+      <li><b class="num crit">9</b><span><span class="tier crit">Exploited</span><a href="#story-9">Worm-like SCKit malware used in ScreenConnect attacks to spread from MSP customers to technicians</a></span></li>
+      <li><b class="num high">10</b><span><span class="tier high">High risk · PoC</span><a href="#story-10">Linksys EA8100 router flaws <span class="nowrap">CVE-2026-127275</span> and <span class="nowrap">CVE-2026-127277</span> disclosed with no vendor fix</a></span></li>
     </ol>
   </section>
   <section class="panel learn">
     <h2>Also in this edition</h2>
-<p><span class="k">Explainer</span><a href="#explainer">Legitimate remote access software as attacker persistence and C2</a></p><p><span class="k">Good news</span><a href="#good-news">2 wins for defenders</a></p>  </section>
-  <section class="panel">
-    <h2>Early signals</h2>
-    <p class="lede">Counted by code, not AI. Chatter is a lead, not confirmation.</p>
-    <div class="sig-row"><b>5</b><span><a href="#signals">CVE-2026-119618</a> · PoC</span></div>
-  </section>
+<p><span class="k">Explainer</span><a href="#explainer">Device code phishing: abusing the OAuth device authorization grant</a></p><p><span class="k">Good news</span><a href="#good-news">3 wins for defenders</a></p>  </section>
   <section class="panel">
     <h2>Collection</h2>
     <div class="meter"><svg class="bar" viewBox="0 0 100 6" preserveAspectRatio="none" aria-hidden="true"><rect class="track" width="100" height="6" rx="3"/><rect class="fill" width="100" height="6" rx="3"/></svg><span class="mono">22/22</span></div>
-    <p>Every source returned data. 106 items collected.</p>
+    <p>Every source returned data. 51 items collected.</p>
   </section>
   <section class="panel follow">
     <h2>Follow the brief</h2>
@@ -964,7 +1242,7 @@ Affected releases of mod_h2 from GitHub: from 2.0.8 through 2.0.42.</p>
   </section>
   <nav class="panel" aria-label="Other editions">
     <h2>Other editions</h2>
-<div class="kv"><span>Older</span><a href="editions/2026-11-11/">11 November 2026</a></div>  </nav>
+<div class="kv"><span>Older</span><a href="editions/2026-11-12/">12 November 2026</a></div>  </nav>
 </aside>
 </div>
 </div>
