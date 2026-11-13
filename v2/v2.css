@@ -1,0 +1,12 @@
+/* v2 prototype chooser */
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; background: #0C0C0E; color: #EDEDF0; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; line-height: 1.55; }
+.pick { max-width: 860px; margin: 0 auto; padding: clamp(40px, 8vw, 96px) 16px; display: flex; flex-direction: column; gap: 16px; }
+h1 { margin: 0; font-size: clamp(32px, 5vw, 52px); letter-spacing: -0.03em; line-height: 1.05; }
+p { margin: 0; color: #A0A0AB; }
+code { font-family: ui-monospace, Consolas, monospace; color: #EDEDF0; }
+.opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 14px; margin-top: 12px; }
+.opts a { display: flex; flex-direction: column; gap: 6px; padding: 20px; border-radius: 14px; border: 1px solid #26262C; background: #121215; color: #EDEDF0; text-decoration: none; }
+.opts a:hover { border-color: #A78BFA; }
+.opts b { font-size: 20px; }
+.opts span { color: #A0A0AB; font-size: 14px; }
