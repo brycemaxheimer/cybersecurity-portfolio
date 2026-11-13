@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>Daily Intel Brief</title><link>https://intel.brycemaxheimer.com/</link><description>Daily AI-generated threat-intel brief: top stories, new KEV entries, early signals and detections.</description><language>en-us</language><item><title>Daily Intel Brief: 2026-11-12</title><link>https://intel.brycemaxheimer.com/editions/2026-11-12/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-12/</guid><pubDate>Thu, 12 Nov 2026 18:13:15 +0000</pubDate><description>1. Microsoft November 2026 Patch Tuesday fixes 1,260 flaws, including exploited Outlook spoofing bug CVE-2026-124194
+<rss version="2.0"><channel><title>Daily Intel Brief</title><link>https://intel.brycemaxheimer.com/</link><description>Daily AI-generated threat-intel brief: top stories, new KEV entries, early signals and detections.</description><language>en-us</language><item><title>Daily Intel Brief: 2026-11-13</title><link>https://intel.brycemaxheimer.com/editions/2026-11-13/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-13/</guid><pubDate>Fri, 13 Nov 2026 17:46:25 +0000</pubDate><description>1. Huntress: Teams meeting-booking lure used to hide device code phishing
+2. Critical Brotli decoder flaw CVE-2026-111497 (Node2Shell) in KEV; Siemens and Microsoft issue advisories
+3. PHP2Shell: two unauthenticated PHP runtime RCE flaws in CISA KEV, reaching PAN-OS and Siemens products
+4. wfx-loot campaign used 4,837 compromised GitHub accounts to push secrets-stealing malware
+5. Researcher releases public SignDrop Windows zero-day exploit granting SYSTEM privileges
+6. Macfinger ClickFix campaign delivers DownTheDRAIN infostealer to macOS users
+7. Unit 42: attackers used open-source Cairn AI agent framework to breach semiconductor, defense and civil society targets
+8. N-able N-central zero-day "4EverAble2Shell" exploited hours after PoC release to deploy cryptominers
+9. Worm-like SCKit malware used in ScreenConnect attacks to spread from MSP customers to technicians
+10. Linksys EA8100 router flaws CVE-2026-127275 and CVE-2026-127277 disclosed with no vendor fix
+Explainer: Device code phishing: abusing the OAuth device authorization grant
+Good news: Europol-led operation seizes servers and domains of Gootloader, CastleRAT and StealC
+Good news: Apache HTTP Server patches critical HTTP/2 remote code execution flaw
+Good news: Microsoft research details backdoors planted in AI coding agents after training</description></item><item><title>Daily Intel Brief: 2026-11-12</title><link>https://intel.brycemaxheimer.com/editions/2026-11-12/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-12/</guid><pubDate>Thu, 12 Nov 2026 18:13:15 +0000</pubDate><description>1. Microsoft November 2026 Patch Tuesday fixes 1,260 flaws, including exploited Outlook spoofing bug CVE-2026-124194
 2. Microsoft: multiple threat actors deploy GSocket for persistent C2 on compromised Linux servers
 3. Notion says breach at AI provider Fireworks AI exposed Notion AI chat transcripts
 4. Rogue ScreenConnect clients pushed to MSP customer endpoints in active campaign

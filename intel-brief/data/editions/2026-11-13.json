@@ -1,0 +1,1677 @@
+{
+ "schema": 1,
+ "date": "2026-11-13",
+ "generated_at": "2026-11-13T17:46:25Z",
+ "generator": "intel-brief 0.1.0",
+ "models": {
+  "triage": "claude-haiku-5-5",
+  "writeup": "claude-opus-5-5",
+  "triage_method": "model"
+ },
+ "window": {
+  "since": "2026-11-12T05:00:00+00:00",
+  "until": "2026-11-13T05:00:00+00:00"
+ },
+ "stories": [
+  {
+   "id": "story-1",
+   "rank": 1,
+   "score": 81,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 18,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Huntress: Teams meeting-booking lure used to hide device code phishing",
+   "labels": {
+    "category": "campaign",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "widespread",
+    "platform": "m365_entra",
+    "vendor": "Microsoft",
+    "product": "Teams"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "Huntress reports that threat actors built a convincing Microsoft Teams meeting-booking flow to disguise device code phishing. The lure leads victims to complete a legitimate Microsoft device code sign-in, which authorizes the attacker's session and gives them access to the victim's account. The sources do not name the actor, the targeted sectors, the scale of the campaign or any indicators.",
+    "why_it_matters": "Device code phishing uses Microsoft's real sign-in pages, so URL reputation checks and user awareness of fake login pages often miss it. When it succeeds, the attacker receives tokens for the victim's Entra ID account, and MFA does not stop that. Huntress describes this as active use against victims. Any tenant that still allows the device code flow for ordinary users is exposed.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Block the device code authentication flow with a Conditional Access authentication flows policy, and allow it only for named accounts or devices that need it, such as meeting room or kiosk devices.",
+     "Review Entra ID sign-in logs for recent device code authentications by users who do not normally use them, especially sign-ins from unfamiliar IPs or countries.",
+     "For any suspected compromised account, revoke sessions and refresh tokens, reset credentials, and check for new mailbox rules, MFA methods and device registrations.",
+     "Tell users that an unexpected Teams or meeting-booking page asking them to enter a code at a Microsoft sign-in page is a phishing indicator, and give them a way to report it."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Crafty Microsoft Teams Booking Flow Disguises Device Code Phishing",
+     "url": "https://www.huntress.com/blog/crafty-microsoft-teams-booking-flow-disguises-device-code-phishing",
+     "source": "Huntress",
+     "kind": "news",
+     "published": "2026-11-12T14:00:00Z"
+    }
+   ],
+   "detection": {
+    "type": "behavioral",
+    "sigma": {
+     "origin": "ai",
+     "title": "Entra ID Sign-In Using Device Code Authentication Flow",
+     "url": null,
+     "yaml": "title: Entra ID Sign-In Using Device Code Authentication Flow\nid: 02d9ef5d-b771-5919-8a74-e3a78053a02f\nstatus: experimental\ndescription: Detects successful Entra ID sign-ins that use the device code authentication flow. Device code phishing campaigns, including one Huntress reports hidden behind a Teams meeting-booking lure, abuse this flow to obtain tokens for victim accounts. AI-generated, untested.\nreferences:\n- https://www.huntress.com/blog/crafty-microsoft-teams-booking-flow-disguises-device-code-phishing\nauthor: intel-brief (AI-generated, untested)\ndate: '2026-11-13'\ntags:\n- attack.t1566\n- attack.t1528\nlogsource:\n  product: azure\n  service: signinlogs\ndetection:\n  selection_devicecode:\n    AuthenticationProtocol: deviceCode\n    ResultType|re: ^0$\n  condition: selection_devicecode\nfalsepositives:\n- Legitimate device code sign-ins from Teams Rooms, shared or kiosk devices, IoT or CLI tooling such as Azure CLI and PowerShell used by administrators\nlevel: medium\n",
+     "check": {
+      "status": "pass",
+      "messages": [
+       "No rule errors found.",
+       "No condition errors found.",
+       "No validation issues found.",
+       "Parsing Sigma rules",
+       "Checking Sigma rules"
+      ]
+     },
+     "conversions": {
+      "kql": {
+       "label": "Defender XDR / Sentinel KQL",
+       "query": null,
+       "error": "SigmaTransformationError: Unable to determine table name from rule.  The query table is determined in the following order of priority:\n  1) The value provided to processing pipeline's query_table parameter, if using a Python script.\n  2) If the query_table is already set in the pipeline state, such as from a custom user-defined pipeline if using sigma-cli.\n  3) If the rule's logsource category is "
+      },
+      "spl": {
+       "label": "Splunk SPL",
+       "query": "AuthenticationProtocol=\"deviceCode\"\n| regex ResultType=\"^0$\"",
+       "error": null
+      },
+      "elastic": {
+       "label": "Elastic (Lucene, ECS)",
+       "query": "AuthenticationProtocol:deviceCode AND ResultType:/^0$/",
+       "error": null
+      }
+     }
+    },
+    "hunting_steps": [
+     "Find successful device code sign-ins over the last 30 days and group them by user, application, IP address and location.",
+     "Exclude known legitimate users of the flow, such as meeting room accounts and admin tooling, and focus on regular end users.",
+     "For each remaining sign-in, check whether the user recently received a Teams meeting or booking-themed message, and whether the sign-in IP or location differs from their normal activity.",
+     "Review post-authentication activity for flagged accounts: mailbox rule creation, mail access, file downloads, new device registrations and MFA method changes.",
+     "Contain confirmed cases by revoking refresh tokens and disabling the account until it is remediated."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Successful device code sign-ins in Entra ID (Sentinel SigninLogs)",
+      "kql": "SigninLogs\n| where TimeGenerated > ago(30d)\n| where AuthenticationProtocol =~ \"deviceCode\"\n| where ResultType == \"0\"\n| project TimeGenerated, UserPrincipalName, AppDisplayName, IPAddress, Location, ClientAppUsed, UserAgent, ResourceDisplayName\n| order by TimeGenerated desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 0,
+        "hits": 0,
+        "tables": [
+         "SigninLogs"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Users with first-seen device code sign-ins in the last 7 days",
+      "kql": "SigninLogs\n| where TimeGenerated > ago(7d)\n| where AuthenticationProtocol =~ \"deviceCode\" and ResultType == \"0\"\n| summarize FirstSeen = min(TimeGenerated), IPs = make_set(IPAddress), Apps = make_set(AppDisplayName) by UserPrincipalName\n| join kind=leftanti (\n    SigninLogs\n    | where TimeGenerated between (ago(90d) .. ago(7d))\n    | where AuthenticationProtocol =~ \"deviceCode\"\n    | distinct UserPrincipalName\n) on UserPrincipalName\n| order by FirstSeen desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 0,
+        "hits": 0,
+        "tables": [
+         "SigninLogs"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-2",
+   "rank": 2,
+   "score": 74,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 18,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 10,
+    "cvss": 0,
+    "sources": 6,
+    "chatter": 0,
+    "in_kev": true,
+    "epss_max": 0.8264,
+    "cvss_max": 0
+   },
+   "title": "Critical Brotli decoder flaw CVE-2026-111497 (Node2Shell) in KEV; Siemens and Microsoft issue advisories",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "widespread",
+    "platform": "other",
+    "vendor": "Node.js",
+    "product": "Brotli decoder"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-111497",
+     "cvss": 9.2,
+     "severity": "CRITICAL",
+     "products": [
+      "google brotli",
+      "nodejs node.js",
+      "python-hyper brotlicffi",
+      "microsoft .net",
+      "debian debian linux"
+     ],
+     "epss": 0.82641,
+     "percentile": 0.99672,
+     "in_kev": true,
+     "kev_due": null,
+     "poc": [
+      {
+       "url": "https://github.com/assetnote/node2shell-scanner",
+       "name": "assetnote/node2shell-scanner",
+       "stars": 86,
+       "created": "2026-10-25"
+      },
+      {
+       "url": "https://github.com/dimasma0305/CVE-2026-111497-POC",
+       "name": "dimasma0305/CVE-2026-111497-POC",
+       "stars": 81,
+       "created": "2026-10-22"
+      },
+      {
+       "url": "https://github.com/trailofbits/brotli-checker",
+       "name": "trailofbits/brotli-checker",
+       "stars": 70,
+       "created": "2026-10-23"
+      }
+     ],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "CVE-2026-111497, nicknamed Node2Shell, is an out-of-bounds write in the Google Brotli decoder that a remote, unauthenticated attacker can trigger with a crafted compressed stream, causing memory disclosure, denial of service or possibly code execution. Siemens advisories republished by CISA say the Node.js project shipped fixes on 21 October 2026 and list affected Desigo CC, Gridscale X, RUGGEDCOM APE1808 (PAN-OS based) and Industrial Edge products. Microsoft has updated its guide with affected Windows versions and the November 2026 security updates. The CVE is in CISA KEV and the story is tagged as exploited in the wild, but none of the advisories describe the attacks.",
+    "why_it_matters": "Brotli is embedded in Node.js, .NET, Python bindings, Linux distributions and appliances such as PAN-OS, so any internet-facing service that decompresses attacker-supplied Brotli data may be reachable. The flaw is in KEV with no stated due date, public proof-of-concept code exists and EPSS is 82.6%, so treat patching as urgent. Severity figures differ: Siemens gives CVSS 9.8 and other scoring gives 9.2.",
+    "affected_versions": [
+     "Google Brotli 1.0.3 through 1.2.0",
+     "Windows versions listed by Microsoft (via .NET / Brotli component) prior to November 2026 security updates",
+     "Siemens Desigo CC family V8 and V9 (all versions)",
+     "Siemens Gridscale X DSA >= V5.3 < V5.4",
+     "Siemens Gridscale X PSS®E < V36.8.0",
+     "Siemens RUGGEDCOM APE1808 with Palo Alto Networks PAN-OS (all versions)",
+     "Siemens Cloud Connector Configurator < 1.24.3",
+     "Siemens Common Configurator on IEM and on Edge (all versions)",
+     "Siemens Data Flow Monitoring < 3.0.18",
+     "Siemens Databus Configurator < 4.0.1"
+    ],
+    "fixed_versions": [
+     "Google Brotli 1.0.10, 1.1.1 or 1.2.1",
+     "Node.js security releases of 21 October 2026",
+     "Microsoft November 2026 security updates (Windows and .NET)",
+     "Siemens Gridscale X DSA V5.4 or later",
+     "Siemens Gridscale X PSS®E V36.8.0 or later",
+     "RUGGEDCOM APE1808: corresponding fixed PAN-OS version per Palo Alto Networks"
+    ],
+    "recommended_actions": [
+     "Install the Microsoft November 2026 Windows and .NET security updates, prioritizing internet-facing servers.",
+     "Update Node.js runtimes to the 21 October 2026 security releases and update bundled or standalone Brotli libraries to 1.0.10, 1.1.1 or 1.2.1.",
+     "Upgrade PAN-OS on firewalls (including RUGGEDCOM APE1808) to the fixed release Palo Alto Networks specifies and apply its workarounds meanwhile.",
+     "Apply Siemens updates for Gridscale X and Industrial Edge apps, and Siemens' interim mitigations where no fix exists; restrict network access to OT management interfaces.",
+     "Hunt for Node.js and web worker processes spawning shells or unexpected crashes on exposed services."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Siemens Desigo, Gridscale",
+     "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-316-02",
+     "source": "CISA Advisories",
+     "kind": "advisory",
+     "published": "2026-11-12T12:00:00Z"
+    },
+    {
+     "title": "Siemens RUGGEDCOM APE1808",
+     "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-316-04",
+     "source": "CISA Advisories",
+     "kind": "advisory",
+     "published": "2026-11-12T12:00:00Z"
+    },
+    {
+     "title": "Siemens Industrial Edge Management",
+     "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-316-03",
+     "source": "CISA Advisories",
+     "kind": "advisory",
+     "published": "2026-11-12T12:00:00Z"
+    },
+    {
+     "title": "CVE-2026-111497 Google: CVE-2026-111497 Buffer overflow vulnerability in the Brotli decoder",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-111497",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-12T16:00:00Z"
+    }
+   ],
+   "detection": {
+    "type": "behavioral",
+    "sigma": {
+     "origin": "ai",
+     "title": "Shell or Script Interpreter Spawned by Node.js Process",
+     "url": null,
+     "yaml": "title: Shell or Script Interpreter Spawned by Node.js Process\nid: dc3c1cfd-68b2-5fb5-b027-e41af9919bea\nstatus: experimental\ndescription: Detects node.exe spawning command shells or script interpreters, a common sign of remote code execution in Node.js services such as exploitation of the Node2Shell Brotli flaw (CVE-2026-111497). AI-generated, untested.\nreferences:\n- https://www.cisa.gov/news-events/ics-advisories/icsa-26-316-02\n- https://www.cisa.gov/news-events/ics-advisories/icsa-26-316-04\n- https://www.cisa.gov/news-events/ics-advisories/icsa-26-316-03\n- https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-111497\nauthor: intel-brief (AI-generated, untested)\ndate: '2026-11-13'\ntags:\n- attack.t1190\n- attack.execution\n- attack.t1059\n- cve.2026-111497\nlogsource:\n  product: windows\n  category: process_creation\ndetection:\n  selection_parent:\n    ParentImage|endswith: \\node.exe\n  selection_child:\n    Image|endswith:\n    - \\cmd.exe\n    - \\powershell.exe\n    - \\pwsh.exe\n    - \\wscript.exe\n    - \\cscript.exe\n    - \\mshta.exe\n    - \\rundll32.exe\n    - \\certutil.exe\n    - \\bitsadmin.exe\n    - \\whoami.exe\n  filter_devtools:\n    CommandLine|contains:\n    - npm\n    - npx\n    - yarn\n    - git.exe\n    - node_modules\\.bin\n  condition: selection_parent and selection_child and not filter_devtools\nfalsepositives:\n- Developer workstations and build servers where Node.js tooling launches shells\n- Electron or Node-based applications that legitimately run scripts\nlevel: medium\n",
+     "check": {
+      "status": "pass",
+      "messages": [
+       "No rule errors found.",
+       "No condition errors found.",
+       "No validation issues found.",
+       "Parsing Sigma rules",
+       "Checking Sigma rules"
+      ]
+     },
+     "conversions": {
+      "kql": {
+       "label": "Defender XDR / Sentinel KQL",
+       "query": "DeviceProcessEvents\n| where InitiatingProcessFolderPath endswith \"\\\\node.exe\" and (FolderPath endswith \"\\\\cmd.exe\" or FolderPath endswith \"\\\\powershell.exe\" or FolderPath endswith \"\\\\pwsh.exe\" or FolderPath endswith \"\\\\wscript.exe\" or FolderPath endswith \"\\\\cscript.exe\" or FolderPath endswith \"\\\\mshta.exe\" or FolderPath endswith \"\\\\rundll32.exe\" or FolderPath endswith \"\\\\certutil.exe\" or FolderPath endswith \"\\\\bitsadmin.exe\" or FolderPath endswith \"\\\\whoami.exe\") and (not((ProcessCommandLine contains \"npm\" or ProcessCommandLine contains \"npx\" or ProcessCommandLine contains \"yarn\" or ProcessCommandLine contains \"git.exe\" or ProcessCommandLine contains \"node_modules\\\\.bin\")))",
+       "error": null,
+       "validation": {
+        "status": "pass",
+        "messages": []
+       },
+       "receipt": {
+        "engine": "ran",
+        "baseline": {
+         "events": 500,
+         "hits": 0,
+         "tables": [
+          "DeviceProcessEvents"
+         ]
+        },
+        "cases": {
+         "status": "pass",
+         "positive": 11,
+         "positive_fired": 11,
+         "negative": 6,
+         "negative_fired": 0,
+         "disagreements": [],
+         "skipped": 0
+        }
+       }
+      },
+      "spl": {
+       "label": "Splunk SPL",
+       "query": "ParentImage=\"*\\\\node.exe\" Image IN (\"*\\\\cmd.exe\", \"*\\\\powershell.exe\", \"*\\\\pwsh.exe\", \"*\\\\wscript.exe\", \"*\\\\cscript.exe\", \"*\\\\mshta.exe\", \"*\\\\rundll32.exe\", \"*\\\\certutil.exe\", \"*\\\\bitsadmin.exe\", \"*\\\\whoami.exe\") NOT (CommandLine IN (\"*npm*\", \"*npx*\", \"*yarn*\", \"*git.exe*\", \"*node_modules\\\\.bin*\"))",
+       "error": null
+      },
+      "elastic": {
+       "label": "Elastic (Lucene, ECS)",
+       "query": "process.parent.executable.caseless:*\\\\node.exe AND (process.executable.caseless:(*\\\\cmd.exe OR *\\\\powershell.exe OR *\\\\pwsh.exe OR *\\\\wscript.exe OR *\\\\cscript.exe OR *\\\\mshta.exe OR *\\\\rundll32.exe OR *\\\\certutil.exe OR *\\\\bitsadmin.exe OR *\\\\whoami.exe)) AND (NOT (process.command_line:(*npm* OR *npx* OR *yarn* OR *git.exe* OR *node_modules\\\\.bin*)))",
+       "error": null
+      }
+     }
+    },
+    "hunting_steps": [
+     "List devices exposed to CVE-2026-111497 using Defender vulnerability management and prioritize internet-facing ones.",
+     "Inventory Node.js runtimes and confirm they are on the 21 October 2026 releases or later.",
+     "Review node.exe, w3wp.exe and other web service processes for spawned shells or LOLBins since mid-October 2026.",
+     "Check exposed services for repeated crashes of node.exe or .NET worker processes, which may indicate failed exploitation attempts.",
+     "Confirm PAN-OS and Siemens appliance versions against vendor advisories, since these devices lack EDR coverage."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Devices vulnerable to CVE-2026-111497",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where CveId == \"CVE-2026-111497\" | summarize Software=make_set(SoftwareName), Versions=make_set(SoftwareVersion) by DeviceId, DeviceName, VulnerabilitySeverityLevel",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 0,
+        "hits": 0,
+        "tables": [
+         "DeviceTvmSoftwareVulnerabilities"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Node.js or IIS workers spawning shells or LOLBins",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where InitiatingProcessFileName in~ (\"node.exe\",\"w3wp.exe\") | where FileName in~ (\"cmd.exe\",\"powershell.exe\",\"pwsh.exe\",\"mshta.exe\",\"rundll32.exe\",\"certutil.exe\",\"bitsadmin.exe\",\"whoami.exe\",\"wscript.exe\",\"cscript.exe\") | where not(ProcessCommandLine has_any (\"npm\",\"npx\",\"yarn\")) | project Timestamp, DeviceName, InitiatingProcessFileName, InitiatingProcessCommandLine, FileName, ProcessCommandLine, AccountName",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Node.js runtime inventory by version",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(7d) | where FileName =~ \"node.exe\" | summarize LastSeen=max(Timestamp), Paths=make_set(FolderPath, 10) by DeviceName, ProcessVersionInfoProductVersion",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-3",
+   "rank": 3,
+   "score": 71,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 18,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 10,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": true,
+    "epss_max": 1.0,
+    "cvss_max": 0
+   },
+   "title": "PHP2Shell: two unauthenticated PHP runtime RCE flaws in CISA KEV, reaching PAN-OS and Siemens products",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "widespread",
+    "platform": "other",
+    "vendor": "PHP",
+    "product": "PHP"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-109618",
+     "cvss": 9.2,
+     "severity": "CRITICAL",
+     "products": [
+      "php php",
+      "siemens ruggedcom ape1808 firmware",
+      "paloaltonetworks pan-os",
+      "paloaltonetworks panorama virtual appliance",
+      "siemens blueplanet 360 nx3 m6 wm od iisx firmware"
+     ],
+     "epss": 0.99999,
+     "percentile": 0.99999,
+     "in_kev": true,
+     "kev_due": null,
+     "poc": [
+      {
+       "url": "https://github.com/ikow/php2shell-poc",
+       "name": "ikow/php2shell-poc",
+       "stars": 1965,
+       "created": "2026-10-21"
+      },
+      {
+       "url": "https://github.com/eness/php2shell-CVE-2026-109618-CVE-2026-109619-PoC",
+       "name": "eness/php2shell-CVE-2026-109618-CVE-2026-109619-PoC",
+       "stars": 1083,
+       "created": "2026-10-21"
+      },
+      {
+       "url": "https://github.com/assetnote/php2shell-scanner",
+       "name": "assetnote/php2shell-scanner",
+       "stars": 1003,
+       "created": "2026-10-22"
+      }
+     ],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-109619",
+     "cvss": null,
+     "severity": "",
+     "products": [],
+     "epss": 0.99999,
+     "percentile": 0.99999,
+     "in_kev": true,
+     "kev_due": null,
+     "poc": [
+      {
+       "url": "https://github.com/aarsaputra/php2shell",
+       "name": "aarsaputra/php2shell",
+       "stars": 146,
+       "created": "2026-10-23"
+      },
+      {
+       "url": "https://github.com/unlimit0118/CVE-2026-109619-php2shell-poc",
+       "name": "unlimit0118/CVE-2026-109619-php2shell-poc",
+       "stars": 6,
+       "created": "2026-10-21"
+      },
+      {
+       "url": "https://github.com/cozybear-dev/cve-2026-109619",
+       "name": "cozybear-dev/cve-2026-109619",
+       "stars": 4,
+       "created": "2026-10-21"
+      }
+     ],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "According to Siemens advisories republished by CISA on 12 November 2026, the PHP project and researchers disclosed two critical unauthenticated remote code execution flaws in the core PHP runtime on 21 October 2026, dubbed PHP2Shell (CVE-2026-109618 and CVE-2026-109619). The first involves request memory left uninitialized when PHP aborts on out-of-memory errors. The second involves global state that still points to freed request memory, which later requests can read. Both are listed in CISA KEV, and public proof-of-concept code exists. Downstream impact includes Palo Alto Networks PAN-OS, which runs on Siemens RUGGEDCOM APE1808, and many Siemens building automation and energy products.",
+    "why_it_matters": "Any internet-facing PHP application, and appliances that embed PHP such as PAN-OS firewalls and Panorama, may be open to unauthenticated code execution. Both CVEs are on CISA KEV, public exploit code exists, and EPSS is 99.999% for each, so expect broad scanning and exploitation. No KEV due date is given. Severity scores differ between sources: NVD gives CVE-2026-109618 a CVSS of 9.2, while the Siemens advisories rate both at CVSS 3.1 9.8.",
+    "affected_versions": [
+     "PHP core runtime (affected PHP versions not stated in the sources)",
+     "RUGGEDCOM APE1808 with Palo Alto Networks PAN-OS 10.2 All, 11.1 All, 11.2 All, 12.1 All, 12.2 All",
+     "Siemens AMIS TS all versions",
+     "Siemens blueplanet 360 NX3 M6 WM OD IISX and IISX - S all versions",
+     "Siemens Energy Engage V2.0SP9 and V3.1SP1 all versions",
+     "Siemens Local Monitoring bt-monitoring-vm versions before 20261103",
+     "Siemens Spectrum Power 3 (CVE-2026-109619 only), Spectrum Power 4, Spectrum Power 7, Spectrum Power TG all versions",
+     "Palo Alto Networks PAN-OS and Panorama virtual appliance (per NVD product list; specific versions not stated)"
+    ],
+    "fixed_versions": [
+     "Siemens Local Monitoring bt-monitoring-vm 20261103 or later",
+     "PAN-OS: upgrade to the corresponding fixed PAN-OS version per Palo Alto Networks guidance (specific version not stated)"
+    ],
+    "recommended_actions": [
+     "Inventory every internet-facing PHP application and appliance, including PAN-OS firewalls and Panorama, and apply PHP or vendor fixes immediately.",
+     "Apply the workarounds from Palo Alto Networks' PHP2Shell notices to PAN-OS devices until fixed builds are installed, and restrict management interface exposure to trusted networks.",
+     "For Siemens energy and building automation products without fixes, isolate them behind firewalls following Siemens operational guidelines, and track Siemens advisory updates.",
+     "Hunt for PHP worker processes spawning shells or download utilities, and for new script files in web roots, on Windows and Linux web servers.",
+     "Treat any confirmed compromise of an appliance as full device compromise. Rotate credentials and secrets stored on it, and review VPN and admin sessions."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Siemens RUGGEDCOM APE1808",
+     "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-316-05",
+     "source": "CISA Advisories",
+     "kind": "advisory",
+     "published": "2026-11-12T12:00:00Z"
+    },
+    {
+     "title": "Siemens Building Automation and Energy Products",
+     "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-316-01",
+     "source": "CISA Advisories",
+     "kind": "advisory",
+     "published": "2026-11-12T12:00:00Z"
+    }
+   ],
+   "detection": {
+    "type": "behavioral",
+    "sigma": {
+     "origin": "ai",
+     "title": "PHP Runtime Spawning Shell or LOLBin Child Process on Windows",
+     "url": null,
+     "yaml": "title: PHP Runtime Spawning Shell or LOLBin Child Process on Windows\nid: 449a50f5-498f-599b-a122-85da0f80170b\nstatus: experimental\ndescription: Detects PHP interpreter or CGI processes launching command shells, scripting engines or download utilities. This is a common outcome of remote code execution in PHP, such as the PHP2Shell flaws CVE-2026-109618 and CVE-2026-109619. AI-generated, untested.\nreferences:\n- https://www.cisa.gov/news-events/ics-advisories/icsa-26-316-05\n- https://www.cisa.gov/news-events/ics-advisories/icsa-26-316-01\nauthor: intel-brief (AI-generated, untested)\ndate: '2026-11-13'\ntags:\n- attack.t1190\n- attack.execution\n- attack.t1059\n- attack.persistence\n- attack.t1505.003\n- cve.2026-109618\n- cve.2026-109619\nlogsource:\n  product: windows\n  category: process_creation\ndetection:\n  selection_parent:\n    ParentImage|endswith:\n    - \\php-cgi.exe\n    - \\php.exe\n    - \\php-win.exe\n  selection_child:\n    Image|endswith:\n    - \\cmd.exe\n    - \\powershell.exe\n    - \\pwsh.exe\n    - \\certutil.exe\n    - \\bitsadmin.exe\n    - \\mshta.exe\n    - \\rundll32.exe\n    - \\regsvr32.exe\n    - \\whoami.exe\n    - \\curl.exe\n    - \\wscript.exe\n    - \\cscript.exe\n    - \\net.exe\n    - \\net1.exe\n  filter_composer:\n    ParentCommandLine|contains:\n    - composer.phar\n    - \\artisan\n  condition: selection_parent and selection_child and not filter_composer\nfalsepositives:\n- PHP applications or CLI scripts that legitimately call system commands, such as deployment, backup or framework tooling\nlevel: high\n",
+     "check": {
+      "status": "pass",
+      "messages": [
+       "No rule errors found.",
+       "No condition errors found.",
+       "No validation issues found.",
+       "Parsing Sigma rules",
+       "Checking Sigma rules"
+      ]
+     },
+     "conversions": {
+      "kql": {
+       "label": "Defender XDR / Sentinel KQL",
+       "query": "DeviceProcessEvents\n| where (InitiatingProcessFolderPath endswith \"\\\\php-cgi.exe\" or InitiatingProcessFolderPath endswith \"\\\\php.exe\" or InitiatingProcessFolderPath endswith \"\\\\php-win.exe\") and (FolderPath endswith \"\\\\cmd.exe\" or FolderPath endswith \"\\\\powershell.exe\" or FolderPath endswith \"\\\\pwsh.exe\" or FolderPath endswith \"\\\\certutil.exe\" or FolderPath endswith \"\\\\bitsadmin.exe\" or FolderPath endswith \"\\\\mshta.exe\" or FolderPath endswith \"\\\\rundll32.exe\" or FolderPath endswith \"\\\\regsvr32.exe\" or FolderPath endswith \"\\\\whoami.exe\" or FolderPath endswith \"\\\\curl.exe\" or FolderPath endswith \"\\\\wscript.exe\" or FolderPath endswith \"\\\\cscript.exe\" or FolderPath endswith \"\\\\net.exe\" or FolderPath endswith \"\\\\net1.exe\") and (not((InitiatingProcessCommandLine contains \"composer.phar\" or InitiatingProcessCommandLine contains \"\\\\artisan\")))",
+       "error": null,
+       "validation": {
+        "status": "pass",
+        "messages": []
+       },
+       "receipt": {
+        "engine": "ran",
+        "baseline": {
+         "events": 500,
+         "hits": 0,
+         "tables": [
+          "DeviceProcessEvents"
+         ]
+        },
+        "cases": {
+         "status": "pass",
+         "positive": 17,
+         "positive_fired": 17,
+         "negative": 6,
+         "negative_fired": 0,
+         "disagreements": [],
+         "skipped": 0
+        }
+       }
+      },
+      "spl": {
+       "label": "Splunk SPL",
+       "query": "ParentImage IN (\"*\\\\php-cgi.exe\", \"*\\\\php.exe\", \"*\\\\php-win.exe\") Image IN (\"*\\\\cmd.exe\", \"*\\\\powershell.exe\", \"*\\\\pwsh.exe\", \"*\\\\certutil.exe\", \"*\\\\bitsadmin.exe\", \"*\\\\mshta.exe\", \"*\\\\rundll32.exe\", \"*\\\\regsvr32.exe\", \"*\\\\whoami.exe\", \"*\\\\curl.exe\", \"*\\\\wscript.exe\", \"*\\\\cscript.exe\", \"*\\\\net.exe\", \"*\\\\net1.exe\") NOT (ParentCommandLine IN (\"*composer.phar*\", \"*\\\\artisan*\"))",
+       "error": null
+      },
+      "elastic": {
+       "label": "Elastic (Lucene, ECS)",
+       "query": "(process.parent.executable.caseless:(*\\\\php\\-cgi.exe OR *\\\\php.exe OR *\\\\php\\-win.exe)) AND (process.executable.caseless:(*\\\\cmd.exe OR *\\\\powershell.exe OR *\\\\pwsh.exe OR *\\\\certutil.exe OR *\\\\bitsadmin.exe OR *\\\\mshta.exe OR *\\\\rundll32.exe OR *\\\\regsvr32.exe OR *\\\\whoami.exe OR *\\\\curl.exe OR *\\\\wscript.exe OR *\\\\cscript.exe OR *\\\\net.exe OR *\\\\net1.exe)) AND (NOT (process.parent.command_line:(*composer.phar* OR *\\\\artisan*)))",
+       "error": null
+      }
+     }
+    },
+    "hunting_steps": [
+     "Use Defender Vulnerability Management to list devices exposed to CVE-2026-109618 or CVE-2026-109619, and inventory installed PHP versions.",
+     "Identify internet-facing PAN-OS, Panorama and Siemens devices from asset records, since these appliances are not visible in endpoint telemetry, and confirm their patch or workaround status.",
+     "Search process telemetry for PHP processes (php-cgi, php, php-fpm) spawning shells, scripting engines or download tools since 21 October 2026.",
+     "Look for new .php or script files written into web roots by PHP or web server processes, and review web server logs for bursts of failing or out-of-memory requests from single sources.",
+     "Check outbound connections initiated by PHP processes to unusual external hosts.",
+     "For any hit, isolate the host, collect web logs and memory, and rotate credentials accessible to the web application."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Devices exposed to PHP2Shell CVEs",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where CveId in ('CVE-2026-109618','CVE-2026-109619') | summarize Cves=make_set(CveId), Software=make_set(strcat(SoftwareName, ' ', SoftwareVersion)) by DeviceId, DeviceName",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 0,
+        "hits": 0,
+        "tables": [
+         "DeviceTvmSoftwareVulnerabilities"
+        ]
+       }
+      }
+     },
+     {
+      "title": "PHP processes spawning shells or LOLBins",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where InitiatingProcessFileName in~ ('php-cgi.exe','php.exe','php-win.exe','php-fpm','php','php-cgi') or InitiatingProcessFileName matches regex @'^php(-fpm|-cgi)?[0-9.]*$' | where FileName in~ ('cmd.exe','powershell.exe','pwsh.exe','certutil.exe','bitsadmin.exe','mshta.exe','rundll32.exe','regsvr32.exe','whoami.exe','curl.exe','sh','bash','dash','curl','wget','python','python3','perl','nc','ncat') | project Timestamp, DeviceName, AccountName, InitiatingProcessFileName, InitiatingProcessCommandLine, FileName, ProcessCommandLine | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Script files written to web roots by PHP or web server processes",
+      "kql": "DeviceFileEvents | where Timestamp > ago(30d) | where ActionType in ('FileCreated','FileModified') | where InitiatingProcessFileName in~ ('php-cgi.exe','php.exe','w3wp.exe','httpd.exe','nginx.exe','php-fpm','httpd','nginx','apache2') | where FileName endswith '.php' or FileName endswith '.phtml' or FileName endswith '.aspx' or FileName endswith '.jsp' | project Timestamp, DeviceName, InitiatingProcessFileName, FolderPath, FileName, SHA256 | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 150,
+        "hits": 0,
+        "tables": [
+         "DeviceFileEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-4",
+   "rank": 4,
+   "score": 69,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 18,
+    "platform": 8,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "wfx-loot campaign used 4,837 compromised GitHub accounts to push secrets-stealing malware",
+   "labels": {
+    "category": "campaign",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "widespread",
+    "platform": "cloud_saas",
+    "vendor": "GitHub",
+    "product": "GitHub"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "BleepingComputer reports a campaign it calls wfx-loot, in which attackers used 4,837 compromised GitHub accounts to probe 61,764 repositories, open pull requests and push malware built to steal secrets, with cloud credentials as the stated goal. The available reporting does not describe how the accounts were compromised, how the malware works, which repositories or organizations were affected, or any indicators of compromise.",
+    "why_it_matters": "Pull requests from accounts that look legitimate can bring malicious code into CI/CD pipelines and developer workstations, where cloud keys, tokens and repository secrets are often stored. The sources describe the activity as ongoing and widespread. Any organization that accepts outside pull requests or runs CI on them should treat exposed secrets as a live risk now.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Review recent pull requests and pushes to your GitHub organizations from unfamiliar or newly active contributors, and do not merge or run CI on them until they have been reviewed.",
+     "Require maintainer approval before workflows run on pull requests from forks or outside contributors, and limit workflow token permissions to read-only by default.",
+     "Rotate any cloud keys, GitHub tokens and repository or organization secrets that could have been exposed to untrusted pull request workflows or to developers who checked out suspicious branches.",
+     "Enforce phishing-resistant MFA and SSO for all GitHub organization members, and audit personal access tokens and OAuth app grants.",
+     "Enable GitHub secret scanning and push protection, and alert on use of cloud credentials from unexpected locations."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Hackers compromise 4,800 GitHub accounts to steal cloud credentials",
+     "url": "https://www.bleepingcomputer.com/news/security/hackers-compromise-4-800-github-accounts-to-steal-cloud-credentials/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-12T22:25:30Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Export GitHub organization audit logs for the last 30 days and list pull request, push and workflow events from accounts that are not regular contributors.",
+     "Identify workflow runs triggered by pull requests from forks or external accounts, and check whether those runs had access to secrets.",
+     "For any suspicious pull request, review the diff for added scripts, dependency changes, or workflow file edits that send environment variables or credentials elsewhere.",
+     "Correlate the timing of suspicious pull requests with cloud sign-ins or API activity that uses keys stored as repository or CI secrets.",
+     "Check for new personal access tokens, deploy keys, OAuth app authorizations or member additions in the GitHub organization during the same period."
+    ],
+    "hunting_queries": [
+     {
+      "title": "GitHub pull request, workflow and secret activity by account",
+      "kql": "CloudAppEvents\n| where Timestamp > ago(30d)\n| where Application has \"GitHub\"\n| where ActionType has_any (\"pull_request\", \"workflow\", \"secret\", \"push\")\n| summarize Events = count(), Actions = make_set(ActionType, 20), Objects = make_set(ObjectName, 50), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by AccountDisplayName, AccountObjectId\n| order by Events desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 30,
+        "hits": 0,
+        "tables": [
+         "CloudAppEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "GitHub token, key and member changes in the last 30 days",
+      "kql": "CloudAppEvents\n| where Timestamp > ago(30d)\n| where Application has \"GitHub\"\n| where ActionType has_any (\"personal_access_token\", \"oauth\", \"deploy_key\", \"add_member\", \"public_key\")\n| project Timestamp, AccountDisplayName, ActionType, ObjectName, IPAddress, CountryCode, UserAgent\n| order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 30,
+        "hits": 0,
+        "tables": [
+         "CloudAppEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-5",
+   "rank": 5,
+   "score": 66,
+   "factors": {
+    "exploitation": 18,
+    "prevalence": 25,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Researcher releases public SignDrop Windows zero-day exploit granting SYSTEM privileges",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "public_poc",
+    "prevalence": "ubiquitous",
+    "platform": "windows",
+    "vendor": "Microsoft",
+    "product": "Windows"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "BleepingComputer reported on 12 November 2026 that security researcher Abdelhamid Naceri, also known as Nightmare Eclipse, has publicly released a Windows zero-day exploit named SignDrop. According to the report, the exploit lets an attacker raise their privileges to SYSTEM. The available reporting does not name a CVE, list affected Windows versions, describe the vulnerable component, or mention a Microsoft patch or workaround.",
+    "why_it_matters": "A working local privilege escalation to SYSTEM on Windows is useful to any attacker who already has a foothold, such as through phishing, stolen credentials or a compromised edge device, on workstations and servers. The exploit is public and no fix has been reported, so commodity and ransomware operators can adopt it quickly. Treat it as unpatched until Microsoft issues guidance.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Watch for a Microsoft advisory or out-of-band update for SignDrop and deploy it as soon as one is released.",
+     "Hunt for processes running as SYSTEM, especially shells and script hosts, that were launched by processes running under a standard user account.",
+     "Keep Defender for Endpoint and antivirus signatures current and confirm tamper protection and attack surface reduction rules are enabled, since vendors often add detections for public exploits quickly.",
+     "Cut down local footholds by enforcing application control (WDAC or AppLocker) on high-value hosts and by limiting who can run arbitrary binaries from user-writable paths.",
+     "Prioritize EDR alert triage on hosts with recent initial-access signals, where an attacker would be most likely to use a privilege escalation exploit."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "New Windows SignDrop zero-day gives hackers SYSTEM privileges",
+     "url": "https://www.bleepingcomputer.com/news/security/new-windows-signdrop-zero-day-gives-hackers-system-privileges/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-12T16:04:00Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Find SYSTEM-context processes whose initiating process ran under a non-SYSTEM user account. This is the typical result of a local privilege escalation.",
+     "Review SYSTEM shells and script hosts (cmd, PowerShell, rundll32, mshta) whose parents are not normal service hosts, installers or management agents.",
+     "Look for unsigned or newly created executables in user-writable folders such as Downloads, Temp and AppData that ran just before a SYSTEM process appeared on the same host.",
+     "Allowlist known software deployment and management tools, then investigate the remaining hosts and correlate with sign-in and initial-access alerts.",
+     "Update these hunts once Microsoft or researchers publish technical details on the vulnerable component or the exploit's artifacts."
+    ],
+    "hunting_queries": [
+     {
+      "title": "SYSTEM processes launched by non-SYSTEM user-context parents",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(14d) | where AccountSid == \"S-1-5-18\" | where isnotempty(InitiatingProcessAccountSid) and InitiatingProcessAccountSid !in (\"S-1-5-18\", \"S-1-5-19\", \"S-1-5-20\") | where InitiatingProcessFileName !in~ (\"services.exe\", \"svchost.exe\", \"msiexec.exe\", \"consent.exe\") | summarize Count = count(), Hosts = dcount(DeviceId), SampleCmd = any(ProcessCommandLine) by FileName, InitiatingProcessFileName, InitiatingProcessFolderPath | order by Hosts asc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "SYSTEM shells with unusual parent processes",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(14d) | where AccountSid == \"S-1-5-18\" | where FileName in~ (\"cmd.exe\", \"powershell.exe\", \"pwsh.exe\", \"rundll32.exe\", \"mshta.exe\", \"wscript.exe\", \"cscript.exe\") | where InitiatingProcessFolderPath has_any (\"\\\\Users\\\\\", \"\\\\Temp\\\\\", \"\\\\ProgramData\\\\\") | project Timestamp, DeviceName, FileName, ProcessCommandLine, InitiatingProcessFileName, InitiatingProcessFolderPath, InitiatingProcessAccountName, InitiatingProcessSHA256 | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-6",
+   "rank": 6,
+   "score": 51,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Macfinger ClickFix campaign delivers DownTheDRAIN infostealer to macOS users",
+   "labels": {
+    "category": "malware",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "other",
+    "vendor": "",
+    "product": "macOS"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "SANS ISC reports that the Macfinger ClickFix campaign is using fake CAPTCHA pages to trick macOS users into pasting a command into Terminal. That command retrieves a bash script, which installs an infostealer that SANS ISC has named DownTheDRAIN. The name comes from a DRAIN function described in earlier Huntress analysis, which identifies cryptocurrency wallet addresses and can redirect their contents to an attacker-controlled wallet. SANS ISC observed an infection on 11 November 2026 and published network and file indicators on 13 November 2026.",
+    "why_it_matters": "Any managed Mac in your fleet is exposed if a user browses to a compromised or malicious page and follows the fake CAPTCHA instructions. Because the user runs the command, there is no vulnerability or patch involved, and the stealer can take credentials, browser data and crypto wallets. SANS ISC notes that built-in macOS protection on version 26.7.3 blocked its sample, but only after the malware had already sent several HTTP POST requests to its server.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Block the published infrastructure at the proxy, DNS and firewall layers: the domain quill-kraee-um2gf.pro and the IP addresses 45.150.32.130 and 171.22.131.24 (including port 8133).",
+     "Hunt Defender for Endpoint macOS telemetry for the published hashes and for connections to these indicators, then isolate any matching device.",
+     "On any Mac with signs of execution, reset the user's passwords, revoke Entra ID sessions and tokens, and treat browser-stored credentials and crypto wallets as compromised.",
+     "Alert on Terminal shells on macOS that launch curl or wget against bare IP addresses.",
+     "Tell users that a legitimate CAPTCHA never asks them to paste commands into Terminal, Run dialogs or PowerShell."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Macfinger ClickFix campaign sends DownTheDRAIN infostealer for macOS, (Fri, Nov 13th)",
+     "url": "https://isc.sans.edu/diary/rss/33518",
+     "source": "SANS ISC",
+     "kind": "news",
+     "published": "2026-11-13T03:41:41Z"
+    }
+   ],
+   "detection": {
+    "type": "behavioral",
+    "sigma": {
+     "origin": "ai",
+     "title": "macOS Shell Spawning Curl or Wget to a Bare IP Address",
+     "url": null,
+     "yaml": "title: macOS Shell Spawning Curl or Wget to a Bare IP Address\nid: a4040562-5ea2-5139-929f-b66b0d43ddd1\nstatus: experimental\ndescription: Detects bash, zsh or sh on macOS launching curl or wget against a URL that uses a raw IP address. This matches ClickFix-style commands such as the Macfinger campaign's, which fetch an installer script for the DownTheDRAIN infostealer. AI-generated, untested.\nreferences:\n- https://isc.sans.edu/diary/rss/33518\nauthor: intel-brief (AI-generated, untested)\ndate: '2026-11-13'\ntags:\n- attack.execution\n- attack.t1204.004\n- attack.t1059.004\n- attack.t1105\nlogsource:\n  product: macos\n  category: process_creation\ndetection:\n  selection_parent:\n    ParentImage|endswith:\n    - /bash\n    - /zsh\n    - /sh\n  selection_tool:\n    Image|endswith:\n    - /curl\n    - /wget\n  selection_ip_url:\n    CommandLine|re: https?://\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\n  filter_private:\n    CommandLine|re: https?://(127\\.|10\\.|192\\.168\\.|172\\.(1[6-9]|2[0-9]|3[01])\\.)\n  condition: all of selection_* and not filter_private\nfalsepositives:\n- Developers or administrators fetching scripts from internal or lab servers addressed by public IP\n- Management or deployment scripts that download from IP-addressed endpoints\nlevel: medium\n",
+     "check": {
+      "status": "pass",
+      "messages": [
+       "No rule errors found.",
+       "No condition errors found.",
+       "No validation issues found.",
+       "Parsing Sigma rules",
+       "Checking Sigma rules"
+      ]
+     },
+     "conversions": {
+      "kql": {
+       "label": "Defender XDR / Sentinel KQL",
+       "query": "DeviceProcessEvents\n| where ((InitiatingProcessFolderPath endswith \"/bash\" or InitiatingProcessFolderPath endswith \"/zsh\" or InitiatingProcessFolderPath endswith \"/sh\") and (FolderPath endswith \"/curl\" or FolderPath endswith \"/wget\") and ProcessCommandLine matches regex \"https?://\\\\d{1,3}\\\\.\\\\d{1,3}\\\\.\\\\d{1,3}\\\\.\\\\d{1,3}\") and (not(ProcessCommandLine matches regex \"https?://(127\\\\.|10\\\\.|192\\\\.168\\\\.|172\\\\.(1[6-9]|2[0-9]|3[01])\\\\.)\"))",
+       "error": null,
+       "validation": {
+        "status": "pass",
+        "messages": []
+       },
+       "receipt": {
+        "engine": "ran",
+        "baseline": {
+         "events": 500,
+         "hits": 0,
+         "tables": [
+          "DeviceProcessEvents"
+         ]
+        },
+        "cases": {
+         "status": "pass",
+         "positive": 4,
+         "positive_fired": 4,
+         "negative": 7,
+         "negative_fired": 0,
+         "disagreements": [],
+         "skipped": 0
+        }
+       }
+      },
+      "spl": {
+       "label": "Splunk SPL",
+       "query": "ParentImage IN (\"*/bash\", \"*/zsh\", \"*/sh\") Image IN (\"*/curl\", \"*/wget\")\n| regex CommandLine=\"https?://\\\\d{1,3}\\\\.\\\\d{1,3}\\\\.\\\\d{1,3}\\\\.\\\\d{1,3}\"\n| regex CommandLine!=\"https?://(127\\\\.|10\\\\.|192\\\\.168\\\\.|172\\\\.(1[6-9]|2[0-9]|3[01])\\\\.)\"",
+       "error": null
+      },
+      "elastic": {
+       "label": "Elastic (Lucene, ECS)",
+       "query": "((ParentImage:(*\\/bash OR *\\/zsh OR *\\/sh)) AND (Image:(*\\/curl OR *\\/wget)) AND CommandLine:/https?:\\/\\/\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}/) AND (NOT CommandLine:/https?:\\/\\/(127\\.|10\\.|192\\.168\\.|172\\.(1[6-9]|2[0-9]|3[01])\\.)/)",
+       "error": null
+      }
+     }
+    },
+    "hunting_steps": [
+     "Search network telemetry for connections to 45.150.32.130, 171.22.131.24 (port 8133) and the domain quill-kraee-um2gf.pro over the last 30 days.",
+     "Search file and process events for the SHA-256 hashes SANS ISC published for the installer script and the large follow-on payload.",
+     "On macOS devices, look for bash, zsh or sh spawning curl or wget against bare IP addresses, especially shortly after browser activity.",
+     "For any hit, review subsequent outbound HTTP POST traffic from the device and check the user's recent Entra ID sign-ins for unfamiliar locations or token reuse.",
+     "Isolate confirmed devices, collect artifacts, and reset the affected user's credentials and sessions."
+    ],
+    "hunting_queries": [
+     {
+      "title": "DownTheDRAIN file hashes seen on devices",
+      "kql": "DeviceFileEvents | where Timestamp > ago(30d) | where SHA256 in (\"58e503cc2e6aacc6bdba54f40a7edebf7a5362bef0a9039769baaba8c472c4db\", \"8b5026d841aa93758ec3cb55c276f84d3ec1cf459810e0d9aa5624e2776f2fcd\") | project Timestamp, DeviceName, ActionType, FolderPath, FileName, SHA256, InitiatingProcessCommandLine",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 150,
+        "hits": 0,
+        "tables": [
+         "DeviceFileEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "macOS shells launching curl or wget to bare IP URLs",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(14d) | where FileName in~ (\"curl\", \"wget\") | where InitiatingProcessFileName in~ (\"bash\", \"zsh\", \"sh\") | where ProcessCommandLine matches regex @\"https?://\\d{1,3}(\\.\\d{1,3}){3}\" | join kind=inner (DeviceInfo | where Timestamp > ago(14d) | where OSPlatform == \"macOS\" | distinct DeviceId) on DeviceId | project Timestamp, DeviceName, AccountName, InitiatingProcessCommandLine, ProcessCommandLine",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 560,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents",
+         "DeviceInfo"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": [
+     "Dropped a hunting query with indicators not found in any source: 171.22.131.24, 45.150.32.130"
+    ]
+   }
+  },
+  {
+   "id": "story-7",
+   "rank": 7,
+   "score": 51,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Unit 42: attackers used open-source Cairn AI agent framework to breach semiconductor, defense and civil society targets",
+   "labels": {
+    "category": "campaign",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "other",
+    "vendor": "Palo Alto Networks",
+    "product": "Cairn AI agent framework"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "Palo Alto Networks Unit 42 published an analysis on 12 November 2026 describing attackers using the open-source Cairn AI agent framework to carry out intrusions autonomously. According to Unit 42, the targets were in the semiconductor, defense and civil society sectors. The available summary does not describe initial access methods, exploited vulnerabilities, tooling behavior, indicators or attribution.",
+    "why_it_matters": "Unit 42 reports this activity as confirmed in the wild. AI-driven intrusion tooling can speed up reconnaissance and exploitation, which shortens the time between exposure and compromise for internet-facing edge devices and cloud identities. Organizations in the named sectors should treat the full report as priority reading. The summary alone does not give defenders specific behaviors or indicators to search for.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Obtain the full Unit 42 report and extract any published indicators, TTPs and targeted technologies for your threat intel platform and Sentinel watchlists.",
+     "If you operate in the semiconductor, defense or civil society sectors, review recent alerts on edge devices and Entra ID sign-ins for automated, high-velocity reconnaissance or exploitation patterns.",
+     "Confirm internet-facing VPNs, firewalls and gateways are fully patched, since automated attack tooling shortens the time to exploit known vulnerabilities.",
+     "Inventory whether AI agent frameworks such as Cairn are installed or run in your environment, and confirm any such use is sanctioned."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Attackers Use Autonomous AI to Target Semiconductor, Defense and Civil Society Sectors",
+     "url": "https://unit42.paloaltonetworks.com/cairn-framework-ai-autonomous-attacks/",
+     "source": "Unit 42",
+     "kind": "news",
+     "published": "2026-11-12T15:00:31Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-8",
+   "rank": 8,
+   "score": 47,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 4,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "N-able N-central zero-day \"4EverAble2Shell\" exploited hours after PoC release to deploy cryptominers",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "niche",
+    "platform": "other",
+    "vendor": "N-able",
+    "product": "N-central"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "BleepingComputer reports that attackers began exploiting a newly disclosed N-able N-central zero-day, dubbed \"4EverAble2Shell\", within hours of public proof-of-concept code appearing. They are using it to compromise N-central servers and install cryptocurrency miners. Researchers cited by BleepingComputer count at least 21 compromised systems, 19 of which were running N-able's latest security update. No CVE identifier, affected version range or fix has been published in the available reporting.",
+    "why_it_matters": "N-central is a remote monitoring and management platform, so a compromised server can give attackers a path to push commands to every managed Windows endpoint and server. Exploitation is confirmed and public PoC code exists. Most of the known victims were fully patched, so updating alone does not appear to protect against this flaw yet. Even if the current payload is a miner, organizations or MSPs running internet-facing N-central should treat this as urgent.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Restrict internet access to N-central server management interfaces, for example with VPN-only access or IP allowlisting, until N-able releases a fix or mitigation guidance; the sources say even patched servers were compromised.",
+     "Inspect N-central servers for signs of compromise: unexpected processes, high sustained CPU use, new scheduled tasks or cron entries, and outbound connections to mining pools.",
+     "Review recent N-central activity for unexpected scripts, jobs or software deployments pushed to managed endpoints, and audit N-central administrator accounts.",
+     "If compromise is suspected, rotate N-central administrator credentials and any credentials or API keys stored in the platform.",
+     "Monitor N-able advisories for a CVE assignment, a patch and official indicators of compromise, then apply them as soon as they are available."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "New N-able \"4EverAble2Shell\" zero-day exploited hours after PoC released",
+     "url": "https://www.bleepingcomputer.com/news/security/new-n-able-4everable2shell-zero-day-exploited-hours-after-poc-released/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-12T19:51:16Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Identify all N-central servers and N-able agent installations in your environment and confirm which servers are reachable from the internet.",
+     "On N-central servers, check for cryptominer processes, unusual CPU load and outbound connections to mining pools since PoC code was released around 12 November 2026.",
+     "On managed endpoints, look for processes launched by the N-able agent that run unexpected scripts, download tools or start miner binaries.",
+     "Hunt across the fleet for miner command-line traits such as stratum pool URLs or XMRig-style options, then correlate any hits with recent N-central activity.",
+     "Escalate any confirmed hit as a potential RMM compromise and scope every endpoint managed by the affected server."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Devices running N-able / N-central components",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(7d) | where FolderPath has_any (\"N-able\", \"N-central\") or InitiatingProcessFolderPath has_any (\"N-able\", \"N-central\") | summarize LastSeen = max(Timestamp), Processes = make_set(FileName, 20) by DeviceName",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Cryptominer command-line traits across the fleet",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(14d) | where ProcessCommandLine has_any (\"stratum+tcp\", \"stratum+ssl\", \"--donate-level\", \"xmrig\", \"--coin\") or FileName =~ \"xmrig.exe\" | project Timestamp, DeviceName, AccountName, FileName, ProcessCommandLine, InitiatingProcessFileName, InitiatingProcessFolderPath",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Script or download activity spawned by N-able agent processes",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(14d) | where InitiatingProcessFolderPath has \"N-able\" | where FileName in~ (\"powershell.exe\", \"pwsh.exe\", \"cmd.exe\", \"certutil.exe\", \"bitsadmin.exe\", \"curl.exe\", \"mshta.exe\") | where ProcessCommandLine has_any (\"http\", \"DownloadString\", \"DownloadFile\", \"Invoke-WebRequest\", \"-enc\", \"urlcache\") | project Timestamp, DeviceName, InitiatingProcessFileName, FileName, ProcessCommandLine",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-9",
+   "rank": 9,
+   "score": 47,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 4,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Worm-like SCKit malware used in ScreenConnect attacks to spread from MSP customers to technicians",
+   "labels": {
+    "category": "malware",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "niche",
+    "platform": "other",
+    "vendor": "",
+    "product": "ScreenConnect"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "BleepingComputer reports that a new malware toolkit called SCKit was deployed in recent attacks abusing ConnectWise ScreenConnect against managed service providers. According to the report, the toolkit behaves like a worm. It is built to spread from infected customer devices back to MSP technicians' computers, and from there to further managed networks. The available reporting does not name the initial access vector, any CVE, affected versions or indicators of compromise.",
+    "why_it_matters": "An MSP's remote-management tool reaches into many customer networks at once, so one compromised technician workstation can expose every client that technician manages. Exploitation is described as active. Anyone who uses ScreenConnect or relies on an MSP that does should treat sessions between customer endpoints and technician machines as a possible propagation path.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Confirm with your MSP, or your own ScreenConnect administrators, whether the instance was affected by the recent ScreenConnect attacks. Make sure the server is on the latest vendor-supported release.",
+     "Review processes spawned by ScreenConnect client services on endpoints and technician workstations. Look for scripting engines, downloads and new executables that do not match approved administrative activity.",
+     "Isolate MSP technician workstations from routine browsing and email use, and require MFA on all ScreenConnect accounts.",
+     "Audit ScreenConnect installations across the estate and remove unauthorized or unexpected instances.",
+     "Watch vendor and researcher reporting for SCKit indicators, and hunt for them once they are published."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "New worm-like 'SCKit' malware targets MSPs in ScreenConnect attacks",
+     "url": "https://www.bleepingcomputer.com/news/security/new-worm-like-sckit-malware-targets-msps-in-screenconnect-attacks/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-12T22:53:10Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Inventory every device running ScreenConnect client components and identify which ones are MSP technician workstations.",
+     "Review child processes of ScreenConnect client services from the past 30 days, focusing on cmd, PowerShell, script hosts and LOLBins.",
+     "Look for executables, DLLs or scripts written to disk by ScreenConnect processes, especially on technician machines.",
+     "Correlate suspicious activity on a customer endpoint with ScreenConnect sessions to technician workstations around the same time.",
+     "Escalate any unexplained activity to the MSP and request their incident findings for the ScreenConnect attacks."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Shells and script hosts spawned by ScreenConnect client",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where InitiatingProcessFileName startswith \"ScreenConnect\" | where FileName in~ (\"cmd.exe\",\"powershell.exe\",\"pwsh.exe\",\"wscript.exe\",\"cscript.exe\",\"mshta.exe\",\"rundll32.exe\",\"regsvr32.exe\",\"certutil.exe\",\"bitsadmin.exe\",\"curl.exe\") | summarize Count=count(), Devices=dcount(DeviceName), SampleCmd=any(ProcessCommandLine) by FileName, InitiatingProcessFileName | order by Count desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Executable or script files written by ScreenConnect processes",
+      "kql": "DeviceFileEvents | where Timestamp > ago(30d) | where InitiatingProcessFileName startswith \"ScreenConnect\" | where ActionType == \"FileCreated\" | where FileName endswith \".exe\" or FileName endswith \".dll\" or FileName endswith \".ps1\" or FileName endswith \".bat\" or FileName endswith \".vbs\" | project Timestamp, DeviceName, FolderPath, FileName, SHA256, InitiatingProcessFileName",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 150,
+        "hits": 0,
+        "tables": [
+         "DeviceFileEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Devices running ScreenConnect client components",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(14d) | where FileName startswith \"ScreenConnect\" | summarize LastSeen=max(Timestamp), Paths=make_set(FolderPath, 5) by DeviceName, FileName | order by DeviceName asc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-10",
+   "rank": 10,
+   "score": 47,
+   "factors": {
+    "exploitation": 18,
+    "prevalence": 4,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 5,
+    "sources": 0,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0075,
+    "cvss_max": 9.3
+   },
+   "title": "Linksys EA8100 router flaws CVE-2026-127275 and CVE-2026-127277 disclosed with no vendor fix",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "public_poc",
+    "prevalence": "niche",
+    "platform": "edge_device",
+    "vendor": "Linksys",
+    "product": "EA8100"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-127275",
+     "cvss": 9.3,
+     "severity": "CRITICAL",
+     "products": [],
+     "epss": 0.00754,
+     "percentile": 0.55656,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-127277",
+     "cvss": 9.3,
+     "severity": "CRITICAL",
+     "products": [],
+     "epss": 0.00561,
+     "percentile": 0.47207,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "NVD published two critical flaws (CVSS 9.3) in Linksys EA8100 firmware 1.0.3.216940 on 13 November 2026. According to NVD, CVE-2026-127275 is a missing-authentication bug in the JNAP API's SetRemoteSetting and SetUnsecuredWiFiWarning functions, and CVE-2026-127277 is an improper-initialization flaw in the router's SMB service tied to its anonymous-access setting. Both can be triggered remotely. NVD says exploit details have been made public and that Linksys did not respond when contacted, though the public proof-of-concept tracking used for this brief does not yet confirm a public exploit.",
+    "why_it_matters": "These are consumer or small-office routers, so the main exposure is branch offices, remote workers' home networks, and shadow IT where an EA8100 might expose remote management or open SMB access. Neither CVE is in CISA KEV and EPSS scores are low (0.8% and 0.6%), but public exploit details and no vendor patch mean affected units stay vulnerable until they are replaced or reconfigured.",
+    "affected_versions": [
+     "Linksys EA8100 firmware 1.0.3.216940"
+    ],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory Linksys EA8100 routers on corporate, branch and remote-worker networks, and plan to replace any found because no vendor fix is stated.",
+     "Disable remote management on affected routers and ensure the JNAP and web management interfaces are not reachable from the internet.",
+     "Disable the router's SMB file-sharing service, or at least anonymous access, and block SMB from the WAN side.",
+     "Keep corporate endpoints behind such routers on VPN with host firewalls blocking inbound SMB, and treat home networks as untrusted.",
+     "Watch Linksys support channels for a firmware update, since the vendor has not responded so far."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "CVE-2026-127275 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-127275",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-13T00:20:14.083Z"
+    },
+    {
+     "title": "CVE-2026-127277 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-127277",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-13T02:18:54.520Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Check Defender vulnerability management for any devices flagged with CVE-2026-127275 or CVE-2026-127277.",
+     "Use Defender device discovery inventory to find network devices reported with vendor Linksys or model EA8100.",
+     "Review external attack surface or perimeter scans for internet-exposed Linksys management interfaces or SMB on office IP ranges.",
+     "For any EA8100 found, confirm the firmware version and whether remote management and SMB sharing are enabled, then remediate or replace."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Devices flagged for the Linksys EA8100 CVEs in Defender TVM",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where CveId in (\"CVE-2026-127275\", \"CVE-2026-127277\") | project DeviceId, DeviceName, SoftwareVendor, SoftwareName, SoftwareVersion, CveId, VulnerabilitySeverityLevel",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 0,
+        "hits": 0,
+        "tables": [
+         "DeviceTvmSoftwareVulnerabilities"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Discovered Linksys or EA8100 network devices",
+      "kql": "DeviceInfo | where Timestamp > ago(30d) | where Vendor has \"Linksys\" or Model has \"EA8100\" | summarize LastSeen = max(Timestamp) by DeviceId, DeviceName, Vendor, Model, DeviceType, OSVersion",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 60,
+        "hits": 0,
+        "tables": [
+         "DeviceInfo"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  }
+ ],
+ "more_stories": [
+  {
+   "title": "GPUStack authentication bypass CVE-2026-102895 sees exploit attempts",
+   "score": 47,
+   "cves": [
+    "CVE-2026-102895"
+   ],
+   "sources": [
+    {
+     "title": "Exploit Attempts for GPUStack Authentication Bypass (CVE-2026-102895), (Thu, Nov 12th)",
+     "url": "https://isc.sans.edu/diary/rss/33514",
+     "source": "SANS ISC"
+    }
+   ]
+  },
+  {
+   "title": "SOGo password recovery and TOTP brute-force flaws CVE-2026-127111, CVE-2026-127131",
+   "score": 9,
+   "cves": [
+    "CVE-2026-127111",
+    "CVE-2026-127131"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-127111 (CRITICAL 9.1)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-127111",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-127131 (CRITICAL 9.1)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-127131",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "FreeRADIUS EAP-SIM stack buffer overflow CVE-2026-127029 crashes service",
+   "score": 4,
+   "cves": [
+    "CVE-2026-127029"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-127029 (HIGH 7.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-127029",
+     "source": "NVD"
+    }
+   ]
+  }
+ ],
+ "kev_new": [],
+ "early_signals": [],
+ "explainer": {
+  "concept": "Device code phishing: abusing the OAuth device authorization grant",
+  "dek": "Device code phishing tricks a user into entering an attacker-generated code on Microsoft's real sign-in page, which hands the attacker valid tokens for the user's account, MFA included.",
+  "why_today": "Huntress describes attackers dressing up device code phishing as a Microsoft Teams meeting-booking flow, so victims complete a genuine Microsoft sign-in that authorizes the attacker's session. Knowing how the flow works shows why the usual phishing advice (check the URL, use MFA) does not stop it, and which controls and logs do.",
+  "related_story_ids": [
+   "story-1"
+  ],
+  "parts": [
+   {
+    "heading": "How the device code flow is meant to work",
+    "paragraphs": [
+     "The OAuth 2.0 device authorization grant, standardized in RFC 8628, exists for devices that cannot easily show a browser or take a password: smart TVs, printers, command-line tools. The device asks the identity provider for a device code and a short user code, then tells the user to visit a verification page on another device and type the user code in. In Microsoft Entra ID that page is Microsoft's own device login page.",
+     "While the user signs in on that page, including any MFA prompt, the original device keeps polling the token endpoint. Once the user finishes, the token endpoint issues an access token and a refresh token to whoever holds the device code. The codes are short-lived; Microsoft documents a lifetime of about 15 minutes."
+    ]
+   },
+   {
+    "heading": "How attackers turn it into phishing",
+    "paragraphs": [
+     "The weakness is that the party who starts the flow and the person who approves it do not have to be the same, and the approval page does not reliably show the user which device or person they are authorizing. An attacker starts the flow from their own infrastructure, usually with the client ID of a legitimate Microsoft first-party public app, and gets a user code. They pass that code to the victim with a pretext such as joining a meeting, verifying an identity or, in this case, completing a Teams booking.",
+     "The victim goes to a real Microsoft domain, sees a real Microsoft page, enters the code and approves MFA. Nothing about the URL looks wrong, because nothing is wrong with it. The tokens go to the attacker's polling client. The short code lifetime is why these campaigns rely on live, interactive lures: the victim has to act within minutes of the attacker generating the code."
+    ]
+   },
+   {
+    "heading": "What the attacker gains",
+    "paragraphs": [
+     "The attacker holds a refresh token as well as an access token, so access lasts well beyond the original session and survives the victim closing their browser. Depending on the client ID used, the refresh token can often be exchanged for tokens to other Microsoft resources such as Exchange Online, SharePoint, Teams or Microsoft Graph, giving mail, file and directory access. Changing the user's password does not on its own invalidate every issued refresh token; sessions have to be revoked explicitly. Security researchers have also shown the technique being extended to register attacker devices in Entra ID, which can make access more persistent."
+    ]
+   },
+   {
+    "heading": "What it looks like in telemetry",
+    "paragraphs": [
+     "In Entra ID sign-in logs, device code sign-ins are labeled with an authentication protocol of device code. In Microsoft Sentinel you can filter SigninLogs on the AuthenticationProtocol column for deviceCode, and the Defender XDR advanced hunting sign-in tables carry similar fields. Most users never use this flow, so any device code sign-in for an ordinary office worker, rather than an admin running a CLI tool, deserves a look.",
+     "Follow-up activity usually shows up as non-interactive sign-ins (AADNonInteractiveUserSignInLogs in Sentinel) as the attacker redeems the refresh token, often from hosting-provider or VPN IP addresses and from client apps the user does not normally use. Look for a device code sign-in followed shortly by mailbox access, inbox rule creation, Graph API activity or new device registrations for that account."
+    ]
+   },
+   {
+    "heading": "How to prevent it",
+    "paragraphs": [
+     "The most effective control is a Conditional Access policy using the authentication flows condition to block device code flow for everyone, with narrow exclusions only for users, devices or locations that genuinely need it, such as meeting-room devices or specific admin workstations. Microsoft recommends blocking device code flow wherever it is not required. Pair this with user awareness that is specific: a real colleague or meeting service will never ask you to type a code into the Microsoft device login page."
+    ]
+   }
+  ],
+  "takeaways": [
+   "Create a Conditional Access policy that blocks the device code authentication flow for all users, run it in report-only mode first to find legitimate use, then enforce it with narrowly scoped exclusions.",
+   "Hunt the last 30 days of SigninLogs for AuthenticationProtocol equal to deviceCode and review every account that is not a known admin or shared device, especially sign-ins followed by non-interactive token use from unfamiliar IP addresses.",
+   "When a device code compromise is confirmed, revoke the user's sessions and refresh tokens, not just the password, and check for newly registered devices, inbox rules and app consents on the account.",
+   "Alert on device code sign-ins for high-value users such as executives, finance staff and admins, and on new device registrations that follow a device code sign-in.",
+   "Update phishing awareness material to state that entering a code on the Microsoft device login page at someone else's request grants them access, even though the site is genuine."
+  ],
+  "unsupported_cves": [],
+  "model": "claude-opus-5-5"
+ },
+ "good_news": [
+  {
+   "headline": "Europol-led operation seizes servers and domains of Gootloader, CastleRAT and StealC",
+   "summary": "BleepingComputer reports that Europol and law enforcement partners from nine countries seized hundreds of servers and domains used by the Gootloader, CastleRAT and StealC malware operations. The action targets infrastructure behind a malware loader, a remote access trojan and an infostealer.",
+   "kind": "takedown",
+   "sources": [
+    {
+     "title": "Police dismantle Gootloader, CastleRAT, StealC malware infrastructure",
+     "url": "https://www.bleepingcomputer.com/news/security/police-dismantles-gootloader-castlerat-stealc-malware-infrastructure/",
+     "source": "BleepingComputer",
+     "published": "2026-11-12T15:07:20Z"
+    }
+   ],
+   "unsupported_cves": [],
+   "model": "claude-opus-5-5"
+  },
+  {
+   "headline": "Apache HTTP Server patches critical HTTP/2 remote code execution flaw",
+   "summary": "BleepingComputer reports that the Apache HTTP Server project has patched a critical vulnerability in its HTTP/2 module that an unauthenticated attacker could exploit for remote code execution. Administrators running Apache with HTTP/2 enabled should apply the update.",
+   "kind": "fix_shipped",
+   "sources": [
+    {
+     "title": "Apache HTTP Server patches critical HTTP/2 remote code execution flaw",
+     "url": "https://www.bleepingcomputer.com/news/security/apache-http-server-patches-critical-http-2-remote-code-execution-flaw/",
+     "source": "BleepingComputer",
+     "published": "2026-11-12T19:12:55Z"
+    }
+   ],
+   "unsupported_cves": [],
+   "model": "claude-opus-5-5"
+  },
+  {
+   "headline": "Microsoft research details backdoors planted in AI coding agents after training",
+   "summary": "The Microsoft Security Blog published research on post-training supply chain attacks, covering how dataset poisoning and model poisoning can implant persistent backdoors that make coding agents misuse tools. The post includes mitigation and protection guidance for securing agents beyond the model itself.",
+   "kind": "research",
+   "sources": [
+    {
+     "title": "Trained to betray: How post-training supply chain attacks hijack coding agents",
+     "url": "https://www.microsoft.com/en-us/security/blog/2026/11/12/trained-to-betray-how-post-training-supply-chain-attacks-hijack-coding-agents/",
+     "source": "Microsoft Security Blog",
+     "published": "2026-11-12T17:00:00Z"
+    }
+   ],
+   "unsupported_cves": [],
+   "model": "claude-opus-5-5"
+  }
+ ],
+ "explainer_status": "ok",
+ "sources_status": {
+  "CISA KEV": "ok 0",
+  "NVD": "ok 19",
+  "BleepingComputer": "ok 8",
+  "The Record": "ok 0",
+  "The DFIR Report": "ok 0",
+  "Cisco Talos": "ok 1",
+  "Unit 42": "ok 1",
+  "Microsoft Security Blog": "ok 1",
+  "SANS ISC": "ok 3",
+  "Huntress": "ok 1",
+  "watchTowr Labs": "ok 0",
+  "Rapid7": "ok 0",
+  "SecurityWeek": "ok 0",
+  "Krebs on Security": "ok 0",
+  "CISA Advisories": "ok 5",
+  "MSRC Security Update Guide": "ok 1",
+  "Bluesky": "ok 0",
+  "Mastodon": "ok 0",
+  "r/netsec": "ok 2",
+  "Hacker News": "ok 9",
+  "SigmaHQ new rules": "ok 0",
+  "EPSS": "ok 31"
+ },
+ "stats": {
+  "items": {
+   "news": 15,
+   "advisory": 6,
+   "kev": 0,
+   "nvd": 19,
+   "social": 11,
+   "sigma": 0
+  },
+  "stories_found": 16,
+  "kql_parser": "available",
+  "receipts": {
+   "status": "ran",
+   "engine": "Kusto emulator 1.0.9810.23682",
+   "baseline_events": 1338,
+   "baseline_seed": 20261110
+  }
+ }
+}
