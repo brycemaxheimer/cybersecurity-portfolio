@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>Daily Intel Brief</title><link>https://intel.brycemaxheimer.com/</link><description>Daily AI-generated threat-intel brief: top stories, new KEV entries, early signals and detections.</description><language>en-us</language><item><title>Daily Intel Brief: 2026-11-13</title><link>https://intel.brycemaxheimer.com/editions/2026-11-13/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-13/</guid><pubDate>Fri, 13 Nov 2026 17:46:25 +0000</pubDate><description>1. Huntress: Teams meeting-booking lure used to hide device code phishing
+<rss version="2.0"><channel><title>Daily Intel Brief</title><link>https://intel.brycemaxheimer.com/</link><description>Daily AI-generated threat-intel brief: top stories, new KEV entries, early signals and detections.</description><language>en-us</language><item><title>Daily Intel Brief: 2026-11-14</title><link>https://intel.brycemaxheimer.com/editions/2026-11-14/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-14/</guid><pubDate>Sat, 14 Nov 2026 16:37:24 +0000</pubDate><description>1. Check Point issues emergency hotfixes for Gaia local root flaw exploited since late October
+2. SCKit worm spreads through hijacked cloud-hosted ScreenConnect instances at MSPs
+3. Check Point Security Gateways targeted in PHP2Shell attacks that deployed an ESXi wiper
+4. CISA adds exploited UnrealIRCd and Check Point vulnerabilities to KEV, due 16 November 2026
+5. Apify says intruder accessed customer accounts and data
+6. FBI warns Artex AI pentest framework is chaining intrusions to privileged access in under three hours
+7. City of Osaka warns of data breach affecting about 1 million residents
+8. University of Texas at Arlington confirms personal information was stolen in a cyberattack
+9. Microsoft adds Office to update tables for Windows graphics kernel, codec, Win32k and NTLM flaws
+10. Microsoft confirms November 2026 Windows updates cause printing and activation failures
+New KEV entries: CVE-2026-114713, CVE-2026-123039
+Explainer: Unauthenticated local IPC: when a privileged daemon trusts any caller
+Good news: Operation Endgame seizes Gootloader, CastleRAT and StealC infrastructure
+Good news: Police arrest 354 suspects tied to five dark web marketplaces
+Good news: Citrix patches 10 critical NetScaler vulnerabilities</description></item><item><title>Daily Intel Brief: 2026-11-13</title><link>https://intel.brycemaxheimer.com/editions/2026-11-13/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-13/</guid><pubDate>Fri, 13 Nov 2026 17:46:25 +0000</pubDate><description>1. Huntress: Teams meeting-booking lure used to hide device code phishing
 2. Critical Brotli decoder flaw CVE-2026-111497 (Node2Shell) in KEV; Siemens and Microsoft issue advisories
 3. PHP2Shell: two unauthenticated PHP runtime RCE flaws in CISA KEV, reaching PAN-OS and Siemens products
 4. wfx-loot campaign used 4,837 compromised GitHub accounts to push secrets-stealing malware
