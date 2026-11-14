@@ -12,6 +12,86 @@
  "language": "en-US",
  "items": [
   {
+   "id": "https://intel.brycemaxheimer.com/editions/2026-11-14/",
+   "url": "https://intel.brycemaxheimer.com/editions/2026-11-14/",
+   "title": "Daily Intel Brief: 2026-11-14",
+   "content_text": "1. Check Point issues emergency hotfixes for Gaia local root flaw exploited since late October\n2. SCKit worm spreads through hijacked cloud-hosted ScreenConnect instances at MSPs\n3. Check Point Security Gateways targeted in PHP2Shell attacks that deployed an ESXi wiper\n4. CISA adds exploited UnrealIRCd and Check Point vulnerabilities to KEV, due 16 November 2026\n5. Apify says intruder accessed customer accounts and data\n6. FBI warns Artex AI pentest framework is chaining intrusions to privileged access in under three hours\n7. City of Osaka warns of data breach affecting about 1 million residents\n8. University of Texas at Arlington confirms personal information was stolen in a cyberattack\n9. Microsoft adds Office to update tables for Windows graphics kernel, codec, Win32k and NTLM flaws\n10. Microsoft confirms November 2026 Windows updates cause printing and activation failures\nNew KEV entries: CVE-2026-114713, CVE-2026-123039\nExplainer: Unauthenticated local IPC: when a privileged daemon trusts any caller\nGood news: Operation Endgame seizes Gootloader, CastleRAT and StealC infrastructure\nGood news: Police arrest 354 suspects tied to five dark web marketplaces\nGood news: Citrix patches 10 critical NetScaler vulnerabilities",
+   "date_published": "2026-11-14T16:37:24Z",
+   "_intel_brief": {
+    "data": "https://intel.brycemaxheimer.com/editions/2026-11-14/edition.json",
+    "stories": [
+     {
+      "title": "Check Point issues emergency hotfixes for Gaia local root flaw exploited since late October",
+      "cves": [
+       "CVE-2026-123039"
+      ],
+      "score": 95
+     },
+     {
+      "title": "SCKit worm spreads through hijacked cloud-hosted ScreenConnect instances at MSPs",
+      "cves": [],
+      "score": 84
+     },
+     {
+      "title": "Check Point Security Gateways targeted in PHP2Shell attacks that deployed an ESXi wiper",
+      "cves": [],
+      "score": 81
+     },
+     {
+      "title": "CISA adds exploited UnrealIRCd and Check Point vulnerabilities to KEV, due 16 November 2026",
+      "cves": [
+       "CVE-2026-114713",
+       "CVE-2026-123039"
+      ],
+      "score": 69
+     },
+     {
+      "title": "Apify says intruder accessed customer accounts and data",
+      "cves": [],
+      "score": 55
+     },
+     {
+      "title": "FBI warns Artex AI pentest framework is chaining intrusions to privileged access in under three hours",
+      "cves": [],
+      "score": 54
+     },
+     {
+      "title": "City of Osaka warns of data breach affecting about 1 million residents",
+      "cves": [],
+      "score": 51
+     },
+     {
+      "title": "University of Texas at Arlington confirms personal information was stolen in a cyberattack",
+      "cves": [],
+      "score": 51
+     },
+     {
+      "title": "Microsoft adds Office to update tables for Windows graphics kernel, codec, Win32k and NTLM flaws",
+      "cves": [
+       "CVE-2026-95922",
+       "CVE-2026-95942",
+       "CVE-2026-95953",
+       "CVE-2026-96126",
+       "CVE-2026-96144",
+       "CVE-2026-96150"
+      ],
+      "score": 48
+     },
+     {
+      "title": "Microsoft confirms November 2026 Windows updates cause printing and activation failures",
+      "cves": [],
+      "score": 48
+     }
+    ],
+    "explainer": "Unauthenticated local IPC: when a privileged daemon trusts any caller",
+    "good_news": [
+     "Operation Endgame seizes Gootloader, CastleRAT and StealC infrastructure",
+     "Police arrest 354 suspects tied to five dark web marketplaces",
+     "Citrix patches 10 critical NetScaler vulnerabilities"
+    ]
+   }
+  },
+  {
    "id": "https://intel.brycemaxheimer.com/editions/2026-11-13/",
    "url": "https://intel.brycemaxheimer.com/editions/2026-11-13/",
    "title": "Daily Intel Brief: 2026-11-13",
