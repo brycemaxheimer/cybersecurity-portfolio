@@ -1,0 +1,638 @@
+{
+ "schema": 1,
+ "date": "2026-11-15",
+ "generated_at": "2026-11-15T16:59:32Z",
+ "generator": "intel-brief 0.1.0",
+ "models": {
+  "triage": "claude-haiku-5-5",
+  "writeup": "claude-opus-5-5",
+  "triage_method": "model"
+ },
+ "window": {
+  "since": "2026-11-14T05:00:00+00:00",
+  "until": "2026-11-15T05:00:00+00:00"
+ },
+ "stories": [
+  {
+   "id": "story-1",
+   "rank": 1,
+   "score": 51,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "US government disrupts North Korean 'FaceStealer' social engineering campaign tied to $400M crypto theft",
+   "labels": {
+    "category": "campaign",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "other",
+    "vendor": "",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "BleepingComputer reported on 14 November 2026 that the U.S. government has disrupted a North Korean social engineering campaign it calls FaceStealer. The campaign is credited with stealing more than $400 million in cryptocurrency. The available reporting does not describe the lure techniques, malware, infrastructure, targeted sectors or the disruption actions taken.",
+    "why_it_matters": "North Korean crypto theft campaigns typically rely on social engineering of individual employees, so organizations with cryptocurrency, fintech or developer staff may face the same tradecraft through personal and corporate channels. The sources provide no indicators, CVEs or technical details, so there is nothing specific to hunt for yet. The disruption may also cause the operators to shift infrastructure rather than stop.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Watch for the official U.S. government announcement or advisory on FaceStealer and ingest any published indicators into Defender XDR and Sentinel watchlists.",
+     "Brief staff who handle cryptocurrency wallets, treasury functions or software development on unsolicited recruiter, investor or partner outreach that pushes them to install tools or join unfamiliar video calls.",
+     "Confirm that users cannot run unsigned or newly downloaded executables and scripts without review on endpoints that hold wallet keys or signing credentials.",
+     "Require phishing-resistant MFA and out-of-band approval for cryptocurrency transfers and changes to payment or wallet details."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "US disrupts North Korean campaign behind $400 million crypto theft",
+     "url": "https://www.bleepingcomputer.com/news/security/us-disrupts-north-korean-campaign-behind-400-million-crypto-theft/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-14T15:15:49Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-2",
+   "rank": 2,
+   "score": 47,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 4,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Cursor confirms breach used to push a malicious Claude Code extension through its marketplace",
+   "labels": {
+    "category": "breach",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "niche",
+    "platform": "other",
+    "vendor": "Cursor",
+    "product": "Cursor"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "According to BleepingComputer, Cursor has confirmed a security breach that let attackers distribute a malicious Claude Code extension through its extension marketplace. BleepingComputer reports the attackers got in using credentials stolen from AI infrastructure provider Fireworks AI. The report was published on 14 November 2026. The available reporting does not name the extension, describe its payload, give a distribution window, or list indicators.",
+    "why_it_matters": "Developer workstations running the Cursor IDE may have installed a trusted-looking extension that runs code with the developer's privileges. That puts source code, API keys, cloud tokens and Microsoft 365 or Entra sessions on those machines at risk. Exploitation is confirmed, but the scope is unclear, so inventory and hunting are the main defenses until Cursor publishes details.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory endpoints running the Cursor IDE and review the Claude Code-related extensions installed or updated on them, removing any that Cursor identifies as malicious once it names them.",
+     "On developer machines that installed or updated Claude Code extensions in Cursor during the incident window, rotate the secrets present there: API keys, cloud credentials, Git tokens and session tokens.",
+     "Hunt for Cursor spawning shells, script interpreters or unusual outbound network connections on developer endpoints.",
+     "Restrict or allowlist IDE extensions on managed developer workstations, and watch for vendor guidance from Cursor and Fireworks AI.",
+     "Review Entra ID sign-ins and token activity for users of affected machines for anomalous locations or new devices."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Cursor confirms security breach led to malicious Claude Code extension",
+     "url": "https://www.bleepingcomputer.com/news/security/cursor-confirms-security-breach-led-to-malicious-claude-code-extension/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-14T17:27:25Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Identify devices where Cursor.exe has run recently, to scope the exposed population.",
+     "List extension files written under the .cursor extensions directory in the last 30 days, focusing on Claude Code-related extension folders.",
+     "Review child processes of Cursor, especially shells, PowerShell and script interpreters with encoded or download-related command lines.",
+     "Review outbound connections from Cursor and its child processes to rare destinations.",
+     "For any suspicious device, collect the extension folder for analysis and start credential rotation for the user."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Devices running Cursor IDE",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where FileName =~ \"Cursor.exe\" | summarize LastSeen=max(Timestamp), Users=make_set(AccountName) by DeviceName",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Recent extension file writes in Cursor extension folders",
+      "kql": "DeviceFileEvents | where Timestamp > ago(30d) | where FolderPath has @\".cursor\\extensions\" | where FolderPath has \"claude\" | summarize FirstSeen=min(Timestamp), LastSeen=max(Timestamp), Files=dcount(FileName) by DeviceName, InitiatingProcessAccountName, ExtFolder=tostring(split(FolderPath, @\"\\extensions\\\")[1])",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 150,
+        "hits": 0,
+        "tables": [
+         "DeviceFileEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Shells and interpreters spawned by Cursor",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where InitiatingProcessFileName =~ \"Cursor.exe\" or InitiatingProcessParentFileName =~ \"Cursor.exe\" | where FileName in~ (\"powershell.exe\",\"pwsh.exe\",\"cmd.exe\",\"curl.exe\",\"wscript.exe\",\"cscript.exe\",\"mshta.exe\",\"rundll32.exe\",\"bitsadmin.exe\") | project Timestamp, DeviceName, AccountName, FileName, ProcessCommandLine, InitiatingProcessCommandLine | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-3",
+   "rank": 3,
+   "score": 47,
+   "factors": {
+    "exploitation": 18,
+    "prevalence": 4,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 5,
+    "sources": 0,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0179,
+    "cvss_max": 9.3
+   },
+   "title": "Public exploits released for buffer overflows in end-of-life and consumer routers from four vendors",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "public_poc",
+    "prevalence": "niche",
+    "platform": "edge_device",
+    "vendor": "",
+    "product": ""
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-129250",
+     "cvss": 8.6,
+     "severity": "HIGH",
+     "products": [],
+     "epss": 0.00751,
+     "percentile": 0.55552,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-129258",
+     "cvss": 8.5,
+     "severity": "HIGH",
+     "products": [],
+     "epss": 0.00255,
+     "percentile": 0.17259,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-129351",
+     "cvss": 9.3,
+     "severity": "CRITICAL",
+     "products": [],
+     "epss": 0.00879,
+     "percentile": 0.59644,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [
+      {
+       "url": "https://github.com/googlesky/CVE-2026-129351",
+       "name": "googlesky/CVE-2026-129351",
+       "stars": 0,
+       "created": "2026-11-15"
+      }
+     ],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-129352",
+     "cvss": 8.5,
+     "severity": "HIGH",
+     "products": [],
+     "epss": 0.0078,
+     "percentile": 0.56484,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [
+      {
+       "url": "https://github.com/googlesky/CVE-2026-129352",
+       "name": "googlesky/CVE-2026-129352",
+       "stars": 0,
+       "created": "2026-11-15"
+      }
+     ],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-129353",
+     "cvss": 9.3,
+     "severity": "CRITICAL",
+     "products": [],
+     "epss": 0.01788,
+     "percentile": 0.78702,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-129354",
+     "cvss": 9.3,
+     "severity": "CRITICAL",
+     "products": [],
+     "epss": 0.00869,
+     "percentile": 0.59343,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "NVD published six CVEs between 14 and 15 November 2026 covering Edimax BR6478ACV2, Tenda AC18, TRENDnet TEW-657BRM and D-Link DIR-600L router firmware. The flaws include stack-based buffer overflows and out-of-bounds writes in web management CGI handlers, plus a Tenda firmware upgrade handler that does not properly verify data authenticity. All are remotely reachable, and the NVD descriptions say exploits are public for each one. TRENDnet says the TEW-657BRM has been end-of-life for more than 15 years and it cannot confirm the issues, and Edimax reportedly did not respond to the reporter.",
+    "why_it_matters": "These are consumer and SOHO devices, so they show up at branch offices, home offices of remote staff, and in shadow IT rather than as managed corporate edge gear. None are in CISA KEV and EPSS scores are low (0.3% to 1.8%), but public exploit code for remotely reachable web interfaces is the kind of thing botnet operators pick up, and some devices will never be patched. The sources disagree on PoC availability: NVD text says exploits are public for all six, while proof-of-concept tracking confirms it only for the two TRENDnet CVEs.",
+    "affected_versions": [
+     "Edimax BR6478ACV2 1.23 (CVE-2026-129250)",
+     "Tenda AC18 15.03.05.05_multi/15.03.05.19 Build 6318 (CVE-2026-129258)",
+     "TRENDnet TEW-657BRM 1.00.1 (CVE-2026-129351, CVE-2026-129352)",
+     "D-Link DIR-600L 2.17/2.17b02 (CVE-2026-129353)",
+     "D-Link DIR-600L 2.17b02 (CVE-2026-129354)"
+    ],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Find and replace any TRENDnet TEW-657BRM and D-Link DIR-600L units on corporate or branch networks; no fixes are stated and TRENDnet says the TEW-657BRM is long end-of-life.",
+     "Make sure the web management interface of any Edimax BR6478ACV2 or Tenda AC18 is not reachable from the internet, and disable remote administration.",
+     "Block corporate-managed or VPN-connected sites from relying on unmanaged consumer routers, and move branch connectivity to supported, vendor-maintained gear.",
+     "Watch vendor channels for Edimax and Tenda firmware updates and apply them when they are released.",
+     "Treat traffic from any of these devices as untrusted, and review for unexpected outbound connections from router IPs if they sit in front of corporate assets."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "CVE-2026-129250 (HIGH 8.6)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-129250",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-14T12:17:44.240Z"
+    },
+    {
+     "title": "CVE-2026-129258 (HIGH 8.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-129258",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-14T15:16:58.257Z"
+    },
+    {
+     "title": "CVE-2026-129351 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-129351",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-14T23:16:47.753Z"
+    },
+    {
+     "title": "CVE-2026-129352 (HIGH 8.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-129352",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-14T23:16:48.033Z"
+    },
+    {
+     "title": "CVE-2026-129353 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-129353",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-15T00:16:51.120Z"
+    },
+    {
+     "title": "CVE-2026-129354 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-129354",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-15T01:18:03.043Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Use Defender for Endpoint device discovery to list network devices whose vendor or model matches Edimax, Tenda, TRENDnet or D-Link and the affected models.",
+     "Check branch and remote office inventories and DHCP or gateway records for the affected models, since discovery may not see every router.",
+     "For any match, check whether the management interface is exposed to the internet, using external attack surface scanning or Defender EASM.",
+     "Prioritize replacement of end-of-life units (TRENDnet TEW-657BRM, D-Link DIR-600L) and record compensating controls for Edimax and Tenda devices until fixes exist."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Discovered network devices matching affected router vendors and models",
+      "kql": "DeviceInfo | where Timestamp > ago(14d) | where Vendor has_any (\"Edimax\", \"Tenda\", \"TRENDnet\", \"D-Link\") or Model has_any (\"BR6478\", \"AC18\", \"TEW-657BRM\", \"DIR-600L\") | summarize arg_max(Timestamp, *) by DeviceId | project Timestamp, DeviceId, DeviceName, DeviceType, Vendor, Model, OSPlatform, OSVersion, PublicIP",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 60,
+        "hits": 0,
+        "tables": [
+         "DeviceInfo"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-4",
+   "rank": 4,
+   "score": 28,
+   "factors": {
+    "exploitation": 0,
+    "prevalence": 25,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Italian regulator fines Meta $887 million over Facebook access to Android gallery media",
+   "labels": {
+    "category": "policy",
+    "exploitation": "none_known",
+    "prevalence": "ubiquitous",
+    "platform": "mobile",
+    "vendor": "Meta",
+    "product": "Facebook"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "SecurityWeek reports that an Italian authority fined Meta $887 million over how the Facebook app on Android accessed photos and videos stored in users' device galleries. According to the authority, the applicable directive treats smartphones as part of a person's private sphere and requires free and informed consent before such access. The sources do not say which authority issued the fine, what period the conduct covered, or whether Meta plans to appeal.",
+    "why_it_matters": "This is a privacy and regulatory action, not a vulnerability or an attack, so there is nothing to patch and no exploitation to hunt for. It may matter to teams that govern mobile app permissions on managed Android devices, because it shows regulators examining broad access to device media.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Review mobile device management policies for managed Android devices that run consumer social media apps, and confirm whether photo and media permissions are restricted on corporate or work-profile devices.",
+     "Brief privacy and compliance teams so they can assess any impact on corporate use of Meta apps."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Meta Fined $887 Million in Italy Over Android Gallery Photos and Videos on Facebook",
+     "url": "https://www.securityweek.com/meta-fined-887-million-in-italy-over-android-gallery-photos-and-videos-on-facebook/",
+     "source": "SecurityWeek",
+     "kind": "news",
+     "published": "2026-11-14T19:00:00Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  }
+ ],
+ "more_stories": [
+  {
+   "title": "Dokploy command injection CVE-2026-129433 allows root code execution via backup jobs",
+   "score": 17,
+   "cves": [
+    "CVE-2026-129433"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-129433 (CRITICAL 9.4)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-129433",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Zr.Admin.NET flaws enable admin takeover, CVE-2026-129464 and CVE-2026-129465",
+   "score": 4,
+   "cves": [
+    "CVE-2026-129464",
+    "CVE-2026-129465"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-129464 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-129464",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-129465 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-129465",
+     "source": "NVD"
+    }
+   ]
+  }
+ ],
+ "kev_new": [],
+ "early_signals": [],
+ "explainer": {
+  "concept": "Malicious IDE extensions: the code editor as a privileged supply chain",
+  "dek": "Extensions for VS Code and its forks, such as Cursor, run with the developer's full user privileges, so a poisoned extension or a hijacked publisher account gives an attacker code execution on machines that hold source code, cloud credentials and signing keys.",
+  "why_today": "Cursor confirmed that attackers used credentials stolen from Fireworks AI to push a malicious Claude Code extension through its marketplace. That is the textbook form of this risk: a trusted distribution channel delivering attacker code straight to developer workstations.",
+  "related_story_ids": [
+   "story-2"
+  ],
+  "parts": [
+   {
+    "heading": "How editor extensions run",
+    "paragraphs": [
+     "In VS Code and editors forked from it, extensions are mostly JavaScript or TypeScript packages that load into an extension host process. That process runs as the logged-in user. There is no per-extension permission model like the one browsers use: an installed extension can read and write any file the user can, start child processes, and open network connections.",
+     "The Workspace Trust feature limits what some extensions do when you open an untrusted folder. It is not a sandbox, though, and it does not restrict an extension you have already installed and enabled. Extensions also update automatically by default. A malicious version published under a trusted name therefore reaches existing users without anyone clicking anything.",
+     "Forks such as Cursor cannot use Microsoft's Visual Studio Marketplace under its terms. Many forks instead use alternative registries such as Open VSX, or run their own. Publisher verification, malware scanning and takedown speed differ from one registry to the next, so do not assume the same vetting everywhere."
+    ]
+   },
+   {
+    "heading": "How attackers get malicious code in",
+    "paragraphs": [
+     "There are three common routes. The first is typosquatting or impersonation: a new extension whose name, icon and description copy a popular one. The second is a publisher account or publishing token compromise, where a legitimate, widely installed extension receives a malicious update. The third is compromise of the marketplace or its supporting infrastructure itself, which is what Cursor has described.",
+     "The second and third routes are the most dangerous because they skip the user's own judgement entirely. The extension name and publisher look exactly as they always have, and auto-update delivers the payload."
+    ]
+   },
+   {
+    "heading": "What an attacker gains",
+    "paragraphs": [
+     "Developer workstations are high-value targets. They typically hold SSH keys, Git credentials, cloud CLI tokens, package registry tokens, .env files with API keys, and access to source repositories and CI/CD pipelines. AI coding tools add model provider API keys to that list.",
+     "A malicious extension can steal these secrets, plant persistence, or quietly change code before it is committed. That last option can turn one compromised developer into a downstream supply chain incident affecting the organisation's own customers."
+    ]
+   },
+   {
+    "heading": "What it looks like in telemetry",
+    "paragraphs": [
+     "On Windows, extensions are installed under the user profile, for example in the .vscode\\extensions folder for VS Code and the .cursor\\extensions folder for Cursor. In Defender XDR, look for new or changed folders there in DeviceFileEvents. Correlate those changes with what the editor process does next.",
+     "The strongest behavioral signal is the editor process family (Code.exe, Cursor.exe and similar) spawning shells or download utilities: powershell.exe, cmd.exe, curl.exe, certutil.exe or rundll32.exe. Developers do run terminals from their editors, so build a baseline first and then alert on unusual command lines, encoded PowerShell, or child processes making outbound connections. Also watch DeviceNetworkEvents for editor processes contacting rare domains or paste and file-sharing services, and DeviceFileEvents for editor processes reading credential stores such as .ssh, .aws, .azure or browser profile data."
+    ]
+   },
+   {
+    "heading": "Prevention",
+    "paragraphs": [
+     "Treat extensions as software you allowlist, not something each user picks freely. Current VS Code supports an enterprise policy that restricts which extensions or publishers can be installed, and it can be deployed through Group Policy or device management. Check whether each fork your developers use honours equivalent controls, because support varies.",
+     "Cut down the secrets an extension could steal. Prefer short-lived cloud credentials, hardware-backed or passphrase-protected SSH keys, and secret managers over plaintext .env files. Scope repository and registry tokens tightly so that one stolen token has a small blast radius."
+    ]
+   }
+  ],
+  "takeaways": [
+   "Inventory which editors and AI coding tools (VS Code, Cursor and other forks) are installed across endpoints, and which extensions are in each user's extensions folder.",
+   "Hunt in DeviceProcessEvents for Code.exe, Cursor.exe and similar editor processes spawning PowerShell, cmd, curl, certutil or rundll32 with unusual command lines, after baselining normal developer activity.",
+   "Enforce an extension allowlist by publisher or extension ID through policy where the editor supports it, and document the gaps for forks that do not.",
+   "For Cursor users, follow the vendor's guidance on the affected extension. Then rotate any credentials reachable from affected machines: Git and registry tokens, cloud CLI credentials, SSH keys and AI provider API keys.",
+   "Move developers toward short-lived, narrowly scoped credentials so that secrets stolen from a workstation expire quickly and grant little."
+  ],
+  "unsupported_cves": [],
+  "model": "claude-opus-5-5"
+ },
+ "good_news": [
+  {
+   "headline": "Apple details Secure Exclaves architecture that isolates camera and microphone data from the main OS",
+   "summary": "SecurityWeek reports that Apple has published details of an architecture that uses secure exclaves to keep ambient camera and microphone data isolated from the main operating system. According to the report, the design applies to HomeView and new iPhones. The aim is to shield sensor data even if the main OS is compromised.",
+   "kind": "new_defense",
+   "sources": [
+    {
+     "title": "Apple Reveals How Secure Exclaves Shield Camera and Microphone Data",
+     "url": "https://www.securityweek.com/apple-reveals-how-secure-exclaves-shield-camera-and-microphone-data/",
+     "source": "SecurityWeek",
+     "published": "2026-11-14T11:00:00Z"
+    }
+   ],
+   "unsupported_cves": [],
+   "model": "claude-opus-5-5"
+  },
+  {
+   "headline": "US government disrupts North Korean 'FaceStealer' campaign tied to $400 million crypto theft",
+   "summary": "BleepingComputer reports that the U.S. government has disrupted a North Korean social engineering campaign called FaceStealer. The campaign is credited with stealing more than $400 million in cryptocurrency. The report does not detail the disruption actions taken.",
+   "kind": "takedown",
+   "sources": [
+    {
+     "title": "US disrupts North Korean campaign behind $400 million crypto theft",
+     "url": "https://www.bleepingcomputer.com/news/security/us-disrupts-north-korean-campaign-behind-400-million-crypto-theft/",
+     "source": "BleepingComputer",
+     "published": "2026-11-14T15:15:49Z"
+    }
+   ],
+   "unsupported_cves": [],
+   "model": "claude-opus-5-5"
+  }
+ ],
+ "explainer_status": "ok",
+ "sources_status": {
+  "CISA KEV": "ok 0",
+  "NVD": "ok 23",
+  "BleepingComputer": "ok 2",
+  "The Record": "ok 0",
+  "The DFIR Report": "ok 0",
+  "Cisco Talos": "ok 0",
+  "Unit 42": "ok 0",
+  "Microsoft Security Blog": "ok 0",
+  "SANS ISC": "ok 0",
+  "Huntress": "ok 0",
+  "watchTowr Labs": "ok 0",
+  "Rapid7": "ok 0",
+  "SecurityWeek": "ok 4",
+  "Krebs on Security": "ok 0",
+  "CISA Advisories": "ok 0",
+  "MSRC Security Update Guide": "ok 0",
+  "Bluesky": "ok 0",
+  "Mastodon": "ok 15",
+  "r/netsec": "ok 0",
+  "Hacker News": "ok 2",
+  "SigmaHQ new rules": "ok 0",
+  "EPSS": "ok 39"
+ },
+ "stats": {
+  "items": {
+   "news": 6,
+   "advisory": 0,
+   "kev": 0,
+   "nvd": 23,
+   "social": 17,
+   "sigma": 0
+  },
+  "stories_found": 6,
+  "kql_parser": "available",
+  "receipts": {
+   "status": "ran",
+   "engine": "Kusto emulator 1.0.9810.23682",
+   "baseline_events": 1338,
+   "baseline_seed": 20261110
+  }
+ }
+}
