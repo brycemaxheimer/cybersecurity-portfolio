@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>Daily Intel Brief</title><link>https://intel.brycemaxheimer.com/</link><description>Daily AI-generated threat-intel brief: top stories, new KEV entries, early signals and detections.</description><language>en-us</language><item><title>Daily Intel Brief: 2026-11-14</title><link>https://intel.brycemaxheimer.com/editions/2026-11-14/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-14/</guid><pubDate>Sat, 14 Nov 2026 16:37:24 +0000</pubDate><description>1. Check Point issues emergency hotfixes for Gaia local root flaw exploited since late October
+<rss version="2.0"><channel><title>Daily Intel Brief</title><link>https://intel.brycemaxheimer.com/</link><description>Daily AI-generated threat-intel brief: top stories, new KEV entries, early signals and detections.</description><language>en-us</language><item><title>Daily Intel Brief: 2026-11-15</title><link>https://intel.brycemaxheimer.com/editions/2026-11-15/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-15/</guid><pubDate>Sun, 15 Nov 2026 16:59:32 +0000</pubDate><description>1. US government disrupts North Korean 'FaceStealer' social engineering campaign tied to $400M crypto theft
+2. Cursor confirms breach used to push a malicious Claude Code extension through its marketplace
+3. Public exploits released for buffer overflows in end-of-life and consumer routers from four vendors
+4. Italian regulator fines Meta $887 million over Facebook access to Android gallery media
+Explainer: Malicious IDE extensions: the code editor as a privileged supply chain
+Good news: Apple details Secure Exclaves architecture that isolates camera and microphone data from the main OS
+Good news: US government disrupts North Korean 'FaceStealer' campaign tied to $400 million crypto theft</description></item><item><title>Daily Intel Brief: 2026-11-14</title><link>https://intel.brycemaxheimer.com/editions/2026-11-14/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-14/</guid><pubDate>Sat, 14 Nov 2026 16:37:24 +0000</pubDate><description>1. Check Point issues emergency hotfixes for Gaia local root flaw exploited since late October
 2. SCKit worm spreads through hijacked cloud-hosted ScreenConnect instances at MSPs
 3. Check Point Security Gateways targeted in PHP2Shell attacks that deployed an ESXi wiper
 4. CISA adds exploited UnrealIRCd and Check Point vulnerabilities to KEV, due 16 November 2026

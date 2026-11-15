@@ -12,6 +12,50 @@
  "language": "en-US",
  "items": [
   {
+   "id": "https://intel.brycemaxheimer.com/editions/2026-11-15/",
+   "url": "https://intel.brycemaxheimer.com/editions/2026-11-15/",
+   "title": "Daily Intel Brief: 2026-11-15",
+   "content_text": "1. US government disrupts North Korean 'FaceStealer' social engineering campaign tied to $400M crypto theft\n2. Cursor confirms breach used to push a malicious Claude Code extension through its marketplace\n3. Public exploits released for buffer overflows in end-of-life and consumer routers from four vendors\n4. Italian regulator fines Meta $887 million over Facebook access to Android gallery media\nExplainer: Malicious IDE extensions: the code editor as a privileged supply chain\nGood news: Apple details Secure Exclaves architecture that isolates camera and microphone data from the main OS\nGood news: US government disrupts North Korean 'FaceStealer' campaign tied to $400 million crypto theft",
+   "date_published": "2026-11-15T16:59:32Z",
+   "_intel_brief": {
+    "data": "https://intel.brycemaxheimer.com/editions/2026-11-15/edition.json",
+    "stories": [
+     {
+      "title": "US government disrupts North Korean 'FaceStealer' social engineering campaign tied to $400M crypto theft",
+      "cves": [],
+      "score": 51
+     },
+     {
+      "title": "Cursor confirms breach used to push a malicious Claude Code extension through its marketplace",
+      "cves": [],
+      "score": 47
+     },
+     {
+      "title": "Public exploits released for buffer overflows in end-of-life and consumer routers from four vendors",
+      "cves": [
+       "CVE-2026-129250",
+       "CVE-2026-129258",
+       "CVE-2026-129351",
+       "CVE-2026-129352",
+       "CVE-2026-129353",
+       "CVE-2026-129354"
+      ],
+      "score": 47
+     },
+     {
+      "title": "Italian regulator fines Meta $887 million over Facebook access to Android gallery media",
+      "cves": [],
+      "score": 28
+     }
+    ],
+    "explainer": "Malicious IDE extensions: the code editor as a privileged supply chain",
+    "good_news": [
+     "Apple details Secure Exclaves architecture that isolates camera and microphone data from the main OS",
+     "US government disrupts North Korean 'FaceStealer' campaign tied to $400 million crypto theft"
+    ]
+   }
+  },
+  {
    "id": "https://intel.brycemaxheimer.com/editions/2026-11-14/",
    "url": "https://intel.brycemaxheimer.com/editions/2026-11-14/",
    "title": "Daily Intel Brief: 2026-11-14",

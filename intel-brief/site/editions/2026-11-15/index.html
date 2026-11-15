@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Intel Brief: 15 November 2026</title>
+<meta name="description" content="Threat-intel brief for 15 November 2026: US government disrupts North Korean &#39;FaceStealer&#39; social engineering campaign tied to $400M crypto theft; Cursor confirms breach used to push a malicious Claude Code extension through its marketplace; Public exploits released for buffer overflows in end-of-life and consumer routers from four vendors">
+<meta name="color-scheme" content="only light">
+<meta name="theme-color" content="#B3141B">
+<link rel="canonical" href="https://intel.brycemaxheimer.com/editions/2026-11-15/"><link rel="alternate" type="application/rss+xml" title="Daily Intel Brief (RSS)" href="https://intel.brycemaxheimer.com/feed.xml">
+<link rel="alternate" type="application/feed+json" title="Daily Intel Brief (JSON Feed)" href="https://intel.brycemaxheimer.com/feed.json">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="../../assets/fonts/LibreFranklin-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../assets/fonts/PlayfairDisplay-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="mast">
+  <div class="wrap mast-band">
+    <a class="brand" href="../../">Daily Intel Brief</a>
+<div class="mast-meta">
+  <p class="eyebrow">Sunday edition</p>
+  <h1 id="edition-title">15 November 2026</h1>
+</div>
+  </div>
+  <div class="mast-bar">
+    <div class="wrap">
+      <nav aria-label="Site">
+        <a href="../../">Latest</a>
+        <a href="../../archive/">Archive</a>
+        <a href="https://intel.brycemaxheimer.com/feed.xml">RSS</a>
+        <a href="https://intel.brycemaxheimer.com/feed.json">JSON Feed</a>
+        <a href="../../methodology/">Methodology</a>
+      </nav>
+      <p class="mast-dek">Threat intelligence for teams defending Windows, Microsoft 365 and internet-facing edge devices.</p>
+    </div>
+  </div>
+</header>
+<div id="main" class="wrap">
+
+<div class="edition-strip">
+  <dl class="stats" aria-labelledby="edition-title">
+    <div><dd>4</dd><dt>Top stories</dt></div>
+    <div class="crit"><dd>0</dd><dt>New KEV entries</dt></div>
+    <div class="ai"><dd>0</dd><dt>Early signals</dt></div>
+    <div><dd>22<small>/22</small></dd><dt>Sources collected</dt></div>
+  </dl>
+  <section class="provenance" aria-label="How this edition was made">
+  <p><strong>How this edition was made.</strong>
+    Collected from 22 public sources between 14 Nov 05:00 and 15 Nov 05:00 UTC.
+Ranked by Claude Haiku 5.5, summarized by Claude Opus 5.5, and reviewed by a person before publishing.
+    Summaries can be wrong, so check the linked sources before acting. <a href="../../methodology/">Read the methodology</a></p>
+  </section>
+</div>
+
+<div class="layout">
+<main class="main">
+  <div class="section-head" id="stories">
+    <h2>Top stories</h2>
+    <span>Ranked by exploitation, reach and platform</span>
+  </div>
+
+  <article class="story lead-story" id="story-1" aria-labelledby="story-1-h">
+    <div class="story-top">
+      <div class="story-flags">
+        <div class="tags">
+<span class="tag crit-solid">Exploited</span>
+<span class="tag">campaign</span>        </div>
+        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span class="rank">No. 01</span> · Priority <b>51</b>
+        </div>
+      </div>
+      <h3 id="story-1-h">US government disrupts North Korean &#39;FaceStealer&#39; social engineering campaign tied to $400M crypto theft</h3>
+      <p class="meta">1 source · first reported 14 November 2026</p>
+    </div>
+
+
+    <div class="story-body">
+      <div class="cols2">
+        <section><h4 class="label">What happened</h4><p>BleepingComputer reported on 14 November 2026 that the U.S. government has disrupted a North Korean social engineering campaign it calls FaceStealer. The campaign is credited with stealing more than $400 million in cryptocurrency. The available reporting does not describe the lure techniques, malware, infrastructure, targeted sectors or the disruption actions taken.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>North Korean crypto theft campaigns typically rely on social engineering of individual employees, so organizations with cryptocurrency, fintech or developer staff may face the same tradecraft through personal and corporate channels. The sources provide no indicators, CVEs or technical details, so there is nothing specific to hunt for yet. The disruption may also cause the operators to shift infrastructure rather than stop.</p></section>
+      </div>
+      <div class="actions">
+        <h4 class="label">What to do</h4>
+        <ol class="steps"><li>Watch for the official U.S. government announcement or advisory on FaceStealer and ingest any published indicators into Defender XDR and Sentinel watchlists.</li><li>Brief staff who handle cryptocurrency wallets, treasury functions or software development on unsolicited recruiter, investor or partner outreach that pushes them to install tools or join unfamiliar video calls.</li><li>Confirm that users cannot run unsigned or newly downloaded executables and scripts without review on endpoints that hold wallet keys or signing credentials.</li><li>Require phishing-resistant MFA and out-of-band approval for cryptocurrency transfers and changes to payment or wallet details.</li></ol>
+      </div>
+    </div>
+
+    <div class="sources">
+      <h4 class="label">Sources</h4>
+      <ul>
+        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/us-disrupts-north-korean-campaign-behind-400-million-crypto-theft/" rel="noopener noreferrer nofollow">US disrupts North Korean campaign behind $400 million crypto theft</a><span class="where">bleepingcomputer.com · 14 Nov</span></li>
+      </ul>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
+
+
+  </article>
+  <article class="story" id="story-2" aria-labelledby="story-2-h">
+    <div class="story-top">
+      <div class="story-flags">
+        <div class="tags">
+<span class="tag crit-solid">Exploited</span>
+<span class="tag">breach</span>        </div>
+        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span class="rank">No. 02</span> · Priority <b>47</b>
+        </div>
+      </div>
+      <h3 id="story-2-h">Cursor confirms breach used to push a malicious Claude Code extension through its marketplace</h3>
+      <p class="meta">Cursor Cursor · 1 source · first reported 14 November 2026</p>
+    </div>
+
+
+    <div class="story-body">
+      <div class="cols2">
+        <section><h4 class="label">What happened</h4><p>According to BleepingComputer, Cursor has confirmed a security breach that let attackers distribute a malicious Claude Code extension through its extension marketplace. BleepingComputer reports the attackers got in using credentials stolen from AI infrastructure provider Fireworks AI. The report was published on 14 November 2026. The available reporting does not name the extension, describe its payload, give a distribution window, or list indicators.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>Developer workstations running the Cursor IDE may have installed a trusted-looking extension that runs code with the developer&#39;s privileges. That puts source code, API keys, cloud tokens and Microsoft 365 or Entra sessions on those machines at risk. Exploitation is confirmed, but the scope is unclear, so inventory and hunting are the main defenses until Cursor publishes details.</p></section>
+      </div>
+      <div class="actions">
+        <h4 class="label">What to do</h4>
+        <ol class="steps"><li>Inventory endpoints running the Cursor IDE and review the Claude Code-related extensions installed or updated on them, removing any that Cursor identifies as malicious once it names them.</li><li>On developer machines that installed or updated Claude Code extensions in Cursor during the incident window, rotate the secrets present there: API keys, cloud credentials, Git tokens and session tokens.</li><li>Hunt for Cursor spawning shells, script interpreters or unusual outbound network connections on developer endpoints.</li><li>Restrict or allowlist IDE extensions on managed developer workstations, and watch for vendor guidance from Cursor and Fireworks AI.</li><li>Review Entra ID sign-ins and token activity for users of affected machines for anomalous locations or new devices.</li></ol>
+      </div>
+    </div>
+
+    <div class="sources">
+      <h4 class="label">Sources</h4>
+      <ul>
+        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/cursor-confirms-security-breach-led-to-malicious-claude-code-extension/" rel="noopener noreferrer nofollow">Cursor confirms security breach led to malicious Claude Code extension</a><span class="where">bleepingcomputer.com · 14 Nov</span></li>
+      </ul>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
+
+
+    <section class="detect" aria-label="Detection">
+      <div class="detect-head">
+        <div class="t">Detection
+<span class="tag ai">AI-generated · untested</span>        </div>
+        <span class="why">Hunting only: no endpoint behavior to write a rule against</span>
+      </div>
+      <div class="tabs">
+        <input class="tab-input" type="radio" name="fmt-story-2" id="story-2-hunt" checked>
+        <label for="story-2-hunt">Hunting</label>
+        <div class="tab-panels">
+          <div class="tab-panel">
+<ol class="steps-plain"><li>Identify devices where Cursor.exe has run recently, to scope the exposed population.</li><li>List extension files written under the .cursor extensions directory in the last 30 days, focusing on Claude Code-related extension folders.</li><li>Review child processes of Cursor, especially shells, PowerShell and script interpreters with encoded or download-related command lines.</li><li>Review outbound connections from Cursor and its child processes to rare destinations.</li><li>For any suspicious device, collect the extension folder for analysis and start credential rotation for the user.</li></ol><div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Devices running Cursor IDE</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(30d) | where FileName =~ &#34;Cursor.exe&#34; | summarize LastSeen=max(Timestamp), Users=make_set(AccountName) by DeviceName</code></pre>
+</div>
+<p class="conv-note receipt">On 500 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Recent extension file writes in Cursor extension folders</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceFileEvents | where Timestamp &gt; ago(30d) | where FolderPath has @&#34;.cursor\extensions&#34; | where FolderPath has &#34;claude&#34; | summarize FirstSeen=min(Timestamp), LastSeen=max(Timestamp), Files=dcount(FileName) by DeviceName, InitiatingProcessAccountName, ExtFolder=tostring(split(FolderPath, @&#34;\extensions\&#34;)[1])</code></pre>
+</div>
+<p class="conv-note receipt">On 150 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Shells and interpreters spawned by Cursor</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(30d) | where InitiatingProcessFileName =~ &#34;Cursor.exe&#34; or InitiatingProcessParentFileName =~ &#34;Cursor.exe&#34; | where FileName in~ (&#34;powershell.exe&#34;,&#34;pwsh.exe&#34;,&#34;cmd.exe&#34;,&#34;curl.exe&#34;,&#34;wscript.exe&#34;,&#34;cscript.exe&#34;,&#34;mshta.exe&#34;,&#34;rundll32.exe&#34;,&#34;bitsadmin.exe&#34;) | project Timestamp, DeviceName, AccountName, FileName, ProcessCommandLine, InitiatingProcessCommandLine | order by Timestamp desc</code></pre>
+</div>
+<p class="conv-note receipt">On 500 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </article>
+  <article class="story" id="story-3" aria-labelledby="story-3-h">
+    <div class="story-top">
+      <div class="story-flags">
+        <div class="tags">
+<span class="tag high">Public PoC</span><span class="tag info">Edge device</span>        </div>
+        <div class="priority high" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span class="rank">No. 03</span> · Priority <b>47</b>
+        </div>
+      </div>
+      <h3 id="story-3-h">Public exploits released for buffer overflows in end-of-life and consumer routers from four vendors</h3>
+      <p class="meta">6 sources · first reported 14 November 2026</p>
+    </div>
+
+    <dl class="facts">
+      <div><dt>CVE</dt><dd><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-129353">CVE-2026-129353</a></dd></div>
+      <div><dt>CVSS</dt><dd><strong>9.3</strong> <span class="crit">Critical</span></dd></div>
+      <div><dt>EPSS</dt><dd><strong>1.8%</strong> <span class="muted">30-day</span></dd></div>
+      <div><dt>CISA KEV</dt><dd><span class="muted">Not listed</span></dd></div>
+      <div><dt>Public PoC</dt><dd>None known</dd></div>
+    </dl>
+    <p class="related">Also: <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-129351">CVE-2026-129351</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-129354">CVE-2026-129354</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-129250">CVE-2026-129250</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-129352">CVE-2026-129352</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-129258">CVE-2026-129258</a></p>
+
+    <div class="story-body">
+      <div class="cols2">
+        <section><h4 class="label">What happened</h4><p>NVD published six CVEs between 14 and 15 November 2026 covering Edimax BR6478ACV2, Tenda AC18, TRENDnet TEW-657BRM and D-Link DIR-600L router firmware. The flaws include stack-based buffer overflows and out-of-bounds writes in web management CGI handlers, plus a Tenda firmware upgrade handler that does not properly verify data authenticity. All are remotely reachable, and the NVD descriptions say exploits are public for each one. TRENDnet says the TEW-657BRM has been end-of-life for more than 15 years and it cannot confirm the issues, and Edimax reportedly did not respond to the reporter.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>These are consumer and SOHO devices, so they show up at branch offices, home offices of remote staff, and in shadow IT rather than as managed corporate edge gear. None are in CISA KEV and EPSS scores are low (0.3% to 1.8%), but public exploit code for remotely reachable web interfaces is the kind of thing botnet operators pick up, and some devices will never be patched. The sources disagree on PoC availability: NVD text says exploits are public for all six, while proof-of-concept tracking confirms it only for the two TRENDnet CVEs.</p></section>
+      </div>
+      <div class="actions">
+        <h4 class="label">What to do</h4>
+        <ol class="steps"><li>Find and replace any TRENDnet TEW-657BRM and D-Link DIR-600L units on corporate or branch networks; no fixes are stated and TRENDnet says the TEW-657BRM is long end-of-life.</li><li>Make sure the web management interface of any Edimax BR6478ACV2 or Tenda AC18 is not reachable from the internet, and disable remote administration.</li><li>Block corporate-managed or VPN-connected sites from relying on unmanaged consumer routers, and move branch connectivity to supported, vendor-maintained gear.</li><li>Watch vendor channels for Edimax and Tenda firmware updates and apply them when they are released.</li><li>Treat traffic from any of these devices as untrusted, and review for unexpected outbound connections from router IPs if they sit in front of corporate assets.</li></ol>
+      <div class="cols2 versions">
+        <div><div class="k">Affected</div><ul><li>Edimax BR6478ACV2 1.23 (CVE-2026-129250)</li><li>Tenda AC18 15.03.05.05_multi/15.03.05.19 Build 6318 (CVE-2026-129258)</li><li>TRENDnet TEW-657BRM 1.00.1 (CVE-2026-129351, CVE-2026-129352)</li><li>D-Link DIR-600L 2.17/2.17b02 (CVE-2026-129353)</li><li>D-Link DIR-600L 2.17b02 (CVE-2026-129354)</li></ul></div>
+        <div><div class="k">Fixed</div><span class="muted">Not stated in the sources</span></div>
+      </div>
+      </div>
+    </div>
+
+    <div class="sources">
+      <h4 class="label">Sources</h4>
+      <ul>
+        <li><span class="pub">NVD</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-129250" rel="noopener noreferrer nofollow">CVE-2026-129250 (HIGH 8.6)</a><span class="where">nvd.nist.gov · 14 Nov</span></li>
+        <li><span class="pub">NVD</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-129258" rel="noopener noreferrer nofollow">CVE-2026-129258 (HIGH 8.5)</a><span class="where">nvd.nist.gov · 14 Nov</span></li>
+        <li><span class="pub">NVD</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-129351" rel="noopener noreferrer nofollow">CVE-2026-129351 (CRITICAL 9.3)</a><span class="where">nvd.nist.gov · 14 Nov</span></li>
+        <li><span class="pub">NVD</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-129352" rel="noopener noreferrer nofollow">CVE-2026-129352 (HIGH 8.5)</a><span class="where">nvd.nist.gov · 14 Nov</span></li>
+        <li><span class="pub">NVD</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-129353" rel="noopener noreferrer nofollow">CVE-2026-129353 (CRITICAL 9.3)</a><span class="where">nvd.nist.gov · 15 Nov</span></li>
+        <li><span class="pub">NVD</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-129354" rel="noopener noreferrer nofollow">CVE-2026-129354 (CRITICAL 9.3)</a><span class="where">nvd.nist.gov · 15 Nov</span></li>
+      </ul>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
+
+    <details class="poc">
+      <summary>Public proof-of-concept repos (2)</summary>
+      <p class="warn">Links only, not vetted. Public PoC repos are often fake or backdoored. Don't run them on a work machine.</p>
+      <ul><li><a href="https://github.com/googlesky/CVE-2026-129351" rel="noopener noreferrer nofollow">googlesky/CVE-2026-129351</a> <span class="muted">CVE-2026-129351 · 0 stars · created 15 Nov</span></li><li><a href="https://github.com/googlesky/CVE-2026-129352" rel="noopener noreferrer nofollow">googlesky/CVE-2026-129352</a> <span class="muted">CVE-2026-129352 · 0 stars · created 15 Nov</span></li></ul>
+    </details>
+
+    <section class="detect" aria-label="Detection">
+      <div class="detect-head">
+        <div class="t">Detection
+<span class="tag ai">AI-generated · untested</span>        </div>
+        <span class="why">Hunting only: no endpoint behavior to write a rule against</span>
+      </div>
+      <div class="tabs">
+        <input class="tab-input" type="radio" name="fmt-story-3" id="story-3-hunt" checked>
+        <label for="story-3-hunt">Hunting</label>
+        <div class="tab-panels">
+          <div class="tab-panel">
+<ol class="steps-plain"><li>Use Defender for Endpoint device discovery to list network devices whose vendor or model matches Edimax, Tenda, TRENDnet or D-Link and the affected models.</li><li>Check branch and remote office inventories and DHCP or gateway records for the affected models, since discovery may not see every router.</li><li>For any match, check whether the management interface is exposed to the internet, using external attack surface scanning or Defender EASM.</li><li>Prioritize replacement of end-of-life units (TRENDnet TEW-657BRM, D-Link DIR-600L) and record compensating controls for Edimax and Tenda devices until fixes exist.</li></ol><div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Discovered network devices matching affected router vendors and models</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceInfo | where Timestamp &gt; ago(14d) | where Vendor has_any (&#34;Edimax&#34;, &#34;Tenda&#34;, &#34;TRENDnet&#34;, &#34;D-Link&#34;) or Model has_any (&#34;BR6478&#34;, &#34;AC18&#34;, &#34;TEW-657BRM&#34;, &#34;DIR-600L&#34;) | summarize arg_max(Timestamp, *) by DeviceId | project Timestamp, DeviceId, DeviceName, DeviceType, Vendor, Model, OSPlatform, OSVersion, PublicIP</code></pre>
+</div>
+<p class="conv-note receipt">On 60 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </article>
+  <article class="story" id="story-4" aria-labelledby="story-4-h">
+    <div class="story-top">
+      <div class="story-flags">
+        <div class="tags">
+<span class="tag info">Mobile</span><span class="tag">policy</span>        </div>
+        <div class="priority watch" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span class="rank">No. 04</span> · Priority <b>28</b>
+        </div>
+      </div>
+      <h3 id="story-4-h">Italian regulator fines Meta $887 million over Facebook access to Android gallery media</h3>
+      <p class="meta">Meta Facebook · 1 source · first reported 14 November 2026</p>
+    </div>
+
+
+    <div class="story-body">
+      <div class="cols2">
+        <section><h4 class="label">What happened</h4><p>SecurityWeek reports that an Italian authority fined Meta $887 million over how the Facebook app on Android accessed photos and videos stored in users&#39; device galleries. According to the authority, the applicable directive treats smartphones as part of a person&#39;s private sphere and requires free and informed consent before such access. The sources do not say which authority issued the fine, what period the conduct covered, or whether Meta plans to appeal.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>This is a privacy and regulatory action, not a vulnerability or an attack, so there is nothing to patch and no exploitation to hunt for. It may matter to teams that govern mobile app permissions on managed Android devices, because it shows regulators examining broad access to device media.</p></section>
+      </div>
+      <div class="actions">
+        <h4 class="label">What to do</h4>
+        <ol class="steps"><li>Review mobile device management policies for managed Android devices that run consumer social media apps, and confirm whether photo and media permissions are restricted on corporate or work-profile devices.</li><li>Brief privacy and compliance teams so they can assess any impact on corporate use of Meta apps.</li></ol>
+      </div>
+    </div>
+
+    <div class="sources">
+      <h4 class="label">Sources</h4>
+      <ul>
+        <li><span class="pub">SecurityWeek</span><a href="https://www.securityweek.com/meta-fined-887-million-in-italy-over-android-gallery-photos-and-videos-on-facebook/" rel="noopener noreferrer nofollow">Meta Fined $887 Million in Italy Over Android Gallery Photos and Videos on Facebook</a><span class="where">securityweek.com · 14 Nov</span></li>
+      </ul>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
+
+
+  </article>
+
+  <section class="block" id="kev" aria-labelledby="h-kev">
+    <div class="section-head"><h2 id="h-kev">New CISA KEV entries</h2></div>
+    <p class="muted">CISA added no KEV entries in this window.</p>
+  </section>
+
+  <section class="block" id="signals" aria-labelledby="h-signals">
+    <div class="section-head"><h2 id="h-signals">Early signals</h2><span>Counted by code, not AI</span></div>
+    <p class="lead">CVEs that several independent accounts posted about in the window but that are not in KEV or the news feeds yet. Counted from Bluesky, Mastodon (infosec.exchange), r/netsec and Hacker News after dropping CVE-feed bots and digest posts. Chatter is a lead, not confirmation.</p>
+    <p class="muted">No CVE crossed the threshold in this window.</p>
+  </section>
+
+  <section class="block explainer" id="explainer" aria-labelledby="h-explainer">
+    <div class="section-head"><h2 id="h-explainer">Explainer</h2><span>Background, not news</span></div>
+    <h3>Malicious IDE extensions: the code editor as a privileged supply chain</h3>
+    <p class="dek">Extensions for VS Code and its forks, such as Cursor, run with the developer&#39;s full user privileges, so a poisoned extension or a hijacked publisher account gives an attacker code execution on machines that hold source code, cloud credentials and signing keys.</p>
+<p class="why-today"><strong>Why today.</strong> Cursor confirmed that attackers used credentials stolen from Fireworks AI to push a malicious Claude Code extension through its marketplace. That is the textbook form of this risk: a trusted distribution channel delivering attacker code straight to developer workstations. See <a href="#story-2">story 2</a>.</p>    <div class="ex-body">
+<h4>How editor extensions run</h4><p>In VS Code and editors forked from it, extensions are mostly JavaScript or TypeScript packages that load into an extension host process. That process runs as the logged-in user. There is no per-extension permission model like the one browsers use: an installed extension can read and write any file the user can, start child processes, and open network connections.</p><p>The Workspace Trust feature limits what some extensions do when you open an untrusted folder. It is not a sandbox, though, and it does not restrict an extension you have already installed and enabled. Extensions also update automatically by default. A malicious version published under a trusted name therefore reaches existing users without anyone clicking anything.</p><p>Forks such as Cursor cannot use Microsoft&#39;s Visual Studio Marketplace under its terms. Many forks instead use alternative registries such as Open VSX, or run their own. Publisher verification, malware scanning and takedown speed differ from one registry to the next, so do not assume the same vetting everywhere.</p><h4>How attackers get malicious code in</h4><p>There are three common routes. The first is typosquatting or impersonation: a new extension whose name, icon and description copy a popular one. The second is a publisher account or publishing token compromise, where a legitimate, widely installed extension receives a malicious update. The third is compromise of the marketplace or its supporting infrastructure itself, which is what Cursor has described.</p><p>The second and third routes are the most dangerous because they skip the user&#39;s own judgement entirely. The extension name and publisher look exactly as they always have, and auto-update delivers the payload.</p><h4>What an attacker gains</h4><p>Developer workstations are high-value targets. They typically hold SSH keys, Git credentials, cloud CLI tokens, package registry tokens, .env files with API keys, and access to source repositories and CI/CD pipelines. AI coding tools add model provider API keys to that list.</p><p>A malicious extension can steal these secrets, plant persistence, or quietly change code before it is committed. That last option can turn one compromised developer into a downstream supply chain incident affecting the organisation&#39;s own customers.</p><h4>What it looks like in telemetry</h4><p>On Windows, extensions are installed under the user profile, for example in the .vscode\extensions folder for VS Code and the .cursor\extensions folder for Cursor. In Defender XDR, look for new or changed folders there in DeviceFileEvents. Correlate those changes with what the editor process does next.</p><p>The strongest behavioral signal is the editor process family (Code.exe, Cursor.exe and similar) spawning shells or download utilities: powershell.exe, cmd.exe, curl.exe, certutil.exe or rundll32.exe. Developers do run terminals from their editors, so build a baseline first and then alert on unusual command lines, encoded PowerShell, or child processes making outbound connections. Also watch DeviceNetworkEvents for editor processes contacting rare domains or paste and file-sharing services, and DeviceFileEvents for editor processes reading credential stores such as .ssh, .aws, .azure or browser profile data.</p><h4>Prevention</h4><p>Treat extensions as software you allowlist, not something each user picks freely. Current VS Code supports an enterprise policy that restricts which extensions or publishers can be installed, and it can be deployed through Group Policy or device management. Check whether each fork your developers use honours equivalent controls, because support varies.</p><p>Cut down the secrets an extension could steal. Prefer short-lived cloud credentials, hardware-backed or passphrase-protected SSH keys, and secret managers over plaintext .env files. Scope repository and registry tokens tightly so that one stolen token has a small blast radius.</p>    </div>
+    <div class="actions">
+      <h4 class="label">For defenders</h4>
+      <ol class="steps"><li>Inventory which editors and AI coding tools (VS Code, Cursor and other forks) are installed across endpoints, and which extensions are in each user&#39;s extensions folder.</li><li>Hunt in DeviceProcessEvents for Code.exe, Cursor.exe and similar editor processes spawning PowerShell, cmd, curl, certutil or rundll32 with unusual command lines, after baselining normal developer activity.</li><li>Enforce an extension allowlist by publisher or extension ID through policy where the editor supports it, and document the gaps for forks that do not.</li><li>For Cursor users, follow the vendor&#39;s guidance on the affected extension. Then rotate any credentials reachable from affected machines: Git and registry tokens, cloud CLI credentials, SSH keys and AI provider API keys.</li><li>Move developers toward short-lived, narrowly scoped credentials so that secrets stolen from a workstation expire quickly and grant little.</li></ol>
+    </div>
+    <p class="ai-line">AI-generated explainer by Claude Opus 5.5 · from the model's background knowledge, not today's sources · check vendor documentation before acting on it</p>
+  </section>
+
+  <section class="block good-news" id="good-news" aria-labelledby="h-good-news">
+    <div class="section-head"><h2 id="h-good-news">Good news</h2><span>Wins for defenders</span></div>
+    <ol class="good">
+      <li>
+        <span class="tag ok">New defense</span>
+        <h3>Apple details Secure Exclaves architecture that isolates camera and microphone data from the main OS</h3>
+        <p>SecurityWeek reports that Apple has published details of an architecture that uses secure exclaves to keep ambient camera and microphone data isolated from the main operating system. According to the report, the design applies to HomeView and new iPhones. The aim is to shield sensor data even if the main OS is compromised.</p>
+        <p class="where"><a href="https://www.securityweek.com/apple-reveals-how-secure-exclaves-shield-camera-and-microphone-data/" rel="noopener noreferrer nofollow">SecurityWeek</a> · 14 Nov</p>
+      </li>
+      <li>
+        <span class="tag ok">Takedown</span>
+        <h3>US government disrupts North Korean &#39;FaceStealer&#39; campaign tied to $400 million crypto theft</h3>
+        <p>BleepingComputer reports that the U.S. government has disrupted a North Korean social engineering campaign called FaceStealer. The campaign is credited with stealing more than $400 million in cryptocurrency. The report does not detail the disruption actions taken.</p>
+        <p class="where"><a href="https://www.bleepingcomputer.com/news/security/us-disrupts-north-korean-campaign-behind-400-million-crypto-theft/" rel="noopener noreferrer nofollow">BleepingComputer</a> · 14 Nov</p>
+      </li>
+    </ol>
+    <p class="ai-line">AI-generated summaries by Claude Opus 5.5 of the linked sources</p>
+  </section>
+
+  <section class="block" id="radar" aria-labelledby="h-radar">
+    <div class="section-head"><h2 id="h-radar">Also on the radar</h2><span>Lower-ranked, links only</span></div>
+    <ul class="radar">
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-129433" rel="noopener noreferrer nofollow">Dokploy command injection CVE-2026-129433 allows root code execution via backup jobs</a><span class="where">NVD · CVE-2026-129433</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-129464" rel="noopener noreferrer nofollow">Zr.Admin.NET flaws enable admin takeover, CVE-2026-129464 and CVE-2026-129465</a><span class="where">NVD · CVE-2026-129464, CVE-2026-129465</span></li>
+    </ul>
+  </section>
+
+  <details class="status">
+    <summary>Collection status: 22 of 22 sources returned data</summary>
+    <ul><li><span class="">BleepingComputer</span> <span class="muted">ok 2</span></li><li><span class="">Bluesky</span> <span class="muted">ok 0</span></li><li><span class="">CISA Advisories</span> <span class="muted">ok 0</span></li><li><span class="">CISA KEV</span> <span class="muted">ok 0</span></li><li><span class="">Cisco Talos</span> <span class="muted">ok 0</span></li><li><span class="">EPSS</span> <span class="muted">ok 39</span></li><li><span class="">Hacker News</span> <span class="muted">ok 2</span></li><li><span class="">Huntress</span> <span class="muted">ok 0</span></li><li><span class="">Krebs on Security</span> <span class="muted">ok 0</span></li><li><span class="">Mastodon</span> <span class="muted">ok 15</span></li><li><span class="">Microsoft Security Blog</span> <span class="muted">ok 0</span></li><li><span class="">MSRC Security Update Guide</span> <span class="muted">ok 0</span></li><li><span class="">NVD</span> <span class="muted">ok 23</span></li><li><span class="">r/netsec</span> <span class="muted">ok 0</span></li><li><span class="">Rapid7</span> <span class="muted">ok 0</span></li><li><span class="">SANS ISC</span> <span class="muted">ok 0</span></li><li><span class="">SecurityWeek</span> <span class="muted">ok 4</span></li><li><span class="">SigmaHQ new rules</span> <span class="muted">ok 0</span></li><li><span class="">The DFIR Report</span> <span class="muted">ok 0</span></li><li><span class="">The Record</span> <span class="muted">ok 0</span></li><li><span class="">Unit 42</span> <span class="muted">ok 0</span></li><li><span class="">watchTowr Labs</span> <span class="muted">ok 0</span></li></ul>
+    <p>Data for this edition: <a href="../../editions/2026-11-15/edition.json">edition.json</a>. KQL parser: available.</p>
+  </details>
+</main>
+
+<aside class="rail" aria-label="Edition summary">
+  <section class="panel also">
+    <h2>Also today</h2>
+    <ol class="toc">
+      <li><b class="num crit">2</b><span><span class="tier crit">Exploited</span><a href="#story-2">Cursor confirms breach used to push a malicious Claude Code extension through its marketplace</a></span></li>
+      <li><b class="num high">3</b><span><span class="tier high">High risk · PoC</span><a href="#story-3">Public exploits released for buffer overflows in end-of-life and consumer routers from four vendors</a><span class="toc-warn"><b>2 public PoC repos.</b> Links only, not vetted. Public PoC repos are often fake or backdoored. Don't run them on a work machine.</span></span></li>
+      <li><b class="num watch">4</b><span><span class="tier watch">Watch</span><a href="#story-4">Italian regulator fines Meta $887 million over Facebook access to Android gallery media</a></span></li>
+    </ol>
+  </section>
+  <section class="panel learn">
+    <h2>Also in this edition</h2>
+<p><span class="k">Explainer</span><a href="#explainer">Malicious IDE extensions: the code editor as a privileged supply chain</a></p><p><span class="k">Good news</span><a href="#good-news">2 wins for defenders</a></p>  </section>
+  <section class="panel">
+    <h2>Collection</h2>
+    <div class="meter"><svg class="bar" viewBox="0 0 100 6" preserveAspectRatio="none" aria-hidden="true"><rect class="track" width="100" height="6" rx="3"/><rect class="fill" width="100" height="6" rx="3"/></svg><span class="mono">22/22</span></div>
+    <p>Every source returned data. 46 items collected.</p>
+  </section>
+  <section class="panel follow">
+    <h2>Follow the brief</h2>
+    <p>A new edition every morning, 07:15 US Eastern.</p>
+    <div class="btns"><a class="btn primary" href="https://intel.brycemaxheimer.com/feed.xml">RSS feed</a><a class="btn ghost" href="https://intel.brycemaxheimer.com/feed.json">JSON Feed</a></div>
+  </section>
+  <nav class="panel" aria-label="Other editions">
+    <h2>Other editions</h2>
+<div class="kv"><span>Older</span><a href="../../editions/2026-11-14/">14 November 2026</a></div>  </nav>
+</aside>
+</div>
+</div>
+<footer class="foot">
+  <div class="wrap">
+    <p>Summaries and detections are AI-generated and can be wrong. This site publishes summaries and links only, never copies of articles. Detections are labelled with their origin and are untested in your environment.</p>
+    <p>Maintained by Bryce Maxheimer · <a href="../../methodology/">Methodology</a> · <a href="../../archive/">Archive</a></p>
+  </div>
+</footer>
+</body>
+</html>
