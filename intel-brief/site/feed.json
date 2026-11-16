@@ -12,6 +12,54 @@
  "language": "en-US",
  "items": [
   {
+   "id": "https://intel.brycemaxheimer.com/editions/2026-11-16/",
+   "url": "https://intel.brycemaxheimer.com/editions/2026-11-16/",
+   "title": "Daily Intel Brief: 2026-11-16",
+   "content_text": "1. FBI warns attackers are using the ARTEX AI penetration testing framework in global attacks\n2. TSMC confirms leak of employee personal data after threat actor auctions 6.9GB\n3. DrayTek Vigor2960 path traversal and command injection flaws disclosed, fixed in 1.5.1.7\n4. D-Link DIR-850L router firmware ships hard-coded console credentials (CVE-2026-129445)\n5. Cyrus SASL through 2.1.28: SRP mechanism flaw lets unauthenticated clients log in as any user\nEarly signals: CVE-2026-99288\nExplainer: Missing public-value validation in SRP: the zero-key authentication bypass\nGood news: YARA-X 1.23.0 released with 4 improvements and 16 bug fixes",
+   "date_published": "2026-11-16T20:18:59Z",
+   "_intel_brief": {
+    "data": "https://intel.brycemaxheimer.com/editions/2026-11-16/edition.json",
+    "stories": [
+     {
+      "title": "FBI warns attackers are using the ARTEX AI penetration testing framework in global attacks",
+      "cves": [],
+      "score": 71
+     },
+     {
+      "title": "TSMC confirms leak of employee personal data after threat actor auctions 6.9GB",
+      "cves": [],
+      "score": 59
+     },
+     {
+      "title": "DrayTek Vigor2960 path traversal and command injection flaws disclosed, fixed in 1.5.1.7",
+      "cves": [
+       "CVE-2026-129451",
+       "CVE-2026-129452"
+      ],
+      "score": 42
+     },
+     {
+      "title": "D-Link DIR-850L router firmware ships hard-coded console credentials (CVE-2026-129445)",
+      "cves": [
+       "CVE-2026-129445"
+      ],
+      "score": 42
+     },
+     {
+      "title": "Cyrus SASL through 2.1.28: SRP mechanism flaw lets unauthenticated clients log in as any user",
+      "cves": [
+       "CVE-2026-129483"
+      ],
+      "score": 31
+     }
+    ],
+    "explainer": "Missing public-value validation in SRP: the zero-key authentication bypass",
+    "good_news": [
+     "YARA-X 1.23.0 released with 4 improvements and 16 bug fixes"
+    ]
+   }
+  },
+  {
    "id": "https://intel.brycemaxheimer.com/editions/2026-11-15/",
    "url": "https://intel.brycemaxheimer.com/editions/2026-11-15/",
    "title": "Daily Intel Brief: 2026-11-15",

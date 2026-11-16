@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>Daily Intel Brief</title><link>https://intel.brycemaxheimer.com/</link><description>Daily AI-generated threat-intel brief: top stories, new KEV entries, early signals and detections.</description><language>en-us</language><item><title>Daily Intel Brief: 2026-11-15</title><link>https://intel.brycemaxheimer.com/editions/2026-11-15/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-15/</guid><pubDate>Sun, 15 Nov 2026 16:59:32 +0000</pubDate><description>1. US government disrupts North Korean 'FaceStealer' social engineering campaign tied to $400M crypto theft
+<rss version="2.0"><channel><title>Daily Intel Brief</title><link>https://intel.brycemaxheimer.com/</link><description>Daily AI-generated threat-intel brief: top stories, new KEV entries, early signals and detections.</description><language>en-us</language><item><title>Daily Intel Brief: 2026-11-16</title><link>https://intel.brycemaxheimer.com/editions/2026-11-16/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-16/</guid><pubDate>Mon, 16 Nov 2026 20:18:59 +0000</pubDate><description>1. FBI warns attackers are using the ARTEX AI penetration testing framework in global attacks
+2. TSMC confirms leak of employee personal data after threat actor auctions 6.9GB
+3. DrayTek Vigor2960 path traversal and command injection flaws disclosed, fixed in 1.5.1.7
+4. D-Link DIR-850L router firmware ships hard-coded console credentials (CVE-2026-129445)
+5. Cyrus SASL through 2.1.28: SRP mechanism flaw lets unauthenticated clients log in as any user
+Early signals: CVE-2026-99288
+Explainer: Missing public-value validation in SRP: the zero-key authentication bypass
+Good news: YARA-X 1.23.0 released with 4 improvements and 16 bug fixes</description></item><item><title>Daily Intel Brief: 2026-11-15</title><link>https://intel.brycemaxheimer.com/editions/2026-11-15/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-15/</guid><pubDate>Sun, 15 Nov 2026 16:59:32 +0000</pubDate><description>1. US government disrupts North Korean 'FaceStealer' social engineering campaign tied to $400M crypto theft
 2. Cursor confirms breach used to push a malicious Claude Code extension through its marketplace
 3. Public exploits released for buffer overflows in end-of-life and consumer routers from four vendors
 4. Italian regulator fines Meta $887 million over Facebook access to Android gallery media
