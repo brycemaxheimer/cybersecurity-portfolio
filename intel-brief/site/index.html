@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Daily Intel Brief: 15 November 2026</title>
-<meta name="description" content="Threat-intel brief for 15 November 2026: US government disrupts North Korean &#39;FaceStealer&#39; social engineering campaign tied to $400M crypto theft; Cursor confirms breach used to push a malicious Claude Code extension through its marketplace; Public exploits released for buffer overflows in end-of-life and consumer routers from four vendors">
+<title>Daily Intel Brief: 16 November 2026</title>
+<meta name="description" content="Threat-intel brief for 16 November 2026: FBI warns attackers are using the ARTEX AI penetration testing framework in global attacks; TSMC confirms leak of employee personal data after threat actor auctions 6.9GB; DrayTek Vigor2960 path traversal and command injection flaws disclosed, fixed in 1.5.1.7">
 <meta name="color-scheme" content="only light">
 <meta name="theme-color" content="#B3141B">
-<link rel="canonical" href="https://intel.brycemaxheimer.com/editions/2026-11-15/"><link rel="alternate" type="application/rss+xml" title="Daily Intel Brief (RSS)" href="https://intel.brycemaxheimer.com/feed.xml">
+<link rel="canonical" href="https://intel.brycemaxheimer.com/editions/2026-11-16/"><link rel="alternate" type="application/rss+xml" title="Daily Intel Brief (RSS)" href="https://intel.brycemaxheimer.com/feed.xml">
 <link rel="alternate" type="application/feed+json" title="Daily Intel Brief (JSON Feed)" href="https://intel.brycemaxheimer.com/feed.json">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/LibreFranklin-Variable.woff2" as="font" type="font/woff2" crossorigin>
@@ -20,8 +20,8 @@
   <div class="wrap mast-band">
     <a class="brand" href="/">Daily Intel Brief</a>
 <div class="mast-meta">
-  <p class="eyebrow">Sunday edition</p>
-  <h1 id="edition-title">15 November 2026</h1>
+  <p class="eyebrow">Monday edition</p>
+  <h1 id="edition-title">16 November 2026</h1>
 </div>
   </div>
   <div class="mast-bar">
@@ -41,14 +41,14 @@
 
 <div class="edition-strip">
   <dl class="stats" aria-labelledby="edition-title">
-    <div><dd>4</dd><dt>Top stories</dt></div>
+    <div><dd>5</dd><dt>Top stories</dt></div>
     <div class="crit"><dd>0</dd><dt>New KEV entries</dt></div>
-    <div class="ai"><dd>0</dd><dt>Early signals</dt></div>
+    <div class="ai"><dd>1</dd><dt>Early signal</dt></div>
     <div><dd>22<small>/22</small></dd><dt>Sources collected</dt></div>
   </dl>
   <section class="provenance" aria-label="How this edition was made">
   <p><strong>How this edition was made.</strong>
-    Collected from 22 public sources between 14 Nov 05:00 and 15 Nov 05:00 UTC.
+    Collected from 22 public sources between 15 Nov 05:00 and 16 Nov 05:00 UTC.
 Ranked by Claude Haiku 5.5, summarized by Claude Opus 5.5, and reviewed by a person before publishing.
     Summaries can be wrong, so check the linked sources before acting. <a href="methodology/">Read the methodology</a></p>
   </section>
@@ -66,68 +66,33 @@ Ranked by Claude Haiku 5.5, summarized by Claude Opus 5.5, and reviewed by a per
       <div class="story-flags">
         <div class="tags">
 <span class="tag crit-solid">Exploited</span>
-<span class="tag">campaign</span>        </div>
+<span class="tag info">M365 / Entra</span><span class="tag">campaign</span>        </div>
         <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span class="rank">No. 01</span> · Priority <b>51</b>
+          <span class="rank">No. 01</span> · Priority <b>71</b>
         </div>
       </div>
-      <h3 id="story-1-h">US government disrupts North Korean &#39;FaceStealer&#39; social engineering campaign tied to $400M crypto theft</h3>
-      <p class="meta">1 source · first reported 14 November 2026</p>
+      <h3 id="story-1-h">FBI warns attackers are using the ARTEX AI penetration testing framework in global attacks</h3>
+      <p class="meta"> ARTEX · 1 source · first reported 15 November 2026</p>
     </div>
 
 
     <div class="story-body">
       <div class="cols2">
-        <section><h4 class="label">What happened</h4><p>BleepingComputer reported on 14 November 2026 that the U.S. government has disrupted a North Korean social engineering campaign it calls FaceStealer. The campaign is credited with stealing more than $400 million in cryptocurrency. The available reporting does not describe the lure techniques, malware, infrastructure, targeted sectors or the disruption actions taken.</p></section>
-        <section><h4 class="label">Why it matters</h4><p>North Korean crypto theft campaigns typically rely on social engineering of individual employees, so organizations with cryptocurrency, fintech or developer staff may face the same tradecraft through personal and corporate channels. The sources provide no indicators, CVEs or technical details, so there is nothing specific to hunt for yet. The disruption may also cause the operators to shift infrastructure rather than stop.</p></section>
+        <section><h4 class="label">What happened</h4><p>According to BleepingComputer, the FBI has warned that threat actors are using ARTEX, an AI-powered penetration testing framework, to automate attacks against organizations worldwide. BleepingComputer reports that the activity includes a recent supply-chain breach involving ConnectWise that led to compromised Microsoft 365 customer environments. The available reporting does not describe ARTEX&#39;s techniques, indicators of compromise, or how the ConnectWise breach gave access to Microsoft 365 tenants.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>Exploitation is confirmed in the wild, and the reported impact falls on Microsoft 365 tenants, which suggests that trusted third-party access paths such as managed service providers and remote management tooling are part of the threat. AI-driven automation can shorten the time between initial access and follow-on activity, so defenders have less time to catch misuse of delegated or partner access. Because no indicators or techniques have been published, defenders have to hunt on behavior rather than on signatures.</p></section>
       </div>
       <div class="actions">
         <h4 class="label">What to do</h4>
-        <ol class="steps"><li>Watch for the official U.S. government announcement or advisory on FaceStealer and ingest any published indicators into Defender XDR and Sentinel watchlists.</li><li>Brief staff who handle cryptocurrency wallets, treasury functions or software development on unsolicited recruiter, investor or partner outreach that pushes them to install tools or join unfamiliar video calls.</li><li>Confirm that users cannot run unsigned or newly downloaded executables and scripts without review on endpoints that hold wallet keys or signing credentials.</li><li>Require phishing-resistant MFA and out-of-band approval for cryptocurrency transfers and changes to payment or wallet details.</li></ol>
+        <ol class="steps"><li>Review all third-party and MSP access to your Microsoft 365 tenant, including delegated admin relationships, partner relationships, and multi-tenant app consents, and remove anything that is not needed.</li><li>If you use ConnectWise products or a ConnectWise-based MSP, contact the vendor or provider to confirm whether you are affected, and rotate any credentials or secrets they hold.</li><li>Audit recent OAuth app consents, new service principal credentials, and permission grants in Entra ID, and investigate any you cannot explain.</li><li>Hunt for new or changed mailbox inbox rules and for sign-ins from unfamiliar infrastructure on admin and service accounts.</li><li>Watch for the FBI advisory to be published and add its indicators and techniques to your detections once they are available.</li></ol>
       </div>
     </div>
 
     <div class="sources">
       <h4 class="label">Sources</h4>
       <ul>
-        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/us-disrupts-north-korean-campaign-behind-400-million-crypto-theft/" rel="noopener noreferrer nofollow">US disrupts North Korean campaign behind $400 million crypto theft</a><span class="where">bleepingcomputer.com · 14 Nov</span></li>
+        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/fbi-warns-artex-ai-hacking-tool-is-powering-global-cyberattacks/" rel="noopener noreferrer nofollow">FBI warns ARTEX AI hacking tool is powering global cyberattacks</a><span class="where">bleepingcomputer.com · 15 Nov</span></li>
       </ul>
-<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
-
-
-  </article>
-  <article class="story" id="story-2" aria-labelledby="story-2-h">
-    <div class="story-top">
-      <div class="story-flags">
-        <div class="tags">
-<span class="tag crit-solid">Exploited</span>
-<span class="tag">breach</span>        </div>
-        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span class="rank">No. 02</span> · Priority <b>47</b>
-        </div>
-      </div>
-      <h3 id="story-2-h">Cursor confirms breach used to push a malicious Claude Code extension through its marketplace</h3>
-      <p class="meta">Cursor Cursor · 1 source · first reported 14 November 2026</p>
-    </div>
-
-
-    <div class="story-body">
-      <div class="cols2">
-        <section><h4 class="label">What happened</h4><p>According to BleepingComputer, Cursor has confirmed a security breach that let attackers distribute a malicious Claude Code extension through its extension marketplace. BleepingComputer reports the attackers got in using credentials stolen from AI infrastructure provider Fireworks AI. The report was published on 14 November 2026. The available reporting does not name the extension, describe its payload, give a distribution window, or list indicators.</p></section>
-        <section><h4 class="label">Why it matters</h4><p>Developer workstations running the Cursor IDE may have installed a trusted-looking extension that runs code with the developer&#39;s privileges. That puts source code, API keys, cloud tokens and Microsoft 365 or Entra sessions on those machines at risk. Exploitation is confirmed, but the scope is unclear, so inventory and hunting are the main defenses until Cursor publishes details.</p></section>
-      </div>
-      <div class="actions">
-        <h4 class="label">What to do</h4>
-        <ol class="steps"><li>Inventory endpoints running the Cursor IDE and review the Claude Code-related extensions installed or updated on them, removing any that Cursor identifies as malicious once it names them.</li><li>On developer machines that installed or updated Claude Code extensions in Cursor during the incident window, rotate the secrets present there: API keys, cloud credentials, Git tokens and session tokens.</li><li>Hunt for Cursor spawning shells, script interpreters or unusual outbound network connections on developer endpoints.</li><li>Restrict or allowlist IDE extensions on managed developer workstations, and watch for vendor guidance from Cursor and Fireworks AI.</li><li>Review Entra ID sign-ins and token activity for users of affected machines for anomalous locations or new devices.</li></ol>
-      </div>
-    </div>
-
-    <div class="sources">
-      <h4 class="label">Sources</h4>
-      <ul>
-        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/cursor-confirms-security-breach-led-to-malicious-claude-code-extension/" rel="noopener noreferrer nofollow">Cursor confirms security breach led to malicious Claude Code extension</a><span class="where">bleepingcomputer.com · 14 Nov</span></li>
-      </ul>
-<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: low</p>    </div>
 
 
     <section class="detect" aria-label="Detection">
@@ -137,32 +102,32 @@ Ranked by Claude Haiku 5.5, summarized by Claude Opus 5.5, and reviewed by a per
         <span class="why">Hunting only: no endpoint behavior to write a rule against</span>
       </div>
       <div class="tabs">
-        <input class="tab-input" type="radio" name="fmt-story-2" id="story-2-hunt" checked>
-        <label for="story-2-hunt">Hunting</label>
+        <input class="tab-input" type="radio" name="fmt-story-1" id="story-1-hunt" checked>
+        <label for="story-1-hunt">Hunting</label>
         <div class="tab-panels">
           <div class="tab-panel">
-<ol class="steps-plain"><li>Identify devices where Cursor.exe has run recently, to scope the exposed population.</li><li>List extension files written under the .cursor extensions directory in the last 30 days, focusing on Claude Code-related extension folders.</li><li>Review child processes of Cursor, especially shells, PowerShell and script interpreters with encoded or download-related command lines.</li><li>Review outbound connections from Cursor and its child processes to rare destinations.</li><li>For any suspicious device, collect the extension folder for analysis and start credential rotation for the user.</li></ol><div class="code">
+<ol class="steps-plain"><li>List all delegated admin, partner, and third-party app access to the tenant, and confirm each one with its business owner.</li><li>Review Entra ID audit activity from the last 30 days for application consents, new service principal credentials, and new permission grants.</li><li>Look for creation or modification of mailbox inbox rules, focusing on rules that forward, delete, or hide messages.</li><li>On endpoints managed through ConnectWise tooling, check for remote access agents launching shells or script interpreters.</li><li>Correlate any findings with sign-in logs to find unfamiliar IP addresses or countries for the same accounts.</li><li>Once the FBI publishes indicators for ARTEX, run them against these same data sources.</li></ol><div class="code">
   <div class="code-bar">
-    <span class="name">Defender XDR KQL · Devices running Cursor IDE</span>
+    <span class="name">Defender XDR KQL · OAuth consents and service principal credential changes</span>
 <span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
   </div>
-  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(30d) | where FileName =~ &#34;Cursor.exe&#34; | summarize LastSeen=max(Timestamp), Users=make_set(AccountName) by DeviceName</code></pre>
+  <pre><code>CloudAppEvents | where Timestamp &gt; ago(30d) | where ActionType in (&#34;Consent to application.&#34;, &#34;Add service principal credentials.&#34;, &#34;Add delegated permission grant.&#34;, &#34;Add app role assignment to service principal.&#34;) | project Timestamp, ActionType, AccountDisplayName, AccountObjectId, IPAddress, CountryCode, RawEventData | order by Timestamp desc</code></pre>
 </div>
-<p class="conv-note receipt">On 500 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<p class="conv-note receipt">On 30 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
 <div class="code">
   <div class="code-bar">
-    <span class="name">Defender XDR KQL · Recent extension file writes in Cursor extension folders</span>
+    <span class="name">Defender XDR KQL · New or modified mailbox inbox rules</span>
 <span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
   </div>
-  <pre><code>DeviceFileEvents | where Timestamp &gt; ago(30d) | where FolderPath has @&#34;.cursor\extensions&#34; | where FolderPath has &#34;claude&#34; | summarize FirstSeen=min(Timestamp), LastSeen=max(Timestamp), Files=dcount(FileName) by DeviceName, InitiatingProcessAccountName, ExtFolder=tostring(split(FolderPath, @&#34;\extensions\&#34;)[1])</code></pre>
+  <pre><code>CloudAppEvents | where Timestamp &gt; ago(30d) | where ActionType in (&#34;New-InboxRule&#34;, &#34;Set-InboxRule&#34;, &#34;UpdateInboxRules&#34;) | project Timestamp, ActionType, AccountDisplayName, AccountObjectId, IPAddress, CountryCode, RawEventData | order by Timestamp desc</code></pre>
 </div>
-<p class="conv-note receipt">On 150 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<p class="conv-note receipt">On 30 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
 <div class="code">
   <div class="code-bar">
-    <span class="name">Defender XDR KQL · Shells and interpreters spawned by Cursor</span>
+    <span class="name">Defender XDR KQL · ConnectWise ScreenConnect agents spawning shells or script hosts</span>
 <span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
   </div>
-  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(30d) | where InitiatingProcessFileName =~ &#34;Cursor.exe&#34; or InitiatingProcessParentFileName =~ &#34;Cursor.exe&#34; | where FileName in~ (&#34;powershell.exe&#34;,&#34;pwsh.exe&#34;,&#34;cmd.exe&#34;,&#34;curl.exe&#34;,&#34;wscript.exe&#34;,&#34;cscript.exe&#34;,&#34;mshta.exe&#34;,&#34;rundll32.exe&#34;,&#34;bitsadmin.exe&#34;) | project Timestamp, DeviceName, AccountName, FileName, ProcessCommandLine, InitiatingProcessCommandLine | order by Timestamp desc</code></pre>
+  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(30d) | where InitiatingProcessFileName has_any (&#34;ScreenConnect.ClientService.exe&#34;, &#34;ScreenConnect.WindowsClient.exe&#34;) | where FileName in~ (&#34;cmd.exe&#34;, &#34;powershell.exe&#34;, &#34;pwsh.exe&#34;, &#34;rundll32.exe&#34;, &#34;mshta.exe&#34;, &#34;wscript.exe&#34;, &#34;cscript.exe&#34;) | project Timestamp, DeviceName, AccountName, InitiatingProcessFileName, FileName, ProcessCommandLine | order by Timestamp desc</code></pre>
 </div>
 <p class="conv-note receipt">On 500 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
           </div>
@@ -170,39 +135,74 @@ Ranked by Claude Haiku 5.5, summarized by Claude Opus 5.5, and reviewed by a per
       </div>
     </section>
   </article>
+  <article class="story" id="story-2" aria-labelledby="story-2-h">
+    <div class="story-top">
+      <div class="story-flags">
+        <div class="tags">
+<span class="tag crit-solid">Exploited</span>
+<span class="tag info">Cloud / SaaS</span><span class="tag">breach</span>        </div>
+        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span class="rank">No. 02</span> · Priority <b>59</b>
+        </div>
+      </div>
+      <h3 id="story-2-h">TSMC confirms leak of employee personal data after threat actor auctions 6.9GB</h3>
+      <p class="meta">TSMC  · 1 source · first reported 15 November 2026</p>
+    </div>
+
+
+    <div class="story-body">
+      <div class="cols2">
+        <section><h4 class="label">What happened</h4><p>According to BleepingComputer, TSMC has confirmed that personal data belonging to its employees was leaked online. A threat actor had put up for auction 6.9GB of data it said was stolen from the company. BleepingComputer&#39;s headline connects the breach to a cloud provider, but the available reporting does not name the provider, the initial access method, or how many employees are affected.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>No vulnerability, product or attack technique has been disclosed, so there is no exposure to check in your own Windows, M365 or edge environments. The main downstream risk is phishing and social engineering aimed at TSMC staff, and at partners and suppliers whose contacts may appear in the leaked data. The breach also shows that third-party cloud providers holding HR or employee data are a weak point worth reviewing.</p></section>
+      </div>
+      <div class="actions">
+        <h4 class="label">What to do</h4>
+        <ol class="steps"><li>If your organization works with TSMC, warn staff who deal with TSMC contacts that impersonation and phishing using leaked employee details is likely.</li><li>Review which third-party cloud and SaaS providers hold your own employee or HR data, and confirm their breach notification obligations and access controls.</li><li>Watch for follow-up disclosures from TSMC or the cloud provider about the intrusion vector before acting on any technical indicators.</li></ol>
+      </div>
+    </div>
+
+    <div class="sources">
+      <h4 class="label">Sources</h4>
+      <ul>
+        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/tsmc-employee-data-breach-linked-to-cloud-provider/" rel="noopener noreferrer nofollow">TSMC employee data breach linked to cloud provider</a><span class="where">bleepingcomputer.com · 15 Nov</span></li>
+      </ul>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
+
+
+  </article>
   <article class="story" id="story-3" aria-labelledby="story-3-h">
     <div class="story-top">
       <div class="story-flags">
         <div class="tags">
 <span class="tag high">Public PoC</span><span class="tag info">Edge device</span>        </div>
         <div class="priority high" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span class="rank">No. 03</span> · Priority <b>47</b>
+          <span class="rank">No. 03</span> · Priority <b>42</b>
         </div>
       </div>
-      <h3 id="story-3-h">Public exploits released for buffer overflows in end-of-life and consumer routers from four vendors</h3>
-      <p class="meta">6 sources · first reported 14 November 2026</p>
+      <h3 id="story-3-h">DrayTek Vigor2960 path traversal and command injection flaws disclosed, fixed in 1.5.1.7</h3>
+      <p class="meta">DrayTek Vigor2960 · 2 sources · first reported 15 November 2026</p>
     </div>
 
     <dl class="facts">
-      <div><dt>CVE</dt><dd><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-129353">CVE-2026-129353</a></dd></div>
-      <div><dt>CVSS</dt><dd><strong>9.3</strong> <span class="crit">Critical</span></dd></div>
-      <div><dt>EPSS</dt><dd><strong>1.8%</strong> <span class="muted">30-day</span></dd></div>
+      <div><dt>CVE</dt><dd><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-129451">CVE-2026-129451</a></dd></div>
+      <div><dt>CVSS</dt><dd><strong>8.6</strong> <span class="high">High</span></dd></div>
+      <div><dt>EPSS</dt><dd><strong>0.5%</strong> <span class="muted">30-day</span></dd></div>
       <div><dt>CISA KEV</dt><dd><span class="muted">Not listed</span></dd></div>
       <div><dt>Public PoC</dt><dd>None known</dd></div>
     </dl>
-    <p class="related">Also: <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-129351">CVE-2026-129351</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-129354">CVE-2026-129354</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-129250">CVE-2026-129250</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-129352">CVE-2026-129352</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-129258">CVE-2026-129258</a></p>
+    <p class="related">Also: <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-129452">CVE-2026-129452</a></p>
 
     <div class="story-body">
       <div class="cols2">
-        <section><h4 class="label">What happened</h4><p>NVD published six CVEs between 14 and 15 November 2026 covering Edimax BR6478ACV2, Tenda AC18, TRENDnet TEW-657BRM and D-Link DIR-600L router firmware. The flaws include stack-based buffer overflows and out-of-bounds writes in web management CGI handlers, plus a Tenda firmware upgrade handler that does not properly verify data authenticity. All are remotely reachable, and the NVD descriptions say exploits are public for each one. TRENDnet says the TEW-657BRM has been end-of-life for more than 15 years and it cannot confirm the issues, and Edimax reportedly did not respond to the reporter.</p></section>
-        <section><h4 class="label">Why it matters</h4><p>These are consumer and SOHO devices, so they show up at branch offices, home offices of remote staff, and in shadow IT rather than as managed corporate edge gear. None are in CISA KEV and EPSS scores are low (0.3% to 1.8%), but public exploit code for remotely reachable web interfaces is the kind of thing botnet operators pick up, and some devices will never be patched. The sources disagree on PoC availability: NVD text says exploits are public for all six, while proof-of-concept tracking confirms it only for the two TRENDnet CVEs.</p></section>
+        <section><h4 class="label">What happened</h4><p>NVD has published two high-severity flaws in the DrayTek Vigor2960 router, both in the web management CGI handler mainfunction.cgi. CVE-2026-129451 (CVSS 8.6) is a path traversal in the guest export function&#39;s filename parameter and affects versions up to 1.5.1.6. CVE-2026-129452 (CVSS 8.5) is a command injection through the jsondata parameter of the set_table function in 1.5.1.6. Both can be triggered remotely, and NVD lists 1.5.1.7 as the fix. NVD says exploit details are public, but other vulnerability data does not show confirmed public proof-of-concept code, so the sources disagree on this point.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>If a Vigor2960 management interface can be reached, an attacker could read files from the device or run commands on it, which would let them take over a perimeter router that sits in front of your Windows and M365 users. Neither CVE is in CISA KEV and the EPSS scores are low (0.5% and 2.2%). Still, DrayTek edge devices have been mass-exploited before, and NVD reports public exploit details, so exposed units should be patched quickly. DrayTek has also said another release with further fixes is planned, which means 1.5.1.7 may not be the last update needed.</p></section>
       </div>
       <div class="actions">
         <h4 class="label">What to do</h4>
-        <ol class="steps"><li>Find and replace any TRENDnet TEW-657BRM and D-Link DIR-600L units on corporate or branch networks; no fixes are stated and TRENDnet says the TEW-657BRM is long end-of-life.</li><li>Make sure the web management interface of any Edimax BR6478ACV2 or Tenda AC18 is not reachable from the internet, and disable remote administration.</li><li>Block corporate-managed or VPN-connected sites from relying on unmanaged consumer routers, and move branch connectivity to supported, vendor-maintained gear.</li><li>Watch vendor channels for Edimax and Tenda firmware updates and apply them when they are released.</li><li>Treat traffic from any of these devices as untrusted, and review for unexpected outbound connections from router IPs if they sit in front of corporate assets.</li></ol>
+        <ol class="steps"><li>Find every DrayTek Vigor2960 in your estate and upgrade it to firmware 1.5.1.7 or later, then watch for DrayTek&#39;s next announced security release.</li><li>Block internet access to the Vigor2960 web management interface and limit administration to a dedicated management network or VPN.</li><li>Review router web and system logs for requests to mainfunction.cgi from unexpected sources, especially ones that reference guest export or table-setting functions.</li><li>If a device was exposed and unpatched, treat it as possibly compromised: check its configuration for unknown admin accounts, changed VPN or DNS settings, and new port forwards, and rotate the admin and VPN credentials it stores.</li><li>Check internal hosts for unusual traffic from the router&#39;s management IP, which could indicate an attacker moving inward from the device.</li></ol>
       <div class="cols2 versions">
-        <div><div class="k">Affected</div><ul><li>Edimax BR6478ACV2 1.23 (CVE-2026-129250)</li><li>Tenda AC18 15.03.05.05_multi/15.03.05.19 Build 6318 (CVE-2026-129258)</li><li>TRENDnet TEW-657BRM 1.00.1 (CVE-2026-129351, CVE-2026-129352)</li><li>D-Link DIR-600L 2.17/2.17b02 (CVE-2026-129353)</li><li>D-Link DIR-600L 2.17b02 (CVE-2026-129354)</li></ul></div>
-        <div><div class="k">Fixed</div><span class="muted">Not stated in the sources</span></div>
+        <div><div class="k">Affected</div><ul><li>DrayTek Vigor2960 up to 1.5.1.6 (CVE-2026-129451)</li><li>DrayTek Vigor2960 1.5.1.6 (CVE-2026-129452)</li></ul></div>
+        <div><div class="k">Fixed</div><ul><li>DrayTek Vigor2960 1.5.1.7</li></ul></div>
       </div>
       </div>
     </div>
@@ -210,20 +210,11 @@ Ranked by Claude Haiku 5.5, summarized by Claude Opus 5.5, and reviewed by a per
     <div class="sources">
       <h4 class="label">Sources</h4>
       <ul>
-        <li><span class="pub">NVD</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-129250" rel="noopener noreferrer nofollow">CVE-2026-129250 (HIGH 8.6)</a><span class="where">nvd.nist.gov · 14 Nov</span></li>
-        <li><span class="pub">NVD</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-129258" rel="noopener noreferrer nofollow">CVE-2026-129258 (HIGH 8.5)</a><span class="where">nvd.nist.gov · 14 Nov</span></li>
-        <li><span class="pub">NVD</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-129351" rel="noopener noreferrer nofollow">CVE-2026-129351 (CRITICAL 9.3)</a><span class="where">nvd.nist.gov · 14 Nov</span></li>
-        <li><span class="pub">NVD</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-129352" rel="noopener noreferrer nofollow">CVE-2026-129352 (HIGH 8.5)</a><span class="where">nvd.nist.gov · 14 Nov</span></li>
-        <li><span class="pub">NVD</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-129353" rel="noopener noreferrer nofollow">CVE-2026-129353 (CRITICAL 9.3)</a><span class="where">nvd.nist.gov · 15 Nov</span></li>
-        <li><span class="pub">NVD</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-129354" rel="noopener noreferrer nofollow">CVE-2026-129354 (CRITICAL 9.3)</a><span class="where">nvd.nist.gov · 15 Nov</span></li>
+        <li><span class="pub">NVD</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-129451" rel="noopener noreferrer nofollow">CVE-2026-129451 (HIGH 8.6)</a><span class="where">nvd.nist.gov · 15 Nov</span></li>
+        <li><span class="pub">NVD</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-129452" rel="noopener noreferrer nofollow">CVE-2026-129452 (HIGH 8.5)</a><span class="where">nvd.nist.gov · 15 Nov</span></li>
       </ul>
 <p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
 
-    <details class="poc">
-      <summary>Public proof-of-concept repos (2)</summary>
-      <p class="warn">Links only, not vetted. Public PoC repos are often fake or backdoored. Don't run them on a work machine.</p>
-      <ul><li><a href="https://github.com/googlesky/CVE-2026-129351" rel="noopener noreferrer nofollow">googlesky/CVE-2026-129351</a> <span class="muted">CVE-2026-129351 · 0 stars · created 15 Nov</span></li><li><a href="https://github.com/googlesky/CVE-2026-129352" rel="noopener noreferrer nofollow">googlesky/CVE-2026-129352</a> <span class="muted">CVE-2026-129352 · 0 stars · created 15 Nov</span></li></ul>
-    </details>
 
     <section class="detect" aria-label="Detection">
       <div class="detect-head">
@@ -236,12 +227,20 @@ Ranked by Claude Haiku 5.5, summarized by Claude Opus 5.5, and reviewed by a per
         <label for="story-3-hunt">Hunting</label>
         <div class="tab-panels">
           <div class="tab-panel">
-<ol class="steps-plain"><li>Use Defender for Endpoint device discovery to list network devices whose vendor or model matches Edimax, Tenda, TRENDnet or D-Link and the affected models.</li><li>Check branch and remote office inventories and DHCP or gateway records for the affected models, since discovery may not see every router.</li><li>For any match, check whether the management interface is exposed to the internet, using external attack surface scanning or Defender EASM.</li><li>Prioritize replacement of end-of-life units (TRENDnet TEW-657BRM, D-Link DIR-600L) and record compensating controls for Edimax and Tenda devices until fixes exist.</li></ol><div class="code">
+<ol class="steps-plain"><li>List all DrayTek Vigor2960 devices using asset inventory and Defender for Endpoint device discovery, and record each one&#39;s firmware version.</li><li>Check which of those devices expose their web management interface to the internet, using external attack surface data or a firewall rule review.</li><li>Query Defender vulnerability management for the two CVE IDs to find flagged devices.</li><li>On exposed or unpatched devices, pull the router logs and look for requests to mainfunction.cgi from external addresses, as well as unexpected configuration changes.</li><li>Investigate any internal connections that start from the router&#39;s management IP to endpoints or servers.</li></ol><div class="code">
   <div class="code-bar">
-    <span class="name">Defender XDR KQL · Discovered network devices matching affected router vendors and models</span>
+    <span class="name">Defender XDR KQL · Devices flagged for the DrayTek Vigor2960 CVEs</span>
 <span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
   </div>
-  <pre><code>DeviceInfo | where Timestamp &gt; ago(14d) | where Vendor has_any (&#34;Edimax&#34;, &#34;Tenda&#34;, &#34;TRENDnet&#34;, &#34;D-Link&#34;) or Model has_any (&#34;BR6478&#34;, &#34;AC18&#34;, &#34;TEW-657BRM&#34;, &#34;DIR-600L&#34;) | summarize arg_max(Timestamp, *) by DeviceId | project Timestamp, DeviceId, DeviceName, DeviceType, Vendor, Model, OSPlatform, OSVersion, PublicIP</code></pre>
+  <pre><code>DeviceTvmSoftwareVulnerabilities | where CveId in (&#34;CVE-2026-129451&#34;, &#34;CVE-2026-129452&#34;) | project DeviceId, DeviceName, OSPlatform, SoftwareVendor, SoftwareName, SoftwareVersion, CveId, VulnerabilitySeverityLevel</code></pre>
+</div>
+<p class="conv-note receipt">The synthetic baseline has no data for its tables. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Discovered DrayTek network devices and their models</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceInfo | where Timestamp &gt; ago(7d) | where Vendor has &#34;DrayTek&#34; or Model has &#34;Vigor&#34; | summarize arg_max(Timestamp, *) by DeviceId | project Timestamp, DeviceId, DeviceName, Vendor, Model, DeviceType, OSVersion, PublicIP</code></pre>
 </div>
 <p class="conv-note receipt">On 60 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
           </div>
@@ -253,35 +252,167 @@ Ranked by Claude Haiku 5.5, summarized by Claude Opus 5.5, and reviewed by a per
     <div class="story-top">
       <div class="story-flags">
         <div class="tags">
-<span class="tag info">Mobile</span><span class="tag">policy</span>        </div>
-        <div class="priority watch" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span class="rank">No. 04</span> · Priority <b>28</b>
+<span class="tag high">Public PoC</span><span class="tag info">Edge device</span>        </div>
+        <div class="priority high" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span class="rank">No. 04</span> · Priority <b>42</b>
         </div>
       </div>
-      <h3 id="story-4-h">Italian regulator fines Meta $887 million over Facebook access to Android gallery media</h3>
-      <p class="meta">Meta Facebook · 1 source · first reported 14 November 2026</p>
+      <h3 id="story-4-h">D-Link DIR-850L router firmware ships hard-coded console credentials (<span class="nowrap">CVE-2026-129445</span>)</h3>
+      <p class="meta">D-Link DIR-850L · 1 source · first reported 15 November 2026</p>
     </div>
 
+    <dl class="facts">
+      <div><dt>CVE</dt><dd><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-129445">CVE-2026-129445</a></dd></div>
+      <div><dt>CVSS</dt><dd><strong>8.4</strong> <span class="high">High</span></dd></div>
+      <div><dt>EPSS</dt><dd><strong>0.1%</strong> <span class="muted">30-day</span></dd></div>
+      <div><dt>CISA KEV</dt><dd><span class="muted">Not listed</span></dd></div>
+      <div><dt>Public PoC</dt><dd>None known</dd></div>
+    </dl>
 
     <div class="story-body">
       <div class="cols2">
-        <section><h4 class="label">What happened</h4><p>SecurityWeek reports that an Italian authority fined Meta $887 million over how the Facebook app on Android accessed photos and videos stored in users&#39; device galleries. According to the authority, the applicable directive treats smartphones as part of a person&#39;s private sphere and requires free and informed consent before such access. The sources do not say which authority issued the fine, what period the conduct covered, or whether Meta plans to appeal.</p></section>
-        <section><h4 class="label">Why it matters</h4><p>This is a privacy and regulatory action, not a vulnerability or an attack, so there is nothing to patch and no exploitation to hunt for. It may matter to teams that govern mobile app permissions on managed Android devices, because it shows regulators examining broad access to device media.</p></section>
+        <section><h4 class="label">What happened</h4><p>NVD published CVE-2026-129445 on 15 November 2026, describing hard-coded credentials in the console login component (the consolepwd binary) of D-Link DIR-850L firmware FW1.20WWb03. NVD rates it CVSS 8.4 (High) and says exploitation requires local access. The NVD entry states that an exploit has been released publicly, but other tracking data does not confirm that public proof-of-concept code exists, so the sources disagree on this point. No vendor advisory or fixed firmware is cited.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>The DIR-850L is a consumer and small-office router, so it is unlikely to be in managed enterprise estates. It may still appear in branch offices or on home networks used by remote workers. The flaw needs local access, is not in CISA KEV, and has a low EPSS of about 0.13%, so urgency is low. Hard-coded credentials cannot be rotated by the owner, though, so any reachable console on an affected device should be treated as open.</p></section>
       </div>
       <div class="actions">
         <h4 class="label">What to do</h4>
-        <ol class="steps"><li>Review mobile device management policies for managed Android devices that run consumer social media apps, and confirm whether photo and media permissions are restricted on corporate or work-profile devices.</li><li>Brief privacy and compliance teams so they can assess any impact on corporate use of Meta apps.</li></ol>
+        <ol class="steps"><li>Inventory DIR-850L routers on corporate, branch and sanctioned remote-work networks, and check which firmware they run.</li><li>Check D-Link&#39;s support channels for a firmware update or an end-of-life notice for the DIR-850L. If no fix exists, plan to replace affected units.</li><li>Until devices are replaced, restrict physical and local-network access to the router&#39;s console and management interfaces.</li><li>Treat any affected router on a network that carries corporate traffic as untrusted, and require VPN with device compliance checks for remote users behind such hardware.</li></ol>
+      <div class="cols2 versions">
+        <div><div class="k">Affected</div><ul><li>D-Link DIR-850L FW1.20WWb03</li></ul></div>
+        <div><div class="k">Fixed</div><span class="muted">Not stated in the sources</span></div>
+      </div>
       </div>
     </div>
 
     <div class="sources">
       <h4 class="label">Sources</h4>
       <ul>
-        <li><span class="pub">SecurityWeek</span><a href="https://www.securityweek.com/meta-fined-887-million-in-italy-over-android-gallery-photos-and-videos-on-facebook/" rel="noopener noreferrer nofollow">Meta Fined $887 Million in Italy Over Android Gallery Photos and Videos on Facebook</a><span class="where">securityweek.com · 14 Nov</span></li>
+        <li><span class="pub">NVD</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-129445" rel="noopener noreferrer nofollow">CVE-2026-129445 (HIGH 8.4)</a><span class="where">nvd.nist.gov · 15 Nov</span></li>
       </ul>
 <p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
 
 
+    <section class="detect" aria-label="Detection">
+      <div class="detect-head">
+        <div class="t">Detection
+<span class="tag ai">AI-generated · untested</span>        </div>
+        <span class="why">Hunting only: no endpoint behavior to write a rule against</span>
+      </div>
+      <div class="tabs">
+        <input class="tab-input" type="radio" name="fmt-story-4" id="story-4-hunt" checked>
+        <label for="story-4-hunt">Hunting</label>
+        <div class="tab-panels">
+          <div class="tab-panel">
+<ol class="steps-plain"><li>Use Defender for Endpoint device discovery to list network devices whose vendor is D-Link, and filter for the DIR-850L model.</li><li>For each device found, confirm the firmware version through its management interface or asset records, and note whether it runs FW1.20WWb03.</li><li>Check whether managed endpoints use a D-Link device as their default gateway on branch or home networks, and flag those users for hardware review.</li><li>Record affected devices and track them through replacement or firmware update.</li></ol><div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Discovered D-Link network devices (look for DIR-850L)</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceInfo
+| where Timestamp &gt; ago(30d)
+| where Vendor has &#34;D-Link&#34; or Model has &#34;DIR-850&#34;
+| summarize arg_max(Timestamp, *) by DeviceId
+| project Timestamp, DeviceId, DeviceName, DeviceType, Vendor, Model, OSVersion, PublicIP</code></pre>
+</div>
+<p class="conv-note receipt">On 60 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · TVM findings for CVE-2026-129445</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceTvmSoftwareVulnerabilities
+| where CveId == &#34;CVE-2026-129445&#34;
+| project DeviceId, DeviceName, SoftwareVendor, SoftwareName, SoftwareVersion, VulnerabilitySeverityLevel</code></pre>
+</div>
+<p class="conv-note receipt">The synthetic baseline has no data for its tables. Not tested on real attack data.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </article>
+  <article class="story" id="story-5" aria-labelledby="story-5-h">
+    <div class="story-top">
+      <div class="story-flags">
+        <div class="tags">
+<span class="tag info">Linux</span>        </div>
+        <div class="priority high" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span class="rank">No. 05</span> · Priority <b>31</b>
+        </div>
+      </div>
+      <h3 id="story-5-h">Cyrus SASL through 2.1.28: SRP mechanism flaw lets unauthenticated clients log in as any user</h3>
+      <p class="meta"> Cyrus SASL · 1 source · first reported 15 November 2026</p>
+    </div>
+
+    <dl class="facts">
+      <div><dt>CVE</dt><dd><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-129483">CVE-2026-129483</a></dd></div>
+      <div><dt>CVSS</dt><dd><strong>9.3</strong> <span class="crit">Critical</span></dd></div>
+      <div><dt>EPSS</dt><dd><strong>0.4%</strong> <span class="muted">30-day</span></dd></div>
+      <div><dt>CISA KEV</dt><dd><span class="muted">Not listed</span></dd></div>
+      <div><dt>Public PoC</dt><dd>None known</dd></div>
+    </dl>
+
+    <div class="story-body">
+      <div class="cols2">
+        <section><h4 class="label">What happened</h4><p>NVD published CVE-2026-129483 (CVSS 9.3) on 15 November 2026. It describes an authentication bypass in the SRP server mechanism of Cyrus SASL through 2.1.28. The server-side SRP step does not validate the client&#39;s public value properly, so an unauthenticated network client can force a predictable shared secret. That lets the client authenticate as any existing user without the password and learn the session keys. NVD does not list affected vendor products or a fixed release.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>Cyrus SASL is embedded in many Linux mail, directory and IMAP services, and a successful bypass gives full account impersonation on whatever service uses it. Only deployments that offer the SRP mechanism should be exposed, so whether SRP is enabled decides real risk. There is no known exploitation, no public proof of concept, no KEV listing and an EPSS of 0.38%, so this is a prompt-patch and configuration review item rather than an emergency.</p></section>
+      </div>
+      <div class="actions">
+        <h4 class="label">What to do</h4>
+        <ol class="steps"><li>Inventory Linux servers carrying Cyrus SASL (cyrus-sasl, libsasl2 packages), with internet-facing mail, LDAP and IMAP servers first.</li><li>Check whether the SRP mechanism plugin is installed and offered by each service. Where it is, remove the SRP plugin package or restrict the service&#39;s SASL mechanism list to exclude SRP.</li><li>Watch distribution and upstream Cyrus SASL advisories for a fixed release and apply it once available. The sources do not state a fixed version.</li><li>Review authentication logs of SASL-using services for successful SRP logins, especially from unexpected sources or for privileged accounts, and rotate credentials and session secrets if any look suspicious.</li></ol>
+      <div class="cols2 versions">
+        <div><div class="k">Affected</div><ul><li>Cyrus SASL through 2.1.28</li></ul></div>
+        <div><div class="k">Fixed</div><span class="muted">Not stated in the sources</span></div>
+      </div>
+      </div>
+    </div>
+
+    <div class="sources">
+      <h4 class="label">Sources</h4>
+      <ul>
+        <li><span class="pub">NVD</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-129483" rel="noopener noreferrer nofollow">CVE-2026-129483 (CRITICAL 9.3)</a><span class="where">nvd.nist.gov · 15 Nov</span></li>
+      </ul>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
+
+
+    <section class="detect" aria-label="Detection">
+      <div class="detect-head">
+        <div class="t">Detection
+<span class="tag ai">AI-generated · untested</span>        </div>
+        <span class="why">Hunting only: no endpoint behavior to write a rule against</span>
+      </div>
+      <div class="tabs">
+        <input class="tab-input" type="radio" name="fmt-story-5" id="story-5-hunt" checked>
+        <label for="story-5-hunt">Hunting</label>
+        <div class="tab-panels">
+          <div class="tab-panel">
+<ol class="steps-plain"><li>Use Defender Vulnerability Management to list devices flagged for CVE-2026-129483 and devices with Cyrus SASL or libsasl2 version 2.1.28 or earlier installed.</li><li>On those hosts, check for an installed SRP plugin and whether SASL configuration files enable it in the mechanism list.</li><li>Identify which of those hosts expose SASL-authenticating services (SMTP submission, IMAP, LDAP) to untrusted networks by looking at inbound connections on the relevant ports.</li><li>Review the service logs on exposed hosts for SRP mechanism authentications and correlate them with source IPs and account activity.</li></ol><div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Devices flagged for CVE-2026-129483</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceTvmSoftwareVulnerabilities | where CveId == &#34;CVE-2026-129483&#34; | project DeviceName, OSPlatform, SoftwareVendor, SoftwareName, SoftwareVersion, VulnerabilitySeverityLevel</code></pre>
+</div>
+<p class="conv-note receipt">The synthetic baseline has no data for its tables. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Cyrus SASL / libsasl2 software inventory on Linux</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceTvmSoftwareInventory | where SoftwareName has_any (&#34;cyrus-sasl&#34;, &#34;libsasl2&#34;, &#34;cyrus_sasl&#34;, &#34;sasl2&#34;) | project DeviceName, OSPlatform, SoftwareVendor, SoftwareName, SoftwareVersion | order by DeviceName asc</code></pre>
+</div>
+<p class="conv-note receipt">On 48 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Inbound connections to SASL-using mail and directory ports on Linux</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceNetworkEvents | where Timestamp &gt; ago(14d) | where ActionType == &#34;InboundConnectionAccepted&#34; | where LocalPort in (25, 143, 389, 465, 587, 636, 993) | join kind=inner (DeviceInfo | where Timestamp &gt; ago(14d) | where OSPlatform == &#34;Linux&#34; | distinct DeviceId) on DeviceId | summarize Connections = count(), RemoteIPs = dcount(RemoteIP) by DeviceName, LocalPort | order by Connections desc</code></pre>
+</div>
+<p class="conv-note receipt">On 360 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+          </div>
+        </div>
+      </div>
+    </section>
   </article>
 
   <section class="block" id="kev" aria-labelledby="h-kev">
@@ -292,18 +423,38 @@ Ranked by Claude Haiku 5.5, summarized by Claude Opus 5.5, and reviewed by a per
   <section class="block" id="signals" aria-labelledby="h-signals">
     <div class="section-head"><h2 id="h-signals">Early signals</h2><span>Counted by code, not AI</span></div>
     <p class="lead">CVEs that several independent accounts posted about in the window but that are not in KEV or the news feeds yet. Counted from Bluesky, Mastodon (infosec.exchange), r/netsec and Hacker News after dropping CVE-feed bots and digest posts. Chatter is a lead, not confirmation.</p>
-    <p class="muted">No CVE crossed the threshold in this window.</p>
+    <div class="signal">
+      <div class="id">
+        <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-99288">CVE-2026-99288</a>
+        <div class="tags">
+<span class="tag high">Public PoC</span>        </div>
+        <span class="k">Accounts posting</span>
+        <div class="count"><b>3</b><span>on Hacker News · EPSS 0.2%</span></div>
+      </div>
+      <div class="detail">
+        <span class="k">NVD summary</span>
+        <p>In the Linux kernel, the following vulnerability has been resolved:
+
+inet: reject unhashed sockets during established lookups
+
+TCP established ehash lookups are lockless. The socket caches involved
+use SLAB_TYPESAFE_BY_RCU, so memory can be reused before an RCU reader
+that retained its old address h…</p>
+        <span class="k">Posts</span>
+        <div class="posts"><a href="https://news.ycombinator.com/item?id=50510366" rel="noopener noreferrer nofollow" title="Hacker News">@emilfihlman</a><a href="https://news.ycombinator.com/item?id=50511160" rel="noopener noreferrer nofollow" title="Hacker News">@Bender</a><a href="https://news.ycombinator.com/item?id=50511139" rel="noopener noreferrer nofollow" title="Hacker News">@goodmythical</a></div>
+      </div>
+    </div>
   </section>
 
   <section class="block explainer" id="explainer" aria-labelledby="h-explainer">
     <div class="section-head"><h2 id="h-explainer">Explainer</h2><span>Background, not news</span></div>
-    <h3>Malicious IDE extensions: the code editor as a privileged supply chain</h3>
-    <p class="dek">Extensions for VS Code and its forks, such as Cursor, run with the developer&#39;s full user privileges, so a poisoned extension or a hijacked publisher account gives an attacker code execution on machines that hold source code, cloud credentials and signing keys.</p>
-<p class="why-today"><strong>Why today.</strong> Cursor confirmed that attackers used credentials stolen from Fireworks AI to push a malicious Claude Code extension through its marketplace. That is the textbook form of this risk: a trusted distribution channel delivering attacker code straight to developer workstations. See <a href="#story-2">story 2</a>.</p>    <div class="ex-body">
-<h4>How editor extensions run</h4><p>In VS Code and editors forked from it, extensions are mostly JavaScript or TypeScript packages that load into an extension host process. That process runs as the logged-in user. There is no per-extension permission model like the one browsers use: an installed extension can read and write any file the user can, start child processes, and open network connections.</p><p>The Workspace Trust feature limits what some extensions do when you open an untrusted folder. It is not a sandbox, though, and it does not restrict an extension you have already installed and enabled. Extensions also update automatically by default. A malicious version published under a trusted name therefore reaches existing users without anyone clicking anything.</p><p>Forks such as Cursor cannot use Microsoft&#39;s Visual Studio Marketplace under its terms. Many forks instead use alternative registries such as Open VSX, or run their own. Publisher verification, malware scanning and takedown speed differ from one registry to the next, so do not assume the same vetting everywhere.</p><h4>How attackers get malicious code in</h4><p>There are three common routes. The first is typosquatting or impersonation: a new extension whose name, icon and description copy a popular one. The second is a publisher account or publishing token compromise, where a legitimate, widely installed extension receives a malicious update. The third is compromise of the marketplace or its supporting infrastructure itself, which is what Cursor has described.</p><p>The second and third routes are the most dangerous because they skip the user&#39;s own judgement entirely. The extension name and publisher look exactly as they always have, and auto-update delivers the payload.</p><h4>What an attacker gains</h4><p>Developer workstations are high-value targets. They typically hold SSH keys, Git credentials, cloud CLI tokens, package registry tokens, .env files with API keys, and access to source repositories and CI/CD pipelines. AI coding tools add model provider API keys to that list.</p><p>A malicious extension can steal these secrets, plant persistence, or quietly change code before it is committed. That last option can turn one compromised developer into a downstream supply chain incident affecting the organisation&#39;s own customers.</p><h4>What it looks like in telemetry</h4><p>On Windows, extensions are installed under the user profile, for example in the .vscode\extensions folder for VS Code and the .cursor\extensions folder for Cursor. In Defender XDR, look for new or changed folders there in DeviceFileEvents. Correlate those changes with what the editor process does next.</p><p>The strongest behavioral signal is the editor process family (Code.exe, Cursor.exe and similar) spawning shells or download utilities: powershell.exe, cmd.exe, curl.exe, certutil.exe or rundll32.exe. Developers do run terminals from their editors, so build a baseline first and then alert on unusual command lines, encoded PowerShell, or child processes making outbound connections. Also watch DeviceNetworkEvents for editor processes contacting rare domains or paste and file-sharing services, and DeviceFileEvents for editor processes reading credential stores such as .ssh, .aws, .azure or browser profile data.</p><h4>Prevention</h4><p>Treat extensions as software you allowlist, not something each user picks freely. Current VS Code supports an enterprise policy that restricts which extensions or publishers can be installed, and it can be deployed through Group Policy or device management. Check whether each fork your developers use honours equivalent controls, because support varies.</p><p>Cut down the secrets an extension could steal. Prefer short-lived cloud credentials, hardware-backed or passphrase-protected SSH keys, and secret managers over plaintext .env files. Scope repository and registry tokens tightly so that one stolen token has a small blast radius.</p>    </div>
+    <h3>Missing public-value validation in SRP: the zero-key authentication bypass</h3>
+    <p class="dek">SRP is a password-authenticated key exchange in which a server that does not reject a malicious client public value can be forced to compute a predictable session key, letting an attacker log in without the password.</p>
+<p class="why-today"><strong>Why today.</strong> The critical Cyrus SASL flaw disclosed today is a failure of exactly this check in the SRP server mechanism. It is worth understanding because the same mistake recurs across key-exchange code, and Cyrus SASL sits underneath mail, directory and other Unix services. See <a href="#story-5">story 5</a>.</p>    <div class="ex-body">
+<h4>How SRP is supposed to work</h4><p>The Secure Remote Password protocol (SRP, specified in RFC 2945 and, for TLS, RFC 5054) lets a client prove it knows a password without sending it. The server stores a salt and a verifier derived from the password, not the password itself. During login, the client sends a public value A, the server sends a public value B, and both sides independently compute the same shared secret S. That secret yields a session key, and each side then sends a proof showing it derived the same key.</p><p>The design depends on the attacker being unable to compute S without the password. The server&#39;s version of S is built by multiplying A by a term derived from the stored verifier and raising the result to the server&#39;s private exponent, all modulo a large prime N. If A behaves like a normal random value, an attacker who lacks the password cannot predict S.</p><h4>Where the check goes missing</h4><p>The SRP-6a specification requires the server to abort if A modulo N equals zero. The reason is arithmetic: if A is zero, or N, or any multiple of N, the server&#39;s computation collapses to zero no matter what the password, verifier or server secret is. The attacker then knows the shared secret is zero, derives the session key, and builds a valid client proof without ever knowing the password.</p><p>Today&#39;s NVD description of the Cyrus SASL issue matches this class: the server-side SRP step does not properly validate the client&#39;s public value, so an unauthenticated client can force a predictable shared secret, authenticate as any existing user and learn the session keys. The same family of bugs appears elsewhere as small-subgroup and invalid-curve attacks on Diffie-Hellman and elliptic-curve key exchange, where an unchecked peer value pins the result to a small, guessable set.</p><h4>Exposure and what it looks like in logs</h4><p>Cyrus SASL is a pluggable authentication library used by software such as mail servers, LDAP directories and IMAP servers, and it is also embedded in appliances. SRP is one optional mechanism among many; whether it is compiled, packaged and offered depends on the distribution, the product and its configuration, so exposure is not uniform and must be checked per system. A service that does not offer SRP in its mechanism list is not reachable through this path.</p><p>Successful exploitation looks like a normal successful login, because the protocol completes correctly from the server&#39;s point of view. The signals to look for are SRP-mechanism authentications at all, especially if your clients never use SRP, successful logins for privileged or service accounts from unfamiliar sources, and logins with no preceding failures for accounts that would normally use a different mechanism.</p>    </div>
     <div class="actions">
       <h4 class="label">For defenders</h4>
-      <ol class="steps"><li>Inventory which editors and AI coding tools (VS Code, Cursor and other forks) are installed across endpoints, and which extensions are in each user&#39;s extensions folder.</li><li>Hunt in DeviceProcessEvents for Code.exe, Cursor.exe and similar editor processes spawning PowerShell, cmd, curl, certutil or rundll32 with unusual command lines, after baselining normal developer activity.</li><li>Enforce an extension allowlist by publisher or extension ID through policy where the editor supports it, and document the gaps for forks that do not.</li><li>For Cursor users, follow the vendor&#39;s guidance on the affected extension. Then rotate any credentials reachable from affected machines: Git and registry tokens, cloud CLI credentials, SSH keys and AI provider API keys.</li><li>Move developers toward short-lived, narrowly scoped credentials so that secrets stolen from a workstation expire quickly and grant little.</li></ol>
+      <ol class="steps"><li>Inventory Linux and Unix servers and appliances that link Cyrus SASL (mail transfer agents, IMAP servers, OpenLDAP and similar) and record the installed version against the affected range of 2.1.28 and earlier.</li><li>On each service, list the advertised SASL mechanisms and remove SRP from the allowed mechanism list wherever it is not explicitly required, which closes this path even before a fixed release is available.</li><li>Ask vendors of mail gateways, directory appliances and other edge products whether they bundle Cyrus SASL with the SRP plugin, since NVD does not yet list affected products.</li><li>Forward SASL authentication logs to Sentinel and alert on any SRP-mechanism authentication, prioritising successful logins for administrative and service accounts.</li><li>When reviewing any key-exchange or PAKE code your organisation owns or buys, confirm that peer public values are validated (non-zero modulo N for SRP, subgroup and curve checks for Diffie-Hellman and ECDH).</li></ol>
     </div>
     <p class="ai-line">AI-generated explainer by Claude Opus 5.5 · from the model's background knowledge, not today's sources · check vendor documentation before acting on it</p>
   </section>
@@ -313,32 +464,19 @@ Ranked by Claude Haiku 5.5, summarized by Claude Opus 5.5, and reviewed by a per
     <ol class="good">
       <li>
         <span class="tag ok">New defense</span>
-        <h3>Apple details Secure Exclaves architecture that isolates camera and microphone data from the main OS</h3>
-        <p>SecurityWeek reports that Apple has published details of an architecture that uses secure exclaves to keep ambient camera and microphone data isolated from the main operating system. According to the report, the design applies to HomeView and new iPhones. The aim is to shield sensor data even if the main OS is compromised.</p>
-        <p class="where"><a href="https://www.securityweek.com/apple-reveals-how-secure-exclaves-shield-camera-and-microphone-data/" rel="noopener noreferrer nofollow">SecurityWeek</a> · 14 Nov</p>
-      </li>
-      <li>
-        <span class="tag ok">Takedown</span>
-        <h3>US government disrupts North Korean &#39;FaceStealer&#39; campaign tied to $400 million crypto theft</h3>
-        <p>BleepingComputer reports that the U.S. government has disrupted a North Korean social engineering campaign called FaceStealer. The campaign is credited with stealing more than $400 million in cryptocurrency. The report does not detail the disruption actions taken.</p>
-        <p class="where"><a href="https://www.bleepingcomputer.com/news/security/us-disrupts-north-korean-campaign-behind-400-million-crypto-theft/" rel="noopener noreferrer nofollow">BleepingComputer</a> · 14 Nov</p>
+        <h3>YARA-X 1.23.0 released with 4 improvements and 16 bug fixes</h3>
+        <p>SANS Internet Storm Center reports that version 1.23.0 of YARA-X, the rewrite of the YARA pattern-matching engine used for malware detection and hunting, has been released. According to SANS ISC handler Didier Stevens, the release brings 4 improvements and 16 bug fixes.</p>
+        <p class="where"><a href="https://isc.sans.edu/diary/rss/33496" rel="noopener noreferrer nofollow">SANS ISC</a> · 15 Nov</p>
       </li>
     </ol>
     <p class="ai-line">AI-generated summaries by Claude Opus 5.5 of the linked sources</p>
   </section>
 
-  <section class="block" id="radar" aria-labelledby="h-radar">
-    <div class="section-head"><h2 id="h-radar">Also on the radar</h2><span>Lower-ranked, links only</span></div>
-    <ul class="radar">
-      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-129433" rel="noopener noreferrer nofollow">Dokploy command injection CVE-2026-129433 allows root code execution via backup jobs</a><span class="where">NVD · CVE-2026-129433</span></li>
-      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-129464" rel="noopener noreferrer nofollow">Zr.Admin.NET flaws enable admin takeover, CVE-2026-129464 and CVE-2026-129465</a><span class="where">NVD · CVE-2026-129464, CVE-2026-129465</span></li>
-    </ul>
-  </section>
 
   <details class="status">
     <summary>Collection status: 22 of 22 sources returned data</summary>
-    <ul><li><span class="">BleepingComputer</span> <span class="muted">ok 2</span></li><li><span class="">Bluesky</span> <span class="muted">ok 0</span></li><li><span class="">CISA Advisories</span> <span class="muted">ok 0</span></li><li><span class="">CISA KEV</span> <span class="muted">ok 0</span></li><li><span class="">Cisco Talos</span> <span class="muted">ok 0</span></li><li><span class="">EPSS</span> <span class="muted">ok 39</span></li><li><span class="">Hacker News</span> <span class="muted">ok 2</span></li><li><span class="">Huntress</span> <span class="muted">ok 0</span></li><li><span class="">Krebs on Security</span> <span class="muted">ok 0</span></li><li><span class="">Mastodon</span> <span class="muted">ok 15</span></li><li><span class="">Microsoft Security Blog</span> <span class="muted">ok 0</span></li><li><span class="">MSRC Security Update Guide</span> <span class="muted">ok 0</span></li><li><span class="">NVD</span> <span class="muted">ok 23</span></li><li><span class="">r/netsec</span> <span class="muted">ok 0</span></li><li><span class="">Rapid7</span> <span class="muted">ok 0</span></li><li><span class="">SANS ISC</span> <span class="muted">ok 0</span></li><li><span class="">SecurityWeek</span> <span class="muted">ok 4</span></li><li><span class="">SigmaHQ new rules</span> <span class="muted">ok 0</span></li><li><span class="">The DFIR Report</span> <span class="muted">ok 0</span></li><li><span class="">The Record</span> <span class="muted">ok 0</span></li><li><span class="">Unit 42</span> <span class="muted">ok 0</span></li><li><span class="">watchTowr Labs</span> <span class="muted">ok 0</span></li></ul>
-    <p>Data for this edition: <a href="editions/2026-11-15/edition.json">edition.json</a>. KQL parser: available.</p>
+    <ul><li><span class="">BleepingComputer</span> <span class="muted">ok 2</span></li><li><span class="">Bluesky</span> <span class="muted">ok 0</span></li><li><span class="">CISA Advisories</span> <span class="muted">ok 0</span></li><li><span class="">CISA KEV</span> <span class="muted">ok 0</span></li><li><span class="">Cisco Talos</span> <span class="muted">ok 0</span></li><li><span class="">EPSS</span> <span class="muted">ok 7</span></li><li><span class="">Hacker News</span> <span class="muted">ok 3</span></li><li><span class="">Huntress</span> <span class="muted">ok 0</span></li><li><span class="">Krebs on Security</span> <span class="muted">ok 0</span></li><li><span class="">Mastodon</span> <span class="muted">ok 0</span></li><li><span class="">Microsoft Security Blog</span> <span class="muted">ok 0</span></li><li><span class="">MSRC Security Update Guide</span> <span class="muted">ok 0</span></li><li><span class="">NVD</span> <span class="muted">ok 6</span></li><li><span class="">r/netsec</span> <span class="muted">ok 0</span></li><li><span class="">Rapid7</span> <span class="muted">ok 0</span></li><li><span class="">SANS ISC</span> <span class="muted">ok 2</span></li><li><span class="">SecurityWeek</span> <span class="muted">ok 1</span></li><li><span class="">SigmaHQ new rules</span> <span class="muted">ok 0</span></li><li><span class="">The DFIR Report</span> <span class="muted">ok 0</span></li><li><span class="">The Record</span> <span class="muted">ok 0</span></li><li><span class="">Unit 42</span> <span class="muted">ok 0</span></li><li><span class="">watchTowr Labs</span> <span class="muted">ok 0</span></li></ul>
+    <p>Data for this edition: <a href="editions/2026-11-16/edition.json">edition.json</a>. KQL parser: available.</p>
   </details>
 </main>
 
@@ -346,18 +484,24 @@ Ranked by Claude Haiku 5.5, summarized by Claude Opus 5.5, and reviewed by a per
   <section class="panel also">
     <h2>Also today</h2>
     <ol class="toc">
-      <li><b class="num crit">2</b><span><span class="tier crit">Exploited</span><a href="#story-2">Cursor confirms breach used to push a malicious Claude Code extension through its marketplace</a></span></li>
-      <li><b class="num high">3</b><span><span class="tier high">High risk · PoC</span><a href="#story-3">Public exploits released for buffer overflows in end-of-life and consumer routers from four vendors</a><span class="toc-warn"><b>2 public PoC repos.</b> Links only, not vetted. Public PoC repos are often fake or backdoored. Don't run them on a work machine.</span></span></li>
-      <li><b class="num watch">4</b><span><span class="tier watch">Watch</span><a href="#story-4">Italian regulator fines Meta $887 million over Facebook access to Android gallery media</a></span></li>
+      <li><b class="num crit">2</b><span><span class="tier crit">Exploited</span><a href="#story-2">TSMC confirms leak of employee personal data after threat actor auctions 6.9GB</a></span></li>
+      <li><b class="num high">3</b><span><span class="tier high">High risk · PoC</span><a href="#story-3">DrayTek Vigor2960 path traversal and command injection flaws disclosed, fixed in 1.5.1.7</a></span></li>
+      <li><b class="num high">4</b><span><span class="tier high">High risk · PoC</span><a href="#story-4">D-Link DIR-850L router firmware ships hard-coded console credentials (<span class="nowrap">CVE-2026-129445</span>)</a></span></li>
+      <li><b class="num high">5</b><span><span class="tier high">High risk</span><a href="#story-5">Cyrus SASL through 2.1.28: SRP mechanism flaw lets unauthenticated clients log in as any user</a></span></li>
     </ol>
   </section>
   <section class="panel learn">
     <h2>Also in this edition</h2>
-<p><span class="k">Explainer</span><a href="#explainer">Malicious IDE extensions: the code editor as a privileged supply chain</a></p><p><span class="k">Good news</span><a href="#good-news">2 wins for defenders</a></p>  </section>
+<p><span class="k">Explainer</span><a href="#explainer">Missing public-value validation in SRP: the zero-key authentication bypass</a></p><p><span class="k">Good news</span><a href="#good-news">1 win for defenders</a></p>  </section>
+  <section class="panel">
+    <h2>Early signals</h2>
+    <p class="lede">Counted by code, not AI. Chatter is a lead, not confirmation.</p>
+    <div class="sig-row"><b>3</b><span><a href="#signals">CVE-2026-99288</a> · PoC</span></div>
+  </section>
   <section class="panel">
     <h2>Collection</h2>
     <div class="meter"><svg class="bar" viewBox="0 0 100 6" preserveAspectRatio="none" aria-hidden="true"><rect class="track" width="100" height="6" rx="3"/><rect class="fill" width="100" height="6" rx="3"/></svg><span class="mono">22/22</span></div>
-    <p>Every source returned data. 46 items collected.</p>
+    <p>Every source returned data. 14 items collected.</p>
   </section>
   <section class="panel follow">
     <h2>Follow the brief</h2>
@@ -366,7 +510,7 @@ Ranked by Claude Haiku 5.5, summarized by Claude Opus 5.5, and reviewed by a per
   </section>
   <nav class="panel" aria-label="Other editions">
     <h2>Other editions</h2>
-<div class="kv"><span>Older</span><a href="editions/2026-11-14/">14 November 2026</a></div>  </nav>
+<div class="kv"><span>Older</span><a href="editions/2026-11-15/">15 November 2026</a></div>  </nav>
 </aside>
 </div>
 </div>
