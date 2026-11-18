@@ -20,7 +20,7 @@ NCL is a collegiate CTF run on Cyber Skyline's platform, with an Individual Game
 
 | Game | Result | Report |
 |---|---|---|
-| Individual Game (Oct 23-25) | 281st of 6,366 in the All Student bracket. 2,555/3,000 points, 89.6% accuracy, 90.2% completion. | [Score breakdown, All Student (PDF)](Cyber%20Skyline/Bryce%20Maxheimer%20-%20NCL%20Fall%202026%20Individual%20Game%20Score%20Breakdown%20(All%20Student).pdf) &middot; public report pending |
+| Individual Game (Oct 23-25) | 51st of 407 in the Experienced Student bracket, 88th percentile. 281st of 6,366 in the All Student bracket. 2,555/3,000 points, 89.6% accuracy, 90.2% completion. | [cyberskyline.com/report/FX8JPF9T0X05](https://cyberskyline.com/report/FX8JPF9T0X05) &middot; [Scouting Report (PDF)](Cyber%20Skyline/Bryce%20Maxheimer%20-%20NCL%20Fall%202026%20Individual%20Game%20Scouting%20Report.pdf) &middot; [Score breakdown, All Student (PDF)](Cyber%20Skyline/Bryce%20Maxheimer%20-%20NCL%20Fall%202026%20Individual%20Game%20Score%20Breakdown%20(All%20Student).pdf) |
 | Team Game (Nov 6-8) | 9th of 290 teams in the Experienced Student bracket, 97th percentile, with team SANS.edu The Usual Subnets. 3,000/3,000 points, 97.1% accuracy, 100% completion. | [cyberskyline.com/report/LK5XY4EDVQ3L](https://cyberskyline.com/report/LK5XY4EDVQ3L) &middot; [Scouting Report (PDF)](Cyber%20Skyline/Bryce%20Maxheimer%20-%20NCL%20Fall%202026%20Team%20Game%20Scouting%20Report.pdf) |
 
 #### Highlights
