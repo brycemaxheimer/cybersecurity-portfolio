@@ -470,3 +470,8 @@ h3 { color: var(--accent) !important; }
 .diagram svg .arr    { fill: none; stroke: #1f4e79; stroke-width: 1.4; marker-end: url(#tri); }
 .diagram svg .lbl    { font: 11px ui-sans-serif, system-ui; fill: #1a1a1a; }
 .diagram svg .small  { font: 10px ui-sans-serif, system-ui; fill: #4a4a4a; }
+
+/* Empty slots are authoring placeholders: hide them (and the authoring tip)
+   until an <img> is dropped in. */
+.image-slot:not(:has(img)) { display: none; }
+.toolbar .small { display: none; }

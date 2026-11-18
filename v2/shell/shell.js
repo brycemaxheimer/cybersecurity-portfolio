@@ -679,7 +679,7 @@
       else if (t.hasAttribute('data-ed')) go('intel/' + t.getAttribute('data-ed') + '/0', true);
       else if (t.hasAttribute('data-story')) go('intel/' + S.ed + '/' + t.getAttribute('data-story'), true);
       else if (t.hasAttribute('data-post')) go('writing/' + t.getAttribute('data-post'), true);
-      else V2.copy(t.getAttribute('data-copy')).then(function () { t.textContent = 'Copied'; setTimeout(function () { t.textContent = 'Copy email'; }, 1600); });
+      else V2.copy(t.getAttribute('data-copy')).then(function (ok) { t.textContent = ok ? 'Copied' : 'Copy blocked, select the address'; setTimeout(function () { t.textContent = 'Copy email'; }, 1600); });
     });
     document.addEventListener('keydown', function (ev) {
       var tag = (ev.target.tagName || '').toLowerCase();
@@ -696,7 +696,7 @@
     document.addEventListener('click', function (ev) {
       var c = ev.target.closest('[data-kql-copy]');
       if (c) {
-        V2.copy(D.templates[+c.getAttribute('data-kql-copy')].kql).then(function () { c.textContent = 'Copied'; setTimeout(function () { c.textContent = 'Copy KQL'; }, 1600); });
+        V2.copy(D.templates[+c.getAttribute('data-kql-copy')].kql).then(function (ok) { c.textContent = ok ? 'Copied' : 'Copy blocked'; setTimeout(function () { c.textContent = 'Copy KQL'; }, 1600); });
         return;
       }
       var t = ev.target.closest('[data-kql-run],[data-kql-ex],[data-kql-table]');

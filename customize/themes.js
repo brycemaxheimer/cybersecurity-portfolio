@@ -14,10 +14,10 @@
     var THEMES = [
         {
             id: 'dark',
-            name: 'Pure Dark',
-            desc: 'The default. True charcoal OLED, no color cast, crisp contrast. Easy on the eyes and on AMOLED screens.',
-            palette: ['#0e0e0e', '#101010', '#3dd68c', '#ff5f6d', '#ffd166', '#ebebeb'],
-            mini: { bg: '#101010', text: '#c4c4c4', accent: '#3dd68c', heading: '#ebebeb', border: 'rgba(255,255,255,0.07)', code: '#080808' },
+            name: 'App Shell',
+            desc: 'The default. The App Shell look: near-black surfaces, blue accents and Inter type, matching the homepage.',
+            palette: ['#050508', '#0F0F15', '#2F6BFF', '#46D09A', '#fab219', '#F2F2F5'],
+            mini: { bg: '#0F0F15', text: '#CACAD4', accent: '#6B9BFF', heading: '#F2F2F5', border: '#1E1E28', code: '#08080C' },
         },
         {
             id: 'mint',
