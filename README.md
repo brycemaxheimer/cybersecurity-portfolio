@@ -36,6 +36,12 @@ Last season my completion was high but my accuracy was 57.4%, well under the bra
 
 The gaps this time were the hard challenges in Scanning & Reconnaissance, Network Traffic Analysis, and Password Cracking, which is where most of my missing points sit. That is where I'm putting my practice time before the next season.
 
+In the Team Game I competed with six fellow SANS.edu students as SANS.edu The Usual Subnets. We split the categories by strength, but everyone worked outside their own categories too. We ran the game from a shared tracker. Each question had a status, each answer had its method written down, and the goal was a second member's check on every answer. By the end, 146 of the 161 answers we tracked had one. My share was 26 submitted answers, 15 of them in Open Source Intelligence, our best module at 5th place and the 99th percentile. I also worked on 65 questions across eight categories.
+
+We finished with all 3,000 points, so placement came down to timing and accuracy. The few questions we missed were always between our top two candidate answers, and those few inconsistencies are what kept us from placing higher than 9th.
+
+The Team Game didn't teach me one specific skill. It gave me the chance to work through problems as a group and to engage with cybersecurity socially. I wouldn't change anything about it. This season I worked well with others, gave my best effort, and had a good time.
+
 Per NCL rules, I don't publish write-ups of NCL challenges. Write-ups from other CTFs go on the [blog](https://brycemaxheimer.com/blog/).
 
 ### Previous season: Fall 2025
