@@ -1,0 +1,1577 @@
+{
+ "schema": 1,
+ "date": "2026-11-18",
+ "generated_at": "2026-11-18T18:53:44Z",
+ "generator": "intel-brief 0.1.0",
+ "models": {
+  "triage": "claude-haiku-5-5",
+  "writeup": "claude-opus-5-5",
+  "triage_method": "model"
+ },
+ "window": {
+  "since": "2026-11-17T05:00:00+00:00",
+  "until": "2026-11-18T05:00:00+00:00"
+ },
+ "stories": [
+  {
+   "id": "story-1",
+   "rank": 1,
+   "score": 94,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 25,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 9,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Microsoft 365 token theft via phishing kits and device code phishing remains active",
+   "labels": {
+    "category": "campaign",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "ubiquitous",
+    "platform": "m365_entra",
+    "vendor": "Microsoft",
+    "product": "Microsoft 365"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "Huntress researchers describe how the EvilTokens, Knight Office and Kali365 phishing kits capture Microsoft 365 session tokens and replay them, as reported by BleepingComputer on 17 November 2026. Huntress also says Defender incident data helped it uncover a token-replay campaign affecting 97 accounts at 79 organizations. Microsoft says device code phishing, where a victim is persuaded to enter an attacker-initiated code on a legitimate sign-in page, has become a recurring route to account takeover. Microsoft says it worked with industry and law enforcement to disrupt EvilTokens in September 2026, and it published lab research showing a phished GitHub device-code approval could be abused against GitHub Copilot CLI, which it stresses has not been observed in the wild.",
+    "why_it_matters": "Token theft and device code phishing bypass passwords and often MFA, so a single user approval or proxied sign-in gives attackers access to mail, files and other cloud services until the tokens are revoked. Huntress reports confirmed in-the-wild token replay across dozens of organizations, and Microsoft notes that any public client supporting the OAuth device flow can be abused the same way, including developer tooling and AI coding agents.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Block or restrict the device code authentication flow with Entra ID Conditional Access authentication flow policies, allowing it only for named users or devices that need it.",
+     "Require compliant or hybrid-joined devices and token protection where supported for Microsoft 365 access to reduce the value of replayed tokens.",
+     "For any account with suspected token theft, revoke sessions and refresh tokens, reset credentials, and review new inbox rules, OAuth consents and registered MFA methods.",
+     "Review sign-in logs for device code authentications and for sessions used from unfamiliar IP addresses or countries shortly after a legitimate sign-in.",
+     "Review GitHub organization policy for Copilot CLI remote control and device-flow sign-ins, and audit access to private repositories for affected developers."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Huntress Delivers 24/7 Response for Microsoft Defender Incidents Across Endpoints and Microsoft 365",
+     "url": "https://www.huntress.com/blog/huntress-response-for-microsoft-defender-incidents-across-endpoints-and-microsoft-365",
+     "source": "Huntress",
+     "kind": "news",
+     "published": "2026-11-17T14:00:00Z"
+    },
+    {
+     "title": "The risks of device code authentication for AI coding agents",
+     "url": "https://www.microsoft.com/en-us/security/blog/2026/11/17/the-risks-of-device-code-authentication-for-ai-coding-agents/",
+     "source": "Microsoft Security Blog",
+     "kind": "news",
+     "published": "2026-11-17T15:00:00Z"
+    },
+    {
+     "title": "Inside Modern Phishing Kits Built to Steal Microsoft 365 Sessions",
+     "url": "https://www.bleepingcomputer.com/news/security/inside-modern-phishing-kits-built-to-steal-microsoft-365-sessions/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-17T15:01:11Z"
+    }
+   ],
+   "detection": {
+    "type": "behavioral",
+    "sigma": {
+     "origin": "ai",
+     "title": "Entra ID Sign-In Using Device Code Authentication Flow",
+     "url": null,
+     "yaml": "title: Entra ID Sign-In Using Device Code Authentication Flow\nid: 608b3284-3b37-5430-8ff7-3248e8668452\nstatus: experimental\ndescription: Detects successful Entra ID sign-ins that use the OAuth device code flow, which attackers abuse in device code phishing to obtain tokens for Microsoft 365 accounts. Most users rarely need this flow, so successful use outside known devices or tools warrants review. AI-generated, untested.\nreferences:\n- https://www.huntress.com/blog/huntress-response-for-microsoft-defender-incidents-across-endpoints-and-microsoft-365\n- https://www.microsoft.com/en-us/security/blog/2026/11/17/the-risks-of-device-code-authentication-for-ai-coding-agents/\n- https://www.bleepingcomputer.com/news/security/inside-modern-phishing-kits-built-to-steal-microsoft-365-sessions/\nauthor: intel-brief (AI-generated, untested)\ndate: '2026-11-18'\ntags:\n- attack.t1566.002\n- attack.t1528\nlogsource:\n  product: azure\n  service: signinlogs\ndetection:\n  selection_devicecode:\n    AuthenticationProtocol: deviceCode\n    ResultType|re: ^0$\n  condition: selection_devicecode\nfalsepositives:\n- Legitimate sign-ins from command-line tools, conference room devices, or input-constrained devices that rely on the device code flow\nlevel: medium\n",
+     "check": {
+      "status": "pass",
+      "messages": [
+       "No rule errors found.",
+       "No condition errors found.",
+       "No validation issues found.",
+       "Parsing Sigma rules",
+       "Checking Sigma rules"
+      ]
+     },
+     "conversions": {
+      "kql": {
+       "label": "Defender XDR / Sentinel KQL",
+       "query": null,
+       "error": "SigmaTransformationError: Unable to determine table name from rule.  The query table is determined in the following order of priority:\n  1) The value provided to processing pipeline's query_table parameter, if using a Python script.\n  2) If the query_table is already set in the pipeline state, such as from a custom user-defined pipeline if using sigma-cli.\n  3) If the rule's logsource category is "
+      },
+      "spl": {
+       "label": "Splunk SPL",
+       "query": "AuthenticationProtocol=\"deviceCode\"\n| regex ResultType=\"^0$\"",
+       "error": null
+      },
+      "elastic": {
+       "label": "Elastic (Lucene, ECS)",
+       "query": "AuthenticationProtocol:deviceCode AND ResultType:/^0$/",
+       "error": null
+      }
+     }
+    },
+    "hunting_steps": [
+     "List successful device code flow sign-ins in Entra ID sign-in logs for the last 30 days and confirm each with the user or a known device or tool.",
+     "For accounts with device code sign-ins or risky sign-ins, look for the same session or account being used from a different IP address or country shortly afterwards, which suggests token replay.",
+     "Check affected mailboxes for newly created or modified inbox rules that forward, delete or hide messages.",
+     "Review OAuth app consents and new MFA method registrations for the same accounts.",
+     "Inventory endpoints running GitHub Copilot CLI or GitHub CLI and confirm remote control settings and device-flow sign-ins with the developers."
+    ],
+    "hunting_queries": [
+     {
+      "title": "New or modified inbox rules in Exchange Online",
+      "kql": "CloudAppEvents | where Timestamp > ago(30d) | where ActionType in (\"New-InboxRule\", \"Set-InboxRule\", \"UpdateInboxRules\") | project Timestamp, AccountDisplayName, AccountObjectId, IPAddress, CountryCode, ActionType, RawEventData | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 30,
+        "hits": 0,
+        "tables": [
+         "CloudAppEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Accounts active from multiple countries within one hour",
+      "kql": "CloudAppEvents | where Timestamp > ago(7d) | where isnotempty(CountryCode) and isnotempty(AccountObjectId) | summarize Countries = make_set(CountryCode), IPs = make_set(IPAddress), CountryCount = dcount(CountryCode) by AccountObjectId, AccountDisplayName, bin(Timestamp, 1h) | where CountryCount > 1 | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 30,
+        "hits": 0,
+        "tables": [
+         "CloudAppEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Endpoints running GitHub Copilot CLI or GitHub CLI",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where FileName in~ (\"copilot.exe\", \"gh.exe\") or ProcessCommandLine has \"copilot\" | summarize Executions = count(), LastSeen = max(Timestamp) by DeviceName, AccountName, FileName | order by LastSeen desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-2",
+   "rank": 2,
+   "score": 79,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 18,
+    "platform": 8,
+    "new_kev": 0,
+    "epss": 10,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": true,
+    "epss_max": 0.8264,
+    "cvss_max": 0
+   },
+   "title": "Node.js Brotli decoder flaw CVE-2026-111497 (Node2Shell) exploited; Siemens lists many affected products",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "widespread",
+    "platform": "linux_server",
+    "vendor": "Node.js",
+    "product": "Node.js Brotli decoder"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-111497",
+     "cvss": 9.2,
+     "severity": "CRITICAL",
+     "products": [
+      "google brotli",
+      "nodejs node.js",
+      "python-hyper brotlicffi",
+      "microsoft .net",
+      "debian debian linux"
+     ],
+     "epss": 0.82641,
+     "percentile": 0.99674,
+     "in_kev": true,
+     "kev_due": null,
+     "poc": [
+      {
+       "url": "https://github.com/assetnote/node2shell-scanner",
+       "name": "assetnote/node2shell-scanner",
+       "stars": 86,
+       "created": "2026-10-25"
+      },
+      {
+       "url": "https://github.com/dimasma0305/CVE-2026-111497-POC",
+       "name": "dimasma0305/CVE-2026-111497-POC",
+       "stars": 81,
+       "created": "2026-10-22"
+      },
+      {
+       "url": "https://github.com/trailofbits/brotli-checker",
+       "name": "trailofbits/brotli-checker",
+       "stars": 70,
+       "created": "2026-10-23"
+      }
+     ],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "CISA republished two Siemens advisories on 17 November 2026 covering CVE-2026-111497, nicknamed Node2Shell. It is an out-of-bounds write in the Brotli decoder that ships with Node.js, which the Node.js project patched on 21 October 2026. According to the advisory text, Google Brotli 1.0.3 through 1.2.0 is affected, and a crafted Brotli-compressed stream lets a remote unauthenticated attacker corrupt memory, leak memory contents, crash the process or possibly run code. Siemens lists dozens of affected industrial and engineering products, including Teamcenter, Opcenter, Polarion-related tools and SIMATIC WinCC. Fixes are available for some of these products, and Siemens offers mitigations for the others.",
+    "why_it_matters": "The CVE is in CISA KEV, exploitation in the wild is confirmed, public proof-of-concept code exists, and EPSS is 82.6%. CVSS is 9.2, and Siemens rates it 9.8. Any Windows or Linux server running Node.js or another product that bundles a vulnerable Brotli library and decompresses untrusted input should be treated as exposed. That includes web apps, internal tools and vendor appliances, and the sources also name .NET and Debian packages.",
+    "affected_versions": [
+     "Google Brotli 1.0.3 through 1.2.0 (all platforms)",
+     "Node.js versions bundling the vulnerable Brotli decoder (specific Node.js versions not stated)",
+     "Siemens Teamcenter V2412, V2506, V2512, V2606: all versions",
+     "Siemens Opcenter Execution, Connect, Intelligence, Quality, RDnL, X and Intra Plant Logistics products: all versions",
+     "Siemens HyperLynx, PADS Professional/Pro, Xpedition, Simcenter Studio, Simcenter Executable Digital Twin, Insights Hub, Process Preparation X, PAVE360 Automotive 2026, Innexis Architecture Native Acc…",
+     "Siemens SIMATIC BRAUMAT and SIMATIC SISTAR: 8.2.0.1 up to but not including 8.2.0.5",
+     "Siemens SIMATIC WinCC OA V3.20: before 3.20.17.1",
+     "Siemens SIMATIC WinCC OA V3.21, WinCC V7/V8, WinCC Runtime Professional, WinCC Unified (PC Runtime, Industrial Edge, SIQENCE), WinCC Companion, TIA Administrator, UMC, COMOS Walkinside, SIMATIC Profi…"
+    ],
+    "fixed_versions": [
+     "Node.js security releases of 21 October 2026 (exact version numbers not stated)",
+     "Google Brotli 1.0.10 or 1.1.1, per the advisory text (the list is truncated in the source)",
+     "Siemens SIMATIC BRAUMAT and SISTAR 8.2.0.5",
+     "Siemens SIMATIC WinCC OA V3.20 3.20.17.1"
+    ],
+    "recommended_actions": [
+     "Inventory Node.js runtimes and bundled Brotli libraries on servers, prioritizing internet-facing services. Apply the Node.js security releases of 21 October 2026 and the patched Brotli versions.",
+     "Update Siemens products where Siemens has released fixes. Apply Siemens' recommended mitigations for products still awaiting fixes, and restrict network access to them.",
+     "Patch other bundlers named in the CVE data, such as .NET, Debian brotli packages and brotlicffi, as vendor updates become available.",
+     "Hunt for Node.js processes spawning shells or scripting engines, and for unexpected crashes of Node.js services, which may indicate exploitation attempts.",
+     "Until patched, consider rejecting Brotli-encoded request bodies from untrusted sources at reverse proxies or WAFs."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Siemens Industrial Software Products",
+     "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-321-04",
+     "source": "CISA Advisories",
+     "kind": "advisory",
+     "published": "2026-11-17T12:00:00Z"
+    },
+    {
+     "title": "Siemens Industrial Automation Software Products",
+     "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-321-03",
+     "source": "CISA Advisories",
+     "kind": "advisory",
+     "published": "2026-11-17T12:00:00Z"
+    }
+   ],
+   "detection": {
+    "type": "behavioral",
+    "sigma": {
+     "origin": "ai",
+     "title": "Node.js Process Spawning Shell or Scripting Engine",
+     "url": null,
+     "yaml": "title: Node.js Process Spawning Shell or Scripting Engine\nid: 25ae2ea0-d060-5b4b-a321-fc6a59a62ef3\nstatus: experimental\ndescription: Detects node.exe launching command shells or scripting engines, which can indicate code execution after exploitation of a Node.js service such as via the Brotli decoder flaw CVE-2026-111497. AI-generated, untested.\nreferences:\n- https://www.cisa.gov/news-events/ics-advisories/icsa-26-321-04\n- https://www.cisa.gov/news-events/ics-advisories/icsa-26-321-03\nauthor: intel-brief (AI-generated, untested)\ndate: '2026-11-18'\ntags:\n- attack.t1190\n- attack.execution\n- attack.t1059\n- cve.2026-111497\nlogsource:\n  product: windows\n  category: process_creation\ndetection:\n  selection_parent:\n    ParentImage|endswith: \\node.exe\n  selection_child:\n    Image|endswith:\n    - \\cmd.exe\n    - \\powershell.exe\n    - \\pwsh.exe\n    - \\wscript.exe\n    - \\cscript.exe\n    - \\mshta.exe\n    - \\rundll32.exe\n    - \\certutil.exe\n    - \\bitsadmin.exe\n    - \\whoami.exe\n  filter_devtools:\n    CommandLine|contains:\n    - npm\n    - yarn\n    - node_modules\\.bin\n    - git.exe\n  condition: selection_parent and selection_child and not filter_devtools\nfalsepositives:\n- Developer workstations and build servers where Node.js tooling legitimately runs shell commands\n- Node.js applications that shell out by design\nlevel: medium\n",
+     "check": {
+      "status": "pass",
+      "messages": [
+       "No rule errors found.",
+       "No condition errors found.",
+       "No validation issues found.",
+       "Parsing Sigma rules",
+       "Checking Sigma rules"
+      ]
+     },
+     "conversions": {
+      "kql": {
+       "label": "Defender XDR / Sentinel KQL",
+       "query": "DeviceProcessEvents\n| where InitiatingProcessFolderPath endswith \"\\\\node.exe\" and (FolderPath endswith \"\\\\cmd.exe\" or FolderPath endswith \"\\\\powershell.exe\" or FolderPath endswith \"\\\\pwsh.exe\" or FolderPath endswith \"\\\\wscript.exe\" or FolderPath endswith \"\\\\cscript.exe\" or FolderPath endswith \"\\\\mshta.exe\" or FolderPath endswith \"\\\\rundll32.exe\" or FolderPath endswith \"\\\\certutil.exe\" or FolderPath endswith \"\\\\bitsadmin.exe\" or FolderPath endswith \"\\\\whoami.exe\") and (not((ProcessCommandLine contains \"npm\" or ProcessCommandLine contains \"yarn\" or ProcessCommandLine contains \"node_modules\\\\.bin\" or ProcessCommandLine contains \"git.exe\")))",
+       "error": null,
+       "validation": {
+        "status": "pass",
+        "messages": []
+       },
+       "receipt": {
+        "engine": "ran",
+        "baseline": {
+         "events": 500,
+         "hits": 0,
+         "tables": [
+          "DeviceProcessEvents"
+         ]
+        },
+        "cases": {
+         "status": "pass",
+         "positive": 11,
+         "positive_fired": 11,
+         "negative": 6,
+         "negative_fired": 0,
+         "disagreements": [],
+         "skipped": 0
+        }
+       }
+      },
+      "spl": {
+       "label": "Splunk SPL",
+       "query": "ParentImage=\"*\\\\node.exe\" Image IN (\"*\\\\cmd.exe\", \"*\\\\powershell.exe\", \"*\\\\pwsh.exe\", \"*\\\\wscript.exe\", \"*\\\\cscript.exe\", \"*\\\\mshta.exe\", \"*\\\\rundll32.exe\", \"*\\\\certutil.exe\", \"*\\\\bitsadmin.exe\", \"*\\\\whoami.exe\") NOT (CommandLine IN (\"*npm*\", \"*yarn*\", \"*node_modules\\\\.bin*\", \"*git.exe*\"))",
+       "error": null
+      },
+      "elastic": {
+       "label": "Elastic (Lucene, ECS)",
+       "query": "process.parent.executable.caseless:*\\\\node.exe AND (process.executable.caseless:(*\\\\cmd.exe OR *\\\\powershell.exe OR *\\\\pwsh.exe OR *\\\\wscript.exe OR *\\\\cscript.exe OR *\\\\mshta.exe OR *\\\\rundll32.exe OR *\\\\certutil.exe OR *\\\\bitsadmin.exe OR *\\\\whoami.exe)) AND (NOT (process.command_line:(*npm* OR *yarn* OR *node_modules\\\\.bin* OR *git.exe*)))",
+       "error": null
+      }
+     }
+    },
+    "hunting_steps": [
+     "Use Defender Vulnerability Management to list devices flagged for CVE-2026-111497, and inventory node.exe and Siemens product installs.",
+     "Review shells, scripting engines or recon tools launched by node or node.exe on servers over the last 30 days.",
+     "Look for outbound connections initiated by Node.js processes on servers to unusual external destinations.",
+     "Correlate Node.js service crashes or restarts with web traffic carrying Brotli-encoded request bodies in proxy or web server logs.",
+     "On Siemens hosts, verify product versions against the Siemens advisories and confirm that mitigations are in place."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Devices exposed to CVE-2026-111497",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where CveId == \"CVE-2026-111497\" | summarize Software=make_set(SoftwareName), Versions=make_set(SoftwareVersion) by DeviceName, DeviceId",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 0,
+        "hits": 0,
+        "tables": [
+         "DeviceTvmSoftwareVulnerabilities"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Node.js spawning shells or scripting engines",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where InitiatingProcessFileName in~ (\"node.exe\", \"node\") | where FileName in~ (\"cmd.exe\", \"powershell.exe\", \"pwsh.exe\", \"wscript.exe\", \"cscript.exe\", \"mshta.exe\", \"certutil.exe\", \"whoami.exe\", \"sh\", \"bash\", \"dash\", \"curl\", \"wget\", \"id\") | where ProcessCommandLine !has \"npm\" and ProcessCommandLine !has \"yarn\" | project Timestamp, DeviceName, AccountName, InitiatingProcessCommandLine, FileName, ProcessCommandLine | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Outbound connections from Node.js processes on servers",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(14d) | where InitiatingProcessFileName in~ (\"node.exe\", \"node\") | where RemoteIPType == \"Public\" | summarize Connections=count(), Ports=make_set(RemotePort) by DeviceName, RemoteIP, RemoteUrl | order by Connections asc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 300,
+        "hits": 0,
+        "tables": [
+         "DeviceNetworkEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-3",
+   "rank": 3,
+   "score": 65,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 4,
+    "platform": 8,
+    "new_kev": 10,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": true,
+    "epss_max": 0.0069,
+    "cvss_max": 0
+   },
+   "title": "CISA adds actively exploited Puppet Enterprise deserialization flaw CVE-2026-115731 to KEV",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "niche",
+    "platform": "linux_server",
+    "vendor": "Perforce",
+    "product": "Puppet Enterprise"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-115731",
+     "cvss": 9.4,
+     "severity": "CRITICAL",
+     "products": [
+      "puppet puppet",
+      "puppet puppet enterprise"
+     ],
+     "epss": 0.00691,
+     "percentile": 0.53546,
+     "in_kev": true,
+     "kev_due": "2026-12-01",
+     "poc": [
+      {
+       "url": "https://github.com/foxcornlab/puppet-enterprise-scanner",
+       "name": "foxcornlab/puppet-enterprise-scanner",
+       "stars": 0,
+       "created": "2026-11-18"
+      }
+     ],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "CISA added CVE-2026-115731, a deserialization of untrusted data flaw in Perforce Puppet Enterprise, to its Known Exploited Vulnerabilities catalog on 17 November 2026, citing evidence of active exploitation. According to CISA, the bug sits in Puppet's report-processing code: any client holding a CA-signed agent certificate can run arbitrary code on the Puppet Server as the service user by submitting a specially crafted report. CISA warns that if the Puppet certificate authority signs requests automatically without strong verification, an unauthenticated network attacker can obtain a valid certificate and exploit the flaw. The sources do not list affected or fixed version numbers.",
+    "why_it_matters": "A Puppet Server pushes configuration and code to every managed node, including Windows servers and endpoints, so compromising it can lead to fleet-wide code execution and credential theft. The flaw is rated CVSS 9.4, public proof-of-concept code exists, and exploitation is confirmed, even though EPSS is only 0.7%. CISA set a federal remediation due date of 1 December 2026 and asks agencies to check for compromise before patching.",
+    "affected_versions": [
+     "Perforce Puppet Enterprise (the sources do not state specific affected versions)"
+    ],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Apply Perforce's mitigations and updates for CVE-2026-115731 on all Puppet Servers and compile servers now, ahead of CISA's 1 December 2026 due date.",
+     "Disable or tighten certificate autosigning: remove naive or wildcard autosign rules and require policy-based verification, so attackers cannot obtain agent certificates.",
+     "Review the full list of signed agent certificates and revoke any you cannot tie to a known managed node.",
+     "Restrict network access to the Puppet Server agent port (8140 by default) to known managed networks; never expose it to the internet.",
+     "Perform compromise triage on Puppet Servers. Check for unexpected child processes, files or outbound connections from the Puppet Server service user. Also review recent catalog and code changes that could have pushed malicious changes to managed Windows and Linux nodes."
+    ],
+    "confidence": "high",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "CISA Adds One Known Exploited Vulnerability to Catalog",
+     "url": "https://www.cisa.gov/news-events/alerts/2026/11/17/cisa-adds-one-known-exploited-vulnerability-catalog",
+     "source": "CISA Advisories",
+     "kind": "advisory",
+     "published": "2026-11-17T12:00:00Z"
+    },
+    {
+     "title": "CVE-2026-115731: Perforce Puppet Enterprise Deserialization of Untrusted Data Vulnerability",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-115731",
+     "source": "CISA KEV",
+     "kind": "kev",
+     "published": "2026-11-17T00:00:00Z"
+    }
+   ],
+   "detection": {
+    "type": "behavioral",
+    "sigma": {
+     "origin": "ai",
+     "title": "Shell or Download Utility Spawned by Puppet Server Java Process",
+     "url": null,
+     "yaml": "title: Shell or Download Utility Spawned by Puppet Server Java Process\nid: 9ab14581-0055-546c-81f2-e4441a653d76\nstatus: experimental\ndescription: Detects shells, scripting interpreters or download tools launched by the Puppet Server JVM running as the puppet or pe-puppet service user. This is a likely sign of code execution through report deserialization (CVE-2026-115731) or a similar server-side exploit. AI-generated, untested.\nreferences:\n- https://www.cisa.gov/news-events/alerts/2026/11/17/cisa-adds-one-known-exploited-vulnerability-catalog\n- https://nvd.nist.gov/vuln/detail/CVE-2026-115731\nauthor: intel-brief (AI-generated, untested)\ndate: '2026-11-18'\ntags:\n- attack.t1190\n- attack.execution\n- attack.t1059.004\n- cve.2026-115731\nlogsource:\n  product: linux\n  category: process_creation\ndetection:\n  selection_parent:\n    ParentImage|endswith: /java\n    User:\n    - puppet\n    - pe-puppet\n  selection_child:\n    Image|endswith:\n    - /sh\n    - /bash\n    - /dash\n    - /zsh\n    - /curl\n    - /wget\n    - /python\n    - /python3\n    - /perl\n    - /nc\n    - /ncat\n    - /socat\n    - /base64\n  filter_git:\n    CommandLine|contains: 'git '\n  condition: selection_parent and selection_child and not filter_git\nfalsepositives:\n- Custom Puppet functions, external node classifiers or Hiera backends that shell out from the server\n- Code deployment tooling that invokes shell commands under the Puppet service account\nlevel: high\n",
+     "check": {
+      "status": "pass",
+      "messages": [
+       "No rule errors found.",
+       "No condition errors found.",
+       "No validation issues found.",
+       "Parsing Sigma rules",
+       "Checking Sigma rules"
+      ]
+     },
+     "conversions": {
+      "kql": {
+       "label": "Defender XDR / Sentinel KQL",
+       "query": "DeviceProcessEvents\n| where (InitiatingProcessFolderPath endswith \"/java\" and (AccountName in~ (\"puppet\", \"pe-puppet\"))) and (FolderPath endswith \"/sh\" or FolderPath endswith \"/bash\" or FolderPath endswith \"/dash\" or FolderPath endswith \"/zsh\" or FolderPath endswith \"/curl\" or FolderPath endswith \"/wget\" or FolderPath endswith \"/python\" or FolderPath endswith \"/python3\" or FolderPath endswith \"/perl\" or FolderPath endswith \"/nc\" or FolderPath endswith \"/ncat\" or FolderPath endswith \"/socat\" or FolderPath endswith \"/base64\") and (not(ProcessCommandLine contains \"git \"))",
+       "error": null,
+       "validation": {
+        "status": "pass",
+        "messages": []
+       },
+       "receipt": {
+        "engine": "ran",
+        "baseline": {
+         "events": 500,
+         "hits": 0,
+         "tables": [
+          "DeviceProcessEvents"
+         ]
+        },
+        "cases": {
+         "status": "pass",
+         "positive": 15,
+         "positive_fired": 15,
+         "negative": 7,
+         "negative_fired": 0,
+         "disagreements": [],
+         "skipped": 0
+        }
+       }
+      },
+      "spl": {
+       "label": "Splunk SPL",
+       "query": "ParentImage=\"*/java\" User IN (\"puppet\", \"pe-puppet\") Image IN (\"*/sh\", \"*/bash\", \"*/dash\", \"*/zsh\", \"*/curl\", \"*/wget\", \"*/python\", \"*/python3\", \"*/perl\", \"*/nc\", \"*/ncat\", \"*/socat\", \"*/base64\") NOT CommandLine=\"*git *\"",
+       "error": null
+      },
+      "elastic": {
+       "label": "Elastic (Lucene, ECS)",
+       "query": "(ParentImage:*\\/java AND (User:(puppet OR pe\\-puppet))) AND (Image:(*\\/sh OR *\\/bash OR *\\/dash OR *\\/zsh OR *\\/curl OR *\\/wget OR *\\/python OR *\\/python3 OR *\\/perl OR *\\/nc OR *\\/ncat OR *\\/socat OR *\\/base64)) AND (NOT CommandLine:*git\\ *)",
+       "error": null
+      }
+     }
+    },
+    "hunting_steps": [
+     "Find Puppet Server hosts and check their exposure status for CVE-2026-115731 in Defender Vulnerability Management.",
+     "Look for shells, interpreters or download utilities started by the Puppet Server Java process under the puppet or pe-puppet account.",
+     "Look for outbound connections from the Puppet Server service account to public IP addresses that are not known Forge, package or Git endpoints.",
+     "Compare the Puppet CA's signed certificate list against your asset inventory, and check autosign configuration and logs for unexpected certificate requests.",
+     "Review recent changes to Puppet code, modules and node classification for unauthorized resources that execute commands on managed Windows or Linux nodes.",
+     "If you find suspicious activity, preserve the server and follow CISA's forensic triage guidance before rebuilding or patching."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Devices exposed to CVE-2026-115731",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where CveId == \"CVE-2026-115731\" | project DeviceName, OSPlatform, SoftwareVendor, SoftwareName, SoftwareVersion, VulnerabilitySeverityLevel",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 0,
+        "hits": 0,
+        "tables": [
+         "DeviceTvmSoftwareVulnerabilities"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Suspicious child processes of Puppet Server JVM",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where InitiatingProcessFileName =~ \"java\" and InitiatingProcessAccountName in~ (\"puppet\", \"pe-puppet\") | where FileName in~ (\"sh\", \"bash\", \"dash\", \"zsh\", \"curl\", \"wget\", \"python\", \"python3\", \"perl\", \"nc\", \"ncat\", \"socat\", \"base64\") | project Timestamp, DeviceName, AccountName, FileName, ProcessCommandLine, InitiatingProcessCommandLine | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Outbound public connections from Puppet service account",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(30d) | where InitiatingProcessAccountName in~ (\"puppet\", \"pe-puppet\") | where RemoteIPType == \"Public\" and ActionType == \"ConnectionSuccess\" | summarize Connections = count(), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by DeviceName, InitiatingProcessFileName, RemoteIP, RemotePort, RemoteUrl | order by Connections asc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 300,
+        "hits": 0,
+        "tables": [
+         "DeviceNetworkEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-4",
+   "rank": 4,
+   "score": 59,
+   "factors": {
+    "exploitation": 28,
+    "prevalence": 8,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Phishing kit on Google Cloud Storage harvests mail passwords and the victim domain's MX record",
+   "labels": {
+    "category": "campaign",
+    "exploitation": "reported",
+    "prevalence": "unknown",
+    "platform": "m365_entra",
+    "vendor": "",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "SANS ISC describes a phishing email built around a password-expiry lure. Its link pointed to an HTML page on Google Cloud Storage, with the recipient's address carried in the URL fragment. The page shows a login form branded with the recipient's domain and uses the thum.io screenshot service to pull the organization's real website in as a background image. Under several layers of URL encoding and JavaScript obfuscation, SANS found a multi-language credential-harvesting kit. It collects the password, public IP, geolocation, browser details and language, plus a field labeled \"MX Record\", and sends them to the attacker through the Telegram Bot API. The available text is cut off before it explains how the MX lookup works, so its exact purpose is not confirmed by the sources.",
+    "why_it_matters": "Collecting the victim domain's MX record tells the attacker which mail provider the organization uses, such as Microsoft 365. That lets them prioritize stolen credentials and target follow-on sign-in attempts. The lure is generic and hosted on a trusted cloud domain, so URL-reputation filtering may not stop it. Any captured Entra ID credentials should be treated as live for account-takeover attempts.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Search mail logs for messages linking to HTML files on storage.googleapis.com, and purge matching messages from mailboxes.",
+     "For any user who clicked, reset the password, revoke sessions and review Entra ID sign-ins for unfamiliar IPs or locations.",
+     "Alert on browser traffic to api.telegram.org bot endpoints and to the thum.io screenshot service from corporate endpoints.",
+     "Require phishing-resistant MFA and Conditional Access so stolen passwords alone cannot complete a sign-in.",
+     "Remind users that password-expiry emails linking to externally hosted login pages are a common phishing pattern."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "A phishing page interested in MX records, (Tue, Nov 17th)",
+     "url": "https://isc.sans.edu/diary/rss/33526",
+     "source": "SANS ISC",
+     "kind": "news",
+     "published": "2026-11-17T10:56:38Z"
+    }
+   ],
+   "detection": {
+    "type": "behavioral",
+    "sigma": null,
+    "hunting_steps": [
+     "Find delivered emails whose URLs point to HTML pages on storage.googleapis.com, especially with password-expiry style subjects.",
+     "Identify recipients who clicked these links, using UrlClickEvents or browser network telemetry.",
+     "Look for browser processes connecting to api.telegram.org or thum.io around the time of the click.",
+     "For affected users, review Entra ID sign-in logs over the following days for new IPs, countries or user agents."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Emails linking to HTML pages on Google Cloud Storage",
+      "kql": "EmailUrlInfo | where Timestamp > ago(30d) | where UrlDomain =~ \"storage.googleapis.com\" and Url has \".html\" | join kind=inner (EmailEvents | where Timestamp > ago(30d) | project NetworkMessageId, RecipientEmailAddress, SenderFromAddress, Subject, DeliveryAction) on NetworkMessageId | project Timestamp, RecipientEmailAddress, SenderFromAddress, Subject, Url, DeliveryAction",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 40,
+        "hits": 0,
+        "tables": [
+         "EmailEvents",
+         "EmailUrlInfo"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Browser connections to Telegram Bot API or thum.io",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(30d) | where InitiatingProcessFileName in~ (\"chrome.exe\",\"msedge.exe\",\"firefox.exe\",\"brave.exe\",\"opera.exe\") | where RemoteUrl has_any (\"api.telegram.org\",\"thum.io\") | project Timestamp, DeviceName, InitiatingProcessAccountName, InitiatingProcessFileName, RemoteUrl, RemoteIP",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 300,
+        "hits": 0,
+        "tables": [
+         "DeviceNetworkEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": [
+     "An AI-drafted Sigma rule failed validation and was dropped."
+    ],
+    "rejected_sigma": {
+     "messages": [
+      "draft rejected: bad field name 'c-uri'"
+     ]
+    }
+   }
+  },
+  {
+   "id": "story-5",
+   "rank": 5,
+   "score": 48,
+   "factors": {
+    "exploitation": 0,
+    "prevalence": 25,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0097,
+    "cvss_max": 0
+   },
+   "title": "Microsoft revises acknowledgements on nine Windows and Office CVEs; no technical changes",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "none_known",
+    "prevalence": "ubiquitous",
+    "platform": "windows",
+    "vendor": "Microsoft",
+    "product": "Windows and Office"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-121680",
+     "cvss": 7.5,
+     "severity": "HIGH",
+     "products": [],
+     "epss": 0.00965,
+     "percentile": 0.62361,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-119961",
+     "cvss": 8.1,
+     "severity": "HIGH",
+     "products": [],
+     "epss": 0.00554,
+     "percentile": 0.46978,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-119914",
+     "cvss": 6.7,
+     "severity": "MEDIUM",
+     "products": [],
+     "epss": 0.00309,
+     "percentile": 0.24075,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-108440",
+     "cvss": 8.8,
+     "severity": "HIGH",
+     "products": [
+      "microsoft 365 apps",
+      "microsoft microsoft 365",
+      "microsoft office 2021",
+      "microsoft office 2024"
+     ],
+     "epss": 0.00618,
+     "percentile": 0.50359,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-96251",
+     "cvss": null,
+     "severity": "",
+     "products": [],
+     "epss": 0.00691,
+     "percentile": 0.53576,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-88208",
+     "cvss": null,
+     "severity": "",
+     "products": [],
+     "epss": 0.00272,
+     "percentile": 0.19833,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "On 17 November 2026 Microsoft's Security Update Guide republished nine existing CVEs covering Windows NTLM, IIS, Windows Setup and Deployment, Word, PowerShell, SharePoint, Media Foundation and Office. In each case Microsoft says the only change was an updated acknowledgement and calls the revision informational. The advisories contain no new technical detail, affected versions or fixes.",
+    "why_it_matters": "No action is needed beyond normal patching, because the revisions do not change risk, scope or remediation. None of the CVEs is in CISA KEV, none has known exploitation or public proof-of-concept code, and EPSS scores are all below 1% (highest is EPSS 1.0% for the NTLM spoofing issue). Analysts can ignore these republications in change-tracking feeds and alerting.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Treat these republications as informational and suppress any alerts triggered only by the advisory revision date.",
+     "Confirm that the original security updates for these CVEs are deployed through your normal patch compliance reporting."
+    ],
+    "confidence": "high",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "CVE-2026-121680 Windows NTLM Spoofing Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-121680",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-17T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-119961 Windows Internet Information Services Remote Code Execution Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-119961",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-17T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-119914 Windows Setup and Deployment Elevation of Privilege Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-119914",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-17T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-108440 Microsoft Office Word Remote Code Execution Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-108440",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-17T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-96251 Microsoft PowerShell Remote Code Execution Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-96251",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-17T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-88208 Microsoft Office SharePoint Spoofing Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-88208",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-17T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-70278 Microsoft Windows Media Foundation Elevation of Privilege Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-70278",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-17T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-78524 Microsoft Office Remote Code Execution Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-78524",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-17T16:00:00Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-6",
+   "rank": 6,
+   "score": 47,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 4,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Optimizely Experimentation flaw abused to serve malicious JavaScript on 178 major websites",
+   "labels": {
+    "category": "breach",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "niche",
+    "platform": "web_app",
+    "vendor": "Optimizely",
+    "product": "Optimizely"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "Krebs on Security, citing research by Report URI's Scott Helme, reports that on 16 November 2026 attackers abused a vulnerability in Optimizely Experimentation to inject malicious JavaScript into projects belonging to 178 organizations, including sites such as the BBC, CNN, Equifax, Ledger and Zoom. According to Helme, the payload was rebuilt 26 times that day. It delivered a malware kit that could steal payment card data, cookies and screenshots and swap cryptocurrency payment addresses, and it also served iOS exploit kits known as DarkSword and Coruna against outdated iPhones and iPads. Optimizely confirmed the incident and says it blocked the vulnerable path, deployed a fix, removed the injected code, ended active sessions, revoked tokens and reset access for affected accounts.",
+    "why_it_matters": "Exploitation is confirmed, and any employee who browsed an affected site on 16 November 2026 may have had cookies, session data or card details stolen. Users with outdated iOS devices may have been fully compromised by the zero-click exploit chains. Organizations that run Optimizely Experimentation on their own sites should treat this as a third-party supply chain compromise of their web front end. No CVE, CVSS or EPSS data has been published.",
+    "affected_versions": [
+     "Optimizely Experimentation (hosted service), customer projects modified on 16 November 2026"
+    ],
+    "fixed_versions": [
+     "Optimizely says the vulnerability has been fully remediated on its platform"
+    ],
+    "recommended_actions": [
+     "If your organization uses Optimizely Experimentation, review project JavaScript and change history for unauthorized code added around 16 November 2026, and confirm with Optimizely whether your projects were affected.",
+     "Rotate Optimizely API tokens and reset credentials for Optimizely user accounts, then review account activity for unexpected sessions.",
+     "Update managed iPhones and iPads to the latest iOS/iPadOS and investigate any devices running outdated versions that browsed the web on 16 November 2026.",
+     "Enforce a strict Content Security Policy and Subresource Integrity on your own sites so third-party scripts are limited to expected sources and content.",
+     "Consider revoking web sessions and alerting staff who used affected sites on 16 November 2026 to watch for payment card fraud and for altered cryptocurrency payment addresses."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Attackers Used Optimizely to A/B Test Malware on Top Websites",
+     "url": "https://krebsonsecurity.com/2026/11/attackers-used-optimizely-to-a-b-test-malware-on-top-websites/",
+     "source": "Krebs on Security",
+     "kind": "news",
+     "published": "2026-11-18T02:52:04Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Identify Windows endpoints that loaded Optimizely-hosted content on 16 November 2026. These devices visited sites that may have served the injected script.",
+     "For those devices and their users, review browser-originated child processes and new file drops around the same time for signs of follow-on malware.",
+     "Inventory iOS and iPadOS devices in Defender and flag outdated OS versions as candidates for compromise by the DarkSword and Coruna exploit kits.",
+     "If you operate Optimizely Experimentation, audit project revisions and access logs for changes made by unexpected users or tokens on 16 November 2026."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Devices contacting Optimizely infrastructure in the past 14 days",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(14d) | where RemoteUrl has \"optimizely\" | summarize FirstSeen=min(Timestamp), LastSeen=max(Timestamp), Connections=count() by DeviceName, InitiatingProcessFileName, InitiatingProcessAccountName | order by FirstSeen asc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 300,
+        "hits": 0,
+        "tables": [
+         "DeviceNetworkEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "iOS and iPadOS devices with their latest reported OS version",
+      "kql": "DeviceInfo | where Timestamp > ago(14d) | where OSPlatform has \"iOS\" or OSPlatform has \"iPadOS\" | summarize arg_max(Timestamp, OSPlatform, OSVersion, LoggedOnUsers) by DeviceId, DeviceName | order by OSVersion asc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 60,
+        "hits": 0,
+        "tables": [
+         "DeviceInfo"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Processes spawned by browsers on 16 November 2026",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where InitiatingProcessFileName in~ (\"chrome.exe\",\"msedge.exe\",\"firefox.exe\",\"brave.exe\") | where FileName !in~ (\"chrome.exe\",\"msedge.exe\",\"firefox.exe\",\"brave.exe\",\"crashpad_handler.exe\") | where Timestamp between (datetime(2026-11-16) .. datetime(2026-11-17T12:00:00)) | project Timestamp, DeviceName, AccountName, InitiatingProcessFileName, FileName, ProcessCommandLine",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-7",
+   "rank": 7,
+   "score": 47,
+   "factors": {
+    "exploitation": 28,
+    "prevalence": 8,
+    "platform": 8,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Secrets leaked in public Docker Hub images reportedly abused within seconds of publication",
+   "labels": {
+    "category": "other",
+    "exploitation": "reported",
+    "prevalence": "unknown",
+    "platform": "cloud_saas",
+    "vendor": "",
+    "product": "Docker Hub"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "BleepingComputer reported on 17 November 2026 that credentials and access secrets left in public Docker Hub images are being pulled out and used by attackers, in some cases as little as eight seconds after the image is published. The available reporting is a short summary. It does not name the cloud providers, the affected organizations, the threat actors, or the specific actions taken with the stolen keys.",
+    "why_it_matters": "Any team that pushes container images to public Docker Hub repositories can expose cloud access keys, Entra ID service principal secrets, API tokens, or connection strings. If attackers act within seconds, deleting the image or making it private after the fact does not help, and every exposed secret has to be treated as compromised. No CVE or patch applies here; the risk comes from build and publishing practices, so the response is secret scanning, rotation, and monitoring how credentials are used.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory your organization's public Docker Hub repositories and scan every image layer and build history for embedded secrets such as cloud keys, Entra ID app secrets, tokens and .env or config files.",
+     "Revoke and rotate any secret found in a published image, even if the image is now deleted or private, and review activity by that credential since its first publication.",
+     "Add secret scanning to CI/CD pipelines, block pushes that contain credentials, and use multi-stage builds and build-time secret mounts so secrets never land in image layers.",
+     "Set public Docker Hub repositories to private by default and restrict which accounts and build systems may push to them.",
+     "Prefer short-lived credentials, such as workload identity federation or managed identities, over long-lived static keys in containerized workloads."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Cloud keys leaked in Docker Hub images are stolen within seconds",
+     "url": "https://www.bleepingcomputer.com/news/security/cloud-keys-leaked-in-docker-hub-images-are-stolen-within-seconds/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-17T21:27:17Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Identify endpoints and build servers that run docker push or docker login, to find who publishes images and to which registries.",
+     "Review the publishing hosts for Dockerfiles or build contexts that copy credential files (.env, .aws, .azure, kubeconfig, private keys) into images.",
+     "For any secret confirmed as exposed, check Entra ID and cloud audit logs for use of that credential from unfamiliar IP addresses or locations soon after the push time.",
+     "Look in CloudAppEvents for unusual activity by applications or service accounts tied to exposed secrets, such as new resource creation, data access, or permission changes.",
+     "Document the findings and confirm that rotation actually invalidated the old credentials."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Hosts pushing container images or logging in to registries",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where FileName in~ (\"docker.exe\", \"docker\", \"podman.exe\", \"podman\") or ProcessCommandLine has_any (\"docker push\", \"docker login\", \"podman push\") | where ProcessCommandLine has_any (\"push\", \"login\") | summarize Count = count(), FirstSeen = min(Timestamp), LastSeen = max(Timestamp), SampleCommands = make_set(ProcessCommandLine, 10) by DeviceName, AccountName | order by Count desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Credential files read or written by container build tooling",
+      "kql": "DeviceFileEvents | where Timestamp > ago(30d) | where InitiatingProcessFileName in~ (\"docker.exe\", \"dockerd.exe\", \"docker\", \"dockerd\", \"buildkitd\", \"podman.exe\", \"podman\") | where FileName in~ (\".env\", \"credentials\", \"config.json\", \"kubeconfig\", \"id_rsa\", \"azureProfile.json\", \"msal_token_cache.json\") or FolderPath has_any (\".aws\", \".azure\", \".kube\", \".ssh\") | project Timestamp, DeviceName, ActionType, FolderPath, FileName, InitiatingProcessFileName, InitiatingProcessCommandLine",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 150,
+        "hits": 0,
+        "tables": [
+         "DeviceFileEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-8",
+   "rank": 8,
+   "score": 39,
+   "factors": {
+    "exploitation": 28,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Unit 42 describes OPTIMJACK supply chain attack spread through a compromised vendor script",
+   "labels": {
+    "category": "campaign",
+    "exploitation": "reported",
+    "prevalence": "unknown",
+    "platform": "web_app",
+    "vendor": "",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "Unit 42 published an analysis on 17 November 2026 of a supply chain attack it calls OPTIMJACK, in which a compromised script supplied by a third-party vendor exposed the websites that loaded it. The available summary does not name the vendor, the script, the affected sites, the attacker's goal or any indicators of compromise. Unit 42 frames the incident as a lesson in strictly segmenting borrowed third-party code.",
+    "why_it_matters": "Organizations whose public or internal web applications load JavaScript or other code directly from outside vendors inherit that vendor's compromise without any change on their own servers, so endpoint and identity telemetry may show nothing. With no named product, versions or indicators in the sources, defenders cannot yet check for exposure directly and should instead review how much trust their sites give to externally hosted scripts.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory every third-party script your public and internal web applications load, including tag managers, analytics and optimization tools, and record which vendor and host serves each one.",
+     "Enforce Subresource Integrity hashes and a restrictive Content Security Policy on pages that load external scripts, especially login, payment and form pages.",
+     "Isolate third-party code from sensitive pages and session data, for example by serving it from a separate origin or sandboxed iframe, in line with Unit 42's segmentation advice.",
+     "Monitor externally loaded scripts for unexpected content changes and alert on new outbound destinations that appear in browser-side code.",
+     "Read the full Unit 42 report for vendor names and indicators, and hunt for them once they are known."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Borrowed Code, Real Consequences: What OPTIMJACK Teaches Us",
+     "url": "https://unit42.paloaltonetworks.com/optimjack-supply-chain-attack/",
+     "source": "Unit 42",
+     "kind": "news",
+     "published": "2026-11-17T20:43:14Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Get the full Unit 42 OPTIMJACK report and pull out the named vendor, script paths, domains and any other indicators before hunting.",
+     "List all externally hosted scripts referenced by your web properties, using site crawls or CSP violation reports, and compare them against the vendor named by Unit 42.",
+     "Check whether those external scripts have changed recently by comparing current content hashes with known-good copies or archived versions.",
+     "Review CSP report-uri or report-to logs and web proxy logs for script loads or data posts to domains that are not on your approved list.",
+     "If a match is found, find out which pages and users were exposed, and treat any credentials or session data entered on those pages as potentially compromised."
+    ],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-9",
+   "rank": 9,
+   "score": 35,
+   "factors": {
+    "exploitation": 28,
+    "prevalence": 4,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "RIKEN takes Fugaku supercomputer offline after security breach",
+   "labels": {
+    "category": "breach",
+    "exploitation": "reported",
+    "prevalence": "niche",
+    "platform": "other",
+    "vendor": "RIKEN",
+    "product": "Fugaku supercomputer"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "BleepingComputer reported on 17 November 2026 that the Fugaku supercomputer, run by Japan's RIKEN Center for Computational Science, was taken offline after a security breach. The report does not say how attackers got in, what systems or data were affected, who was responsible, or when service will resume.",
+    "why_it_matters": "Fugaku is a specialized research system, so it is unlikely to be in scope for most Windows, Microsoft 365 or edge-device environments. Nothing published so far gives an intrusion vector, CVE or indicators that defenders could act on. The main relevance is to organizations that collaborate with RIKEN or use shared research computing accounts.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "If your organization holds Fugaku or other RIKEN user accounts, rotate those credentials and any SSH keys or API tokens that were reused elsewhere.",
+     "Watch for official RIKEN statements on the breach vector and any indicators, and reassess exposure once they are published.",
+     "Be alert for phishing that uses the Fugaku outage or RIKEN branding as a lure aimed at research staff."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Japan takes Fugaku supercomputer offlline after cyberattack",
+     "url": "https://www.bleepingcomputer.com/news/security/japan-takes-fugaku-supercomputer-offlline-after-cyberattack/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-17T20:51:21Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-10",
+   "rank": 10,
+   "score": 35,
+   "factors": {
+    "exploitation": 28,
+    "prevalence": 4,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Tor Project ships relay software update to resist ongoing DDoS attack on its network",
+   "labels": {
+    "category": "other",
+    "exploitation": "reported",
+    "prevalence": "niche",
+    "platform": "other",
+    "vendor": "Tor Project",
+    "product": "Tor relay software"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "BleepingComputer reports that the Tor Project has released a security update for its relay software to strengthen defenses against a distributed denial-of-service attack that is still underway. According to the Tor Project, the attack has overwhelmed relays and affected most relay operators. The sources do not name specific version numbers, the attack technique, or who is behind the attack.",
+    "why_it_matters": "This mainly concerns organizations that run Tor relays. Typical Windows, Microsoft 365 and edge-device estates are not directly exposed. For most SOCs the practical relevance is narrow: Tor-based connectivity may be degraded, and any sanctioned Tor relays inside the environment need the update.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "If your organization operates Tor relays, apply the latest relay update from the Tor Project and monitor relay load and availability.",
+     "Confirm whether any unsanctioned Tor relays or clients run in your environment, and remove or approve them under policy."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Tor releases emergency update amid ongoing DDoS attack",
+     "url": "https://www.bleepingcomputer.com/news/security/tor-releases-emergency-update-amid-ongoing-ddos-attack/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-17T18:04:15Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  }
+ ],
+ "more_stories": [
+  {
+   "title": "Researchers hijack Hugging Face account for Kokoro text-to-speech model due to weak ownership checks",
+   "score": 33,
+   "cves": [],
+   "sources": [
+    {
+     "title": "Researchers hijack Hugging Face account for popular Kokoro AI model",
+     "url": "https://www.bleepingcomputer.com/news/security/researchers-hijack-hugging-face-account-for-popular-kokoro-ai-model/",
+     "source": "BleepingComputer"
+    }
+   ]
+  },
+  {
+   "title": "Path traversal flaws in ansible-core role and collection installation, CVE-2026-105929 and CVE-2026-130644",
+   "score": 26,
+   "cves": [
+    "CVE-2026-105929",
+    "CVE-2026-130644"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-105929 (HIGH 8.1)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105929",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-130644 (HIGH 8.1)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-130644",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Oracle publishes large batch of security fixes across E-Business Suite, Hyperion, WebLogic and Java",
+   "score": 23,
+   "cves": [
+    "CVE-2026-101691",
+    "CVE-2026-114881",
+    "CVE-2026-114934"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-101691 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-101691",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-114881 (CRITICAL 9.1)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-114881",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-114934 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-114934",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Authorize.net CIM Pro extension for Magento 2 unauthenticated SSRF, CVE-2026-130583",
+   "score": 9,
+   "cves": [
+    "CVE-2026-130583"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-130583 (CRITICAL 9.2)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-130583",
+     "source": "NVD"
+    }
+   ]
+  }
+ ],
+ "kev_new": [
+  {
+   "cve": "CVE-2026-115731",
+   "vendor": "Perforce",
+   "product": "Puppet Enterprise",
+   "name": "Perforce Puppet Enterprise Deserialization of Untrusted Data Vulnerability",
+   "date_added": "2026-11-17",
+   "due_date": "2026-12-01",
+   "ransomware": "Unknown",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-115731"
+  }
+ ],
+ "early_signals": [],
+ "explainer": {
+  "concept": "Client-side supply chain attacks: third-party JavaScript, CSP and SRI",
+  "dek": "A client-side supply chain attack compromises a script that a website loads from a vendor, so the malicious code runs in every visitor's browser with the full privileges of the site that included it.",
+  "why_today": "Attackers abused Optimizely Experimentation to inject malicious JavaScript into 178 major websites, and Unit 42's OPTIMJACK analysis describes the same pattern of a compromised vendor script exposing the sites that load it.",
+  "related_story_ids": [
+   "story-6",
+   "story-8"
+  ],
+  "parts": [
+   {
+    "heading": "How borrowed scripts become an attack path",
+    "paragraphs": [
+     "Most large websites load JavaScript from outside parties: analytics, A/B testing, tag managers, chat widgets and ad tech. A script tag that points at a vendor's domain tells the browser to fetch whatever that vendor serves at that moment and run it in the page. The site owner does not review each version, and many of these scripts are designed to change often, because experimentation and tag platforms let marketing teams push new code without a site deployment.",
+     "The browser applies the same-origin policy by the origin of the page, not the origin of the script. Vendor code included with a script tag therefore runs as if the site wrote it. If an attacker compromises the vendor, a vendor account, or a vendor configuration path, every site that includes the script serves the attacker's code with no change to its own servers. This is the model behind Magecart-style card skimming, and it is why one vendor compromise can reach hundreds of sites in a single day."
+    ]
+   },
+   {
+    "heading": "What the attacker gains",
+    "paragraphs": [
+     "Injected code can read and change anything on the page. It can capture form fields such as card numbers and passwords, read cookies that are not marked HttpOnly, rewrite displayed content such as cryptocurrency payment addresses, and send the data to attacker servers. It can also fingerprint visitors and selectively deliver further exploits, as in the Optimizely case where outdated iPhones and iPads were served iOS exploit kits.",
+     "For the site owner this is a breach of customer data without any intrusion into their own infrastructure. For an enterprise defender it also means trusted, well-known websites can become a delivery channel to employee devices, so reputation-based web filtering offers little protection."
+    ]
+   },
+   {
+    "heading": "Where CSP and SRI help, and where they don't",
+    "paragraphs": [
+     "Content Security Policy is a response header that tells the browser which sources may supply scripts and which destinations the page may connect to. A host-based allowlist does not stop malicious code served from an allowed vendor domain, which is the common case in this kind of attack. Its stronger value is in restricting where data can be sent (connect-src, form-action, img-src) so a skimmer has fewer exfiltration paths, and in its reporting feature, which sends violation reports that can reveal unexpected sources or destinations.",
+     "Subresource Integrity adds a cryptographic hash to a script tag, and the browser refuses to run the file if the content does not match. It is very effective for static, versioned libraries. It does not work for scripts that legitimately change on every publish, such as experimentation snippets and tag managers, so those need other controls: self-hosting a reviewed copy where the vendor allows it, limiting which pages load them, keeping them off checkout and login pages, and protecting the vendor accounts that can push code."
+    ]
+   },
+   {
+    "heading": "What it looks like in telemetry",
+    "paragraphs": [
+     "Detection on the site side mainly comes from CSP violation reports, client-side script monitoring that tracks changes in script content and behavior, and comparison of served JavaScript against known-good versions. Server logs usually show nothing because the malicious content never touches the site's own infrastructure.",
+     "On the endpoint side, Defender for Endpoint network events may show browsers connecting to newly registered or unusual domains straight after visits to reputable sites, and Defender SmartScreen or network protection blocks may appear on otherwise trusted browsing. When a vendor compromise is disclosed, the indicators the vendor or researchers publish are the most practical hunting starting point, because the domain used to deliver the code is legitimate."
+    ]
+   }
+  ],
+  "takeaways": [
+   "Inventory every third-party script your public websites load, including through tag managers and experimentation platforms, and record who can publish code through each vendor account.",
+   "Keep third-party marketing and experimentation scripts off login, payment and account pages, and add Subresource Integrity hashes to any static third-party library you continue to load.",
+   "Deploy Content Security Policy with tight connect-src and form-action directives, start in report-only mode, and send violation reports somewhere your team actually reviews them.",
+   "Enforce MFA and least privilege on vendor consoles such as Optimizely, tag managers and CDNs, and review their audit logs for unexpected publishes.",
+   "When a vendor compromise is disclosed, hunt in Defender XDR for browser connections to the published exfiltration and exploit domains, and prioritize patching of outdated mobile devices managed through Intune."
+  ],
+  "unsupported_cves": [],
+  "model": "claude-opus-5-5"
+ },
+ "good_news": [
+  {
+   "headline": "Oracle ships patches for critical Java4Shell flaw in the OpenJDK Base64 decoder",
+   "summary": "Rapid7 reports that on 17 November 2026 Oracle released patches for CVE-2026-114938, a heap-based buffer overflow in the hardware-accelerated Base64 decoder used by OpenJDK and downstream distributions such as Oracle Java SE and GraalVM, which could allow unauthenticated remote code execution. CISA is urging organizations to patch immediately, and Cisco Talos notes that Cisco has published an advisory on its potentially affected products. BleepingComputer reports that enterprise applications including Jenkins, Jira, Confluence and Keycloak may be exposed.",
+   "kind": "fix_shipped",
+   "sources": [
+    {
+     "title": "CVE-2026-114938: Reported Critical Pre-authentication Remote Code Execution in Java 17",
+     "url": "https://www.rapid7.com/blog/post/etr-cve-2026-114938-reported-critical-pre-authentication-remote-code-execution-java-17",
+     "source": "Rapid7",
+     "published": "2026-11-17T18:26:55Z"
+    },
+    {
+     "title": "Critical Java Vulnerability Requires Immediate Patching",
+     "url": "https://www.cisa.gov/news-events/alerts/2026/11/17/critical-java-vulnerability-requires-immediate-patching",
+     "source": "CISA Advisories",
+     "published": "2026-11-17T12:00:00Z"
+    },
+    {
+     "title": "CVE-2026-114938: Critical vulnerability in OpenJDK Java",
+     "url": "https://blog.talosintelligence.com/java4shell/",
+     "source": "Cisco Talos",
+     "published": "2026-11-18T01:53:03Z"
+    }
+   ],
+   "unsupported_cves": [],
+   "model": "claude-opus-5-5"
+  },
+  {
+   "headline": "Siemens releases fixes for Mendix Studio Pro MCP server vulnerabilities",
+   "summary": "CISA republished a Siemens advisory saying Mendix Studio Pro contains multiple vulnerabilities in its MCP server that could let an attacker with network access interact with the server or trick a user's browser into sending unauthorized requests, potentially leading to data access, tool execution or system compromise. Siemens has released new versions of the affected products and recommends updating to the latest versions.",
+   "kind": "fix_shipped",
+   "sources": [
+    {
+     "title": "Siemens Mendix Studio Pro",
+     "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-321-05",
+     "source": "CISA Advisories",
+     "published": "2026-11-17T12:00:00Z"
+    }
+   ],
+   "unsupported_cves": [],
+   "model": "claude-opus-5-5"
+  },
+  {
+   "headline": "Microsoft tests Remote Lock for lost or stolen Windows devices",
+   "summary": "BleepingComputer reports that Microsoft is testing a feature that lets enterprise IT administrators remotely lock lost or stolen Windows devices without wiping them. The capability gives organizations a way to cut off access to a missing device while keeping its data intact for recovery.",
+   "kind": "new_defense",
+   "sources": [
+    {
+     "title": "Microsoft testing Remote Lock for lost or stolen Windows devices",
+     "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-testing-remote-lock-for-lost-or-stolen-windows-devices/",
+     "source": "BleepingComputer",
+     "published": "2026-11-17T11:19:51Z"
+    }
+   ],
+   "unsupported_cves": [],
+   "model": "claude-opus-5-5"
+  }
+ ],
+ "explainer_status": "ok",
+ "sources_status": {
+  "CISA KEV": "ok 1",
+  "NVD": "ok 149",
+  "BleepingComputer": "ok 9",
+  "The Record": "ok 0",
+  "The DFIR Report": "ok 0",
+  "Cisco Talos": "ok 1",
+  "Unit 42": "ok 1",
+  "Microsoft Security Blog": "ok 2",
+  "SANS ISC": "ok 2",
+  "Huntress": "ok 1",
+  "watchTowr Labs": "ok 0",
+  "Rapid7": "ok 2",
+  "SecurityWeek": "ok 0",
+  "Krebs on Security": "ok 1",
+  "CISA Advisories": "ok 13",
+  "MSRC Security Update Guide": "ok 9",
+  "Bluesky": "ok 0",
+  "Mastodon": "ok 0",
+  "r/netsec": "error FetchError: 404 https://www.reddit.com/r/netsec/new/.rss",
+  "Hacker News": "ok 12",
+  "SigmaHQ new rules": "ok 0",
+  "EPSS": "ok 183"
+ },
+ "stats": {
+  "items": {
+   "news": 19,
+   "advisory": 22,
+   "kev": 1,
+   "nvd": 149,
+   "social": 12,
+   "sigma": 0
+  },
+  "stories_found": 16,
+  "kql_parser": "available",
+  "receipts": {
+   "status": "ran",
+   "engine": "Kusto emulator 1.0.9810.23682",
+   "baseline_events": 1338,
+   "baseline_seed": 20261110
+  }
+ }
+}

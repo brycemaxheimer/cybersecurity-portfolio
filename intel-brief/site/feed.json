@@ -12,6 +12,85 @@
  "language": "en-US",
  "items": [
   {
+   "id": "https://intel.brycemaxheimer.com/editions/2026-11-18/",
+   "url": "https://intel.brycemaxheimer.com/editions/2026-11-18/",
+   "title": "Daily Intel Brief: 2026-11-18",
+   "content_text": "1. Microsoft 365 token theft via phishing kits and device code phishing remains active\n2. Node.js Brotli decoder flaw CVE-2026-111497 (Node2Shell) exploited; Siemens lists many affected products\n3. CISA adds actively exploited Puppet Enterprise deserialization flaw CVE-2026-115731 to KEV\n4. Phishing kit on Google Cloud Storage harvests mail passwords and the victim domain's MX record\n5. Microsoft revises acknowledgements on nine Windows and Office CVEs; no technical changes\n6. Optimizely Experimentation flaw abused to serve malicious JavaScript on 178 major websites\n7. Secrets leaked in public Docker Hub images reportedly abused within seconds of publication\n8. Unit 42 describes OPTIMJACK supply chain attack spread through a compromised vendor script\n9. RIKEN takes Fugaku supercomputer offline after security breach\n10. Tor Project ships relay software update to resist ongoing DDoS attack on its network\nNew KEV entries: CVE-2026-115731\nExplainer: Client-side supply chain attacks: third-party JavaScript, CSP and SRI\nGood news: Oracle ships patches for critical Java4Shell flaw in the OpenJDK Base64 decoder\nGood news: Siemens releases fixes for Mendix Studio Pro MCP server vulnerabilities\nGood news: Microsoft tests Remote Lock for lost or stolen Windows devices",
+   "date_published": "2026-11-18T18:53:44Z",
+   "_intel_brief": {
+    "data": "https://intel.brycemaxheimer.com/editions/2026-11-18/edition.json",
+    "stories": [
+     {
+      "title": "Microsoft 365 token theft via phishing kits and device code phishing remains active",
+      "cves": [],
+      "score": 94
+     },
+     {
+      "title": "Node.js Brotli decoder flaw CVE-2026-111497 (Node2Shell) exploited; Siemens lists many affected products",
+      "cves": [
+       "CVE-2026-111497"
+      ],
+      "score": 79
+     },
+     {
+      "title": "CISA adds actively exploited Puppet Enterprise deserialization flaw CVE-2026-115731 to KEV",
+      "cves": [
+       "CVE-2026-115731"
+      ],
+      "score": 65
+     },
+     {
+      "title": "Phishing kit on Google Cloud Storage harvests mail passwords and the victim domain's MX record",
+      "cves": [],
+      "score": 59
+     },
+     {
+      "title": "Microsoft revises acknowledgements on nine Windows and Office CVEs; no technical changes",
+      "cves": [
+       "CVE-2026-121680",
+       "CVE-2026-119961",
+       "CVE-2026-119914",
+       "CVE-2026-108440",
+       "CVE-2026-96251",
+       "CVE-2026-88208"
+      ],
+      "score": 48
+     },
+     {
+      "title": "Optimizely Experimentation flaw abused to serve malicious JavaScript on 178 major websites",
+      "cves": [],
+      "score": 47
+     },
+     {
+      "title": "Secrets leaked in public Docker Hub images reportedly abused within seconds of publication",
+      "cves": [],
+      "score": 47
+     },
+     {
+      "title": "Unit 42 describes OPTIMJACK supply chain attack spread through a compromised vendor script",
+      "cves": [],
+      "score": 39
+     },
+     {
+      "title": "RIKEN takes Fugaku supercomputer offline after security breach",
+      "cves": [],
+      "score": 35
+     },
+     {
+      "title": "Tor Project ships relay software update to resist ongoing DDoS attack on its network",
+      "cves": [],
+      "score": 35
+     }
+    ],
+    "explainer": "Client-side supply chain attacks: third-party JavaScript, CSP and SRI",
+    "good_news": [
+     "Oracle ships patches for critical Java4Shell flaw in the OpenJDK Base64 decoder",
+     "Siemens releases fixes for Mendix Studio Pro MCP server vulnerabilities",
+     "Microsoft tests Remote Lock for lost or stolen Windows devices"
+    ]
+   }
+  },
+  {
    "id": "https://intel.brycemaxheimer.com/editions/2026-11-17/",
    "url": "https://intel.brycemaxheimer.com/editions/2026-11-17/",
    "title": "Daily Intel Brief: 2026-11-17",
