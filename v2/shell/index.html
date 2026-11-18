@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bryce Maxheimer - Threat hunting, in the open</title>
+<meta name="description" content="Bryce Maxheimer's portfolio as one app: tools, credentials, writing, resume and contact, with live honeypot data.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/v2/shell/shell.css?v=7">
+<script src="/v2/common.js?v=7" defer></script>
+<script src="/v2/shell/shell.js?v=7" defer></script>
+</head>
+<body>
+<div class="app">
+  <svg aria-hidden="true" class="ribbons" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+    <g fill="none" stroke-linecap="round"><path d="M-100 520 C200 280 420 620 720 400 S1200 220 1560 360" class="r1"></path><path d="M-100 640 C260 440 520 760 820 540 S1260 380 1560 500" class="r2"></path></g>
+  </svg>
+  <div class="window">
+    <header class="topbar">
+      <button type="button" class="brand" data-view="home"><span class="mark">BM</span>MAXHEIMER</button>
+      <span class="crumb hidesm" id="crumb">explore / home</span>
+      <span class="top-right">
+        <a class="btn" href="/lab/">Open lab ↗</a>
+        <button type="button" class="btn btn-blue" data-view="contact">Contact</button>
+      </span>
+    </header>
+    <div class="body">
+      <aside class="side">
+        <label class="search"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4-4"></path></svg><span class="sr">Search everything</span><input type="search" id="q" placeholder="Search" autocomplete="off"><kbd>Ctrl K</kbd></label>
+        <nav class="views" id="views" aria-label="Sections"></nav>
+        <div class="pinned">
+          <span class="side-label">ELSEWHERE</span>
+          <a href="/lab/">Browser Lab ↗</a>
+          <a href="https://intel.brycemaxheimer.com/">Intel Brief site ↗ <span class="pill">Daily</span></a>
+          <a href="/lab/threat-feed/">Live Threat Feed ↗ <span class="pill pill-live" id="pin-live">…</span></a>
+        </div>
+        <div class="profile hidesm"><span class="avatar">BM<i id="presence"></i></span><span><b>Bryce Maxheimer</b><small>Threat hunter</small></span></div>
+      </aside>
+      <main class="main" id="main"><p class="muted">Loading site data…</p></main>
+    </div>
+    <footer class="statusbar"><span>brycemaxheimer.com</span><span class="hidesm" id="status-live">connecting to honeypot feed…</span><span id="status-built"></span></footer>
+  </div>
+</div>
+<div class="tip" id="tip" role="tooltip" hidden></div>
+</body>
+</html>
