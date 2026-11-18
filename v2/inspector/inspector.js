@@ -364,7 +364,7 @@
       } else if (t.hasAttribute('data-page')) {
         goPage(t.getAttribute('data-page'));
       } else if (t.hasAttribute('data-copy')) {
-        V2.copy(t.getAttribute('data-copy')).then(function () { t.textContent = 'Copied'; setTimeout(function () { t.textContent = 'Copy link'; }, 1600); });
+        V2.copy(t.getAttribute('data-copy')).then(function (ok) { t.textContent = ok ? 'Copied' : 'Copy blocked'; setTimeout(function () { t.textContent = 'Copy link'; }, 1600); });
       } else {
         select(t.getAttribute('data-sel') || t.getAttribute('data-node'), { focus: !!t.closest('.inspector') });
       }
