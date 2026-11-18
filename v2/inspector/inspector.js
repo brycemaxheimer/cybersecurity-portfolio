@@ -102,7 +102,7 @@
 
     var certs = D.certs.map(function (c) {
       var verify = c.verify || '/certs/';
-      return { id: 'cert-' + c.id, group: c.issuer === 'GIAC' ? 'GIAC (SANS)' : 'OTHER ISSUERS', eyebrow: c.issued + ' · ' + c.issuer, title: c.code, sub: c.name, kind: 'credential', color: c.color, badge: c.code.charAt(0), summary: c.summary, facts: [['Name', c.name], ['Issuer', c.issuer], ['Issued', c.issued]], href: verify, cta: /giac\.org/.test(verify) ? 'Verify on GIAC' : /credly/.test(verify) ? 'Verify on Credly' : /cyberskyline/.test(verify) ? 'Verify on Cyber Skyline' : /\.pdf$/.test(verify) ? 'View score report' : 'View on certs page' };
+      return { id: 'cert-' + c.id, group: ({ 'GIAC': 'GIAC (SANS)', 'CompTIA': 'COMPTIA', 'Cyber Skyline': 'NATIONAL CYBER LEAGUE', 'Marine Corps Cyberspace Operations Group': 'MARINE CORPS (MCCOG)' })[c.issuer] || 'OTHER ISSUERS', eyebrow: c.issued + ' · ' + c.issuer, title: c.code, sub: c.name, kind: 'credential', color: c.color, badge: c.code.charAt(0), summary: c.summary, facts: [['Name', c.name], ['Issuer', c.issuer], ['Issued', c.issued]], href: verify, cta: /giac\.org/.test(verify) ? 'Verify on GIAC' : /credly/.test(verify) ? 'Verify on Credly' : /cyberskyline/.test(verify) ? 'Verify on Cyber Skyline' : /\.pdf$/.test(verify) ? 'View score report' : 'View on certs page' };
     });
 
     var posts = D.posts.map(function (p) {
@@ -251,7 +251,7 @@
     if (!n) { $('inspector').innerHTML = ''; return; }
     $('sel-kind').textContent = n.kind;
     var near = S.page === 'network' ? neighbors(n.id).map(byId).filter(Boolean) : [];
-    var html = '<div class="ins-head rise"><span class="badge" style="background:' + n.color + '">' + esc(n.badge) + '</span><div><b>' + esc(n.title) + '</b><span>' + esc(n.kind) + '</span></div></div>' +
+    var html = '<div class="ins-head rise"><span class="badge" style="color:' + n.color + '">' + iconHtml(n) + '</span><div><b>' + esc(n.title) + '</b><span>' + esc(n.kind) + '</span></div></div>' +
       '<p>' + esc(n.summary) + '</p>';
     if (n.headlines && n.headlines.length) html += '<ol class="headlines">' + n.headlines.map(function (h) { return '<li>' + esc(h) + '</li>'; }).join('') + '</ol>';
     html += '<div class="props"><span class="props-title">PROPERTIES</span>' + (n.facts || []).map(function (f) { return '<div class="prop"><span>' + esc(f[0]) + '</span><span>' + esc(f[1]) + '</span></div>'; }).join('') + '</div>';
@@ -392,8 +392,20 @@
     });
   }
 
+  // One glyph per item; tools and modules carry theirs in site-data.
+  function iconHtml(n) {
+    var src = D.tools.concat(D.modules).filter(function (x) { return x.id === n.id; })[0];
+    var cert = /^cert-/.test(n.id) ? D.certs.filter(function (c) { return 'cert-' + c.id === n.id; })[0] : null;
+    var name = src && src.icon ? src.icon
+      : cert ? (cert.issuer === 'CompTIA' ? 'comptia' : cert.issuer === 'Cyber Skyline' ? 'trophy' : cert.issuer === 'GIAC' ? 'badge-check' : 'shield')
+      : ({ bryce: 'user', usmc: 'shield', threatfeed: 'radar', 'c-email': 'mail', 'c-linkedin': 'linkedin', 'c-github': 'github', 'c-giac': 'badge-check', clearance: 'lock', 'exp-usmc': 'shield', 'exp-sans': 'graduation-cap' })[n.id]
+      || ({ role: 'briefcase', education: 'graduation-cap', 'blog post': 'file-text', 'intel edition': 'newspaper', accomplishment: 'star', link: 'external-link' })[n.kind] || 'badge-check';
+    return window.V2I ? window.V2I(name) : esc(n.badge);
+  }
+
   function start() {
     esc = V2.esc; fmt = V2.fmt;
+    document.querySelectorAll('[data-icon]').forEach(function (el) { el.insertAdjacentHTML('afterbegin', window.V2I ? window.V2I(el.getAttribute('data-icon')) : ''); });
     $('app').classList.add('inspect');
     V2.load().then(function (data) {
       D = data;

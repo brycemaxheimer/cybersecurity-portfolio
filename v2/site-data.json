@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-18T16:20:55.773Z",
+  "generatedAt": "2026-11-18T17:06:38.069Z",
   "person": {
     "name": "Bryce Maxheimer",
     "role": "Integration Specialist, Peraton (DFAS CSSP)",
@@ -139,25 +139,33 @@
         "school": "SANS Technology Institute",
         "detail": "B.S. in Applied Cybersecurity (BACS)",
         "status": "Expected",
-        "date": "2027-01"
+        "date": "2027-01",
+        "short": "SANS.edu, B.S.",
+        "start": "2025-01"
       },
       {
         "school": "Alvin Community College",
-        "detail": "A.A. in General Studies",
+        "detail": "A.A. in General Studies (dual credit during high school)",
         "status": "Completed",
-        "date": "2020-05"
+        "date": "2020-05",
+        "short": "Alvin CC, A.A.",
+        "start": "2016-08"
       },
       {
         "school": "USMC Cyber Operators Specialist Course",
         "detail": "",
         "status": "Completed",
-        "date": "2023-10"
+        "date": "2023-10",
+        "short": "COSC",
+        "start": "2023-07"
       },
       {
         "school": "Joint Cyber Analysis Course (NSA certified)",
         "detail": "",
         "status": "Completed",
-        "date": "2023-05"
+        "date": "2023-05",
+        "short": "JCAC",
+        "start": "2022-10"
       }
     ],
     "awards": [
@@ -183,6 +191,7 @@
       "id": "lab",
       "title": "Browser Lab",
       "kind": "tool",
+      "icon": "flask-conical",
       "color": "#45D0A0",
       "href": "/lab/",
       "cta": "Open the lab",
@@ -206,6 +215,7 @@
       "id": "intel",
       "title": "Daily Intel Brief",
       "kind": "tool",
+      "icon": "newspaper",
       "color": "#F5C542",
       "href": "https://intel.brycemaxheimer.com/",
       "cta": "Read today's edition",
@@ -229,6 +239,7 @@
       "id": "honey",
       "title": "Honeypot",
       "kind": "tool",
+      "icon": "honeypot",
       "color": "#FF7A7A",
       "href": "/lab/threat-feed/",
       "cta": "Open the full feed",
@@ -248,6 +259,7 @@
       "id": "soc",
       "title": "SOC Dashboard",
       "kind": "tool",
+      "icon": "powershell",
       "color": "#7AB8FF",
       "href": "https://github.com/brycemaxheimer/cybersecurity-portfolio/tree/main/SOC%20Dashboard",
       "cta": "Read the source",
@@ -272,6 +284,7 @@
     {
       "id": "playground",
       "parent": "lab",
+      "icon": "square-terminal",
       "title": "KQL Playground",
       "kind": "lab module",
       "href": "/lab/",
@@ -280,6 +293,7 @@
     {
       "id": "practice",
       "parent": "lab",
+      "icon": "list-checks",
       "title": "KQL Practice",
       "kind": "lab module",
       "href": "/lab/practice/",
@@ -288,6 +302,7 @@
     {
       "id": "builder",
       "parent": "lab",
+      "icon": "blocks",
       "title": "KQL Builder",
       "kind": "lab module",
       "href": "/lab/kql-builder/",
@@ -296,6 +311,7 @@
     {
       "id": "templates",
       "parent": "lab",
+      "icon": "library",
       "title": "KQL Templates",
       "kind": "lab module",
       "href": "/lab/templates/",
@@ -304,6 +320,7 @@
     {
       "id": "abuseipdb",
       "parent": "honey",
+      "icon": "shield-alert",
       "title": "AbuseIPDB",
       "kind": "data sharing",
       "href": "/abuseipdb-verification.html",
@@ -312,6 +329,7 @@
     {
       "id": "otx",
       "parent": "honey",
+      "icon": "share-2",
       "title": "AlienVault OTX",
       "kind": "data sharing",
       "href": "/lab/",
@@ -320,6 +338,7 @@
     {
       "id": "kqlps",
       "parent": "soc",
+      "icon": "powershell",
       "title": "Invoke-KqlPS",
       "kind": "engine",
       "href": "/blog/posts/inside-invoke-kqlps.html",

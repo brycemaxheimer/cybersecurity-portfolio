@@ -43,9 +43,21 @@
   var dateLong = function (iso) { var d = new Date(iso); return isNaN(d) ? '' : MONTHS[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear(); };
   var inline = function (s) { return esc(s).replace(/`([^`]+)`/g, '<code>$1</code>'); };
   var label = function (s) { return String(s || '').replace(/_/g, ' '); };
+  var icon = function (name, cls) { return window.V2I ? window.V2I(name, cls) : ''; };
+  // Icon tile: the tool color tints the glyph; brand marks keep their own colors.
+  var tile = function (name, color, cls) { return '<span class="' + (cls || 'sq') + '" style="color:' + color + '">' + icon(name) + '</span>'; };
+  // Known issuers get their own group; only an issuer missing here is "other".
+  var ISSUERS = [
+    { issuer: 'GIAC', label: 'GIAC (SANS)', cls: 's1' },
+    { issuer: 'CompTIA', label: 'CompTIA', cls: 's2' },
+    { issuer: 'Cyber Skyline', label: 'National Cyber League (Cyber Skyline)', cls: 's3' },
+    { issuer: 'Marine Corps Cyberspace Operations Group', label: 'Marine Corps Cyberspace Operations Group', cls: 'ring' },
+  ];
+  var issuerOf = function (c) { return ISSUERS.filter(function (x) { return x.issuer === c.issuer; })[0] || { issuer: c.issuer, label: 'Other issuers', cls: 'ring' }; };
+  var certIcon = function (c) { return c.issuer === 'CompTIA' ? 'comptia' : c.issuer === 'Cyber Skyline' ? 'trophy' : c.issuer === 'GIAC' ? 'badge-check' : 'shield'; };
   var modulesOf = function (id) {
     var list = D.modules.filter(function (m) { return m.parent === id; });
-    if (id === 'honey') list = list.concat([{ id: 'threatfeed', title: 'Live Threat Feed', href: '/lab/threat-feed/', summary: 'Top attackers, geo map, recent activity, credentials and sharing metrics.' }]);
+    if (id === 'honey') list = list.concat([{ id: 'threatfeed', icon: 'radar', title: 'Live Threat Feed', href: '/lab/threat-feed/', summary: 'Top attackers, geo map, recent activity, credentials and sharing metrics.' }]);
     return list;
   };
 
@@ -151,46 +163,57 @@
   function shortOrg(o) { return /Defense Finance/.test(o) ? 'DFAS' : /Marine/.test(o) ? 'USMC' : o.split(', ')[0]; }
 
   function careerTimeline() {
-    var R = D.resume, x0 = 2020, x1 = 2027.5, W = 960, L = 230, Rr = 14, rowH = 36, rows = [];
-    R.roles.slice().reverse().forEach(function (r) { rows.push({ kind: 'role', label: shortOrg(r.org) + ' · ' + r.title.split(/ \/ |, /)[0], a: ym(r.start), b: /present/i.test(r.end) ? nowYm() : ym(r.end), tip: r.title + ' · ' + monthLabel(r.start) + ' to ' + (/present/i.test(r.end) ? 'present' : monthLabel(r.end)) }); });
-    rows.push({ kind: 'edu', label: 'Education', points: R.education.map(function (e) { return { x: ym(e.date), tip: e.school + ' · ' + e.status.toLowerCase() + ' ' + monthLabel(e.date), hollow: /expected/i.test(e.status) }; }).filter(function (p) { return p.x; }) });
+    var R = D.resume, x0 = 2016.5, x1 = 2027.5, W = 960, L = 230, Rr = 14, rowH = 34, rows = [];
+    var until = function (end) { return /present/i.test(end) ? 'present' : monthLabel(end); };
+    R.roles.slice().reverse().forEach(function (r) { rows.push({ kind: 'role', label: shortOrg(r.org) + ' · ' + r.title.split(/ \/ |, /)[0], a: ym(r.start), b: /present/i.test(r.end) ? nowYm() : ym(r.end), tip: r.title + ' · ' + monthLabel(r.start) + ' to ' + until(r.end) }); });
+    // Education as spans; an unfinished program is solid up to today and hollow after.
+    R.education.filter(function (e) { return e.start; }).sort(function (a, b) { return ym(a.start) - ym(b.start); }).forEach(function (e) {
+      var a = ym(e.start), b = ym(e.date), now = nowYm();
+      rows.push({ kind: 'edu', label: e.short || e.school, a: a, b: b, done: Math.min(b, Math.max(a, now)), tip: e.school + (e.detail ? ', ' + e.detail : '') + ' · ' + monthLabel(e.start) + ' to ' + monthLabel(e.date) + (b > now ? ' (expected)' : '') });
+    });
     rows.push({ kind: 'cred', label: 'Credentials and awards', points: D.certs.map(function (c) { return { x: ym(c.issued), tip: c.code + ' · ' + monthLabel(c.issued) }; }).concat(R.awards.map(function (a) { return { x: ym(a.date), tip: a.title + ' · ' + monthLabel(a.date) }; })).filter(function (p) { return p.x; }) });
     var H = rows.length * rowH + 34, pw = W - L - Rr;
     var px = function (v) { return L + (v - x0) / (x1 - x0) * pw; };
     var g = '';
-    for (var y = 2020; y <= 2027; y++) g += '<line class="grid" x1="' + px(y) + '" x2="' + px(y) + '" y1="4" y2="' + (H - 24) + '"></line><text class="axis" x="' + px(y) + '" y="' + (H - 8) + '" text-anchor="middle">' + y + '</text>';
+    for (var y = 2017; y <= 2027; y++) g += '<line class="grid" x1="' + px(y) + '" x2="' + px(y) + '" y1="4" y2="' + (H - 24) + '"></line><text class="axis" x="' + px(y) + '" y="' + (H - 8) + '" text-anchor="middle">' + y + '</text>';
     var nowX = px(nowYm());
     g += '<line class="now" x1="' + nowX + '" x2="' + nowX + '" y1="4" y2="' + (H - 24) + '"></line><text class="axis" x="' + (nowX + 4) + '" y="14">now</text>';
     var marks = rows.map(function (row, i) {
       var cy = 10 + i * rowH + rowH / 2;
       var out = '<text class="rlabel" x="' + (L - 10) + '" y="' + (cy + 4) + '" text-anchor="end">' + esc(row.label) + '</text>';
       if (row.kind === 'role') out += '<rect class="s1 gbar" x="' + px(row.a) + '" y="' + (cy - 7) + '" width="' + Math.max(4, px(row.b) - px(row.a)) + '" height="14" rx="4" data-tip="' + esc(row.tip) + '"></rect>';
-      else row.points.forEach(function (p) {
-        out += row.kind === 'edu'
-          ? '<circle class="' + (p.hollow ? 'hollow s2' : 's2') + ' gpt" cx="' + px(p.x) + '" cy="' + cy + '" r="6" data-tip="' + esc(p.tip) + '"></circle>'
-          : '<rect class="s3 gpt" x="' + (px(p.x) - 5) + '" y="' + (cy - 5) + '" width="10" height="10" transform="rotate(45 ' + px(p.x) + ' ' + cy + ')" data-tip="' + esc(p.tip) + '"></rect>';
+      else if (row.kind === 'edu') {
+        var xa = px(row.a), xd = px(row.done), xb = px(row.b);
+        if (xb > xd + 1) out += '<rect class="hollow gbar" x="' + (xd + 1) + '" y="' + (cy - 6) + '" width="' + Math.max(2, xb - xd - 2) + '" height="12" rx="4" data-tip="' + esc(row.tip) + '"></rect>';
+        if (xd > xa) out += '<rect class="s2 gbar" x="' + xa + '" y="' + (cy - 7) + '" width="' + Math.max(4, xd - xa) + '" height="14" rx="4" data-tip="' + esc(row.tip) + '"></rect>';
+      } else row.points.forEach(function (p) {
+        out += '<rect class="s3 gpt" x="' + (px(p.x) - 5) + '" y="' + (cy - 5) + '" width="10" height="10" transform="rotate(45 ' + px(p.x) + ' ' + cy + ')" data-tip="' + esc(p.tip) + '"></rect>';
       });
       return out;
     }).join('');
-    return '<svg class="chart" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Career timeline from 2020 to 2027: roles, education and credentials">' + g + marks + '</svg>' +
-      '<div class="legend"><span><i class="lg s1"></i>Roles</span><span><i class="lg s2 round"></i>Education (hollow: expected)</span><span><i class="lg s3 diamond"></i>Credentials and awards</span></div>';
+    return '<svg class="chart" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Career timeline from 2016 to 2027: roles, education spans and credentials">' + g + marks + '</svg>' +
+      '<div class="legend"><span><i class="lg s1"></i>Roles</span><span><i class="lg s2"></i>Education, completed</span><span><i class="lg hollow"></i>Education, still to come</span><span><i class="lg s3 diamond"></i>Credentials and awards</span></div>';
   }
 
   function certTimeline(selId) {
     var list = D.certs.slice().sort(function (a, b) { return ym(a.issued) - ym(b.issued); });
-    var x0 = 2024, x1 = 2026.6, W = 960, H = 150, L = 24, R = 24, pw = W - L - R;
+    // The axis runs to the quarter after the newest credential so its label stays inside.
+    var x0 = Math.floor(ym(list[0].issued)) - 0.15, x1 = ym(list[list.length - 1].issued) + 0.35, W = 960, H = 150, L = 40, R = 40, pw = W - L - R;
     var px = function (v) { return L + (v - x0) / (x1 - x0) * pw; };
     var g = '';
-    [2024, 2025, 2026].forEach(function (y) { g += '<line class="grid" x1="' + px(y) + '" x2="' + px(y) + '" y1="20" y2="118"></line><text class="axis" x="' + px(y) + '" y="140" text-anchor="middle">' + y + '</text>'; });
+    for (var y = Math.ceil(x0); y <= Math.floor(x1); y++) g += '<line class="grid" x1="' + px(y) + '" x2="' + px(y) + '" y1="20" y2="118"></line><text class="axis" x="' + px(y) + '" y="140" text-anchor="middle">' + y + '</text>';
     g += '<line class="axisline" x1="' + L + '" x2="' + (W - R) + '" y1="80" y2="80"></line>';
     var marks = list.map(function (c, i) {
       var x = px(ym(c.issued)), up = i % 2 === 0, on = c.id === selId;
+      var anchor = x > W - 70 ? 'end' : x < 70 ? 'start' : 'middle', lx = anchor === 'end' ? x + 6 : anchor === 'start' ? x - 6 : x;
       return '<line class="stem" x1="' + x + '" x2="' + x + '" y1="80" y2="' + (up ? 46 : 104) + '"></line>' +
-        '<circle class="' + (c.issuer === 'GIAC' ? 's1' : 's2') + ' cpt' + (on ? ' on' : '') + '" cx="' + x + '" cy="80" r="' + (on ? 8 : 6) + '" data-tip="' + esc(c.code + ' · ' + c.issuer + ' · ' + monthLabel(c.issued)) + '" data-cert="' + c.id + '" tabindex="0" role="button" aria-label="' + esc(c.code) + '"></circle>' +
-        '<text class="dlabel' + (on ? ' on' : '') + '" x="' + x + '" y="' + (up ? 40 : 118) + '" text-anchor="middle">' + esc(c.code) + '</text>';
+        '<circle class="' + issuerOf(c).cls + ' cpt' + (on ? ' on' : '') + '" cx="' + x + '" cy="80" r="' + (on ? 8 : 6) + '" data-tip="' + esc(c.code + ' · ' + c.issuer + ' · ' + monthLabel(c.issued)) + '" data-cert="' + c.id + '" tabindex="0" role="button" aria-label="' + esc(c.code) + '"></circle>' +
+        '<text class="dlabel' + (on ? ' on' : '') + '" x="' + lx + '" y="' + (up ? 40 : 118) + '" text-anchor="' + anchor + '">' + esc(c.code) + '</text>';
     }).join('');
-    return '<svg class="chart" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Credential issue dates from 2024 to 2026">' + g + marks + '</svg>' +
-      '<div class="legend"><span><i class="lg s1 round"></i>GIAC</span><span><i class="lg s2 round"></i>Other issuers</span></div>';
+    var used = ISSUERS.filter(function (x) { return list.some(function (c) { return c.issuer === x.issuer; }); });
+    if (list.some(function (c) { return issuerOf(c).label === 'Other issuers'; })) used.push({ label: 'Other issuers', cls: 'ring' });
+    return '<svg class="chart" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Credential issue dates from ' + Math.ceil(x0) + ' to ' + Math.floor(x1) + '">' + g + marks + '</svg>' +
+      '<div class="legend">' + used.map(function (x) { return '<span><i class="lg ' + x.cls + ' round"></i>' + esc(x.label === 'National Cyber League (Cyber Skyline)' ? 'NCL (Cyber Skyline)' : x.label === 'Marine Corps Cyberspace Operations Group' ? 'Marine Corps (MCCOG)' : x.label) + '</span>'; }).join('') + '</div>';
   }
 
   /* ── shared pieces ── */
@@ -245,7 +268,7 @@
       '<div class="section-head"><h2>Tools</h2><button type="button" class="link-btn" data-go="tools">All tools →</button></div>' +
       '<div class="grid">' + D.tools.map(function (t, i) {
         return '<button type="button" class="tcard" data-go="tools/' + t.id + '"><span class="numeral" aria-hidden="true">' + (i + 1) + '</span>' +
-          '<span class="media" style="background:' + TINT[t.id] + '"><span class="icon" style="background:' + t.color + '">' + esc(t.title.charAt(0)) + '</span></span>' +
+          '<span class="media" style="background:' + TINT[t.id] + '">' + tile(t.icon, t.color, 'icon') + '</span>' +
           '<span class="meta"><b>' + esc(t.title) + '</b><span>' + esc(t.facts[0][1]) + '</span></span>' +
           '<span class="peek" aria-hidden="true"><b>' + esc(t.title) + '</b><span>' + esc(t.summary) + '</span><em>Open details</em></span></button>';
       }).join('') + '</div></div>';
@@ -303,7 +326,7 @@
   function viewTools() {
     var t = tool(S.tool);
     var rows = D.tools.map(function (x, i) {
-      return '<button type="button" class="row" data-tool="' + x.id + '" aria-pressed="' + (x.id === t.id) + '"><span class="numeral" aria-hidden="true">' + (i + 1) + '</span><span class="sq" style="background:' + x.color + '">' + esc(x.title.charAt(0)) + '</span><span class="meta"><b>' + esc(x.title) + '</b><span>' + esc(x.facts[0][0] + ': ' + x.facts[0][1]) + '</span></span></button>';
+      return '<button type="button" class="row" data-tool="' + x.id + '" aria-pressed="' + (x.id === t.id) + '"><span class="numeral" aria-hidden="true">' + (i + 1) + '</span>' + tile(x.icon, x.color) + '<span class="meta"><b>' + esc(x.title) + '</b><span>' + esc(x.facts[0][0] + ': ' + x.facts[0][1]) + '</span></span></button>';
     }).join('');
     var facts = t.facts;
     if (t.id === 'honey' && live) facts = [['Sensor', 'Cowrie, SSH'], ['Events 24h', fmt(live.events24h)], ['Unique IPs 24h', fmt(live.unique24h)], ['Reported 24h', fmt(live.reported24h)], ['Feed generated', dateLong(live.generatedAt)]];
@@ -325,10 +348,10 @@
       var p = D.posts.filter(function (x) { return x.slug === 'inside-invoke-kqlps'; })[0];
       extra = p ? '<h3>Read the build notes</h3><button type="button" class="card left" data-go="writing/' + D.posts.indexOf(p) + '"><b class="ctitle">' + esc(p.title) + '</b><span class="sub">' + esc(p.summary) + '</span></button>' : '';
     }
-    var mods = modulesOf(t.id).map(function (m) { return '<a class="module" href="' + esc(m.href) + '"' + ext(m.href) + '><b>' + esc(m.title) + '</b><span>' + esc(m.summary) + '</span></a>'; }).join('');
+    var mods = modulesOf(t.id).map(function (m) { return '<a class="module" href="' + esc(m.href) + '"' + ext(m.href) + '>' + tile(m.icon || t.icon, t.color, 'sq sm') + '<span class="mtext"><b>' + esc(m.title) + '</b><span>' + esc(m.summary) + '</span></span></a>'; }).join('');
     return '<div class="view"><div class="view-head"><div><h1>Tools</h1><p>Four things I built and run. Pick one for its parts, data and links.</p></div></div>' +
       '<div class="split"><div class="list">' + rows + '</div>' +
-      '<div class="detail"><div class="detail-head"><span class="sq big" style="background:' + t.color + '">' + esc(t.title.charAt(0)) + '</span><div><b>' + esc(t.title) + '</b><span>#' + (D.tools.indexOf(t) + 1) + ' of ' + D.tools.length + '</span></div><a class="btn btn-blue push" href="' + esc(t.href) + '"' + ext(t.href) + '>' + esc(t.cta) + '</a></div>' +
+      '<div class="detail"><div class="detail-head">' + tile(t.icon, t.color, 'sq big') + '<div><b>' + esc(t.title) + '</b><span>#' + (D.tools.indexOf(t) + 1) + ' of ' + D.tools.length + '</span></div><a class="btn btn-blue push" href="' + esc(t.href) + '"' + ext(t.href) + '>' + esc(t.cta) + '</a></div>' +
       '<p>' + esc(t.summary) + '</p><div class="facts">' + facts.map(function (f) { return '<div class="fact"><span>' + esc(f[0]) + '</span><span>' + esc(f[1]) + '</span></div>'; }).join('') + '</div>' +
       (mods ? '<h3>Parts</h3><div class="modules">' + mods + '</div>' : '') + extra + '</div></div></div>';
   }
@@ -359,25 +382,26 @@
       var m = a.match(/Diamond \d/) || a.match(/\d+(st|nd|rd|th)\b/) || a.match(/\d+(\.\d+)?%/) || a.match(/\d[\d.,]*[MK]?\+/) || a.match(/\d+/);
       return '<div class="kpi static"><b>' + esc(m ? m[0] : '•') + '</b><span class="kpi-f">' + esc(a) + '</span></div>';
     }).join('');
-    return '<div class="view"><div class="view-head"><div><h1>Resume</h1><p>' + esc(R.summary) + '</p></div><div class="row-actions"><a class="btn" href="/resume/Bryce_Maxheimer_Resume.pdf">PDF ↗</a><a class="btn" href="/resume/">Full resume ↗</a></div></div>' +
+    return '<div class="view"><div class="view-head"><div><h1 class="title-line">Resume<span class="title-meta"><span>' + esc(D.person.name) + '</span><a href="mailto:' + esc(D.person.email) + '">' + esc(D.person.email) + '</a><span>' + esc(D.person.clearance) + '</span></span></h1><p>' + esc(R.summary) + '</p></div><div class="row-actions"><a class="btn" href="/resume/Bryce_Maxheimer_Resume.pdf">PDF ↗</a><a class="btn" href="/resume/">Full resume ↗</a></div></div>' +
       '<div class="kpis">' + nums + '</div>' +
       '<section class="card"><div class="card-h"><h2>Timeline</h2><span class="muted small">hover any mark</span></div>' + careerTimeline() + '</section>' +
       roles +
       '<div class="cols"><section class="card grow"><div class="card-h"><h2>Skills</h2></div>' + R.skills.map(function (s) { return '<div class="skill"><span class="eyebrow">' + esc(s.label.toUpperCase()) + '</span><span class="chips">' + s.items.map(function (x) { return '<span class="chip">' + esc(x) + '</span>'; }).join('') + '</span></div>'; }).join('') + '</section>' +
-      '<div class="stackcol"><section class="card"><div class="card-h"><h2>Education and training</h2></div><ul class="plain">' + R.education.map(function (e) { return '<li><b>' + esc(e.school) + '</b>' + (e.detail ? '<br><span class="sub">' + esc(e.detail) + '</span>' : '') + '<br><span class="muted mono small">' + esc(e.status) + ' ' + esc(e.date) + '</span></li>'; }).join('') + '</ul></section>' +
-      '<section class="card"><div class="card-h"><h2>Awards</h2></div><ul class="plain">' + R.awards.map(function (a) { return '<li><b>' + esc(a.title) + '</b> <span class="muted mono small">' + esc(a.date) + '</span>' + (a.detail ? '<br><span class="sub">' + esc(a.detail) + '</span>' : '') + '</li>'; }).join('') + '</ul><p class="sub">Clearance: ' + esc(D.person.clearance) + '</p></section></div></div></div>';
+      '<div class="stackcol"><section class="card"><div class="card-h"><h2>Education and training</h2></div><ul class="plain">' + R.education.map(function (e) { return '<li><b>' + esc(e.school) + '</b>' + (e.detail ? '<br><span class="sub">' + esc(e.detail) + '</span>' : '') + '<br><span class="muted mono small">' + (e.start ? esc(monthLabel(e.start)) + ' to ' + esc(monthLabel(e.date)) + (/expected/i.test(e.status) ? ' (expected)' : '') : esc(e.status) + ' ' + esc(e.date)) + '</span></li>'; }).join('') + '</ul></section>' +
+      '<section class="card"><div class="card-h"><h2>Awards</h2></div><ul class="plain">' + R.awards.map(function (a) { return '<li><b>' + esc(a.title) + '</b> <span class="muted mono small">' + esc(a.date) + '</span>' + (a.detail ? '<br><span class="sub">' + esc(a.detail) + '</span>' : '') + '</li>'; }).join('') + '</ul></section></div></div></div>';
   }
 
   function viewCreds() {
     var c = cert(S.cert);
     var groups = {};
-    D.certs.forEach(function (x) { (groups[x.issuer] = groups[x.issuer] || []).push(x); });
+    D.certs.forEach(function (x) { var k = issuerOf(x).label; (groups[k] = groups[k] || []).push(x); });
+    var order = ISSUERS.map(function (x) { return x.label; }).concat(['Other issuers']).filter(function (k) { return groups[k]; });
     return '<div class="view"><div class="view-head"><div><h1>Credentials</h1><p>Red team training from Marine Corps Cyberspace Operations Group, blue team credentials from SANS and GIAC, offensive testing from CompTIA, and competition results.</p></div><a class="btn" href="' + esc(D.person.giac) + '" rel="noopener">GIAC record ↗</a></div>' +
       '<section class="card"><div class="card-h"><h2>When they were earned</h2><span class="muted small">click a dot</span></div>' + certTimeline(c.id) + '</section>' +
       '<div class="cert-hero"><span class="stripe" style="background:' + c.color + '"></span><div class="txt"><b>' + esc(c.code) + '</b><span class="sub">' + esc(c.name) + '</span><small>' + esc(c.issuer) + ' · ' + esc(monthLabel(c.issued)) + '</small><p>' + esc(c.summary) + '</p><span class="chips">' + c.tags.map(function (t) { return '<span class="chip">' + esc(t) + '</span>'; }).join('') + '</span></div><a class="btn" href="' + esc(c.verify) + '"' + ext(c.verify) + '>Verify ↗</a></div>' +
-      Object.keys(groups).map(function (g) {
+      order.map(function (g) {
         return '<div class="section-head"><h2>' + esc(g) + '</h2><span class="muted small">' + groups[g].length + '</span></div><div class="grid">' + groups[g].map(function (x) {
-          return '<button type="button" class="ccard" data-cert="' + x.id + '" aria-pressed="' + (x.id === c.id) + '"><span class="stripe" style="background:' + x.color + '"></span><b>' + esc(x.code) + '</b><span>' + esc(x.name) + '</span><small>' + esc(monthLabel(x.issued)) + '</small></button>';
+          return '<button type="button" class="ccard" data-cert="' + x.id + '" aria-pressed="' + (x.id === c.id) + '"><span class="stripe" style="background:' + x.color + '"></span>' + tile(certIcon(x), x.color, 'sq sm') + '<b>' + esc(x.code) + '</b><span>' + esc(x.name) + '</span><small>' + esc(monthLabel(x.issued)) + '</small></button>';
         }).join('') + '</div>';
       }).join('') +
       '<div class="note">In progress: B.S. Applied Cybersecurity, SANS Technology Institute, expected January 2027.</div></div>';
@@ -394,18 +418,18 @@
   function searchIndex() {
     var idx = [];
     var add = function (type, title, sub, color, badge, go, href) { idx.push({ type: type, title: title, sub: sub, color: color, badge: badge, go: go, href: href }); };
-    D.tools.forEach(function (t) { add('tool', t.title, t.summary, t.color, t.title.charAt(0), 'tools/' + t.id); });
-    D.modules.forEach(function (m) { add(m.kind, m.title, m.summary, tool(m.parent).color, m.title.charAt(0), 'tools/' + m.parent); });
-    D.templates.forEach(function (t) { add('hunt template', t.name, t.description, '#45D0A0', 'H', 'tools/lab'); });
-    D.certs.forEach(function (c) { add('credential', c.code, c.name + '. ' + c.summary, c.color, 'C', 'creds/' + c.id); });
+    D.tools.forEach(function (t) { add('tool', t.title, t.summary, t.color, t.icon, 'tools/' + t.id); });
+    D.modules.forEach(function (m) { add(m.kind, m.title, m.summary, tool(m.parent).color, m.icon, 'tools/' + m.parent); });
+    D.templates.forEach(function (t) { add('hunt template', t.name, t.description, '#45D0A0', 'library', 'tools/lab'); });
+    D.certs.forEach(function (c) { add('credential', c.code, c.name + '. ' + c.summary, c.color, certIcon(c), 'creds/' + c.id); });
     D.posts.forEach(function (p, i) {
-      add('post', p.title, p.summary + ' ' + p.tags.join(' '), '#C4B5FD', 'P', 'writing/' + i);
-      p.sections.forEach(function (s) { if (s.heading) add('post section', s.heading, p.title + ': ' + (s.paragraphs[0] || ''), '#C4B5FD', '§', 'writing/' + i); });
+      add('post', p.title, p.summary + ' ' + p.tags.join(' '), '#C4B5FD', 'file-text', 'writing/' + i);
+      p.sections.forEach(function (s) { if (s.heading) add('post section', s.heading, p.title + ': ' + (s.paragraphs[0] || ''), '#C4B5FD', 'file-text', 'writing/' + i); });
     });
-    D.editions.forEach(function (e, i) { e.stories.forEach(function (s, j) { add('intel ' + e.date, s.title, (s.what || '') + ' ' + s.cves.map(function (c) { return c.id; }).join(' '), '#F5C542', 'E', 'intel/' + i + '/' + j); }); });
-    D.resume.roles.forEach(function (r) { add('resume', r.title, r.org + '. ' + r.bullets.join(' '), '#F2F2F5', 'R', 'resume'); });
-    D.resume.skills.forEach(function (s) { add('skills', s.label, s.items.join(', '), '#F2F2F5', 'S', 'resume'); });
-    D.resume.awards.forEach(function (a) { add('award', a.title, a.date, '#F2F2F5', 'A', 'resume'); });
+    D.editions.forEach(function (e, i) { e.stories.forEach(function (s, j) { add('intel ' + e.date, s.title, (s.what || '') + ' ' + s.cves.map(function (c) { return c.id; }).join(' '), '#F5C542', 'newspaper', 'intel/' + i + '/' + j); }); });
+    D.resume.roles.forEach(function (r) { add('resume', r.title, r.org + '. ' + r.bullets.join(' '), '#F2F2F5', 'briefcase', 'resume'); });
+    D.resume.skills.forEach(function (s) { add('skills', s.label, s.items.join(', '), '#F2F2F5', 'list-checks', 'resume'); });
+    D.resume.awards.forEach(function (a) { add('award', a.title, a.date, '#F2F2F5', 'award', 'resume'); });
     return idx;
   }
 
@@ -413,7 +437,7 @@
     var q = S.q.toLowerCase();
     var hits = searchIndex().filter(function (r) { return (r.title + ' ' + r.sub + ' ' + r.type).toLowerCase().indexOf(q) !== -1; });
     var list = hits.slice(0, 60).map(function (r) {
-      var inner = '<span class="sq" style="background:' + r.color + '">' + esc(r.badge) + '</span><span class="meta"><b>' + esc(r.title) + '</b><span>' + esc(r.sub.length > 160 ? r.sub.slice(0, 159) + '…' : r.sub) + '</span></span><span class="type">' + esc(r.type) + '</span>';
+      var inner = tile(r.badge, r.color) + '<span class="meta"><b>' + esc(r.title) + '</b><span>' + esc(r.sub.length > 160 ? r.sub.slice(0, 159) + '…' : r.sub) + '</span></span><span class="type">' + esc(r.type) + '</span>';
       return '<button type="button" class="result" data-go="' + r.go + '">' + inner + '</button>';
     }).join('');
     return '<div class="view"><div class="view-head"><div><h1>Results for "' + esc(S.q) + '"</h1><p>' + hits.length + (hits.length === 1 ? ' match' : ' matches') + ' across tools, hunts, intel stories, writing, resume and credentials' + (hits.length > 60 ? ', showing the first 60' : '') + '</p></div></div>' +
@@ -534,6 +558,7 @@
 
   function start() {
     esc = V2.esc; fmt = V2.fmt;
+    document.querySelectorAll('[data-icon]').forEach(function (el) { el.insertAdjacentHTML('afterbegin', icon(el.getAttribute('data-icon'))); });
     V2.load().then(function (data) {
       D = data;
       wire();

@@ -28,7 +28,9 @@ button { font: inherit; color: inherit; }
 .app { height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
 .toolbar { flex: 0 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding: 8px 12px; border-bottom: 1px solid var(--line); background: var(--panel); }
 .brand { display: flex; align-items: center; gap: 8px; min-height: 34px; padding: 0 8px; border: none; border-radius: 8px; background: transparent; font-weight: 600; cursor: pointer; }
-.brand-dot { fill: var(--accent); }
+.mark { width: 24px; height: 24px; border-radius: 7px; background: #071512; box-shadow: inset 0 0 0 1px #183229; display: flex; align-items: center; justify-content: center; color: #46D09A; }
+.mark .ic { width: 16px; height: 16px; }
+.ic { display: block; width: 20px; height: 20px; }
 .crumb { font-family: var(--mono); font-size: 12px; color: var(--faint); }
 .crumb b { color: var(--text); font-weight: 400; }
 .toolbar-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
@@ -136,7 +138,8 @@ button { font: inherit; color: inherit; }
 /* inspector */
 .inspector { padding: 18px 16px; display: flex; flex-direction: column; gap: 16px; }
 .ins-head { display: flex; align-items: center; gap: 12px; }
-.badge { flex: 0 0 38px; height: 38px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--ink-on-accent); }
+.badge { flex: 0 0 40px; height: 40px; border-radius: 10px; background: #0B0B10; box-shadow: inset 0 0 0 1px #2A2A36; display: flex; align-items: center; justify-content: center; }
+.badge .ic { width: 22px; height: 22px; }
 .ins-head b { display: block; font-size: 18px; letter-spacing: -0.02em; line-height: 1.2; }
 .ins-head span { font-family: var(--mono); font-size: 12px; color: var(--dim); }
 .inspector p { margin: 0; color: #C2C2CB; }
