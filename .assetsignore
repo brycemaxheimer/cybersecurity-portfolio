@@ -8,3 +8,7 @@
 intel-brief/
 .github/
 .assetsignore
+
+# Design canvas sources and reference backups (.dc.html). Kept in git, not
+# deployed: they are working files, not pages.
+design/

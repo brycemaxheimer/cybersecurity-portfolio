@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Swiss Transit Departures homepage</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;800;900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F2F0EB}
+a{color:#0A0A0A}a:hover{color:#B0050F}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #F2F0EB; color: #0A0A0A; font-family: 'Inter Tight', system-ui, sans-serif; font-size: 16px; line-height: 1.5; display: flex; flex-wrap: wrap; align-items: flex-start;">
+
+<aside style="flex: 1 1 280px; align-self: stretch; box-sizing: border-box; padding: clamp(24px, 3vw, 40px); display: flex; flex-direction: column; justify-content: space-between; gap: 40px; background: {{sign}}; color: #FFFFFF;">
+<div style="display: flex; flex-direction: column; gap: 36px;">
+<a href="https://brycemaxheimer.com/" style="display: flex; align-items: center; gap: 10px; color: #FFFFFF; text-decoration: none; font-weight: 600; font-size: 14px;"><span style="width: 26px; height: 26px; background: #FFFFFF; display: flex; align-items: center; justify-content: center;"><span style="width: 14px; height: 4px; background: {{sign}};"></span></span>brycemaxheimer.com</a>
+<h1 style="margin: 0; font-weight: 900; font-size: clamp(52px, 5.4vw, 84px); line-height: 0.86; letter-spacing: -0.04em;">Bryce<br>Maxheimer</h1>
+<p style="margin: 0; font-size: 17px;">Threat hunter. Four years as a Marine Corps Cyber Warfare Operator, now a Shift Lead at the Defense Finance and Accounting Service.</p>
+<nav aria-label="Main" style="display: flex; flex-direction: column; font-weight: 600; font-size: 18px; border-top: 2px solid #FFFFFF;">
+<a href="https://brycemaxheimer.com/resume/" style="padding: 10px 0; color: #FFFFFF; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.5);">Resume</a>
+<a href="https://brycemaxheimer.com/certs/" style="padding: 10px 0; color: #FFFFFF; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.5);">Certifications</a>
+<a href="https://brycemaxheimer.com/lab/" style="padding: 10px 0; color: #FFFFFF; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.5);">Browser Lab</a>
+<a href="https://brycemaxheimer.com/blog/" style="padding: 10px 0; color: #FFFFFF; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.5);">Blog</a>
+<a href="https://brycemaxheimer.com/about.html" style="padding: 10px 0; color: #FFFFFF; text-decoration: none;">Contact</a>
+</nav>
+</div>
+<div style="display: flex; flex-direction: column; gap: 2px; font-size: 14px;">
+<a href="mailto:contact@brycemaxheimer.com" style="color: #FFFFFF; font-weight: 600; padding: 4px 0; overflow-wrap: anywhere;">contact@brycemaxheimer.com</a>
+<a href="https://www.linkedin.com/in/bryce-maxheimer" style="color: #FFFFFF; text-decoration: none; padding: 4px 0;">LinkedIn ↗</a>
+<a href="https://github.com/brycemaxheimer" style="color: #FFFFFF; text-decoration: none; padding: 4px 0;">GitHub ↗</a>
+</div>
+</aside>
+
+<main style="flex: 999 1 560px; min-width: 0; box-sizing: border-box; padding: clamp(24px, 3vw, 56px); display: flex; flex-direction: column; gap: clamp(48px, 7vw, 80px);">
+
+<section style="display: flex; flex-direction: column; gap: 18px;">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px 24px; border-top: 4px solid #0A0A0A; padding-top: 12px;">
+<div style="display: flex; flex-direction: column;"><span style="font-weight: 900; font-size: 40px; line-height: 1;">4</span><span style="font-size: 14px; font-weight: 500;">Lines</span></div>
+<div style="display: flex; flex-direction: column;"><span style="font-weight: 900; font-size: 40px; line-height: 1;">12</span><span style="font-size: 14px; font-weight: 500;">Stations</span></div>
+<div style="display: flex; flex-direction: column;"><span style="font-weight: 900; font-size: 40px; line-height: 1;">1</span><span style="font-size: 14px; font-weight: 500;">Interchange</span></div>
+<div style="display: flex; flex-direction: column;"><span style="font-weight: 900; font-size: 40px; line-height: 1;">6</span><span style="font-size: 14px; font-weight: 500;">Credentials</span></div>
+</div>
+<svg viewBox="0 0 800 520" style="display: block; width: 100%; height: auto;" role="img" aria-label="Transit map: four colored lines, one per tool, meeting at Bryce Central, with stops for the technologies and sources each tool uses">
+<g fill="none" stroke-width="12" stroke-linecap="square" stroke-linejoin="miter">
+<path d="M90 150 H260 L370 260 H420" stroke="#D7263D"></path>
+<path d="M720 80 H560 L440 200 V260" stroke="#1F5FBF"></path>
+<path d="M420 260 H450 L560 370 H690 L750 430" stroke="#F2A900"></path>
+<path d="M590 370 V470" stroke="#F2A900"></path>
+<path d="M400 260 L290 370 H110" stroke="#1B9E4B"></path>
+<path d="M200 370 V470" stroke="#1B9E4B"></path>
+</g>
+<rect x="374" y="232" width="92" height="56" fill="{{sign}}" stroke="#0A0A0A" stroke-width="4"></rect>
+<text x="420" y="266" text-anchor="middle" font-family="Inter Tight, sans-serif" font-weight="900" font-size="18" fill="#FFFFFF">BC</text>
+<g fill="#F2F0EB" stroke="#0A0A0A" stroke-width="4">
+<rect x="82" y="142" width="16" height="16"></rect><rect x="167" y="142" width="16" height="16"></rect><rect x="712" y="72" width="16" height="16"></rect><rect x="682" y="362" width="16" height="16"></rect><rect x="742" y="422" width="16" height="16"></rect><rect x="582" y="462" width="16" height="16"></rect><rect x="102" y="362" width="16" height="16"></rect><rect x="192" y="462" width="16" height="16"></rect>
+</g>
+<g fill="#0A0A0A"><rect x="246" y="136" width="28" height="28"></rect><rect x="546" y="66" width="28" height="28"></rect><rect x="576" y="356" width="28" height="28"></rect><rect x="236" y="356" width="28" height="28"></rect></g>
+<g font-family="Inter Tight, sans-serif" font-weight="900" font-size="15" fill="#FFFFFF" text-anchor="middle"><text x="260" y="155">L</text><text x="560" y="85">I</text><text x="590" y="375">H</text><text x="250" y="375">S</text></g>
+<g font-family="Inter Tight, sans-serif" font-weight="800" font-size="17" fill="#0A0A0A">
+<text x="420" y="318" text-anchor="middle">Bryce Central</text>
+<text x="260" y="122" text-anchor="middle">Browser Lab</text>
+<text x="560" y="52" text-anchor="middle">Intel Brief</text>
+<text x="614" y="404">Honeypot</text>
+<text x="250" y="412" text-anchor="middle">SOC Dashboard</text>
+</g>
+<g font-family="Inter Tight, sans-serif" font-weight="500" font-size="14" fill="#333333">
+<text x="90" y="184" text-anchor="middle">KQL</text><text x="175" y="184" text-anchor="middle">sql.js</text><text x="720" y="114" text-anchor="middle">Public feeds</text><text x="690" y="350" text-anchor="middle">AbuseIPDB</text><text x="768" y="436">OTX</text><text x="608" y="476">SSH</text><text x="110" y="350" text-anchor="middle">Kusto emulator</text><text x="218" y="476">PowerShell</text>
+</g>
+</svg>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 16px;">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px;">
+<h2 style="margin: 0; font-weight: 900; font-size: clamp(44px, 6vw, 88px); line-height: 0.9; letter-spacing: -0.03em;">Departures</h2>
+<span style="font-size: 14px; font-weight: 500;">All lines depart from Bryce Central</span>
+</div>
+<div style="overflow-x: auto; background: #111111; color: #FFFFFF;">
+<div style="min-width: 680px; display: flex; flex-direction: column;">
+<div style="display: grid; grid-template-columns: 70px 1.3fr 2fr 1.4fr 90px; gap: 20px; padding: 12px 20px; font-size: 13px; font-weight: 600; color: #BDBDBD; border-bottom: 1px solid #333333;"><span>Line</span><span>Destination</span><span>Service</span><span>Calling at</span><span></span></div>
+<div style="display: grid; grid-template-columns: 70px 1.3fr 2fr 1.4fr 90px; gap: 20px; padding: 18px 20px; border-bottom: 1px solid #333333; align-items: center;"><span style="width: 40px; height: 40px; background: #D7263D; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 18px;">L</span><span style="font-weight: 800; font-size: 22px;">Browser Lab</span><span style="font-size: 14px; color: #D6D6D6;">KQL playground, graded practice, query builder and hunt templates, on a hand-written KQL-to-SQL translator.</span><span style="font-size: 14px; color: #BDBDBD;">sql.js, KQL</span><a href="https://brycemaxheimer.com/lab/" style="color: #FFFFFF; font-weight: 600; padding: 10px 0;">Board ↗</a></div>
+<div style="display: grid; grid-template-columns: 70px 1.3fr 2fr 1.4fr 90px; gap: 20px; padding: 18px 20px; border-bottom: 1px solid #333333; align-items: center;"><span style="width: 40px; height: 40px; background: #1F5FBF; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 18px;">I</span><span style="font-weight: 800; font-size: 22px;">Daily Intel Brief</span><span style="font-size: 14px; color: #D6D6D6;">A threat intelligence brief built each morning, with the detections behind it checked before they ship.</span><span style="font-size: 14px; color: #BDBDBD;">Public feeds</span><a href="https://intel.brycemaxheimer.com/" style="color: #FFFFFF; font-weight: 600; padding: 10px 0;">Board ↗</a></div>
+<div style="display: grid; grid-template-columns: 70px 1.3fr 2fr 1.4fr 90px; gap: 20px; padding: 18px 20px; border-bottom: 1px solid #333333; align-items: center;"><span style="width: 40px; height: 40px; background: #F2A900; color: #0A0A0A; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 18px;">H</span><span style="font-weight: 800; font-size: 22px;">Honeypot</span><span style="font-size: 14px; color: #D6D6D6;">A residential SSH honeypot whose indicators stream live into the lab.</span><span style="font-size: 14px; color: #BDBDBD;">SSH, AbuseIPDB, OTX</span><a href="https://brycemaxheimer.com/lab/" style="color: #FFFFFF; font-weight: 600; padding: 10px 0;">Board ↗</a></div>
+<div style="display: grid; grid-template-columns: 70px 1.3fr 2fr 1.4fr 90px; gap: 20px; padding: 18px 20px; align-items: center;"><span style="width: 40px; height: 40px; background: #1B9E4B; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 18px;">S</span><span style="font-weight: 800; font-size: 22px;">SOC Dashboard</span><span style="font-size: 14px; color: #D6D6D6;">The PowerShell analyst console the browser tools grew out of. Every KQL query is run on the Kusto emulator first.</span><span style="font-size: 14px; color: #BDBDBD;">Kusto emulator, PowerShell</span><a href="https://github.com/brycemaxheimer" style="color: #FFFFFF; font-weight: 600; padding: 10px 0;">Board ↗</a></div>
+</div>
+</div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 20px;">
+<h2 style="margin: 0; font-weight: 900; font-size: clamp(44px, 6vw, 88px); line-height: 0.9; letter-spacing: -0.03em;">Valid passes</h2>
+<p style="margin: 0; max-width: 44em; font-size: 18px;">Red Team Certified Professional out of Marine Corps Cyberspace Operations Group, plus SANS and GIAC blue team credentials. B.S. Applied Cybersecurity at SANS Technology Institute, expected January 2027.</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); border-top: 4px solid #0A0A0A;">
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 16px 16px 16px 0;"><span style="font-weight: 900; font-size: 30px; letter-spacing: -0.02em;">RTCP</span><span style="font-size: 13px; color: #333333;">Red Team Certified Professional</span></div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 16px 16px 16px 0;"><span style="font-weight: 900; font-size: 30px; letter-spacing: -0.02em;">GCFE</span><span style="font-size: 13px; color: #333333;">GIAC Certified Forensic Examiner</span></div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 16px 16px 16px 0;"><span style="font-weight: 900; font-size: 30px; letter-spacing: -0.02em;">GCIH</span><span style="font-size: 13px; color: #333333;">GIAC Certified Incident Handler</span></div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 16px 16px 16px 0;"><span style="font-weight: 900; font-size: 30px; letter-spacing: -0.02em;">GSEC</span><span style="font-size: 13px; color: #333333;">GIAC Security Essentials</span></div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 16px 16px 16px 0;"><span style="font-weight: 900; font-size: 30px; letter-spacing: -0.02em;">GFACT</span><span style="font-size: 13px; color: #333333;">GIAC Foundational Cybersecurity Technologies</span></div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 16px 16px 16px 0;"><span style="font-weight: 900; font-size: 30px; letter-spacing: -0.02em;">GPYC</span><span style="font-size: 13px; color: #333333;">GIAC Python Coder</span></div>
+</div>
+</section>
+
+<footer style="padding-top: 14px; border-top: 4px solid #0A0A0A; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; font-size: 14px; font-weight: 500;">
+<span>© 2026 Bryce Maxheimer</span>
+<span>Every station links somewhere real</span>
+</footer>
+
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"sign":{"editor":"color","default":"#D8001C","options":["#D8001C","#0A0A0A","#1F5FBF","#1B6B3F"]},"$preview":{"width":1440,"height":2300}}'>
+class Component extends DCLogic {
+renderVals() {
+return { sign: this.props.sign ?? '#D8001C' };
+}
+}
+</script>
+</body>
+</html>
