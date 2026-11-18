@@ -148,10 +148,11 @@
     }).join('') + '</div><span class="muted small">' + total + ' total</span>';
   }
 
+  function shortOrg(o) { return /Defense Finance/.test(o) ? 'DFAS' : /Marine/.test(o) ? 'USMC' : o.split(', ')[0]; }
+
   function careerTimeline() {
     var R = D.resume, x0 = 2020, x1 = 2027.5, W = 960, L = 230, Rr = 14, rowH = 36, rows = [];
-    var shortOrg = function (o) { var m = o.match(/\(([^)]+)\)/); return m ? m[1] : /Marine/.test(o) ? 'USMC' : o; };
-    R.roles.slice().reverse().forEach(function (r) { rows.push({ kind: 'role', label: shortOrg(r.org) + ' · ' + r.title.split(' / ')[0], a: ym(r.start), b: /present/i.test(r.end) ? nowYm() : ym(r.end), tip: r.title + ' · ' + monthLabel(r.start) + ' to ' + (/present/i.test(r.end) ? 'present' : monthLabel(r.end)) }); });
+    R.roles.slice().reverse().forEach(function (r) { rows.push({ kind: 'role', label: shortOrg(r.org) + ' · ' + r.title.split(/ \/ |, /)[0], a: ym(r.start), b: /present/i.test(r.end) ? nowYm() : ym(r.end), tip: r.title + ' · ' + monthLabel(r.start) + ' to ' + (/present/i.test(r.end) ? 'present' : monthLabel(r.end)) }); });
     rows.push({ kind: 'edu', label: 'Education', points: R.education.map(function (e) { return { x: ym(e.date), tip: e.school + ' · ' + e.status.toLowerCase() + ' ' + monthLabel(e.date), hollow: /expected/i.test(e.status) }; }).filter(function (p) { return p.x; }) });
     rows.push({ kind: 'cred', label: 'Credentials and awards', points: D.certs.map(function (c) { return { x: ym(c.issued), tip: c.code + ' · ' + monthLabel(c.issued) }; }).concat(R.awards.map(function (a) { return { x: ym(a.date), tip: a.title + ' · ' + monthLabel(a.date) }; })).filter(function (p) { return p.x; }) });
     var H = rows.length * rowH + 34, pw = W - L - Rr;
@@ -239,7 +240,7 @@
         (ed.explainer ? '<p class="explain"><b>Explainer:</b> ' + esc(ed.explainer.concept) + '</p>' : '') + '<div class="srows">' + stories + '</div><p class="prov">Stories triaged by ' + esc(ed.models ? ed.models.triage : 'a model') + ' and written up by ' + esc(ed.models ? ed.models.writeup : 'a model') + '.</p></section>' : '') +
       '<div class="stackcol">' +
       (post ? '<button type="button" class="card left" data-go="writing/0"><span class="eyebrow">LATEST POST · ' + esc(post.date) + ' · ' + post.minutes + ' MIN</span><b class="ctitle">' + esc(post.title) + '</b><span class="sub">' + inline(firstPara) + '</span><span class="chips">' + post.tags.map(function (t) { return '<span class="chip">' + esc(t) + '</span>'; }).join('') + '</span></button>' : '') +
-      '<button type="button" class="card left" data-go="resume"><span class="eyebrow">NOW · SINCE ' + esc(monthLabel(role.start).toUpperCase()) + '</span><b class="ctitle">' + esc(role.title) + ', ' + esc(role.org.replace(/.*\((.*)\)/, '$1')) + '</b><span class="sub">' + esc(role.bullets[0]) + '</span></button>' +
+      '<button type="button" class="card left" data-go="resume"><span class="eyebrow">NOW · SINCE ' + esc(monthLabel(role.start).toUpperCase()) + '</span><b class="ctitle">' + esc(role.title.split(', ')[0]) + ', ' + esc(role.org.replace('Defense Finance and Accounting Service', 'DFAS')) + '</b><span class="sub">' + esc(role.bullets[0]) + '</span></button>' +
       '</div></div>' +
       '<div class="section-head"><h2>Tools</h2><button type="button" class="link-btn" data-go="tools">All tools →</button></div>' +
       '<div class="grid">' + D.tools.map(function (t, i) {
@@ -352,10 +353,10 @@
     var R = D.resume;
     var roles = R.roles.map(function (r) {
       var a = ym(r.start), b = /present/i.test(r.end) ? null : ym(r.end);
-      return '<section class="card role"><div class="role-h"><div><span class="eyebrow">' + esc(monthLabel(r.start).toUpperCase()) + ' TO ' + esc((b ? monthLabel(r.end) : 'PRESENT').toUpperCase()) + ' · ' + esc(span(a, b).toUpperCase()) + '</span><h2>' + esc(r.title) + '</h2><span class="sub">' + esc(r.org) + '</span></div>' + (b ? '' : '<span class="badge good"><i class="dot"></i>current</span>') + '</div><ul>' + r.bullets.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></section>';
+      return '<section class="card role"><div class="role-h"><div><span class="eyebrow">' + esc(monthLabel(r.start).toUpperCase()) + ' TO ' + esc((b ? monthLabel(r.end) : 'PRESENT').toUpperCase()) + ' · ' + esc(span(a, b).toUpperCase()) + '</span><h2>' + esc(r.title) + '</h2><span class="sub">' + esc(r.org) + (r.location ? ' · ' + esc(r.location) : '') + '</span></div>' + (b ? '' : '<span class="badge good"><i class="dot"></i>current</span>') + '</div><ul>' + r.bullets.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></section>';
     }).join('');
     var nums = R.accomplishments.map(function (a) {
-      var m = a.match(/Diamond \d/) || a.match(/\d[\d.,]*[MK]?\+/) || a.match(/\d+/);
+      var m = a.match(/Diamond \d/) || a.match(/\d+(st|nd|rd|th)\b/) || a.match(/\d+(\.\d+)?%/) || a.match(/\d[\d.,]*[MK]?\+/) || a.match(/\d+/);
       return '<div class="kpi static"><b>' + esc(m ? m[0] : '•') + '</b><span class="kpi-f">' + esc(a) + '</span></div>';
     }).join('');
     return '<div class="view"><div class="view-head"><div><h1>Resume</h1><p>' + esc(R.summary) + '</p></div><div class="row-actions"><a class="btn" href="/resume/Bryce_Maxheimer_Resume.pdf">PDF ↗</a><a class="btn" href="/resume/">Full resume ↗</a></div></div>' +
@@ -364,7 +365,7 @@
       roles +
       '<div class="cols"><section class="card grow"><div class="card-h"><h2>Skills</h2></div>' + R.skills.map(function (s) { return '<div class="skill"><span class="eyebrow">' + esc(s.label.toUpperCase()) + '</span><span class="chips">' + s.items.map(function (x) { return '<span class="chip">' + esc(x) + '</span>'; }).join('') + '</span></div>'; }).join('') + '</section>' +
       '<div class="stackcol"><section class="card"><div class="card-h"><h2>Education and training</h2></div><ul class="plain">' + R.education.map(function (e) { return '<li><b>' + esc(e.school) + '</b>' + (e.detail ? '<br><span class="sub">' + esc(e.detail) + '</span>' : '') + '<br><span class="muted mono small">' + esc(e.status) + ' ' + esc(e.date) + '</span></li>'; }).join('') + '</ul></section>' +
-      '<section class="card"><div class="card-h"><h2>Awards</h2></div><ul class="plain">' + R.awards.map(function (a) { return '<li><b>' + esc(a.title) + '</b> <span class="muted mono small">' + esc(a.date) + '</span></li>'; }).join('') + '</ul><p class="sub">Clearance: ' + esc(D.person.clearance) + '</p></section></div></div></div>';
+      '<section class="card"><div class="card-h"><h2>Awards</h2></div><ul class="plain">' + R.awards.map(function (a) { return '<li><b>' + esc(a.title) + '</b> <span class="muted mono small">' + esc(a.date) + '</span>' + (a.detail ? '<br><span class="sub">' + esc(a.detail) + '</span>' : '') + '</li>'; }).join('') + '</ul><p class="sub">Clearance: ' + esc(D.person.clearance) + '</p></section></div></div></div>';
   }
 
   function viewCreds() {

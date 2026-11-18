@@ -49,8 +49,8 @@
     var pk = post('inside-invoke-kqlps'), pm = post('mitre-crosswalks-in-the-lab');
 
     var net = [
-      { id: 'bryce', x: 500, y: 320, group: 'PEOPLE AND ROLES', title: person.name, sub: 'person · shift lead, DFAS', kind: 'person', color: '#EDEDF0', badge: 'B', summary: person.summary, facts: [['Now', 'Shift Lead, DFAS'], ['Before', 'USMC Cyber Warfare Operator'], ['Study', 'B.S., SANS.edu, Jan 2027'], ['Clearance', person.clearance]], href: '/resume/', cta: 'Open resume' },
-      { id: 'dfas', x: 500, y: 70, minor: true, group: 'PEOPLE AND ROLES', title: 'Shift Lead, DFAS', sub: 'role · 2025-07 to present', kind: 'role', color: '#7AB8FF', badge: 'D', summary: D.experience[0].summary, facts: [['Org', D.experience[0].org], ['Dates', '2025-07 to present']], href: '/resume/', cta: 'Open resume' },
+      { id: 'bryce', x: 500, y: 320, group: 'PEOPLE AND ROLES', title: person.name, sub: 'person · integration specialist, DFAS', kind: 'person', color: '#EDEDF0', badge: 'B', summary: person.summary, facts: [['Now', 'Integration Specialist, DFAS CSSP'], ['Before', 'USMC Cyber Warfare Operator'], ['Study', 'B.S., SANS.edu, Jan 2027'], ['Clearance', person.clearance]], href: '/resume/', cta: 'Open resume' },
+      { id: 'dfas', x: 500, y: 70, minor: true, group: 'PEOPLE AND ROLES', title: 'Integration Specialist', sub: 'role · DFAS CSSP, 2025-07 to now', kind: 'role', color: '#7AB8FF', badge: 'D', summary: D.experience[0].summary, facts: [['Org', D.experience[0].org], ['Path', 'Analyst, Shift Lead, Integration Specialist'], ['Dates', '2025-07 to present']], href: '/resume/', cta: 'Open resume' },
       { id: 'usmc', x: 520, y: 578, minor: true, group: 'PEOPLE AND ROLES', title: 'USMC Defensive Cyber Ops', sub: 'role · 2022-02 to 2025-05', kind: 'role', color: '#45D0A0', badge: 'M', summary: D.experience[1].summary, facts: [['Title', D.experience[1].title], ['Dates', '2022-02 to 2025-05']], href: '/resume/', cta: 'Open resume' },
       fromTool(lab, 300, 190, 'tool · 5 pages'),
       fromTool(intel, 700, 190, 'tool · latest ' + (ed[0] ? ed[0].date : 'n/a')),
@@ -101,8 +101,8 @@
     var clearance = { id: 'clearance', group: 'HIGHLIGHTS', eyebrow: 'clearance', title: person.clearance, sub: 'Held for federal SOC work.', kind: 'clearance', color: '#EDEDF0', badge: 'C', summary: 'Clearance as listed on the resume.', facts: [['Level', person.clearance]], href: '/resume/', cta: 'Open full resume' };
 
     var certs = D.certs.map(function (c) {
-      var verify = c.issuer === 'GIAC' ? 'https://www.giac.org/certified-professional/Bryce-Maxheimer/243145' : '/certs/';
-      return { id: 'cert-' + c.id, group: c.issuer === 'GIAC' ? 'GIAC (SANS)' : 'OTHER ISSUERS', eyebrow: c.issued + ' · ' + c.issuer, title: c.code, sub: c.name, kind: 'credential', color: c.color, badge: c.code.charAt(0), summary: c.summary, facts: [['Name', c.name], ['Issuer', c.issuer], ['Issued', c.issued]], href: verify, cta: c.issuer === 'GIAC' ? 'Verify on GIAC' : 'View on certs page' };
+      var verify = c.verify || '/certs/';
+      return { id: 'cert-' + c.id, group: c.issuer === 'GIAC' ? 'GIAC (SANS)' : 'OTHER ISSUERS', eyebrow: c.issued + ' · ' + c.issuer, title: c.code, sub: c.name, kind: 'credential', color: c.color, badge: c.code.charAt(0), summary: c.summary, facts: [['Name', c.name], ['Issuer', c.issuer], ['Issued', c.issued]], href: verify, cta: /giac\.org/.test(verify) ? 'Verify on GIAC' : /credly/.test(verify) ? 'Verify on Credly' : /cyberskyline/.test(verify) ? 'Verify on Cyber Skyline' : /\.pdf$/.test(verify) ? 'View score report' : 'View on certs page' };
     });
 
     var posts = D.posts.map(function (p) {

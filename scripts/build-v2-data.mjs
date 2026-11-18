@@ -26,7 +26,7 @@ const clip = (s, n) => {
 /* ── resume ── */
 function parseResume(text) {
   const lines = text.replace(/\r/g, '').split('\n');
-  const heads = ['PROFESSIONAL SUMMARY', 'SELECTED ACCOMPLISHMENTS', 'TECHNICAL SKILLS', 'PROFESSIONAL EXPERIENCE', 'EDUCATION', 'CERTIFICATIONS', 'AWARDS AND RECOGNITION'];
+  const heads = ['PROFESSIONAL SUMMARY', 'SELECTED ACCOMPLISHMENTS', 'TECHNICAL SKILLS', 'PROFESSIONAL EXPERIENCE', 'EDUCATION', 'EDUCATION AND TRAINING', 'CERTIFICATIONS', 'AWARDS AND RECOGNITION'];
   const sec = {};
   let cur = null;
   for (const line of lines) {
@@ -56,22 +56,36 @@ function parseResume(text) {
   }
   skills.forEach((s) => { s.items = s.items.split(',').map((x) => x.trim()).filter(Boolean); });
 
+  // "Org - Unit, City, ST" -> { name: "Org, Unit", location: "City, ST" }
+  const orgLine = (l) => {
+    const m = l.trim().match(/^(.*?),\s*([^,]+,\s*[A-Z]{2})$/);
+    return { name: (m ? m[1] : l.trim()).replace(/\s+-\s+/g, ', '), location: m ? m[2] : '' };
+  };
+  // An employer can be a two-line header (org, dates) followed by several
+  // roles (title, dates, bullets); a standalone role is title, org, dates, bullets.
   const roles = [];
+  let employer = null;
   for (const b of blocks(sec['PROFESSIONAL EXPERIENCE'] || [])) {
-    const dates = b[2] || '';
-    const dm = dates.match(/(\d{4}-\d{2})\s+to\s+(\S+)/);
-    roles.push({ title: b[0].trim(), org: (b[1] || '').trim(), start: dm ? dm[1] : '', end: dm ? dm[2] : '', bullets: bullets(b.slice(3)) });
+    const di = b.findIndex((l) => /\d{4}-\d{2}\s+to\s+\S+/.test(l));
+    const dm = di >= 0 ? b[di].match(/(\d{4}-\d{2})\s+to\s+(\S+)/) : null;
+    const body = bullets(b.slice(di + 1));
+    if (di === 1 && !body.length) { employer = orgLine(b[0]); continue; }
+    const org = di === 1 && employer ? employer : orgLine(b[1] || '');
+    if (di !== 1) employer = null;
+    roles.push({ title: b[0].trim(), org: org.name, location: org.location, start: dm ? dm[1] : '', end: dm ? dm[2] : '', bullets: body });
   }
 
-  const education = blocks(sec['EDUCATION'] || []).map((b) => {
-    const last = b[b.length - 1].trim();
-    const dm = last.match(/(\d{4}-\d{2})/);
-    return { school: b[0].trim(), detail: b.length > 2 ? b[1].trim() : '', status: last.replace(/\s*\d{4}-\d{2}.*/, '').trim(), date: dm ? dm[1] : '' };
+  // Bullets read "School - detail, date" or "Course - date".
+  const education = bullets(sec['EDUCATION AND TRAINING'] || sec['EDUCATION'] || []).map((e) => {
+    const dm = e.match(/(\d{4}-\d{2})\s*$/);
+    const parts = e.replace(/(?:,|\s+-)?\s*(expected\s+)?\d{4}-\d{2}\s*$/i, '').split(/\s+-\s+/);
+    const expected = /expected\s+\d{4}-\d{2}\s*$/i.test(e);
+    return { school: parts[0].trim(), detail: (parts[1] || '').trim(), status: expected ? 'Expected' : 'Completed', date: dm ? dm[1] : '' };
   });
 
   const awards = bullets(sec['AWARDS AND RECOGNITION'] || []).map((a) => {
-    const m = a.match(/^(.*)\((\d{4}-\d{2})\)\s*$/);
-    return m ? { title: m[1].trim(), date: m[2] } : { title: a, date: '' };
+    const m = a.match(/^(.*?)\s*\((\d{4}-\d{2})\)\s*(?:-\s*(.*))?$/);
+    return m ? { title: m[1].trim(), date: m[2], detail: (m[3] || '').trim() } : { title: a, date: '', detail: '' };
   });
 
   return {
@@ -84,6 +98,16 @@ function parseResume(text) {
   };
 }
 const resume = parseResume(read('resume/ATS-friendly.txt'));
+// The August 2026 resume dropped SELECTED ACCOMPLISHMENTS; these headline
+// figures come from its role bullets and the certs page.
+if (!resume.accomplishments.length) {
+  resume.accomplishments = [
+    'Cut daily false-positive SIEM alerts by 67% (about 300 to fewer than 100) through 30+ approved rule changes.',
+    'Processed and analyzed 30,000+ security alerts and established baseline network behavior in a DoD CSSP.',
+    'Analyzed 3.5M+ daily packets across critical networks during defensive cyberspace operations in Okinawa, Japan.',
+    'Ranked 281st of 6,366 in the NCL Fall 2026 Individual Game (All Student) with 89.6% accuracy.',
+  ];
+}
 
 /* ── blog posts with section text ── */
 function parsePost(md) {
@@ -174,9 +198,9 @@ const data = {
   generatedAt: new Date().toISOString(),
   person: {
     name: 'Bryce Maxheimer',
-    role: 'Shift Lead, Defense Finance and Accounting Service',
+    role: 'Integration Specialist, Peraton (DFAS CSSP)',
     summary:
-      'Four years in the Marine Corps as a Cyber Warfare Operator doing threat hunting, forensics and network defense. Now a Shift Lead at the Defense Finance and Accounting Service.',
+      'Four years in the Marine Corps as a Cyber Warfare Operator doing threat hunting, forensics and network defense. Now an Integration Specialist on the Defense Finance and Accounting Service CSSP Analyst Team (Peraton): technical lead and client interface for the analyst team.',
     email: 'contact@brycemaxheimer.com',
     linkedin: 'https://www.linkedin.com/in/bryce-maxheimer',
     github: 'https://github.com/brycemaxheimer',
@@ -208,19 +232,22 @@ const data = {
     { id: 'kqlps', parent: 'soc', title: 'Invoke-KqlPS', kind: 'engine', href: '/blog/posts/inside-invoke-kqlps.html', summary: 'A KQL interpreter in PowerShell that anchors the rest of the lab.' },
   ],
   experience: [
-    { id: 'dfas', title: 'Shift Lead, DFAS', org: 'Defense Finance and Accounting Service', start: '2025-07', end: 'Present', summary: 'Sentinel-driven threat detection, artifact analysis for hunts and incident response, 30,000+ alerts triaged, SOPs, automation and SIEM rules.' },
+    { id: 'dfas', title: 'Integration Specialist, DFAS CSSP', org: 'Peraton, Defense Finance and Accounting Service CSSP', start: '2025-07', end: 'Present', summary: 'Analyst, then Shift Lead, now technical lead and client interface for the CSSP Analyst Team: SOPs and policy, 30+ approved SIEM rule changes that cut daily false positives by 67%, and new telemetry and audit reporting.' },
     { id: 'usmc', title: 'Cyber Security Analyst / Infrastructure Architect', org: 'U.S. Marine Corps, Defensive Cyber Operations', start: '2022-02', end: '2025-05', summary: 'Threat hunting in Splunk and Security Onion, forensics in Autopsy and FTK, virtual infrastructure for 100+ users, STIG compliance.' },
     { id: 'sans', title: 'B.S. Applied Cybersecurity', org: 'SANS Technology Institute', start: 'In progress', end: '2027-01', summary: 'Bachelor of Applied Cybersecurity, expected January 2027.' },
   ],
   certs: [
+    { id: 'gcfa', code: 'GCFA', name: 'GIAC Certified Forensic Analyst', issuer: 'GIAC', issued: '2026-07', color: '#2DD4BF', tags: ['forensics', 'threat-hunting', 'incident-response'], verify: 'https://www.credly.com/badges/ca01e395-206d-41a5-b7ea-49ee806f57a3', summary: 'Enterprise-scale incident response and threat hunting: memory forensics, timeline analysis, lateral movement and persistence artifacts, and scoping an intrusion across many hosts.' },
     { id: 'gcfe', code: 'GCFE', name: 'GIAC Certified Forensic Examiner', issuer: 'GIAC', issued: '2026-04', color: '#F5A524', tags: ['forensics', 'windows'], verify: giacRecord, summary: 'Windows host forensics, evidence acquisition, registry and filesystem artifacts, browser and email analysis, and case management.' },
     { id: 'gpyc', code: 'GPYC', name: 'GIAC Python Coder', issuer: 'GIAC', issued: '2026-02', color: '#A78BFA', tags: ['python', 'automation'], verify: giacRecord, summary: 'Practical Python for security automation, parsing and instrumentation: the small, sharp tools an analyst actually needs.' },
     { id: 'gcih', code: 'GCIH', name: 'GIAC Certified Incident Handler', issuer: 'GIAC', issued: '2025-09', color: '#F5C542', tags: ['incident-response', 'blue-team'], verify: giacRecord, summary: 'Detecting, responding to and resolving intrusions, including privilege escalation, lateral movement, persistence and defense evasion.' },
     { id: 'gsec', code: 'GSEC', name: 'GIAC Security Essentials', issuer: 'GIAC', issued: '2025-07', color: '#45D0A0', tags: ['defense', 'fundamentals'], verify: giacRecord, summary: 'Active defense, network security, cryptography fundamentals, incident handling and the skills of a generalist security role.' },
     { id: 'gfact', code: 'GFACT', name: 'GIAC Foundational Cybersecurity Technologies', issuer: 'GIAC', issued: '2025-03', color: '#7AB8FF', tags: ['fundamentals'], verify: giacRecord, summary: 'Computing fundamentals, networking, system administration and the security concepts under every other GIAC track.' },
+    { id: 'giacab', code: 'GIAC AB', name: 'GIAC Advisory Board', issuer: 'GIAC', issued: '2025-03', color: '#94A3B8', tags: ['giac'], verify: 'https://www.credly.com/badges/f69ec75b-28c4-4b3d-baf5-fc9c8557d58e', summary: 'Membership extended to GIAC holders who score 90% or higher on a certification exam. Members help review and shape future GIAC exams.' },
     { id: 'pentest', code: 'PenTest+', name: 'CompTIA PenTest+ (ce)', issuer: 'CompTIA', issued: '2024-08', color: '#FF7A7A', tags: ['pentest', 'red-team'], verify: 'https://www.certmetrics.com/comptia/public/verification.aspx', summary: 'Penetration testing end to end: scoping and rules of engagement, recon, exploitation, post-exploitation and reporting.' },
     { id: 'rtcp', code: 'RTCP', name: 'Red Team Certified Professional', issuer: 'Marine Corps Cyberspace Operations Group', issued: '2024-04', color: '#FF5C8A', tags: ['red-team', 'usmc'], verify: '/certs/', summary: 'Offensive tradecraft used in adversary emulation and red team engagements against DoD networks.' },
-    { id: 'ncl', code: 'NCL', name: 'National Cyber League Diamond 1 Medal', issuer: 'Cyber Skyline', issued: '2025-11', color: '#C4B5FD', tags: ['ctf', 'ncl'], verify: '/certs/', summary: 'Fall 2025 Diamond 1 medal, 97th percentile in the Individual Game: OSINT, cryptography, log and traffic analysis, web exploitation and forensics.' },
+    { id: 'ncl26', code: 'NCL 26', name: 'NCL Fall 2026, Individual Game', issuer: 'Cyber Skyline', issued: '2026-10', color: '#C4B5FD', tags: ['ctf', 'ncl'], verify: '/Cyber%20Skyline/Bryce%20Maxheimer%20-%20NCL%20Fall%202026%20Individual%20Game%20Score%20Breakdown%20(All%20Student).pdf', summary: 'Ranked 281st of 6,366 in the All Student bracket with 2,555 / 3,000 points at 89.6% accuracy. Full marks in OSINT, Log Analysis, Forensics, and Exploitation and Enumeration.' },
+    { id: 'ncl', code: 'NCL 25', name: 'NCL Fall 2025, Diamond 1 Medal', issuer: 'Cyber Skyline', issued: '2025-11', color: '#C4B5FD', tags: ['ctf', 'ncl'], verify: 'https://cyberskyline.com/report/QCBEMP8D263T', summary: 'Fall 2025 Diamond 1 medal, 97th percentile in the Individual Game: OSINT, cryptography, log and traffic analysis, web exploitation and forensics.' },
   ],
   posts,
   editions,
