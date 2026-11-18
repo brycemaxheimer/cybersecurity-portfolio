@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-18T17:06:38.069Z",
+  "generatedAt": "2026-11-18T17:19:35.033Z",
   "person": {
     "name": "Bryce Maxheimer",
     "role": "Integration Specialist, Peraton (DFAS CSSP)",
@@ -3841,6 +3841,401 @@
     }
   },
   "practiceQuestions": 30,
+  "lab": {
+    "tables": [
+      {
+        "name": "AuditLogs",
+        "rows": 800,
+        "columns": [
+          "TimeGenerated:datetime",
+          "OperationName:string",
+          "Category:string",
+          "Result:string",
+          "ResultReason:string",
+          "ResultDescription:string",
+          "ActivityDisplayName:string",
+          "ActivityDateTime:datetime",
+          "AADOperationType:string",
+          "Identity:string",
+          "InitiatedBy:string",
+          "TargetResources:dynamic",
+          "LoggedByService:string",
+          "Type:string"
+        ]
+      },
+      {
+        "name": "CommonSecurityLog",
+        "rows": 1500,
+        "columns": [
+          "TimeGenerated:datetime",
+          "DeviceVendor:string",
+          "DeviceProduct:string",
+          "DeviceVersion:string",
+          "DeviceEventClassID:string",
+          "Activity:string",
+          "LogSeverity:int",
+          "DeviceAction:string",
+          "ApplicationProtocol:string",
+          "SourceIP:string",
+          "SourcePort:int",
+          "DestinationIP:string",
+          "DestinationPort:int",
+          "Protocol:string",
+          "SimplifiedDeviceAction:string",
+          "Computer:string",
+          "Type:string"
+        ]
+      },
+      {
+        "name": "DHCP",
+        "rows": 500,
+        "columns": [
+          "TimeGenerated:datetime",
+          "ID:string",
+          "Date:string",
+          "Time:string",
+          "Description:string",
+          "IP:string",
+          "HostName:string",
+          "MAC:string",
+          "User:string",
+          "TransactionID:string",
+          "QResult:string",
+          "VendorClass:string",
+          "Type:string"
+        ]
+      },
+      {
+        "name": "DeviceFileEvents",
+        "rows": 1500,
+        "columns": [
+          "TimeGenerated:datetime",
+          "Timestamp:datetime",
+          "DeviceName:string",
+          "ActionType:string",
+          "FileName:string",
+          "FolderPath:string",
+          "SHA256:string",
+          "SHA1:string",
+          "MD5:string",
+          "FileSize:long",
+          "InitiatingProcessFileName:string",
+          "InitiatingProcessAccountName:string",
+          "InitiatingProcessCommandLine:string",
+          "Type:string"
+        ]
+      },
+      {
+        "name": "DeviceImageLoadEvents",
+        "rows": 1500,
+        "columns": [
+          "TimeGenerated:datetime",
+          "Timestamp:datetime",
+          "DeviceName:string",
+          "FileName:string",
+          "FolderPath:string",
+          "SHA256:string",
+          "InitiatingProcessFileName:string",
+          "InitiatingProcessFolderPath:string",
+          "Type:string"
+        ]
+      },
+      {
+        "name": "DeviceLogonEvents",
+        "rows": 2000,
+        "columns": [
+          "TimeGenerated:datetime",
+          "Timestamp:datetime",
+          "DeviceName:string",
+          "ActionType:string",
+          "AccountName:string",
+          "AccountDomain:string",
+          "AccountSid:string",
+          "LogonType:string",
+          "FailureReason:string",
+          "IsLocalAdmin:bool",
+          "LogonId:string",
+          "RemoteIP:string",
+          "RemoteIPType:string",
+          "RemotePort:int",
+          "Protocol:string",
+          "InitiatingProcessFileName:string",
+          "InitiatingProcessAccountName:string",
+          "Type:string"
+        ]
+      },
+      {
+        "name": "DeviceNetworkEvents",
+        "rows": 2000,
+        "columns": [
+          "TimeGenerated:datetime",
+          "Timestamp:datetime",
+          "DeviceName:string",
+          "ActionType:string",
+          "LocalIP:string",
+          "LocalIPType:string",
+          "LocalPort:int",
+          "RemoteIP:string",
+          "RemoteIPType:string",
+          "RemotePort:int",
+          "RemoteUrl:string",
+          "Protocol:string",
+          "InitiatingProcessFileName:string",
+          "InitiatingProcessFolderPath:string",
+          "InitiatingProcessCommandLine:string",
+          "InitiatingProcessAccountName:string",
+          "InitiatingProcessSHA256:string",
+          "Type:string"
+        ]
+      },
+      {
+        "name": "DeviceNetworkInfo",
+        "rows": 39,
+        "columns": [
+          "TimeGenerated:datetime",
+          "Timestamp:datetime",
+          "DeviceName:string",
+          "DeviceId:string",
+          "MacAddress:string",
+          "IPAddresses:string",
+          "DnsAddresses:string",
+          "DefaultGateways:string",
+          "ConnectedNetworks:string",
+          "NetworkAdapterName:string",
+          "NetworkAdapterStatus:string",
+          "NetworkAdapterType:string",
+          "Type:string"
+        ]
+      },
+      {
+        "name": "DeviceProcessEvents",
+        "rows": 2000,
+        "columns": [
+          "TimeGenerated:datetime",
+          "Timestamp:datetime",
+          "DeviceName:string",
+          "DeviceId:string",
+          "AccountName:string",
+          "AccountDomain:string",
+          "FileName:string",
+          "FolderPath:string",
+          "ProcessCommandLine:string",
+          "ProcessId:long",
+          "SHA256:string",
+          "SHA1:string",
+          "MD5:string",
+          "FileSize:long",
+          "InitiatingProcessFileName:string",
+          "InitiatingProcessFolderPath:string",
+          "InitiatingProcessCommandLine:string",
+          "InitiatingProcessId:long",
+          "InitiatingProcessAccountName:string",
+          "InitiatingProcessSHA256:string",
+          "InitiatingProcessSignatureStatus:string",
+          "InitiatingProcessSignerType:string",
+          "ProcessIntegrityLevel:string",
+          "ProcessTokenElevation:string",
+          "Type:string"
+        ]
+      },
+      {
+        "name": "DeviceRegistryEvents",
+        "rows": 1000,
+        "columns": [
+          "TimeGenerated:datetime",
+          "Timestamp:datetime",
+          "DeviceName:string",
+          "ActionType:string",
+          "RegistryKey:string",
+          "RegistryValueName:string",
+          "RegistryValueData:string",
+          "RegistryValueType:string",
+          "InitiatingProcessFileName:string",
+          "InitiatingProcessAccountName:string",
+          "InitiatingProcessCommandLine:string",
+          "Type:string"
+        ]
+      },
+      {
+        "name": "SecurityAlert",
+        "rows": 200,
+        "columns": [
+          "TimeGenerated:datetime",
+          "DisplayName:string",
+          "AlertName:string",
+          "AlertSeverity:string",
+          "Description:string",
+          "ProviderName:string",
+          "VendorName:string",
+          "ProductName:string",
+          "SystemAlertId:string",
+          "AlertType:string",
+          "Status:string",
+          "ConfidenceLevel:string",
+          "ConfidenceScore:real",
+          "IsIncident:bool",
+          "StartTime:datetime",
+          "EndTime:datetime",
+          "Entities:dynamic",
+          "Tactics:string",
+          "Techniques:string",
+          "ProcessingEndTime:datetime",
+          "Type:string"
+        ]
+      },
+      {
+        "name": "SecurityEvent",
+        "rows": 2000,
+        "columns": [
+          "TimeGenerated:datetime",
+          "Computer:string",
+          "EventID:int",
+          "Activity:string",
+          "Account:string",
+          "AccountType:string",
+          "AccountDomain:string",
+          "AccountName:string",
+          "TargetUserName:string",
+          "TargetDomainName:string",
+          "IpAddress:string",
+          "IpPort:int",
+          "LogonType:string",
+          "LogonProcessName:string",
+          "FailureReason:string",
+          "ProcessName:string",
+          "NewProcessName:string",
+          "ParentProcessName:string",
+          "CommandLine:string",
+          "ServiceName:string",
+          "ServiceFileName:string",
+          "EventSourceName:string",
+          "Channel:string",
+          "Type:string"
+        ]
+      },
+      {
+        "name": "SecurityIncident",
+        "rows": 50,
+        "columns": [
+          "TimeGenerated:datetime",
+          "IncidentNumber:string",
+          "Title:string",
+          "Description:string",
+          "Severity:string",
+          "Status:string",
+          "Classification:string",
+          "ClassificationReason:string",
+          "FirstActivityTime:datetime",
+          "LastActivityTime:datetime",
+          "FirstModifiedTime:datetime",
+          "LastModifiedTime:datetime",
+          "CreatedTime:datetime",
+          "AlertIds:dynamic",
+          "ModifiedBy:string",
+          "Type:string"
+        ]
+      },
+      {
+        "name": "SigninLogs",
+        "rows": 800,
+        "columns": [
+          "TimeGenerated:datetime",
+          "UserPrincipalName:string",
+          "UserDisplayName:string",
+          "UserId:string",
+          "IPAddress:string",
+          "AppDisplayName:string",
+          "AppId:string",
+          "ClientAppUsed:string",
+          "ResultType:int",
+          "ResultDescription:string",
+          "ConditionalAccessStatus:string",
+          "IsRisky:bool",
+          "RiskLevelDuringSignIn:string",
+          "RiskState:string",
+          "RiskEventTypes:string",
+          "LocationDetails:dynamic",
+          "DeviceDetail:dynamic",
+          "AuthenticationRequirement:string",
+          "IsInteractive:bool",
+          "UserAgent:string",
+          "Type:string"
+        ]
+      },
+      {
+        "name": "Syslog",
+        "rows": 2000,
+        "columns": [
+          "TimeGenerated:datetime",
+          "EventTime:datetime",
+          "Computer:string",
+          "HostName:string",
+          "HostIP:string",
+          "Facility:string",
+          "SeverityLevel:string",
+          "ProcessName:string",
+          "ProcessID:long",
+          "SyslogMessage:string",
+          "CollectorHostName:string",
+          "Type:string"
+        ]
+      },
+      {
+        "name": "W3CIISLog",
+        "rows": 1500,
+        "columns": [
+          "TimeGenerated:datetime",
+          "Date:string",
+          "Time:string",
+          "sSiteName:string",
+          "sComputerName:string",
+          "sIP:string",
+          "csMethod:string",
+          "csUriStem:string",
+          "csUriQuery:string",
+          "sPort:int",
+          "csUserName:string",
+          "cIP:string",
+          "csUserAgent:string",
+          "scStatus:int",
+          "scSubStatus:int",
+          "scWin32Status:int",
+          "scBytes:long",
+          "csBytes:long",
+          "TimeTaken:long",
+          "Computer:string",
+          "Type:string"
+        ]
+      }
+    ],
+    "examples": [
+      {
+        "label": "Failed-logon top 10",
+        "kql": "DeviceLogonEvents\n| where ActionType == 'LogonFailed'\n| summarize attempts = count() by AccountName\n| top 10 by attempts"
+      },
+      {
+        "label": "PowerShell-spawned procs",
+        "kql": "DeviceProcessEvents\n| where InitiatingProcessFileName == 'powershell.exe'\n| project Timestamp, DeviceName, FileName, ProcessCommandLine\n| take 25"
+      },
+      {
+        "label": "Failed sign-ins by user/IP",
+        "kql": "SigninLogs\n| where ResultType != 0\n| summarize failures = count() by UserPrincipalName, IPAddress\n| order by failures desc\n| take 20"
+      },
+      {
+        "label": "Successful logons by account",
+        "kql": "SecurityEvent\n| where EventID == 4624\n| summarize logons = count() by Account, LogonType\n| order by logons desc"
+      },
+      {
+        "label": "Remote-mgmt port traffic",
+        "kql": "DeviceNetworkEvents\n| where RemotePort in (22, 3389, 5985, 5986)\n| project Timestamp, DeviceName, RemoteIP, RemotePort, InitiatingProcessFileName\n| take 20"
+      },
+      {
+        "label": "Executable file drops",
+        "kql": "DeviceFileEvents\n| where ActionType == 'FileCreated'\n| where FileName endswith '.exe' or FileName endswith '.dll'\n| project Timestamp, DeviceName, FolderPath, FileName, InitiatingProcessFileName\n| take 30"
+      }
+    ],
+    "anchor": "2026-04-29T13:52:40.0000000Z"
+  },
   "live": {
     "honeypotFeed": "/api/live/honeypot"
   }
