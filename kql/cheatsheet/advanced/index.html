@@ -25,6 +25,7 @@
   <link rel="stylesheet" href="/css/style.css">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="stylesheet" href="/css/shell-theme.css">
+<script src="/kql/cheatsheet/cheatsheet.js" defer></script>
 </head>
 <body>
 
@@ -70,9 +71,9 @@
 </header>
 
 <div class="toolbar no-print">
-  <button onclick="document.querySelectorAll('details').forEach(d=>d.open=true)">Expand all solutions</button>
-  <button onclick="document.querySelectorAll('details').forEach(d=>d.open=false)">Collapse all solutions</button>
-  <button onclick="window.print()">Print / Save PDF</button>
+  <button type="button" data-cheatsheet="expand">Expand all solutions</button>
+  <button type="button" data-cheatsheet="collapse">Collapse all solutions</button>
+  <button type="button" data-cheatsheet="print">Print / Save PDF</button>
   <span class="small">&nbsp;Tip: image slots are <code>&lt;div class="image-slot"&gt;</code> - drop an <code>&lt;img&gt;</code> inside to replace.</span>
 </div>
 
