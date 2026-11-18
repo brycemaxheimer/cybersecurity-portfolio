@@ -12,11 +12,12 @@
 
   var $ = function (id) { return document.getElementById(id); };
   var esc, fmt;
-  var D = null, live = null, liveTried = false;
+  var D = null, live = null, liveTried = false, lastPoll = 0;
   var S = { view: 'home', tool: 'lab', cert: 'gcfe', post: 0, ed: 0, story: 0, q: '' };
   var VIEWS = [
     { id: 'home', label: 'Overview', group: 'EXPLORE' },
-    { id: 'threat', label: 'Threat feed', group: 'EXPLORE' },
+    { id: 'threat', label: 'Live Threat Feed', group: 'EXPLORE' },
+    { id: 'lab', label: 'Browser Lab', group: 'EXPLORE' },
     { id: 'intel', label: 'Intel brief', group: 'EXPLORE' },
     { id: 'tools', label: 'Tools', group: 'EXPLORE' },
     { id: 'writing', label: 'Writing', group: 'ABOUT' },
@@ -57,7 +58,7 @@
   var certIcon = function (c) { return c.issuer === 'CompTIA' ? 'comptia' : c.issuer === 'Cyber Skyline' ? 'trophy' : c.issuer === 'GIAC' ? 'badge-check' : 'shield'; };
   var modulesOf = function (id) {
     var list = D.modules.filter(function (m) { return m.parent === id; });
-    if (id === 'honey') list = list.concat([{ id: 'threatfeed', icon: 'radar', title: 'Live Threat Feed', href: '/lab/threat-feed/', summary: 'Top attackers, geo map, recent activity, credentials and sharing metrics.' }]);
+    if (id === 'honey') list = list.concat([{ id: 'threatfeed', icon: 'radar', title: 'Live Threat Feed', href: '#threat', summary: 'Top attackers, geo map, recent activity, credentials and sharing metrics.' }]);
     return list;
   };
 
@@ -261,7 +262,7 @@
     var firstPara = post && post.sections[0] ? post.sections[0].paragraphs[0] : (post ? post.summary : '');
     return '<div class="view">' +
       '<div class="hero"><div><h1>Threat hunting,<br>in the open.</h1><p>' + esc(D.person.name) + '. ' + esc(D.person.summary) + '</p></div>' +
-      '<div class="hero-actions"><a class="btn btn-blue btn-lg" href="/lab/">Open the lab</a><button type="button" class="btn btn-lg" data-go="resume">Read the resume</button></div></div>' +
+      '<div class="hero-actions"><button type="button" class="btn btn-blue btn-lg" data-go="lab">Open the lab</button><button type="button" class="btn btn-lg" data-go="resume">Read the resume</button></div></div>' +
       '<div class="kpis">' + hpTile +
       (ed ? '<button type="button" class="kpi" data-go="intel"><span class="kpi-h">Latest intel brief</span><b>' + esc(ed.date.slice(5).replace('-', '/')) + '</b><span class="kpi-f">' + ed.stories.length + ' ranked stories · ' + ed.kev.length + ' new KEV · ' + ed.stats.sourcesOk + ' sources checked</span></button>' : '') +
       '<button type="button" class="kpi" data-go="creds"><span class="kpi-h">Credentials</span><b>' + D.certs.length + '</b><span class="kpi-f">Latest: ' + esc(latestCert.code) + ', ' + esc(monthLabel(latestCert.issued)) + '</span></button></div>' +
@@ -281,8 +282,39 @@
       }).join('') + '</div></div>';
   }
 
+  // Seconds until the next 60-second feed poll, shown in the feed header.
+  var nextPoll = function () { return lastPoll ? Math.max(0, 60 - Math.round((Date.now() - lastPoll) / 1000)) : 60; };
+
+  function attackerTable(list) {
+    if (!list.length) return '<p class="muted">No attacker IPs in the current window.</p>';
+    return '<div class="tscroll"><table class="tbl"><thead><tr><th>Source IP</th><th>Location</th><th>Network</th><th class="num">Events</th><th></th></tr></thead><tbody>' +
+      list.map(function (a) {
+        return '<tr><td class="mono">' + esc(a.ip) + '</td><td>' + esc((a.city ? a.city + ', ' : '') + a.country) + '</td><td class="muted">' + esc(a.org || 'n/a') + '</td><td class="num mono">' + fmt(a.count) + '</td>' +
+          '<td><a class="link-btn" href="https://www.abuseipdb.com/check/' + encodeURIComponent(a.ip) + '" rel="noopener">AbuseIPDB ↗</a></td></tr>';
+      }).join('') + '</tbody></table></div>';
+  }
+
+  function eventStream(list) {
+    if (!list.length) return '<div class="stream empty-stream"><span class="muted">No events in the current window. New sessions appear here within a minute of the sensor seeing them.</span></div>';
+    return '<div class="stream" role="log" aria-label="Recent honeypot events">' + list.map(function (e) {
+      var cls = /login\.success/.test(e.id) ? ' hit' : /command/.test(e.id) ? ' cmd' : /download/.test(e.id) ? ' file' : '';
+      return '<div class="line"><span class="ts">' + esc(e.time) + '</span><span class="ev' + cls + '">' + esc(e.what) + '</span><span class="ip">' + esc(e.ip) + '</span><span class="cc">' + esc(e.country) + '</span><span class="data">' + esc(e.data) + '</span></div>';
+    }).join('') + '</div>';
+  }
+
+  function sharingCard(L) {
+    var row = function (ic, name, value, sub, href) {
+      return '<a class="share" href="' + href + '" rel="noopener">' + tile(ic, '#C2C2CE', 'sq sm') + '<span class="mtext"><b>' + esc(name) + '</b><span>' + esc(sub) + '</span></span><em>' + fmt(value) + '</em></a>';
+    };
+    return '<section class="card"><div class="card-h"><h2>Shared with other defenders</h2><span class="muted small">running totals from the sharing jobs on the sensor</span></div><div class="shares">' +
+      row('shield-alert', 'AbuseIPDB', L.sharing.abuseipdb24h, 'IPs reported in the last 24h', 'https://www.abuseipdb.com/user/271147') +
+      row('share-2', 'AlienVault OTX', L.sharing.otxPulses, 'daily pulses published to date', 'https://otx.alienvault.com/user/oppheimer') +
+      row('radar', 'VirusTotal', L.sharing.vtMalicious, 'payloads flagged malicious, of ' + fmt(L.sharing.vtLookups) + ' looked up', 'https://www.virustotal.com/') +
+      row('list-checks', 'ThreatFox', L.sharing.threatfox, 'IOCs submitted to date', 'https://threatfox.abuse.ch/') + '</div></section>';
+  }
+
   function viewThreat() {
-    var head = '<div class="view-head"><div><h1>Threat feed</h1><p>A residential Cowrie SSH honeypot. Every login attempt, command and download is logged, geolocated and shared with AbuseIPDB and AlienVault OTX.</p></div><div class="row-actions">' + liveBadge() + '<a class="btn" href="/lab/threat-feed/">Full feed ↗</a></div></div>';
+    var head = '<div class="view-head"><div><h1>Live Threat Feed</h1><p>A residential Cowrie SSH honeypot. Every login attempt, command and download is logged, geolocated and shared with AbuseIPDB, AlienVault OTX and ThreatFox. This view refreshes itself every minute.</p></div><div class="row-actions">' + liveBadge() + (live ? '<span class="badge" id="poll-in">refresh in ' + nextPoll() + 's</span>' : '') + '<a class="btn" href="/lab/threat-feed/">Classic page ↗</a></div></div>';
     if (!live) return '<div class="view">' + head + '<div class="empty">' + (liveTried ? 'The honeypot feed is unreachable right now. This view shows hourly activity, attacker origins, top credentials and commands, CISA KEV additions and recent ransomware victims once it reconnects.' : 'Connecting to the honeypot feed…') + '</div></div>';
     var L = live;
     var stale = L.stale ? '<div class="note warn"><b>Heads up:</b> this feed was last generated ' + esc(dateLong(L.generatedAt)) + ' (' + esc(V2.ago(L.generatedAt)) + '). The numbers below describe the 24 hours before that, not today.</div>' : '';
@@ -293,13 +325,110 @@
       '<section class="card"><div class="card-h"><h2>Events per hour</h2><span class="muted small">UTC · hover a bar</span></div>' + hourlyChart(L.hourly) + '</section>' +
       '<div class="cols"><section class="card grow"><div class="card-h"><h2>Where attacks come from</h2><span class="muted small">circle size = events</span></div>' + geoPlot(L.attackers) + '</section>' +
       '<div class="stackcol"><section class="card"><div class="card-h"><h2>Top countries</h2></div>' + hbars(L.countryCounts.slice(0, 6)) + '</section><section class="card"><div class="card-h"><h2>Top networks</h2></div>' + hbars(L.asns.slice(0, 5)) + '</section></div></div>' +
+      '<div class="cols"><section class="card grow"><div class="card-h"><h2>Recent activity</h2><span class="muted small">newest first · local time</span></div>' + eventStream(L.recent) + '</section>' +
+      '<section class="card grow"><div class="card-h"><h2>Top attacker IPs</h2><span class="muted small">last 24h</span></div>' + attackerTable(L.attackers.slice(0, 10)) + '</section></div>' +
       '<div class="cols three"><section class="card"><div class="card-h"><h2>Usernames tried</h2></div>' + hbars(L.usernames, { mono: true }) + '</section>' +
       '<section class="card"><div class="card-h"><h2>Passwords tried</h2></div>' + hbars(L.passwords, { mono: true }) + '</section>' +
       '<section class="card"><div class="card-h"><h2>Commands run</h2></div>' + hbars(L.commands, { mono: true }) + '</section></div>' +
+      sharingCard(L) +
       '<div class="cols"><section class="card grow"><div class="card-h"><h2>Recent CISA KEV additions</h2></div><div class="tscroll"><table class="tbl"><thead><tr><th>CVE</th><th>Vendor / product</th><th>Added</th><th>Due</th></tr></thead><tbody>' +
       L.kev.map(function (k) { return '<tr><td class="mono">' + esc(k.cve) + (k.ransom ? ' <span class="tag crit">ransomware</span>' : '') + '</td><td>' + esc(k.vendor + ' ' + k.product) + '</td><td class="mono">' + esc(k.added) + '</td><td class="mono">' + esc(k.due) + '</td></tr>'; }).join('') + '</tbody></table></div></section>' +
       '<section class="card grow"><div class="card-h"><h2>Recent ransomware victims</h2></div><div class="tscroll"><table class="tbl"><thead><tr><th>Victim</th><th>Group</th><th>Sector</th><th>Posted</th></tr></thead><tbody>' +
       L.ransomware.map(function (r) { return '<tr><td>' + esc(r.victim) + ' <span class="muted">' + esc(r.country) + '</span></td><td>' + esc(r.group) + '</td><td>' + esc(r.activity) + '</td><td class="mono">' + esc(r.published) + '</td></tr>'; }).join('') + '</tbody></table></div></section></div></div>';
+  }
+
+  /* ── Browser Lab: the real KQL engine from /kql/, loaded on first Run ── */
+  var KQL_SCRIPTS = ['/kql/vendor/sql-wasm.js', '/kql/engine/schema.js', '/kql/engine/engine.js', '/kql/engine/runtime.js', '/kql/engine/rewrite.js', '/kql/engine/api.js'];
+  var kql = { promise: null, out: '', status: '', busy: false };
+
+  function loadScript(src) {
+    return new Promise(function (ok, fail) {
+      var s = document.createElement('script');
+      s.src = src;
+      s.onload = ok;
+      s.onerror = function () { fail(new Error('Could not load ' + src)); };
+      document.head.appendChild(s);
+    });
+  }
+
+  function kqlEngine() {
+    if (kql.promise) return kql.promise;
+    kql.promise = KQL_SCRIPTS.reduce(function (p, src) { return p.then(function () { return loadScript(src); }); }, Promise.resolve())
+      .then(function () { return window.KqlEngineApi.ready(); })
+      // Pin now() to the newest sample event, as the practice set does, so ago() finds rows.
+      .then(function () { if (D.lab.anchor) window.KqlEngineApi.setAnchor(D.lab.anchor); });
+    kql.promise.catch(function () { kql.promise = null; });
+    return kql.promise;
+  }
+
+  function resultTable(res) {
+    if (!res.rows.length) return '<p class="muted">The query ran and returned no rows.</p>';
+    var cell = function (v) { return v === null || v === undefined ? '<span class="muted">null</span>' : esc(String(v).length > 140 ? String(v).slice(0, 139) + '…' : String(v)); };
+    return '<div class="tscroll results"><table class="tbl"><thead><tr>' + res.columns.map(function (c) { return '<th>' + esc(c) + '</th>'; }).join('') + '</tr></thead><tbody>' +
+      res.rows.slice(0, 200).map(function (r) { return '<tr>' + r.map(function (v) { return '<td class="mono">' + cell(v) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></div>' +
+      (res.rows.length > 200 ? '<p class="muted small">Showing the first 200 of ' + fmt(res.rows.length) + ' rows.</p>' : '');
+  }
+
+  function paintKql() {
+    if ($('kql-out')) $('kql-out').innerHTML = kql.out || '<p class="muted">Pick an example or a table, then press Run. The first run loads the engine and 16 sample tables (about 5 MB), once per visit.</p>';
+    if ($('kql-status')) $('kql-status').textContent = kql.status;
+    var run = document.querySelector('[data-kql-run]');
+    if (run) { run.disabled = kql.busy; run.textContent = kql.busy ? 'Running…' : 'Run'; }
+  }
+
+  function runKql() {
+    var src = $('kql-src') ? $('kql-src').value : S.kql;
+    S.kql = src;
+    if (!src.trim() || kql.busy) return;
+    kql.busy = true;
+    kql.status = window.KqlEngineApi ? 'running…' : 'loading the engine and sample tables…';
+    paintKql();
+    kqlEngine().then(function () { return window.KqlEngineApi.run(src); }).then(function (res) {
+      kql.out = resultTable(res);
+      kql.status = fmt(res.rows.length) + ' rows · ' + Math.round(res.elapsedMs) + ' ms';
+    }).catch(function (err) {
+      kql.out = '<div class="note warn"><b>' + (window.KqlEngineApi ? 'Query error' : 'Engine unavailable') + ':</b> ' + esc(err.message || String(err)) + '</div>';
+      kql.status = 'error';
+    }).then(function () { kql.busy = false; paintKql(); });
+  }
+
+  function labLiveCard() {
+    return '<button type="button" class="card left" id="lab-live" data-go="threat"><span class="eyebrow">LIVE DATA ' + liveBadge() + '</span><b class="ctitle">Live Threat Feed</b><span class="sub">' +
+      (live ? fmt(live.events24h) + ' events and ' + fmt(live.unique24h) + ' attacker IPs in the last 24 hours, ' + fmt(live.sharing.abuseipdb24h) + ' reported to AbuseIPDB.' : 'Real-time SSH honeypot data: attackers, origins, credentials and sharing.') + '</span>' + (live ? sparkline(live.hourly) : '') + '</button>';
+  }
+
+  function viewLab() {
+    var L = D.lab, pd = D.practice.byDifficulty, pt = D.practice.byType || {};
+    if (S.kql == null) S.kql = L.examples.length ? L.examples[0].kql : 'SecurityEvent\n| take 20';
+    var tables = L.tables.map(function (t) {
+      return '<button type="button" class="tbl-btn" data-kql-table="' + esc(t.name) + '" data-tip="' + esc(t.columns.slice(0, 10).map(function (c) { return c.split(':')[0]; }).join(', ') + (t.columns.length > 10 ? ', +' + (t.columns.length - 10) + ' more' : '')) + '"><span>' + esc(t.name) + '</span><small>' + short(t.rows) + '</small></button>';
+    }).join('');
+    var examples = L.examples.map(function (e, i) { return '<button type="button" class="chip-btn" data-kql-ex="' + i + '">' + esc(e.label) + '</button>'; }).join('');
+    var labTools = modulesOf('lab').map(function (m) {
+      var stat = m.id === 'playground' ? L.tables.length + ' tables' : m.id === 'practice' ? D.practice.total + ' questions' : m.id === 'templates' ? D.templates.length + ' hunts' : 'visual, no typing';
+      return '<a class="tcard lab-tool" href="' + esc(m.href) + '">' + tile(m.icon, '#45D0A0', 'sq big') + '<span class="meta"><b>' + esc(m.title) + ' ↗</b><span>' + esc(m.summary) + '</span><span class="badge">' + esc(stat) + '</span></span></a>';
+    }).join('');
+    var templates = D.templates.map(function (h, i) {
+      return '<details><summary><b>' + esc(h.name) + '</b>' + (h.verifiedAgainst ? '<span class="tag">verified: ' + esc(h.verifiedAgainst) + '</span>' : '') + '</summary><p>' + esc(h.description) + '</p>' +
+        (h.kql ? '<pre class="kql"><code>' + esc(h.kql) + '</code></pre><button type="button" class="btn" data-kql-copy="' + i + '">Copy KQL</button>' : '') + '</details>';
+    }).join('');
+    var liveCard = labLiveCard();
+    return '<div class="view"><div class="view-head"><div><h1>Browser Lab</h1><p>Security tools that run in your browser. Most of this started inside my SOC Dashboard and was ported to JavaScript, so you can try it without a Sentinel tenant.</p></div><div class="row-actions"><a class="btn" href="/lab/">Classic lab ↗</a></div></div>' +
+      '<section class="card"><div class="card-h"><h2>KQL console</h2><span class="muted small">a hand-written KQL engine on WASM SQLite · nothing leaves this tab</span></div>' +
+      '<div class="console"><aside class="schema"><span class="eyebrow">SAMPLE TABLES</span><div class="tbl-list">' + tables + '</div><span class="muted small">Click a table to preview it. Hover for columns.</span></aside>' +
+      '<div class="editor"><div class="chips">' + examples + '</div>' +
+      '<label class="sr" for="kql-src">KQL query</label><textarea id="kql-src" class="kql-src" spellcheck="false" autocomplete="off" rows="7">' + esc(S.kql) + '</textarea>' +
+      '<div class="console-bar"><button type="button" class="btn btn-blue" data-kql-run>Run</button><kbd>Ctrl Enter</kbd><span id="kql-status" class="muted small mono">' + esc(kql.status) + '</span><a class="link-btn push" href="/kql/">Full playground ↗</a></div>' +
+      '<div id="kql-out" aria-live="polite"></div></div></div></section>' +
+      '<div class="section-head"><h2>Tools</h2><span class="muted small">each opens its full page</span></div><div class="grid lab-tools">' + labTools + '</div>' +
+      '<div class="cols"><section class="card"><div class="card-h"><h2>Practice set</h2><a class="link-btn" href="/lab/practice/">Start practicing →</a></div>' +
+      stackBar([{ label: 'Easy', value: pd.easy || 0 }, { label: 'Medium', value: pd.medium || 0 }, { label: 'Hard', value: pd.hard || 0 }]) +
+      '<h3 class="mini">By question type</h3>' + hbars(Object.keys(pt).map(function (k) { return { name: ({ GEN: 'Write a query', FIX: 'Fix a broken query', BOTH: 'Diagnose, then rewrite' })[k] || k, count: pt[k] }; }).sort(function (a, b) { return b.count - a.count; })) + '</section>' +
+      '<section class="card grow"><div class="card-h"><h2>Hunt templates</h2><a class="link-btn" href="/lab/templates/">Full catalog →</a></div><p class="sub">Written for Sentinel and Azure Data Explorer and checked on the Kusto emulator. They use syntax the browser engine does not cover (let statements, dynamic arrays), so copy them into a real workspace.</p><div class="accordion">' + templates + '</div></section></div>' +
+      '<div class="cols">' + liveCard +
+      '<section class="card"><div class="card-h"><h2>Data sharing</h2></div><p class="sub">Honeypot observations behind the Live Threat Feed are reported so other defenders can pivot on the same indicators.</p><div class="shares">' +
+      '<a class="share" href="https://www.abuseipdb.com/user/271147" rel="noopener">' + tile('shield-alert', '#FF7A7A', 'sq sm') + '<span class="mtext"><b>AbuseIPDB contributor</b><span>user 271147</span></span></a>' +
+      '<a class="share" href="https://otx.alienvault.com/user/oppheimer" rel="noopener">' + tile('share-2', '#FF7A7A', 'sq sm') + '<span class="mtext"><b>AlienVault OTX contributor</b><span>user oppheimer</span></span></a></div></section></div></div>';
   }
 
   function viewIntel() {
@@ -358,7 +487,7 @@
     var mods = modulesOf(t.id).map(function (m) { return '<a class="module" href="' + esc(m.href) + '"' + ext(m.href) + '>' + tile(m.icon || t.icon, t.color, 'sq sm') + '<span class="mtext"><b>' + esc(m.title) + '</b><span>' + esc(m.summary) + '</span></span></a>'; }).join('');
     return '<div class="view"><div class="view-head"><div><h1>Tools</h1><p>Four things I built and run. Pick one for its parts, data and links.</p></div></div>' +
       '<div class="split"><div class="list">' + rows + '</div>' +
-      '<div class="detail"><div class="detail-head">' + tile(t.icon, t.color, 'sq big') + '<div><b>' + esc(t.title) + '</b><span>#' + (D.tools.indexOf(t) + 1) + ' of ' + D.tools.length + '</span></div><a class="btn btn-blue push" href="' + esc(t.href) + '"' + ext(t.href) + '>' + esc(t.cta) + '</a></div>' +
+      '<div class="detail"><div class="detail-head">' + tile(t.icon, t.color, 'sq big') + '<div><b>' + esc(t.title) + '</b><span>#' + (D.tools.indexOf(t) + 1) + ' of ' + D.tools.length + '</span></div>' + (t.id === 'lab' || t.id === 'honey' ? '<button type="button" class="btn btn-blue push" data-go="' + (t.id === 'lab' ? 'lab' : 'threat') + '">' + (t.id === 'lab' ? 'Open the lab' : 'Open the live feed') + '</button>' : '<a class="btn btn-blue push" href="' + esc(t.href) + '"' + ext(t.href) + '>' + esc(t.cta) + '</a>') + '</div>' +
       '<p>' + esc(t.summary) + '</p><div class="facts">' + facts.map(function (f) { return '<div class="fact"><span>' + esc(f[0]) + '</span><span>' + esc(f[1]) + '</span></div>'; }).join('') + '</div>' +
       (mods ? '<h3>Parts</h3><div class="modules">' + mods + '</div>' : '') + extra + '</div></div></div>';
   }
@@ -452,17 +581,18 @@
   }
 
   /* ── render ── */
-  var RENDER = { home: viewHome, threat: viewThreat, intel: viewIntel, tools: viewTools, writing: viewWriting, resume: viewResume, creds: viewCreds, contact: viewContact };
+  var RENDER = { home: viewHome, threat: viewThreat, lab: viewLab, intel: viewIntel, tools: viewTools, writing: viewWriting, resume: viewResume, creds: viewCreds, contact: viewContact };
 
   function render() {
     $('main').innerHTML = S.q ? viewSearch() : (RENDER[S.view] || viewHome)();
+    if (!S.q && S.view === 'lab') paintKql();
     renderNav();
   }
 
   function renderNav() {
     var last = '';
     $('views').innerHTML = VIEWS.map(function (v) {
-      var n = v.id === 'tools' ? D.tools.length : v.id === 'creds' ? D.certs.length : v.id === 'writing' ? D.posts.length : v.id === 'intel' ? D.editions.length : v.id === 'threat' ? (live ? short(live.events24h) : '') : '';
+      var n = v.id === 'tools' ? D.tools.length : v.id === 'creds' ? D.certs.length : v.id === 'writing' ? D.posts.length : v.id === 'intel' ? D.editions.length : v.id === 'lab' ? D.lab.tables.length : v.id === 'threat' ? (live ? short(live.events24h) : '') : '';
       var head = v.group !== last ? '<span class="side-label">' + v.group + '</span>' : '';
       last = v.group;
       return head + '<button type="button" data-go="' + v.id + '"' + (!S.q && v.id === S.view ? ' aria-current="page"' : '') + '><span class="dot"></span>' + esc(v.label) + '<span class="n">' + n + '</span></button>';
@@ -476,8 +606,10 @@
     $('status-live').textContent = !liveTried ? 'connecting to honeypot feed…' : !live ? 'honeypot feed unreachable · showing site data'
       : 'honeypot feed ' + (live.stale ? 'stale' : 'live') + ' · generated ' + dateLong(live.generatedAt) + ' (' + V2.ago(live.generatedAt) + ')';
     $('status-built').textContent = 'site data built ' + D.generatedAt.slice(0, 10);
-    $('pin-live').textContent = live ? (live.stale ? 'Stale' : 'Live') : 'Off';
-    $('pin-live').className = 'pill pill-live' + (live ? (live.stale ? ' warn' : ' on') : '');
+    if ($('pin-live')) {
+      $('pin-live').textContent = live ? (live.stale ? 'Stale' : 'Live') : 'Off';
+      $('pin-live').className = 'pill pill-live' + (live ? (live.stale ? ' warn' : ' on') : '');
+    }
     $('presence').classList.toggle('on', !!live && !live.stale);
   }
 
@@ -560,6 +692,27 @@
       var h = (location.hash || '').slice(1);
       if (h && h !== hashFor()) go(h);
     });
+    // Browser Lab console controls.
+    document.addEventListener('click', function (ev) {
+      var c = ev.target.closest('[data-kql-copy]');
+      if (c) {
+        V2.copy(D.templates[+c.getAttribute('data-kql-copy')].kql).then(function () { c.textContent = 'Copied'; setTimeout(function () { c.textContent = 'Copy KQL'; }, 1600); });
+        return;
+      }
+      var t = ev.target.closest('[data-kql-run],[data-kql-ex],[data-kql-table]');
+      if (!t) return;
+      var src = $('kql-src');
+      if (t.hasAttribute('data-kql-ex')) src.value = D.lab.examples[+t.getAttribute('data-kql-ex')].kql;
+      else if (t.hasAttribute('data-kql-table')) src.value = t.getAttribute('data-kql-table') + '\n| take 20';
+      S.kql = src.value;
+      runKql();
+    });
+    document.addEventListener('input', function (ev) { if (ev.target.id === 'kql-src') S.kql = ev.target.value; });
+    document.addEventListener('keydown', function (ev) {
+      if (ev.target.id === 'kql-src' && ev.key === 'Enter' && (ev.ctrlKey || ev.metaKey)) { ev.preventDefault(); runKql(); }
+    });
+    // Countdown to the next feed poll in the Live Threat Feed header.
+    setInterval(function () { if ($('poll-in')) $('poll-in').textContent = 'refresh in ' + nextPoll() + 's'; }, 1000);
     wireTooltip();
   }
 
@@ -575,9 +728,12 @@
       V2.honeypot(D.live.honeypotFeed, function (summary) {
         var changed = !liveTried || !!summary !== !!live || (summary && live && summary.generatedAt !== live.generatedAt);
         liveTried = true;
+        lastPoll = Date.now();
         live = summary;
         renderStatus();
         renderNav();
+        // The lab view keeps its console state, so only its live card is repainted.
+        if (!S.q && S.view === 'lab' && $('lab-live')) $('lab-live').outerHTML = labLiveCard();
         if (changed && !S.q && ['home', 'threat', 'tools'].indexOf(S.view) !== -1) {
           var top = $('main').scrollTop;
           render();

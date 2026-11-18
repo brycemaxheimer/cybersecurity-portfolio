@@ -59,12 +59,12 @@
       events7d: feed.events_7d || 0,
       unique7d: feed.unique_ips_7d || 0,
       reported24h: sharing.abuseipdb_reports_24h || 0,
-      sharing: { abuseipdb24h: sharing.abuseipdb_reports_24h || 0, vtLookups: sharing.vt_lookups_total || 0, vtMalicious: sharing.vt_malicious_total || 0, otxPulses: sharing.otx_pulses_total || 0 },
+      sharing: { abuseipdb24h: sharing.abuseipdb_reports_24h || 0, vtLookups: sharing.vt_lookups_total || 0, vtMalicious: sharing.vt_malicious_total || 0, otxPulses: sharing.otx_pulses_total || 0, threatfox: sharing.threatfox_submits_total || 0 },
       countries: (feed.top_countries || []).slice(0, 3).map(function (c) { return c.geoip_country_name; }),
       countryCounts: (feed.top_countries || []).slice(0, 8).map(function (c) { return { name: c.geoip_country_name, count: c.count }; }),
       asns: (feed.top_asns || []).slice(0, 6).map(function (a) { return { name: 'AS' + a.geoip_autonomous_system_number + ' ' + (a.geoip_autonomous_system_organization || ''), count: a.count }; }),
       attackers: (feed.top_attackers || []).slice(0, 30).map(function (a) {
-        return { ip: a.src_ip, country: a.geoip_country_name || '', city: a.geoip_city_name || '', lat: parseFloat(a.geoip_location_latitude), lon: parseFloat(a.geoip_location_longitude), count: a.count || 0 };
+        return { ip: a.src_ip, country: a.geoip_country_name || '', city: a.geoip_city_name || '', org: a.geoip_autonomous_system_organization || '', lat: parseFloat(a.geoip_location_latitude), lon: parseFloat(a.geoip_location_longitude), count: a.count || 0 };
       }).filter(function (a) { return isFinite(a.lat) && isFinite(a.lon); }),
       hourly: hours(feed.hourly_counts || []),
       usernames: (feed.top_usernames || []).slice(0, 8).map(function (u) { return { name: u.username, count: u.count }; }),
@@ -72,11 +72,15 @@
       commands: (feed.top_commands || []).slice(0, 8).map(function (c) { return { name: c.input, count: c.count }; }),
       kev: (feed.cisa_kev_recent || []).slice(0, 8).map(function (k) { return { cve: k.cve, vendor: k.vendor, product: k.product, title: k.title, added: k.added, due: k.due, ransom: !!k.ransom }; }),
       ransomware: (feed.ransomware_recent || []).slice(0, 10).map(function (r) { return { victim: r.victim, group: r.group, country: r.country, activity: r.activity, published: (r.published || '').slice(0, 10) }; }),
-      recent: (feed.recent || []).slice(0, 12).map(function (e) {
+      recent: (feed.recent || []).slice(0, 40).map(function (e) {
         return {
+          id: e.eventid || '',
           what: label(e.eventid),
+          ip: e.src_ip || '',
           country: e.country || 'unknown',
           user: e.username || '',
+          // What the attacker sent: a command, a login name, a download URL or a file hash.
+          data: e.input ? '$ ' + e.input : e.username ? 'user=' + e.username : e.url ? 'download ' + e.url : e.shasum ? 'sha256 ' + String(e.shasum).slice(0, 16) : '',
           time: e.ts ? new Date(e.ts).toLocaleTimeString('en-US', { hour12: false }) : '',
         };
       }),

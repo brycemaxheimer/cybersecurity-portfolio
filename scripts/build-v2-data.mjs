@@ -206,6 +206,30 @@ if (existsSync(join(root, edDir))) {
     .map((f) => trimEdition(readJson(join(edDir, f))));
 }
 
+/* ── Browser Lab: tables, examples and the practice time anchor ── */
+// schema.js is a browser IIFE; run it against a stub global to read the tables.
+function readLab() {
+  const g = {};
+  new Function('window', read('kql/engine/schema.js'))(g);
+  const schema = g.KqlSchema || {};
+  const rowsIn = (name) => {
+    try { return read('kql/data/' + name + '.csv').split('\n').filter((l) => l.trim()).length - 1; } catch { return 0; }
+  };
+  const tables = (schema.tableNames ? schema.tableNames() : []).map((name) => ({
+    name,
+    rows: rowsIn(name),
+    columns: schema[name].columns.map((c) => c.name + ':' + c.type),
+  }));
+  // The playground's example buttons, so the Shell console offers the same starts.
+  const examples = [...read('kql/index.html').matchAll(/<button class="pg-example" data-q="([^"]+)">([^<]+)<\/button>/g)]
+    .map((m) => ({ label: m[2].trim(), kql: m[1].replace(/&#39;/g, "'").replace(/&quot;/g, '"').replace(/&amp;/g, '&') }));
+  // Pin now() to the newest sample event (same anchor the practice set uses),
+  // so ago() filters return rows against the static CSVs.
+  const anchor = readJson('lab/practice/gold-results.json').anchor || null;
+  return { tables, examples, anchor };
+}
+const lab = readLab();
+
 const giacRecord = 'https://www.giac.org/certified-professional/Bryce-Maxheimer/243145';
 
 const data = {
@@ -269,6 +293,7 @@ const data = {
   templates,
   practice,
   practiceQuestions: practice.total,
+  lab,
   // Same-origin proxy in worker.js; the upstream feed only allows the
   // production origin in its CORS header.
   live: { honeypotFeed: '/api/live/honeypot' },
