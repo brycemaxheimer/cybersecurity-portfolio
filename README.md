@@ -6,8 +6,11 @@ I've worked both sides of the house - Red Team Certified Professional out of Mar
 
 ## How I got into cybersecurity
 
-<!-- TODO(Bryce): replace this paragraph with your own origin story. -->
-The Marine Corps is where it started. I went in as a Cyber Warfare Operator and spent four years on threat hunting, forensics, and network defense, which turned out to be the work I actually wanted to keep doing. That is why I stayed in the field after active duty, and why I'm finishing the degree at SANS.
+When I was in the 9th grade, I signed up for an elective at my high school called "Computer Maintenance." I had never really used a computer beyond my parents' desktop, so I had no idea what I was getting into. Once the class started, I realized how right a choice I had made.
+
+The class covered what was essentially CompTIA A+, with hands-on labs and a chance to take the A+ certification exam as the final, which I took and passed. After that course I fell in love with technology, and I built my first desktop only a year later. Fast forward to 2022: I enlisted in the United States Marine Corps as a Cyber Warfare Operator. That occupational specialty put me through JCAC and COSC, where I learned everything about computers and cybersecurity, from reading assembly to offensive operations.
+
+After 3.5 years of cybersecurity in the military, I entered the job market and began my civilian career as a SOC analyst.
 
 ## National Cyber League (NCL)
 
@@ -17,18 +20,18 @@ NCL is a collegiate CTF run on Cyber Skyline's platform, with an Individual Game
 
 | Game | Result | Report |
 |---|---|---|
-| Individual Game (Oct 23-25) | 281st of 6,366 in the All Student bracket. 2,555/3,000 points, 89.6% accuracy, 90.2% completion. | [Score breakdown, All Student (PDF)](Cyber%20Skyline/Bryce%20Maxheimer%20-%20NCL%20Fall%202026%20Individual%20Game%20Score%20Breakdown%20(All%20Student).pdf) &middot; <!-- TODO: public Scouting Report link once released --> public report pending |
-| Team Game (SANS) | <!-- TODO --> Pending | <!-- TODO: public share link --> Pending, NCL releases score reports about 2 weeks after the Team Game |
+| Individual Game (Oct 23-25) | 281st of 6,366 in the All Student bracket. 2,555/3,000 points, 89.6% accuracy, 90.2% completion. | [Score breakdown, All Student (PDF)](Cyber%20Skyline/Bryce%20Maxheimer%20-%20NCL%20Fall%202026%20Individual%20Game%20Score%20Breakdown%20(All%20Student).pdf) &middot; public report pending |
+| Team Game (Nov 6-8) | 9th of 290 teams in the Experienced Student bracket, 97th percentile, with team SANS.edu The Usual Subnets. 3,000/3,000 points, 97.1% accuracy, 100% completion. | [cyberskyline.com/report/LK5XY4EDVQ3L](https://cyberskyline.com/report/LK5XY4EDVQ3L) &middot; [Scouting Report (PDF)](Cyber%20Skyline/Bryce%20Maxheimer%20-%20NCL%20Fall%202026%20Team%20Game%20Scouting%20Report.pdf) |
 
 #### Highlights
 
+- **Team Game: 9th of 290 with a perfect 3,000/3,000** and 100% completion in every module. 99th percentile in Open Source Intelligence and 97th in Enumeration & Exploitation and Scanning & Reconnaissance.
 - **Full marks in four modules:** Open Source Intelligence (390/390), Log Analysis, Forensics, and Exploitation & Enumeration (300/300 each).
 - **100% accuracy** in Log Analysis, Network Traffic Analysis, and Password Cracking, with 147 correct answers on 164 attempts across the whole game and one hint used.
 - **Accuracy went from 57.4% in Fall 2025 to 89.6% in Fall 2026**, the number I most wanted to fix after last season.
 
 #### Reflection
 
-<!-- TODO(Bryce): personalize this, and add the Team Game once the report is out. -->
 Last season my completion was high but my accuracy was 57.4%, well under the bracket average. That told me I was submitting before I had confirmed answers. This season I slowed down and verified first, and accuracy came up to 89.6% without giving up much completion.
 
 The gaps this time were the hard challenges in Scanning & Reconnaissance, Network Traffic Analysis, and Password Cracking, which is where most of my missing points sit. That is where I'm putting my practice time before the next season.

@@ -105,7 +105,7 @@ if (!resume.accomplishments.length) {
     'Cut daily false-positive SIEM alerts by 67% (about 300 to fewer than 100) through 30+ approved rule changes.',
     'Processed and analyzed 30,000+ security alerts and established baseline network behavior in a DoD CSSP.',
     'Analyzed 3.5M+ daily packets across critical networks during defensive cyberspace operations in Okinawa, Japan.',
-    'Ranked 281st of 6,366 in the NCL Fall 2026 Individual Game (All Student) with 89.6% accuracy.',
+    'Placed 9th of 290 teams in the NCL Fall 2026 Team Game (Experienced Student) with a perfect 3,000 / 3,000.',
   ];
 }
 
@@ -246,6 +246,7 @@ const data = {
     { id: 'giacab', code: 'GIAC AB', name: 'GIAC Advisory Board', issuer: 'GIAC', issued: '2025-03', color: '#94A3B8', tags: ['giac'], verify: 'https://www.credly.com/badges/f69ec75b-28c4-4b3d-baf5-fc9c8557d58e', summary: 'Membership extended to GIAC holders who score 90% or higher on a certification exam. Members help review and shape future GIAC exams.' },
     { id: 'pentest', code: 'PenTest+', name: 'CompTIA PenTest+ (ce)', issuer: 'CompTIA', issued: '2024-08', color: '#FF7A7A', tags: ['pentest', 'red-team'], verify: 'https://www.certmetrics.com/comptia/public/verification.aspx', summary: 'Penetration testing end to end: scoping and rules of engagement, recon, exploitation, post-exploitation and reporting.' },
     { id: 'rtcp', code: 'RTCP', name: 'Red Team Certified Professional', issuer: 'Marine Corps Cyberspace Operations Group', issued: '2024-04', color: '#FF5C8A', tags: ['red-team', 'usmc'], verify: '/certs/', summary: 'Offensive tradecraft used in adversary emulation and red team engagements against DoD networks.' },
+    { id: 'ncl26t', code: 'NCL 26 T', name: 'NCL Fall 2026, Team Game', issuer: 'Cyber Skyline', issued: '2026-11', color: '#C4B5FD', tags: ['ctf', 'ncl', 'team'], verify: 'https://cyberskyline.com/report/LK5XY4EDVQ3L', summary: '9th of 290 teams in the Experienced Student bracket (97th percentile) with a perfect 3,000 / 3,000 at 97.1% accuracy and 100% completion. 99th percentile in Open Source Intelligence.' },
     { id: 'ncl26', code: 'NCL 26', name: 'NCL Fall 2026, Individual Game', issuer: 'Cyber Skyline', issued: '2026-10', color: '#C4B5FD', tags: ['ctf', 'ncl'], verify: '/Cyber%20Skyline/Bryce%20Maxheimer%20-%20NCL%20Fall%202026%20Individual%20Game%20Score%20Breakdown%20(All%20Student).pdf', summary: 'Ranked 281st of 6,366 in the All Student bracket with 2,555 / 3,000 points at 89.6% accuracy. Full marks in OSINT, Log Analysis, Forensics, and Exploitation and Enumeration.' },
     { id: 'ncl', code: 'NCL 25', name: 'NCL Fall 2025, Diamond 1 Medal', issuer: 'Cyber Skyline', issued: '2025-11', color: '#C4B5FD', tags: ['ctf', 'ncl'], verify: 'https://cyberskyline.com/report/QCBEMP8D263T', summary: 'Fall 2025 Diamond 1 medal, 97th percentile in the Individual Game: OSINT, cryptography, log and traffic analysis, web exploitation and forensics.' },
   ],
