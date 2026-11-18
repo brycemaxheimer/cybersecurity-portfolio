@@ -15,3 +15,20 @@
 
 # Deleted post.
 /blog/posts/welcome-to-the-lab.html   /blog/   301
+
+# The App Shell is the default look (2026-11-18). Summary pages open their
+# Shell view; 302 while it settles in, so the switch stays reversible.
+/v2/shell/              /                 302
+/v2/shell               /                 302
+/about.html             /#home            302
+/about                  /#home            302
+/resume/                /#resume          302
+/resume                 /#resume          302
+/certs/                 /#creds           302
+/certs                  /#creds           302
+/blog/                  /#writing         302
+/blog                   /#writing         302
+/lab/                   /#lab             302
+/lab                    /#lab             302
+/lab/threat-feed/       /#threat          302
+/lab/threat-feed        /#threat          302

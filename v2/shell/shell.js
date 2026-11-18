@@ -314,7 +314,7 @@
   }
 
   function viewThreat() {
-    var head = '<div class="view-head"><div><h1>Live Threat Feed</h1><p>A residential Cowrie SSH honeypot. Every login attempt, command and download is logged, geolocated and shared with AbuseIPDB, AlienVault OTX and ThreatFox. This view refreshes itself every minute.</p></div><div class="row-actions">' + liveBadge() + (live ? '<span class="badge" id="poll-in">refresh in ' + nextPoll() + 's</span>' : '') + '<a class="btn" href="/lab/threat-feed/">Classic page ↗</a></div></div>';
+    var head = '<div class="view-head"><div><h1>Live Threat Feed</h1><p>A residential Cowrie SSH honeypot. Every login attempt, command and download is logged, geolocated and shared with AbuseIPDB, AlienVault OTX and ThreatFox. This view refreshes itself every minute.</p></div><div class="row-actions">' + liveBadge() + (live ? '<span class="badge" id="poll-in">refresh in ' + nextPoll() + 's</span>' : '') + '</div></div>';
     if (!live) return '<div class="view">' + head + '<div class="empty">' + (liveTried ? 'The honeypot feed is unreachable right now. This view shows hourly activity, attacker origins, top credentials and commands, CISA KEV additions and recent ransomware victims once it reconnects.' : 'Connecting to the honeypot feed…') + '</div></div>';
     var L = live;
     var stale = L.stale ? '<div class="note warn"><b>Heads up:</b> this feed was last generated ' + esc(dateLong(L.generatedAt)) + ' (' + esc(V2.ago(L.generatedAt)) + '). The numbers below describe the 24 hours before that, not today.</div>' : '';
@@ -413,7 +413,7 @@
         (h.kql ? '<pre class="kql"><code>' + esc(h.kql) + '</code></pre><button type="button" class="btn" data-kql-copy="' + i + '">Copy KQL</button>' : '') + '</details>';
     }).join('');
     var liveCard = labLiveCard();
-    return '<div class="view"><div class="view-head"><div><h1>Browser Lab</h1><p>Security tools that run in your browser. Most of this started inside my SOC Dashboard and was ported to JavaScript, so you can try it without a Sentinel tenant.</p></div><div class="row-actions"><a class="btn" href="/lab/">Classic lab ↗</a></div></div>' +
+    return '<div class="view"><div class="view-head"><div><h1>Browser Lab</h1><p>Security tools that run in your browser. Most of this started inside my SOC Dashboard and was ported to JavaScript, so you can try it without a Sentinel tenant.</p></div></div>' +
       '<section class="card"><div class="card-h"><h2>KQL console</h2><span class="muted small">a hand-written KQL engine on WASM SQLite · nothing leaves this tab</span></div>' +
       '<div class="console"><aside class="schema"><span class="eyebrow">SAMPLE TABLES</span><div class="tbl-list">' + tables + '</div><span class="muted small">Click a table to preview it. Hover for columns.</span></aside>' +
       '<div class="editor"><div class="chips">' + examples + '</div>' +
@@ -501,7 +501,7 @@
     var body = p.sections.map(function (s, i) {
       return (s.heading ? '<h3 id="sec-' + i + '">' + esc(s.heading) + '</h3>' : '') + s.paragraphs.map(function (para) { return '<p>' + inline(para) + '</p>'; }).join('');
     }).join('');
-    return '<div class="view"><div class="view-head"><div><h1>Writing</h1><p>Posts from the workbench, readable right here. The Daily Intel Brief lives in its own view.</p></div><div class="row-actions"><button type="button" class="btn" data-go="intel">Intel brief</button><a class="btn" href="/blog/">Blog ↗</a></div></div>' +
+    return '<div class="view"><div class="view-head"><div><h1>Writing</h1><p>Posts from the workbench, readable right here. The Daily Intel Brief lives in its own view.</p></div><div class="row-actions"><button type="button" class="btn" data-go="intel">Intel brief</button></div></div>' +
       '<div class="split"><div class="list">' + list + '</div>' +
       '<article class="detail reader"><span class="eyebrow">' + esc(p.date) + ' · ' + p.minutes + ' MIN READ · ' + esc(p.tags.join(', ')) + '</span><h2 class="rtitle">' + esc(p.title) + '</h2><p class="lede">' + esc(p.summary) + '</p>' +
       (outline ? '<nav class="outline" aria-label="In this post"><span class="eyebrow">IN THIS POST</span><ol>' + outline + '</ol></nav>' : '') + body +
@@ -518,7 +518,7 @@
       var m = a.match(/Diamond \d/) || a.match(/\d+(st|nd|rd|th)\b/) || a.match(/\d+(\.\d+)?%/) || a.match(/\d[\d.,]*[MK]?\+/) || a.match(/\d+/);
       return '<div class="kpi static"><b>' + esc(m ? m[0] : '•') + '</b><span class="kpi-f">' + esc(a) + '</span></div>';
     }).join('');
-    return '<div class="view"><div class="view-head"><div><h1 class="title-line">Resume<span class="title-meta"><span>' + esc(D.person.name) + '</span><a href="mailto:' + esc(D.person.email) + '">' + esc(D.person.email) + '</a><span>' + esc(D.person.clearance) + '</span></span></h1><p>' + esc(R.summary) + '</p></div><div class="row-actions"><a class="btn" href="/resume/Bryce_Maxheimer_Resume.pdf">PDF ↗</a><a class="btn" href="/resume/">Full resume ↗</a></div></div>' +
+    return '<div class="view"><div class="view-head"><div><h1 class="title-line">Resume<span class="title-meta"><span>' + esc(D.person.name) + '</span><a href="mailto:' + esc(D.person.email) + '">' + esc(D.person.email) + '</a><span>' + esc(D.person.clearance) + '</span></span></h1><p>' + esc(R.summary) + '</p></div><div class="row-actions"><a class="btn" href="/resume/Bryce_Maxheimer_Resume.pdf">PDF ↗</a></div></div>' +
       '<div class="kpis">' + nums + '</div>' +
       '<section class="card"><div class="card-h"><h2>Timeline</h2><span class="muted small">hover any mark</span></div>' + careerTimeline() + '</section>' +
       roles +

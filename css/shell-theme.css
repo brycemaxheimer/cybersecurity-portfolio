@@ -1,0 +1,147 @@
+/* ============================================================
+   App Shell look for the pages that live outside the Shell
+   (blog posts, KQL tools, cheatsheets, lab tools). Adopted as the
+   site default 2026-11-18.
+
+   Load after /css/style.css and any page stylesheet. It only remaps
+   the shared tokens and restyles the shared header, so page layouts
+   stay as they are. A theme picked on /customize/ sets data-theme on
+   <html> and still wins.
+   ============================================================ */
+
+html:not([data-theme]) {
+    /* Surfaces: the Shell's near-black window and card steps */
+    --bg-0:         #050508;
+    --bg-1:         #0F0F15;
+    --bg-2:         #15151D;
+    --bg-3:         #1E1E28;
+    --bg-deep:      #030305;
+    --surface:      #0F0F15;
+    --surface-2:    #15151D;
+
+    --line:         #1E1E28;
+    --line-strong:  #2C2C3A;
+
+    /* Ink: same steps as the Shell (all >= 7:1 on #0F0F15) */
+    --text-0:       #F2F2F5;
+    --text-1:       #CACAD4;
+    --text-2:       #B0B0BE;
+    --text-3:       #8A8A98;
+
+    /* Accent: the Shell's blue in place of mint */
+    --mint:         #8FB4FF;
+    --mint-deep:    #6B9BFF;
+    --mint-darker:  #2F6BFF;
+    --amber:        #fab219;
+    --coral:        #ec835a;
+
+    --code-bg:      #08080C;
+    --code-text:    #C9E3FF;
+    --header-bg:    rgba(9, 9, 13, 0.92);
+
+    --font-sans:    "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --font-display: var(--font-sans);
+    --font-mono:    "JetBrains Mono", ui-monospace, "Cascadia Code", "SF Mono", Consolas, monospace;
+
+    --radius:       10px;
+    --radius-lg:    14px;
+
+    --blob-a:       rgba(47, 107, 255, 0.07);
+    --blob-b:       rgba(25, 158, 112, 0.05);
+}
+
+html:not([data-theme]) body {
+    background-color: #050508;
+    background-image:
+        radial-gradient(900px 520px at 8% -10%, rgba(47, 107, 255, 0.10), transparent 60%),
+        radial-gradient(700px 420px at 100% 110%, rgba(25, 158, 112, 0.06), transparent 60%);
+}
+
+html:not([data-theme]) h1,
+html:not([data-theme]) h2,
+html:not([data-theme]) h3 {
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+/* Header: the Shell's top bar, with the shield logo and pill links */
+html:not([data-theme]) .site-header {
+    background: rgba(9, 9, 13, 0.92);
+    border-bottom: 1px solid #1A1A22;
+}
+html:not([data-theme]) .site-header .container,
+html:not([data-theme]) .site-header .container-wide {
+    max-width: none;
+    padding: 10px 14px;
+    gap: 8px 18px;
+    flex-wrap: wrap;
+}
+html:not([data-theme]) .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+}
+html:not([data-theme]) .brand::before {
+    content: "";
+    flex: 0 0 26px;
+    width: 26px;
+    height: 26px;
+    border-radius: 7px;
+    background: url("/v2/logo.svg") center / cover no-repeat;
+}
+html:not([data-theme]) .brand:hover { color: #FFFFFF; }
+
+html:not([data-theme]) .nav {
+    gap: 4px;
+    align-items: center;
+}
+html:not([data-theme]) .nav > a,
+html:not([data-theme]) .nav-dropdown > a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 34px;
+    padding: 0 11px;
+    border: none;
+    border-radius: 9px;
+    color: var(--text-1);
+    font-size: 14px;
+    font-weight: 500;
+}
+html:not([data-theme]) .nav > a:hover,
+html:not([data-theme]) .nav-dropdown > a:hover {
+    background: #17171F;
+    color: var(--text-0);
+    border: none;
+}
+html:not([data-theme]) .nav a.active {
+    background: #17171F;
+    color: var(--text-0);
+    box-shadow: inset 0 0 0 1px #262632;
+    border: none;
+}
+html:not([data-theme]) .nav-dropdown-menu,
+html:not([data-theme]) .nested-dropdown-menu {
+    background: #0F0F15;
+    border: 1px solid #262632;
+    border-radius: 12px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+}
+html:not([data-theme]) .nav-dropdown-menu a:hover { background: #17171F; }
+
+/* Code and tables pick up the Shell's mono and code colors */
+html:not([data-theme]) pre,
+html:not([data-theme]) code {
+    font-family: var(--font-mono);
+}
+
+@media (max-width: 760px) {
+    html:not([data-theme]) .site-header .container,
+    html:not([data-theme]) .site-header .container-wide { padding: 8px 12px; }
+    html:not([data-theme]) .nav > a,
+    html:not([data-theme]) .nav-dropdown > a { padding: 0 8px; font-size: 13px; }
+}
