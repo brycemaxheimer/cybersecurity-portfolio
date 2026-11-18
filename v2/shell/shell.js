@@ -163,26 +163,33 @@
   function shortOrg(o) { return /Defense Finance/.test(o) ? 'DFAS' : /Marine/.test(o) ? 'USMC' : o.split(', ')[0]; }
 
   function careerTimeline() {
-    var R = D.resume, x0 = 2016.5, x1 = 2027.5, W = 960, L = 230, Rr = 14, rowH = 34, rows = [];
+    // The axis starts with the cyber career; anything that ended earlier gets a
+    // short stub with a break mark instead of stretching the scale back.
+    var R = D.resume, x0 = 2021.75, x1 = 2027.5, W = 960, L = 230, Rr = 14, rowH = 34, rows = [];
     var until = function (end) { return /present/i.test(end) ? 'present' : monthLabel(end); };
     R.roles.slice().reverse().forEach(function (r) { rows.push({ kind: 'role', label: shortOrg(r.org) + ' · ' + r.title.split(/ \/ |, /)[0], a: ym(r.start), b: /present/i.test(r.end) ? nowYm() : ym(r.end), tip: r.title + ' · ' + monthLabel(r.start) + ' to ' + until(r.end) }); });
     // Education as spans; an unfinished program is solid up to today and hollow after.
     R.education.filter(function (e) { return e.start; }).sort(function (a, b) { return ym(a.start) - ym(b.start); }).forEach(function (e) {
       var a = ym(e.start), b = ym(e.date), now = nowYm();
-      rows.push({ kind: 'edu', label: e.short || e.school, a: a, b: b, done: Math.min(b, Math.max(a, now)), tip: e.school + (e.detail ? ', ' + e.detail : '') + ' · ' + monthLabel(e.start) + ' to ' + monthLabel(e.date) + (b > now ? ' (expected)' : '') });
+      rows.push({ kind: 'edu', label: e.short || e.school, start: e.start, end: e.date, a: a, b: b, done: Math.min(b, Math.max(a, now)), tip: e.school + (e.detail ? ', ' + e.detail : '') + ' · ' + monthLabel(e.start) + ' to ' + monthLabel(e.date) + (b > now ? ' (expected)' : '') });
     });
     rows.push({ kind: 'cred', label: 'Credentials and awards', points: D.certs.map(function (c) { return { x: ym(c.issued), tip: c.code + ' · ' + monthLabel(c.issued) }; }).concat(R.awards.map(function (a) { return { x: ym(a.date), tip: a.title + ' · ' + monthLabel(a.date) }; })).filter(function (p) { return p.x; }) });
     var H = rows.length * rowH + 34, pw = W - L - Rr;
     var px = function (v) { return L + (v - x0) / (x1 - x0) * pw; };
     var g = '';
-    for (var y = 2017; y <= 2027; y++) g += '<line class="grid" x1="' + px(y) + '" x2="' + px(y) + '" y1="4" y2="' + (H - 24) + '"></line><text class="axis" x="' + px(y) + '" y="' + (H - 8) + '" text-anchor="middle">' + y + '</text>';
+    for (var y = 2022; y <= 2027; y++) g += '<line class="grid" x1="' + px(y) + '" x2="' + px(y) + '" y1="4" y2="' + (H - 24) + '"></line><text class="axis" x="' + px(y) + '" y="' + (H - 8) + '" text-anchor="middle">' + y + '</text>';
     var nowX = px(nowYm());
     g += '<line class="now" x1="' + nowX + '" x2="' + nowX + '" y1="4" y2="' + (H - 24) + '"></line><text class="axis" x="' + (nowX + 4) + '" y="14">now</text>';
     var marks = rows.map(function (row, i) {
       var cy = 10 + i * rowH + rowH / 2;
       var out = '<text class="rlabel" x="' + (L - 10) + '" y="' + (cy + 4) + '" text-anchor="end">' + esc(row.label) + '</text>';
       if (row.kind === 'role') out += '<rect class="s1 gbar" x="' + px(row.a) + '" y="' + (cy - 7) + '" width="' + Math.max(4, px(row.b) - px(row.a)) + '" height="14" rx="4" data-tip="' + esc(row.tip) + '"></rect>';
-      else if (row.kind === 'edu') {
+      else if (row.kind === 'edu' && row.b < x0) {
+        var xs = px(x0);
+        out += '<rect class="s2 gbar" x="' + xs + '" y="' + (cy - 7) + '" width="16" height="14" rx="4" data-tip="' + esc(row.tip) + '"></rect>' +
+          '<path class="brk" d="M' + (xs + 21) + ',' + (cy + 7) + 'l5,-14M' + (xs + 27) + ',' + (cy + 7) + 'l5,-14"></path>' +
+          '<text class="pre" x="' + (xs + 40) + '" y="' + (cy + 4) + '">' + esc(monthLabel(row.start) + ' to ' + monthLabel(row.end) + ' · before my cyber career') + '</text>';
+      } else if (row.kind === 'edu') {
         var xa = px(row.a), xd = px(row.done), xb = px(row.b);
         if (xb > xd + 1) out += '<rect class="hollow gbar" x="' + (xd + 1) + '" y="' + (cy - 6) + '" width="' + Math.max(2, xb - xd - 2) + '" height="12" rx="4" data-tip="' + esc(row.tip) + '"></rect>';
         if (xd > xa) out += '<rect class="s2 gbar" x="' + xa + '" y="' + (cy - 7) + '" width="' + Math.max(4, xd - xa) + '" height="14" rx="4" data-tip="' + esc(row.tip) + '"></rect>';
@@ -191,7 +198,7 @@
       });
       return out;
     }).join('');
-    return '<svg class="chart" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Career timeline from 2016 to 2027: roles, education spans and credentials">' + g + marks + '</svg>' +
+    return '<svg class="chart" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Career timeline from 2022 to 2027: roles, education spans and credentials; Alvin Community College, 2016 to 2020, shown as an earlier stub">' + g + marks + '</svg>' +
       '<div class="legend"><span><i class="lg s1"></i>Roles</span><span><i class="lg s2"></i>Education, completed</span><span><i class="lg hollow"></i>Education, still to come</span><span><i class="lg s3 diamond"></i>Credentials and awards</span></div>';
   }
 
