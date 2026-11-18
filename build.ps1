@@ -348,6 +348,7 @@ function Render-Page {
     <title>$title - Bryce Maxheimer</title>
     <script>(function(){try{var t=localStorage.getItem('siteTheme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/shell-theme.css">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 </head>
 <body>

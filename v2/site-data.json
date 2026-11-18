@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-18T17:19:35.033Z",
+  "generatedAt": "2026-11-18T17:32:38.709Z",
   "person": {
     "name": "Bryce Maxheimer",
     "role": "Integration Specialist, Peraton (DFAS CSSP)",
@@ -193,7 +193,7 @@
       "kind": "tool",
       "icon": "flask-conical",
       "color": "#45D0A0",
-      "href": "/lab/",
+      "href": "/#lab",
       "cta": "Open the lab",
       "summary": "Security tools that run in your browser, ported from the SOC Dashboard so you can try them without a Sentinel tenant.",
       "facts": [
@@ -241,7 +241,7 @@
       "kind": "tool",
       "icon": "honeypot",
       "color": "#FF7A7A",
-      "href": "/lab/threat-feed/",
+      "href": "/#threat",
       "cta": "Open the full feed",
       "summary": "A residential SSH honeypot (Cowrie). Observations are reported to AbuseIPDB and AlienVault OTX and power the Live Threat Feed.",
       "facts": [
@@ -287,7 +287,7 @@
       "icon": "square-terminal",
       "title": "KQL Playground",
       "kind": "lab module",
-      "href": "/lab/",
+      "href": "/kql/",
       "summary": "Hand-written KQL engine running against a WASM SQLite. Type a query, run it, inspect the result set client-side."
     },
     {
@@ -332,7 +332,7 @@
       "icon": "share-2",
       "title": "AlienVault OTX",
       "kind": "data sharing",
-      "href": "/lab/",
+      "href": "https://otx.alienvault.com/user/oppheimer",
       "summary": "Open Threat Exchange. Honeypot indicators are shared here as well."
     },
     {
