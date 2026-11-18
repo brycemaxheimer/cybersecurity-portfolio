@@ -98,6 +98,20 @@ function parseResume(text) {
   };
 }
 const resume = parseResume(read('resume/ATS-friendly.txt'));
+// The resume lists completion dates only; spans and short labels for the
+// career timeline come from Bryce (2026-11-18). Alvin was dual-credit
+// enrollment during high school.
+const eduSpans = [
+  [/SANS Technology Institute/, 'SANS.edu, B.S.', '2025-01'],
+  [/Alvin Community College/, 'Alvin CC, A.A.', '2016-08'],
+  [/Cyber Operators Specialist Course/, 'COSC', '2023-07'],
+  [/Joint Cyber Analysis Course/, 'JCAC', '2022-10'],
+];
+resume.education.forEach((e) => {
+  const m = eduSpans.find(([re]) => re.test(e.school));
+  if (m) { e.short = m[1]; e.start = m[2]; }
+  if (/Alvin/.test(e.school)) e.detail += ' (dual credit during high school)';
+});
 // The August 2026 resume dropped SELECTED ACCOMPLISHMENTS; these headline
 // figures come from its role bullets and the certs page.
 if (!resume.accomplishments.length) {
@@ -209,27 +223,27 @@ const data = {
   },
   resume,
   tools: [
-    { id: 'lab', title: 'Browser Lab', kind: 'tool', color: '#45D0A0', href: '/lab/', cta: 'Open the lab',
+    { id: 'lab', title: 'Browser Lab', kind: 'tool', icon: 'flask-conical', color: '#45D0A0', href: '/lab/', cta: 'Open the lab',
       summary: 'Security tools that run in your browser, ported from the SOC Dashboard so you can try them without a Sentinel tenant.',
       facts: [['Runtime', 'sql.js (WASM SQLite)'], ['Practice', practice.total + ' graded questions'], ['Hunts', templates.length + ' templates']] },
-    { id: 'intel', title: 'Daily Intel Brief', kind: 'tool', color: '#F5C542', href: 'https://intel.brycemaxheimer.com/', cta: "Read today's edition",
+    { id: 'intel', title: 'Daily Intel Brief', kind: 'tool', icon: 'newspaper', color: '#F5C542', href: 'https://intel.brycemaxheimer.com/', cta: "Read today's edition",
       summary: 'A threat intelligence brief assembled each morning from free, structured feeds. Stories are triaged and written up by AI models, with the detections behind them checked before they ship.',
       facts: [['Cadence', 'Daily'], ['Latest', editions[0] ? editions[0].date : 'n/a'], ['Recent editions', String(editions.length)]] },
-    { id: 'honey', title: 'Honeypot', kind: 'tool', color: '#FF7A7A', href: '/lab/threat-feed/', cta: 'Open the full feed',
+    { id: 'honey', title: 'Honeypot', kind: 'tool', icon: 'honeypot', color: '#FF7A7A', href: '/lab/threat-feed/', cta: 'Open the full feed',
       summary: 'A residential SSH honeypot (Cowrie). Observations are reported to AbuseIPDB and AlienVault OTX and power the Live Threat Feed.',
       facts: [['Sensor', 'Cowrie, SSH'], ['Reports to', 'AbuseIPDB, AlienVault OTX']] },
-    { id: 'soc', title: 'SOC Dashboard', kind: 'tool', color: '#7AB8FF', href: 'https://github.com/brycemaxheimer/cybersecurity-portfolio/tree/main/SOC%20Dashboard', cta: 'Read the source',
+    { id: 'soc', title: 'SOC Dashboard', kind: 'tool', icon: 'powershell', color: '#7AB8FF', href: 'https://github.com/brycemaxheimer/cybersecurity-portfolio/tree/main/SOC%20Dashboard', cta: 'Read the source',
       summary: 'The PowerShell analyst console the browser tools grew out of, anchored by Invoke-KqlPS, a KQL interpreter written in PowerShell.',
       facts: [['Language', 'PowerShell'], ['Engine', 'Invoke-KqlPS'], ['Checks', 'Kusto emulator']] },
   ],
   modules: [
-    { id: 'playground', parent: 'lab', title: 'KQL Playground', kind: 'lab module', href: '/lab/', summary: 'Hand-written KQL engine running against a WASM SQLite. Type a query, run it, inspect the result set client-side.' },
-    { id: 'practice', parent: 'lab', title: 'KQL Practice', kind: 'lab module', href: '/lab/practice/', summary: practice.total + ' graded KQL questions, easy to hard, validated against the same query model as the rest of the lab.' },
-    { id: 'builder', parent: 'lab', title: 'KQL Builder', kind: 'lab module', href: '/lab/kql-builder/', summary: 'Visual query builder for tables, filters, output columns and summarize patterns, with save and load in the browser.' },
-    { id: 'templates', parent: 'lab', title: 'KQL Templates', kind: 'lab module', href: '/lab/templates/', summary: 'Searchable catalog of ' + templates.length + ' public hunt templates with ATT&CK mappings.' },
-    { id: 'abuseipdb', parent: 'honey', title: 'AbuseIPDB', kind: 'data sharing', href: '/abuseipdb-verification.html', summary: 'Public abuse database. Honeypot indicators are reported here so other defenders can pivot on them.' },
-    { id: 'otx', parent: 'honey', title: 'AlienVault OTX', kind: 'data sharing', href: '/lab/', summary: 'Open Threat Exchange. Honeypot indicators are shared here as well.' },
-    { id: 'kqlps', parent: 'soc', title: 'Invoke-KqlPS', kind: 'engine', href: '/blog/posts/inside-invoke-kqlps.html', summary: 'A KQL interpreter in PowerShell that anchors the rest of the lab.' },
+    { id: 'playground', parent: 'lab', icon: 'square-terminal', title: 'KQL Playground', kind: 'lab module', href: '/lab/', summary: 'Hand-written KQL engine running against a WASM SQLite. Type a query, run it, inspect the result set client-side.' },
+    { id: 'practice', parent: 'lab', icon: 'list-checks', title: 'KQL Practice', kind: 'lab module', href: '/lab/practice/', summary: practice.total + ' graded KQL questions, easy to hard, validated against the same query model as the rest of the lab.' },
+    { id: 'builder', parent: 'lab', icon: 'blocks', title: 'KQL Builder', kind: 'lab module', href: '/lab/kql-builder/', summary: 'Visual query builder for tables, filters, output columns and summarize patterns, with save and load in the browser.' },
+    { id: 'templates', parent: 'lab', icon: 'library', title: 'KQL Templates', kind: 'lab module', href: '/lab/templates/', summary: 'Searchable catalog of ' + templates.length + ' public hunt templates with ATT&CK mappings.' },
+    { id: 'abuseipdb', parent: 'honey', icon: 'shield-alert', title: 'AbuseIPDB', kind: 'data sharing', href: '/abuseipdb-verification.html', summary: 'Public abuse database. Honeypot indicators are reported here so other defenders can pivot on them.' },
+    { id: 'otx', parent: 'honey', icon: 'share-2', title: 'AlienVault OTX', kind: 'data sharing', href: '/lab/', summary: 'Open Threat Exchange. Honeypot indicators are shared here as well.' },
+    { id: 'kqlps', parent: 'soc', icon: 'powershell', title: 'Invoke-KqlPS', kind: 'engine', href: '/blog/posts/inside-invoke-kqlps.html', summary: 'A KQL interpreter in PowerShell that anchors the rest of the lab.' },
   ],
   experience: [
     { id: 'dfas', title: 'Integration Specialist, DFAS CSSP', org: 'Peraton, Defense Finance and Accounting Service CSSP', start: '2025-07', end: 'Present', summary: 'Analyst, then Shift Lead, now technical lead and client interface for the CSSP Analyst Team: SOPs and policy, 30+ approved SIEM rule changes that cut daily false positives by 67%, and new telemetry and audit reporting.' },

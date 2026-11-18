@@ -5,10 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bryce Maxheimer - Threat hunting, in the open</title>
 <meta name="description" content="Bryce Maxheimer's portfolio as one app: tools, credentials, writing, resume and contact, with live honeypot data.">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/v2/shell/shell.css?v=9">
-<script src="/v2/common.js?v=9" defer></script>
-<script src="/v2/shell/shell.js?v=9" defer></script>
+<link rel="icon" href="/v2/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/v2/shell/shell.css?v=11">
+<script src="/v2/common.js?v=10" defer></script>
+<script src="/v2/icons.js?v=10" defer></script>
+<script src="/v2/shell/shell.js?v=11" defer></script>
 </head>
 <body>
 <div class="app">
@@ -17,11 +18,12 @@
   </svg>
   <div class="window">
     <header class="topbar">
-      <button type="button" class="brand" data-view="home"><span class="mark">BM</span>MAXHEIMER</button>
+      <button type="button" class="brand" data-go="home" aria-label="Maxheimer, home"><span class="mark" data-icon="logo"></span>MAXHEIMER</button>
       <span class="crumb hidesm" id="crumb">explore / home</span>
       <span class="top-right">
-        <a class="btn" href="/lab/">Open lab ↗</a>
-        <button type="button" class="btn btn-blue" data-view="contact">Contact</button>
+        <a class="btn btn-icon" href="https://www.linkedin.com/in/bryce-maxheimer" rel="noopener" data-icon="linkedin" aria-label="LinkedIn profile" title="LinkedIn"><span class="hidesm">LinkedIn</span></a>
+        <a class="btn btn-icon" href="https://www.giac.org/certified-professional/Bryce-Maxheimer/243145" rel="noopener" data-icon="badge-check" aria-label="GIAC certifications record" title="GIAC certs"><span class="hidesm">GIAC certs</span></a>
+        <button type="button" class="btn btn-blue" data-go="contact">Contact</button>
       </span>
     </header>
     <div class="body">
@@ -34,7 +36,7 @@
           <a href="https://intel.brycemaxheimer.com/">Intel Brief site ↗ <span class="pill">Daily</span></a>
           <a href="/lab/threat-feed/">Live Threat Feed ↗ <span class="pill pill-live" id="pin-live">…</span></a>
         </div>
-        <div class="profile hidesm"><span class="avatar">BM<i id="presence"></i></span><span><b>Bryce Maxheimer</b><small>Threat hunter</small></span></div>
+        <div class="profile hidesm"><span class="avatar" data-icon="logo"><i id="presence"></i></span><span><b>Bryce Maxheimer</b><small>Threat hunter</small></span></div>
       </aside>
       <main class="main" id="main"><p class="muted">Loading site data…</p></main>
     </div>
