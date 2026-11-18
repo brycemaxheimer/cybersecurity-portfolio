@@ -36,6 +36,18 @@
       return (id || 'event').replace('cowrie.', '').replace(/[._]/g, ' ');
     };
     var ageHours = feed.generated_at ? (Date.now() - new Date(feed.generated_at).getTime()) / 36e5 : null;
+    // The feed only lists hours that had events, so a fresh or quiet sensor
+    // can send two buckets. Lay them on a fixed 24-hour axis, zero-filled.
+    var hours = function (list) {
+      if (!list.length) return [];
+      var by = {};
+      list.forEach(function (h) { var t = Date.parse(h.ts); if (isFinite(t)) by[t] = (by[t] || 0) + (h.count || 0); });
+      var gen = Math.floor(Date.parse(feed.generated_at) / 36e5) * 36e5;
+      var end = Math.max.apply(null, Object.keys(by).map(Number).concat(isFinite(gen) ? [gen] : []));
+      var out = [];
+      for (var i = 23; i >= 0; i--) { var t = end - i * 36e5; out.push({ ts: new Date(t).toISOString(), count: by[t] || 0 }); }
+      return out;
+    };
     var sharing = feed.sharing || {};
     return {
       generatedAt: feed.generated_at,
@@ -54,7 +66,7 @@
       attackers: (feed.top_attackers || []).slice(0, 30).map(function (a) {
         return { ip: a.src_ip, country: a.geoip_country_name || '', city: a.geoip_city_name || '', lat: parseFloat(a.geoip_location_latitude), lon: parseFloat(a.geoip_location_longitude), count: a.count || 0 };
       }).filter(function (a) { return isFinite(a.lat) && isFinite(a.lon); }),
-      hourly: (feed.hourly_counts || []).map(function (h) { return { ts: h.ts, count: h.count || 0 }; }),
+      hourly: hours(feed.hourly_counts || []),
       usernames: (feed.top_usernames || []).slice(0, 8).map(function (u) { return { name: u.username, count: u.count }; }),
       passwords: (feed.top_passwords || []).slice(0, 8).map(function (p) { return { name: p.password, count: p.count }; }),
       commands: (feed.top_commands || []).slice(0, 8).map(function (c) { return { name: c.input, count: c.count }; }),
