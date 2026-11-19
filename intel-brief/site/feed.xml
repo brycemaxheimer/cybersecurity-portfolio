@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>Daily Intel Brief</title><link>https://intel.brycemaxheimer.com/</link><description>Daily AI-generated threat-intel brief: top stories, new KEV entries, early signals and detections.</description><language>en-us</language><item><title>Daily Intel Brief: 2026-11-18</title><link>https://intel.brycemaxheimer.com/editions/2026-11-18/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-18/</guid><pubDate>Wed, 18 Nov 2026 18:53:44 +0000</pubDate><description>1. Microsoft 365 token theft via phishing kits and device code phishing remains active
+<rss version="2.0"><channel><title>Daily Intel Brief</title><link>https://intel.brycemaxheimer.com/</link><description>Daily AI-generated threat-intel brief: top stories, new KEV entries, early signals and detections.</description><language>en-us</language><item><title>Daily Intel Brief: 2026-11-19</title><link>https://intel.brycemaxheimer.com/editions/2026-11-19/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-19/</guid><pubDate>Thu, 19 Nov 2026 19:06:10 +0000</pubDate><description>1. CISA adds exploited Synology, LiteLLM, Apache Axis and REDCap code execution flaws to KEV
+2. Reported attack on IT provider Wellington IT exposes member data of Irish credit unions
+3. Ukraine and FBI arrest four suspected ransomware gang members linked to $40.5M in ransoms
+4. Microsoft revises CVSS score and FAQ for AD DS elevation-of-privilege flaw CVE-2026-118148
+5. Two malicious versions of Microsoft's Agent Framework PyPI package stole cloud credentials
+6. Cisco Talos tracks UAT-12643 infostealer campaign using Solana blockchain for C2 resilience
+7. Critical NGINX HTTP/2 integer underflow CVE-2026-123007 enables unauthenticated RCE
+8. DrayTek Vigor2960 firmware up to 1.5.1.6 has two remotely triggerable stack overflows
+9. Shadowserver-observed exploitation of 12 older flaws in niche web apps, newly recorded by NVD
+10. Apache patches critical Roller remote code execution flaw reported as exploited
+New KEV entries: CVE-2024-10441, CVE-2026-40217, CVE-2026-90817, CVE-2026-90436
+Early signals: CVE-2026-99312, CVE-2026-123633
+Explainer: Blockchain dead drops: hiding C2 addresses on public ledgers
+Good news: Ukrainian police and FBI arrest four suspected ransomware gang members
+Good news: Coinbase blocks $4.7 million in transfers to Elon Musk deepfake giveaway scam
+Good news: SANS ISC diary shows how to run honeypot analysis with version control and AI review</description></item><item><title>Daily Intel Brief: 2026-11-18</title><link>https://intel.brycemaxheimer.com/editions/2026-11-18/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-18/</guid><pubDate>Wed, 18 Nov 2026 18:53:44 +0000</pubDate><description>1. Microsoft 365 token theft via phishing kits and device code phishing remains active
 2. Node.js Brotli decoder flaw CVE-2026-111497 (Node2Shell) exploited; Siemens lists many affected products
 3. CISA adds actively exploited Puppet Enterprise deserialization flaw CVE-2026-115731 to KEV
 4. Phishing kit on Google Cloud Storage harvests mail passwords and the victim domain's MX record

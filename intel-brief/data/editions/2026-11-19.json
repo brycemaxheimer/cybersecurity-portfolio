@@ -1,0 +1,2130 @@
+{
+ "schema": 1,
+ "date": "2026-11-19",
+ "generated_at": "2026-11-19T19:06:10Z",
+ "generator": "intel-brief 0.1.0",
+ "models": {
+  "triage": "claude-haiku-5-5",
+  "writeup": "claude-opus-5-5",
+  "triage_method": "model"
+ },
+ "window": {
+  "since": "2026-11-18T05:00:00+00:00",
+  "until": "2026-11-19T05:00:00+00:00"
+ },
+ "stories": [
+  {
+   "id": "story-1",
+   "rank": 1,
+   "score": 71,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 10,
+    "epss": 10,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": true,
+    "epss_max": 0.6191,
+    "cvss_max": 0
+   },
+   "title": "CISA adds exploited Synology, LiteLLM, Apache Axis and REDCap code execution flaws to KEV",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "other",
+    "vendor": "",
+    "product": ""
+   },
+   "cves": [
+    {
+     "id": "CVE-2024-10441",
+     "cvss": 9.8,
+     "severity": "CRITICAL",
+     "products": [
+      "synology beestation os",
+      "synology diskstation manager"
+     ],
+     "epss": 0.0215,
+     "percentile": 0.82512,
+     "in_kev": true,
+     "kev_due": "2026-11-21",
+     "poc": [
+      {
+       "url": "https://github.com/SHIFox8/synology-dsm-vuln-scanner",
+       "name": "SHIFox8/synology-dsm-vuln-scanner",
+       "stars": 4,
+       "created": "2026-10-30"
+      },
+      {
+       "url": "https://github.com/Ntn10/cve-2024-10441-synology-rce",
+       "name": "Ntn10/cve-2024-10441-synology-rce",
+       "stars": 1,
+       "created": "2026-10-25"
+      }
+     ],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-40217",
+     "cvss": 8.8,
+     "severity": "HIGH",
+     "products": [
+      "litellm litellm",
+      "redhat ansible automation platform",
+      "redhat openshift ai",
+      "redhat openshift lightspeed"
+     ],
+     "epss": 0.61911,
+     "percentile": 0.99193,
+     "in_kev": true,
+     "kev_due": "2026-12-02",
+     "poc": [
+      {
+       "url": "https://github.com/learner202649/CVE-2026-40217-PoC",
+       "name": "learner202649/CVE-2026-40217-PoC",
+       "stars": 1,
+       "created": "2026-05-19"
+      }
+     ],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-90817",
+     "cvss": 9.8,
+     "severity": "CRITICAL",
+     "products": [
+      "vanderbilt redcap"
+     ],
+     "epss": 0.25187,
+     "percentile": 0.97974,
+     "in_kev": true,
+     "kev_due": "2026-11-21",
+     "poc": [
+      {
+       "url": "https://github.com/murrez/CVE-2026-90817",
+       "name": "murrez/CVE-2026-90817",
+       "stars": 2,
+       "created": "2026-09-21"
+      },
+      {
+       "url": "https://github.com/yulisec/CVE-2026-90817",
+       "name": "yulisec/CVE-2026-90817",
+       "stars": 1,
+       "created": "2026-09-24"
+      },
+      {
+       "url": "https://github.com/securifera/CVE-2026-90817",
+       "name": "securifera/CVE-2026-90817",
+       "stars": 1,
+       "created": "2026-10-01"
+      }
+     ],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-90436",
+     "cvss": 9.8,
+     "severity": "CRITICAL",
+     "products": [
+      "apache axis"
+     ],
+     "epss": 0.01773,
+     "percentile": 0.7866,
+     "in_kev": true,
+     "kev_due": "2026-11-21",
+     "poc": [
+      {
+       "url": "https://github.com/fixedbyreboot/CVE-2026-90436-POC",
+       "name": "fixedbyreboot/CVE-2026-90436-POC",
+       "stars": 2,
+       "created": "2026-11-10"
+      },
+      {
+       "url": "https://github.com/dinosn/axis-cve-2026-90436-lab-poc",
+       "name": "dinosn/axis-cve-2026-90436-lab-poc",
+       "stars": 2,
+       "created": "2026-11-17"
+      },
+      {
+       "url": "https://github.com/foxcornlab/confluence-axis-scanner",
+       "name": "foxcornlab/confluence-axis-scanner",
+       "stars": 0,
+       "created": "2026-11-17"
+      }
+     ],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "On 18 November 2026 CISA added four vulnerabilities to its Known Exploited Vulnerabilities catalog, citing evidence of active exploitation. CISA describes all four as allowing remote code execution. CVE-2024-10441 is an output-escaping flaw in the system plugin daemon of Synology DSM and BeeStation OS. CVE-2026-40217 is an unprotected alternate channel in BerriAI LiteLLM reachable through the /guardrails/test_custom_code endpoint, CVE-2026-90817 is an unauthenticated code injection in Vanderbilt REDCap that requires a valid public survey hash, and CVE-2026-90436 is an unsafe reflection flaw in Apache Axis triggered by a crafted SOAP fault message, which CISA notes may affect end-of-life versions.",
+    "why_it_matters": "All four are rated CVSS 8.8 to 9.8, public proof-of-concept code exists for each, and CISA confirms exploitation. LiteLLM AI gateways (EPSS 61.9%) and REDCap research servers (EPSS 25.2%) are often internet-facing and run outside standard patch cycles; Synology NAS (EPSS 2.2%) and legacy Java services embedding Axis (EPSS 1.8%) are frequently forgotten assets. Federal agencies must remediate the Synology, REDCap and Axis flaws by 21 November 2026 and LiteLLM by 2 December 2026.",
+    "affected_versions": [
+     "Synology DiskStation Manager (DSM) and BeeStation OS (BSM): versions not stated",
+     "BerriAI LiteLLM: versions not stated (also listed for Red Hat Ansible Automation Platform, OpenShift AI and OpenShift Lightspeed)",
+     "Vanderbilt University REDCap: versions not stated",
+     "Apache Axis: versions not stated; CISA says affected products may be end-of-life"
+    ],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory internet-facing LiteLLM proxies, REDCap servers, Synology NAS devices and Java applications bundling Apache Axis, and remove them from direct internet exposure where possible.",
+     "Apply vendor fixes for Synology DSM/BSM, LiteLLM and REDCap per vendor guidance; for Apache Axis, migrate off end-of-life versions or decommission the service if no mitigation exists.",
+     "Block or restrict access to the LiteLLM /guardrails/test_custom_code endpoint at the reverse proxy or WAF until patched, and limit LiteLLM admin APIs to trusted networks.",
+     "Treat exposed unpatched hosts as potentially compromised: review web logs and process trees for shells or downloaders spawned by Python, Java or PHP service processes, as CISA's forensics triage guidance expects.",
+     "Rotate API keys and model provider credentials stored in LiteLLM, and credentials on any REDCap or Axis host where suspicious activity is found."
+    ],
+    "confidence": "high",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "CISA Adds Four Known Exploited Vulnerabilities to Catalog",
+     "url": "https://www.cisa.gov/news-events/alerts/2026/11/18/cisa-adds-four-known-exploited-vulnerabilities-catalog",
+     "source": "CISA Advisories",
+     "kind": "advisory",
+     "published": "2026-11-18T12:00:00Z"
+    },
+    {
+     "title": "CVE-2024-10441: Synology DiskStation Manager (DSM) Improper Encoding or Escaping of Output Vulnerability",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-10441",
+     "source": "CISA KEV",
+     "kind": "kev",
+     "published": "2026-11-18T00:00:00Z"
+    },
+    {
+     "title": "CVE-2026-40217: BerriAI LiteLLM Unprotected Alternate Channel Vulnerability",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-40217",
+     "source": "CISA KEV",
+     "kind": "kev",
+     "published": "2026-11-18T00:00:00Z"
+    },
+    {
+     "title": "CVE-2026-90817: Vanderbilt University Research Electronic Data Capture (REDCap) Code Injection Vulnerability",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-90817",
+     "source": "CISA KEV",
+     "kind": "kev",
+     "published": "2026-11-18T00:00:00Z"
+    },
+    {
+     "title": "CVE-2026-90436: Apache Axis Unsafe Reflection Vulnerability",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-90436",
+     "source": "CISA KEV",
+     "kind": "kev",
+     "published": "2026-11-18T00:00:00Z"
+    }
+   ],
+   "detection": {
+    "type": "behavioral",
+    "sigma": null,
+    "hunting_steps": [
+     "Use Defender Vulnerability Management to list devices exposed to the four CVEs and confirm which are internet-facing.",
+     "Inventory hosts running LiteLLM or bundling Apache Axis libraries, since TVM coverage of these components may be incomplete.",
+     "Search reverse proxy, WAF and LiteLLM logs for requests to /guardrails/test_custom_code, especially from external addresses.",
+     "Review REDCap web logs for unusual requests from public survey contexts to non-survey routes involving data import.",
+     "Hunt for command shells, scripting engines or download utilities spawned by Python, Java or PHP service processes on these hosts.",
+     "For Synology devices, review NAS system logs and outbound connections from the device at the firewall, as endpoint telemetry is usually unavailable."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Devices exposed to the four newly added KEV CVEs",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where CveId in (\"CVE-2024-10441\", \"CVE-2026-40217\", \"CVE-2026-90817\", \"CVE-2026-90436\") | summarize Cves = make_set(CveId), Software = make_set(SoftwareName) by DeviceId, DeviceName",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 0,
+        "hits": 0,
+        "tables": [
+         "DeviceTvmSoftwareVulnerabilities"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Shells or downloaders spawned by Python, Java or PHP service processes",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where InitiatingProcessFileName in~ (\"python.exe\", \"python3\", \"python\", \"java.exe\", \"java\", \"php\", \"php-fpm\", \"php-cgi.exe\", \"httpd\", \"apache2\") | where FileName in~ (\"cmd.exe\", \"powershell.exe\", \"pwsh.exe\", \"sh\", \"bash\", \"dash\", \"curl\", \"wget\", \"certutil.exe\", \"nc\", \"ncat\") | where InitiatingProcessCommandLine has_any (\"litellm\", \"axis\", \"redcap\", \"tomcat\") or InitiatingProcessFolderPath has_any (\"litellm\", \"redcap\", \"axis\") | project Timestamp, DeviceName, InitiatingProcessFileName, InitiatingProcessCommandLine, FileName, ProcessCommandLine, AccountName",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Inventory hosts running LiteLLM or carrying Apache Axis libraries",
+      "kql": "union (DeviceProcessEvents | where Timestamp > ago(14d) | where ProcessCommandLine has \"litellm\" | project Timestamp, DeviceName, Indicator = ProcessCommandLine), (DeviceFileEvents | where Timestamp > ago(30d) | where FileName startswith \"axis\" and FileName endswith \".jar\" | project Timestamp, DeviceName, Indicator = FolderPath) | summarize LastSeen = max(Timestamp), Evidence = make_set(Indicator, 10) by DeviceName",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 650,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents",
+         "DeviceFileEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": [
+     "An AI-drafted Sigma rule failed validation and was dropped."
+    ],
+    "rejected_sigma": {
+     "messages": [
+      "draft rejected: bad field name 'c-uri'"
+     ]
+    }
+   }
+  },
+  {
+   "id": "story-2",
+   "rank": 2,
+   "score": 51,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Reported attack on IT provider Wellington IT exposes member data of Irish credit unions",
+   "labels": {
+    "category": "breach",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "other",
+    "vendor": "",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "BleepingComputer reported on 18 November 2026 that a cyberattack on Wellington IT, an IT service provider, exposed sensitive information belonging to members of credit unions, most of them in Ireland. The figures in the report differ: its headline cites 40 Irish credit unions, while its text says 50 credit unions are affected, the majority Irish. The sources do not say how the attackers got in, what data types were exposed, or who is responsible.",
+    "why_it_matters": "This is a third-party breach. Organizations that use Wellington IT, or that share data with affected credit unions, may have exposed data or provider access paths they do not control. Exposed member records can fuel targeted phishing and fraud against customers and staff. No technical indicators or intrusion details have been published, so there is nothing specific to detect yet.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Find out whether your organization or its suppliers use Wellington IT, and ask the provider for incident details, scope and indicators.",
+     "If you have a relationship with the provider, review and restrict its remote access, and rotate any credentials or API keys it holds.",
+     "Warn staff and customers that member data may be used in targeted phishing or fraud, and tighten checks on account-change and payment requests.",
+     "Watch for official notifications from the provider, the affected credit unions or regulators that confirm the scope and the data exposed."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Data breach impacts 40 Irish credit unions in reported IT provider hack",
+     "url": "https://www.bleepingcomputer.com/news/security/data-breach-impacts-40-irish-credit-unions-in-reported-it-provider-hack/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-18T19:39:33Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-3",
+   "rank": 3,
+   "score": 51,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Ukraine and FBI arrest four suspected ransomware gang members linked to $40.5M in ransoms",
+   "labels": {
+    "category": "other",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "other",
+    "vendor": "",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "According to BleepingComputer, Ukrainian authorities working with the FBI have arrested four suspected members of an international ransomware organization. The group is linked to more than $40.5 million in ransom payments collected from at least 28 companies worldwide. The report does not name the ransomware family, the tooling used, or the initial access methods, and it gives no indicators of compromise.",
+    "why_it_matters": "The arrests may disrupt one operation, but the sources give no technical details that defenders can act on: no named strain, no vulnerabilities, no indicators. Ransomware affiliates often move to other groups after law enforcement action, so existing ransomware defenses and detections remain the priority. Watch for follow-up reporting from law enforcement or vendors that names the group or publishes indicators.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Watch for follow-up advisories from the FBI or Ukrainian authorities that name the ransomware family or publish indicators, then hunt against those indicators.",
+     "Confirm that baseline ransomware controls are in place: offline backups, MFA on remote access and VPNs, and patched internet-facing edge devices."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Ukraine, FBI arrest ransomware gang members tied to $40M in ransoms",
+     "url": "https://www.bleepingcomputer.com/news/security/ukraine-fbi-arrest-ransomware-gang-members-tied-to-40m-in-ransoms/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-18T23:08:33Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-4",
+   "rank": 4,
+   "score": 48,
+   "factors": {
+    "exploitation": 0,
+    "prevalence": 25,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.01,
+    "cvss_max": 0
+   },
+   "title": "Microsoft revises CVSS score and FAQ for AD DS elevation-of-privilege flaw CVE-2026-118148",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "none_known",
+    "prevalence": "ubiquitous",
+    "platform": "windows",
+    "vendor": "Microsoft",
+    "product": "Active Directory Domain Services"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-118148",
+     "cvss": 8.8,
+     "severity": "HIGH",
+     "products": [],
+     "epss": 0.01001,
+     "percentile": 0.63543,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "On 18 November 2026 Microsoft updated its Security Update Guide entry for CVE-2026-118148, an elevation-of-privilege vulnerability in Active Directory Domain Services. Microsoft says it changed the CVSS score and corrected the FAQ, and calls this an informational change only. The revised advisory does not describe new technical details, affected builds or patches.",
+    "why_it_matters": "Domain controllers run AD DS in nearly every Windows estate, and privilege escalation there can lead to domain compromise. The current CVSS score is 8.8 (High). There is no known exploitation, no public proof-of-concept, the flaw is not in CISA KEV, and EPSS is 1.0%, so this update does not raise urgency. Confirm that the original fix is deployed rather than treating this as a new emergency.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Confirm that every domain controller has the Microsoft security update that addresses CVE-2026-118148, as listed in the Security Update Guide.",
+     "Read the corrected FAQ in Microsoft's advisory to check whether it changes the prerequisites or scope that apply to your environment.",
+     "Update internal risk records to the revised CVSS score of 8.8.",
+     "Watch the advisory for later revisions that report exploitation or a public proof-of-concept."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "CVE-2026-118148 Active Directory Domain Services Elevation of Privilege Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-118148",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-18T16:00:00Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "List domain controllers and other devices that Defender Vulnerability Management still flags for CVE-2026-118148.",
+     "Cross-check the flagged devices against your patch deployment records and schedule the remaining domain controllers for updating."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Devices still exposed to CVE-2026-118148",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where CveId == \"CVE-2026-118148\" | join kind=leftouter (DeviceInfo | summarize arg_max(Timestamp, *) by DeviceId | project DeviceId, DeviceType, OSPlatform, OSBuild) on DeviceId | project DeviceName, OSPlatform, OSBuild, SoftwareName, SoftwareVersion, VulnerabilitySeverityLevel, RecommendedSecurityUpdate",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 60,
+        "hits": 0,
+        "tables": [
+         "DeviceInfo",
+         "DeviceTvmSoftwareVulnerabilities"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-5",
+   "rank": 5,
+   "score": 47,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 4,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Two malicious versions of Microsoft's Agent Framework PyPI package stole cloud credentials",
+   "labels": {
+    "category": "campaign",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "niche",
+    "platform": "other",
+    "vendor": "Microsoft",
+    "product": "Agent Framework"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "BleepingComputer reported on 18 November 2026 that attackers compromised Microsoft's official Agent Framework Python package on PyPI. The attackers published two malicious versions built to steal cloud credentials and other sensitive data from developer systems. The available reporting does not name the malicious version numbers, the infection mechanism, the exfiltration endpoints, or how long the versions stayed available.",
+    "why_it_matters": "Developer workstations, build agents and CI/CD runners that install or update Python dependencies could have pulled a malicious release. That would expose cloud keys, Entra ID service principal secrets and tokens stored on those hosts. Theft is reported as confirmed, so treat any host that installed the package during the exposure window as compromised until you can prove otherwise.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory every developer machine, build server, container image and lockfile that references the Microsoft Agent Framework Python package. Find which versions were installed and when, and check them against Microsoft's or PyPI's list of malicious releases once it is published.",
+     "On any host that installed a malicious version, rotate all credentials reachable from it. This covers cloud access keys, Azure and Entra ID service principal secrets, managed identity tokens, API keys, and secrets in environment variables or CLI credential caches.",
+     "Pin the package to a version Microsoft confirms is clean, and block or yank the malicious versions in any internal package mirror or proxy.",
+     "Review Entra ID sign-in and audit logs and cloud provider activity logs for unusual use of credentials tied to affected developers or pipelines, starting from the install date.",
+     "Require hash-pinned, lockfile-based dependency installs in CI so a new upstream release cannot be pulled in silently."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Microsoft’s Agent Framework PyPI package compromised to steal credentials",
+     "url": "https://www.bleepingcomputer.com/news/security/microsofts-agent-framework-pypi-package-compromised-to-steal-credentials/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-18T16:58:42Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Search process telemetry for pip, pip3, uv or poetry commands that installed or upgraded agent-framework packages, and record the device, user and time.",
+     "Search file events for agent_framework package directories created or modified under site-packages or dist-packages, which also catches installs from IDEs and virtual environments.",
+     "For each matching host, review outbound network connections from python processes made right after the install, looking for uncommon external destinations.",
+     "Correlate affected developers and service principals with Entra ID and cloud audit logs for new sign-in locations, token use from unfamiliar IPs, or unexpected resource access.",
+     "When malicious version numbers and indicators are published, rerun these searches filtered to those versions and indicators."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Package manager installs of Microsoft Agent Framework",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where ProcessCommandLine has_any (\"pip\", \"pip3\", \"uv\", \"poetry\") | where ProcessCommandLine has_any (\"agent-framework\", \"agent_framework\") | project Timestamp, DeviceName, AccountName, FileName, ProcessCommandLine, InitiatingProcessFileName | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "agent_framework files written to Python site-packages",
+      "kql": "DeviceFileEvents | where Timestamp > ago(30d) | where FolderPath has_any (\"site-packages\", \"dist-packages\") and FolderPath has \"agent_framework\" | where ActionType in (\"FileCreated\", \"FileModified\") | summarize FirstSeen=min(Timestamp), LastSeen=max(Timestamp), Files=count() by DeviceName, InitiatingProcessAccountName, InitiatingProcessFileName | order by FirstSeen desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 150,
+        "hits": 0,
+        "tables": [
+         "DeviceFileEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Python outbound connections on hosts that installed the package",
+      "kql": "let hosts = DeviceFileEvents | where Timestamp > ago(30d) | where FolderPath has_any (\"site-packages\", \"dist-packages\") and FolderPath has \"agent_framework\" | distinct DeviceId; DeviceNetworkEvents | where Timestamp > ago(30d) | where DeviceId in (hosts) | where InitiatingProcessFileName in~ (\"python.exe\", \"python3.exe\", \"pythonw.exe\", \"python\", \"python3\") | where RemoteIPType == \"Public\" | summarize Connections=count(), FirstSeen=min(Timestamp) by DeviceName, RemoteUrl, RemoteIP, RemotePort | order by Connections asc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 450,
+        "hits": 0,
+        "tables": [
+         "DeviceNetworkEvents",
+         "DeviceFileEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-6",
+   "rank": 6,
+   "score": 47,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 4,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Cisco Talos tracks UAT-12643 infostealer campaign using Solana blockchain for C2 resilience",
+   "labels": {
+    "category": "campaign",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "niche",
+    "platform": "other",
+    "vendor": "",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "Cisco Talos reported on 18 November 2026 that it is tracking a financially motivated group it calls UAT-12643, whose tools include the Go-based Overlord RAT, a Python infostealer the actor calls Good Game, and a clipboard hijacker that targets several cryptocurrencies. According to Talos, the Overlord variant hides encrypted command-and-control server addresses in Solana blockchain transaction memos. Lures include a trojanized Viber installer, payloads named after the MicroSIP softphone, and a decoy financial statement PDF. Talos links the actor to North Korea with only low confidence, based on overlapping tradecraft and on earlier use of Overlord by the UNK_DeadDrop cluster and of Solana-memo C2 by Lazarus.",
+    "why_it_matters": "The lures are aimed at finance and accounting staff, call-center or VoIP softphone users, messaging users, and cryptocurrency or gaming account holders. Talos says the document harvesting targets English, French, Spanish and Portuguese file names, which points to European victims. Because the C2 addresses are fetched from a public blockchain, blocking servers alone will not cut the channel; outbound traffic to Solana services from unexpected processes is a more durable signal. The available excerpt lists no CVEs and no indicators, and no vulnerability patching applies.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Hunt for non-browser, non-wallet processes on Windows endpoints that resolve or connect to Solana blockchain services, and investigate any unsigned binaries you find.",
+     "Review recent executions of Viber or MicroSIP installers or binaries launched from Downloads or Temp folders, and confirm they came from legitimate vendor sources.",
+     "Block or alert on Python interpreters running from user-writable paths on finance and call-center workstations where Python is not an approved tool.",
+     "Retrieve the Talos indicators of compromise from the full report and sweep network, DNS and file telemetry for them.",
+     "Warn finance, accounting and call-center staff about financial-statement PDF lures and unofficial messaging or softphone installers."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "UAT-12643: Suspected North Korea-aligned actor blends blockchain resilience with targeted infostealing",
+     "url": "https://blog.talosintelligence.com/uat-12643-suspected-north-korea-aligned-actor-blends-blockchain-resilience-with-targeted-infostealing/",
+     "source": "Cisco Talos",
+     "kind": "news",
+     "published": "2026-11-18T11:00:00Z"
+    }
+   ],
+   "detection": {
+    "type": "behavioral",
+    "sigma": {
+     "origin": "ai",
+     "title": "DNS Query To Solana Blockchain Service By Unusual Process",
+     "url": null,
+     "yaml": "title: DNS Query To Solana Blockchain Service By Unusual Process\nid: dae7d674-4689-57c2-b7a7-98cce07e8324\nstatus: experimental\ndescription: Detects DNS lookups for Solana blockchain services by processes other than common browsers. Talos reports that the Overlord RAT used by UAT-12643 reads encrypted C2 addresses from Solana transaction memos. AI-generated, untested.\nreferences:\n- https://blog.talosintelligence.com/uat-12643-suspected-north-korea-aligned-actor-blends-blockchain-resilience-with-targeted-infostealing/\nauthor: intel-brief (AI-generated, untested)\ndate: '2026-11-19'\ntags:\n- attack.t1102\n- attack.t1071.001\nlogsource:\n  product: windows\n  category: dns_query\ndetection:\n  selection_solana:\n    QueryName|contains: solana\n  filter_browsers:\n    Image|endswith:\n    - \\chrome.exe\n    - \\msedge.exe\n    - \\firefox.exe\n    - \\brave.exe\n    - \\opera.exe\n    - \\iexplore.exe\n  condition: selection_solana and not filter_browsers\nfalsepositives:\n- Legitimate cryptocurrency wallet applications and developer tools that use Solana RPC endpoints\n- Security or monitoring tools resolving blockchain domains\nlevel: medium\n",
+     "check": {
+      "status": "pass",
+      "messages": [
+       "No rule errors found.",
+       "No condition errors found.",
+       "No validation issues found.",
+       "Parsing Sigma rules",
+       "Checking Sigma rules"
+      ]
+     },
+     "conversions": {
+      "kql": {
+       "label": "Defender XDR / Sentinel KQL",
+       "query": null,
+       "error": "SigmaTransformationError: Unable to determine table name from rule.  The query table is determined in the following order of priority:\n  1) The value provided to processing pipeline's query_table parameter, if using a Python script.\n  2) If the query_table is already set in the pipeline state, such as from a custom user-defined pipeline if using sigma-cli.\n  3) If the rule's logsource category is "
+      },
+      "spl": {
+       "label": "Splunk SPL",
+       "query": "QueryName=\"*solana*\" NOT (Image IN (\"*\\\\chrome.exe\", \"*\\\\msedge.exe\", \"*\\\\firefox.exe\", \"*\\\\brave.exe\", \"*\\\\opera.exe\", \"*\\\\iexplore.exe\"))",
+       "error": null
+      },
+      "elastic": {
+       "label": "Elastic (Lucene, ECS)",
+       "query": "dns.question.name:*solana* AND (NOT (process.executable.caseless:(*\\\\chrome.exe OR *\\\\msedge.exe OR *\\\\firefox.exe OR *\\\\brave.exe OR *\\\\opera.exe OR *\\\\iexplore.exe)))",
+       "error": null
+      }
+     }
+    },
+    "hunting_steps": [
+     "Identify devices where non-browser processes contacted Solana-related hosts in the last 30 days, and note the initiating binary, its path and its signer.",
+     "For each hit, check whether the binary is an approved wallet or development tool; treat Go-compiled or unsigned binaries in user folders as suspect.",
+     "Search for Viber or MicroSIP named executables running from Downloads, Temp or AppData, and compare their company metadata with the legitimate vendor.",
+     "Look for Python interpreters started from user-writable folders that then open a PDF, which would match the decoy-document behavior Talos describes for the Good Game stealer.",
+     "On suspect hosts, review file access to documents and to browser or wallet credential stores, and check for persistence; rotate any exposed credentials and move crypto assets if theft is suspected."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Non-browser processes contacting Solana blockchain hosts",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(30d) | where RemoteUrl contains \"solana\" | where InitiatingProcessFileName !in~ (\"chrome.exe\",\"msedge.exe\",\"firefox.exe\",\"brave.exe\",\"opera.exe\") | summarize Connections=count(), FirstSeen=min(Timestamp), LastSeen=max(Timestamp) by DeviceName, InitiatingProcessFileName, InitiatingProcessFolderPath, InitiatingProcessSHA256, RemoteUrl | order by Connections desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 300,
+        "hits": 0,
+        "tables": [
+         "DeviceNetworkEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Viber or MicroSIP named binaries run from user-writable paths",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where FileName has_any (\"viber\",\"microsip\") | where FolderPath has_any (@\"\\Downloads\\\", @\"\\AppData\\Local\\Temp\\\", @\"\\AppData\\Roaming\\\") | project Timestamp, DeviceName, AccountName, FileName, FolderPath, SHA256, ProcessVersionInfoCompanyName, ProcessCommandLine, InitiatingProcessFileName",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Python from user folders spawning a PDF viewer",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where InitiatingProcessFileName in~ (\"python.exe\",\"pythonw.exe\") | where InitiatingProcessFolderPath has_any (@\"\\Users\\\", @\"\\Temp\\\") | where ProcessCommandLine contains \".pdf\" | project Timestamp, DeviceName, AccountName, InitiatingProcessFolderPath, InitiatingProcessCommandLine, FileName, ProcessCommandLine",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-7",
+   "rank": 7,
+   "score": 45,
+   "factors": {
+    "exploitation": 0,
+    "prevalence": 18,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 4,
+    "in_kev": false,
+    "epss_max": 0.0636,
+    "cvss_max": 0
+   },
+   "title": "Critical NGINX HTTP/2 integer underflow CVE-2026-123007 enables unauthenticated RCE",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "none_known",
+    "prevalence": "widespread",
+    "platform": "edge_device",
+    "vendor": "F5",
+    "product": "NGINX"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-123007",
+     "cvss": 9.2,
+     "severity": "CRITICAL",
+     "products": [],
+     "epss": 0.06358,
+     "percentile": 0.9379,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [
+      {
+       "url": "https://github.com/sfewer-r7/CVE-2026-123007",
+       "name": "sfewer-r7/CVE-2026-123007",
+       "stars": 223,
+       "created": "2026-11-18"
+      },
+      {
+       "url": "https://github.com/arkrwn/NGINX2Root-CVE-2026-123007",
+       "name": "arkrwn/NGINX2Root-CVE-2026-123007",
+       "stars": 5,
+       "created": "2026-11-18"
+      },
+      {
+       "url": "https://github.com/The-DevOps-Daily/nginx2root-check",
+       "name": "The-DevOps-Daily/nginx2root-check",
+       "stars": 2,
+       "created": "2026-11-18"
+      }
+     ],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "On 18 November 2026, Rapid7 and F5 disclosed CVE-2026-123007 (CVSSv4 9.2), an integer underflow in nginx HTTP/2 flow-control handling. Rapid7 says a remote, unauthenticated client can corrupt memory, which can leak data, crash the service, or run code with the permissions of the nginx worker process. Rapid7 built a proof-of-concept that achieved RCE against nginx 1.31.8 in a linux/amd64 Docker image with HTTP/2 and TLS enabled. Rapid7 labels the issue fixed, but the sources do not name the fixed release.",
+    "why_it_matters": "nginx is common on internet-facing reverse proxies, gateways and appliances, so exposure is likely wide. Rapid7 says exploitation is hard in practice: it takes about 128 GB of HTTP/2 traffic, needs more than roughly 300 Mbit/s of bandwidth to finish within nginx's default one-hour connection lifetime, usually fails when HTTP/2 is proxied upstream, and the known technique depends on AVX-512 glibc memcpy paths. There is no known exploitation and the CVE is not in CISA KEV, but public PoC work exists and EPSS is 6.4%, so patch exposed HTTP/2 listeners promptly.",
+    "affected_versions": [
+     "nginx 1.31.8 with HTTP/2 enabled (the version Rapid7 demonstrated RCE against; the full affected range is not stated in the sources)"
+    ],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Find every internet-facing nginx instance, including those embedded in appliances and containers, and apply F5's fixed nginx release for CVE-2026-123007 as soon as F5 publishes the version.",
+     "Until patched, consider disabling HTTP/2 on exposed listeners, or terminate HTTP/2 at an upstream proxy or CDN, which Rapid7 says likely prevents the attacker-controlled frames from reaching nginx intact.",
+     "Shorten HTTP/2 connection lifetimes and rate-limit or alert on single client connections that send very large amounts of HTTP/2 data.",
+     "Watch nginx worker processes for unexpected child processes such as shells, and for repeated worker crashes or restarts.",
+     "Rebuild container images that bundle vulnerable nginx versions once a fix is available."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "CVE-2026-123007: Critical NGINX HTTP/2 Integer Underflow Leads to RCE (FIXED)",
+     "url": "https://www.rapid7.com/blog/post/ve-cve-2026-123007-critical-nginx-http-2-integer-underflow-leads-to-rce-fixed",
+     "source": "Rapid7",
+     "kind": "news",
+     "published": "2026-11-18T13:56:42Z"
+    }
+   ],
+   "detection": {
+    "type": "behavioral",
+    "sigma": {
+     "origin": "ai",
+     "title": "Shell or Interpreter Spawned by NGINX Process on Linux",
+     "url": null,
+     "yaml": "title: Shell or Interpreter Spawned by NGINX Process on Linux\nid: e0a18f3a-8e75-5f14-a3a9-60ca9439f5b6\nstatus: experimental\ndescription: Detects an nginx process starting a shell or scripting interpreter. This can indicate code execution in the worker context, such as exploitation of CVE-2026-123007 or other web server compromise. AI-generated, untested.\nreferences:\n- https://www.rapid7.com/blog/post/ve-cve-2026-123007-critical-nginx-http-2-integer-underflow-leads-to-rce-fixed\nauthor: intel-brief (AI-generated, untested)\ndate: '2026-11-19'\ntags:\n- attack.t1190\n- attack.execution\n- attack.t1059.004\n- cve.2026-123007\nlogsource:\n  product: linux\n  category: process_creation\ndetection:\n  selection_parent:\n    ParentImage|endswith: /nginx\n  selection_child:\n    Image|endswith:\n    - /sh\n    - /bash\n    - /dash\n    - /zsh\n    - /ash\n    - /busybox\n    - /python\n    - /python3\n    - /perl\n    - /curl\n    - /wget\n    - /nc\n    - /ncat\n  condition: selection_parent and selection_child\nfalsepositives:\n- Custom nginx setups that run helper scripts through shells, for example log rotation or Lua or Perl modules invoking external commands\nlevel: high\n",
+     "check": {
+      "status": "pass",
+      "messages": [
+       "No rule errors found.",
+       "No condition errors found.",
+       "No validation issues found.",
+       "Parsing Sigma rules",
+       "Checking Sigma rules"
+      ]
+     },
+     "conversions": {
+      "kql": {
+       "label": "Defender XDR / Sentinel KQL",
+       "query": "DeviceProcessEvents\n| where InitiatingProcessFolderPath endswith \"/nginx\" and (FolderPath endswith \"/sh\" or FolderPath endswith \"/bash\" or FolderPath endswith \"/dash\" or FolderPath endswith \"/zsh\" or FolderPath endswith \"/ash\" or FolderPath endswith \"/busybox\" or FolderPath endswith \"/python\" or FolderPath endswith \"/python3\" or FolderPath endswith \"/perl\" or FolderPath endswith \"/curl\" or FolderPath endswith \"/wget\" or FolderPath endswith \"/nc\" or FolderPath endswith \"/ncat\")",
+       "error": null,
+       "validation": {
+        "status": "pass",
+        "messages": []
+       },
+       "receipt": {
+        "engine": "ran",
+        "baseline": {
+         "events": 500,
+         "hits": 0,
+         "tables": [
+          "DeviceProcessEvents"
+         ]
+        },
+        "cases": {
+         "status": "pass",
+         "positive": 14,
+         "positive_fired": 14,
+         "negative": 4,
+         "negative_fired": 0,
+         "disagreements": [],
+         "skipped": 0
+        }
+       }
+      },
+      "spl": {
+       "label": "Splunk SPL",
+       "query": "ParentImage=\"*/nginx\" Image IN (\"*/sh\", \"*/bash\", \"*/dash\", \"*/zsh\", \"*/ash\", \"*/busybox\", \"*/python\", \"*/python3\", \"*/perl\", \"*/curl\", \"*/wget\", \"*/nc\", \"*/ncat\")",
+       "error": null
+      },
+      "elastic": {
+       "label": "Elastic (Lucene, ECS)",
+       "query": "ParentImage:*\\/nginx AND (Image:(*\\/sh OR *\\/bash OR *\\/dash OR *\\/zsh OR *\\/ash OR *\\/busybox OR *\\/python OR *\\/python3 OR *\\/perl OR *\\/curl OR *\\/wget OR *\\/nc OR *\\/ncat))",
+       "error": null
+      }
+     }
+    },
+    "hunting_steps": [
+     "Use Defender Vulnerability Management to inventory nginx installations and any devices flagged for CVE-2026-123007.",
+     "Identify which of those hosts are internet-facing and have HTTP/2 enabled directly on nginx rather than behind a proxy.",
+     "Hunt for shells or interpreters spawned by nginx processes on Linux servers.",
+     "Check for outbound network connections initiated by nginx worker processes to unusual destinations.",
+     "Review nginx error logs for repeated worker crashes (for example signal 11 exits), which may indicate failed exploitation attempts."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Devices with nginx installed or flagged for CVE-2026-123007",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where CveId == \"CVE-2026-123007\" or SoftwareName has \"nginx\" | summarize Cves = make_set(CveId) by DeviceId, DeviceName, SoftwareVendor, SoftwareName, SoftwareVersion",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 0,
+        "hits": 0,
+        "tables": [
+         "DeviceTvmSoftwareVulnerabilities"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Shells or interpreters spawned by nginx",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(14d) | where InitiatingProcessFileName =~ \"nginx\" | where FileName in~ (\"sh\",\"bash\",\"dash\",\"zsh\",\"ash\",\"busybox\",\"python\",\"python3\",\"perl\",\"curl\",\"wget\",\"nc\",\"ncat\") | project Timestamp, DeviceName, AccountName, InitiatingProcessCommandLine, FileName, ProcessCommandLine",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Outbound connections initiated by nginx processes",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(14d) | where InitiatingProcessFileName =~ \"nginx\" | where RemoteIPType == \"Public\" | where ActionType == \"ConnectionSuccess\" | summarize Connections = count(), Ports = make_set(RemotePort) by DeviceName, RemoteIP | order by Connections desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 300,
+        "hits": 0,
+        "tables": [
+         "DeviceNetworkEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-8",
+   "rank": 8,
+   "score": 42,
+   "factors": {
+    "exploitation": 18,
+    "prevalence": 4,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 0,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0049,
+    "cvss_max": 8.6
+   },
+   "title": "DrayTek Vigor2960 firmware up to 1.5.1.6 has two remotely triggerable stack overflows",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "public_poc",
+    "prevalence": "niche",
+    "platform": "edge_device",
+    "vendor": "DrayTek",
+    "product": "Vigor2960"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-132141",
+     "cvss": 8.6,
+     "severity": "HIGH",
+     "products": [],
+     "epss": 0.00466,
+     "percentile": 0.41122,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-132142",
+     "cvss": 8.5,
+     "severity": "HIGH",
+     "products": [],
+     "epss": 0.00493,
+     "percentile": 0.43102,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "NVD published CVE-2026-132141 (CVSS 8.6) and CVE-2026-132142 (CVSS 8.5) on 18 November 2026. Both are stack-based buffer overflows in the mainfunction.cgi web handler of DrayTek Vigor2960 firmware up to 1.5.1.6. One is reached through the usefile argument of the Jsonstatus json_load_lock function, and the other through the option argument of the dataflowstatus function. The NVD entries say exploit details are public and point to version 1.5.1.7 as the fix, but a separate public proof-of-concept check did not confirm working code, and DrayTek's quoted response only says newer firmware fixes many security issues and that a further release is planned.",
+    "why_it_matters": "Both flaws can be triggered remotely against the router's web interface, so any Vigor2960 with its management CGI reachable from the internet or an untrusted network is the main exposure. Neither CVE is in CISA KEV and EPSS is low (0.5% for each), but edge routers are frequent targets once exploit details circulate. The Vigor2960 is an older model and DrayTek's fix status is not fully clear, so patching may not be straightforward.",
+    "affected_versions": [
+     "DrayTek Vigor2960 up to 1.5.1.6"
+    ],
+    "fixed_versions": [
+     "DrayTek Vigor2960 1.5.1.7 (per NVD)"
+    ],
+    "recommended_actions": [
+     "Inventory all DrayTek Vigor2960 devices and confirm their firmware versions.",
+     "Remove internet and untrusted-network access to the Vigor2960 web management interface, or restrict it to a dedicated management network or allowlisted admin IPs.",
+     "Upgrade to firmware 1.5.1.7 or the latest DrayTek release, and track DrayTek's planned follow-up release, since the vendor's statement does not clearly confirm a complete fix.",
+     "If you cannot patch or restrict access, plan to replace the device with a supported model.",
+     "Review any device or upstream firewall logs for unusual requests to mainfunction.cgi from unexpected sources, and for unexplained reboots or configuration changes."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "CVE-2026-132141 (HIGH 8.6)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-132141",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-18T22:17:19.960Z"
+    },
+    {
+     "title": "CVE-2026-132142 (HIGH 8.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-132142",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-18T22:17:20.160Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Use Defender for Endpoint network device discovery (DeviceInfo) and your asset inventory to find DrayTek Vigor devices and record their firmware versions.",
+     "Check DeviceTvmSoftwareVulnerabilities for the two CVE IDs on any discovered network devices.",
+     "Verify from an external vantage point whether the Vigor2960 web management ports are reachable from the internet.",
+     "Review internal endpoint connections to the router's management interface over HTTP or HTTPS from hosts that are not admin workstations.",
+     "If firewall or proxy logs capture traffic to the device, look for requests to mainfunction.cgi with unusually long usefile or option parameters."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Discovered DrayTek Vigor network devices",
+      "kql": "DeviceInfo\n| where Timestamp > ago(30d)\n| where Vendor has \"DrayTek\" or Model has \"Vigor\"\n| summarize arg_max(Timestamp, *) by DeviceId\n| project Timestamp, DeviceName, DeviceType, Vendor, Model, OSVersion, PublicIP",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 60,
+        "hits": 0,
+        "tables": [
+         "DeviceInfo"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Devices flagged for CVE-2026-132141 or CVE-2026-132142",
+      "kql": "DeviceTvmSoftwareVulnerabilities\n| where CveId in (\"CVE-2026-132141\", \"CVE-2026-132142\")\n| project DeviceName, OSPlatform, SoftwareVendor, SoftwareName, SoftwareVersion, CveId, VulnerabilitySeverityLevel",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 0,
+        "hits": 0,
+        "tables": [
+         "DeviceTvmSoftwareVulnerabilities"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Endpoint connections to DrayTek device management ports",
+      "kql": "let draytek = DeviceInfo\n| where Timestamp > ago(30d)\n| where Vendor has \"DrayTek\" or Model has \"Vigor\"\n| mv-expand ip = parse_json(IPAddresses)\n| extend RemoteIP = tostring(ip.IPAddress)\n| where isnotempty(RemoteIP)\n| distinct RemoteIP;\nDeviceNetworkEvents\n| where Timestamp > ago(14d)\n| where RemotePort in (80, 443, 8080, 8443)\n| where RemoteIP in (draytek)\n| summarize Connections = count(), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by DeviceName, InitiatingProcessFileName, RemoteIP, RemotePort\n| order by Connections desc",
+      "validation": {
+       "status": "fail",
+       "messages": [
+        "Error KS142: The name 'IPAddresses' does not refer to any known column, table, variable or function."
+       ]
+      },
+      "receipt": {
+       "engine": "error",
+       "message": "General_BadRequest: Request is invalid and cannot be executed."
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-9",
+   "rank": 9,
+   "score": 37,
+   "factors": {
+    "exploitation": 28,
+    "prevalence": 4,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 5,
+    "sources": 0,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0072,
+    "cvss_max": 9.3
+   },
+   "title": "Shadowserver-observed exploitation of 12 older flaws in niche web apps, newly recorded by NVD",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "reported",
+    "prevalence": "niche",
+    "platform": "web_app",
+    "vendor": "",
+    "product": ""
+   },
+   "cves": [
+    {
+     "id": "CVE-2012-20007",
+     "cvss": 9.3,
+     "severity": "CRITICAL",
+     "products": [],
+     "epss": 0.00526,
+     "percentile": 0.45321,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2018-25443",
+     "cvss": 9.3,
+     "severity": "CRITICAL",
+     "products": [],
+     "epss": 0.00602,
+     "percentile": 0.496,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2012-20008",
+     "cvss": 8.7,
+     "severity": "HIGH",
+     "products": [],
+     "epss": 0.00594,
+     "percentile": 0.49217,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2018-25442",
+     "cvss": 6.9,
+     "severity": "MEDIUM",
+     "products": [],
+     "epss": 0.00249,
+     "percentile": 0.16387,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2019-25784",
+     "cvss": 8.8,
+     "severity": "HIGH",
+     "products": [],
+     "epss": 0.00248,
+     "percentile": 0.16332,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2019-25785",
+     "cvss": 8.7,
+     "severity": "HIGH",
+     "products": [],
+     "epss": 0.00389,
+     "percentile": 0.33786,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "On 18 November 2026 NVD published 12 CVE records for older vulnerabilities in niche web applications. They include ThinkPHP eval injection, Baidu UEditor arbitrary file upload and SSRF, FineCMS, Chamilo LMS, CmsEasy and Azon Dominator SQL injection, and path traversal or file inclusion in openSIS, FineReport, Synway SMG and LiveBOS, plus a Rocket.Chat flaw that exposes room messages without authorization. According to the NVD records, the Shadowserver Foundation first saw exploitation of most of these between October 2023 and July 2024, and of the Rocket.Chat flaw in February 2025. Most can be exploited without authentication; the exception is the openSIS file inclusion, which needs an authenticated user.",
+    "why_it_matters": "These applications are uncommon in typical Windows and M365 estates, but the one most relevant to Windows defenders is the UEditor .NET upload flaw (CVSS 9.3). It lets an attacker write an executable .aspx web shell to an IIS server, which leads to remote code execution. None of the CVEs is in CISA KEV and EPSS is low (roughly 0.2% to 0.6%), but exploitation has been observed since 2023, so any internet-facing instance should be treated as possibly compromised rather than only unpatched.",
+    "affected_versions": [
+     "ThinkPHP 2.0 through 2.2 and 3.0 Lite mode (CVE-2012-20007)",
+     "Baidu UEditor 1.4.0 through 1.4.3.3, .NET controller (CVE-2018-25443)",
+     "Baidu UEditor 1.4.0 before 1.4.3.1, JSP controller (CVE-2018-25442)",
+     "openSIS 5.1 before 9.0 (CVE-2012-20008)",
+     "FineCMS 5.0.4 before 5.0.11 (CVE-2019-25784)",
+     "FineReport 8.0 (CVE-2019-25785)",
+     "Chamilo LMS 1.11.10 before 1.11.16 (CVE-2021-48021)",
+     "Rocket.Chat 0.61.0 before 3.11.4, 3.12.x before 3.12.4, 3.13.x before 3.13.2 (CVE-2021-48022)",
+     "CmsEasy 7.7.5_20210919 (CVE-2022-51028)",
+     "Synway SMG Gateway Management Software builds through 2022-03-15 (CVE-2022-51029)"
+    ],
+    "fixed_versions": [
+     "openSIS 9.0",
+     "Baidu UEditor 1.4.3.1 (SSRF, CVE-2018-25442 only)",
+     "FineCMS 5.0.11",
+     "Chamilo LMS 1.11.16",
+     "Rocket.Chat 3.11.4, 3.12.4, 3.13.2"
+    ],
+    "recommended_actions": [
+     "Inventory internet-facing hosts for these applications, especially IIS servers that host a Baidu UEditor ueditor/net/controller.ashx handler, and remove or block public access where they are not needed.",
+     "On any UEditor host, look for unexpected .aspx, .ashx or .asmx files in UEditor upload directories and treat any you find as a web shell incident.",
+     "Upgrade to the fixed versions the sources state (openSIS 9.0, FineCMS 5.0.11, Chamilo LMS 1.11.16, Rocket.Chat 3.11.4, 3.12.4 or 3.13.2). For products with no stated fix (ThinkPHP 2.x/3.0 Lite, CmsEasy, FineReport 8.0, Synway SMG, LiveBOS, Azon Dominator, UEditor .NET upload), retire the product or…",
+     "Rotate admin credentials and database secrets for exposed FineReport, CmsEasy, FineCMS and Chamilo instances, because these flaws allow credential and database extraction.",
+     "Review web server logs since October 2023 for requests to the vulnerable endpoints the sources name, such as catchimage, down.php, ShowImage.do, ReportServer, extra_field.ajax.php and method.callAnon."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "CVE-2012-20007 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2012-20007",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-18T16:17:47.560Z"
+    },
+    {
+     "title": "CVE-2012-20008 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2012-20008",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-18T16:17:47.733Z"
+    },
+    {
+     "title": "CVE-2018-25442 (MEDIUM 6.9)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-25442",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-18T16:17:48.317Z"
+    },
+    {
+     "title": "CVE-2018-25443 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-25443",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-18T16:17:48.500Z"
+    },
+    {
+     "title": "CVE-2019-25784 (HIGH 8.8)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-25784",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-18T16:17:49.010Z"
+    },
+    {
+     "title": "CVE-2019-25785 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-25785",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-18T16:17:49.170Z"
+    },
+    {
+     "title": "CVE-2021-48021 (HIGH 8.8)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-48021",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-18T16:17:50.097Z"
+    },
+    {
+     "title": "CVE-2021-48022 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-48022",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-18T16:17:50.593Z"
+    }
+   ],
+   "detection": {
+    "type": "behavioral",
+    "sigma": {
+     "origin": "ai",
+     "title": "IIS Worker Process Writes Script File Into Baidu UEditor Directory",
+     "url": null,
+     "yaml": "title: IIS Worker Process Writes Script File Into Baidu UEditor Directory\nid: 237bb827-c9f0-50a5-971e-427132c233ff\nstatus: experimental\ndescription: Detects w3wp.exe creating ASP.NET executable files under a UEditor directory. This is consistent with web shell placement via the UEditor catchimage arbitrary file upload (CVE-2018-25443). AI-generated, untested.\nreferences:\n- https://nvd.nist.gov/vuln/detail/CVE-2012-20007\n- https://nvd.nist.gov/vuln/detail/CVE-2012-20008\n- https://nvd.nist.gov/vuln/detail/CVE-2018-25442\n- https://nvd.nist.gov/vuln/detail/CVE-2018-25443\n- https://nvd.nist.gov/vuln/detail/CVE-2019-25784\n- https://nvd.nist.gov/vuln/detail/CVE-2019-25785\nauthor: intel-brief (AI-generated, untested)\ndate: '2026-11-19'\ntags:\n- attack.t1190\n- attack.persistence\n- attack.t1505.003\n- cve.2012-20007\n- cve.2018-25443\n- cve.2012-20008\n- cve.2018-25442\n- cve.2019-25784\n- cve.2019-25785\n- cve.2021-48021\n- cve.2021-48022\n- cve.2022-51028\n- cve.2022-51029\n- cve.2023-54420\n- cve.2024-58402\nlogsource:\n  product: windows\n  category: file_event\ndetection:\n  selection_proc:\n    Image|endswith: \\w3wp.exe\n  selection_path:\n    TargetFilename|contains: \\ueditor\\\n    TargetFilename|endswith:\n    - .aspx\n    - .ashx\n    - .asmx\n    - .asp\n    - .cer\n    - .config\n  condition: selection_proc and selection_path\nfalsepositives:\n- Application deployments or updates performed through the IIS worker process\nlevel: high\n",
+     "check": {
+      "status": "pass",
+      "messages": [
+       "No rule errors found.",
+       "No condition errors found.",
+       "No validation issues found.",
+       "Parsing Sigma rules",
+       "Checking Sigma rules"
+      ]
+     },
+     "conversions": {
+      "kql": {
+       "label": "Defender XDR / Sentinel KQL",
+       "query": "DeviceFileEvents\n| where InitiatingProcessFolderPath endswith \"\\\\w3wp.exe\" and (FolderPath contains \"\\\\ueditor\\\\\" and (FolderPath endswith \".aspx\" or FolderPath endswith \".ashx\" or FolderPath endswith \".asmx\" or FolderPath endswith \".asp\" or FolderPath endswith \".cer\" or FolderPath endswith \".config\"))",
+       "error": null,
+       "validation": {
+        "status": "pass",
+        "messages": []
+       },
+       "receipt": {
+        "engine": "ran",
+        "baseline": {
+         "events": 150,
+         "hits": 0,
+         "tables": [
+          "DeviceFileEvents"
+         ]
+        },
+        "cases": {
+         "status": "pass",
+         "positive": 7,
+         "positive_fired": 7,
+         "negative": 4,
+         "negative_fired": 0,
+         "disagreements": [],
+         "skipped": 0
+        }
+       }
+      },
+      "spl": {
+       "label": "Splunk SPL",
+       "query": "Image=\"*\\\\w3wp.exe\" TargetFilename=\"*\\\\ueditor\\\\*\" TargetFilename IN (\"*.aspx\", \"*.ashx\", \"*.asmx\", \"*.asp\", \"*.cer\", \"*.config\")",
+       "error": null
+      },
+      "elastic": {
+       "label": "Elastic (Lucene, ECS)",
+       "query": "process.executable.caseless:*\\\\w3wp.exe AND (file.path:*\\\\ueditor\\\\* AND (file.path:(*.aspx OR *.ashx OR *.asmx OR *.asp OR *.cer OR *.config)))",
+       "error": null
+      }
+     }
+    },
+    "hunting_steps": [
+     "Use Defender Vulnerability Management to identify devices that report any of the listed CVEs.",
+     "Find IIS servers with UEditor installed by searching file events for paths containing ueditor and controller.ashx.",
+     "Hunt for w3wp.exe writing script-capable files (.aspx, .ashx, .asmx) under UEditor directories.",
+     "Check whether w3wp.exe on those servers spawned command interpreters, which would indicate a web shell is in use.",
+     "Review web server or WAF logs for requests to catchimage, down.php, ShowImage.do, WebReport/ReportServer and method.callAnon that contain traversal sequences or unusual parameters.",
+     "For confirmed hits, isolate the host, collect the dropped files and rotate the application and database credentials."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Devices exposed to the Shadowserver-reported web app CVEs",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where CveId in ('CVE-2012-20007','CVE-2018-25443','CVE-2012-20008','CVE-2018-25442','CVE-2019-25784','CVE-2019-25785','CVE-2021-48021','CVE-2021-48022','CVE-2022-51028','CVE-2022-51029','CVE-2023-54420','CVE-2024-58402') | summarize CVEs = make_set(CveId) by DeviceName, SoftwareName, SoftwareVersion",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 0,
+        "hits": 0,
+        "tables": [
+         "DeviceTvmSoftwareVulnerabilities"
+        ]
+       }
+      }
+     },
+     {
+      "title": "IIS worker writing script files into UEditor directories",
+      "kql": "DeviceFileEvents | where Timestamp > ago(30d) | where InitiatingProcessFileName =~ 'w3wp.exe' | where FolderPath has 'ueditor' | where FileName endswith '.aspx' or FileName endswith '.ashx' or FileName endswith '.asmx' or FileName endswith '.asp' | project Timestamp, DeviceName, ActionType, FolderPath, FileName, SHA256, InitiatingProcessCommandLine",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 150,
+        "hits": 0,
+        "tables": [
+         "DeviceFileEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Web server processes spawning command shells",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where InitiatingProcessFileName in~ ('w3wp.exe','php-cgi.exe','php.exe','httpd.exe','java.exe') | where FileName in~ ('cmd.exe','powershell.exe','pwsh.exe','whoami.exe','certutil.exe','net.exe') | project Timestamp, DeviceName, InitiatingProcessFileName, FileName, ProcessCommandLine, AccountName",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-10",
+   "rank": 10,
+   "score": 35,
+   "factors": {
+    "exploitation": 28,
+    "prevalence": 4,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Apache patches critical Roller remote code execution flaw reported as exploited",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "reported",
+    "prevalence": "niche",
+    "platform": "web_app",
+    "vendor": "Apache",
+    "product": "Roller"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "BleepingComputer reported on 18 November 2026 that Apache has released security updates for a critical flaw in Apache Roller, the Java-based blog server. According to the report, threat actors are exploiting the flaw to gain code execution on vulnerable servers. The available reporting does not name a CVE, the affected or fixed versions, or technical details of the vulnerability.",
+    "why_it_matters": "Any internet-facing Roller instance should be treated as a potential compromise target, because exploitation is reported as active and successful attacks give code execution on the host running the Java servlet container. Roller is a niche product, so many teams may not know they run it. Missing version and CVE details mean you need to confirm exposure yourself from the Apache advisory.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory all Apache Roller deployments, including those hosted on Tomcat or other servlet containers, and prioritize internet-facing ones.",
+     "Apply the security update from the Apache Roller project advisory; if you cannot patch right away, remove public access to the instance or place it behind authentication.",
+     "Hunt on Roller hosts for the Java or servlet container process spawning shells, script interpreters or download utilities, and for new JSP or other script files written under web application directories.",
+     "If suspicious activity is found, isolate the host, preserve logs, and rotate credentials stored on or used by the Roller server, including database and admin accounts."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Apache warns of Roller RCE vulnerability exploited in attacks",
+     "url": "https://www.bleepingcomputer.com/news/security/apache-warns-of-roller-rce-vulnerability-exploited-in-attacks/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-18T10:35:05Z"
+    }
+   ],
+   "detection": {
+    "type": "behavioral",
+    "sigma": {
+     "origin": "ai",
+     "title": "Shell or LOLBin Spawned by Java Servlet Container Possible Roller Exploitation",
+     "url": null,
+     "yaml": "title: Shell or LOLBin Spawned by Java Servlet Container Possible Roller Exploitation\nid: 9209676d-dbbd-5c46-b77b-70e8e1cc3367\nstatus: experimental\ndescription: Detects a Java servlet container process such as Tomcat or Jetty spawning command shells, script interpreters or common download utilities, which is typical post-exploitation behavior after remote code execution in a Java web application such as Apache Roller. AI-generated, untested.\nreferences:\n- https://www.bleepingcomputer.com/news/security/apache-warns-of-roller-rce-vulnerability-exploited-in-attacks/\nauthor: intel-brief (AI-generated, untested)\ndate: '2026-11-19'\ntags:\n- attack.t1190\n- attack.execution\n- attack.t1059\n- attack.persistence\n- attack.t1505.003\nlogsource:\n  product: windows\n  category: process_creation\ndetection:\n  selection_parent:\n    ParentImage|endswith:\n    - \\java.exe\n    - \\javaw.exe\n    - \\tomcat.exe\n    - \\tomcat8.exe\n    - \\tomcat9.exe\n    - \\tomcat10.exe\n  selection_parent_cmd:\n    ParentCommandLine|contains:\n    - catalina\n    - tomcat\n    - jetty\n    - roller\n  selection_child:\n    Image|endswith:\n    - \\cmd.exe\n    - \\powershell.exe\n    - \\pwsh.exe\n    - \\whoami.exe\n    - \\certutil.exe\n    - \\bitsadmin.exe\n    - \\curl.exe\n    - \\mshta.exe\n    - \\rundll32.exe\n    - \\net.exe\n    - \\net1.exe\n    - \\nltest.exe\n  condition: selection_parent and selection_parent_cmd and selection_child\nfalsepositives:\n- Administrative or startup scripts launched by Tomcat or other servlet containers\n- Legitimate web applications that call operating system commands\nlevel: medium\n",
+     "check": {
+      "status": "pass",
+      "messages": [
+       "No rule errors found.",
+       "No condition errors found.",
+       "No validation issues found.",
+       "Parsing Sigma rules",
+       "Checking Sigma rules"
+      ]
+     },
+     "conversions": {
+      "kql": {
+       "label": "Defender XDR / Sentinel KQL",
+       "query": "DeviceProcessEvents\n| where (InitiatingProcessFolderPath endswith \"\\\\java.exe\" or InitiatingProcessFolderPath endswith \"\\\\javaw.exe\" or InitiatingProcessFolderPath endswith \"\\\\tomcat.exe\" or InitiatingProcessFolderPath endswith \"\\\\tomcat8.exe\" or InitiatingProcessFolderPath endswith \"\\\\tomcat9.exe\" or InitiatingProcessFolderPath endswith \"\\\\tomcat10.exe\") and (InitiatingProcessCommandLine contains \"catalina\" or InitiatingProcessCommandLine contains \"tomcat\" or InitiatingProcessCommandLine contains \"jetty\" or InitiatingProcessCommandLine contains \"roller\") and (FolderPath endswith \"\\\\cmd.exe\" or FolderPath endswith \"\\\\powershell.exe\" or FolderPath endswith \"\\\\pwsh.exe\" or FolderPath endswith \"\\\\whoami.exe\" or FolderPath endswith \"\\\\certutil.exe\" or FolderPath endswith \"\\\\bitsadmin.exe\" or FolderPath endswith \"\\\\curl.exe\" or FolderPath endswith \"\\\\mshta.exe\" or FolderPath endswith \"\\\\rundll32.exe\" or FolderPath endswith \"\\\\net.exe\" or FolderPath endswith \"\\\\net1.exe\" or FolderPath endswith \"\\\\nltest.exe\")",
+       "error": null,
+       "validation": {
+        "status": "pass",
+        "messages": []
+       },
+       "receipt": {
+        "engine": "ran",
+        "baseline": {
+         "events": 500,
+         "hits": 0,
+         "tables": [
+          "DeviceProcessEvents"
+         ]
+        },
+        "cases": {
+         "status": "pass",
+         "positive": 41,
+         "positive_fired": 41,
+         "negative": 6,
+         "negative_fired": 0,
+         "disagreements": [],
+         "skipped": 0
+        }
+       }
+      },
+      "spl": {
+       "label": "Splunk SPL",
+       "query": "ParentImage IN (\"*\\\\java.exe\", \"*\\\\javaw.exe\", \"*\\\\tomcat.exe\", \"*\\\\tomcat8.exe\", \"*\\\\tomcat9.exe\", \"*\\\\tomcat10.exe\") ParentCommandLine IN (\"*catalina*\", \"*tomcat*\", \"*jetty*\", \"*roller*\") Image IN (\"*\\\\cmd.exe\", \"*\\\\powershell.exe\", \"*\\\\pwsh.exe\", \"*\\\\whoami.exe\", \"*\\\\certutil.exe\", \"*\\\\bitsadmin.exe\", \"*\\\\curl.exe\", \"*\\\\mshta.exe\", \"*\\\\rundll32.exe\", \"*\\\\net.exe\", \"*\\\\net1.exe\", \"*\\\\nltest.exe\")",
+       "error": null
+      },
+      "elastic": {
+       "label": "Elastic (Lucene, ECS)",
+       "query": "(process.parent.executable.caseless:(*\\\\java.exe OR *\\\\javaw.exe OR *\\\\tomcat.exe OR *\\\\tomcat8.exe OR *\\\\tomcat9.exe OR *\\\\tomcat10.exe)) AND (process.parent.command_line:(*catalina* OR *tomcat* OR *jetty* OR *roller*)) AND (process.executable.caseless:(*\\\\cmd.exe OR *\\\\powershell.exe OR *\\\\pwsh.exe OR *\\\\whoami.exe OR *\\\\certutil.exe OR *\\\\bitsadmin.exe OR *\\\\curl.exe OR *\\\\mshta.exe OR *\\\\rundll32.exe OR *\\\\net.exe OR *\\\\net1.exe OR *\\\\nltest.exe))",
+       "error": null
+      }
+     }
+    },
+    "hunting_steps": [
+     "Identify hosts running Apache Roller by searching process command lines and file paths for roller references within servlet container installs.",
+     "On those hosts, review child processes of java, javaw or tomcat service processes for shells, PowerShell, sh or bash, and reconnaissance or download tools since early November 2026.",
+     "Look for new or modified JSP, JSPX or class files under webapps directories written by the servlet container process, which may indicate web shells.",
+     "Review outbound network connections from the servlet container process to unusual external hosts.",
+     "Check Roller and servlet container access logs for unusual requests or errors preceding any suspicious process activity."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Hosts with Apache Roller referenced in Java process command lines",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where FileName in~ (\"java.exe\",\"javaw.exe\",\"java\") or InitiatingProcessFileName in~ (\"java.exe\",\"javaw.exe\",\"java\") | where ProcessCommandLine has \"roller\" or InitiatingProcessCommandLine has \"roller\" or FolderPath has \"roller\" | summarize FirstSeen=min(Timestamp), LastSeen=max(Timestamp) by DeviceName, DeviceId",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Shells and LOLBins spawned by Java servlet container processes",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(14d) | where InitiatingProcessFileName in~ (\"java.exe\",\"javaw.exe\",\"java\",\"tomcat.exe\",\"tomcat9.exe\",\"tomcat10.exe\") | where FileName in~ (\"cmd.exe\",\"powershell.exe\",\"pwsh.exe\",\"whoami.exe\",\"certutil.exe\",\"bitsadmin.exe\",\"curl.exe\",\"mshta.exe\",\"rundll32.exe\",\"sh\",\"bash\",\"dash\",\"wget\",\"curl\",\"whoami\",\"id\",\"uname\") | project Timestamp, DeviceName, AccountName, InitiatingProcessCommandLine, FileName, ProcessCommandLine | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Script files written to web app directories by Java processes",
+      "kql": "DeviceFileEvents | where Timestamp > ago(14d) | where InitiatingProcessFileName in~ (\"java.exe\",\"javaw.exe\",\"java\",\"tomcat9.exe\",\"tomcat10.exe\") | where ActionType in (\"FileCreated\",\"FileModified\") | where FileName endswith \".jsp\" or FileName endswith \".jspx\" or FileName endswith \".war\" | where FolderPath has \"webapps\" | project Timestamp, DeviceName, FolderPath, FileName, InitiatingProcessCommandLine | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 150,
+        "hits": 0,
+        "tables": [
+         "DeviceFileEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  }
+ ],
+ "more_stories": [
+  {
+   "title": "ClamAV fixes multiple denial-of-service flaws in file parsers",
+   "score": 26,
+   "cves": [
+    "CVE-2026-76411",
+    "CVE-2026-76414",
+    "CVE-2026-76415"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-76411 (HIGH 7.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-76411",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-76414 (HIGH 7.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-76414",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-76415 (HIGH 7.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-76415",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Incus before 7.6.0 fixes auth bypass and host privilege escalation flaws",
+   "score": 17,
+   "cves": [
+    "CVE-2026-130778",
+    "CVE-2026-130786",
+    "CVE-2026-130770"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-130778 (CRITICAL 10.0)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-130778",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-130786 (CRITICAL 9.4)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-130786",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-130770 (CRITICAL 9.2)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-130770",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "CVE-2026-99312 drawing social media discussion; no advisory in collected items",
+   "score": 12,
+   "cves": [
+    "CVE-2026-99312"
+   ],
+   "sources": []
+  },
+  {
+   "title": "CVE-2026-123633 drawing social media discussion; no advisory in collected items",
+   "score": 12,
+   "cves": [
+    "CVE-2026-123633"
+   ],
+   "sources": []
+  },
+  {
+   "title": "Talos: defending against blockchain-based dead drop C2 on public ledgers",
+   "score": 11,
+   "cves": [],
+   "sources": [
+    {
+     "title": "The challenge of defending against bulletproof dead drops on public blockchains",
+     "url": "https://blog.talosintelligence.com/the-challenge-of-defending-against-bulletproof-dead-drops-on-public-blockchains/",
+     "source": "Cisco Talos"
+    }
+   ]
+  },
+  {
+   "title": "Grav before 2.2.18 fixes multiple authorization bypass and privilege escalation flaws",
+   "score": 9,
+   "cves": [
+    "CVE-2026-130733",
+    "CVE-2026-130737",
+    "CVE-2026-130741"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-130733 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-130733",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-130737 (HIGH 8.6)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-130737",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-130741 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-130741",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "SiYuan before 3.8.10 fixes stored XSS and file write flaws enabling command execution",
+   "score": 9,
+   "cves": [
+    "CVE-2026-130679",
+    "CVE-2026-130683"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-130679 (CRITICAL 9.4)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-130679",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-130683 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-130683",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Craft CMS CVE-2026-130675 allows remote code execution via image transforms",
+   "score": 9,
+   "cves": [
+    "CVE-2026-130675"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-130675 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-130675",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "LaraDashboard authentication bypass CVE-2026-130754 allows login as any user",
+   "score": 9,
+   "cves": [
+    "CVE-2026-130754"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-130754 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-130754",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "NocoDB releases fix SQL injection, template injection and authorization bypass flaws",
+   "score": 4,
+   "cves": [
+    "CVE-2026-130701",
+    "CVE-2026-130709",
+    "CVE-2026-130721"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-130701 (HIGH 7.2)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-130701",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-130709 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-130709",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-130721 (HIGH 7.2)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-130721",
+     "source": "NVD"
+    }
+   ]
+  }
+ ],
+ "kev_new": [
+  {
+   "cve": "CVE-2024-10441",
+   "vendor": "Synology",
+   "product": "DiskStation Manager (DSM)",
+   "name": "Synology DiskStation Manager (DSM) Improper Encoding or Escaping of Output Vulnerability",
+   "date_added": "2026-11-18",
+   "due_date": "2026-11-21",
+   "ransomware": "Unknown",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-10441"
+  },
+  {
+   "cve": "CVE-2026-40217",
+   "vendor": "BerriAI",
+   "product": "LiteLLM",
+   "name": "BerriAI LiteLLM Unprotected Alternate Channel Vulnerability",
+   "date_added": "2026-11-18",
+   "due_date": "2026-12-02",
+   "ransomware": "Unknown",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-40217"
+  },
+  {
+   "cve": "CVE-2026-90817",
+   "vendor": "Vanderbilt University",
+   "product": "Research Electronic Data Capture (REDCap)",
+   "name": "Vanderbilt University Research Electronic Data Capture (REDCap) Code Injection Vulnerability",
+   "date_added": "2026-11-18",
+   "due_date": "2026-11-21",
+   "ransomware": "Unknown",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-90817"
+  },
+  {
+   "cve": "CVE-2026-90436",
+   "vendor": "Apache",
+   "product": "Axis",
+   "name": "Apache Axis Unsafe Reflection Vulnerability",
+   "date_added": "2026-11-18",
+   "due_date": "2026-11-21",
+   "ransomware": "Unknown",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-90436"
+  }
+ ],
+ "early_signals": [
+  {
+   "cve": "CVE-2026-99312",
+   "authors": 5,
+   "platforms": [
+    "Hacker News"
+   ],
+   "posts": [
+    {
+     "url": "https://news.ycombinator.com/item?id=50548004",
+     "platform": "Hacker News",
+     "account": "@Kozmik1",
+     "published": "2026-11-18T16:06:21Z"
+    },
+    {
+     "url": "https://news.ycombinator.com/item?id=50552404",
+     "platform": "Hacker News",
+     "account": "@immibis2",
+     "published": "2026-11-18T21:32:13Z"
+    },
+    {
+     "url": "https://news.ycombinator.com/item?id=50550342",
+     "platform": "Hacker News",
+     "account": "@JeremyNT",
+     "published": "2026-11-18T18:44:37Z"
+    },
+    {
+     "url": "https://news.ycombinator.com/item?id=50549654",
+     "platform": "Hacker News",
+     "account": "@adverbly",
+     "published": "2026-11-18T17:56:21Z"
+    },
+    {
+     "url": "https://news.ycombinator.com/item?id=50548692",
+     "platform": "Hacker News",
+     "account": "@ArcHound",
+     "published": "2026-11-18T16:56:21Z"
+    }
+   ],
+   "first_seen": "2026-11-18T16:06:21Z",
+   "epss": {
+    "epss": 0.00187,
+    "percentile": 0.08393
+   },
+   "vendor_advisory": false,
+   "nvd": {
+    "cvss": 8.8,
+    "severity": "HIGH",
+    "products": [],
+    "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nKVM: x86: Unconditionally reset MMU context when emulating INIT\n\nForce an MMU reset when emulating an INIT even if paging was already\ndisabled, as the MMU page role includes guest_mode (L2), i.e. an INIT while\nL2 is running with CR…"
+   },
+   "poc": []
+  },
+  {
+   "cve": "CVE-2026-123633",
+   "authors": 4,
+   "platforms": [
+    "Hacker News"
+   ],
+   "posts": [
+    {
+     "url": "https://news.ycombinator.com/item?id=50547374",
+     "platform": "Hacker News",
+     "account": "@speedping",
+     "published": "2026-11-18T15:19:55Z"
+    },
+    {
+     "url": "https://news.ycombinator.com/item?id=50555568",
+     "platform": "Hacker News",
+     "account": "@dathery",
+     "published": "2026-11-19T03:09:51Z"
+    },
+    {
+     "url": "https://news.ycombinator.com/item?id=50553325",
+     "platform": "Hacker News",
+     "account": "@karel-3d",
+     "published": "2026-11-18T22:38:00Z"
+    },
+    {
+     "url": "https://news.ycombinator.com/item?id=50551026",
+     "platform": "Hacker News",
+     "account": "@MrDOS",
+     "published": "2026-11-18T19:38:18Z"
+    }
+   ],
+   "first_seen": "2026-11-18T15:19:55Z",
+   "epss": {
+    "epss": 0.06532,
+    "percentile": 0.9393
+   },
+   "vendor_advisory": false,
+   "nvd": {
+    "cvss": 9.2,
+    "severity": "CRITICAL",
+    "products": [],
+    "description": "When NGINX Plus or NGINX Open Source is configured to use HTTP/2 for client connections and proxy client requests to a backend, a specially crafted request can result in use-after-free in the worker process, if this process is running low on worker_connections. Additionally, attackers can execute co…"
+   },
+   "poc": [
+    {
+     "url": "https://github.com/Ghost-Bx1/nginx-exploits",
+     "name": "Ghost-Bx1/nginx-exploits",
+     "stars": 11,
+     "created": "2026-11-18"
+    },
+    {
+     "url": "https://github.com/LLCForge/CVE-2026-123633",
+     "name": "LLCForge/CVE-2026-123633",
+     "stars": 0,
+     "created": "2026-11-18"
+    },
+    {
+     "url": "https://github.com/Quaerendir/cve-2026-123633-123007-nginx-audit",
+     "name": "Quaerendir/cve-2026-123633-123007-nginx-audit",
+     "stars": 0,
+     "created": "2026-11-18"
+    }
+   ]
+  }
+ ],
+ "explainer": {
+  "concept": "Blockchain dead drops: hiding C2 addresses on public ledgers",
+  "dek": "A blockchain dead drop is a command-and-control technique in which malware reads its next server address from data stored on a public blockchain, so defenders cannot take it down or edit it.",
+  "why_today": "Cisco Talos reports that UAT-12643's Overlord RAT pulls encrypted C2 addresses from Solana transaction memos, and Talos published separate research on why these on-chain dead drops are hard to disrupt.",
+  "related_story_ids": [
+   "story-6"
+  ],
+  "parts": [
+   {
+    "heading": "How a dead drop resolver works",
+    "paragraphs": [
+     "A dead drop resolver separates the malware from its real C2 server. The implant does not hardcode the server address. It contacts a legitimate, trusted service, reads a value the operator placed there, and decodes that value into the current C2 address. MITRE ATT&CK tracks this as Dead Drop Resolver (T1102.001) under Web Service.",
+     "For years the drop sat on platforms such as paste sites, social media profiles or code repositories. Those can be reported and removed. Public blockchains remove that option. Data written to a ledger cannot be deleted, no provider can suspend it, and anyone can read it.",
+     "Talos describes several on-chain variants: Bitcoin transaction data, EVM smart contracts (the approach publicly called EtherHiding), TRON wallets, and Solana memos. On Solana, the Memo program attaches arbitrary text to a transaction. An operator writes an encrypted address into a memo sent from a wallet they control, and the malware queries that wallet's recent transactions to find it."
+    ]
+   },
+   {
+    "heading": "What the attacker gains",
+    "paragraphs": [
+     "The main gain is resilience. If defenders sinkhole or seize a C2 server, the operator sends one new transaction with a fresh address, and every infected host picks it up on its next lookup. Neither the implant nor the existing infections need to change.",
+     "Reading the drop is a read-only query to a public RPC node or a block explorer API. It usually costs the malware nothing and needs no wallet. The traffic goes to infrastructure that many organizations never block, often over HTTPS to large shared providers. Encrypting the memo also means a defender who reads the chain sees only an opaque string unless they have recovered the key from a sample."
+    ]
+   },
+   {
+    "heading": "What it looks like in telemetry",
+    "paragraphs": [
+     "The lookup itself is the best detection point, because the real C2 address changes and the resolver does not. Watch for processes that have no reason to talk to blockchains making DNS queries or HTTPS connections to public RPC endpoints or explorer APIs. Examples include script interpreters, freshly dropped binaries in user-writable paths, installers, and Go or Python executables with no known publisher. Shortly after, the same process typically connects to an address that was never seen in DNS beforehand.",
+     "In Defender XDR, DeviceNetworkEvents and DeviceEvents with DNS query data let you group blockchain-related destinations by InitiatingProcessFileName, folder path and signer. On most corporate endpoints, browsers and approved crypto or developer tools are the only expected callers. Treat anything else as worth triage, especially if it was launched from an installer or document lure like those Talos describes."
+    ]
+   },
+   {
+    "heading": "Why takedowns fail, and what still works",
+    "paragraphs": [
+     "You cannot remove the record, and blocking a single wallet only helps until the operator moves to a new one. Blocking all blockchain RPC traffic may be acceptable on general user endpoints but can break legitimate workloads elsewhere, so scope it by device role.",
+     "Durable controls work around the drop rather than against it. Block the initial execution, through application control and attack surface reduction rules that stop unsigned binaries from user-writable paths. Alert on the resolver behavior described above. Use the operator wallet as a hunting pivot: once a sample reveals which wallet it reads, threat intelligence teams can watch that wallet for new memos and learn about new C2 addresses as soon as the operator publishes them."
+    ]
+   }
+  ],
+  "takeaways": [
+   "Build a Defender XDR hunting query that flags non-browser, unsigned or user-path processes resolving or connecting to public blockchain RPC and explorer domains, and baseline which tools legitimately do so.",
+   "Where the business has no blockchain use, block or alert on blockchain RPC and explorer categories at the web proxy or DNS layer for standard user endpoints.",
+   "Correlate a blockchain lookup with a follow-on connection from the same process to a raw IP or newly seen domain within minutes; that pair is a strong dead drop signal.",
+   "Enforce application control or ASR rules that block executables launched from Downloads, Temp and AppData, which stops trojanized installers like the fake Viber and MicroSIP payloads Talos describes.",
+   "When a sample is recovered, extract the wallet it reads and add it to threat intelligence monitoring so new C2 addresses are detected when published."
+  ],
+  "unsupported_cves": [],
+  "model": "claude-opus-5-5"
+ },
+ "good_news": [
+  {
+   "headline": "Ukrainian police and FBI arrest four suspected ransomware gang members",
+   "summary": "BleepingComputer reports that Ukrainian authorities, working with the FBI, arrested four suspected members of an international ransomware organization. The group is linked to more than $40.5 million in ransom payments from at least 28 companies worldwide.",
+   "kind": "arrest_or_sentencing",
+   "sources": [
+    {
+     "title": "Ukraine, FBI arrest ransomware gang members tied to $40M in ransoms",
+     "url": "https://www.bleepingcomputer.com/news/security/ukraine-fbi-arrest-ransomware-gang-members-tied-to-40m-in-ransoms/",
+     "source": "BleepingComputer",
+     "published": "2026-11-18T23:08:33Z"
+    }
+   ],
+   "unsupported_cves": [],
+   "model": "claude-opus-5-5"
+  },
+  {
+   "headline": "Coinbase blocks $4.7 million in transfers to Elon Musk deepfake giveaway scam",
+   "summary": "BleepingComputer reports that Coinbase says it blocked $4.7 million in cryptocurrency transfers to scammers running a fake giveaway. The scam used an AI-generated deepfake of Elon Musk during a Tesla livestream that drew more than 500,000 viewers.",
+   "kind": "other",
+   "sources": [
+    {
+     "title": "Coinbase blocks $4.7 million in transfers to Elon Musk deepfake scam",
+     "url": "https://www.bleepingcomputer.com/news/security/coinbase-blocks-47-million-in-transfers-to-elon-musk-deepfake-scam/",
+     "source": "BleepingComputer",
+     "published": "2026-11-18T20:49:32Z"
+    }
+   ],
+   "unsupported_cves": [],
+   "model": "claude-opus-5-5"
+  },
+  {
+   "headline": "SANS ISC diary shows how to run honeypot analysis with version control and AI review",
+   "summary": "A SANS Internet Storm Center guest diary describes managing honeypot analysis like code, using Git, pull requests and a human approval step for AI-assisted work. The author argues this makes it clear where each finding came from and what changed between drafts.",
+   "kind": "research",
+   "sources": [
+    {
+     "title": "Treat Your Honeypot Analysis Like Code: Git, Pull Requests and a Human Gate for AI [Guest Diary], (Wed, Nov 18th)",
+     "url": "https://isc.sans.edu/diary/rss/33534",
+     "source": "SANS ISC",
+     "published": "2026-11-19T01:53:48Z"
+    }
+   ],
+   "unsupported_cves": [],
+   "model": "claude-opus-5-5"
+  }
+ ],
+ "explainer_status": "ok",
+ "sources_status": {
+  "CISA KEV": "ok 4",
+  "NVD": "ok 48",
+  "BleepingComputer": "ok 7",
+  "The Record": "ok 0",
+  "The DFIR Report": "ok 0",
+  "Cisco Talos": "ok 2",
+  "Unit 42": "ok 0",
+  "Microsoft Security Blog": "ok 0",
+  "SANS ISC": "ok 3",
+  "Huntress": "ok 1",
+  "watchTowr Labs": "ok 0",
+  "Rapid7": "ok 2",
+  "SecurityWeek": "ok 0",
+  "Krebs on Security": "ok 0",
+  "CISA Advisories": "ok 1",
+  "MSRC Security Update Guide": "ok 1",
+  "Bluesky": "ok 0",
+  "Mastodon": "ok 0",
+  "r/netsec": "error FetchError: 404 https://www.reddit.com/r/netsec/new/.rss",
+  "Hacker News": "ok 20",
+  "SigmaHQ new rules": "ok 0",
+  "EPSS": "ok 65"
+ },
+ "stats": {
+  "items": {
+   "news": 15,
+   "advisory": 2,
+   "kev": 4,
+   "nvd": 48,
+   "social": 20,
+   "sigma": 0
+  },
+  "stories_found": 20,
+  "kql_parser": "available",
+  "receipts": {
+   "status": "ran",
+   "engine": "Kusto emulator 1.0.9810.23682",
+   "baseline_events": 1338,
+   "baseline_seed": 20261110
+  }
+ }
+}

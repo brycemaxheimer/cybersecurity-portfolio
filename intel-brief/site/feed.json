@@ -12,6 +12,93 @@
  "language": "en-US",
  "items": [
   {
+   "id": "https://intel.brycemaxheimer.com/editions/2026-11-19/",
+   "url": "https://intel.brycemaxheimer.com/editions/2026-11-19/",
+   "title": "Daily Intel Brief: 2026-11-19",
+   "content_text": "1. CISA adds exploited Synology, LiteLLM, Apache Axis and REDCap code execution flaws to KEV\n2. Reported attack on IT provider Wellington IT exposes member data of Irish credit unions\n3. Ukraine and FBI arrest four suspected ransomware gang members linked to $40.5M in ransoms\n4. Microsoft revises CVSS score and FAQ for AD DS elevation-of-privilege flaw CVE-2026-118148\n5. Two malicious versions of Microsoft's Agent Framework PyPI package stole cloud credentials\n6. Cisco Talos tracks UAT-12643 infostealer campaign using Solana blockchain for C2 resilience\n7. Critical NGINX HTTP/2 integer underflow CVE-2026-123007 enables unauthenticated RCE\n8. DrayTek Vigor2960 firmware up to 1.5.1.6 has two remotely triggerable stack overflows\n9. Shadowserver-observed exploitation of 12 older flaws in niche web apps, newly recorded by NVD\n10. Apache patches critical Roller remote code execution flaw reported as exploited\nNew KEV entries: CVE-2024-10441, CVE-2026-40217, CVE-2026-90817, CVE-2026-90436\nEarly signals: CVE-2026-99312, CVE-2026-123633\nExplainer: Blockchain dead drops: hiding C2 addresses on public ledgers\nGood news: Ukrainian police and FBI arrest four suspected ransomware gang members\nGood news: Coinbase blocks $4.7 million in transfers to Elon Musk deepfake giveaway scam\nGood news: SANS ISC diary shows how to run honeypot analysis with version control and AI review",
+   "date_published": "2026-11-19T19:06:10Z",
+   "_intel_brief": {
+    "data": "https://intel.brycemaxheimer.com/editions/2026-11-19/edition.json",
+    "stories": [
+     {
+      "title": "CISA adds exploited Synology, LiteLLM, Apache Axis and REDCap code execution flaws to KEV",
+      "cves": [
+       "CVE-2024-10441",
+       "CVE-2026-40217",
+       "CVE-2026-90817",
+       "CVE-2026-90436"
+      ],
+      "score": 71
+     },
+     {
+      "title": "Reported attack on IT provider Wellington IT exposes member data of Irish credit unions",
+      "cves": [],
+      "score": 51
+     },
+     {
+      "title": "Ukraine and FBI arrest four suspected ransomware gang members linked to $40.5M in ransoms",
+      "cves": [],
+      "score": 51
+     },
+     {
+      "title": "Microsoft revises CVSS score and FAQ for AD DS elevation-of-privilege flaw CVE-2026-118148",
+      "cves": [
+       "CVE-2026-118148"
+      ],
+      "score": 48
+     },
+     {
+      "title": "Two malicious versions of Microsoft's Agent Framework PyPI package stole cloud credentials",
+      "cves": [],
+      "score": 47
+     },
+     {
+      "title": "Cisco Talos tracks UAT-12643 infostealer campaign using Solana blockchain for C2 resilience",
+      "cves": [],
+      "score": 47
+     },
+     {
+      "title": "Critical NGINX HTTP/2 integer underflow CVE-2026-123007 enables unauthenticated RCE",
+      "cves": [
+       "CVE-2026-123007"
+      ],
+      "score": 45
+     },
+     {
+      "title": "DrayTek Vigor2960 firmware up to 1.5.1.6 has two remotely triggerable stack overflows",
+      "cves": [
+       "CVE-2026-132141",
+       "CVE-2026-132142"
+      ],
+      "score": 42
+     },
+     {
+      "title": "Shadowserver-observed exploitation of 12 older flaws in niche web apps, newly recorded by NVD",
+      "cves": [
+       "CVE-2012-20007",
+       "CVE-2018-25443",
+       "CVE-2012-20008",
+       "CVE-2018-25442",
+       "CVE-2019-25784",
+       "CVE-2019-25785"
+      ],
+      "score": 37
+     },
+     {
+      "title": "Apache patches critical Roller remote code execution flaw reported as exploited",
+      "cves": [],
+      "score": 35
+     }
+    ],
+    "explainer": "Blockchain dead drops: hiding C2 addresses on public ledgers",
+    "good_news": [
+     "Ukrainian police and FBI arrest four suspected ransomware gang members",
+     "Coinbase blocks $4.7 million in transfers to Elon Musk deepfake giveaway scam",
+     "SANS ISC diary shows how to run honeypot analysis with version control and AI review"
+    ]
+   }
+  },
+  {
    "id": "https://intel.brycemaxheimer.com/editions/2026-11-18/",
    "url": "https://intel.brycemaxheimer.com/editions/2026-11-18/",
    "title": "Daily Intel Brief: 2026-11-18",
