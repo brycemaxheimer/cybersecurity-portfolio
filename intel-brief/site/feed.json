@@ -12,6 +12,81 @@
  "language": "en-US",
  "items": [
   {
+   "id": "https://intel.brycemaxheimer.com/editions/2026-11-20/",
+   "url": "https://intel.brycemaxheimer.com/editions/2026-11-20/",
+   "title": "Daily Intel Brief: 2026-11-20",
+   "content_text": "1. Broadcom patches vCenter authentication bypass exploited as zero-day by China-linked actor\n2. Brotli decoder buffer overflow CVE-2026-111497 listed in CISA KEV, with Microsoft tracking it\n3. Rapid7: Webworm APT hides access with a disguised custom SoftEther VPN bridge\n4. SBC Medical Group discloses two incidents exposing data of 1.6 million customers and employees\n5. Transport for London says breach may have exposed account details of about 265,000 Oyster photocard users\n6. Huntress details MSP incident where one compromised account led to two rogue ScreenConnect deployments\n7. Microsoft updates acknowledgements on 57 existing Windows, Office, .NET and Exchange CVEs; no new risk\n8. Huntress details network-based detection for Timeroasting by parsing MS-SNTP authenticator formats\n9. Researchers disclose two critical 'nginx2root' NGINX flaws enabling unauthenticated remote code execution\nEarly signals: CVE-2026-121481\nExplainer: vCenter as a tier-zero asset: why owning the management plane equals owning the estate\nGood news: PHP releases security updates fixing 18 flaws, including critical remote code execution bugs\nGood news: Drupal Security Team patches critical remote code execution flaw\nGood news: ASUS fixes three critical flaws, including a hard-coded key, in Control Center Express",
+   "date_published": "2026-11-20T18:36:01Z",
+   "_intel_brief": {
+    "data": "https://intel.brycemaxheimer.com/editions/2026-11-20/edition.json",
+    "stories": [
+     {
+      "title": "Broadcom patches vCenter authentication bypass exploited as zero-day by China-linked actor",
+      "cves": [
+       "CVE-2026-123890",
+       "CVE-2026-59309"
+      ],
+      "score": 72
+     },
+     {
+      "title": "Brotli decoder buffer overflow CVE-2026-111497 listed in CISA KEV, with Microsoft tracking it",
+      "cves": [
+       "CVE-2026-111497"
+      ],
+      "score": 71
+     },
+     {
+      "title": "Rapid7: Webworm APT hides access with a disguised custom SoftEther VPN bridge",
+      "cves": [],
+      "score": 51
+     },
+     {
+      "title": "SBC Medical Group discloses two incidents exposing data of 1.6 million customers and employees",
+      "cves": [],
+      "score": 51
+     },
+     {
+      "title": "Transport for London says breach may have exposed account details of about 265,000 Oyster photocard users",
+      "cves": [],
+      "score": 51
+     },
+     {
+      "title": "Huntress details MSP incident where one compromised account led to two rogue ScreenConnect deployments",
+      "cves": [],
+      "score": 51
+     },
+     {
+      "title": "Microsoft updates acknowledgements on 57 existing Windows, Office, .NET and Exchange CVEs; no new risk",
+      "cves": [
+       "CVE-2026-105584",
+       "CVE-2026-95874",
+       "CVE-2026-95989",
+       "CVE-2026-96082",
+       "CVE-2026-113817",
+       "CVE-2026-121669"
+      ],
+      "score": 48
+     },
+     {
+      "title": "Huntress details network-based detection for Timeroasting by parsing MS-SNTP authenticator formats",
+      "cves": [],
+      "score": 48
+     },
+     {
+      "title": "Researchers disclose two critical 'nginx2root' NGINX flaws enabling unauthenticated remote code execution",
+      "cves": [],
+      "score": 29
+     }
+    ],
+    "explainer": "vCenter as a tier-zero asset: why owning the management plane equals owning the estate",
+    "good_news": [
+     "PHP releases security updates fixing 18 flaws, including critical remote code execution bugs",
+     "Drupal Security Team patches critical remote code execution flaw",
+     "ASUS fixes three critical flaws, including a hard-coded key, in Control Center Express"
+    ]
+   }
+  },
+  {
    "id": "https://intel.brycemaxheimer.com/editions/2026-11-19/",
    "url": "https://intel.brycemaxheimer.com/editions/2026-11-19/",
    "title": "Daily Intel Brief: 2026-11-19",
