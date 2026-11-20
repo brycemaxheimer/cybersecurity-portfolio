@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>Daily Intel Brief</title><link>https://intel.brycemaxheimer.com/</link><description>Daily AI-generated threat-intel brief: top stories, new KEV entries, early signals and detections.</description><language>en-us</language><item><title>Daily Intel Brief: 2026-11-19</title><link>https://intel.brycemaxheimer.com/editions/2026-11-19/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-19/</guid><pubDate>Thu, 19 Nov 2026 19:06:10 +0000</pubDate><description>1. CISA adds exploited Synology, LiteLLM, Apache Axis and REDCap code execution flaws to KEV
+<rss version="2.0"><channel><title>Daily Intel Brief</title><link>https://intel.brycemaxheimer.com/</link><description>Daily AI-generated threat-intel brief: top stories, new KEV entries, early signals and detections.</description><language>en-us</language><item><title>Daily Intel Brief: 2026-11-20</title><link>https://intel.brycemaxheimer.com/editions/2026-11-20/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-20/</guid><pubDate>Fri, 20 Nov 2026 18:36:01 +0000</pubDate><description>1. Broadcom patches vCenter authentication bypass exploited as zero-day by China-linked actor
+2. Brotli decoder buffer overflow CVE-2026-111497 listed in CISA KEV, with Microsoft tracking it
+3. Rapid7: Webworm APT hides access with a disguised custom SoftEther VPN bridge
+4. SBC Medical Group discloses two incidents exposing data of 1.6 million customers and employees
+5. Transport for London says breach may have exposed account details of about 265,000 Oyster photocard users
+6. Huntress details MSP incident where one compromised account led to two rogue ScreenConnect deployments
+7. Microsoft updates acknowledgements on 57 existing Windows, Office, .NET and Exchange CVEs; no new risk
+8. Huntress details network-based detection for Timeroasting by parsing MS-SNTP authenticator formats
+9. Researchers disclose two critical 'nginx2root' NGINX flaws enabling unauthenticated remote code execution
+Early signals: CVE-2026-121481
+Explainer: vCenter as a tier-zero asset: why owning the management plane equals owning the estate
+Good news: PHP releases security updates fixing 18 flaws, including critical remote code execution bugs
+Good news: Drupal Security Team patches critical remote code execution flaw
+Good news: ASUS fixes three critical flaws, including a hard-coded key, in Control Center Express</description></item><item><title>Daily Intel Brief: 2026-11-19</title><link>https://intel.brycemaxheimer.com/editions/2026-11-19/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-19/</guid><pubDate>Thu, 19 Nov 2026 19:06:10 +0000</pubDate><description>1. CISA adds exploited Synology, LiteLLM, Apache Axis and REDCap code execution flaws to KEV
 2. Reported attack on IT provider Wellington IT exposes member data of Irish credit unions
 3. Ukraine and FBI arrest four suspected ransomware gang members linked to $40.5M in ransoms
 4. Microsoft revises CVSS score and FAQ for AD DS elevation-of-privilege flaw CVE-2026-118148

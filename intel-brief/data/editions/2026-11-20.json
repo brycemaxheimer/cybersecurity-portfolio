@@ -1,0 +1,1680 @@
+{
+ "schema": 1,
+ "date": "2026-11-20",
+ "generated_at": "2026-11-20T18:36:01Z",
+ "generator": "intel-brief 0.1.0",
+ "models": {
+  "triage": "claude-haiku-5-5",
+  "writeup": "claude-opus-5-5",
+  "triage_method": "model"
+ },
+ "window": {
+  "since": "2026-11-19T05:00:00+00:00",
+  "until": "2026-11-20T05:00:00+00:00"
+ },
+ "stories": [
+  {
+   "id": "story-1",
+   "rank": 1,
+   "score": 72,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 18,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 5,
+    "cvss": 0,
+    "sources": 9,
+    "chatter": 0,
+    "in_kev": true,
+    "epss_max": 0.2286,
+    "cvss_max": 0
+   },
+   "title": "Broadcom patches vCenter authentication bypass exploited as zero-day by China-linked actor",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "widespread",
+    "platform": "other",
+    "vendor": "Broadcom",
+    "product": "VMware vCenter Server"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-123890",
+     "cvss": 9.8,
+     "severity": "CRITICAL",
+     "products": [],
+     "epss": 0.00843,
+     "percentile": 0.58845,
+     "in_kev": true,
+     "kev_due": null,
+     "poc": [
+      {
+       "url": "https://github.com/sanMuSec/vcenter-80u3m-patch-download",
+       "name": "sanMuSec/vcenter-80u3m-patch-download",
+       "stars": 1,
+       "created": "2026-11-20"
+      },
+      {
+       "url": "https://github.com/Cyber-BansalAI/vmware-vcenter-2026",
+       "name": "Cyber-BansalAI/vmware-vcenter-2026",
+       "stars": 0,
+       "created": "2026-11-19"
+      },
+      {
+       "url": "https://github.com/Quaerendir/cve-2026-123890-audit",
+       "name": "Quaerendir/cve-2026-123890-audit",
+       "stars": 0,
+       "created": "2026-11-20"
+      }
+     ],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-59309",
+     "cvss": 9.8,
+     "severity": "CRITICAL",
+     "products": [
+      "vmware vcenter server"
+     ],
+     "epss": 0.2286,
+     "percentile": 0.97789,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [
+      {
+       "url": "https://github.com/JHenryArcaneCipher/CVE-2026-59309-PoC",
+       "name": "JHenryArcaneCipher/CVE-2026-59309-PoC",
+       "stars": 1,
+       "created": "2026-11-17"
+      }
+     ],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "On 19 November 2026 Broadcom published VMSA-2026-0009, fixing CVE-2026-123890 (CVSS 9.8), an authentication bypass in the VMware Directory Service component of vCenter Server. According to Rapid7, an unauthenticated attacker with network access to vCenter can gain access as the Administrator user. Mandiant reported the flaw, and Google Threat Intelligence says China-linked espionage group ARMORY CASTLE exploited it as a zero-day as early as September 2026, as BleepingComputer and SecurityWeek also report. Rapid7 notes this bug is separate from CVE-2026-59309, an earlier 2026 vCenter authentication bypass, and Broadcom says systems already patched for that earlier flaw still need the new update.",
+    "why_it_matters": "vCenter controls the whole virtualization estate, including domain controllers and other Windows servers running as VMs, so Administrator access gives an attacker broad control and a place to hide outside endpoint telemetry. CVE-2026-123890 is confirmed exploited in the wild and listed in CISA KEV, though no KEV due date is given. Public proof-of-concept code is reported for both CVEs (EPSS 0.8% for CVE-2026-123890, 22.9% for CVE-2026-59309), and Broadcom offers no workaround.",
+    "affected_versions": [
+     "VMware vCenter Server 8.0",
+     "VMware vCenter Server 7.0",
+     "VMware Cloud Foundation / vSphere Foundation 9.1.x.x",
+     "VMware Cloud Foundation / vSphere Foundation 9.0.x.x",
+     "VMware Cloud Foundation 5.x",
+     "VMware Telco Cloud Platform 3.0, 4.x, 5.0.x, 5.1.x, 5.2",
+     "VMware Telco Cloud Infrastructure 3.0"
+    ],
+    "fixed_versions": [
+     "VMware vCenter Server 8.0 U3m",
+     "VMware Cloud Foundation / vSphere Foundation 9.1.1.0200",
+     "VMware Cloud Foundation / vSphere Foundation 9.0.2.0200",
+     "VMware Cloud Foundation 5.2.5",
+     "VMware Telco Cloud Platform and Telco Cloud Infrastructure: 8.0 U3m per KB463116",
+     "VMware vCenter Server 7.0: contact Broadcom Support (extended-support customers)"
+    ],
+    "recommended_actions": [
+     "Upgrade every vCenter Server as an emergency change to 8.0 U3m, 9.0.2.0200, 9.1.1.0200 or VCF 5.2.5 as applicable. Use the standard update mechanism, because Broadcom says vCenter Quick Patch cannot apply these fixes. Include systems already patched for CVE-2026-59309.",
+     "For vCenter 7.0 extended-support deployments, contact Broadcom Support for the fix. Until it is applied, restrict network access to vCenter management and directory service ports to dedicated admin hosts.",
+     "Before upgrading, review Broadcom's FAQ and interoperability matrix for the Back-in-Time restriction, which blocks moving from 8.0 U3m or 9.0.2.0200 to VCF 9.1.1. Plan for the vCenter management interfaces being briefly unavailable.",
+     "Treat vCenter instances that were reachable from untrusted networks since September 2026 as potentially compromised. Review the vCenter and SSO logs for Administrator sessions you cannot explain, new local accounts, role changes, and VM snapshot, clone or export activity.",
+     "After patching, rotate vCenter SSO Administrator and service account credentials, and check that no unauthorized changes were made to ESXi hosts."
+    ],
+    "confidence": "high",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Newly Patched VMware vCenter Flaw Exploited as Zero-Day by Chinese APT",
+     "url": "https://www.securityweek.com/newly-patched-vmware-vcenter-flaw-exploited-as-zero-day-by-chinese-apt/",
+     "source": "SecurityWeek",
+     "kind": "news",
+     "published": "2026-11-19T19:21:06Z"
+    },
+    {
+     "title": "CVE-2026-123890: Critical Authentication Bypass in VMware vCenter",
+     "url": "https://www.rapid7.com/blog/post/etr-cve-2026-123890-critical-authentication-bypass-vmware-vcenter",
+     "source": "Rapid7",
+     "kind": "news",
+     "published": "2026-11-19T21:06:24Z"
+    },
+    {
+     "title": "VMware patches vCenter zero-day exploited in attacks since September",
+     "url": "https://www.bleepingcomputer.com/news/security/vmware-patches-vcenter-zero-day-exploited-in-attacks-since-september/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-20T00:26:25Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Inventory all vCenter Server appliances and VCF deployments, and record their build numbers against the fixed versions.",
+     "Use Defender vulnerability management data to confirm which assets are flagged for CVE-2026-123890 or CVE-2026-59309. Note that vCenter appliances are often not onboarded, so a manual inventory is also needed.",
+     "Identify which internal endpoints talk to vCenter on HTTPS and on the directory service ports (389 and 636). Flag sources that are not known admin workstations or jump hosts.",
+     "Pull vCenter SSO and VPXD logs from September 2026 onward. Look for Administrator authentications from unexpected sources and for new identities or permissions.",
+     "Compare VM inventory, snapshots and datastore file activity against change records, looking for unexplained clones or exports, especially of domain controllers."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Devices flagged for the vCenter authentication bypass CVEs",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where CveId in (\"CVE-2026-123890\", \"CVE-2026-59309\") | project DeviceName, OSPlatform, SoftwareVendor, SoftwareName, SoftwareVersion, CveId, VulnerabilitySeverityLevel, RecommendedSecurityUpdate",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 0,
+        "hits": 0,
+        "tables": [
+         "DeviceTvmSoftwareVulnerabilities"
+        ]
+       }
+      }
+     },
+     {
+      "title": "VMware vCenter software inventory from Defender TVM",
+      "kql": "DeviceTvmSoftwareInventory | where SoftwareVendor has \"vmware\" and SoftwareName has \"vcenter\" | project DeviceName, OSPlatform, SoftwareName, SoftwareVersion",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 48,
+        "hits": 0,
+        "tables": [
+         "DeviceTvmSoftwareInventory"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Endpoints connecting to vCenter hostnames on management or directory ports",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(30d) | where RemoteUrl has_any (\"vcenter\", \"vcsa\", \"vsphere\") | where RemotePort in (443, 389, 636, 5480) | summarize Connections = count(), FirstSeen = min(Timestamp), LastSeen = max(Timestamp), Ports = make_set(RemotePort) by DeviceName, InitiatingProcessFileName, RemoteUrl, RemoteIP | order by Connections asc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 300,
+        "hits": 0,
+        "tables": [
+         "DeviceNetworkEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-2",
+   "rank": 2,
+   "score": 71,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 18,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 10,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": true,
+    "epss_max": 0.8237,
+    "cvss_max": 0
+   },
+   "title": "Brotli decoder buffer overflow CVE-2026-111497 listed in CISA KEV, with Microsoft tracking it",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "widespread",
+    "platform": "other",
+    "vendor": "Google",
+    "product": "Brotli"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-111497",
+     "cvss": 9.2,
+     "severity": "CRITICAL",
+     "products": [
+      "google brotli",
+      "nodejs node.js",
+      "python-hyper brotlicffi",
+      "microsoft .net",
+      "debian debian linux"
+     ],
+     "epss": 0.8237,
+     "percentile": 0.99671,
+     "in_kev": true,
+     "kev_due": null,
+     "poc": [
+      {
+       "url": "https://github.com/assetnote/node2shell-scanner",
+       "name": "assetnote/node2shell-scanner",
+       "stars": 86,
+       "created": "2026-10-25"
+      },
+      {
+       "url": "https://github.com/dimasma0305/CVE-2026-111497-POC",
+       "name": "dimasma0305/CVE-2026-111497-POC",
+       "stars": 81,
+       "created": "2026-10-22"
+      },
+      {
+       "url": "https://github.com/trailofbits/brotli-checker",
+       "name": "trailofbits/brotli-checker",
+       "stars": 70,
+       "created": "2026-10-23"
+      }
+     ],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "Microsoft published an entry in its Security Update Guide on 19 November 2026 for CVE-2026-111497, a buffer overflow in Google's Brotli decompression decoder. The entry contains no technical detail, affected version ranges or fix information. The vulnerability is rated CVSS 9.2 (critical) and appears in the CISA Known Exploited Vulnerabilities catalog, so exploitation in the wild is reported, and public proof-of-concept code is said to exist. Products linked to the CVE include Google Brotli, Node.js, brotlicffi, Microsoft .NET and Debian Linux.",
+    "why_it_matters": "Brotli is embedded in web servers, reverse proxies, runtimes and browsers, so the decoder may be reachable wherever untrusted compressed content is processed, including .NET and Node.js applications on Windows servers. With KEV listing, EPSS 82.4% and public proof-of-concept code, treat this as urgent even though CISA has not set a due date and the sources do not give affected or fixed versions.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Check the Microsoft Security Update Guide entry for CVE-2026-111497 and apply the .NET updates Microsoft lists for it as soon as they are available.",
+     "Inventory every component that bundles Brotli: .NET runtimes, Node.js, Python brotli or brotlicffi packages, Debian hosts, and internet-facing proxies or gateways. Update each to the vendor's fixed release.",
+     "Prioritize internet-facing services that decompress client-supplied Brotli content, such as web apps, API gateways and reverse proxies. Where you cannot patch quickly, consider disabling Brotli request decompression on those services.",
+     "Monitor web-facing processes such as w3wp.exe, node.exe and dotnet.exe for crashes or unexpected child processes, which could indicate exploitation attempts."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "CVE-2026-111497 Google: CVE-2026-111497 Buffer overflow vulnerability in the Brotli decoder",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-111497",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-19T16:00:00Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Use Defender Vulnerability Management to list devices flagged for CVE-2026-111497.",
+     "Search the software inventory for .NET, Node.js and Python installations that may bundle a vulnerable Brotli library.",
+     "Find processes that load Brotli native libraries to identify less obvious consumers of the decoder.",
+     "On exposed servers, look for repeated crashes of web worker processes or unusual child processes spawned by them after 19 November 2026."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Devices flagged vulnerable to CVE-2026-111497",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where CveId == \"CVE-2026-111497\" | summarize Devices = dcount(DeviceId), DeviceNames = make_set(DeviceName, 100) by SoftwareVendor, SoftwareName, SoftwareVersion, RecommendedSecurityUpdate",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 0,
+        "hits": 0,
+        "tables": [
+         "DeviceTvmSoftwareVulnerabilities"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Processes loading Brotli native libraries",
+      "kql": "DeviceImageLoadEvents | where Timestamp > ago(14d) | where FileName has \"brotli\" | summarize LoadCount = count(), Libraries = make_set(FileName, 20), Paths = make_set(FolderPath, 20) by DeviceName, InitiatingProcessFileName | order by LoadCount desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 60,
+        "hits": 0,
+        "tables": [
+         "DeviceImageLoadEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Unexpected child processes of web-facing runtimes",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(7d) | where InitiatingProcessFileName in~ (\"w3wp.exe\", \"node.exe\", \"dotnet.exe\") | where FileName in~ (\"cmd.exe\", \"powershell.exe\", \"pwsh.exe\", \"rundll32.exe\", \"mshta.exe\", \"certutil.exe\") | project Timestamp, DeviceName, InitiatingProcessFileName, InitiatingProcessCommandLine, FileName, ProcessCommandLine, AccountName",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-3",
+   "rank": 3,
+   "score": 51,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Rapid7: Webworm APT hides access with a disguised custom SoftEther VPN bridge",
+   "labels": {
+    "category": "campaign",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "other",
+    "vendor": "",
+    "product": "SoftEther VPN"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "Rapid7 reports that the China-aligned group Webworm, already known for planting the open-source SoftEther VPN in compromised government networks, appears to have moved to a modified SoftEther VPN Bridge build designed to evade security tools. Rapid7 attributes the tool to Webworm with moderate confidence. It is a 64-bit Windows binary based on SoftEther VPN Bridge version 4.44 build 9807, rebranded in its PE metadata with OriginalFileName netcapa.exe, the description Network Monitor Software and the company name Network Systems Solutions Inc. Rapid7 says it knows of only one public sample, and the excerpt does not describe how initial access was gained.",
+    "why_it_matters": "The tool contains no conventional malware code, so it gives long-term, low-profile network access that signature-based tools may miss. Any SoftEther component on Windows servers or endpoints where it was not deliberately deployed should be treated as a possible intrusion foothold. Rapid7 reports active use against government organizations, but no prevalence figures or CVEs are involved.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Hunt for processes or files with OriginalFileName netcapa.exe, or with the company name Network Systems Solutions Inc. and the description Network Monitor Software.",
+     "Inventory all SoftEther VPN components (vpnbridge, vpnserver, vpnclient) across Windows hosts and investigate any instance not sanctioned by IT.",
+     "Block or alert on unapproved VPN and tunneling software through application control (WDAC or AppLocker) and Defender for Endpoint custom indicators.",
+     "Review outbound connections from servers to unusual external hosts on ports that SoftEther commonly uses, and confirm that long-lived tunnels are legitimate.",
+     "If you find a disguised bridge, isolate the host, collect the binary and its configuration for analysis, and investigate the account and method used to install it."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Spying on Governments with Zero Lines of Malware: A Custom SoftEther Bridge in Webworm’s Toolkit",
+     "url": "https://www.rapid7.com/blog/post/tr-spying-on-governments-no-malware-custom-webworms-toolkit-softether-bridge",
+     "source": "Rapid7",
+     "kind": "news",
+     "published": "2026-11-19T15:05:34Z"
+    }
+   ],
+   "detection": {
+    "type": "behavioral",
+    "sigma": {
+     "origin": "ai",
+     "title": "Disguised SoftEther VPN Bridge Used by Webworm (netcapa.exe)",
+     "url": null,
+     "yaml": "title: Disguised SoftEther VPN Bridge Used by Webworm (netcapa.exe)\nid: 4244b174-15da-5b54-a733-b661e18d9201\nstatus: experimental\ndescription: Detects execution of a modified SoftEther VPN Bridge that Rapid7 attributes to Webworm. The binary is rebranded with OriginalFileName netcapa.exe and fake vendor metadata to blend in as network monitoring software. It also flags SoftEther binaries running under a non-standard file name. AI-generated, untested.\nreferences:\n- https://www.rapid7.com/blog/post/tr-spying-on-governments-no-malware-custom-webworms-toolkit-softether-bridge\nauthor: intel-brief (AI-generated, untested)\ndate: '2026-11-20'\ntags:\n- attack.t1572\n- attack.t1133\n- attack.t1036.005\nlogsource:\n  product: windows\n  category: process_creation\ndetection:\n  selection_origname:\n    OriginalFileName: netcapa.exe\n  selection_meta:\n    Company|contains: Network Systems Solutions\n    Description|contains: Network Monitor Software\n  selection_softether_renamed:\n    Product|contains: SoftEther\n  filter_standard_names:\n    Image|endswith:\n    - \\vpnbridge.exe\n    - \\vpnbridge_x64.exe\n    - \\vpnserver.exe\n    - \\vpnserver_x64.exe\n    - \\vpnclient.exe\n    - \\vpnclient_x64.exe\n    - \\vpncmd.exe\n    - \\vpncmd_x64.exe\n    - \\vpnsetup.exe\n    - \\vpnsetup_x64.exe\n    - \\vpnsmgr.exe\n    - \\vpnsmgr_x64.exe\n    - \\vpncmgr.exe\n    - \\vpncmgr_x64.exe\n  condition: selection_origname or selection_meta or (selection_softether_renamed and not filter_standard_names)\nfalsepositives:\n- Legitimate SoftEther deployments that administrators run under custom file names\nlevel: high\n",
+     "check": {
+      "status": "pass",
+      "messages": [
+       "No rule errors found.",
+       "No condition errors found.",
+       "No validation issues found.",
+       "Parsing Sigma rules",
+       "Checking Sigma rules"
+      ]
+     },
+     "conversions": {
+      "kql": {
+       "label": "Defender XDR / Sentinel KQL",
+       "query": "DeviceProcessEvents\n| where ProcessVersionInfoOriginalFileName =~ \"netcapa.exe\" or (ProcessVersionInfoCompanyName contains \"Network Systems Solutions\" and ProcessVersionInfoFileDescription contains \"Network Monitor Software\") or (ProcessVersionInfoProductName contains \"SoftEther\" and (not((FolderPath endswith \"\\\\vpnbridge.exe\" or FolderPath endswith \"\\\\vpnbridge_x64.exe\" or FolderPath endswith \"\\\\vpnserver.exe\" or FolderPath endswith \"\\\\vpnserver_x64.exe\" or FolderPath endswith \"\\\\vpnclient.exe\" or FolderPath endswith \"\\\\vpnclient_x64.exe\" or FolderPath endswith \"\\\\vpncmd.exe\" or FolderPath endswith \"\\\\vpncmd_x64.exe\" or FolderPath endswith \"\\\\vpnsetup.exe\" or FolderPath endswith \"\\\\vpnsetup_x64.exe\" or FolderPath endswith \"\\\\vpnsmgr.exe\" or FolderPath endswith \"\\\\vpnsmgr_x64.exe\" or FolderPath endswith \"\\\\vpncmgr.exe\" or FolderPath endswith \"\\\\vpncmgr_x64.exe\"))))",
+       "error": null,
+       "validation": {
+        "status": "pass",
+        "messages": []
+       },
+       "receipt": {
+        "engine": "ran",
+        "baseline": {
+         "events": 500,
+         "hits": 0,
+         "tables": [
+          "DeviceProcessEvents"
+         ]
+        },
+        "cases": {
+         "status": "pass",
+         "positive": 12,
+         "positive_fired": 12,
+         "negative": 0,
+         "negative_fired": 0,
+         "disagreements": [],
+         "skipped": 0
+        }
+       }
+      },
+      "spl": {
+       "label": "Splunk SPL",
+       "query": "OriginalFileName=\"netcapa.exe\" OR (Company=\"*Network Systems Solutions*\" Description=\"*Network Monitor Software*\") OR (Product=\"*SoftEther*\" NOT (Image IN (\"*\\\\vpnbridge.exe\", \"*\\\\vpnbridge_x64.exe\", \"*\\\\vpnserver.exe\", \"*\\\\vpnserver_x64.exe\", \"*\\\\vpnclient.exe\", \"*\\\\vpnclient_x64.exe\", \"*\\\\vpncmd.exe\", \"*\\\\vpncmd_x64.exe\", \"*\\\\vpnsetup.exe\", \"*\\\\vpnsetup_x64.exe\", \"*\\\\vpnsmgr.exe\", \"*\\\\vpnsmgr_x64.exe\", \"*\\\\vpncmgr.exe\", \"*\\\\vpncmgr_x64.exe\")))",
+       "error": null
+      },
+      "elastic": {
+       "label": "Elastic (Lucene, ECS)",
+       "query": "process.pe.original_file_name:netcapa.exe OR (process.pe.company:*Network\\ Systems\\ Solutions* AND process.pe.description:*Network\\ Monitor\\ Software*) OR (process.pe.product:*SoftEther* AND (NOT (process.executable.caseless:(*\\\\vpnbridge.exe OR *\\\\vpnbridge_x64.exe OR *\\\\vpnserver.exe OR *\\\\vpnserver_x64.exe OR *\\\\vpnclient.exe OR *\\\\vpnclient_x64.exe OR *\\\\vpncmd.exe OR *\\\\vpncmd_x64.exe OR *\\\\vpnsetup.exe OR *\\\\vpnsetup_x64.exe OR *\\\\vpnsmgr.exe OR *\\\\vpnsmgr_x64.exe OR *\\\\vpncmgr.exe OR *\\\\vpncmgr_x64.exe))))",
+       "error": null
+      }
+     }
+    },
+    "hunting_steps": [
+     "Search process and file telemetry for OriginalFileName netcapa.exe and for the fake company and description strings.",
+     "Search for any SoftEther-branded binary (product name or vpnbridge PDB lineage) and compare the running file name with the stock SoftEther names.",
+     "For each hit, review the parent process, the installing account and any service created to keep the bridge running.",
+     "Pivot on the device to outbound network connections made by the suspect process and identify the remote endpoints and how long sessions last.",
+     "Check for SoftEther configuration files written next to the binary and collect them for analysis.",
+     "Scope other hosts for the same file hash, file name and remote endpoints once identified."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Disguised Webworm SoftEther bridge by PE metadata",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where ProcessVersionInfoOriginalFileName =~ \"netcapa.exe\" or ProcessVersionInfoCompanyName has \"Network Systems Solutions\" or ProcessVersionInfoFileDescription has \"Network Monitor Software\" | project Timestamp, DeviceName, AccountName, FileName, FolderPath, SHA256, ProcessVersionInfoOriginalFileName, ProcessVersionInfoCompanyName, ProcessCommandLine, InitiatingProcessFileName",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "SoftEther binaries running under non-standard file names",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where ProcessVersionInfoProductName has \"SoftEther\" or ProcessVersionInfoOriginalFileName has_any (\"vpnbridge\", \"vpnserver\") | where FileName !startswith \"vpn\" | summarize Count = count(), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by DeviceName, FileName, FolderPath, SHA256, ProcessVersionInfoOriginalFileName, ProcessVersionInfoCompanyName",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Outbound connections from suspected disguised SoftEther bridge",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(30d) | where InitiatingProcessVersionInfoOriginalFileName =~ \"netcapa.exe\" or InitiatingProcessVersionInfoProductName has \"SoftEther\" or InitiatingProcessFileName =~ \"netcapa.exe\" | where RemoteIPType == \"Public\" | summarize Connections = count(), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by DeviceName, InitiatingProcessFileName, InitiatingProcessFolderPath, RemoteIP, RemotePort, RemoteUrl",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 300,
+        "hits": 0,
+        "tables": [
+         "DeviceNetworkEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-4",
+   "rank": 4,
+   "score": 51,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "SBC Medical Group discloses two incidents exposing data of 1.6 million customers and employees",
+   "labels": {
+    "category": "breach",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "other",
+    "vendor": "SBC Medical Group",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "SBC Medical Group told the U.S. Securities and Exchange Commission that two cybersecurity incidents exposed sensitive customer and employee information, according to BleepingComputer. The exposed data includes personal information belonging to about 1.6 million people. The sources do not say how the attackers got in, which systems were affected, or who was responsible.",
+    "why_it_matters": "No vulnerability, product or technique is named, so nothing here maps directly to Windows, Microsoft 365 or edge device exposure. The main risk for most organizations is follow-on phishing and fraud against staff or customers whose personal data may be in the stolen set. Organizations with a business relationship with SBC Medical Group should treat related communications with extra scrutiny.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "If your organization works with SBC Medical Group, ask it which of your data, if any, was involved in the two incidents.",
+     "Warn employees and customers who may be affected about phishing and social engineering that uses leaked personal details or impersonates SBC Medical Group.",
+     "Watch for further SEC filings or vendor statements that name the intrusion vector or indicators, and reassess when they appear."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Hackers steal data of 1.6 million SBC Medical Group customers",
+     "url": "https://www.bleepingcomputer.com/news/security/hackers-steal-data-of-16-million-sbc-medical-group-customers/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-19T22:25:42Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-5",
+   "rank": 5,
+   "score": 51,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Transport for London says breach may have exposed account details of about 265,000 Oyster photocard users",
+   "labels": {
+    "category": "breach",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "other",
+    "vendor": "Transport for London",
+    "product": "Oyster photocard accounts"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "According to BleepingComputer, Transport for London (TfL) has announced that around 265,000 Oyster photocard customers may have had their account details exposed in a data breach. The available reporting does not describe how attackers got in, which systems were affected, exactly which data fields were exposed, or when the intrusion took place.",
+    "why_it_matters": "This incident does not stem from a known vulnerability in Windows, Microsoft 365 or edge products, so there is nothing to patch or detect directly. The main risk to most organisations is follow-on phishing and social engineering that uses TfL or Oyster branding against employees whose personal data may have been exposed.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Watch email security telemetry for phishing lures that impersonate TfL or Oyster refunds or account notices, and remind London-based staff to be cautious with such messages.",
+     "Advise staff who hold Oyster photocard accounts to change any reused passwords and to treat unsolicited contact about their account with suspicion.",
+     "Track TfL's official updates for details on what data was exposed, and reassess the risk once those details are published."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Transport for London breach exposes 265,000 Oyster card users' data",
+     "url": "https://www.bleepingcomputer.com/news/security/transport-for-london-breach-exposes-265-000-oyster-card-users-data/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-19T18:20:01Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-6",
+   "rank": 6,
+   "score": 51,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Huntress details MSP incident where one compromised account led to two rogue ScreenConnect deployments",
+   "labels": {
+    "category": "campaign",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "other",
+    "vendor": "",
+    "product": "ScreenConnect"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "Huntress published an incident response write-up describing a case handled with managed service provider TruePath IT, where a single compromised account was used to set up two unauthorized ScreenConnect remote access deployments. According to Huntress, the incident caused about $3M in downtime and was first surfaced through RMM alerts during the night. The available summary does not say how the account was compromised, which systems were reached, or what the attackers did after gaining remote access.",
+    "why_it_matters": "Attackers increasingly use legitimate remote monitoring and management tools such as ScreenConnect for persistence and hands-on access, because the binaries are signed and often allowed by policy. One stolen account with rights to deploy software or log in remotely can be enough to push an attacker-controlled instance across many endpoints, which is especially dangerous for MSPs and their customers. Exploitation in this case is confirmed, but the sources give no indicators, so detection depends on spotting ScreenConnect instances and relay hosts your organization does not own.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory every ScreenConnect client on endpoints and servers and compare the relay host in each client service command line against your organization's approved instances; remove and investigate any that do not match.",
+     "Enforce application control so that only approved RMM tools and approved ScreenConnect instances can install or run.",
+     "Require phishing-resistant MFA and review recent sign-ins for accounts that can deploy software, administer RMM platforms, or access customer environments.",
+     "Alert on new RMM service installations and on RMM processes spawning shells, and make sure off-hours alerts are triaged rather than queued.",
+     "If a rogue instance is found, isolate affected hosts, reset credentials for the compromised account and any accounts used during remote sessions, and review session activity for lateral movement or data staging."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "RMM Alerts at 2 AM: An MSP and SOC Incident Response Story",
+     "url": "https://www.huntress.com/blog/rmm-alerts-msp-soc-incident-response",
+     "source": "Huntress",
+     "kind": "news",
+     "published": "2026-11-19T08:00:00Z"
+    }
+   ],
+   "detection": {
+    "type": "behavioral",
+    "sigma": {
+     "origin": "ai",
+     "title": "ScreenConnect Client Service Started With Guest Access Relay Parameters",
+     "url": null,
+     "yaml": "title: ScreenConnect Client Service Started With Guest Access Relay Parameters\nid: e3138281-65da-5752-8b4b-b54bdf78ae1a\nstatus: experimental\ndescription: Detects the ScreenConnect client service starting with the access and relay host parameters that identify which instance it connects to. Rogue ScreenConnect deployments by attackers using compromised accounts produce this telemetry; tune by filtering your own approved relay hosts. AI-generated, untested.\nreferences:\n- https://www.huntress.com/blog/rmm-alerts-msp-soc-incident-response\nauthor: intel-brief (AI-generated, untested)\ndate: '2026-11-20'\ntags:\n- attack.t1219\n- attack.persistence\n- attack.t1078\nlogsource:\n  product: windows\n  category: process_creation\ndetection:\n  selection_img:\n    Image|endswith: \\ScreenConnect.ClientService.exe\n  selection_cli:\n    CommandLine|contains|all:\n    - e=Access\n    - y=Guest\n    - h=\n  condition: selection_img and selection_cli\nfalsepositives:\n- Legitimate ScreenConnect deployments used by internal IT or a contracted MSP; add filters for approved relay hostnames.\nlevel: medium\n",
+     "check": {
+      "status": "pass",
+      "messages": [
+       "No rule errors found.",
+       "No condition errors found.",
+       "No validation issues found.",
+       "Parsing Sigma rules",
+       "Checking Sigma rules"
+      ]
+     },
+     "conversions": {
+      "kql": {
+       "label": "Defender XDR / Sentinel KQL",
+       "query": "DeviceProcessEvents\n| where FolderPath endswith \"\\\\ScreenConnect.ClientService.exe\" and (ProcessCommandLine contains \"e=Access\" and ProcessCommandLine contains \"y=Guest\" and ProcessCommandLine contains \"h=\")",
+       "error": null,
+       "validation": {
+        "status": "pass",
+        "messages": []
+       },
+       "receipt": {
+        "engine": "ran",
+        "baseline": {
+         "events": 500,
+         "hits": 0,
+         "tables": [
+          "DeviceProcessEvents"
+         ]
+        },
+        "cases": {
+         "status": "pass",
+         "positive": 3,
+         "positive_fired": 3,
+         "negative": 4,
+         "negative_fired": 0,
+         "disagreements": [],
+         "skipped": 0
+        }
+       }
+      },
+      "spl": {
+       "label": "Splunk SPL",
+       "query": "Image=\"*\\\\ScreenConnect.ClientService.exe\" CommandLine=\"*e=Access*\" CommandLine=\"*y=Guest*\" CommandLine=\"*h=*\"",
+       "error": null
+      },
+      "elastic": {
+       "label": "Elastic (Lucene, ECS)",
+       "query": "process.executable.caseless:*\\\\ScreenConnect.ClientService.exe AND (process.command_line:*e\\=Access* AND process.command_line:*y\\=Guest* AND process.command_line:*h\\=*)",
+       "error": null
+      }
+     }
+    },
+    "hunting_steps": [
+     "List all devices running ScreenConnect client processes and extract the relay host from the client service command line.",
+     "Compare relay hosts against approved instances and flag unknown or rarely seen hosts.",
+     "Review network connections from ScreenConnect processes to identify unapproved destinations.",
+     "Examine child processes of ScreenConnect clients for shells, scripting engines, or reconnaissance tools.",
+     "Correlate the first appearance of rogue instances with sign-ins and software deployment actions by the same account to identify the compromised identity."
+    ],
+    "hunting_queries": [
+     {
+      "title": "ScreenConnect client relay hosts across the fleet",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where FileName =~ \"ScreenConnect.ClientService.exe\" | extend RelayHost = extract(@\"h=([^&\\s\\\"]+)\", 1, ProcessCommandLine) | summarize Devices = dcount(DeviceId), FirstSeen = min(Timestamp), LastSeen = max(Timestamp), SampleDevices = make_set(DeviceName, 10) by RelayHost | order by Devices asc",
+      "validation": {
+       "status": "fail",
+       "messages": [
+        "Error KS119: The function 'extract' expects 4 arguments.",
+        "Error KS005: Expected: )",
+        "Error KS198: The incomplete fragment is unexpected.",
+        "Error KS001: Missing: \""
+       ]
+      },
+      "receipt": {
+       "engine": "error",
+       "message": "General_BadRequest: Request is invalid and cannot be executed."
+      }
+     },
+     {
+      "title": "Network destinations contacted by ScreenConnect processes",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(30d) | where InitiatingProcessFileName startswith \"ScreenConnect\" | summarize Devices = dcount(DeviceId), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by RemoteUrl, RemoteIP, RemotePort | order by Devices asc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 300,
+        "hits": 0,
+        "tables": [
+         "DeviceNetworkEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Shells and scripting engines spawned by ScreenConnect",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where InitiatingProcessFileName startswith \"ScreenConnect\" | where FileName in~ (\"cmd.exe\", \"powershell.exe\", \"pwsh.exe\", \"wscript.exe\", \"cscript.exe\", \"mshta.exe\", \"rundll32.exe\") | project Timestamp, DeviceName, AccountName, InitiatingProcessFileName, FileName, ProcessCommandLine | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-7",
+   "rank": 7,
+   "score": 48,
+   "factors": {
+    "exploitation": 0,
+    "prevalence": 25,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0187,
+    "cvss_max": 0
+   },
+   "title": "Microsoft updates acknowledgements on 57 existing Windows, Office, .NET and Exchange CVEs; no new risk",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "none_known",
+    "prevalence": "ubiquitous",
+    "platform": "windows",
+    "vendor": "Microsoft",
+    "product": "Windows, Office, Exchange"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-105584",
+     "cvss": 5.5,
+     "severity": "MEDIUM",
+     "products": [
+      "microsoft windows 10 21h2",
+      "microsoft windows 10 22h2",
+      "microsoft windows 11 23h2",
+      "microsoft windows 11 24h2",
+      "microsoft windows 11 25h2"
+     ],
+     "epss": 0.0044,
+     "percentile": 0.39136,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-95874",
+     "cvss": 7.8,
+     "severity": "HIGH",
+     "products": [],
+     "epss": 0.00454,
+     "percentile": 0.40291,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-95989",
+     "cvss": 7.0,
+     "severity": "HIGH",
+     "products": [
+      "microsoft windows 10 1607",
+      "microsoft windows 10 1809",
+      "microsoft windows 10 21h2",
+      "microsoft windows 10 22h2",
+      "microsoft windows 11 23h2"
+     ],
+     "epss": 0.00202,
+     "percentile": 0.10359,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-96082",
+     "cvss": 6.5,
+     "severity": "MEDIUM",
+     "products": [],
+     "epss": 0.01021,
+     "percentile": 0.64244,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-113817",
+     "cvss": null,
+     "severity": "",
+     "products": [],
+     "epss": 0.00467,
+     "percentile": 0.41333,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-121669",
+     "cvss": null,
+     "severity": "",
+     "products": [],
+     "epss": 0.0067,
+     "percentile": 0.52939,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "On 19 November 2026 the MSRC Security Update Guide revised 57 previously published CVE entries covering Windows components, Office (mostly Excel and Word), Outlook, PowerPoint, .NET, Visual Studio, Exchange Server, SharePoint Server and Xbox. Microsoft labels every revision an acknowledgement update and calls it informational only. The changes add no new fixes, affected versions or exploitation details. None of the CVEs is in CISA KEV, and none has public proof-of-concept code.",
+    "why_it_matters": "This needs no new action beyond confirming that the original patches are deployed. The highest EPSS in the set is about 1.0%, for the Windows Kerberos denial of service flaw CVE-2026-96082, and Microsoft reports no known exploitation. Ticket-driven patch processes that react to MSRC revision notices may open duplicate work, which teams can close once the original updates are verified.",
+    "affected_versions": [
+     "CVE-2026-105584: Windows 10 21H2, 22H2; Windows 11 23H2, 24H2, 25H2",
+     "CVE-2026-95989: Windows 10 1607, 1809, 21H2, 22H2; Windows 11 23H2"
+    ],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Treat these MSRC revisions as informational and do not re-open patch cycles for them.",
+     "Confirm the original security updates for these CVEs, especially the Exchange Server, Outlook, Excel and Word remote code execution entries, are installed across the estate.",
+     "Configure patch-tracking automation to suppress or deprioritize acknowledgement-only MSRC revisions."
+    ],
+    "confidence": "high",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "CVE-2026-105584 Windows Inventory Backup Information Disclosure Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-105584",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-19T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-95874 Xbox Gaming Services Elevation of Privilege Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-95874",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-19T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-95989 vhdmp.sys Elevation of Privilege Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-95989",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-19T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-96082 Windows Kerberos Denial of Service Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-96082",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-19T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-113817 Windows Devices Human Interface Elevation of Privilege Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-113817",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-19T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-121669 PowerShell Information Disclosure Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-121669",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-19T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-118302 Microsoft Office Excel Remote Code Execution Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-118302",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-19T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-69370 Visual Studio Code Remote Code Execution Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-69370",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-19T16:00:00Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-8",
+   "rank": 8,
+   "score": 48,
+   "factors": {
+    "exploitation": 0,
+    "prevalence": 25,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Huntress details network-based detection for Timeroasting by parsing MS-SNTP authenticator formats",
+   "labels": {
+    "category": "research",
+    "exploitation": "none_known",
+    "prevalence": "ubiquitous",
+    "platform": "windows",
+    "vendor": "",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "On 19 November 2026 Huntress published research on detecting Timeroasting, a technique that abuses Microsoft's MS-SNTP time protocol to obtain material from domain controllers that can be cracked offline to recover computer account passwords. Huntress notes that Timeroasting produces no authentication log entry, but says it is still observable. According to Huntress, it reverse-engineered the two authenticator forms used in MS-SNTP requests so that detection does not depend on packet size, which an attacker can alter. The available excerpt does not include the full detection logic, specific signatures or tooling details.",
+    "why_it_matters": "Every Active Directory domain controller answers MS-SNTP requests by default, so all Windows domains are exposed. The main risk is computer accounts with weak or predictable passwords, such as pre-created or legacy accounts, whose cracked credentials give an attacker a foothold. No exploitation in the wild is tied to this research, but because the technique leaves no Windows security log, defenders need network visibility to see it.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Find computer accounts with non-default or predictable passwords, such as pre-created or legacy pre-Windows 2000 compatible accounts and accounts whose password has not rotated in a long time, and reset them.",
+     "Restrict inbound UDP 123 to domain controllers so only expected clients and subnets can reach it, and log that traffic at the network layer.",
+     "Alert on non-time-service processes on endpoints that send NTP traffic to domain controllers, for example scripting runtimes or unknown binaries.",
+     "Baseline NTP request volume per source to each domain controller and investigate sources that send bursts of requests.",
+     "Review the Huntress research for its authenticator-format detection logic and adapt it to your network sensors (IDS or NDR)."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Detecting Timeroasting the Hard Way",
+     "url": "https://www.huntress.com/blog/detecting-timeroasting",
+     "source": "Huntress",
+     "kind": "news",
+     "published": "2026-11-19T14:00:00Z"
+    }
+   ],
+   "detection": {
+    "type": "behavioral",
+    "sigma": null,
+    "hunting_steps": [
+     "List domain controllers and confirm which hosts and subnets legitimately sync time against them.",
+     "Hunt for endpoint processes other than svchost.exe or w32tm.exe sending traffic to remote port 123, focusing on traffic to domain controllers.",
+     "On domain controllers, summarize inbound NTP traffic per remote IP and look for unusually high volumes or sources that are not domain members.",
+     "Correlate suspicious sources with process, user and logon activity on that host around the same time.",
+     "Check computer accounts in the targeted domain for weak or never-rotated passwords and reset any found."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Non-time-service processes sending NTP traffic",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(14d) | where RemotePort == 123 | where InitiatingProcessFileName !in~ (\"svchost.exe\", \"w32tm.exe\") | summarize Events = count(), Targets = dcount(RemoteIP), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by DeviceName, InitiatingProcessFileName, InitiatingProcessCommandLine, InitiatingProcessAccountName | order by Events desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 300,
+        "hits": 0,
+        "tables": [
+         "DeviceNetworkEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "High-volume NTP sources hitting domain controllers",
+      "kql": "let DCs = DeviceInfo | where Timestamp > ago(7d) | where DeviceType == \"Server\" and DeviceName has \"dc\" | distinct DeviceId; DeviceNetworkEvents | where Timestamp > ago(7d) | where DeviceId in (DCs) | where LocalPort == 123 | summarize Requests = count(), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by DeviceName, RemoteIP | where Requests > 100 | order by Requests desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 360,
+        "hits": 0,
+        "tables": [
+         "DeviceNetworkEvents",
+         "DeviceInfo"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": [
+     "An AI-drafted Sigma rule failed validation and was dropped."
+    ],
+    "rejected_sigma": {
+     "messages": [
+      "No condition errors found.",
+      "Validation issue summary:",
+      "+-------+---------------------+----------+----------------------------------+",
+      "| Count | Issue               | Severity | Description                      |",
+      "+-------+---------------------+----------+----------------------------------+",
+      "| 1     | NumberAsStringIssue | LOW      | A number was expressed as string |",
+      "+-------+---------------------+----------+----------------------------------+",
+      "Check failure",
+      "Parsing Sigma rules",
+      "Checking Sigma rules"
+     ]
+    }
+   }
+  },
+  {
+   "id": "story-9",
+   "rank": 9,
+   "score": 29,
+   "factors": {
+    "exploitation": 0,
+    "prevalence": 18,
+    "platform": 8,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Researchers disclose two critical 'nginx2root' NGINX flaws enabling unauthenticated remote code execution",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "none_known",
+    "prevalence": "widespread",
+    "platform": "linux_server",
+    "vendor": "",
+    "product": "NGINX"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "BleepingComputer reports that researchers have disclosed two critical NGINX vulnerabilities, collectively named \"nginx2root\", that let unauthenticated attackers run code remotely on vulnerable web servers. According to the report, the researchers showed the flaws can be chained with a Linux kernel bug to escalate to root. The available reporting gives no CVE identifiers, affected or fixed versions, or vendor advisory details, and no exploitation in the wild is known.",
+    "why_it_matters": "NGINX is widely deployed as a web server, reverse proxy and load balancer in front of internet-facing applications, and it is embedded in many appliances and gateways. Unauthenticated code execution on such a host is a direct path into the network, and the demonstrated kernel chain turns it into full host compromise. Exploitation is not reported yet, but with a named, publicly demonstrated chain the window before attackers move may be short.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory every NGINX instance, including those embedded in appliances, load balancers, ingress controllers and container images, and prioritize internet-facing ones.",
+     "Watch for the official NGINX/F5 advisory and CVE assignments, and apply fixed releases as soon as they are published; ask appliance vendors whether their bundled NGINX is affected.",
+     "Apply current Linux kernel security updates on NGINX hosts to break the reported privilege escalation chain.",
+     "Make sure NGINX worker processes run as an unprivileged account and are confined (container, SELinux/AppArmor), which limits impact after initial code execution.",
+     "Hunt for NGINX processes spawning shells, interpreters or download utilities on Linux servers, and for unexpected outbound connections from those hosts."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Critical NGINX ‘NGINX2Root’ bugs let attackers hijack servers",
+     "url": "https://www.bleepingcomputer.com/news/security/critical-nginx-nginx2root-bugs-let-attackers-hijack-servers/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-19T14:57:24Z"
+    }
+   ],
+   "detection": {
+    "type": "behavioral",
+    "sigma": {
+     "origin": "ai",
+     "title": "Shell or Download Utility Spawned by NGINX on Linux",
+     "url": null,
+     "yaml": "title: Shell or Download Utility Spawned by NGINX on Linux\nid: 360f209d-0c95-5c88-a7a7-307dd402f8c5\nstatus: experimental\ndescription: Detects an NGINX process launching a shell, scripting interpreter or download tool, which is typical after remote code execution in the web server, as with the reported nginx2root flaws. NGINX normally does not spawn such child processes. AI-generated, untested.\nreferences:\n- https://www.bleepingcomputer.com/news/security/critical-nginx-nginx2root-bugs-let-attackers-hijack-servers/\nauthor: intel-brief (AI-generated, untested)\ndate: '2026-11-20'\ntags:\n- attack.t1190\n- attack.execution\n- attack.t1059.004\n- attack.persistence\n- attack.t1505.003\nlogsource:\n  product: linux\n  category: process_creation\ndetection:\n  selection_parent:\n    ParentImage|endswith: /nginx\n  selection_child:\n    Image|endswith:\n    - /sh\n    - /bash\n    - /dash\n    - /zsh\n    - /ksh\n    - /python\n    - /python3\n    - /perl\n    - /curl\n    - /wget\n    - /nc\n    - /ncat\n    - /socat\n    - /busybox\n  condition: selection_parent and selection_child\nfalsepositives:\n- NGINX builds or modules that invoke helper scripts (for example via embedded Perl or custom log pipes)\n- Administrative wrapper scripts started from an NGINX parent during maintenance\nlevel: high\n",
+     "check": {
+      "status": "pass",
+      "messages": [
+       "No rule errors found.",
+       "No condition errors found.",
+       "No validation issues found.",
+       "Parsing Sigma rules",
+       "Checking Sigma rules"
+      ]
+     },
+     "conversions": {
+      "kql": {
+       "label": "Defender XDR / Sentinel KQL",
+       "query": "DeviceProcessEvents\n| where InitiatingProcessFolderPath endswith \"/nginx\" and (FolderPath endswith \"/sh\" or FolderPath endswith \"/bash\" or FolderPath endswith \"/dash\" or FolderPath endswith \"/zsh\" or FolderPath endswith \"/ksh\" or FolderPath endswith \"/python\" or FolderPath endswith \"/python3\" or FolderPath endswith \"/perl\" or FolderPath endswith \"/curl\" or FolderPath endswith \"/wget\" or FolderPath endswith \"/nc\" or FolderPath endswith \"/ncat\" or FolderPath endswith \"/socat\" or FolderPath endswith \"/busybox\")",
+       "error": null,
+       "validation": {
+        "status": "pass",
+        "messages": []
+       },
+       "receipt": {
+        "engine": "ran",
+        "baseline": {
+         "events": 500,
+         "hits": 0,
+         "tables": [
+          "DeviceProcessEvents"
+         ]
+        },
+        "cases": {
+         "status": "pass",
+         "positive": 15,
+         "positive_fired": 15,
+         "negative": 4,
+         "negative_fired": 0,
+         "disagreements": [],
+         "skipped": 0
+        }
+       }
+      },
+      "spl": {
+       "label": "Splunk SPL",
+       "query": "ParentImage=\"*/nginx\" Image IN (\"*/sh\", \"*/bash\", \"*/dash\", \"*/zsh\", \"*/ksh\", \"*/python\", \"*/python3\", \"*/perl\", \"*/curl\", \"*/wget\", \"*/nc\", \"*/ncat\", \"*/socat\", \"*/busybox\")",
+       "error": null
+      },
+      "elastic": {
+       "label": "Elastic (Lucene, ECS)",
+       "query": "ParentImage:*\\/nginx AND (Image:(*\\/sh OR *\\/bash OR *\\/dash OR *\\/zsh OR *\\/ksh OR *\\/python OR *\\/python3 OR *\\/perl OR *\\/curl OR *\\/wget OR *\\/nc OR *\\/ncat OR *\\/socat OR *\\/busybox))",
+       "error": null
+      }
+     }
+    },
+    "hunting_steps": [
+     "Build a list of Linux devices running NGINX from software inventory and confirm which are internet-facing.",
+     "Search process telemetry for NGINX parent processes launching shells, interpreters or download tools, and review the command lines.",
+     "On any hit, look for subsequent processes running as root on the same host, which may indicate the kernel escalation step.",
+     "Review outbound network connections initiated by processes descending from NGINX for callbacks to unfamiliar addresses.",
+     "Check NGINX access and error logs on exposed hosts for unusual requests, worker crashes or restarts around suspicious process activity."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Devices with NGINX in software inventory",
+      "kql": "DeviceTvmSoftwareInventory\n| where SoftwareName has \"nginx\"\n| project DeviceName, OSPlatform, SoftwareVendor, SoftwareName, SoftwareVersion\n| order by DeviceName asc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 48,
+        "hits": 0,
+        "tables": [
+         "DeviceTvmSoftwareInventory"
+        ]
+       }
+      }
+     },
+     {
+      "title": "NGINX spawning shells, interpreters or download tools",
+      "kql": "DeviceProcessEvents\n| where Timestamp > ago(14d)\n| where InitiatingProcessFileName =~ \"nginx\"\n| where FileName in~ (\"sh\",\"bash\",\"dash\",\"zsh\",\"ksh\",\"python\",\"python3\",\"perl\",\"curl\",\"wget\",\"nc\",\"ncat\",\"socat\",\"busybox\")\n| project Timestamp, DeviceName, AccountName, FileName, ProcessCommandLine, InitiatingProcessCommandLine\n| order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Outbound connections from processes launched by NGINX",
+      "kql": "DeviceNetworkEvents\n| where Timestamp > ago(14d)\n| where InitiatingProcessParentFileName =~ \"nginx\"\n| where RemoteIPType == \"Public\"\n| project Timestamp, DeviceName, InitiatingProcessFileName, InitiatingProcessCommandLine, RemoteIP, RemotePort, RemoteUrl\n| order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 300,
+        "hits": 0,
+        "tables": [
+         "DeviceNetworkEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  }
+ ],
+ "more_stories": [
+  {
+   "title": "Splunk Enterprise advisories cover empty shared secret and privilege escalation flaws",
+   "score": 23,
+   "cves": [
+    "CVE-2026-76536",
+    "CVE-2026-131177",
+    "CVE-2026-131181"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-76536 (CRITICAL 9.4)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-76536",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-131177 (HIGH 7.1)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-131177",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-131181 (HIGH 7.1)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-131181",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Splunk Enterprise Security and SOAR advisories cover privilege escalation and XSS flaws",
+   "score": 18,
+   "cves": [
+    "CVE-2026-131198",
+    "CVE-2026-131203",
+    "CVE-2026-131218"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-131198 (HIGH 7.1)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-131198",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-131203 (HIGH 8.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-131203",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-131218 (HIGH 8.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-131218",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Social chatter: CVE-2026-121481 discussed by 3 accounts",
+   "score": 12,
+   "cves": [
+    "CVE-2026-121481"
+   ],
+   "sources": []
+  },
+  {
+   "title": "Social chatter: CVE-2026-114938 discussed by 2 accounts",
+   "score": 12,
+   "cves": [
+    "CVE-2026-114938"
+   ],
+   "sources": []
+  },
+  {
+   "title": "WP Duplicate WordPress plugin flaw allows remote code execution in versions up to 1.1.11",
+   "score": 9,
+   "cves": [
+    "CVE-2026-14492"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-14492 (CRITICAL 9.8)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-14492",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Elecbrakes EB2, VM1 and ELBC2000 flaws could allow attackers to control trailer brakes",
+   "score": 7,
+   "cves": [
+    "CVE-2026-124281",
+    "CVE-2026-125273",
+    "CVE-2026-96805"
+   ],
+   "sources": [
+    {
+     "title": "Elecbrakes EB2, VM1, ELBC2000",
+     "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-323-02",
+     "source": "CISA Advisories"
+    }
+   ]
+  },
+  {
+   "title": "Autonomy Logic OpenPLC Runtime flaw allows unauthenticated admin account creation",
+   "score": 7,
+   "cves": [
+    "CVE-2026-126088"
+   ],
+   "sources": [
+    {
+     "title": "Autonomy Logic OpenPLC Runtime",
+     "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-323-01",
+     "source": "CISA Advisories"
+    }
+   ]
+  },
+  {
+   "title": "libumqtt integer underflow flaw enables denial of service and memory corruption",
+   "score": 7,
+   "cves": [
+    "CVE-2026-125132"
+   ],
+   "sources": [
+    {
+     "title": "libumqtt",
+     "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-323-03",
+     "source": "CISA Advisories"
+    }
+   ]
+  },
+  {
+   "title": "IBM Guardium Data Protection path traversal lets authenticated users delete files",
+   "score": 4,
+   "cves": [
+    "CVE-2026-84273"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-84273 (HIGH 8.1)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-84273",
+     "source": "NVD"
+    }
+   ]
+  }
+ ],
+ "kev_new": [],
+ "early_signals": [
+  {
+   "cve": "CVE-2026-121481",
+   "authors": 3,
+   "platforms": [
+    "Hacker News"
+   ],
+   "posts": [
+    {
+     "url": "https://news.ycombinator.com/item?id=50569226",
+     "platform": "Hacker News",
+     "account": "@JacobHenner",
+     "published": "2026-11-20T02:01:09Z"
+    },
+    {
+     "url": "https://news.ycombinator.com/item?id=50568929",
+     "platform": "Hacker News",
+     "account": "@choult",
+     "published": "2026-11-20T01:15:46Z"
+    },
+    {
+     "url": "https://news.ycombinator.com/item?id=50569818",
+     "platform": "Hacker News",
+     "account": "@kvuj",
+     "published": "2026-11-20T03:33:00Z"
+    }
+   ],
+   "first_seen": "2026-11-20T01:15:46Z",
+   "epss": {
+    "epss": 0.00307,
+    "percentile": 0.24171
+   },
+   "vendor_advisory": false,
+   "nvd": {
+    "cvss": 9.8,
+    "severity": "CRITICAL",
+    "products": [],
+    "description": "Issue summary: Calling EVP_EncodeBlock() with an input length close to INT_MAX\nmay overflow the calculation of the encoded output size and write past the end\nof the caller-supplied output buffer.\n\nImpact summary: No path by which an attacker can trigger this has been\nidentified. An application that …"
+   },
+   "poc": [
+    {
+     "url": "https://github.com/Quaerendir/openssl-cve-2026-121481-audit",
+     "name": "Quaerendir/openssl-cve-2026-121481-audit",
+     "stars": 0,
+     "created": "2026-11-20"
+    }
+   ]
+  }
+ ],
+ "explainer": {
+  "concept": "vCenter as a tier-zero asset: why owning the management plane equals owning the estate",
+  "dek": "VMware vCenter Server centrally controls every ESXi host and virtual machine it manages, so an attacker with vCenter administrator rights effectively controls every workload in the virtual estate, including domain controllers.",
+  "why_today": "Broadcom's fix for CVE-2026-123890, an unauthenticated vCenter authentication bypass that Google says a China-linked espionage group exploited as a zero-day since September 2026, hands an attacker exactly this level of control. It helps to understand what vCenter Administrator access means and why it so often goes unseen.",
+  "related_story_ids": [
+   "story-1"
+  ],
+  "parts": [
+   {
+    "heading": "What vCenter and its directory service are",
+    "paragraphs": [
+     "vCenter Server is the management layer for vSphere. It manages ESXi hosts, and through them every virtual machine, datastore, virtual network and snapshot. Most organisations deploy it as the vCenter Server Appliance, a Linux-based virtual appliance that sits outside the Windows estate and its endpoint agents.",
+     "Authentication to vCenter runs through vCenter Single Sign-On, which is backed by the VMware Directory Service (vmdir). That is an LDAP-style directory holding the local SSO domain (vsphere.local by default), its users and groups, and the built-in Administrator account. A flaw in that component, like the one Rapid7 describes as an authentication bypass via an alternate path, undermines the root of trust for the whole vSphere deployment, not a single feature."
+    ]
+   },
+   {
+    "heading": "What an attacker gains",
+    "paragraphs": [
+     "With vCenter Administrator rights an attacker can power VMs on and off, open VM consoles, create new VMs, change virtual networking, and take snapshots, clones or exports of any guest. For a Windows estate, the critical consequence is that a snapshot or clone of a domain controller can be copied off and its Active Directory database and registry hives read offline. That yields domain credential material without running anything on the domain controller itself.",
+     "vCenter administrators can also manage the ESXi hosts beneath it. Public incident reporting on espionage groups targeting VMware, including Mandiant's, describes attackers using this position to plant persistence on hypervisors and to run rogue or hidden VMs. Both are places where Windows-centric EDR has no visibility. That is why espionage actors value the management plane: it offers broad access, long dwell time and little telemetry."
+    ]
+   },
+   {
+    "heading": "What it looks like in telemetry",
+    "paragraphs": [
+     "Defender XDR will usually see nothing on the appliance or hosts themselves, so detection depends on forwarding vCenter and ESXi logs into Sentinel. Useful signals are vCenter events for VM snapshot, clone, export and console sessions, especially against domain controllers and other tier-zero servers. Others are changes to SSO users, groups and identity sources, new local accounts, enabling of SSH or the ESXi shell, and logins from unusual source addresses or at unusual times.",
+     "An authentication bypass may never produce a failed-login trail, so look for its effects rather than the login itself. Administrator activity that does not line up with change tickets is one example, as are snapshots of sensitive VMs that no backup job created. On the Windows side, new interactive or service logons using credentials that could only have come from an offline copy of Active Directory are a downstream clue."
+    ]
+   },
+   {
+    "heading": "How to reduce the risk",
+    "paragraphs": [
+     "Patching is necessary but not sufficient. Exploitation reportedly began in September, so treat vCenter instances that were reachable during that window as possibly compromised and review them, not just update them. Network isolation matters most: vCenter's web, API and directory interfaces should be reachable only from dedicated administrative hosts, never from user networks or the internet.",
+     "Manage vSphere as tier zero. Use separate administrative identities that are not ordinary domain accounts, keep the vsphere.local Administrators group minimal, and protect domain controller VMs with features such as VM encryption where your licensing and version support it. Exact capabilities differ between vSphere versions, so confirm them against Broadcom's documentation for your release."
+    ]
+   }
+  ],
+  "takeaways": [
+   "Apply the fixed builds from VMSA-2026-0009 to every vCenter Server, including instances already patched for CVE-2026-59309, since Broadcom says that earlier fix does not cover the new flaw.",
+   "Restrict network access to vCenter management and directory interfaces to a dedicated administrative network or jump hosts, and confirm no vCenter is reachable from the internet.",
+   "Forward vCenter and ESXi logs to Sentinel. Alert on snapshots, clones, exports and console sessions involving domain controllers, and on SSH or ESXi shell being enabled.",
+   "Audit vsphere.local users, groups and identity sources for accounts or membership changes made since September 2026, and investigate any you cannot tie to a change record.",
+   "If vCenter compromise cannot be ruled out, assume domain controller VMs may have been copied, and plan krbtgt and privileged credential resets as part of the response."
+  ],
+  "unsupported_cves": [],
+  "model": "claude-opus-5-5"
+ },
+ "good_news": [
+  {
+   "headline": "PHP releases security updates fixing 18 flaws, including critical remote code execution bugs",
+   "summary": "BleepingComputer reports that the PHP development team released updates fixing 18 vulnerabilities, including critical flaws that could let unauthenticated attackers execute code remotely on vulnerable servers. SecurityWeek counts seven critical RCE issues and says successful exploitation could crash the worker process and run code with the PHP worker's privileges.",
+   "kind": "fix_shipped",
+   "sources": [
+    {
+     "title": "PHP security updates fix 18 flaws, including critical RCE bugs",
+     "url": "https://www.bleepingcomputer.com/news/security/php-security-updates-fix-18-flaws-including-critical-rce-bugs/",
+     "source": "BleepingComputer",
+     "published": "2026-11-19T16:28:23Z"
+    },
+    {
+     "title": "PHP Patches Seven Critical RCE Vulnerabilities",
+     "url": "https://www.securityweek.com/php-patches-seven-critical-rce-vulnerabilities/",
+     "source": "SecurityWeek",
+     "published": "2026-11-19T15:54:20Z"
+    }
+   ],
+   "unsupported_cves": [],
+   "model": "claude-opus-5-5"
+  },
+  {
+   "headline": "Drupal Security Team patches critical remote code execution flaw",
+   "summary": "BleepingComputer reports that the Drupal Security Team has patched a critical remote code execution vulnerability that could let attackers take over vulnerable sites. The team warned that exploits may surface quickly, which makes prompt patching of Drupal sites worthwhile.",
+   "kind": "fix_shipped",
+   "sources": [
+    {
+     "title": "Drupal patches critical RCE flaw, warns exploits may surface quickly",
+     "url": "https://www.bleepingcomputer.com/news/security/drupal-patches-critical-rce-flaw-warns-exploits-may-surface-quickly/",
+     "source": "BleepingComputer",
+     "published": "2026-11-19T13:08:08Z"
+    }
+   ],
+   "unsupported_cves": [],
+   "model": "claude-opus-5-5"
+  },
+  {
+   "headline": "ASUS fixes three critical flaws, including a hard-coded key, in Control Center Express",
+   "summary": "BleepingComputer reports that ASUS released Control Center Express version 1.7.29 to fix three critical vulnerabilities, including a hard-coded key flaw. According to the report, the bugs could have let remote attackers gain administrative control of the management console and the devices it manages.",
+   "kind": "fix_shipped",
+   "sources": [
+    {
+     "title": "ASUS warns of critical hard-coded key flaw in Control Center Express",
+     "url": "https://www.bleepingcomputer.com/news/security/asus-warns-of-critical-hard-coded-key-flaw-in-control-center-express/",
+     "source": "BleepingComputer",
+     "published": "2026-11-19T21:15:59Z"
+    }
+   ],
+   "unsupported_cves": [],
+   "model": "claude-opus-5-5"
+  }
+ ],
+ "explainer_status": "ok",
+ "sources_status": {
+  "CISA KEV": "ok 0",
+  "NVD": "ok 22",
+  "BleepingComputer": "ok 8",
+  "The Record": "ok 1",
+  "The DFIR Report": "ok 0",
+  "Cisco Talos": "ok 1",
+  "Unit 42": "ok 0",
+  "Microsoft Security Blog": "ok 0",
+  "SANS ISC": "ok 1",
+  "Huntress": "ok 2",
+  "watchTowr Labs": "ok 0",
+  "Rapid7": "ok 3",
+  "SecurityWeek": "ok 2",
+  "Krebs on Security": "ok 0",
+  "CISA Advisories": "ok 3",
+  "MSRC Security Update Guide": "ok 58",
+  "Bluesky": "ok 0",
+  "Mastodon": "ok 0",
+  "r/netsec": "error FetchError: 404 https://www.reddit.com/r/netsec/new/.rss",
+  "Hacker News": "ok 9",
+  "SigmaHQ new rules": "ok 0",
+  "EPSS": "ok 89"
+ },
+ "stats": {
+  "items": {
+   "news": 18,
+   "advisory": 61,
+   "kev": 0,
+   "nvd": 22,
+   "social": 9,
+   "sigma": 0
+  },
+  "stories_found": 21,
+  "kql_parser": "available",
+  "receipts": {
+   "status": "ran",
+   "engine": "Kusto emulator 1.0.9810.23682",
+   "baseline_events": 1338,
+   "baseline_seed": 20261110
+  }
+ }
+}
