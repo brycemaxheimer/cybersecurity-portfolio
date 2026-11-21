@@ -12,6 +12,86 @@
  "language": "en-US",
  "items": [
   {
+   "id": "https://intel.brycemaxheimer.com/editions/2026-11-21/",
+   "url": "https://intel.brycemaxheimer.com/editions/2026-11-21/",
+   "title": "Daily Intel Brief: 2026-11-21",
+   "content_text": "1. CISA adds exploited SAP NetWeaver, Cisco Expressway, VMware vCenter and Apache Roller flaws to KEV\n2. N-able attributes worldwide Mail Assure and SpamExperts outage to server breach\n3. JPMorgan Chase, Visa and Mastercard blame third-party providers for leaked customer data\n4. Unit 42 profiles Com affiliate vishing, cloud data theft and extortion against healthcare and finance\n5. Metasploit adds Zimbra impersonation and brute-force modules plus BeyondTrust RS exploit\n6. WhatsApp fixes low-severity CVE-2026-23871 found during scam campaign disruption\n7. China-linked actor used open-source AI pentest tool Cairn to find apparent zero-day and seize server\n8. Bell Canada confirms 'agentic' threat actor breached systems and stole enterprise customer data\n9. European Commission takes services offline after AI-assisted cyberattack, reports no data breach\n10. West Virginia Legislature IT systems disrupted by ongoing cybersecurity incident\nNew KEV entries: CVE-2026-129448, CVE-2026-123890, CVE-2025-42884, CVE-2026-76466\nEarly signals: CVE-2026-121481, CVE-2026-123007\nExplainer: JNDI injection and Java deserialization: when a server builds objects from attacker input\nGood news: Co-founder of ransomware recovery firm charged with wire fraud after FBI sting\nGood news: EU adds pro-Russian DDoS group NoName057(16) to its cyber sanctions list\nGood news: F5 ships emergency patches for five critical BIG-IP vulnerabilities\nGood news: Ruby fixes heap overflow CVE-2026-132825 that could allow remote code execution",
+   "date_published": "2026-11-21T17:24:24Z",
+   "_intel_brief": {
+    "data": "https://intel.brycemaxheimer.com/editions/2026-11-21/edition.json",
+    "stories": [
+     {
+      "title": "CISA adds exploited SAP NetWeaver, Cisco Expressway, VMware vCenter and Apache Roller flaws to KEV",
+      "cves": [
+       "CVE-2026-129448",
+       "CVE-2026-123890",
+       "CVE-2025-42884",
+       "CVE-2026-76466"
+      ],
+      "score": 75
+     },
+     {
+      "title": "N-able attributes worldwide Mail Assure and SpamExperts outage to server breach",
+      "cves": [],
+      "score": 72
+     },
+     {
+      "title": "JPMorgan Chase, Visa and Mastercard blame third-party providers for leaked customer data",
+      "cves": [],
+      "score": 62
+     },
+     {
+      "title": "Unit 42 profiles Com affiliate vishing, cloud data theft and extortion against healthcare and finance",
+      "cves": [],
+      "score": 59
+     },
+     {
+      "title": "Metasploit adds Zimbra impersonation and brute-force modules plus BeyondTrust RS exploit",
+      "cves": [
+       "CVE-2026-73571",
+       "CVE-2026-93637",
+       "CVE-2026-102764"
+      ],
+      "score": 57
+     },
+     {
+      "title": "WhatsApp fixes low-severity CVE-2026-23871 found during scam campaign disruption",
+      "cves": [
+       "CVE-2026-23871"
+      ],
+      "score": 56
+     },
+     {
+      "title": "China-linked actor used open-source AI pentest tool Cairn to find apparent zero-day and seize server",
+      "cves": [],
+      "score": 54
+     },
+     {
+      "title": "Bell Canada confirms 'agentic' threat actor breached systems and stole enterprise customer data",
+      "cves": [],
+      "score": 51
+     },
+     {
+      "title": "European Commission takes services offline after AI-assisted cyberattack, reports no data breach",
+      "cves": [],
+      "score": 51
+     },
+     {
+      "title": "West Virginia Legislature IT systems disrupted by ongoing cybersecurity incident",
+      "cves": [],
+      "score": 51
+     }
+    ],
+    "explainer": "JNDI injection and Java deserialization: when a server builds objects from attacker input",
+    "good_news": [
+     "Co-founder of ransomware recovery firm charged with wire fraud after FBI sting",
+     "EU adds pro-Russian DDoS group NoName057(16) to its cyber sanctions list",
+     "F5 ships emergency patches for five critical BIG-IP vulnerabilities",
+     "Ruby fixes heap overflow CVE-2026-132825 that could allow remote code execution"
+    ]
+   }
+  },
+  {
    "id": "https://intel.brycemaxheimer.com/editions/2026-11-20/",
    "url": "https://intel.brycemaxheimer.com/editions/2026-11-20/",
    "title": "Daily Intel Brief: 2026-11-20",
