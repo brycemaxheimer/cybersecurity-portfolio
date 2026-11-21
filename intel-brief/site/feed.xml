@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>Daily Intel Brief</title><link>https://intel.brycemaxheimer.com/</link><description>Daily AI-generated threat-intel brief: top stories, new KEV entries, early signals and detections.</description><language>en-us</language><item><title>Daily Intel Brief: 2026-11-20</title><link>https://intel.brycemaxheimer.com/editions/2026-11-20/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-20/</guid><pubDate>Fri, 20 Nov 2026 18:36:01 +0000</pubDate><description>1. Broadcom patches vCenter authentication bypass exploited as zero-day by China-linked actor
+<rss version="2.0"><channel><title>Daily Intel Brief</title><link>https://intel.brycemaxheimer.com/</link><description>Daily AI-generated threat-intel brief: top stories, new KEV entries, early signals and detections.</description><language>en-us</language><item><title>Daily Intel Brief: 2026-11-21</title><link>https://intel.brycemaxheimer.com/editions/2026-11-21/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-21/</guid><pubDate>Sat, 21 Nov 2026 17:24:24 +0000</pubDate><description>1. CISA adds exploited SAP NetWeaver, Cisco Expressway, VMware vCenter and Apache Roller flaws to KEV
+2. N-able attributes worldwide Mail Assure and SpamExperts outage to server breach
+3. JPMorgan Chase, Visa and Mastercard blame third-party providers for leaked customer data
+4. Unit 42 profiles Com affiliate vishing, cloud data theft and extortion against healthcare and finance
+5. Metasploit adds Zimbra impersonation and brute-force modules plus BeyondTrust RS exploit
+6. WhatsApp fixes low-severity CVE-2026-23871 found during scam campaign disruption
+7. China-linked actor used open-source AI pentest tool Cairn to find apparent zero-day and seize server
+8. Bell Canada confirms 'agentic' threat actor breached systems and stole enterprise customer data
+9. European Commission takes services offline after AI-assisted cyberattack, reports no data breach
+10. West Virginia Legislature IT systems disrupted by ongoing cybersecurity incident
+New KEV entries: CVE-2026-129448, CVE-2026-123890, CVE-2025-42884, CVE-2026-76466
+Early signals: CVE-2026-121481, CVE-2026-123007
+Explainer: JNDI injection and Java deserialization: when a server builds objects from attacker input
+Good news: Co-founder of ransomware recovery firm charged with wire fraud after FBI sting
+Good news: EU adds pro-Russian DDoS group NoName057(16) to its cyber sanctions list
+Good news: F5 ships emergency patches for five critical BIG-IP vulnerabilities
+Good news: Ruby fixes heap overflow CVE-2026-132825 that could allow remote code execution</description></item><item><title>Daily Intel Brief: 2026-11-20</title><link>https://intel.brycemaxheimer.com/editions/2026-11-20/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-20/</guid><pubDate>Fri, 20 Nov 2026 18:36:01 +0000</pubDate><description>1. Broadcom patches vCenter authentication bypass exploited as zero-day by China-linked actor
 2. Brotli decoder buffer overflow CVE-2026-111497 listed in CISA KEV, with Microsoft tracking it
 3. Rapid7: Webworm APT hides access with a disguised custom SoftEther VPN bridge
 4. SBC Medical Group discloses two incidents exposing data of 1.6 million customers and employees

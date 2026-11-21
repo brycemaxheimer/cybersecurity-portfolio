@@ -1,0 +1,1570 @@
+{
+ "schema": 1,
+ "date": "2026-11-21",
+ "generated_at": "2026-11-21T17:24:24Z",
+ "generator": "intel-brief 0.1.0",
+ "models": {
+  "triage": "claude-haiku-5-5",
+  "writeup": "claude-opus-5-5",
+  "triage_method": "model"
+ },
+ "window": {
+  "since": "2026-11-20T05:00:00+00:00",
+  "until": "2026-11-21T05:00:00+00:00"
+ },
+ "stories": [
+  {
+   "id": "story-1",
+   "rank": 1,
+   "score": 75,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 18,
+    "platform": 0,
+    "new_kev": 10,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 4,
+    "in_kev": true,
+    "epss_max": 0.0546,
+    "cvss_max": 0
+   },
+   "title": "CISA adds exploited SAP NetWeaver, Cisco Expressway, VMware vCenter and Apache Roller flaws to KEV",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "widespread",
+    "platform": "other",
+    "vendor": "",
+    "product": ""
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-129448",
+     "cvss": 9.8,
+     "severity": "CRITICAL",
+     "products": [
+      "apache roller"
+     ],
+     "epss": 0.05459,
+     "percentile": 0.92934,
+     "in_kev": true,
+     "kev_due": "2026-11-23",
+     "poc": [
+      {
+       "url": "https://github.com/Yanixos/APACHE-CVE-2026-129448",
+       "name": "Yanixos/APACHE-CVE-2026-129448",
+       "stars": 12,
+       "created": "2026-11-18"
+      },
+      {
+       "url": "https://github.com/foxcornlab/apache-roller-scanner",
+       "name": "foxcornlab/apache-roller-scanner",
+       "stars": 0,
+       "created": "2026-11-20"
+      },
+      {
+       "url": "https://github.com/evenomn/CVE-2026-129448",
+       "name": "evenomn/CVE-2026-129448",
+       "stars": 0,
+       "created": "2026-11-21"
+      }
+     ],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-123890",
+     "cvss": 9.8,
+     "severity": "CRITICAL",
+     "products": [
+      "vmware cloud foundation",
+      "vmware telco cloud infrastructure",
+      "vmware telco cloud platform",
+      "vmware vcenter server"
+     ],
+     "epss": 0.02985,
+     "percentile": 0.87629,
+     "in_kev": true,
+     "kev_due": "2026-11-23",
+     "poc": [
+      {
+       "url": "https://github.com/sanMuSec/vcenter-80u3m-patch-download",
+       "name": "sanMuSec/vcenter-80u3m-patch-download",
+       "stars": 1,
+       "created": "2026-11-20"
+      },
+      {
+       "url": "https://github.com/Cyber-BansalAI/vmware-vcenter-2026",
+       "name": "Cyber-BansalAI/vmware-vcenter-2026",
+       "stars": 0,
+       "created": "2026-11-19"
+      },
+      {
+       "url": "https://github.com/Quaerendir/cve-2026-123890-audit",
+       "name": "Quaerendir/cve-2026-123890-audit",
+       "stars": 0,
+       "created": "2026-11-20"
+      }
+     ],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2025-42884",
+     "cvss": 6.5,
+     "severity": "MEDIUM",
+     "products": [
+      "sap netweaver enterprise portal"
+     ],
+     "epss": 0.00714,
+     "percentile": 0.54582,
+     "in_kev": true,
+     "kev_due": "2026-11-23",
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-76466",
+     "cvss": 9.8,
+     "severity": "CRITICAL",
+     "products": [
+      "cisco expressway"
+     ],
+     "epss": 0.02187,
+     "percentile": 0.82863,
+     "in_kev": true,
+     "kev_due": "2026-11-23",
+     "poc": [
+      {
+       "url": "https://github.com/dinosn/cve-2026-76466",
+       "name": "dinosn/cve-2026-76466",
+       "stars": 8,
+       "created": "2026-11-05"
+      }
+     ],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "On 20 November 2026 CISA added four vulnerabilities to its Known Exploited Vulnerabilities catalog, citing evidence of active exploitation, with a federal remediation due date of 23 November 2026. CISA describes them as an unauthenticated code execution flaw through deserialization in the Apache Roller XML-RPC endpoint (CVE-2026-129448), an authentication bypass in the VMware Directory Service of Broadcom VMware vCenter (CVE-2026-123890), a hard-coded credentials flaw in clustered Cisco Expressway Series devices that allows root command execution through the database service (CVE-2026-76466), and a JNDI injection flaw in SAP NetWeaver Enterprise Portal that lets an unauthenticated attacker disclose or modify server information (CVE-2025-42884). CISA notes that the Roller CVE covers the same underlying bug as CVE-2026-82384 but applies to a wider set of versions. The sources give no affected or fixed version numbers and do not name the attackers.",
+    "why_it_matters": "vCenter, Expressway, NetWeaver portals and Roller blogs are often reachable from the internet. A compromise gives an attacker control of virtualization infrastructure, collaboration edge gateways or application servers. Three of the flaws are rated CVSS 9.8 and have public proof-of-concept code. EPSS ranges from 0.7% for the SAP flaw to 5.5% for Roller, but exploitation is already confirmed and the KEV due date of 23 November 2026 leaves only three days.",
+    "affected_versions": [
+     "Apache Roller (CVE-2026-129448; version ranges not stated, broader than those for CVE-2026-82384)",
+     "VMware vCenter Server, VMware Cloud Foundation, VMware Telco Cloud Infrastructure, VMware Telco Cloud Platform (CVE-2026-123890; versions not stated)",
+     "Cisco Expressway Series, clustered devices (CVE-2026-76466; versions not stated)",
+     "SAP NetWeaver Enterprise Portal (CVE-2025-42884; versions not stated)"
+    ],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Apply the vendor fixes or mitigations from Broadcom, Cisco, SAP and Apache for all four CVEs before 23 November 2026, starting with internet-exposed vCenter, Expressway and Roller instances.",
+     "Remove internet exposure of vCenter management interfaces and the Expressway database and cluster services, and restrict them to management networks.",
+     "Disable or block the Apache Roller XML-RPC endpoint if it is not needed until patched.",
+     "Do compromise triage on systems that were exposed before patching. Look for new vCenter SSO accounts and logins, unexpected root activity on Expressway, and shells spawned by Java on Roller and NetWeaver hosts.",
+     "Rotate credentials stored on or used by vCenter and Expressway if you find signs of compromise."
+    ],
+    "confidence": "high",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "CISA Adds Four Known Exploited Vulnerabilities to Catalog",
+     "url": "https://www.cisa.gov/news-events/alerts/2026/11/20/cisa-adds-four-known-exploited-vulnerabilities-catalog",
+     "source": "CISA Advisories",
+     "kind": "advisory",
+     "published": "2026-11-20T12:00:00Z"
+    },
+    {
+     "title": "CVE-2026-129448: Apache Roller Deserialization of Untrusted Data Vulnerability",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-129448",
+     "source": "CISA KEV",
+     "kind": "kev",
+     "published": "2026-11-20T00:00:00Z"
+    },
+    {
+     "title": "CVE-2026-123890: VMWare vCenter Authentication Bypass Using an Alternate Path or Channel Vulnerability",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123890",
+     "source": "CISA KEV",
+     "kind": "kev",
+     "published": "2026-11-20T00:00:00Z"
+    },
+    {
+     "title": "CVE-2025-42884: SAP NetWeaver Improper Neutralization of Special Elements in Data Query Logic Vulnerability",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-42884",
+     "source": "CISA KEV",
+     "kind": "kev",
+     "published": "2026-11-20T00:00:00Z"
+    },
+    {
+     "title": "CVE-2026-76466: Cisco Expressway Series Use of Hard-coded Credentials Vulnerability",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-76466",
+     "source": "CISA KEV",
+     "kind": "kev",
+     "published": "2026-11-20T00:00:00Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Inventory exposure: use Defender Vulnerability Management and external attack surface data to find vCenter, Cisco Expressway, SAP NetWeaver Portal and Apache Roller instances, and note which are reachable from the internet.",
+     "Review vCenter SSO and VMware Directory Service logs in Sentinel or syslog for unexpected account creation, privilege changes or logins from unfamiliar sources since early November 2026.",
+     "Review Cisco Expressway logs for unexpected cluster database connections and root-level command activity.",
+     "On Windows hosts running Roller or SAP NetWeaver Java, hunt for java or Tomcat processes spawning command interpreters or recon tools.",
+     "Check SAP NetWeaver and Java application hosts for outbound LDAP or RMI connections to the internet, which can indicate JNDI lookup abuse."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Devices with the four KEV CVEs per Defender Vulnerability Management",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where CveId in ('CVE-2026-129448','CVE-2026-123890','CVE-2025-42884','CVE-2026-76466') | project DeviceName, OSPlatform, SoftwareVendor, SoftwareName, SoftwareVersion, CveId, VulnerabilitySeverityLevel, RecommendedSecurityUpdate",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 0,
+        "hits": 0,
+        "tables": [
+         "DeviceTvmSoftwareVulnerabilities"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Java application servers spawning shells or recon tools",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(14d) | where InitiatingProcessFileName in~ ('java.exe','javaw.exe','tomcat.exe','tomcat9.exe','tomcat10.exe','jstart.exe') | where FileName in~ ('cmd.exe','powershell.exe','pwsh.exe','whoami.exe','certutil.exe','curl.exe','bitsadmin.exe','net.exe','net1.exe','nltest.exe','rundll32.exe','mshta.exe') | project Timestamp, DeviceName, AccountName, InitiatingProcessFileName, InitiatingProcessCommandLine, FileName, ProcessCommandLine | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Outbound LDAP or RMI from Java processes to public IPs",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(14d) | where InitiatingProcessFileName in~ ('java.exe','javaw.exe','jstart.exe') | where RemotePort in (389, 636, 1389, 1099) | where RemoteIPType == 'Public' | summarize Connections = count(), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by DeviceName, RemoteIP, RemotePort, InitiatingProcessFileName",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 300,
+        "hits": 0,
+        "tables": [
+         "DeviceNetworkEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-2",
+   "rank": 2,
+   "score": 72,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 18,
+    "platform": 8,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 6,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "N-able attributes worldwide Mail Assure and SpamExperts outage to server breach",
+   "labels": {
+    "category": "breach",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "widespread",
+    "platform": "cloud_saas",
+    "vendor": "N-able",
+    "product": "Mail Assure, SpamExperts Hosted Cloud"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "N-able says attackers breached one of its servers and caused a major worldwide outage of its Mail Assure and SpamExperts Hosted Cloud email filtering services, according to BleepingComputer. SecurityWeek reports that N-able blamed the disruption on a cyberattack and that the incident could have led to credential theft. The sources do not say how the attackers got in, which data or credentials were exposed, or whether service has been fully restored.",
+    "why_it_matters": "Organizations that route Microsoft 365 or other mail through Mail Assure or SpamExperts may have lost inbound filtering or mail flow, and any credentials stored in or used with those services may be exposed. Because the email gateway sits in the mail path, a compromise there could enable mail interception or abuse of connector and relay settings. The sources give no indicators, so the immediate work is confirming exposure and rotating secrets.",
+    "affected_versions": [
+     "N-able Mail Assure (hosted service)",
+     "N-able SpamExperts Hosted Cloud (hosted service)"
+    ],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Confirm whether your organization or your MSP uses Mail Assure or SpamExperts Hosted Cloud and follow N-able's incident communications for scope and restoration status.",
+     "Rotate any credentials, API keys, SMTP relay or connector secrets, and admin passwords associated with Mail Assure or SpamExperts accounts, and enforce MFA on those admin portals.",
+     "Review Exchange Online inbound and outbound connectors and transport rules tied to the filtering service for unexpected changes, and plan temporary direct mail flow or alternate filtering if the outage persists.",
+     "While upstream filtering is degraded, raise scrutiny on inbound mail: confirm Defender for Office 365 policies are active and watch for phishing that slips through.",
+     "Hunt for unusual sign-ins and mailbox rule creation for accounts whose credentials may have passed through the affected services."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "N-able Blames Service Disruption on Cyberattack",
+     "url": "https://www.securityweek.com/n-able-blames-service-disruption-on-cyberattack/",
+     "source": "SecurityWeek",
+     "kind": "news",
+     "published": "2026-11-20T09:08:35Z"
+    },
+    {
+     "title": "N-able says recent security breach led to major service outage",
+     "url": "https://www.bleepingcomputer.com/news/microsoft/n-able-says-recent-security-breach-led-to-major-service-outage/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-20T13:18:36Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Identify whether your mail flow (MX records and Exchange Online connectors) relies on Mail Assure or SpamExperts.",
+     "Review recent changes to Exchange Online connectors and transport rules in the audit log for unexpected modifications.",
+     "Check inbound mail volume and delivery for gaps or sudden shifts in delivery path during the outage window.",
+     "Look for new inbox rules that forward, redirect or delete mail, especially for privileged and finance users.",
+     "Review sign-ins for accounts whose credentials may have been used with the affected services, focusing on new IPs, countries or failed MFA."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Exchange connector and transport rule changes",
+      "kql": "CloudAppEvents | where Timestamp > ago(14d) | where ActionType in~ ('New-InboundConnector','Set-InboundConnector','New-OutboundConnector','Set-OutboundConnector','New-TransportRule','Set-TransportRule','Remove-InboundConnector','Remove-OutboundConnector') | project Timestamp, AccountDisplayName, AccountObjectId, ActionType, IPAddress, RawEventData | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 30,
+        "hits": 0,
+        "tables": [
+         "CloudAppEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "New or modified inbox rules with forwarding or deletion",
+      "kql": "CloudAppEvents | where Timestamp > ago(14d) | where ActionType in~ ('New-InboxRule','Set-InboxRule','UpdateInboxRules') | where tostring(RawEventData) has_any ('ForwardTo','RedirectTo','ForwardAsAttachmentTo','DeleteMessage','MoveToFolder') | project Timestamp, AccountDisplayName, ActionType, IPAddress, CountryCode, RawEventData | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 30,
+        "hits": 0,
+        "tables": [
+         "CloudAppEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Inbound mail volume by day to spot filtering disruption",
+      "kql": "EmailEvents | where Timestamp > ago(14d) | where EmailDirection == 'Inbound' | summarize Messages = count(), Phish = countif(ThreatTypes has 'Phish'), Malware = countif(ThreatTypes has 'Malware') by bin(Timestamp, 1d), DeliveryAction | order by Timestamp asc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 40,
+        "hits": 6,
+        "tables": [
+         "EmailEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-3",
+   "rank": 3,
+   "score": 62,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 8,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 6,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "JPMorgan Chase, Visa and Mastercard blame third-party providers for leaked customer data",
+   "labels": {
+    "category": "breach",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "cloud_saas",
+    "vendor": "JPMorgan Chase",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "According to BleepingComputer, J.P. Morgan Chase has disclosed a data breach in which a cyberattack on a third-party service provider exposed customers' personal information and marketing data. SecurityWeek reports that JPMorgan, Visa and Mastercard all point to third-party providers after an extortion group calling itself N0n leaked data it claims is tied to their customers. The sources do not name the provider or providers, and they do not describe how the attackers got in or how many people are affected.",
+    "why_it_matters": "This is a supply-chain data exposure at a SaaS or service vendor, not a vulnerability in software defenders run, so there is nothing to patch. The main risk to readers is follow-on activity: phishing and social engineering that uses the leaked personal and marketing data to pose as these banks or card brands. Organizations that share customer data with marketing or service vendors should also treat this as a prompt to review that third-party access.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Warn users and help desk staff about phishing and vishing that impersonates Chase, Visa or Mastercard, including messages that cite accurate personal details.",
+     "Make sure email protections and user reporting channels are tuned to catch financial-brand impersonation lures.",
+     "Review which third-party marketing and service providers hold your customer data, and confirm their breach notification obligations.",
+     "Track official statements from the affected companies for the name of the provider and any indicators, and update this assessment if they are released."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "JPMorgan, Visa, Mastercard Cite Third-Party Incidents Amid Data Leak",
+     "url": "https://www.securityweek.com/jpmorgan-visa-mastercard-cite-third-party-incidents-amid-data-leak/",
+     "source": "SecurityWeek",
+     "kind": "news",
+     "published": "2026-11-20T07:35:46Z"
+    },
+    {
+     "title": "Vendor data breach exposes Chase, Visa, Mastercard customer info",
+     "url": "https://www.bleepingcomputer.com/news/security/vendor-data-breach-exposes-chase-visa-mastercard-customer-info/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-20T15:58:06Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-4",
+   "rank": 4,
+   "score": 59,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 8,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Unit 42 profiles Com affiliate vishing, cloud data theft and extortion against healthcare and finance",
+   "labels": {
+    "category": "campaign",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "cloud_saas",
+    "vendor": "",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "Unit 42 published an analysis on 20 November 2026 of campaigns by affiliates of the Com, a loose cybercriminal community, that use voice phishing to gain access, steal data from cloud environments and then extort victims. According to Unit 42, the activity has targeted healthcare and finance organizations, and the report includes defense guidance. The available summary does not list specific techniques, tools, indicators or affected platforms.",
+    "why_it_matters": "Vishing campaigns of this kind typically go after help desks and individual users to reset credentials or MFA, which turns into identity compromise in Entra ID and bulk data theft from SaaS apps without any malware on endpoints. Unit 42 describes the activity as active, and healthcare and finance teams are named targets. Because no specific tradecraft is in the summary, defenders should read the full report and treat the guidance here as general hardening and hunting.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Require strong caller verification at the help desk before any password reset, MFA reset or new MFA device enrollment, such as a callback to a number on file or manager approval.",
+     "Enforce phishing-resistant MFA for privileged and high-value accounts, and limit who can register new authentication methods through Conditional Access.",
+     "Alert on new MFA method registration or password reset followed quickly by a sign-in from an unfamiliar location or device.",
+     "Monitor SaaS and cloud storage for unusually large download or export volumes per user, and review OAuth app consents.",
+     "Review the full Unit 42 report for indicators and specific techniques and add them to detections."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Dialing for Data: Inside the Com’s High-Profile Heists",
+     "url": "https://unit42.paloaltonetworks.com/com-affiliate-vishing-attacks/",
+     "source": "Unit 42",
+     "kind": "news",
+     "published": "2026-11-20T22:00:25Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Pull Entra audit activity for security info registrations and password resets over the last 14 days and match them against help desk tickets.",
+     "For each account with a reset or new MFA method, check sign-ins within the next few hours for new IP addresses, countries or devices.",
+     "Look for per-user spikes in file download or sync activity in SharePoint, OneDrive and other connected SaaS apps.",
+     "Check for new OAuth app consents or new inbox rules on accounts flagged above.",
+     "Contain any confirmed account by revoking sessions, resetting credentials and removing attacker-registered MFA methods."
+    ],
+    "hunting_queries": [
+     {
+      "title": "MFA method registrations and password resets in Entra ID",
+      "kql": "CloudAppEvents | where Timestamp > ago(14d) | where ActionType has_any (\"registered security info\", \"Reset user password\", \"Reset password\", \"Update user\", \"deleted security info\") | project Timestamp, ActionType, AccountDisplayName, AccountObjectId, IPAddress, CountryCode, Application | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 30,
+        "hits": 0,
+        "tables": [
+         "CloudAppEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Per-user hourly spikes in cloud file downloads",
+      "kql": "CloudAppEvents | where Timestamp > ago(14d) | where ActionType in (\"FileDownloaded\", \"FileSyncDownloadedFull\") | summarize Downloads = count(), IPs = make_set(IPAddress, 10) by AccountDisplayName, AccountObjectId, bin(Timestamp, 1h) | where Downloads > 500 | order by Downloads desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 30,
+        "hits": 0,
+        "tables": [
+         "CloudAppEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-5",
+   "rank": 5,
+   "score": 57,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 4,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 10,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": true,
+    "epss_max": 0.5564,
+    "cvss_max": 0
+   },
+   "title": "Metasploit adds Zimbra impersonation and brute-force modules plus BeyondTrust RS exploit",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "niche",
+    "platform": "web_app",
+    "vendor": "",
+    "product": "Zimbra"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-73571",
+     "cvss": 3.1,
+     "severity": "LOW",
+     "products": [
+      "synacor zimbra collaboration suite"
+     ],
+     "epss": 0.00883,
+     "percentile": 0.60068,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-93637",
+     "cvss": 3.7,
+     "severity": "LOW",
+     "products": [],
+     "epss": 0.01033,
+     "percentile": 0.64642,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-102764",
+     "cvss": 9.3,
+     "severity": "CRITICAL",
+     "products": [
+      "beyondtrust remote support"
+     ],
+     "epss": 0.55639,
+     "percentile": 0.9906,
+     "in_kev": true,
+     "kev_due": null,
+     "poc": [
+      {
+       "url": "https://github.com/Worthes/CVE-2026-102764-Proof-of-concept",
+       "name": "Worthes/CVE-2026-102764-Proof-of-concept",
+       "stars": 4,
+       "created": "2026-10-16"
+      },
+      {
+       "url": "https://github.com/maxprog-svg/CVE-2026-102764",
+       "name": "maxprog-svg/CVE-2026-102764",
+       "stars": 0,
+       "created": "2026-10-21"
+      },
+      {
+       "url": "https://github.com/CompleteTech-Security/beyondtrust-remote-support-cve-2026-102764-check",
+       "name": "CompleteTech-Security/beyondtrust-remote-support-cve-2026-102764-check",
+       "stars": 0,
+       "created": "2026-10-23"
+      }
+     ],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "Rapid7 says its latest Metasploit release adds a shared Zimbra SOAP mixin and two auxiliary modules from its Zimbra identity-boundary research. CVE-2026-73571 is an authorization bypass in SaveDraftRequest handling that lets any authenticated user send mail as another local mailbox. CVE-2026-93637 is a rate-limit bypass in the Network Edition GraphQL authentication endpoint that lets credential stuffing evade the source-IP lockout applied to SOAP logins. Both were validated against Zimbra 10.1.16 Network Edition. The same release adds an exploit module for CVE-2026-102764, which the sources tie to BeyondTrust Remote Support, not Zimbra, despite how the release is framed.",
+    "why_it_matters": "The two Zimbra flaws are rated low (CVSS 3.1 and 3.7, EPSS 0.9% and 1.0%) and are not in KEV, but public Metasploit modules make internal mail spoofing and lockout-free password spraying easy. That raises phishing and account-takeover risk for organizations running Zimbra. The bigger concern is CVE-2026-102764 in BeyondTrust Remote Support: CVSS 9.3, EPSS 55.6%, listed in CISA KEV (no due date given), and now available as a ready-made exploit, so internet-facing Remote Support appliances should be treated as urgent.",
+    "affected_versions": [
+     "Zimbra Collaboration 10.1.16 Network Edition (validated by Rapid7 for CVE-2026-73571 and CVE-2026-93637; full affected range not stated)",
+     "BeyondTrust Remote Support (CVE-2026-102764; versions not stated)"
+    ],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory internet-facing BeyondTrust Remote Support appliances and apply the vendor fix for CVE-2026-102764 immediately, since it is in KEV and a public exploit module exists.",
+     "Check whether you run Zimbra Network Edition 10.1.16 or nearby releases and apply Synacor's fixes for CVE-2026-73571 and CVE-2026-93637 once you confirm the patched versions with the vendor.",
+     "Restrict or monitor access to the Zimbra GraphQL authentication endpoint and enforce MFA so password spraying that bypasses lockout cannot succeed.",
+     "Review Zimbra mail logs for messages sent as one mailbox by a different authenticated account without a delegation grant, and for unexpected items in users' Sent folders.",
+     "Review BeyondTrust Remote Support logs and hosts for unexpected file uploads and for outbound activity originating from the appliance."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Metasploit Wrap Up: Breaking Zimbra's Identity Boundaries",
+     "url": "https://www.rapid7.com/blog/post/pt-metasploit-wrap-up-breaking-zimbra-s-identity-boundaries",
+     "source": "Rapid7",
+     "kind": "news",
+     "published": "2026-11-20T10:30:36Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Use vulnerability management data to find devices flagged for CVE-2026-73571, CVE-2026-93637 or CVE-2026-102764.",
+     "On Zimbra web and mailbox logs, look for high volumes of batched GraphQL authentication requests from single sources, especially many usernames per request.",
+     "Search Zimbra audit and mail logs for SaveDraftRequest-based sends where the From address differs from the authenticated account and no delegation exists.",
+     "Correlate successful Zimbra logins that follow GraphQL authentication bursts, and reset passwords for those accounts.",
+     "On BeyondTrust Remote Support appliances, review upload activity and admin sessions since the Metasploit module was released on 20 November 2026."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Devices exposed to the Zimbra and BeyondTrust CVEs in this Metasploit release",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where CveId in~ ('CVE-2026-73571','CVE-2026-93637','CVE-2026-102764') | project DeviceName, OSPlatform, SoftwareVendor, SoftwareName, SoftwareVersion, CveId, VulnerabilitySeverityLevel, RecommendedSecurityUpdate",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 0,
+        "hits": 0,
+        "tables": [
+         "DeviceTvmSoftwareVulnerabilities"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-6",
+   "rank": 6,
+   "score": 56,
+   "factors": {
+    "exploitation": 28,
+    "prevalence": 25,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0048,
+    "cvss_max": 0
+   },
+   "title": "WhatsApp fixes low-severity CVE-2026-23871 found during scam campaign disruption",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "reported",
+    "prevalence": "ubiquitous",
+    "platform": "mobile",
+    "vendor": "",
+    "product": "WhatsApp"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-23871",
+     "cvss": 3.5,
+     "severity": "LOW",
+     "products": [],
+     "epss": 0.0048,
+     "percentile": 0.42237,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "According to SecurityWeek, WhatsApp has fixed a vulnerability tracked as CVE-2026-23871 that its own security team discovered while disrupting a scam campaign. SecurityWeek reports the flaw may have been used to make scam messages appear more credible. The sources do not state affected or fixed version numbers or give technical details of the flaw.",
+    "why_it_matters": "The issue is rated low severity (CVSS 3.5, EPSS 0.5%), is not in CISA KEV, and no public proof-of-concept is reported. It mainly matters for social engineering: users with WhatsApp on corporate or BYOD mobile devices may receive scam messages that look more trustworthy. There is no Windows, M365 or edge-device telemetry to hunt for.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Make sure WhatsApp is updated to the latest version on managed mobile devices through your MDM or app store policy.",
+     "Remind users that WhatsApp messages can be made to look more credible than they are, and that they should verify unexpected requests for money, credentials or codes through a separate channel.",
+     "Watch for WhatsApp's own advisory to confirm affected and fixed versions."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "WhatsApp Fixes Flaw Uncovered While Disrupting Scam Campaign",
+     "url": "https://www.securityweek.com/whatsapp-fixes-flaw-uncovered-while-disrupting-scam-campaign/",
+     "source": "SecurityWeek",
+     "kind": "news",
+     "published": "2026-11-20T16:01:02Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-7",
+   "rank": 7,
+   "score": 54,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 6,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "China-linked actor used open-source AI pentest tool Cairn to find apparent zero-day and seize server",
+   "labels": {
+    "category": "campaign",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "other",
+    "vendor": "",
+    "product": "Cairn"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "Amazon researchers, as reported by The Record on 20 November 2026, say a China-linked threat actor used the open-source AI penetration-testing framework Cairn to repeatedly attack two universities, and in one case it apparently found a previously unknown vulnerability. BleepingComputer reports that the zero-day was in a medical imaging application and that the attackers used it to take over a server. The sources do not name the vulnerable product or version, give a CVE, or publish indicators, and The Record describes the zero-day as possible rather than confirmed.",
+    "why_it_matters": "Autonomous AI tooling lowers the cost of finding and exploiting flaws in niche internet-facing applications, such as medical imaging, lab or research software, that often get little security review. No patch or CVE is identified, so the only defenses for now are reducing exposure and watching for exploitation behavior on internet-facing servers. Education and healthcare organizations that expose specialist applications should treat this as a priority.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory internet-facing specialist applications, especially medical imaging and research systems, and remove direct internet exposure or place them behind VPN or authenticated access.",
+     "Hunt on internet-facing servers for application or web server processes spawning shells and reconnaissance tools, which can indicate successful exploitation of an unknown flaw.",
+     "Review web and application logs for bursts of automated, high-variety requests from single sources, which are typical of AI-driven scanning and fuzzing.",
+     "Make sure EDR covers servers that host specialist applications, and isolate any server showing signs of compromise for investigation.",
+     "Watch for the vendor, Amazon or CISA to publish the affected product, a CVE or indicators, and patch as soon as a fix is named."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Hackers use autonomous AI tool Cairn to find zero-day, take over server",
+     "url": "https://www.bleepingcomputer.com/news/security/hackers-use-autonomous-ai-tool-cairn-to-find-zero-day-take-over-server/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-20T17:30:00Z"
+    },
+    {
+     "title": "Amazon says Chinese hackers used Cairn AI tool to discover apparent zero-day during attack on university",
+     "url": "https://therecord.media/amazon-research-cairn-ai-university-attacks-possible-zero-day",
+     "source": "The Record",
+     "kind": "news",
+     "published": "2026-11-20T17:30:00Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "List internet-facing devices and confirm which ones host specialist or medical imaging applications.",
+     "On those hosts, look for server or application processes launching command interpreters or reconnaissance utilities.",
+     "Check inbound connection logs for single remote addresses generating unusually high request volumes or probing many ports, which suggests automated scanning.",
+     "Correlate any scanning sources with later suspicious process activity or new outbound connections from the same server.",
+     "Escalate and isolate hosts where exploitation indicators line up, then preserve web and application logs for forensics."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Server application processes spawning shells or recon tools",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where InitiatingProcessFileName in~ (\"w3wp.exe\",\"java.exe\",\"javaw.exe\",\"tomcat9.exe\",\"httpd.exe\",\"nginx.exe\",\"node.exe\",\"python.exe\",\"php-cgi.exe\") | where FileName in~ (\"cmd.exe\",\"powershell.exe\",\"pwsh.exe\",\"whoami.exe\",\"net.exe\",\"net1.exe\",\"certutil.exe\",\"bitsadmin.exe\",\"rundll32.exe\",\"mshta.exe\",\"nltest.exe\") | project Timestamp, DeviceName, InitiatingProcessFileName, InitiatingProcessCommandLine, FileName, ProcessCommandLine, AccountName | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "High-volume inbound connections suggesting automated scanning",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(14d) | where ActionType == \"InboundConnectionAccepted\" | summarize Connections = count(), Ports = dcount(LocalPort) by DeviceName, RemoteIP, bin(Timestamp, 1h) | where Connections > 500 or Ports > 20 | order by Connections desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 300,
+        "hits": 0,
+        "tables": [
+         "DeviceNetworkEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Internet-facing devices for exposure review",
+      "kql": "DeviceInfo | where Timestamp > ago(7d) | where IsInternetFacing == true | summarize arg_max(Timestamp, *) by DeviceId | project DeviceName, OSPlatform, PublicIP, MachineGroup, Timestamp",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 60,
+        "hits": 0,
+        "tables": [
+         "DeviceInfo"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-8",
+   "rank": 8,
+   "score": 51,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Bell Canada confirms 'agentic' threat actor breached systems and stole enterprise customer data",
+   "labels": {
+    "category": "breach",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "other",
+    "vendor": "Bell Canada",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "According to BleepingComputer, Bell Canada has confirmed that a threat actor it describes as \"agentic\" breached its systems on 17 November 2026 and stole enterprise customer data. The stolen data reportedly includes information from a system used to order and provision telecommunications circuits. The sources do not describe the initial access method, the exact data fields exposed, or the number of affected customers.",
+    "why_it_matters": "Organizations that buy circuits or telecom services from Bell Canada may have had circuit details, site information and contact data exposed, which can fuel targeted phishing, pretexting against carrier support, or reconnaissance of network edges. No technical indicators or intrusion methods have been published, so there is nothing specific to hunt for yet beyond heightened vigilance for carrier-themed social engineering.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "If your organization is a Bell Canada enterprise customer, contact your account team to confirm whether your data was included and what fields were exposed.",
+     "Warn network, procurement and helpdesk staff about phishing or phone pretexting that references Bell circuit orders, circuit IDs or provisioning tickets.",
+     "Verify that any carrier-portal or ordering-system accounts used with Bell have strong unique passwords and MFA, and rotate credentials that may have been stored in or shared through the provider's systems.",
+     "Review exposure of internet-facing edge devices on Bell-provided circuits, since circuit and site details can aid targeting.",
+     "Track Bell Canada's disclosures for indicators of compromise or further details on the intrusion method."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Bell Canada says 'agentic' hacker stole enterprise customer data",
+     "url": "https://www.bleepingcomputer.com/news/security/bell-canada-says-agentic-hacker-stole-enterprise-customer-data/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-20T18:51:43Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-9",
+   "rank": 9,
+   "score": 51,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "European Commission takes services offline after AI-assisted cyberattack, reports no data breach",
+   "labels": {
+    "category": "campaign",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "other",
+    "vendor": "European Commission",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "SecurityWeek reports that the European Commission has confirmed a cyberattack it describes as AI-assisted, which disrupted some of its services. The Commission took certain services offline to contain the incident and says it has no evidence that data was breached. The available reporting does not name the attacker, the initial access method, the affected systems, or how AI was used in the attack.",
+    "why_it_matters": "No vulnerabilities, techniques or indicators have been disclosed, so there is nothing specific to hunt for in Windows, Microsoft 365 or edge-device telemetry yet. The incident is a reminder that organizations may need to take services offline during containment, and that public sector bodies are active targets. Follow-up reporting may add technical detail that changes this assessment.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Watch for follow-up statements from the European Commission or CERT-EU that disclose techniques, exploited products or indicators, and reassess exposure when they appear.",
+     "If your organization exchanges data or federated access with EU institutions, check with those partners about any related advisories or required credential changes.",
+     "Review incident response playbooks for containment steps that take services offline, including communication plans and recovery order."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "European Commission Confirms AI-Assisted Cyberattack Disrupted Services",
+     "url": "https://www.securityweek.com/european-commission-confirms-ai-assisted-cyberattack-disrupted-services/",
+     "source": "SecurityWeek",
+     "kind": "news",
+     "published": "2026-11-20T10:51:42Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-10",
+   "rank": 10,
+   "score": 51,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "West Virginia Legislature IT systems disrupted by ongoing cybersecurity incident",
+   "labels": {
+    "category": "breach",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "other",
+    "vendor": "",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "According to The Record, a cybersecurity incident affecting the West Virginia Legislature's IT systems began on Thursday and was still ongoing on Friday, 20 November 2026. A spokesperson said the disruption had not spread to other government entities. The sources do not identify the attacker, the intrusion vector, the malware involved or whether data was taken.",
+    "why_it_matters": "There are no technical details, CVEs or indicators yet, so defenders have nothing specific to hunt for. The story matters mainly as situational awareness for public-sector organizations and for anyone connected to West Virginia state government networks. Watch for follow-up reporting that names a ransomware group or an initial access vector.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Track follow-up reporting for the initial access vector, ransomware attribution or published indicators, then hunt for them.",
+     "If your organization has network trust, shared accounts or data exchange with West Virginia Legislature systems, review those connections and the accounts that use them for unusual activity.",
+     "Confirm that offline backups and incident response contacts are current for legislative or public-sector IT environments."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "West Virginia Legislature hit with cyber incident affecting IT systems",
+     "url": "https://therecord.media/west-virginia-legislature-cyberattack",
+     "source": "The Record",
+     "kind": "news",
+     "published": "2026-11-20T21:34:36Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  }
+ ],
+ "more_stories": [
+  {
+   "title": "SBC Medical Group data breach impacts over 2 million people in Japan",
+   "score": 51,
+   "cves": [],
+   "sources": [
+    {
+     "title": "SBC Medical Group Data Breach Impacts Over 2 Million",
+     "url": "https://www.securityweek.com/sbc-medical-group-data-breach-impacts-over-2-million/",
+     "source": "SecurityWeek"
+    }
+   ]
+  },
+  {
+   "title": "Container Store restores website and systems after cybersecurity incident",
+   "score": 51,
+   "cves": [],
+   "sources": [
+    {
+     "title": "Container Store restores systems after cyberattack",
+     "url": "https://therecord.media/container-store-restores-systems-cyberattack",
+     "source": "The Record"
+    }
+   ]
+  },
+  {
+   "title": "Microsoft begins auto-installing Windows 11 26H2 on unmanaged devices; KB5132057 released",
+   "score": 48,
+   "cves": [],
+   "sources": [
+    {
+     "title": "Microsoft now automatically installs Windows 11 26H2 on unmanaged devices",
+     "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-now-automatically-installs-windows-11-26h2-on-personal-and-unmanaged-pcs/",
+     "source": "BleepingComputer"
+    },
+    {
+     "title": "Windows 11 KB5132057 update released with 28 changes and fixes",
+     "url": "https://www.bleepingcomputer.com/news/microsoft/windows-11-kb5132057-update-released-with-28-changes-and-fixes/",
+     "source": "BleepingComputer"
+    }
+   ]
+  },
+  {
+   "title": "Chromium use-after-free flaws CVE-2024-7533 and CVE-2023-1531 listed in MSRC guide",
+   "score": 28,
+   "cves": [
+    "CVE-2024-7533",
+    "CVE-2023-1531"
+   ],
+   "sources": [
+    {
+     "title": "Chromium: CVE-2024-7533 Use after free in Sharing",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2024-7532",
+     "source": "MSRC Security Update Guide"
+    },
+    {
+     "title": "Chromium: CVE-2023-1531 Use after free in ANGLE",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2023-1531",
+     "source": "MSRC Security Update Guide"
+    }
+   ]
+  },
+  {
+   "title": "D-Link DCS-935L command injection CVE-2026-133680 has a public exploit",
+   "score": 22,
+   "cves": [
+    "CVE-2026-133680"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-133680 (HIGH 8.6)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-133680",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Gladys Assistant command injection CVE-2026-133500 has a publicly available exploit",
+   "score": 22,
+   "cves": [
+    "CVE-2026-133500"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-133500 (HIGH 8.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-133500",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "HanLP path traversal CVE-2026-133835 has a published exploit, fixed in 2.1.7",
+   "score": 22,
+   "cves": [
+    "CVE-2026-133835"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-133835 (MEDIUM 5.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-133835",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "CVE-2026-121481 drawing discussion from 15 accounts on social media",
+   "score": 12,
+   "cves": [
+    "CVE-2026-121481"
+   ],
+   "sources": []
+  },
+  {
+   "title": "House Homeland Security chairmen rebuke US firms' use of Chinese open-weight AI models",
+   "score": 11,
+   "cves": [],
+   "sources": [
+    {
+     "title": "US companies’ use of Chinese open weight AI draws rebuke from House chairmen",
+     "url": "https://therecord.media/chinese-open-weight-AI-use-by-US-companies-house-investigation",
+     "source": "The Record"
+    }
+   ]
+  }
+ ],
+ "kev_new": [
+  {
+   "cve": "CVE-2026-129448",
+   "vendor": "Apache",
+   "product": "Roller",
+   "name": "Apache Roller Deserialization of Untrusted Data Vulnerability",
+   "date_added": "2026-11-20",
+   "due_date": "2026-11-23",
+   "ransomware": "Unknown",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-129448"
+  },
+  {
+   "cve": "CVE-2026-123890",
+   "vendor": "Broadcom",
+   "product": "VMware vCenter",
+   "name": "VMWare vCenter Authentication Bypass Using an Alternate Path or Channel Vulnerability",
+   "date_added": "2026-11-20",
+   "due_date": "2026-11-23",
+   "ransomware": "Unknown",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123890"
+  },
+  {
+   "cve": "CVE-2025-42884",
+   "vendor": "SAP",
+   "product": "NetWeaver",
+   "name": "SAP NetWeaver Improper Neutralization of Special Elements in Data Query Logic Vulnerability",
+   "date_added": "2026-11-20",
+   "due_date": "2026-11-23",
+   "ransomware": "Unknown",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-42884"
+  },
+  {
+   "cve": "CVE-2026-76466",
+   "vendor": "Cisco",
+   "product": "Expressway Series",
+   "name": "Cisco Expressway Series Use of Hard-coded Credentials Vulnerability",
+   "date_added": "2026-11-20",
+   "due_date": "2026-11-23",
+   "ransomware": "Unknown",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-76466"
+  }
+ ],
+ "early_signals": [
+  {
+   "cve": "CVE-2026-121481",
+   "authors": 15,
+   "platforms": [
+    "Hacker News"
+   ],
+   "posts": [
+    {
+     "url": "https://news.ycombinator.com/item?id=50578562",
+     "platform": "Hacker News",
+     "account": "@jerf",
+     "published": "2026-11-20T17:31:12Z"
+    },
+    {
+     "url": "https://news.ycombinator.com/item?id=50578336",
+     "platform": "Hacker News",
+     "account": "@loeg",
+     "published": "2026-11-20T17:20:17Z"
+    },
+    {
+     "url": "https://news.ycombinator.com/item?id=50577532",
+     "platform": "Hacker News",
+     "account": "@uecker",
+     "published": "2026-11-20T16:41:35Z"
+    },
+    {
+     "url": "https://news.ycombinator.com/item?id=50575450",
+     "platform": "Hacker News",
+     "account": "@jeroenhd",
+     "published": "2026-11-20T14:51:46Z"
+    },
+    {
+     "url": "https://news.ycombinator.com/item?id=50575407",
+     "platform": "Hacker News",
+     "account": "@pseudohadamard",
+     "published": "2026-11-20T14:48:53Z"
+    }
+   ],
+   "first_seen": "2026-11-20T06:04:49Z",
+   "epss": {
+    "epss": 0.00462,
+    "percentile": 0.40806
+   },
+   "vendor_advisory": false,
+   "nvd": {
+    "cvss": 5.9,
+    "severity": "MEDIUM",
+    "products": [],
+    "description": "Issue summary: Calling EVP_EncodeBlock() with an input length close to INT_MAX\nmay overflow the calculation of the encoded output size and write past the end\nof the caller-supplied output buffer.\n\nImpact summary: No path by which an attacker can trigger this has been\nidentified. An application that …"
+   },
+   "poc": [
+    {
+     "url": "https://github.com/Quaerendir/openssl-cve-2026-121481-audit",
+     "name": "Quaerendir/openssl-cve-2026-121481-audit",
+     "stars": 0,
+     "created": "2026-11-20"
+    },
+    {
+     "url": "https://github.com/Mahgal/openssl-evp-check",
+     "name": "Mahgal/openssl-evp-check",
+     "stars": 0,
+     "created": "2026-11-21"
+    }
+   ]
+  },
+  {
+   "cve": "CVE-2026-123007",
+   "authors": 4,
+   "platforms": [
+    "Hacker News",
+    "Mastodon"
+   ],
+   "posts": [
+    {
+     "url": "https://infosec.exchange/@stackurity/117652488347936643",
+     "platform": "Mastodon",
+     "account": "@stackurity",
+     "published": "2026-11-21T04:15:02Z"
+    },
+    {
+     "url": "https://infosec.exchange/@DailyCyberSecurity/117651797894363080",
+     "platform": "Mastodon",
+     "account": "@DailyCyberSecurity",
+     "published": "2026-11-21T01:19:26Z"
+    },
+    {
+     "url": "https://news.ycombinator.com/item?id=50574736",
+     "platform": "Hacker News",
+     "account": "@ceejayoz",
+     "published": "2026-11-20T13:57:49Z"
+    },
+    {
+     "url": "https://news.ycombinator.com/item?id=50571355",
+     "platform": "Hacker News",
+     "account": "@wahern",
+     "published": "2026-11-20T07:33:33Z"
+    }
+   ],
+   "first_seen": "2026-11-20T07:33:33Z",
+   "epss": {
+    "epss": 0.29863,
+    "percentile": 0.98243
+   },
+   "vendor_advisory": false,
+   "nvd": {
+    "cvss": 9.2,
+    "severity": "CRITICAL",
+    "products": [
+     "f5 dos",
+     "f5 nginx gateway fabric",
+     "f5 nginx ingress controller",
+     "f5 nginx instance manager",
+     "f5 nginx open source",
+     "f5 nginx plus",
+     "f5 waf",
+     "redhat 3scale api management platform"
+    ],
+    "description": "This issue affects NGINX Plus or NGINX Open Source configurations that use HTTP/2. When NGINX processes undisclosed traffic, the flow control window can exceed the allowed threshold, potentially resulting in a heap buffer overflow typically followed by an NGINX worker segmentation fault. Additionall…"
+   },
+   "poc": [
+    {
+     "url": "https://github.com/sfewer-r7/CVE-2026-123007",
+     "name": "sfewer-r7/CVE-2026-123007",
+     "stars": 285,
+     "created": "2026-11-18"
+    },
+    {
+     "url": "https://github.com/arkrwn/NGINX2Root-CVE-2026-123007",
+     "name": "arkrwn/NGINX2Root-CVE-2026-123007",
+     "stars": 10,
+     "created": "2026-11-18"
+    },
+    {
+     "url": "https://github.com/HOSTED-POWER/nginx2root-patches",
+     "name": "HOSTED-POWER/nginx2root-patches",
+     "stars": 9,
+     "created": "2026-11-19"
+    }
+   ]
+  }
+ ],
+ "explainer": {
+  "concept": "JNDI injection and Java deserialization: when a server builds objects from attacker input",
+  "dek": "JNDI injection and unsafe deserialization are related Java flaws where an application lets attacker-supplied data decide which object it creates or which remote server it fetches one from, often leading to code execution on the server.",
+  "why_today": "Two of the four flaws CISA added to KEV on 20 November 2026 belong to this family: a JNDI injection flaw in SAP NetWeaver Enterprise Portal and an unauthenticated deserialization flaw in the Apache Roller XML-RPC endpoint. Federal agencies have only until 23 November 2026 to remediate.",
+  "related_story_ids": [
+   "story-1"
+  ],
+  "parts": [
+   {
+    "heading": "How deserialization goes wrong",
+    "paragraphs": [
+     "Serialization turns an in-memory object into bytes so it can be stored or sent, and deserialization rebuilds the object from those bytes. In Java, native deserialization can create objects of any class on the application's classpath, and some of those classes run code automatically while being rebuilt. If an application deserializes data that an unauthenticated user controls, the attacker chooses which classes are created and with what values.",
+     "Attackers chain together ordinary library classes, called gadgets, so that rebuilding the object triggers a sequence of method calls ending in something dangerous, such as running a command. The application's own code does not need a bug beyond accepting untrusted serialized data. Whether a gadget chain exists depends on which libraries ship with the product, so exploitability varies by product and version. The same pattern appears in XML-based and other formats that map input onto arbitrary types, not only Java's native binary format."
+    ]
+   },
+   {
+    "heading": "How JNDI injection works",
+    "paragraphs": [
+     "JNDI is Java's standard interface for looking up named resources, such as a database connection or a directory entry, and it can resolve names against LDAP, RMI, DNS and other providers. JNDI injection happens when an application passes an attacker-controlled string into a lookup. The attacker supplies a name pointing at a server they run, and the vulnerable application connects out to it.",
+     "The attacker's server can answer with a reference telling the client to load a factory class from a remote location, or with a serialized object that the client then deserializes. Newer Java runtimes disable loading remote class code by default, but that does not close the hole: attackers can still return references to factory classes already present on the server, or serialized gadget chains. This is the mechanism behind Log4Shell. CISA's description of the SAP flaw speaks of disclosing or modifying server information rather than code execution, so treat the impact as product-specific and follow SAP's own advisory."
+    ]
+   },
+   {
+    "heading": "What it looks like in telemetry",
+    "paragraphs": [
+     "The clearest host signal is a Java process starting a shell or scripting engine. On Windows that means java.exe or javaw.exe as the parent of cmd.exe, powershell.exe, rundll32.exe or certutil.exe, which you can hunt for in the DeviceProcessEvents table in Defender XDR. On Linux appliances, look for java spawning sh, bash, curl or wget.",
+     "JNDI injection has a network signal of its own: an application server making outbound LDAP, RMI or HTTP connections to an unfamiliar internet host just after receiving a request. Look for these in DeviceNetworkEvents, firewall logs in Sentinel, or proxy logs. Web logs may show long serialized or encoded blobs in POST bodies to endpoints such as XML-RPC, or lookup-style strings in parameters and headers, though attackers routinely obfuscate them. After exploitation, expect new files in web roots, new scheduled tasks or services, and credential access from the service account."
+    ]
+   },
+   {
+    "heading": "How to prevent it",
+    "paragraphs": [
+     "Patching is the real fix, because the flaw lives in how the product handles input. Where a vulnerable endpoint is not needed, such as an XML-RPC interface, disable it or block it at the reverse proxy. Strict egress filtering on application servers blunts JNDI injection, because the attack depends on the server reaching an attacker-controlled host.",
+     "For in-house Java code, avoid native deserialization of untrusted data. Where it cannot be avoided, apply Java serialization filters to allow only expected classes, and never pass user input to JNDI lookups. WAF signatures help against commodity scanning but are easy to evade, so do not count them as mitigation."
+    ]
+   }
+  ],
+  "takeaways": [
+   "Inventory internet-facing SAP NetWeaver Enterprise Portal and Apache Roller instances and patch them against the newly listed KEV flaws now. The federal due date is 23 November 2026, only three days after listing.",
+   "If Roller's XML-RPC endpoint is not used, disable it or block it at the reverse proxy until patched.",
+   "Hunt in DeviceProcessEvents for java.exe or javaw.exe spawning cmd.exe, powershell.exe or other LOLBins on application servers. Baseline legitimate cases and alert on the rest.",
+   "Restrict outbound traffic from application servers to required destinations only. Alert on outbound LDAP, RMI or unexpected HTTP from those hosts to the internet.",
+   "Treat any server that was exposed and unpatched as possibly compromised. Check web roots for new files, look for new services or scheduled tasks, and rotate credentials held by the application's service account."
+  ],
+  "unsupported_cves": [],
+  "model": "claude-opus-5-5"
+ },
+ "good_news": [
+  {
+   "headline": "Co-founder of ransomware recovery firm charged with wire fraud after FBI sting",
+   "summary": "Krebs on Security reports that the chief technology officer and co-founder of RansomwareHelp, a Florida business that claimed to restore ransomware-locked data with advanced cryptographic tools, has been charged with wire fraud. According to the report, an FBI sting found the company was simply paying attackers for decryption keys and charging victims a markup for work it never performed.",
+   "kind": "arrest_or_sentencing",
+   "sources": [
+    {
+     "title": "CTO of ‘RansomwareHelp’ Indicted for Wire Fraud",
+     "url": "https://krebsonsecurity.com/2026/11/cto-of-ransomwarehelp-indicted-for-wire-fraud/",
+     "source": "Krebs on Security",
+     "published": "2026-11-21T00:36:39Z"
+    }
+   ],
+   "unsupported_cves": [],
+   "model": "claude-opus-5-5"
+  },
+  {
+   "headline": "EU adds pro-Russian DDoS group NoName057(16) to its cyber sanctions list",
+   "summary": "SecurityWeek reports in its weekly roundup that the European Union has added the hacktivist group NoName057(16) to its cyber sanctions list. The report gives no further detail on the measures.",
+   "kind": "policy",
+   "sources": [
+    {
+     "title": "In Other News: Norwegian Energy Firm Cyberattacks, Supercomputer Hack, New Nightmare Eclipse Exploit",
+     "url": "https://www.securityweek.com/in-other-news-norwegian-energy-firm-cyberattacks-supercomputer-hack-new-nightmare-eclipse-exploit/",
+     "source": "SecurityWeek",
+     "published": "2026-11-20T14:56:23Z"
+    }
+   ],
+   "unsupported_cves": [],
+   "model": "claude-opus-5-5"
+  },
+  {
+   "headline": "F5 ships emergency patches for five critical BIG-IP vulnerabilities",
+   "summary": "BleepingComputer reports that F5 has released emergency patches and warned customers to fix five critical BIG-IP vulnerabilities. According to the report, attackers could exploit the flaws to cause denial of service or gain remote code execution.",
+   "kind": "fix_shipped",
+   "sources": [
+    {
+     "title": "F5 releases emergency patches for critical BIG-IP RCE flaws",
+     "url": "https://www.bleepingcomputer.com/news/security/f5-releases-emergency-patches-for-critical-big-ip-rce-flaws/",
+     "source": "BleepingComputer",
+     "published": "2026-11-20T10:57:43Z"
+    }
+   ],
+   "unsupported_cves": [],
+   "model": "claude-opus-5-5"
+  },
+  {
+   "headline": "Ruby fixes heap overflow CVE-2026-132825 that could allow remote code execution",
+   "summary": "SecurityWeek reports that the Ruby project has patched a vulnerability nicknamed Ruby2Shell, tracked as CVE-2026-132825. The bug is a heap-based buffer overflow that could lead to remote code execution.",
+   "kind": "fix_shipped",
+   "sources": [
+    {
+     "title": "Ruby Patches Ruby2Shell Vulnerability That Could Lead to RCE",
+     "url": "https://www.securityweek.com/ruby-patches-ruby2shell-vulnerability-that-could-lead-to-rce/",
+     "source": "SecurityWeek",
+     "published": "2026-11-20T10:34:10Z"
+    }
+   ],
+   "unsupported_cves": [],
+   "model": "claude-opus-5-5"
+  }
+ ],
+ "explainer_status": "ok",
+ "sources_status": {
+  "CISA KEV": "ok 4",
+  "NVD": "ok 11",
+  "BleepingComputer": "ok 8",
+  "The Record": "ok 5",
+  "The DFIR Report": "ok 0",
+  "Cisco Talos": "ok 0",
+  "Unit 42": "ok 1",
+  "Microsoft Security Blog": "ok 1",
+  "SANS ISC": "ok 0",
+  "Huntress": "ok 1",
+  "watchTowr Labs": "ok 0",
+  "Rapid7": "ok 1",
+  "SecurityWeek": "ok 8",
+  "Krebs on Security": "ok 1",
+  "CISA Advisories": "ok 1",
+  "MSRC Security Update Guide": "ok 2",
+  "Bluesky": "ok 0",
+  "Mastodon": "ok 22",
+  "r/netsec": "error FetchError: https://www.reddit.com/r/netsec/new/.rss: 429 Client Error: Too Many Requests for url: https://www.reddit.com/r/netsec/new/.rss",
+  "Hacker News": "ok 20",
+  "SigmaHQ new rules": "ok 0",
+  "EPSS": "ok 38"
+ },
+ "stats": {
+  "items": {
+   "news": 26,
+   "advisory": 3,
+   "kev": 4,
+   "nvd": 11,
+   "social": 42,
+   "sigma": 0
+  },
+  "stories_found": 22,
+  "kql_parser": "available",
+  "receipts": {
+   "status": "ran",
+   "engine": "Kusto emulator 1.0.9810.23682",
+   "baseline_events": 1338,
+   "baseline_seed": 20261110
+  }
+ }
+}
