@@ -1,0 +1,1200 @@
+{
+ "schema": 1,
+ "date": "2026-11-22",
+ "generated_at": "2026-11-22T17:48:14Z",
+ "generator": "intel-brief 0.1.0",
+ "models": {
+  "triage": "claude-haiku-5-5",
+  "writeup": "claude-opus-5-5",
+  "triage_method": "model"
+ },
+ "window": {
+  "since": "2026-11-21T05:00:00+00:00",
+  "until": "2026-11-22T05:00:00+00:00"
+ },
+ "stories": [
+  {
+   "id": "story-1",
+   "rank": 1,
+   "score": 81,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 18,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Microsoft reports Entra Connect Health flaw exploited to expose admin emails and tenant configuration",
+   "labels": {
+    "category": "breach",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "widespread",
+    "platform": "m365_entra",
+    "vendor": "Microsoft",
+    "product": "Entra Connect Health"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "BleepingComputer reports that Microsoft is warning organizations of a data breach in which attackers exploited a vulnerability in the Entra Connect Health service. According to that report, the attackers gained unauthorized access to tenant administrator email addresses and tenant configuration information. No CVE, affected component details, timeline or count of affected tenants were given in the available reporting, and the source text is a truncated summary.",
+    "why_it_matters": "The flaw sits in a Microsoft-operated cloud service, so the fix is on Microsoft's side, but leaked admin addresses and configuration data give attackers a ready target list for phishing, password spraying and MFA fatigue against privileged Entra accounts. Exploitation is reported as confirmed, so treat any tenant using Entra Connect Health as potentially exposed until Microsoft's notification says otherwise.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Check the Microsoft 365 admin center Message center and Service health for a breach notification specific to your tenant, and follow any instructions it contains.",
+     "Confirm all Global Administrator and other privileged Entra accounts use phishing-resistant MFA and are covered by Conditional Access policies.",
+     "Warn administrators that their addresses may be exposed and raise scrutiny of phishing and unexpected MFA prompts aimed at them.",
+     "Review Entra audit logs for unexpected changes to Connect Health agents, service principals, app consents and tenant settings since the disclosure.",
+     "Monitor sign-in logs for password spraying or anomalous sign-ins against admin accounts."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Microsoft Entra Connect Health flaw exploited to steal tenant data",
+     "url": "https://www.bleepingcomputer.com/news/security/microsoft-entra-connect-health-flaw-exploited-to-steal-tenant-data/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-21T18:01:58Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Read any tenant-specific notification from Microsoft to learn whether your tenant was affected and which data was exposed.",
+     "Build a list of privileged Entra account addresses and hunt for phishing delivered to them since early November 2026.",
+     "Hunt for failed and anomalous sign-ins against those admin accounts, focusing on spraying patterns from single IPs across many admins.",
+     "Review Entra audit and cloud app activity for new service principals, app consents, credential additions and Connect Health-related changes made by unexpected actors."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Phishing and malware emails delivered to privileged admin mailboxes",
+      "kql": "let AdminAddresses = dynamic([]); // populate with your privileged admin addresses\nEmailEvents\n| where Timestamp > ago(30d)\n| where RecipientEmailAddress in~ (AdminAddresses)\n| where ThreatTypes has_any (\"Phish\", \"Malware\") or DeliveryAction == \"Delivered\" and EmailDirection == \"Inbound\" and isnotempty(ThreatTypes)\n| project Timestamp, RecipientEmailAddress, SenderFromAddress, SenderIPv4, Subject, ThreatTypes, DeliveryAction, DeliveryLocation\n| order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 40,
+        "hits": 0,
+        "tables": [
+         "EmailEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Password spraying against many accounts from a single IP",
+      "kql": "IdentityLogonEvents\n| where Timestamp > ago(14d)\n| where ActionType == \"LogonFailed\"\n| summarize FailedAccounts = dcount(AccountUpn), Attempts = count(), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by IPAddress\n| where FailedAccounts >= 10\n| order by FailedAccounts desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 0,
+        "hits": 0,
+        "tables": [
+         "IdentityLogonEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "New app consents, service principals and credentials in Entra",
+      "kql": "CloudAppEvents\n| where Timestamp > ago(30d)\n| where ActionType has_any (\"Consent to application\", \"Add service principal\", \"Add service principal credentials\", \"Update application\", \"Add app role assignment\")\n| project Timestamp, ActionType, AccountDisplayName, AccountObjectId, IPAddress, ObjectName, RawEventData\n| order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 30,
+        "hits": 0,
+        "tables": [
+         "CloudAppEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-2",
+   "rank": 2,
+   "score": 55,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 4,
+    "platform": 8,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Rackspace Spot breach exposed Kubernetes secrets in customer clusters via compromised credentials",
+   "labels": {
+    "category": "breach",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "niche",
+    "platform": "cloud_saas",
+    "vendor": "Rackspace",
+    "product": "Rackspace Spot"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "According to BleepingComputer, Rackspace has warned customers that attackers broke into its Rackspace Spot cloud platform using compromised credentials. The intruders were able to deploy unauthorized workloads and read Kubernetes secrets inside customer clusters. The report, published 21 November 2026, does not say which credentials were compromised, how long the attackers had access, how many customers were affected, or what the secrets contained.",
+    "why_it_matters": "Kubernetes secrets often hold cloud API keys, database passwords, registry tokens and service principal credentials, including Entra ID app secrets that grant access to Microsoft 365 or Azure resources. Any credential stored in an affected Spot cluster should be treated as exposed, and attackers can reuse it well outside the Kubernetes environment. Exploitation is confirmed, but details are thin, so organizations using Rackspace Spot should act on the assumption of compromise rather than wait for more information.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "If you use Rackspace Spot, contact Rackspace to confirm whether your clusters were affected, and get the exposure window and the indicators they hold.",
+     "Rotate every secret stored in Rackspace Spot clusters, starting with Entra ID app registration secrets and certificates, cloud provider keys, and database and registry credentials. Revoke the old values rather than only issuing new ones.",
+     "Review Spot clusters for workloads, pods, service accounts or role bindings you did not create, and remove them.",
+     "Review sign-in and activity logs for service principals and accounts whose credentials were held as Kubernetes secrets. Look for use from unfamiliar IP addresses or unusual API calls since the compromise window.",
+     "Rotate the credentials used to access the Rackspace Spot console and API, and enforce MFA on those accounts."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Rackspace Spot breach let hackers access customer Kubernetes secrets",
+     "url": "https://www.bleepingcomputer.com/news/security/rackspace-spot-breach-let-hackers-access-customer-kubernetes-secrets/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-21T22:59:58Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "List every Kubernetes secret in your Rackspace Spot clusters and map each one to the identity or system it unlocks, such as an Entra ID service principal, a cloud account, a database or a container registry.",
+     "For each Entra ID service principal or app secret on that list, check sign-in and audit logs in Sentinel for authentications from IP addresses or locations outside your known infrastructure during the exposure window.",
+     "Check the Kubernetes audit logs and workload inventories of affected clusters for unexpected deployments, DaemonSets, CronJobs or new service accounts.",
+     "Look for downstream misuse of exposed credentials, such as new mailbox access, data downloads or resource creation by the affected identities, and confirm that rotated credentials no longer authenticate."
+    ],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-3",
+   "rank": 3,
+   "score": 47,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 4,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Amazon says China-linked actor used AI agents to find and exploit a MONAI Label zero-day",
+   "labels": {
+    "category": "campaign",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "niche",
+    "platform": "other",
+    "vendor": "",
+    "product": "MONAI Label"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "SecurityWeek, citing Amazon, reports that a China-linked threat actor used autonomous AI agents, which Amazon calls Cairn, to discover and exploit a critical zero-day in MONAI Label. MONAI Label is open-source medical imaging annotation server software. The available report does not give a CVE identifier, affected or fixed versions, technical details of the flaw, victims, or indicators of compromise.",
+    "why_it_matters": "Exploitation is confirmed in the wild, but MONAI Label is niche software that is mostly found in healthcare, research and AI/ML environments. Any instance exposed to the internet or reachable from untrusted networks should be treated as potentially compromised until a fix and details are published. The report that AI agents handled both discovery and exploitation suggests less-common research and ML tooling may be targeted faster than usual.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory all MONAI Label servers, including research workstations and GPU hosts, and remove any instance reachable from the internet or untrusted networks.",
+     "Restrict access to MONAI Label servers to trusted networks behind VPN or authentication until the project or Amazon publishes fix details.",
+     "Monitor Project MONAI and Amazon advisories for a CVE, affected versions and a patch, and apply the patch once it is released.",
+     "Review MONAI Label hosts for unexpected child processes, new files, outbound connections and credential access, and rotate any cloud or dataset credentials stored on exposed hosts.",
+     "Treat medical imaging data on exposed instances as possibly accessed, and involve privacy and compliance teams if compromise is suspected."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Amazon: China-Linked Hackers’ AI Agents Exploited Medical Software Zero-Day",
+     "url": "https://www.securityweek.com/amazon-china-linked-hackers-ai-agents-exploited-medical-software-zero-day/",
+     "source": "SecurityWeek",
+     "kind": "news",
+     "published": "2026-11-21T12:08:50Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Identify endpoints and servers running MONAI Label by searching process command lines for 'monailabel'.",
+     "Check whether those hosts accept inbound connections from public IP addresses on the MONAI Label service port.",
+     "Look for shells, download utilities or scripting interpreters spawned by the MONAI Label server process.",
+     "Review outbound connections from MONAI Label hosts to unfamiliar public destinations since the server was first exposed.",
+     "Escalate any host with suspicious child processes or public exposure for full incident response."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Hosts running MONAI Label server processes",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where ProcessCommandLine has \"monailabel\" or InitiatingProcessCommandLine has \"monailabel\" | summarize FirstSeen=min(Timestamp), LastSeen=max(Timestamp), SampleCmd=any(ProcessCommandLine) by DeviceId, DeviceName",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Suspicious child processes spawned by MONAI Label",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where InitiatingProcessCommandLine has \"monailabel\" | where FileName in~ (\"sh\",\"bash\",\"dash\",\"zsh\",\"cmd.exe\",\"powershell.exe\",\"pwsh.exe\",\"curl\",\"wget\",\"curl.exe\",\"nc\",\"ncat\",\"certutil.exe\") | project Timestamp, DeviceName, AccountName, FileName, ProcessCommandLine, InitiatingProcessCommandLine",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Public inbound connections to MONAI Label processes",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(30d) | where InitiatingProcessCommandLine has \"monailabel\" | where ActionType == \"InboundConnectionAccepted\" and RemoteIPType == \"Public\" | summarize Connections=count(), Ports=make_set(LocalPort), FirstSeen=min(Timestamp), LastSeen=max(Timestamp) by DeviceName, RemoteIP",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 300,
+        "hits": 0,
+        "tables": [
+         "DeviceNetworkEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-4",
+   "rank": 4,
+   "score": 47,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 4,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "BADBOX ad-fraud botnet on generic Android TV boxes resumes at large scale",
+   "labels": {
+    "category": "malware",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "niche",
+    "platform": "other",
+    "vendor": "",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "BleepingComputer reports that the BADBOX malware, found on a wide range of generic Android TV boxes, has resumed large-scale ad-fraud operations after disruptions last year. According to the report, the botnet now generates about 40 billion ad requests per day. The available reporting does not name specific device models, firmware versions, infection vectors or indicators of compromise.",
+    "why_it_matters": "BADBOX targets cheap, unmanaged Android-based streaming boxes rather than Windows, M365 or edge devices. The main risk is these boxes appearing on corporate, guest or remote-worker networks as untrusted, compromised hosts. The botnet is active in the wild, but without published indicators, defenders can only reduce exposure by inventorying and isolating such devices.",
+    "affected_versions": [
+     "Generic Android TV boxes (specific models not stated)"
+    ],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory unmanaged Android-based media or TV boxes on corporate and office networks, and remove or isolate any that are not approved.",
+     "Restrict IoT and consumer devices to segmented VLANs or guest networks with no access to internal resources.",
+     "Prohibit off-brand Android TV boxes in procurement and facilities, for example in meeting-room displays and digital signage.",
+     "Watch for vendor or researcher publications of BADBOX indicators, and add them to blocklists and hunts once available."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "BADBOX botnet returns with record-breaking 40 billion daily ad requests",
+     "url": "https://www.bleepingcomputer.com/news/security/badbox-30-botnet-returns-with-record-breaking-40-billion-daily-ad-requests/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-21T15:17:27Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Use Defender for Endpoint device discovery to list unmanaged devices that report an Android platform or an IoT category.",
+     "Check discovered devices against the approved asset list, and flag generic or unknown-vendor streaming boxes.",
+     "Confirm which network segment each flagged device sits on, and isolate or remove those on corporate segments.",
+     "Once BADBOX indicators are published, search network and DNS telemetry for connections to them."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Unmanaged Android or IoT devices discovered on the network",
+      "kql": "DeviceInfo | where Timestamp > ago(14d) | where OnboardingStatus != \"Onboarded\" | where OSPlatform contains \"Android\" or DeviceCategory == \"IoT\" | summarize arg_max(Timestamp, *) by DeviceId | project Timestamp, DeviceId, DeviceName, DeviceCategory, DeviceType, OSPlatform, Vendor, Model, OnboardingStatus",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 60,
+        "hits": 0,
+        "tables": [
+         "DeviceInfo"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-5",
+   "rank": 5,
+   "score": 47,
+   "factors": {
+    "exploitation": 18,
+    "prevalence": 4,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 5,
+    "sources": 0,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0105,
+    "cvss_max": 9.3
+   },
+   "title": "D-Link DIR-600L 2.17b02 stack overflow in gena.cgi (CVE-2026-133993) rated CVSS 9.3",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "public_poc",
+    "prevalence": "niche",
+    "platform": "edge_device",
+    "vendor": "D-Link",
+    "product": "DIR-600L"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-133993",
+     "cvss": 9.3,
+     "severity": "CRITICAL",
+     "products": [],
+     "epss": 0.01052,
+     "percentile": 0.65184,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "NVD lists CVE-2026-133993, a stack-based buffer overflow in the GENA subscription handler (gena.cgi) of D-Link DIR-600L firmware 2.17b02, published 21 November 2026. According to NVD, an attacker can trigger the flaw remotely by manipulating the service argument, and the scoring is CVSS 9.3 (critical). NVD says an exploit has been publicly released. Separate proof-of-concept tracking did not confirm public exploit code, so the sources disagree on this point. No vendor advisory or fixed firmware is cited.",
+    "why_it_matters": "The DIR-600L is a small-office or home router, so exposure in enterprise estates is most likely through branch sites, remote workers or unmanaged shadow IT, not managed edge infrastructure. The bug is not in CISA KEV and the EPSS score is low (about 1.1%). Still, a remotely reachable memory corruption bug with a reportedly public exploit is the kind of flaw botnets tend to pick up on cheap routers.",
+    "affected_versions": [
+     "D-Link DIR-600L 2.17b02"
+    ],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory DIR-600L routers in offices, branches and remote-worker setups, and remove them from any network that carries corporate traffic.",
+     "Since no fixed firmware is identified, replace affected units with supported hardware and do not wait for a patch.",
+     "Make sure the router's UPnP/GENA services and remote management are not reachable from the internet or from untrusted segments.",
+     "Check for a D-Link advisory on this CVE and apply any firmware update it provides.",
+     "Watch traffic from any remaining DIR-600L devices for unexpected outbound connections that could point to compromise or botnet enrollment."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "CVE-2026-133993 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-133993",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-21T18:16:54.277Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Use Defender for Endpoint device discovery to list network devices that report D-Link as vendor or DIR-600L as model.",
+     "Find managed endpoints whose default gateway or frequent network neighbors are D-Link routers. These usually indicate remote-worker or branch exposure.",
+     "Look for managed hosts reaching common router UPnP ports (1900, 49152) on internal router addresses, which shows where such services are present.",
+     "For confirmed DIR-600L units, verify the firmware version and plan replacement, since no fix is stated."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Discovered D-Link network devices (possible DIR-600L)",
+      "kql": "DeviceInfo | where Timestamp > ago(30d) | where Vendor has \"D-Link\" or Model has \"DIR-600\" | summarize arg_max(Timestamp, *) by DeviceId | project Timestamp, DeviceId, DeviceName, Vendor, Model, DeviceType, DeviceCategory, OSVersion",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 60,
+        "hits": 0,
+        "tables": [
+         "DeviceInfo"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Endpoint connections to router UPnP/GENA ports on private addresses",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(14d) | where RemotePort in (1900, 49152) | where ipv4_is_private(RemoteIP) | summarize Connections = count(), Hosts = dcount(DeviceId) by RemoteIP, RemotePort | order by Hosts desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 300,
+        "hits": 0,
+        "tables": [
+         "DeviceNetworkEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-6",
+   "rank": 6,
+   "score": 42,
+   "factors": {
+    "exploitation": 28,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 6,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "FBI investigating apparent breach of National Crime Information Center database",
+   "labels": {
+    "category": "breach",
+    "exploitation": "reported",
+    "prevalence": "unknown",
+    "platform": "other",
+    "vendor": "FBI",
+    "product": "National Crime Information Center"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "BleepingComputer reports that FBI systems have apparently been breached for the second time in two months, this time affecting the National Crime Information Center (NCIC), the database local, state and federal law enforcement agencies use to share information. SecurityWeek, citing an AP source, says the FBI is investigating an apparent hack of a national law enforcement database it maintains. The sources do not describe how access was gained, what data was taken, or who is responsible.",
+    "why_it_matters": "No technical details, vulnerabilities or indicators have been published, so there is nothing specific to hunt for in Windows, M365 or edge-device telemetry yet. Organizations that connect to NCIC or other criminal justice information systems, such as state and local agencies and their contractors, may face follow-on phishing or credential abuse if account or query data was exposed.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "If your organization connects to NCIC or CJIS systems, watch for official FBI or CJIS notices and follow any credential reset or access guidance they issue.",
+     "Review access logs and accounts used for criminal justice information system connectivity for unusual sign-ins or query volumes.",
+     "Brief users who handle law enforcement data about possible phishing that references the incident."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "FBI reportedly hacked again, this time targeting nationwide police database",
+     "url": "https://www.bleepingcomputer.com/news/security/fbi-reportedly-hacked-again-this-time-targeting-nationwide-police-database/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-21T14:26:04Z"
+    },
+    {
+     "title": "FBI Investigating Apparent Hack of Its Key National Criminal Justice Database, AP Source Says",
+     "url": "https://www.securityweek.com/fbi-investigating-apparent-hack-of-its-key-national-criminal-justice-database-ap-source-says/",
+     "source": "SecurityWeek",
+     "kind": "news",
+     "published": "2026-11-22T00:53:02Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-7",
+   "rank": 7,
+   "score": 42,
+   "factors": {
+    "exploitation": 18,
+    "prevalence": 4,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 0,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0057,
+    "cvss_max": 7.4
+   },
+   "title": "Out-of-bounds read in end-of-life TRENDnet TEW-657BRM router has published exploit",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "public_poc",
+    "prevalence": "niche",
+    "platform": "edge_device",
+    "vendor": "TRENDnet",
+    "product": "TEW-657BRM"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-133985",
+     "cvss": 7.4,
+     "severity": "HIGH",
+     "products": [],
+     "epss": 0.00572,
+     "percentile": 0.48214,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "NVD lists CVE-2026-133985 (CVSS 7.4, high) as an out-of-bounds read in the restore_config.cgi component of TRENDnet TEW-657BRM firmware 1.00.1 that can be triggered remotely. According to NVD, an exploit has been published, although no public proof-of-concept was confirmed by other tracking. TRENDnet says it cannot confirm the flaw because the product has been end-of-life for more than 15 years, and it plans to notify customers. No patch is expected.",
+    "why_it_matters": "This is a niche consumer/SOHO router that is long unsupported, so most enterprise environments will only meet it at small branch sites or in remote workers' homes. The flaw is not in CISA KEV and has an EPSS score of 0.6%, but no fix will come, so any exposed unit stays vulnerable for good.",
+    "affected_versions": [
+     "TRENDnet TEW-657BRM 1.00.1"
+    ],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Find any TRENDnet TEW-657BRM devices in branch, lab or remote-worker networks and replace them with supported hardware.",
+     "Until replacement, block internet access to the device's web management interface and limit admin access to a trusted management network.",
+     "Treat traffic coming from networks behind these devices as untrusted, and require VPN with device compliance checks for remote workers who use them."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "CVE-2026-133985 (HIGH 7.4)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-133985",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-21T16:16:38.730Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Review asset inventories and network discovery data for TRENDnet devices, especially the TEW-657BRM model.",
+     "Use Defender for Endpoint device discovery to find network devices from TRENDnet seen on corporate segments.",
+     "Check perimeter firewall and proxy logs for inbound requests to restore_config.cgi on any internet-facing addresses you own."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Discovered TRENDnet network devices",
+      "kql": "DeviceInfo\n| where Timestamp > ago(30d)\n| where Vendor has \"TRENDnet\" or Model has \"TEW-657\"\n| summarize LastSeen = max(Timestamp) by DeviceId, DeviceName, Vendor, Model, DeviceType",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 60,
+        "hits": 0,
+        "tables": [
+         "DeviceInfo"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Endpoint connections to local web admin of possible TRENDnet routers",
+      "kql": "DeviceNetworkEvents\n| where Timestamp > ago(14d)\n| where RemoteUrl has \"restore_config.cgi\"\n| project Timestamp, DeviceName, InitiatingProcessFileName, RemoteIP, RemotePort, RemoteUrl",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 300,
+        "hits": 0,
+        "tables": [
+         "DeviceNetworkEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  }
+ ],
+ "more_stories": [
+  {
+   "title": "Trump names Kirsten Davies as National Cyber Director",
+   "score": 11,
+   "cves": [],
+   "sources": [
+    {
+     "title": "President Trump Taps Kirsten Davies as National Cyber Director",
+     "url": "https://www.securityweek.com/president-trump-taps-kirsten-davies-as-national-cyber-director/",
+     "source": "SecurityWeek"
+    }
+   ]
+  },
+  {
+   "title": "Admidio path traversal and stored XSS flaws allow file writes and admin takeover",
+   "score": 9,
+   "cves": [
+    "CVE-2026-134254",
+    "CVE-2026-134258",
+    "CVE-2026-134262"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-134254 (HIGH 7.1)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-134254",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-134258 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-134258",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-134262 (CRITICAL 9.2)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-134262",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "SurrealDB flaws allow file access outside storage root and authorization bypass",
+   "score": 9,
+   "cves": [
+    "CVE-2026-134292",
+    "CVE-2026-134291",
+    "CVE-2026-134293"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-134292 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-134292",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-134291 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-134291",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-134293 (HIGH 8.8)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-134293",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "OpenRemote MQTT provisioning flaw allows impersonating devices without private key",
+   "score": 9,
+   "cves": [
+    "CVE-2026-134287"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-134287 (CRITICAL 9.2)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-134287",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Rclone SFTP auth-proxy cache flaw allows read-write access using a public key",
+   "score": 9,
+   "cves": [
+    "CVE-2026-134352"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-134352 (CRITICAL 9.2)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-134352",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Frappe ERPNext authorization flaws expose records across companies and portal users",
+   "score": 4,
+   "cves": [
+    "CVE-2026-134372",
+    "CVE-2026-134389",
+    "CVE-2026-134393"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-134372 (HIGH 8.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-134372",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-134389 (HIGH 8.4)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-134389",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-134393 (HIGH 8.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-134393",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Frappe Framework path traversal allows authenticated arbitrary file read CVE-2026-134370",
+   "score": 4,
+   "cves": [
+    "CVE-2026-134370"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-134370 (HIGH 8.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-134370",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "SiYuan flaws expose protected documents and allow admin access via forged header",
+   "score": 4,
+   "cves": [
+    "CVE-2026-134245",
+    "CVE-2026-134246",
+    "CVE-2026-134247"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-134245 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-134245",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-134246 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-134246",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-134247 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-134247",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Grav CMS plugin flaws allow stored XSS and remote code execution via uploads",
+   "score": 4,
+   "cves": [
+    "CVE-2026-134250",
+    "CVE-2026-134253"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-134250 (HIGH 8.8)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-134250",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-134253 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-134253",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Vikunja flaws allow admin access, SSO account takeover and instance-wide DB writes",
+   "score": 4,
+   "cves": [
+    "CVE-2026-134268",
+    "CVE-2026-134282",
+    "CVE-2026-134284"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-134268 (HIGH 7.1)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-134268",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-134282 (HIGH 8.6)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-134282",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-134284 (HIGH 7.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-134284",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "ArcadeDB authorization bypasses allow unauthorized writes and data access",
+   "score": 4,
+   "cves": [
+    "CVE-2026-134325",
+    "CVE-2026-134337",
+    "CVE-2026-134338"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-134325 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-134325",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-134337 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-134337",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-134338 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-134338",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Dockhand flaws allow file access, admin escalation and command execution",
+   "score": 4,
+   "cves": [
+    "CVE-2026-134448",
+    "CVE-2026-134451",
+    "CVE-2026-134452"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-134448 (HIGH 8.6)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-134448",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-134451 (HIGH 8.6)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-134451",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-134452 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-134452",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "better-auth flaws expose secrets and allow session forgery and 2FA bypass",
+   "score": 4,
+   "cves": [
+    "CVE-2026-134316",
+    "CVE-2026-134322"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-134316 (HIGH 8.6)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-134316",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-134322 (HIGH 8.6)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-134322",
+     "source": "NVD"
+    }
+   ]
+  }
+ ],
+ "kev_new": [],
+ "early_signals": [
+  {
+   "cve": "CVE-2026-125396",
+   "authors": 6,
+   "platforms": [
+    "Hacker News",
+    "Mastodon"
+   ],
+   "posts": [
+    {
+     "url": "https://news.ycombinator.com/item?id=50592097",
+     "platform": "Hacker News",
+     "account": "@f311a",
+     "published": "2026-11-21T18:29:29Z"
+    },
+    {
+     "url": "https://infosec.exchange/@axnews/117657681002628061",
+     "platform": "Mastodon",
+     "account": "@axnews",
+     "published": "2026-11-22T02:15:36Z"
+    },
+    {
+     "url": "https://infosec.exchange/@thecybersecguru/117656379729095095",
+     "platform": "Mastodon",
+     "account": "@thecybersecguru",
+     "published": "2026-11-21T20:44:40Z"
+    },
+    {
+     "url": "https://news.ycombinator.com/item?id=50594349",
+     "platform": "Hacker News",
+     "account": "@dvh",
+     "published": "2026-11-21T22:40:08Z"
+    },
+    {
+     "url": "https://news.ycombinator.com/item?id=50593988",
+     "platform": "Hacker News",
+     "account": "@CER10TY",
+     "published": "2026-11-21T21:50:00Z"
+    }
+   ],
+   "first_seen": "2026-11-21T18:29:29Z",
+   "epss": {
+    "epss": 0.00347,
+    "percentile": 0.28835
+   },
+   "vendor_advisory": false,
+   "nvd": {
+    "cvss": 8.5,
+    "severity": "HIGH",
+    "products": [],
+    "description": "Ghostscript before 10.08.0 contains a -dSAFER bypass vulnerability in the .putgstringcopy procedure in gs_fonts.ps, which calls the privileged .forceput operator without checking operand types. Attackers can supply crafted PostScript or PDF documents that trigger a type error, recover .forceput via …"
+   },
+   "poc": [
+    {
+     "url": "https://github.com/9bie/CVE-2026-125396-bomb",
+     "name": "9bie/CVE-2026-125396-bomb",
+     "stars": 2,
+     "created": "2026-11-22"
+    },
+    {
+     "url": "https://github.com/Mahgal/upload2shell-check",
+     "name": "Mahgal/upload2shell-check",
+     "stars": 1,
+     "created": "2026-11-22"
+    },
+    {
+     "url": "https://github.com/dinosn/upload2shell-poc-generator",
+     "name": "dinosn/upload2shell-poc-generator",
+     "stars": 1,
+     "created": "2026-11-22"
+    }
+   ]
+  },
+  {
+   "cve": "CVE-2026-129975",
+   "authors": 3,
+   "platforms": [
+    "Hacker News",
+    "Mastodon"
+   ],
+   "posts": [
+    {
+     "url": "https://infosec.exchange/@edwardk/117657069652303904",
+     "platform": "Mastodon",
+     "account": "@edwardk",
+     "published": "2026-11-21T23:40:07Z"
+    },
+    {
+     "url": "https://news.ycombinator.com/item?id=50592599",
+     "platform": "Hacker News",
+     "account": "@MadrasThorn",
+     "published": "2026-11-21T19:14:32Z"
+    },
+    {
+     "url": "https://infosec.exchange/@cloud/117656944150384660",
+     "platform": "Mastodon",
+     "account": "@cloud",
+     "published": "2026-11-21T23:08:12Z"
+    }
+   ],
+   "first_seen": "2026-11-21T19:14:32Z",
+   "epss": null,
+   "vendor_advisory": false,
+   "nvd": {
+    "cvss": null,
+    "severity": null,
+    "products": null,
+    "description": ""
+   },
+   "poc": [
+    {
+     "url": "https://github.com/techdevfun/gpgme2shell",
+     "name": "techdevfun/gpgme2shell",
+     "stars": 0,
+     "created": "2026-11-22"
+    }
+   ]
+  }
+ ],
+ "explainer": {
+  "concept": "Entra Connect Health and the hybrid identity servers it watches",
+  "dek": "Entra Connect Health is Microsoft's cloud monitoring service for on-premises identity infrastructure, and it sits beside servers that attackers treat as keys to both Active Directory and Entra ID.",
+  "why_today": "Microsoft has disclosed that attackers exploited a flaw in the Entra Connect Health service to read tenant administrator email addresses and tenant configuration. Knowing what the service touches, and what that leaked data is good for, tells you where to look next.",
+  "related_story_ids": [
+   "story-1"
+  ],
+  "parts": [
+   {
+    "heading": "What Connect Health is",
+    "paragraphs": [
+     "Microsoft Entra Connect Health, formerly Azure AD Connect Health, monitors the on-premises side of a hybrid identity deployment. You install lightweight agents on Entra Connect Sync servers, AD FS servers and, optionally, domain controllers. The agents send health data, alerts, sync errors and, for AD FS, usage and sign-in analytics to a Microsoft-hosted service, and administrators view the results in the Entra admin center.",
+     "The service needs an Entra ID P1 or P2 licence. Registering an agent requires a privileged Entra role, and the agent then authenticates to the cloud service with its own credentials. The cloud side holds tenant-level metadata about your hybrid setup: which servers exist, how they are configured, which alerts fired, and who receives alert notifications."
+    ]
+   },
+   {
+    "heading": "Why the servers it monitors are tier zero",
+    "paragraphs": [
+     "The Entra Connect Sync server holds credentials for an on-premises connector account. With password hash sync enabled, that account has directory replication permissions, the same rights a DCSync attack abuses. The server also holds credentials that let it write identities into Entra ID. Whoever controls the sync server can usually harvest on-premises password hashes and change what gets synchronized to the cloud.",
+     "AD FS servers hold the token-signing keys that Entra ID trusts for federated domains. An attacker with those keys can forge sign-in tokens. Both server types belong in the same protection tier as domain controllers, whether or not Connect Health is installed on them."
+    ]
+   },
+   {
+    "heading": "What leaked admin emails and tenant configuration give an attacker",
+    "paragraphs": [
+     "Based on what has been reported so far, this breach was on Microsoft's service side and did not involve compromise of customer servers. The data still has value. A verified list of tenant administrator addresses is a ready-made target list for phishing, device code phishing, adversary-in-the-middle phishing and password spraying, because the attacker knows which accounts hold privilege.",
+     "Tenant configuration shows how identity is wired: whether the tenant is federated or uses password hash sync or pass-through authentication, which on-premises servers participate, and possibly their names and versions. That shortens reconnaissance for anyone planning to go after the sync or AD FS servers. Microsoft has not published the full scope, so treat both data types as exposed until it says otherwise."
+    ]
+   },
+   {
+    "heading": "What follow-on activity looks like in telemetry",
+    "paragraphs": [
+     "Expect targeting of the privileged accounts first. In Sentinel or Defender XDR, look in SigninLogs and AADNonInteractiveUserSignInLogs for failed or unusual sign-ins against admin accounts, device code flow sign-ins, and new sign-in locations. Look in the email tables for lures sent to admin mailboxes.",
+     "For the hybrid servers, watch for directory replication requests from hosts that are not domain controllers; Defender for Identity raises alerts for this and its sensor can be installed on Entra Connect and AD FS servers. In AuditLogs, check for changes to federation settings, newly added federated domains, and new credentials or role assignments on accounts and applications used for directory synchronization."
+    ]
+   }
+  ],
+  "takeaways": [
+   "Check the Microsoft 365 message center and Service Health for any notice about this incident addressed to your tenant, and record which admin addresses and configuration details Microsoft says were exposed.",
+   "Require phishing-resistant MFA, such as FIDO2 keys or Windows Hello for Business, for every privileged Entra role, and block device code flow for admins through Conditional Access where you do not need it.",
+   "Treat Entra Connect Sync and AD FS servers as tier zero: restrict interactive logon to tier-zero admins, install the Defender for Identity sensor on them, and confirm alerts for replication requests from non-domain-controller hosts are reaching your SOC.",
+   "Hunt in AuditLogs for recent federation setting changes, new federated domains, and new credentials or role assignments on synchronization-related accounts and applications.",
+   "Review which addresses receive Connect Health and other admin notifications, and use dedicated cloud-only admin accounts that are not used for everyday email."
+  ],
+  "unsupported_cves": [],
+  "model": "claude-opus-5-5"
+ },
+ "good_news": [],
+ "explainer_status": "ok",
+ "sources_status": {
+  "CISA KEV": "ok 0",
+  "NVD": "ok 101",
+  "BleepingComputer": "ok 4",
+  "The Record": "ok 0",
+  "The DFIR Report": "ok 0",
+  "Cisco Talos": "ok 0",
+  "Unit 42": "ok 0",
+  "Microsoft Security Blog": "ok 0",
+  "SANS ISC": "ok 0",
+  "Huntress": "ok 0",
+  "watchTowr Labs": "ok 0",
+  "Rapid7": "ok 0",
+  "SecurityWeek": "ok 3",
+  "Krebs on Security": "ok 0",
+  "CISA Advisories": "ok 0",
+  "MSRC Security Update Guide": "ok 0",
+  "Bluesky": "ok 0",
+  "Mastodon": "ok 15",
+  "r/netsec": "error FetchError: 404 https://www.reddit.com/r/netsec/new/.rss",
+  "Hacker News": "ok 8",
+  "SigmaHQ new rules": "ok 0",
+  "EPSS": "ok 115"
+ },
+ "stats": {
+  "items": {
+   "news": 7,
+   "advisory": 0,
+   "kev": 0,
+   "nvd": 101,
+   "social": 23,
+   "sigma": 0
+  },
+  "stories_found": 20,
+  "kql_parser": "available",
+  "receipts": {
+   "status": "ran",
+   "engine": "Kusto emulator 1.0.9810.23682",
+   "baseline_events": 1338,
+   "baseline_seed": 20261110
+  }
+ }
+}

@@ -12,6 +12,59 @@
  "language": "en-US",
  "items": [
   {
+   "id": "https://intel.brycemaxheimer.com/editions/2026-11-22/",
+   "url": "https://intel.brycemaxheimer.com/editions/2026-11-22/",
+   "title": "Daily Intel Brief: 2026-11-22",
+   "content_text": "1. Microsoft reports Entra Connect Health flaw exploited to expose admin emails and tenant configuration\n2. Rackspace Spot breach exposed Kubernetes secrets in customer clusters via compromised credentials\n3. Amazon says China-linked actor used AI agents to find and exploit a MONAI Label zero-day\n4. BADBOX ad-fraud botnet on generic Android TV boxes resumes at large scale\n5. D-Link DIR-600L 2.17b02 stack overflow in gena.cgi (CVE-2026-133993) rated CVSS 9.3\n6. FBI investigating apparent breach of National Crime Information Center database\n7. Out-of-bounds read in end-of-life TRENDnet TEW-657BRM router has published exploit\nEarly signals: CVE-2026-125396, CVE-2026-129975\nExplainer: Entra Connect Health and the hybrid identity servers it watches",
+   "date_published": "2026-11-22T17:48:14Z",
+   "_intel_brief": {
+    "data": "https://intel.brycemaxheimer.com/editions/2026-11-22/edition.json",
+    "stories": [
+     {
+      "title": "Microsoft reports Entra Connect Health flaw exploited to expose admin emails and tenant configuration",
+      "cves": [],
+      "score": 81
+     },
+     {
+      "title": "Rackspace Spot breach exposed Kubernetes secrets in customer clusters via compromised credentials",
+      "cves": [],
+      "score": 55
+     },
+     {
+      "title": "Amazon says China-linked actor used AI agents to find and exploit a MONAI Label zero-day",
+      "cves": [],
+      "score": 47
+     },
+     {
+      "title": "BADBOX ad-fraud botnet on generic Android TV boxes resumes at large scale",
+      "cves": [],
+      "score": 47
+     },
+     {
+      "title": "D-Link DIR-600L 2.17b02 stack overflow in gena.cgi (CVE-2026-133993) rated CVSS 9.3",
+      "cves": [
+       "CVE-2026-133993"
+      ],
+      "score": 47
+     },
+     {
+      "title": "FBI investigating apparent breach of National Crime Information Center database",
+      "cves": [],
+      "score": 42
+     },
+     {
+      "title": "Out-of-bounds read in end-of-life TRENDnet TEW-657BRM router has published exploit",
+      "cves": [
+       "CVE-2026-133985"
+      ],
+      "score": 42
+     }
+    ],
+    "explainer": "Entra Connect Health and the hybrid identity servers it watches",
+    "good_news": []
+   }
+  },
+  {
    "id": "https://intel.brycemaxheimer.com/editions/2026-11-21/",
    "url": "https://intel.brycemaxheimer.com/editions/2026-11-21/",
    "title": "Daily Intel Brief: 2026-11-21",

@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Daily Intel Brief: 21 November 2026</title>
-<meta name="description" content="Threat-intel brief for 21 November 2026: CISA adds exploited SAP NetWeaver, Cisco Expressway, VMware vCenter and Apache Roller flaws to KEV; N-able attributes worldwide Mail Assure and SpamExperts outage to server breach; JPMorgan Chase, Visa and Mastercard blame third-party providers for leaked customer data">
+<title>Daily Intel Brief: 22 November 2026</title>
+<meta name="description" content="Threat-intel brief for 22 November 2026: Microsoft reports Entra Connect Health flaw exploited to expose admin emails and tenant configuration; Rackspace Spot breach exposed Kubernetes secrets in customer clusters via compromised credentials; Amazon says China-linked actor used AI agents to find and exploit a MONAI Label zero-day">
 <meta name="color-scheme" content="only light">
 <meta name="theme-color" content="#B3141B">
-<link rel="canonical" href="https://intel.brycemaxheimer.com/editions/2026-11-21/"><link rel="alternate" type="application/rss+xml" title="Daily Intel Brief (RSS)" href="https://intel.brycemaxheimer.com/feed.xml">
+<link rel="canonical" href="https://intel.brycemaxheimer.com/editions/2026-11-22/"><link rel="alternate" type="application/rss+xml" title="Daily Intel Brief (RSS)" href="https://intel.brycemaxheimer.com/feed.xml">
 <link rel="alternate" type="application/feed+json" title="Daily Intel Brief (JSON Feed)" href="https://intel.brycemaxheimer.com/feed.json">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/LibreFranklin-Variable.woff2" as="font" type="font/woff2" crossorigin>
@@ -20,8 +20,8 @@
   <div class="wrap mast-band">
     <a class="brand" href="/">Daily Intel Brief</a>
 <div class="mast-meta">
-  <p class="eyebrow">Saturday edition</p>
-  <h1 id="edition-title">21 November 2026</h1>
+  <p class="eyebrow">Sunday edition</p>
+  <h1 id="edition-title">22 November 2026</h1>
 </div>
   </div>
   <div class="mast-bar">
@@ -41,14 +41,14 @@
 
 <div class="edition-strip">
   <dl class="stats" aria-labelledby="edition-title">
-    <div><dd>10</dd><dt>Top stories</dt></div>
-    <div class="crit"><dd>4</dd><dt>New KEV entries</dt></div>
+    <div><dd>7</dd><dt>Top stories</dt></div>
+    <div class="crit"><dd>0</dd><dt>New KEV entries</dt></div>
     <div class="ai"><dd>2</dd><dt>Early signals</dt></div>
     <div><dd>21<small>/22</small></dd><dt>Sources collected</dt></div>
   </dl>
   <section class="provenance" aria-label="How this edition was made">
   <p><strong>How this edition was made.</strong>
-    Collected from 22 public sources between 20 Nov 05:00 and 21 Nov 05:00 UTC.
+    Collected from 22 public sources between 21 Nov 05:00 and 22 Nov 05:00 UTC.
 Ranked by Claude Haiku 5.5, summarized by Claude Opus 5.5, and reviewed by a person before publishing.
     Summaries can be wrong, so check the linked sources before acting. <a href="methodology/">Read the methodology</a></p>
   </section>
@@ -66,55 +66,34 @@ Ranked by Claude Haiku 5.5, summarized by Claude Opus 5.5, and reviewed by a per
       <div class="story-flags">
         <div class="tags">
 <span class="tag crit-solid">Exploited</span>
-<span class="tag crit">In CISA KEV</span><span class="tag high">Public PoC</span>        </div>
+<span class="tag info">M365 / Entra</span><span class="tag">breach</span>        </div>
         <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span class="rank">No. 01</span> · Priority <b>75</b>
+          <span class="rank">No. 01</span> · Priority <b>81</b>
         </div>
       </div>
-      <h3 id="story-1-h">CISA adds exploited SAP NetWeaver, Cisco Expressway, VMware vCenter and Apache Roller flaws to KEV</h3>
-      <p class="meta">5 sources · first reported 20 November 2026</p>
+      <h3 id="story-1-h">Microsoft reports Entra Connect Health flaw exploited to expose admin emails and tenant configuration</h3>
+      <p class="meta">Microsoft Entra Connect Health · 1 source · first reported 21 November 2026</p>
     </div>
 
-    <dl class="facts">
-      <div><dt>CVE</dt><dd><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-129448">CVE-2026-129448</a></dd></div>
-      <div><dt>CVSS</dt><dd><strong>9.8</strong> <span class="crit">Critical</span></dd></div>
-      <div><dt>EPSS</dt><dd><strong>5.5%</strong> <span class="muted">30-day</span></dd></div>
-      <div class="due"><dt>KEV deadline</dt><dd><strong class="crit">23 November 2026</strong></dd></div>
-      <div><dt>Public PoC</dt><dd><strong class="high">3 repos</strong></dd></div>
-    </dl>
-    <p class="related">Also: <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-123890">CVE-2026-123890</a> (KEV, due 23 Nov), <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-76466">CVE-2026-76466</a> (KEV, due 23 Nov), <a href="https://nvd.nist.gov/vuln/detail/CVE-2025-42884">CVE-2025-42884</a> (KEV, due 23 Nov)</p>
 
     <div class="story-body">
       <div class="cols2">
-        <section><h4 class="label">What happened</h4><p>On 20 November 2026 CISA added four vulnerabilities to its Known Exploited Vulnerabilities catalog, citing evidence of active exploitation, with a federal remediation due date of 23 November 2026. CISA describes them as an unauthenticated code execution flaw through deserialization in the Apache Roller XML-RPC endpoint (CVE-2026-129448), an authentication bypass in the VMware Directory Service of Broadcom VMware vCenter (CVE-2026-123890), a hard-coded credentials flaw in clustered Cisco Expressway Series devices that allows root command execution through the database service (CVE-2026-76466), and a JNDI injection flaw in SAP NetWeaver Enterprise Portal that lets an unauthenticated attacker disclose or modify server information (CVE-2025-42884). CISA notes that the Roller CVE covers the same underlying bug as CVE-2026-82384 but applies to a wider set of versions. The sources give no affected or fixed version numbers and do not name the attackers.</p></section>
-        <section><h4 class="label">Why it matters</h4><p>vCenter, Expressway, NetWeaver portals and Roller blogs are often reachable from the internet. A compromise gives an attacker control of virtualization infrastructure, collaboration edge gateways or application servers. Three of the flaws are rated CVSS 9.8 and have public proof-of-concept code. EPSS ranges from 0.7% for the SAP flaw to 5.5% for Roller, but exploitation is already confirmed and the KEV due date of 23 November 2026 leaves only three days.</p></section>
+        <section><h4 class="label">What happened</h4><p>BleepingComputer reports that Microsoft is warning organizations of a data breach in which attackers exploited a vulnerability in the Entra Connect Health service. According to that report, the attackers gained unauthorized access to tenant administrator email addresses and tenant configuration information. No CVE, affected component details, timeline or count of affected tenants were given in the available reporting, and the source text is a truncated summary.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>The flaw sits in a Microsoft-operated cloud service, so the fix is on Microsoft&#39;s side, but leaked admin addresses and configuration data give attackers a ready target list for phishing, password spraying and MFA fatigue against privileged Entra accounts. Exploitation is reported as confirmed, so treat any tenant using Entra Connect Health as potentially exposed until Microsoft&#39;s notification says otherwise.</p></section>
       </div>
       <div class="actions">
         <h4 class="label">What to do</h4>
-        <ol class="steps"><li>Apply the vendor fixes or mitigations from Broadcom, Cisco, SAP and Apache for all four CVEs before 23 November 2026, starting with internet-exposed vCenter, Expressway and Roller instances.</li><li>Remove internet exposure of vCenter management interfaces and the Expressway database and cluster services, and restrict them to management networks.</li><li>Disable or block the Apache Roller XML-RPC endpoint if it is not needed until patched.</li><li>Do compromise triage on systems that were exposed before patching. Look for new vCenter SSO accounts and logins, unexpected root activity on Expressway, and shells spawned by Java on Roller and NetWeaver hosts.</li><li>Rotate credentials stored on or used by vCenter and Expressway if you find signs of compromise.</li></ol>
-      <div class="cols2 versions">
-        <div><div class="k">Affected</div><ul><li>Apache Roller (CVE-2026-129448; version ranges not stated, broader than those for CVE-2026-82384)</li><li>VMware vCenter Server, VMware Cloud Foundation, VMware Telco Cloud Infrastructure, VMware Telco Cloud Platform (CVE-2026-123890; versions not stated)</li><li>Cisco Expressway Series, clustered devices (CVE-2026-76466; versions not stated)</li><li>SAP NetWeaver Enterprise Portal (CVE-2025-42884; versions not stated)</li></ul></div>
-        <div><div class="k">Fixed</div><span class="muted">Not stated in the sources</span></div>
-      </div>
+        <ol class="steps"><li>Check the Microsoft 365 admin center Message center and Service health for a breach notification specific to your tenant, and follow any instructions it contains.</li><li>Confirm all Global Administrator and other privileged Entra accounts use phishing-resistant MFA and are covered by Conditional Access policies.</li><li>Warn administrators that their addresses may be exposed and raise scrutiny of phishing and unexpected MFA prompts aimed at them.</li><li>Review Entra audit logs for unexpected changes to Connect Health agents, service principals, app consents and tenant settings since the disclosure.</li><li>Monitor sign-in logs for password spraying or anomalous sign-ins against admin accounts.</li></ol>
       </div>
     </div>
 
     <div class="sources">
       <h4 class="label">Sources</h4>
       <ul>
-        <li><span class="pub">CISA Advisories</span><a href="https://www.cisa.gov/news-events/alerts/2026/11/20/cisa-adds-four-known-exploited-vulnerabilities-catalog" rel="noopener noreferrer nofollow">CISA Adds Four Known Exploited Vulnerabilities to Catalog</a><span class="where">cisa.gov · 20 Nov</span></li>
-        <li><span class="pub">CISA KEV</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-129448" rel="noopener noreferrer nofollow">CVE-2026-129448: Apache Roller Deserialization of Untrusted Data Vulnerability</a><span class="where">nvd.nist.gov · 20 Nov</span></li>
-        <li><span class="pub">CISA KEV</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-123890" rel="noopener noreferrer nofollow">CVE-2026-123890: VMWare vCenter Authentication Bypass Using an Alternate Path or Channel Vulnerability</a><span class="where">nvd.nist.gov · 20 Nov</span></li>
-        <li><span class="pub">CISA KEV</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2025-42884" rel="noopener noreferrer nofollow">CVE-2025-42884: SAP NetWeaver Improper Neutralization of Special Elements in Data Query Logic Vulnerability</a><span class="where">nvd.nist.gov · 20 Nov</span></li>
-        <li><span class="pub">CISA KEV</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-76466" rel="noopener noreferrer nofollow">CVE-2026-76466: Cisco Expressway Series Use of Hard-coded Credentials Vulnerability</a><span class="where">nvd.nist.gov · 20 Nov</span></li>
+        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/microsoft-entra-connect-health-flaw-exploited-to-steal-tenant-data/" rel="noopener noreferrer nofollow">Microsoft Entra Connect Health flaw exploited to steal tenant data</a><span class="where">bleepingcomputer.com · 21 Nov</span></li>
       </ul>
-<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: high</p>    </div>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: low</p>    </div>
 
-    <details class="poc">
-      <summary>Public proof-of-concept repos (7)</summary>
-      <p class="warn">Links only, not vetted. Public PoC repos are often fake or backdoored. Don't run them on a work machine.</p>
-      <ul><li><a href="https://github.com/Yanixos/APACHE-CVE-2026-129448" rel="noopener noreferrer nofollow">Yanixos/APACHE-CVE-2026-129448</a> <span class="muted">CVE-2026-129448 · 12 stars · created 18 Nov</span></li><li><a href="https://github.com/foxcornlab/apache-roller-scanner" rel="noopener noreferrer nofollow">foxcornlab/apache-roller-scanner</a> <span class="muted">CVE-2026-129448 · 0 stars · created 20 Nov</span></li><li><a href="https://github.com/evenomn/CVE-2026-129448" rel="noopener noreferrer nofollow">evenomn/CVE-2026-129448</a> <span class="muted">CVE-2026-129448 · 0 stars · created 21 Nov</span></li><li><a href="https://github.com/sanMuSec/vcenter-80u3m-patch-download" rel="noopener noreferrer nofollow">sanMuSec/vcenter-80u3m-patch-download</a> <span class="muted">CVE-2026-123890 · 1 stars · created 20 Nov</span></li><li><a href="https://github.com/Cyber-BansalAI/vmware-vcenter-2026" rel="noopener noreferrer nofollow">Cyber-BansalAI/vmware-vcenter-2026</a> <span class="muted">CVE-2026-123890 · 0 stars · created 19 Nov</span></li><li><a href="https://github.com/Quaerendir/cve-2026-123890-audit" rel="noopener noreferrer nofollow">Quaerendir/cve-2026-123890-audit</a> <span class="muted">CVE-2026-123890 · 0 stars · created 20 Nov</span></li><li><a href="https://github.com/dinosn/cve-2026-76466" rel="noopener noreferrer nofollow">dinosn/cve-2026-76466</a> <span class="muted">CVE-2026-76466 · 8 stars · created 5 Nov</span></li></ul>
-    </details>
 
     <section class="detect" aria-label="Detection">
       <div class="detect-head">
@@ -127,30 +106,45 @@ Ranked by Claude Haiku 5.5, summarized by Claude Opus 5.5, and reviewed by a per
         <label for="story-1-hunt">Hunting</label>
         <div class="tab-panels">
           <div class="tab-panel">
-<ol class="steps-plain"><li>Inventory exposure: use Defender Vulnerability Management and external attack surface data to find vCenter, Cisco Expressway, SAP NetWeaver Portal and Apache Roller instances, and note which are reachable from the internet.</li><li>Review vCenter SSO and VMware Directory Service logs in Sentinel or syslog for unexpected account creation, privilege changes or logins from unfamiliar sources since early November 2026.</li><li>Review Cisco Expressway logs for unexpected cluster database connections and root-level command activity.</li><li>On Windows hosts running Roller or SAP NetWeaver Java, hunt for java or Tomcat processes spawning command interpreters or recon tools.</li><li>Check SAP NetWeaver and Java application hosts for outbound LDAP or RMI connections to the internet, which can indicate JNDI lookup abuse.</li></ol><div class="code">
+<ol class="steps-plain"><li>Read any tenant-specific notification from Microsoft to learn whether your tenant was affected and which data was exposed.</li><li>Build a list of privileged Entra account addresses and hunt for phishing delivered to them since early November 2026.</li><li>Hunt for failed and anomalous sign-ins against those admin accounts, focusing on spraying patterns from single IPs across many admins.</li><li>Review Entra audit and cloud app activity for new service principals, app consents, credential additions and Connect Health-related changes made by unexpected actors.</li></ol><div class="code">
   <div class="code-bar">
-    <span class="name">Defender XDR KQL · Devices with the four KEV CVEs per Defender Vulnerability Management</span>
+    <span class="name">Defender XDR KQL · Phishing and malware emails delivered to privileged admin mailboxes</span>
 <span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
   </div>
-  <pre><code>DeviceTvmSoftwareVulnerabilities | where CveId in (&#39;CVE-2026-129448&#39;,&#39;CVE-2026-123890&#39;,&#39;CVE-2025-42884&#39;,&#39;CVE-2026-76466&#39;) | project DeviceName, OSPlatform, SoftwareVendor, SoftwareName, SoftwareVersion, CveId, VulnerabilitySeverityLevel, RecommendedSecurityUpdate</code></pre>
+  <pre><code>let AdminAddresses = dynamic([]); // populate with your privileged admin addresses
+EmailEvents
+| where Timestamp &gt; ago(30d)
+| where RecipientEmailAddress in~ (AdminAddresses)
+| where ThreatTypes has_any (&#34;Phish&#34;, &#34;Malware&#34;) or DeliveryAction == &#34;Delivered&#34; and EmailDirection == &#34;Inbound&#34; and isnotempty(ThreatTypes)
+| project Timestamp, RecipientEmailAddress, SenderFromAddress, SenderIPv4, Subject, ThreatTypes, DeliveryAction, DeliveryLocation
+| order by Timestamp desc</code></pre>
+</div>
+<p class="conv-note receipt">On 40 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Password spraying against many accounts from a single IP</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>IdentityLogonEvents
+| where Timestamp &gt; ago(14d)
+| where ActionType == &#34;LogonFailed&#34;
+| summarize FailedAccounts = dcount(AccountUpn), Attempts = count(), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by IPAddress
+| where FailedAccounts &gt;= 10
+| order by FailedAccounts desc</code></pre>
 </div>
 <p class="conv-note receipt">The synthetic baseline has no data for its tables. Not tested on real attack data.</p>
 <div class="code">
   <div class="code-bar">
-    <span class="name">Defender XDR KQL · Java application servers spawning shells or recon tools</span>
+    <span class="name">Defender XDR KQL · New app consents, service principals and credentials in Entra</span>
 <span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
   </div>
-  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(14d) | where InitiatingProcessFileName in~ (&#39;java.exe&#39;,&#39;javaw.exe&#39;,&#39;tomcat.exe&#39;,&#39;tomcat9.exe&#39;,&#39;tomcat10.exe&#39;,&#39;jstart.exe&#39;) | where FileName in~ (&#39;cmd.exe&#39;,&#39;powershell.exe&#39;,&#39;pwsh.exe&#39;,&#39;whoami.exe&#39;,&#39;certutil.exe&#39;,&#39;curl.exe&#39;,&#39;bitsadmin.exe&#39;,&#39;net.exe&#39;,&#39;net1.exe&#39;,&#39;nltest.exe&#39;,&#39;rundll32.exe&#39;,&#39;mshta.exe&#39;) | project Timestamp, DeviceName, AccountName, InitiatingProcessFileName, InitiatingProcessCommandLine, FileName, ProcessCommandLine | order by Timestamp desc</code></pre>
+  <pre><code>CloudAppEvents
+| where Timestamp &gt; ago(30d)
+| where ActionType has_any (&#34;Consent to application&#34;, &#34;Add service principal&#34;, &#34;Add service principal credentials&#34;, &#34;Update application&#34;, &#34;Add app role assignment&#34;)
+| project Timestamp, ActionType, AccountDisplayName, AccountObjectId, IPAddress, ObjectName, RawEventData
+| order by Timestamp desc</code></pre>
 </div>
-<p class="conv-note receipt">On 500 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
-<div class="code">
-  <div class="code-bar">
-    <span class="name">Defender XDR KQL · Outbound LDAP or RMI from Java processes to public IPs</span>
-<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
-  </div>
-  <pre><code>DeviceNetworkEvents | where Timestamp &gt; ago(14d) | where InitiatingProcessFileName in~ (&#39;java.exe&#39;,&#39;javaw.exe&#39;,&#39;jstart.exe&#39;) | where RemotePort in (389, 636, 1389, 1099) | where RemoteIPType == &#39;Public&#39; | summarize Connections = count(), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by DeviceName, RemoteIP, RemotePort, InitiatingProcessFileName</code></pre>
-</div>
-<p class="conv-note receipt">On 300 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<p class="conv-note receipt">On 30 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
           </div>
         </div>
       </div>
@@ -163,34 +157,29 @@ Ranked by Claude Haiku 5.5, summarized by Claude Opus 5.5, and reviewed by a per
 <span class="tag crit-solid">Exploited</span>
 <span class="tag info">Cloud / SaaS</span><span class="tag">breach</span>        </div>
         <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span class="rank">No. 02</span> · Priority <b>72</b>
+          <span class="rank">No. 02</span> · Priority <b>55</b>
         </div>
       </div>
-      <h3 id="story-2-h">N-able attributes worldwide Mail Assure and SpamExperts outage to server breach</h3>
-      <p class="meta">N-able Mail Assure, SpamExperts Hosted Cloud · 2 sources · first reported 20 November 2026</p>
+      <h3 id="story-2-h">Rackspace Spot breach exposed Kubernetes secrets in customer clusters via compromised credentials</h3>
+      <p class="meta">Rackspace Rackspace Spot · 1 source · first reported 21 November 2026</p>
     </div>
 
 
     <div class="story-body">
       <div class="cols2">
-        <section><h4 class="label">What happened</h4><p>N-able says attackers breached one of its servers and caused a major worldwide outage of its Mail Assure and SpamExperts Hosted Cloud email filtering services, according to BleepingComputer. SecurityWeek reports that N-able blamed the disruption on a cyberattack and that the incident could have led to credential theft. The sources do not say how the attackers got in, which data or credentials were exposed, or whether service has been fully restored.</p></section>
-        <section><h4 class="label">Why it matters</h4><p>Organizations that route Microsoft 365 or other mail through Mail Assure or SpamExperts may have lost inbound filtering or mail flow, and any credentials stored in or used with those services may be exposed. Because the email gateway sits in the mail path, a compromise there could enable mail interception or abuse of connector and relay settings. The sources give no indicators, so the immediate work is confirming exposure and rotating secrets.</p></section>
+        <section><h4 class="label">What happened</h4><p>According to BleepingComputer, Rackspace has warned customers that attackers broke into its Rackspace Spot cloud platform using compromised credentials. The intruders were able to deploy unauthorized workloads and read Kubernetes secrets inside customer clusters. The report, published 21 November 2026, does not say which credentials were compromised, how long the attackers had access, how many customers were affected, or what the secrets contained.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>Kubernetes secrets often hold cloud API keys, database passwords, registry tokens and service principal credentials, including Entra ID app secrets that grant access to Microsoft 365 or Azure resources. Any credential stored in an affected Spot cluster should be treated as exposed, and attackers can reuse it well outside the Kubernetes environment. Exploitation is confirmed, but details are thin, so organizations using Rackspace Spot should act on the assumption of compromise rather than wait for more information.</p></section>
       </div>
       <div class="actions">
         <h4 class="label">What to do</h4>
-        <ol class="steps"><li>Confirm whether your organization or your MSP uses Mail Assure or SpamExperts Hosted Cloud and follow N-able&#39;s incident communications for scope and restoration status.</li><li>Rotate any credentials, API keys, SMTP relay or connector secrets, and admin passwords associated with Mail Assure or SpamExperts accounts, and enforce MFA on those admin portals.</li><li>Review Exchange Online inbound and outbound connectors and transport rules tied to the filtering service for unexpected changes, and plan temporary direct mail flow or alternate filtering if the outage persists.</li><li>While upstream filtering is degraded, raise scrutiny on inbound mail: confirm Defender for Office 365 policies are active and watch for phishing that slips through.</li><li>Hunt for unusual sign-ins and mailbox rule creation for accounts whose credentials may have passed through the affected services.</li></ol>
-      <div class="cols2 versions">
-        <div><div class="k">Affected</div><ul><li>N-able Mail Assure (hosted service)</li><li>N-able SpamExperts Hosted Cloud (hosted service)</li></ul></div>
-        <div><div class="k">Fixed</div><span class="muted">Not stated in the sources</span></div>
-      </div>
+        <ol class="steps"><li>If you use Rackspace Spot, contact Rackspace to confirm whether your clusters were affected, and get the exposure window and the indicators they hold.</li><li>Rotate every secret stored in Rackspace Spot clusters, starting with Entra ID app registration secrets and certificates, cloud provider keys, and database and registry credentials. Revoke the old values rather than only issuing new ones.</li><li>Review Spot clusters for workloads, pods, service accounts or role bindings you did not create, and remove them.</li><li>Review sign-in and activity logs for service principals and accounts whose credentials were held as Kubernetes secrets. Look for use from unfamiliar IP addresses or unusual API calls since the compromise window.</li><li>Rotate the credentials used to access the Rackspace Spot console and API, and enforce MFA on those accounts.</li></ol>
       </div>
     </div>
 
     <div class="sources">
       <h4 class="label">Sources</h4>
       <ul>
-        <li><span class="pub">SecurityWeek</span><a href="https://www.securityweek.com/n-able-blames-service-disruption-on-cyberattack/" rel="noopener noreferrer nofollow">N-able Blames Service Disruption on Cyberattack</a><span class="where">securityweek.com · 20 Nov</span></li>
-        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/microsoft/n-able-says-recent-security-breach-led-to-major-service-outage/" rel="noopener noreferrer nofollow">N-able says recent security breach led to major service outage</a><span class="where">bleepingcomputer.com · 20 Nov</span></li>
+        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/rackspace-spot-breach-let-hackers-access-customer-kubernetes-secrets/" rel="noopener noreferrer nofollow">Rackspace Spot breach let hackers access customer Kubernetes secrets</a><span class="where">bleepingcomputer.com · 21 Nov</span></li>
       </ul>
 <p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
 
@@ -206,31 +195,7 @@ Ranked by Claude Haiku 5.5, summarized by Claude Opus 5.5, and reviewed by a per
         <label for="story-2-hunt">Hunting</label>
         <div class="tab-panels">
           <div class="tab-panel">
-<ol class="steps-plain"><li>Identify whether your mail flow (MX records and Exchange Online connectors) relies on Mail Assure or SpamExperts.</li><li>Review recent changes to Exchange Online connectors and transport rules in the audit log for unexpected modifications.</li><li>Check inbound mail volume and delivery for gaps or sudden shifts in delivery path during the outage window.</li><li>Look for new inbox rules that forward, redirect or delete mail, especially for privileged and finance users.</li><li>Review sign-ins for accounts whose credentials may have been used with the affected services, focusing on new IPs, countries or failed MFA.</li></ol><div class="code">
-  <div class="code-bar">
-    <span class="name">Defender XDR KQL · Exchange connector and transport rule changes</span>
-<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
-  </div>
-  <pre><code>CloudAppEvents | where Timestamp &gt; ago(14d) | where ActionType in~ (&#39;New-InboundConnector&#39;,&#39;Set-InboundConnector&#39;,&#39;New-OutboundConnector&#39;,&#39;Set-OutboundConnector&#39;,&#39;New-TransportRule&#39;,&#39;Set-TransportRule&#39;,&#39;Remove-InboundConnector&#39;,&#39;Remove-OutboundConnector&#39;) | project Timestamp, AccountDisplayName, AccountObjectId, ActionType, IPAddress, RawEventData | order by Timestamp desc</code></pre>
-</div>
-<p class="conv-note receipt">On 30 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
-<div class="code">
-  <div class="code-bar">
-    <span class="name">Defender XDR KQL · New or modified inbox rules with forwarding or deletion</span>
-<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
-  </div>
-  <pre><code>CloudAppEvents | where Timestamp &gt; ago(14d) | where ActionType in~ (&#39;New-InboxRule&#39;,&#39;Set-InboxRule&#39;,&#39;UpdateInboxRules&#39;) | where tostring(RawEventData) has_any (&#39;ForwardTo&#39;,&#39;RedirectTo&#39;,&#39;ForwardAsAttachmentTo&#39;,&#39;DeleteMessage&#39;,&#39;MoveToFolder&#39;) | project Timestamp, AccountDisplayName, ActionType, IPAddress, CountryCode, RawEventData | order by Timestamp desc</code></pre>
-</div>
-<p class="conv-note receipt">On 30 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
-<div class="code">
-  <div class="code-bar">
-    <span class="name">Defender XDR KQL · Inbound mail volume by day to spot filtering disruption</span>
-<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
-  </div>
-  <pre><code>EmailEvents | where Timestamp &gt; ago(14d) | where EmailDirection == &#39;Inbound&#39; | summarize Messages = count(), Phish = countif(ThreatTypes has &#39;Phish&#39;), Malware = countif(ThreatTypes has &#39;Malware&#39;) by bin(Timestamp, 1d), DeliveryAction | order by Timestamp asc</code></pre>
-</div>
-<p class="conv-note receipt">On 40 synthetic benign events it returned 6 rows. Not tested on real attack data.</p>
-          </div>
+<ol class="steps-plain"><li>List every Kubernetes secret in your Rackspace Spot clusters and map each one to the identity or system it unlocks, such as an Entra ID service principal, a cloud account, a database or a container registry.</li><li>For each Entra ID service principal or app secret on that list, check sign-in and audit logs in Sentinel for authentications from IP addresses or locations outside your known infrastructure during the exposure window.</li><li>Check the Kubernetes audit logs and workload inventories of affected clusters for unexpected deployments, DaemonSets, CronJobs or new service accounts.</li><li>Look for downstream misuse of exposed credentials, such as new mailbox access, data downloads or resource creation by the affected identities, and confirm that rotated credentials no longer authenticate.</li></ol>          </div>
         </div>
       </div>
     </section>
@@ -240,69 +205,111 @@ Ranked by Claude Haiku 5.5, summarized by Claude Opus 5.5, and reviewed by a per
       <div class="story-flags">
         <div class="tags">
 <span class="tag crit-solid">Exploited</span>
-<span class="tag info">Cloud / SaaS</span><span class="tag">breach</span>        </div>
+<span class="tag">campaign</span>        </div>
         <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span class="rank">No. 03</span> · Priority <b>62</b>
+          <span class="rank">No. 03</span> · Priority <b>47</b>
         </div>
       </div>
-      <h3 id="story-3-h">JPMorgan Chase, Visa and Mastercard blame third-party providers for leaked customer data</h3>
-      <p class="meta">JPMorgan Chase  · 2 sources · first reported 20 November 2026</p>
+      <h3 id="story-3-h">Amazon says China-linked actor used AI agents to find and exploit a MONAI Label zero-day</h3>
+      <p class="meta"> MONAI Label · 1 source · first reported 21 November 2026</p>
     </div>
 
 
     <div class="story-body">
       <div class="cols2">
-        <section><h4 class="label">What happened</h4><p>According to BleepingComputer, J.P. Morgan Chase has disclosed a data breach in which a cyberattack on a third-party service provider exposed customers&#39; personal information and marketing data. SecurityWeek reports that JPMorgan, Visa and Mastercard all point to third-party providers after an extortion group calling itself N0n leaked data it claims is tied to their customers. The sources do not name the provider or providers, and they do not describe how the attackers got in or how many people are affected.</p></section>
-        <section><h4 class="label">Why it matters</h4><p>This is a supply-chain data exposure at a SaaS or service vendor, not a vulnerability in software defenders run, so there is nothing to patch. The main risk to readers is follow-on activity: phishing and social engineering that uses the leaked personal and marketing data to pose as these banks or card brands. Organizations that share customer data with marketing or service vendors should also treat this as a prompt to review that third-party access.</p></section>
+        <section><h4 class="label">What happened</h4><p>SecurityWeek, citing Amazon, reports that a China-linked threat actor used autonomous AI agents, which Amazon calls Cairn, to discover and exploit a critical zero-day in MONAI Label. MONAI Label is open-source medical imaging annotation server software. The available report does not give a CVE identifier, affected or fixed versions, technical details of the flaw, victims, or indicators of compromise.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>Exploitation is confirmed in the wild, but MONAI Label is niche software that is mostly found in healthcare, research and AI/ML environments. Any instance exposed to the internet or reachable from untrusted networks should be treated as potentially compromised until a fix and details are published. The report that AI agents handled both discovery and exploitation suggests less-common research and ML tooling may be targeted faster than usual.</p></section>
       </div>
       <div class="actions">
         <h4 class="label">What to do</h4>
-        <ol class="steps"><li>Warn users and help desk staff about phishing and vishing that impersonates Chase, Visa or Mastercard, including messages that cite accurate personal details.</li><li>Make sure email protections and user reporting channels are tuned to catch financial-brand impersonation lures.</li><li>Review which third-party marketing and service providers hold your customer data, and confirm their breach notification obligations.</li><li>Track official statements from the affected companies for the name of the provider and any indicators, and update this assessment if they are released.</li></ol>
+        <ol class="steps"><li>Inventory all MONAI Label servers, including research workstations and GPU hosts, and remove any instance reachable from the internet or untrusted networks.</li><li>Restrict access to MONAI Label servers to trusted networks behind VPN or authentication until the project or Amazon publishes fix details.</li><li>Monitor Project MONAI and Amazon advisories for a CVE, affected versions and a patch, and apply the patch once it is released.</li><li>Review MONAI Label hosts for unexpected child processes, new files, outbound connections and credential access, and rotate any cloud or dataset credentials stored on exposed hosts.</li><li>Treat medical imaging data on exposed instances as possibly accessed, and involve privacy and compliance teams if compromise is suspected.</li></ol>
       </div>
     </div>
 
     <div class="sources">
       <h4 class="label">Sources</h4>
       <ul>
-        <li><span class="pub">SecurityWeek</span><a href="https://www.securityweek.com/jpmorgan-visa-mastercard-cite-third-party-incidents-amid-data-leak/" rel="noopener noreferrer nofollow">JPMorgan, Visa, Mastercard Cite Third-Party Incidents Amid Data Leak</a><span class="where">securityweek.com · 20 Nov</span></li>
-        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/vendor-data-breach-exposes-chase-visa-mastercard-customer-info/" rel="noopener noreferrer nofollow">Vendor data breach exposes Chase, Visa, Mastercard customer info</a><span class="where">bleepingcomputer.com · 20 Nov</span></li>
+        <li><span class="pub">SecurityWeek</span><a href="https://www.securityweek.com/amazon-china-linked-hackers-ai-agents-exploited-medical-software-zero-day/" rel="noopener noreferrer nofollow">Amazon: China-Linked Hackers’ AI Agents Exploited Medical Software Zero-Day</a><span class="where">securityweek.com · 21 Nov</span></li>
       </ul>
-<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: low</p>    </div>
 
 
+    <section class="detect" aria-label="Detection">
+      <div class="detect-head">
+        <div class="t">Detection
+<span class="tag ai">AI-generated · untested</span>        </div>
+        <span class="why">Hunting only: no endpoint behavior to write a rule against</span>
+      </div>
+      <div class="tabs">
+        <input class="tab-input" type="radio" name="fmt-story-3" id="story-3-hunt" checked>
+        <label for="story-3-hunt">Hunting</label>
+        <div class="tab-panels">
+          <div class="tab-panel">
+<ol class="steps-plain"><li>Identify endpoints and servers running MONAI Label by searching process command lines for &#39;monailabel&#39;.</li><li>Check whether those hosts accept inbound connections from public IP addresses on the MONAI Label service port.</li><li>Look for shells, download utilities or scripting interpreters spawned by the MONAI Label server process.</li><li>Review outbound connections from MONAI Label hosts to unfamiliar public destinations since the server was first exposed.</li><li>Escalate any host with suspicious child processes or public exposure for full incident response.</li></ol><div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Hosts running MONAI Label server processes</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(30d) | where ProcessCommandLine has &#34;monailabel&#34; or InitiatingProcessCommandLine has &#34;monailabel&#34; | summarize FirstSeen=min(Timestamp), LastSeen=max(Timestamp), SampleCmd=any(ProcessCommandLine) by DeviceId, DeviceName</code></pre>
+</div>
+<p class="conv-note receipt">On 500 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Suspicious child processes spawned by MONAI Label</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(30d) | where InitiatingProcessCommandLine has &#34;monailabel&#34; | where FileName in~ (&#34;sh&#34;,&#34;bash&#34;,&#34;dash&#34;,&#34;zsh&#34;,&#34;cmd.exe&#34;,&#34;powershell.exe&#34;,&#34;pwsh.exe&#34;,&#34;curl&#34;,&#34;wget&#34;,&#34;curl.exe&#34;,&#34;nc&#34;,&#34;ncat&#34;,&#34;certutil.exe&#34;) | project Timestamp, DeviceName, AccountName, FileName, ProcessCommandLine, InitiatingProcessCommandLine</code></pre>
+</div>
+<p class="conv-note receipt">On 500 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Public inbound connections to MONAI Label processes</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceNetworkEvents | where Timestamp &gt; ago(30d) | where InitiatingProcessCommandLine has &#34;monailabel&#34; | where ActionType == &#34;InboundConnectionAccepted&#34; and RemoteIPType == &#34;Public&#34; | summarize Connections=count(), Ports=make_set(LocalPort), FirstSeen=min(Timestamp), LastSeen=max(Timestamp) by DeviceName, RemoteIP</code></pre>
+</div>
+<p class="conv-note receipt">On 300 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+          </div>
+        </div>
+      </div>
+    </section>
   </article>
   <article class="story" id="story-4" aria-labelledby="story-4-h">
     <div class="story-top">
       <div class="story-flags">
         <div class="tags">
 <span class="tag crit-solid">Exploited</span>
-<span class="tag info">Cloud / SaaS</span><span class="tag">campaign</span>        </div>
+<span class="tag">malware</span>        </div>
         <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span class="rank">No. 04</span> · Priority <b>59</b>
+          <span class="rank">No. 04</span> · Priority <b>47</b>
         </div>
       </div>
-      <h3 id="story-4-h">Unit 42 profiles Com affiliate vishing, cloud data theft and extortion against healthcare and finance</h3>
-      <p class="meta">1 source · first reported 20 November 2026</p>
+      <h3 id="story-4-h">BADBOX ad-fraud botnet on generic Android TV boxes resumes at large scale</h3>
+      <p class="meta">1 source · first reported 21 November 2026</p>
     </div>
 
 
     <div class="story-body">
       <div class="cols2">
-        <section><h4 class="label">What happened</h4><p>Unit 42 published an analysis on 20 November 2026 of campaigns by affiliates of the Com, a loose cybercriminal community, that use voice phishing to gain access, steal data from cloud environments and then extort victims. According to Unit 42, the activity has targeted healthcare and finance organizations, and the report includes defense guidance. The available summary does not list specific techniques, tools, indicators or affected platforms.</p></section>
-        <section><h4 class="label">Why it matters</h4><p>Vishing campaigns of this kind typically go after help desks and individual users to reset credentials or MFA, which turns into identity compromise in Entra ID and bulk data theft from SaaS apps without any malware on endpoints. Unit 42 describes the activity as active, and healthcare and finance teams are named targets. Because no specific tradecraft is in the summary, defenders should read the full report and treat the guidance here as general hardening and hunting.</p></section>
+        <section><h4 class="label">What happened</h4><p>BleepingComputer reports that the BADBOX malware, found on a wide range of generic Android TV boxes, has resumed large-scale ad-fraud operations after disruptions last year. According to the report, the botnet now generates about 40 billion ad requests per day. The available reporting does not name specific device models, firmware versions, infection vectors or indicators of compromise.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>BADBOX targets cheap, unmanaged Android-based streaming boxes rather than Windows, M365 or edge devices. The main risk is these boxes appearing on corporate, guest or remote-worker networks as untrusted, compromised hosts. The botnet is active in the wild, but without published indicators, defenders can only reduce exposure by inventorying and isolating such devices.</p></section>
       </div>
       <div class="actions">
         <h4 class="label">What to do</h4>
-        <ol class="steps"><li>Require strong caller verification at the help desk before any password reset, MFA reset or new MFA device enrollment, such as a callback to a number on file or manager approval.</li><li>Enforce phishing-resistant MFA for privileged and high-value accounts, and limit who can register new authentication methods through Conditional Access.</li><li>Alert on new MFA method registration or password reset followed quickly by a sign-in from an unfamiliar location or device.</li><li>Monitor SaaS and cloud storage for unusually large download or export volumes per user, and review OAuth app consents.</li><li>Review the full Unit 42 report for indicators and specific techniques and add them to detections.</li></ol>
+        <ol class="steps"><li>Inventory unmanaged Android-based media or TV boxes on corporate and office networks, and remove or isolate any that are not approved.</li><li>Restrict IoT and consumer devices to segmented VLANs or guest networks with no access to internal resources.</li><li>Prohibit off-brand Android TV boxes in procurement and facilities, for example in meeting-room displays and digital signage.</li><li>Watch for vendor or researcher publications of BADBOX indicators, and add them to blocklists and hunts once available.</li></ol>
+      <div class="cols2 versions">
+        <div><div class="k">Affected</div><ul><li>Generic Android TV boxes (specific models not stated)</li></ul></div>
+        <div><div class="k">Fixed</div><span class="muted">Not stated in the sources</span></div>
+      </div>
       </div>
     </div>
 
     <div class="sources">
       <h4 class="label">Sources</h4>
       <ul>
-        <li><span class="pub">Unit 42</span><a href="https://unit42.paloaltonetworks.com/com-affiliate-vishing-attacks/" rel="noopener noreferrer nofollow">Dialing for Data: Inside the Com’s High-Profile Heists</a><span class="where">unit42.paloaltonetworks.com · 20 Nov</span></li>
+        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/badbox-30-botnet-returns-with-record-breaking-40-billion-daily-ad-requests/" rel="noopener noreferrer nofollow">BADBOX botnet returns with record-breaking 40 billion daily ad requests</a><span class="where">bleepingcomputer.com · 21 Nov</span></li>
       </ul>
-<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: low</p>    </div>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
 
 
     <section class="detect" aria-label="Detection">
@@ -316,22 +323,14 @@ Ranked by Claude Haiku 5.5, summarized by Claude Opus 5.5, and reviewed by a per
         <label for="story-4-hunt">Hunting</label>
         <div class="tab-panels">
           <div class="tab-panel">
-<ol class="steps-plain"><li>Pull Entra audit activity for security info registrations and password resets over the last 14 days and match them against help desk tickets.</li><li>For each account with a reset or new MFA method, check sign-ins within the next few hours for new IP addresses, countries or devices.</li><li>Look for per-user spikes in file download or sync activity in SharePoint, OneDrive and other connected SaaS apps.</li><li>Check for new OAuth app consents or new inbox rules on accounts flagged above.</li><li>Contain any confirmed account by revoking sessions, resetting credentials and removing attacker-registered MFA methods.</li></ol><div class="code">
+<ol class="steps-plain"><li>Use Defender for Endpoint device discovery to list unmanaged devices that report an Android platform or an IoT category.</li><li>Check discovered devices against the approved asset list, and flag generic or unknown-vendor streaming boxes.</li><li>Confirm which network segment each flagged device sits on, and isolate or remove those on corporate segments.</li><li>Once BADBOX indicators are published, search network and DNS telemetry for connections to them.</li></ol><div class="code">
   <div class="code-bar">
-    <span class="name">Defender XDR KQL · MFA method registrations and password resets in Entra ID</span>
+    <span class="name">Defender XDR KQL · Unmanaged Android or IoT devices discovered on the network</span>
 <span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
   </div>
-  <pre><code>CloudAppEvents | where Timestamp &gt; ago(14d) | where ActionType has_any (&#34;registered security info&#34;, &#34;Reset user password&#34;, &#34;Reset password&#34;, &#34;Update user&#34;, &#34;deleted security info&#34;) | project Timestamp, ActionType, AccountDisplayName, AccountObjectId, IPAddress, CountryCode, Application | order by Timestamp desc</code></pre>
+  <pre><code>DeviceInfo | where Timestamp &gt; ago(14d) | where OnboardingStatus != &#34;Onboarded&#34; | where OSPlatform contains &#34;Android&#34; or DeviceCategory == &#34;IoT&#34; | summarize arg_max(Timestamp, *) by DeviceId | project Timestamp, DeviceId, DeviceName, DeviceCategory, DeviceType, OSPlatform, Vendor, Model, OnboardingStatus</code></pre>
 </div>
-<p class="conv-note receipt">On 30 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
-<div class="code">
-  <div class="code-bar">
-    <span class="name">Defender XDR KQL · Per-user hourly spikes in cloud file downloads</span>
-<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
-  </div>
-  <pre><code>CloudAppEvents | where Timestamp &gt; ago(14d) | where ActionType in (&#34;FileDownloaded&#34;, &#34;FileSyncDownloadedFull&#34;) | summarize Downloads = count(), IPs = make_set(IPAddress, 10) by AccountDisplayName, AccountObjectId, bin(Timestamp, 1h) | where Downloads &gt; 500 | order by Downloads desc</code></pre>
-</div>
-<p class="conv-note receipt">On 30 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<p class="conv-note receipt">On 60 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
           </div>
         </div>
       </div>
@@ -341,35 +340,33 @@ Ranked by Claude Haiku 5.5, summarized by Claude Opus 5.5, and reviewed by a per
     <div class="story-top">
       <div class="story-flags">
         <div class="tags">
-<span class="tag crit-solid">Exploited</span>
-<span class="tag crit">In CISA KEV</span><span class="tag high">Public PoC</span><span class="tag info">Web app</span>        </div>
-        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span class="rank">No. 05</span> · Priority <b>57</b>
+<span class="tag high">Public PoC</span><span class="tag info">Edge device</span>        </div>
+        <div class="priority high" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span class="rank">No. 05</span> · Priority <b>47</b>
         </div>
       </div>
-      <h3 id="story-5-h">Metasploit adds Zimbra impersonation and brute-force modules plus BeyondTrust RS exploit</h3>
-      <p class="meta"> Zimbra · 1 source · first reported 20 November 2026</p>
+      <h3 id="story-5-h">D-Link DIR-600L 2.17b02 stack overflow in gena.cgi (<span class="nowrap">CVE-2026-133993</span>) rated CVSS 9.3</h3>
+      <p class="meta">D-Link DIR-600L · 1 source · first reported 21 November 2026</p>
     </div>
 
     <dl class="facts">
-      <div><dt>CVE</dt><dd><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-102764">CVE-2026-102764</a></dd></div>
+      <div><dt>CVE</dt><dd><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-133993">CVE-2026-133993</a></dd></div>
       <div><dt>CVSS</dt><dd><strong>9.3</strong> <span class="crit">Critical</span></dd></div>
-      <div><dt>EPSS</dt><dd><strong>56%</strong> <span class="muted">30-day</span></dd></div>
-      <div><dt>CISA KEV</dt><dd>Listed earlier</dd></div>
-      <div><dt>Public PoC</dt><dd><strong class="high">3 repos</strong></dd></div>
+      <div><dt>EPSS</dt><dd><strong>1.1%</strong> <span class="muted">30-day</span></dd></div>
+      <div><dt>CISA KEV</dt><dd><span class="muted">Not listed</span></dd></div>
+      <div><dt>Public PoC</dt><dd>None known</dd></div>
     </dl>
-    <p class="related">Also: <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-93637">CVE-2026-93637</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-73571">CVE-2026-73571</a></p>
 
     <div class="story-body">
       <div class="cols2">
-        <section><h4 class="label">What happened</h4><p>Rapid7 says its latest Metasploit release adds a shared Zimbra SOAP mixin and two auxiliary modules from its Zimbra identity-boundary research. CVE-2026-73571 is an authorization bypass in SaveDraftRequest handling that lets any authenticated user send mail as another local mailbox. CVE-2026-93637 is a rate-limit bypass in the Network Edition GraphQL authentication endpoint that lets credential stuffing evade the source-IP lockout applied to SOAP logins. Both were validated against Zimbra 10.1.16 Network Edition. The same release adds an exploit module for CVE-2026-102764, which the sources tie to BeyondTrust Remote Support, not Zimbra, despite how the release is framed.</p></section>
-        <section><h4 class="label">Why it matters</h4><p>The two Zimbra flaws are rated low (CVSS 3.1 and 3.7, EPSS 0.9% and 1.0%) and are not in KEV, but public Metasploit modules make internal mail spoofing and lockout-free password spraying easy. That raises phishing and account-takeover risk for organizations running Zimbra. The bigger concern is CVE-2026-102764 in BeyondTrust Remote Support: CVSS 9.3, EPSS 55.6%, listed in CISA KEV (no due date given), and now available as a ready-made exploit, so internet-facing Remote Support appliances should be treated as urgent.</p></section>
+        <section><h4 class="label">What happened</h4><p>NVD lists CVE-2026-133993, a stack-based buffer overflow in the GENA subscription handler (gena.cgi) of D-Link DIR-600L firmware 2.17b02, published 21 November 2026. According to NVD, an attacker can trigger the flaw remotely by manipulating the service argument, and the scoring is CVSS 9.3 (critical). NVD says an exploit has been publicly released. Separate proof-of-concept tracking did not confirm public exploit code, so the sources disagree on this point. No vendor advisory or fixed firmware is cited.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>The DIR-600L is a small-office or home router, so exposure in enterprise estates is most likely through branch sites, remote workers or unmanaged shadow IT, not managed edge infrastructure. The bug is not in CISA KEV and the EPSS score is low (about 1.1%). Still, a remotely reachable memory corruption bug with a reportedly public exploit is the kind of flaw botnets tend to pick up on cheap routers.</p></section>
       </div>
       <div class="actions">
         <h4 class="label">What to do</h4>
-        <ol class="steps"><li>Inventory internet-facing BeyondTrust Remote Support appliances and apply the vendor fix for CVE-2026-102764 immediately, since it is in KEV and a public exploit module exists.</li><li>Check whether you run Zimbra Network Edition 10.1.16 or nearby releases and apply Synacor&#39;s fixes for CVE-2026-73571 and CVE-2026-93637 once you confirm the patched versions with the vendor.</li><li>Restrict or monitor access to the Zimbra GraphQL authentication endpoint and enforce MFA so password spraying that bypasses lockout cannot succeed.</li><li>Review Zimbra mail logs for messages sent as one mailbox by a different authenticated account without a delegation grant, and for unexpected items in users&#39; Sent folders.</li><li>Review BeyondTrust Remote Support logs and hosts for unexpected file uploads and for outbound activity originating from the appliance.</li></ol>
+        <ol class="steps"><li>Inventory DIR-600L routers in offices, branches and remote-worker setups, and remove them from any network that carries corporate traffic.</li><li>Since no fixed firmware is identified, replace affected units with supported hardware and do not wait for a patch.</li><li>Make sure the router&#39;s UPnP/GENA services and remote management are not reachable from the internet or from untrusted segments.</li><li>Check for a D-Link advisory on this CVE and apply any firmware update it provides.</li><li>Watch traffic from any remaining DIR-600L devices for unexpected outbound connections that could point to compromise or botnet enrollment.</li></ol>
       <div class="cols2 versions">
-        <div><div class="k">Affected</div><ul><li>Zimbra Collaboration 10.1.16 Network Edition (validated by Rapid7 for CVE-2026-73571 and CVE-2026-93637; full affected range not stated)</li><li>BeyondTrust Remote Support (CVE-2026-102764; versions not stated)</li></ul></div>
+        <div><div class="k">Affected</div><ul><li>D-Link DIR-600L 2.17b02</li></ul></div>
         <div><div class="k">Fixed</div><span class="muted">Not stated in the sources</span></div>
       </div>
       </div>
@@ -378,15 +375,10 @@ Ranked by Claude Haiku 5.5, summarized by Claude Opus 5.5, and reviewed by a per
     <div class="sources">
       <h4 class="label">Sources</h4>
       <ul>
-        <li><span class="pub">Rapid7</span><a href="https://www.rapid7.com/blog/post/pt-metasploit-wrap-up-breaking-zimbra-s-identity-boundaries" rel="noopener noreferrer nofollow">Metasploit Wrap Up: Breaking Zimbra&#39;s Identity Boundaries</a><span class="where">rapid7.com · 20 Nov</span></li>
+        <li><span class="pub">NVD</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-133993" rel="noopener noreferrer nofollow">CVE-2026-133993 (CRITICAL 9.3)</a><span class="where">nvd.nist.gov · 21 Nov</span></li>
       </ul>
 <p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
 
-    <details class="poc">
-      <summary>Public proof-of-concept repos (3)</summary>
-      <p class="warn">Links only, not vetted. Public PoC repos are often fake or backdoored. Don't run them on a work machine.</p>
-      <ul><li><a href="https://github.com/Worthes/CVE-2026-102764-Proof-of-concept" rel="noopener noreferrer nofollow">Worthes/CVE-2026-102764-Proof-of-concept</a> <span class="muted">CVE-2026-102764 · 4 stars · created 16 Oct</span></li><li><a href="https://github.com/maxprog-svg/CVE-2026-102764" rel="noopener noreferrer nofollow">maxprog-svg/CVE-2026-102764</a> <span class="muted">CVE-2026-102764 · 0 stars · created 21 Oct</span></li><li><a href="https://github.com/CompleteTech-Security/beyondtrust-remote-support-cve-2026-102764-check" rel="noopener noreferrer nofollow">CompleteTech-Security/beyondtrust-remote-support-cve-2026-102764-check</a> <span class="muted">CVE-2026-102764 · 0 stars · created 23 Oct</span></li></ul>
-    </details>
 
     <section class="detect" aria-label="Detection">
       <div class="detect-head">
@@ -399,14 +391,22 @@ Ranked by Claude Haiku 5.5, summarized by Claude Opus 5.5, and reviewed by a per
         <label for="story-5-hunt">Hunting</label>
         <div class="tab-panels">
           <div class="tab-panel">
-<ol class="steps-plain"><li>Use vulnerability management data to find devices flagged for CVE-2026-73571, CVE-2026-93637 or CVE-2026-102764.</li><li>On Zimbra web and mailbox logs, look for high volumes of batched GraphQL authentication requests from single sources, especially many usernames per request.</li><li>Search Zimbra audit and mail logs for SaveDraftRequest-based sends where the From address differs from the authenticated account and no delegation exists.</li><li>Correlate successful Zimbra logins that follow GraphQL authentication bursts, and reset passwords for those accounts.</li><li>On BeyondTrust Remote Support appliances, review upload activity and admin sessions since the Metasploit module was released on 20 November 2026.</li></ol><div class="code">
+<ol class="steps-plain"><li>Use Defender for Endpoint device discovery to list network devices that report D-Link as vendor or DIR-600L as model.</li><li>Find managed endpoints whose default gateway or frequent network neighbors are D-Link routers. These usually indicate remote-worker or branch exposure.</li><li>Look for managed hosts reaching common router UPnP ports (1900, 49152) on internal router addresses, which shows where such services are present.</li><li>For confirmed DIR-600L units, verify the firmware version and plan replacement, since no fix is stated.</li></ol><div class="code">
   <div class="code-bar">
-    <span class="name">Defender XDR KQL · Devices exposed to the Zimbra and BeyondTrust CVEs in this Metasploit release</span>
+    <span class="name">Defender XDR KQL · Discovered D-Link network devices (possible DIR-600L)</span>
 <span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
   </div>
-  <pre><code>DeviceTvmSoftwareVulnerabilities | where CveId in~ (&#39;CVE-2026-73571&#39;,&#39;CVE-2026-93637&#39;,&#39;CVE-2026-102764&#39;) | project DeviceName, OSPlatform, SoftwareVendor, SoftwareName, SoftwareVersion, CveId, VulnerabilitySeverityLevel, RecommendedSecurityUpdate</code></pre>
+  <pre><code>DeviceInfo | where Timestamp &gt; ago(30d) | where Vendor has &#34;D-Link&#34; or Model has &#34;DIR-600&#34; | summarize arg_max(Timestamp, *) by DeviceId | project Timestamp, DeviceId, DeviceName, Vendor, Model, DeviceType, DeviceCategory, OSVersion</code></pre>
 </div>
-<p class="conv-note receipt">The synthetic baseline has no data for its tables. Not tested on real attack data.</p>
+<p class="conv-note receipt">On 60 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Endpoint connections to router UPnP/GENA ports on private addresses</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceNetworkEvents | where Timestamp &gt; ago(14d) | where RemotePort in (1900, 49152) | where ipv4_is_private(RemoteIP) | summarize Connections = count(), Hosts = dcount(DeviceId) by RemoteIP, RemotePort | order by Hosts desc</code></pre>
+</div>
+<p class="conv-note receipt">On 300 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
           </div>
         </div>
       </div>
@@ -416,38 +416,32 @@ Ranked by Claude Haiku 5.5, summarized by Claude Opus 5.5, and reviewed by a per
     <div class="story-top">
       <div class="story-flags">
         <div class="tags">
-<span class="tag crit">Exploitation reported</span><span class="tag info">Mobile</span>        </div>
+<span class="tag crit">Exploitation reported</span><span class="tag">breach</span>        </div>
         <div class="priority high" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span class="rank">No. 06</span> · Priority <b>56</b>
+          <span class="rank">No. 06</span> · Priority <b>42</b>
         </div>
       </div>
-      <h3 id="story-6-h">WhatsApp fixes low-severity <span class="nowrap">CVE-2026-23871</span> found during scam campaign disruption</h3>
-      <p class="meta"> WhatsApp · 1 source · first reported 20 November 2026</p>
+      <h3 id="story-6-h">FBI investigating apparent breach of National Crime Information Center database</h3>
+      <p class="meta">FBI National Crime Information Center · 2 sources · first reported 21 November 2026</p>
     </div>
 
-    <dl class="facts">
-      <div><dt>CVE</dt><dd><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-23871">CVE-2026-23871</a></dd></div>
-      <div><dt>CVSS</dt><dd><strong>3.5</strong> <span class="">Low</span></dd></div>
-      <div><dt>EPSS</dt><dd><strong>0.5%</strong> <span class="muted">30-day</span></dd></div>
-      <div><dt>CISA KEV</dt><dd><span class="muted">Not listed</span></dd></div>
-      <div><dt>Public PoC</dt><dd>None known</dd></div>
-    </dl>
 
     <div class="story-body">
       <div class="cols2">
-        <section><h4 class="label">What happened</h4><p>According to SecurityWeek, WhatsApp has fixed a vulnerability tracked as CVE-2026-23871 that its own security team discovered while disrupting a scam campaign. SecurityWeek reports the flaw may have been used to make scam messages appear more credible. The sources do not state affected or fixed version numbers or give technical details of the flaw.</p></section>
-        <section><h4 class="label">Why it matters</h4><p>The issue is rated low severity (CVSS 3.5, EPSS 0.5%), is not in CISA KEV, and no public proof-of-concept is reported. It mainly matters for social engineering: users with WhatsApp on corporate or BYOD mobile devices may receive scam messages that look more trustworthy. There is no Windows, M365 or edge-device telemetry to hunt for.</p></section>
+        <section><h4 class="label">What happened</h4><p>BleepingComputer reports that FBI systems have apparently been breached for the second time in two months, this time affecting the National Crime Information Center (NCIC), the database local, state and federal law enforcement agencies use to share information. SecurityWeek, citing an AP source, says the FBI is investigating an apparent hack of a national law enforcement database it maintains. The sources do not describe how access was gained, what data was taken, or who is responsible.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>No technical details, vulnerabilities or indicators have been published, so there is nothing specific to hunt for in Windows, M365 or edge-device telemetry yet. Organizations that connect to NCIC or other criminal justice information systems, such as state and local agencies and their contractors, may face follow-on phishing or credential abuse if account or query data was exposed.</p></section>
       </div>
       <div class="actions">
         <h4 class="label">What to do</h4>
-        <ol class="steps"><li>Make sure WhatsApp is updated to the latest version on managed mobile devices through your MDM or app store policy.</li><li>Remind users that WhatsApp messages can be made to look more credible than they are, and that they should verify unexpected requests for money, credentials or codes through a separate channel.</li><li>Watch for WhatsApp&#39;s own advisory to confirm affected and fixed versions.</li></ol>
+        <ol class="steps"><li>If your organization connects to NCIC or CJIS systems, watch for official FBI or CJIS notices and follow any credential reset or access guidance they issue.</li><li>Review access logs and accounts used for criminal justice information system connectivity for unusual sign-ins or query volumes.</li><li>Brief users who handle law enforcement data about possible phishing that references the incident.</li></ol>
       </div>
     </div>
 
     <div class="sources">
       <h4 class="label">Sources</h4>
       <ul>
-        <li><span class="pub">SecurityWeek</span><a href="https://www.securityweek.com/whatsapp-fixes-flaw-uncovered-while-disrupting-scam-campaign/" rel="noopener noreferrer nofollow">WhatsApp Fixes Flaw Uncovered While Disrupting Scam Campaign</a><span class="where">securityweek.com · 20 Nov</span></li>
+        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/fbi-reportedly-hacked-again-this-time-targeting-nationwide-police-database/" rel="noopener noreferrer nofollow">FBI reportedly hacked again, this time targeting nationwide police database</a><span class="where">bleepingcomputer.com · 21 Nov</span></li>
+        <li><span class="pub">SecurityWeek</span><a href="https://www.securityweek.com/fbi-investigating-apparent-hack-of-its-key-national-criminal-justice-database-ap-source-says/" rel="noopener noreferrer nofollow">FBI Investigating Apparent Hack of Its Key National Criminal Justice Database, AP Source Says</a><span class="where">securityweek.com · 22 Nov</span></li>
       </ul>
 <p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: low</p>    </div>
 
@@ -457,33 +451,42 @@ Ranked by Claude Haiku 5.5, summarized by Claude Opus 5.5, and reviewed by a per
     <div class="story-top">
       <div class="story-flags">
         <div class="tags">
-<span class="tag crit-solid">Exploited</span>
-<span class="tag">campaign</span>        </div>
-        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span class="rank">No. 07</span> · Priority <b>54</b>
+<span class="tag high">Public PoC</span><span class="tag info">Edge device</span>        </div>
+        <div class="priority high" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span class="rank">No. 07</span> · Priority <b>42</b>
         </div>
       </div>
-      <h3 id="story-7-h">China-linked actor used open-source AI pentest tool Cairn to find apparent zero-day and seize server</h3>
-      <p class="meta"> Cairn · 2 sources · first reported 20 November 2026</p>
+      <h3 id="story-7-h">Out-of-bounds read in end-of-life TRENDnet TEW-657BRM router has published exploit</h3>
+      <p class="meta">TRENDnet TEW-657BRM · 1 source · first reported 21 November 2026</p>
     </div>
 
+    <dl class="facts">
+      <div><dt>CVE</dt><dd><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-133985">CVE-2026-133985</a></dd></div>
+      <div><dt>CVSS</dt><dd><strong>7.4</strong> <span class="high">High</span></dd></div>
+      <div><dt>EPSS</dt><dd><strong>0.6%</strong> <span class="muted">30-day</span></dd></div>
+      <div><dt>CISA KEV</dt><dd><span class="muted">Not listed</span></dd></div>
+      <div><dt>Public PoC</dt><dd>None known</dd></div>
+    </dl>
 
     <div class="story-body">
       <div class="cols2">
-        <section><h4 class="label">What happened</h4><p>Amazon researchers, as reported by The Record on 20 November 2026, say a China-linked threat actor used the open-source AI penetration-testing framework Cairn to repeatedly attack two universities, and in one case it apparently found a previously unknown vulnerability. BleepingComputer reports that the zero-day was in a medical imaging application and that the attackers used it to take over a server. The sources do not name the vulnerable product or version, give a CVE, or publish indicators, and The Record describes the zero-day as possible rather than confirmed.</p></section>
-        <section><h4 class="label">Why it matters</h4><p>Autonomous AI tooling lowers the cost of finding and exploiting flaws in niche internet-facing applications, such as medical imaging, lab or research software, that often get little security review. No patch or CVE is identified, so the only defenses for now are reducing exposure and watching for exploitation behavior on internet-facing servers. Education and healthcare organizations that expose specialist applications should treat this as a priority.</p></section>
+        <section><h4 class="label">What happened</h4><p>NVD lists CVE-2026-133985 (CVSS 7.4, high) as an out-of-bounds read in the restore_config.cgi component of TRENDnet TEW-657BRM firmware 1.00.1 that can be triggered remotely. According to NVD, an exploit has been published, although no public proof-of-concept was confirmed by other tracking. TRENDnet says it cannot confirm the flaw because the product has been end-of-life for more than 15 years, and it plans to notify customers. No patch is expected.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>This is a niche consumer/SOHO router that is long unsupported, so most enterprise environments will only meet it at small branch sites or in remote workers&#39; homes. The flaw is not in CISA KEV and has an EPSS score of 0.6%, but no fix will come, so any exposed unit stays vulnerable for good.</p></section>
       </div>
       <div class="actions">
         <h4 class="label">What to do</h4>
-        <ol class="steps"><li>Inventory internet-facing specialist applications, especially medical imaging and research systems, and remove direct internet exposure or place them behind VPN or authenticated access.</li><li>Hunt on internet-facing servers for application or web server processes spawning shells and reconnaissance tools, which can indicate successful exploitation of an unknown flaw.</li><li>Review web and application logs for bursts of automated, high-variety requests from single sources, which are typical of AI-driven scanning and fuzzing.</li><li>Make sure EDR covers servers that host specialist applications, and isolate any server showing signs of compromise for investigation.</li><li>Watch for the vendor, Amazon or CISA to publish the affected product, a CVE or indicators, and patch as soon as a fix is named.</li></ol>
+        <ol class="steps"><li>Find any TRENDnet TEW-657BRM devices in branch, lab or remote-worker networks and replace them with supported hardware.</li><li>Until replacement, block internet access to the device&#39;s web management interface and limit admin access to a trusted management network.</li><li>Treat traffic coming from networks behind these devices as untrusted, and require VPN with device compliance checks for remote workers who use them.</li></ol>
+      <div class="cols2 versions">
+        <div><div class="k">Affected</div><ul><li>TRENDnet TEW-657BRM 1.00.1</li></ul></div>
+        <div><div class="k">Fixed</div><span class="muted">Not stated in the sources</span></div>
+      </div>
       </div>
     </div>
 
     <div class="sources">
       <h4 class="label">Sources</h4>
       <ul>
-        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/hackers-use-autonomous-ai-tool-cairn-to-find-zero-day-take-over-server/" rel="noopener noreferrer nofollow">Hackers use autonomous AI tool Cairn to find zero-day, take over server</a><span class="where">bleepingcomputer.com · 20 Nov</span></li>
-        <li><span class="pub">The Record</span><a href="https://therecord.media/amazon-research-cairn-ai-university-attacks-possible-zero-day" rel="noopener noreferrer nofollow">Amazon says Chinese hackers used Cairn AI tool to discover apparent zero-day during attack on university</a><span class="where">therecord.media · 20 Nov</span></li>
+        <li><span class="pub">NVD</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-133985" rel="noopener noreferrer nofollow">CVE-2026-133985 (HIGH 7.4)</a><span class="where">nvd.nist.gov · 21 Nov</span></li>
       </ul>
 <p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
 
@@ -499,179 +502,37 @@ Ranked by Claude Haiku 5.5, summarized by Claude Opus 5.5, and reviewed by a per
         <label for="story-7-hunt">Hunting</label>
         <div class="tab-panels">
           <div class="tab-panel">
-<ol class="steps-plain"><li>List internet-facing devices and confirm which ones host specialist or medical imaging applications.</li><li>On those hosts, look for server or application processes launching command interpreters or reconnaissance utilities.</li><li>Check inbound connection logs for single remote addresses generating unusually high request volumes or probing many ports, which suggests automated scanning.</li><li>Correlate any scanning sources with later suspicious process activity or new outbound connections from the same server.</li><li>Escalate and isolate hosts where exploitation indicators line up, then preserve web and application logs for forensics.</li></ol><div class="code">
+<ol class="steps-plain"><li>Review asset inventories and network discovery data for TRENDnet devices, especially the TEW-657BRM model.</li><li>Use Defender for Endpoint device discovery to find network devices from TRENDnet seen on corporate segments.</li><li>Check perimeter firewall and proxy logs for inbound requests to restore_config.cgi on any internet-facing addresses you own.</li></ol><div class="code">
   <div class="code-bar">
-    <span class="name">Defender XDR KQL · Server application processes spawning shells or recon tools</span>
+    <span class="name">Defender XDR KQL · Discovered TRENDnet network devices</span>
 <span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
   </div>
-  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(30d) | where InitiatingProcessFileName in~ (&#34;w3wp.exe&#34;,&#34;java.exe&#34;,&#34;javaw.exe&#34;,&#34;tomcat9.exe&#34;,&#34;httpd.exe&#34;,&#34;nginx.exe&#34;,&#34;node.exe&#34;,&#34;python.exe&#34;,&#34;php-cgi.exe&#34;) | where FileName in~ (&#34;cmd.exe&#34;,&#34;powershell.exe&#34;,&#34;pwsh.exe&#34;,&#34;whoami.exe&#34;,&#34;net.exe&#34;,&#34;net1.exe&#34;,&#34;certutil.exe&#34;,&#34;bitsadmin.exe&#34;,&#34;rundll32.exe&#34;,&#34;mshta.exe&#34;,&#34;nltest.exe&#34;) | project Timestamp, DeviceName, InitiatingProcessFileName, InitiatingProcessCommandLine, FileName, ProcessCommandLine, AccountName | order by Timestamp desc</code></pre>
-</div>
-<p class="conv-note receipt">On 500 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
-<div class="code">
-  <div class="code-bar">
-    <span class="name">Defender XDR KQL · High-volume inbound connections suggesting automated scanning</span>
-<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
-  </div>
-  <pre><code>DeviceNetworkEvents | where Timestamp &gt; ago(14d) | where ActionType == &#34;InboundConnectionAccepted&#34; | summarize Connections = count(), Ports = dcount(LocalPort) by DeviceName, RemoteIP, bin(Timestamp, 1h) | where Connections &gt; 500 or Ports &gt; 20 | order by Connections desc</code></pre>
-</div>
-<p class="conv-note receipt">On 300 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
-<div class="code">
-  <div class="code-bar">
-    <span class="name">Defender XDR KQL · Internet-facing devices for exposure review</span>
-<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
-  </div>
-  <pre><code>DeviceInfo | where Timestamp &gt; ago(7d) | where IsInternetFacing == true | summarize arg_max(Timestamp, *) by DeviceId | project DeviceName, OSPlatform, PublicIP, MachineGroup, Timestamp</code></pre>
+  <pre><code>DeviceInfo
+| where Timestamp &gt; ago(30d)
+| where Vendor has &#34;TRENDnet&#34; or Model has &#34;TEW-657&#34;
+| summarize LastSeen = max(Timestamp) by DeviceId, DeviceName, Vendor, Model, DeviceType</code></pre>
 </div>
 <p class="conv-note receipt">On 60 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Endpoint connections to local web admin of possible TRENDnet routers</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceNetworkEvents
+| where Timestamp &gt; ago(14d)
+| where RemoteUrl has &#34;restore_config.cgi&#34;
+| project Timestamp, DeviceName, InitiatingProcessFileName, RemoteIP, RemotePort, RemoteUrl</code></pre>
+</div>
+<p class="conv-note receipt">On 300 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
           </div>
         </div>
       </div>
     </section>
   </article>
-  <article class="story" id="story-8" aria-labelledby="story-8-h">
-    <div class="story-top">
-      <div class="story-flags">
-        <div class="tags">
-<span class="tag crit-solid">Exploited</span>
-<span class="tag">breach</span>        </div>
-        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span class="rank">No. 08</span> · Priority <b>51</b>
-        </div>
-      </div>
-      <h3 id="story-8-h">Bell Canada confirms &#39;agentic&#39; threat actor breached systems and stole enterprise customer data</h3>
-      <p class="meta">Bell Canada  · 1 source · first reported 20 November 2026</p>
-    </div>
-
-
-    <div class="story-body">
-      <div class="cols2">
-        <section><h4 class="label">What happened</h4><p>According to BleepingComputer, Bell Canada has confirmed that a threat actor it describes as &#34;agentic&#34; breached its systems on 17 November 2026 and stole enterprise customer data. The stolen data reportedly includes information from a system used to order and provision telecommunications circuits. The sources do not describe the initial access method, the exact data fields exposed, or the number of affected customers.</p></section>
-        <section><h4 class="label">Why it matters</h4><p>Organizations that buy circuits or telecom services from Bell Canada may have had circuit details, site information and contact data exposed, which can fuel targeted phishing, pretexting against carrier support, or reconnaissance of network edges. No technical indicators or intrusion methods have been published, so there is nothing specific to hunt for yet beyond heightened vigilance for carrier-themed social engineering.</p></section>
-      </div>
-      <div class="actions">
-        <h4 class="label">What to do</h4>
-        <ol class="steps"><li>If your organization is a Bell Canada enterprise customer, contact your account team to confirm whether your data was included and what fields were exposed.</li><li>Warn network, procurement and helpdesk staff about phishing or phone pretexting that references Bell circuit orders, circuit IDs or provisioning tickets.</li><li>Verify that any carrier-portal or ordering-system accounts used with Bell have strong unique passwords and MFA, and rotate credentials that may have been stored in or shared through the provider&#39;s systems.</li><li>Review exposure of internet-facing edge devices on Bell-provided circuits, since circuit and site details can aid targeting.</li><li>Track Bell Canada&#39;s disclosures for indicators of compromise or further details on the intrusion method.</li></ol>
-      </div>
-    </div>
-
-    <div class="sources">
-      <h4 class="label">Sources</h4>
-      <ul>
-        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/bell-canada-says-agentic-hacker-stole-enterprise-customer-data/" rel="noopener noreferrer nofollow">Bell Canada says &#39;agentic&#39; hacker stole enterprise customer data</a><span class="where">bleepingcomputer.com · 20 Nov</span></li>
-      </ul>
-<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
-
-
-  </article>
-  <article class="story" id="story-9" aria-labelledby="story-9-h">
-    <div class="story-top">
-      <div class="story-flags">
-        <div class="tags">
-<span class="tag crit-solid">Exploited</span>
-<span class="tag">campaign</span>        </div>
-        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span class="rank">No. 09</span> · Priority <b>51</b>
-        </div>
-      </div>
-      <h3 id="story-9-h">European Commission takes services offline after AI-assisted cyberattack, reports no data breach</h3>
-      <p class="meta">European Commission  · 1 source · first reported 20 November 2026</p>
-    </div>
-
-
-    <div class="story-body">
-      <div class="cols2">
-        <section><h4 class="label">What happened</h4><p>SecurityWeek reports that the European Commission has confirmed a cyberattack it describes as AI-assisted, which disrupted some of its services. The Commission took certain services offline to contain the incident and says it has no evidence that data was breached. The available reporting does not name the attacker, the initial access method, the affected systems, or how AI was used in the attack.</p></section>
-        <section><h4 class="label">Why it matters</h4><p>No vulnerabilities, techniques or indicators have been disclosed, so there is nothing specific to hunt for in Windows, Microsoft 365 or edge-device telemetry yet. The incident is a reminder that organizations may need to take services offline during containment, and that public sector bodies are active targets. Follow-up reporting may add technical detail that changes this assessment.</p></section>
-      </div>
-      <div class="actions">
-        <h4 class="label">What to do</h4>
-        <ol class="steps"><li>Watch for follow-up statements from the European Commission or CERT-EU that disclose techniques, exploited products or indicators, and reassess exposure when they appear.</li><li>If your organization exchanges data or federated access with EU institutions, check with those partners about any related advisories or required credential changes.</li><li>Review incident response playbooks for containment steps that take services offline, including communication plans and recovery order.</li></ol>
-      </div>
-    </div>
-
-    <div class="sources">
-      <h4 class="label">Sources</h4>
-      <ul>
-        <li><span class="pub">SecurityWeek</span><a href="https://www.securityweek.com/european-commission-confirms-ai-assisted-cyberattack-disrupted-services/" rel="noopener noreferrer nofollow">European Commission Confirms AI-Assisted Cyberattack Disrupted Services</a><span class="where">securityweek.com · 20 Nov</span></li>
-      </ul>
-<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: low</p>    </div>
-
-
-  </article>
-  <article class="story" id="story-10" aria-labelledby="story-10-h">
-    <div class="story-top">
-      <div class="story-flags">
-        <div class="tags">
-<span class="tag crit-solid">Exploited</span>
-<span class="tag">breach</span>        </div>
-        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span class="rank">No. 10</span> · Priority <b>51</b>
-        </div>
-      </div>
-      <h3 id="story-10-h">West Virginia Legislature IT systems disrupted by ongoing cybersecurity incident</h3>
-      <p class="meta">1 source · first reported 20 November 2026</p>
-    </div>
-
-
-    <div class="story-body">
-      <div class="cols2">
-        <section><h4 class="label">What happened</h4><p>According to The Record, a cybersecurity incident affecting the West Virginia Legislature&#39;s IT systems began on Thursday and was still ongoing on Friday, 20 November 2026. A spokesperson said the disruption had not spread to other government entities. The sources do not identify the attacker, the intrusion vector, the malware involved or whether data was taken.</p></section>
-        <section><h4 class="label">Why it matters</h4><p>There are no technical details, CVEs or indicators yet, so defenders have nothing specific to hunt for. The story matters mainly as situational awareness for public-sector organizations and for anyone connected to West Virginia state government networks. Watch for follow-up reporting that names a ransomware group or an initial access vector.</p></section>
-      </div>
-      <div class="actions">
-        <h4 class="label">What to do</h4>
-        <ol class="steps"><li>Track follow-up reporting for the initial access vector, ransomware attribution or published indicators, then hunt for them.</li><li>If your organization has network trust, shared accounts or data exchange with West Virginia Legislature systems, review those connections and the accounts that use them for unusual activity.</li><li>Confirm that offline backups and incident response contacts are current for legislative or public-sector IT environments.</li></ol>
-      </div>
-    </div>
-
-    <div class="sources">
-      <h4 class="label">Sources</h4>
-      <ul>
-        <li><span class="pub">The Record</span><a href="https://therecord.media/west-virginia-legislature-cyberattack" rel="noopener noreferrer nofollow">West Virginia Legislature hit with cyber incident affecting IT systems</a><span class="where">therecord.media · 20 Nov</span></li>
-      </ul>
-<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: low</p>    </div>
-
-
-  </article>
 
   <section class="block" id="kev" aria-labelledby="h-kev">
-    <div class="section-head"><h2 id="h-kev">New CISA KEV entries</h2><span>Added 20 November 2026</span></div>
-    <div class="table-box">
-      <table class="tbl">
-        <thead><tr><th scope="col">CVE</th><th scope="col">Vendor / product</th><th scope="col">Vulnerability</th><th scope="col">Deadline</th><th scope="col">Ransomware use</th></tr></thead>
-        <tbody>
-          <tr>
-            <td class="cve nowrap"><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-129448">CVE-2026-129448</a></td>
-            <td>Apache Roller</td>
-            <td>Apache Roller Deserialization of Untrusted Data Vulnerability</td>
-            <td class="nowrap"><strong class="due-soon">23 November 2026</strong><div class="sub">3 days after listing</div></td>
-            <td>Unknown</td>
-          </tr>
-          <tr>
-            <td class="cve nowrap"><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-123890">CVE-2026-123890</a></td>
-            <td>Broadcom VMware vCenter</td>
-            <td>VMWare vCenter Authentication Bypass Using an Alternate Path or Channel Vulnerability</td>
-            <td class="nowrap"><strong class="due-soon">23 November 2026</strong><div class="sub">3 days after listing</div></td>
-            <td>Unknown</td>
-          </tr>
-          <tr>
-            <td class="cve nowrap"><a href="https://nvd.nist.gov/vuln/detail/CVE-2025-42884">CVE-2025-42884</a></td>
-            <td>SAP NetWeaver</td>
-            <td>SAP NetWeaver Improper Neutralization of Special Elements in Data Query Logic Vulnerability</td>
-            <td class="nowrap"><strong class="due-soon">23 November 2026</strong><div class="sub">3 days after listing</div></td>
-            <td>Unknown</td>
-          </tr>
-          <tr>
-            <td class="cve nowrap"><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-76466">CVE-2026-76466</a></td>
-            <td>Cisco Expressway Series</td>
-            <td>Cisco Expressway Series Use of Hard-coded Credentials Vulnerability</td>
-            <td class="nowrap"><strong class="due-soon">23 November 2026</strong><div class="sub">3 days after listing</div></td>
-            <td>Unknown</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="note">From the <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog">CISA KEV catalog</a>. Deadlines bind US federal civilian agencies; treat them as the latest you should act.</p>
+    <div class="section-head"><h2 id="h-kev">New CISA KEV entries</h2></div>
+    <p class="muted">CISA added no KEV entries in this window.</p>
   </section>
 
   <section class="block" id="signals" aria-labelledby="h-signals">
@@ -679,104 +540,73 @@ Ranked by Claude Haiku 5.5, summarized by Claude Opus 5.5, and reviewed by a per
     <p class="lead">CVEs that several independent accounts posted about in the window but that are not in KEV or the news feeds yet. Counted from Bluesky, Mastodon (infosec.exchange), r/netsec and Hacker News after dropping CVE-feed bots and digest posts. Chatter is a lead, not confirmation.</p>
     <div class="signal">
       <div class="id">
-        <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-121481">CVE-2026-121481</a>
+        <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-125396">CVE-2026-125396</a>
         <div class="tags">
-<span class="tag ">CVSS 5.9</span><span class="tag high">Public PoC</span>        </div>
+<span class="tag high">CVSS 8.5</span><span class="tag high">Public PoC</span>        </div>
         <span class="k">Accounts posting</span>
-        <div class="count"><b>15</b><span>on Hacker News · EPSS 0.5%</span></div>
+        <div class="count"><b>6</b><span>on Hacker News, Mastodon · EPSS 0.3%</span></div>
       </div>
       <div class="detail">
         <span class="k">NVD summary</span>
-        <p>Issue summary: Calling EVP_EncodeBlock() with an input length close to INT_MAX
-may overflow the calculation of the encoded output size and write past the end
-of the caller-supplied output buffer.
-
-Impact summary: No path by which an attacker can trigger this has been
-identified. An application that …</p>
+        <p>Ghostscript before 10.08.0 contains a -dSAFER bypass vulnerability in the .putgstringcopy procedure in gs_fonts.ps, which calls the privileged .forceput operator without checking operand types. Attackers can supply crafted PostScript or PDF documents that trigger a type error, recover .forceput via …</p>
         <span class="k">Posts</span>
-        <div class="posts"><a href="https://news.ycombinator.com/item?id=50578562" rel="noopener noreferrer nofollow" title="Hacker News">@jerf</a><a href="https://news.ycombinator.com/item?id=50578336" rel="noopener noreferrer nofollow" title="Hacker News">@loeg</a><a href="https://news.ycombinator.com/item?id=50577532" rel="noopener noreferrer nofollow" title="Hacker News">@uecker</a><a href="https://news.ycombinator.com/item?id=50575450" rel="noopener noreferrer nofollow" title="Hacker News">@jeroenhd</a><a href="https://news.ycombinator.com/item?id=50575407" rel="noopener noreferrer nofollow" title="Hacker News">@pseudohadamard</a></div>
+        <div class="posts"><a href="https://news.ycombinator.com/item?id=50592097" rel="noopener noreferrer nofollow" title="Hacker News">@f311a</a><a href="https://infosec.exchange/@axnews/117657681002628061" rel="noopener noreferrer nofollow" title="Mastodon">@axnews</a><a href="https://infosec.exchange/@thecybersecguru/117656379729095095" rel="noopener noreferrer nofollow" title="Mastodon">@thecybersecguru</a><a href="https://news.ycombinator.com/item?id=50594349" rel="noopener noreferrer nofollow" title="Hacker News">@dvh</a><a href="https://news.ycombinator.com/item?id=50593988" rel="noopener noreferrer nofollow" title="Hacker News">@CER10TY</a></div>
       </div>
     </div>
     <div class="signal">
       <div class="id">
-        <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-123007">CVE-2026-123007</a>
+        <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-129975">CVE-2026-129975</a>
         <div class="tags">
-<span class="tag crit">CVSS 9.2</span><span class="tag high">Public PoC</span>        </div>
+<span class="tag high">Public PoC</span>        </div>
         <span class="k">Accounts posting</span>
-        <div class="count"><b>4</b><span>on Hacker News, Mastodon · EPSS 30%</span></div>
+        <div class="count"><b>3</b><span>on Hacker News, Mastodon</span></div>
       </div>
       <div class="detail">
         <span class="k">NVD summary</span>
-        <p>This issue affects NGINX Plus or NGINX Open Source configurations that use HTTP/2. When NGINX processes undisclosed traffic, the flow control window can exceed the allowed threshold, potentially resulting in a heap buffer overflow typically followed by an NGINX worker segmentation fault. Additionall…</p>
+        <p>Not in NVD yet.</p>
         <span class="k">Posts</span>
-        <div class="posts"><a href="https://infosec.exchange/@stackurity/117652488347936643" rel="noopener noreferrer nofollow" title="Mastodon">@stackurity</a><a href="https://infosec.exchange/@DailyCyberSecurity/117651797894363080" rel="noopener noreferrer nofollow" title="Mastodon">@DailyCyberSecurity</a><a href="https://news.ycombinator.com/item?id=50574736" rel="noopener noreferrer nofollow" title="Hacker News">@ceejayoz</a><a href="https://news.ycombinator.com/item?id=50571355" rel="noopener noreferrer nofollow" title="Hacker News">@wahern</a></div>
+        <div class="posts"><a href="https://infosec.exchange/@edwardk/117657069652303904" rel="noopener noreferrer nofollow" title="Mastodon">@edwardk</a><a href="https://news.ycombinator.com/item?id=50592599" rel="noopener noreferrer nofollow" title="Hacker News">@MadrasThorn</a><a href="https://infosec.exchange/@cloud/117656944150384660" rel="noopener noreferrer nofollow" title="Mastodon">@cloud</a></div>
       </div>
     </div>
   </section>
 
   <section class="block explainer" id="explainer" aria-labelledby="h-explainer">
     <div class="section-head"><h2 id="h-explainer">Explainer</h2><span>Background, not news</span></div>
-    <h3>JNDI injection and Java deserialization: when a server builds objects from attacker input</h3>
-    <p class="dek">JNDI injection and unsafe deserialization are related Java flaws where an application lets attacker-supplied data decide which object it creates or which remote server it fetches one from, often leading to code execution on the server.</p>
-<p class="why-today"><strong>Why today.</strong> Two of the four flaws CISA added to KEV on 20 November 2026 belong to this family: a JNDI injection flaw in SAP NetWeaver Enterprise Portal and an unauthenticated deserialization flaw in the Apache Roller XML-RPC endpoint. Federal agencies have only until 23 November 2026 to remediate. See <a href="#story-1">story 1</a>.</p>    <div class="ex-body">
-<h4>How deserialization goes wrong</h4><p>Serialization turns an in-memory object into bytes so it can be stored or sent, and deserialization rebuilds the object from those bytes. In Java, native deserialization can create objects of any class on the application&#39;s classpath, and some of those classes run code automatically while being rebuilt. If an application deserializes data that an unauthenticated user controls, the attacker chooses which classes are created and with what values.</p><p>Attackers chain together ordinary library classes, called gadgets, so that rebuilding the object triggers a sequence of method calls ending in something dangerous, such as running a command. The application&#39;s own code does not need a bug beyond accepting untrusted serialized data. Whether a gadget chain exists depends on which libraries ship with the product, so exploitability varies by product and version. The same pattern appears in XML-based and other formats that map input onto arbitrary types, not only Java&#39;s native binary format.</p><h4>How JNDI injection works</h4><p>JNDI is Java&#39;s standard interface for looking up named resources, such as a database connection or a directory entry, and it can resolve names against LDAP, RMI, DNS and other providers. JNDI injection happens when an application passes an attacker-controlled string into a lookup. The attacker supplies a name pointing at a server they run, and the vulnerable application connects out to it.</p><p>The attacker&#39;s server can answer with a reference telling the client to load a factory class from a remote location, or with a serialized object that the client then deserializes. Newer Java runtimes disable loading remote class code by default, but that does not close the hole: attackers can still return references to factory classes already present on the server, or serialized gadget chains. This is the mechanism behind Log4Shell. CISA&#39;s description of the SAP flaw speaks of disclosing or modifying server information rather than code execution, so treat the impact as product-specific and follow SAP&#39;s own advisory.</p><h4>What it looks like in telemetry</h4><p>The clearest host signal is a Java process starting a shell or scripting engine. On Windows that means java.exe or javaw.exe as the parent of cmd.exe, powershell.exe, rundll32.exe or certutil.exe, which you can hunt for in the DeviceProcessEvents table in Defender XDR. On Linux appliances, look for java spawning sh, bash, curl or wget.</p><p>JNDI injection has a network signal of its own: an application server making outbound LDAP, RMI or HTTP connections to an unfamiliar internet host just after receiving a request. Look for these in DeviceNetworkEvents, firewall logs in Sentinel, or proxy logs. Web logs may show long serialized or encoded blobs in POST bodies to endpoints such as XML-RPC, or lookup-style strings in parameters and headers, though attackers routinely obfuscate them. After exploitation, expect new files in web roots, new scheduled tasks or services, and credential access from the service account.</p><h4>How to prevent it</h4><p>Patching is the real fix, because the flaw lives in how the product handles input. Where a vulnerable endpoint is not needed, such as an XML-RPC interface, disable it or block it at the reverse proxy. Strict egress filtering on application servers blunts JNDI injection, because the attack depends on the server reaching an attacker-controlled host.</p><p>For in-house Java code, avoid native deserialization of untrusted data. Where it cannot be avoided, apply Java serialization filters to allow only expected classes, and never pass user input to JNDI lookups. WAF signatures help against commodity scanning but are easy to evade, so do not count them as mitigation.</p>    </div>
+    <h3>Entra Connect Health and the hybrid identity servers it watches</h3>
+    <p class="dek">Entra Connect Health is Microsoft&#39;s cloud monitoring service for on-premises identity infrastructure, and it sits beside servers that attackers treat as keys to both Active Directory and Entra ID.</p>
+<p class="why-today"><strong>Why today.</strong> Microsoft has disclosed that attackers exploited a flaw in the Entra Connect Health service to read tenant administrator email addresses and tenant configuration. Knowing what the service touches, and what that leaked data is good for, tells you where to look next. See <a href="#story-1">story 1</a>.</p>    <div class="ex-body">
+<h4>What Connect Health is</h4><p>Microsoft Entra Connect Health, formerly Azure AD Connect Health, monitors the on-premises side of a hybrid identity deployment. You install lightweight agents on Entra Connect Sync servers, AD FS servers and, optionally, domain controllers. The agents send health data, alerts, sync errors and, for AD FS, usage and sign-in analytics to a Microsoft-hosted service, and administrators view the results in the Entra admin center.</p><p>The service needs an Entra ID P1 or P2 licence. Registering an agent requires a privileged Entra role, and the agent then authenticates to the cloud service with its own credentials. The cloud side holds tenant-level metadata about your hybrid setup: which servers exist, how they are configured, which alerts fired, and who receives alert notifications.</p><h4>Why the servers it monitors are tier zero</h4><p>The Entra Connect Sync server holds credentials for an on-premises connector account. With password hash sync enabled, that account has directory replication permissions, the same rights a DCSync attack abuses. The server also holds credentials that let it write identities into Entra ID. Whoever controls the sync server can usually harvest on-premises password hashes and change what gets synchronized to the cloud.</p><p>AD FS servers hold the token-signing keys that Entra ID trusts for federated domains. An attacker with those keys can forge sign-in tokens. Both server types belong in the same protection tier as domain controllers, whether or not Connect Health is installed on them.</p><h4>What leaked admin emails and tenant configuration give an attacker</h4><p>Based on what has been reported so far, this breach was on Microsoft&#39;s service side and did not involve compromise of customer servers. The data still has value. A verified list of tenant administrator addresses is a ready-made target list for phishing, device code phishing, adversary-in-the-middle phishing and password spraying, because the attacker knows which accounts hold privilege.</p><p>Tenant configuration shows how identity is wired: whether the tenant is federated or uses password hash sync or pass-through authentication, which on-premises servers participate, and possibly their names and versions. That shortens reconnaissance for anyone planning to go after the sync or AD FS servers. Microsoft has not published the full scope, so treat both data types as exposed until it says otherwise.</p><h4>What follow-on activity looks like in telemetry</h4><p>Expect targeting of the privileged accounts first. In Sentinel or Defender XDR, look in SigninLogs and AADNonInteractiveUserSignInLogs for failed or unusual sign-ins against admin accounts, device code flow sign-ins, and new sign-in locations. Look in the email tables for lures sent to admin mailboxes.</p><p>For the hybrid servers, watch for directory replication requests from hosts that are not domain controllers; Defender for Identity raises alerts for this and its sensor can be installed on Entra Connect and AD FS servers. In AuditLogs, check for changes to federation settings, newly added federated domains, and new credentials or role assignments on accounts and applications used for directory synchronization.</p>    </div>
     <div class="actions">
       <h4 class="label">For defenders</h4>
-      <ol class="steps"><li>Inventory internet-facing SAP NetWeaver Enterprise Portal and Apache Roller instances and patch them against the newly listed KEV flaws now. The federal due date is 23 November 2026, only three days after listing.</li><li>If Roller&#39;s XML-RPC endpoint is not used, disable it or block it at the reverse proxy until patched.</li><li>Hunt in DeviceProcessEvents for java.exe or javaw.exe spawning cmd.exe, powershell.exe or other LOLBins on application servers. Baseline legitimate cases and alert on the rest.</li><li>Restrict outbound traffic from application servers to required destinations only. Alert on outbound LDAP, RMI or unexpected HTTP from those hosts to the internet.</li><li>Treat any server that was exposed and unpatched as possibly compromised. Check web roots for new files, look for new services or scheduled tasks, and rotate credentials held by the application&#39;s service account.</li></ol>
+      <ol class="steps"><li>Check the Microsoft 365 message center and Service Health for any notice about this incident addressed to your tenant, and record which admin addresses and configuration details Microsoft says were exposed.</li><li>Require phishing-resistant MFA, such as FIDO2 keys or Windows Hello for Business, for every privileged Entra role, and block device code flow for admins through Conditional Access where you do not need it.</li><li>Treat Entra Connect Sync and AD FS servers as tier zero: restrict interactive logon to tier-zero admins, install the Defender for Identity sensor on them, and confirm alerts for replication requests from non-domain-controller hosts are reaching your SOC.</li><li>Hunt in AuditLogs for recent federation setting changes, new federated domains, and new credentials or role assignments on synchronization-related accounts and applications.</li><li>Review which addresses receive Connect Health and other admin notifications, and use dedicated cloud-only admin accounts that are not used for everyday email.</li></ol>
     </div>
     <p class="ai-line">AI-generated explainer by Claude Opus 5.5 · from the model's background knowledge, not today's sources · check vendor documentation before acting on it</p>
   </section>
 
-  <section class="block good-news" id="good-news" aria-labelledby="h-good-news">
-    <div class="section-head"><h2 id="h-good-news">Good news</h2><span>Wins for defenders</span></div>
-    <ol class="good">
-      <li>
-        <span class="tag ok">Arrest or sentence</span>
-        <h3>Co-founder of ransomware recovery firm charged with wire fraud after FBI sting</h3>
-        <p>Krebs on Security reports that the chief technology officer and co-founder of RansomwareHelp, a Florida business that claimed to restore ransomware-locked data with advanced cryptographic tools, has been charged with wire fraud. According to the report, an FBI sting found the company was simply paying attackers for decryption keys and charging victims a markup for work it never performed.</p>
-        <p class="where"><a href="https://krebsonsecurity.com/2026/11/cto-of-ransomwarehelp-indicted-for-wire-fraud/" rel="noopener noreferrer nofollow">Krebs on Security</a> · 21 Nov</p>
-      </li>
-      <li>
-        <span class="tag ok">Policy</span>
-        <h3>EU adds pro-Russian DDoS group NoName057(16) to its cyber sanctions list</h3>
-        <p>SecurityWeek reports in its weekly roundup that the European Union has added the hacktivist group NoName057(16) to its cyber sanctions list. The report gives no further detail on the measures.</p>
-        <p class="where"><a href="https://www.securityweek.com/in-other-news-norwegian-energy-firm-cyberattacks-supercomputer-hack-new-nightmare-eclipse-exploit/" rel="noopener noreferrer nofollow">SecurityWeek</a> · 20 Nov</p>
-      </li>
-      <li>
-        <span class="tag ok">Fix shipped</span>
-        <h3>F5 ships emergency patches for five critical BIG-IP vulnerabilities</h3>
-        <p>BleepingComputer reports that F5 has released emergency patches and warned customers to fix five critical BIG-IP vulnerabilities. According to the report, attackers could exploit the flaws to cause denial of service or gain remote code execution.</p>
-        <p class="where"><a href="https://www.bleepingcomputer.com/news/security/f5-releases-emergency-patches-for-critical-big-ip-rce-flaws/" rel="noopener noreferrer nofollow">BleepingComputer</a> · 20 Nov</p>
-      </li>
-      <li>
-        <span class="tag ok">Fix shipped</span>
-        <h3>Ruby fixes heap overflow <span class="nowrap">CVE-2026-132825</span> that could allow remote code execution</h3>
-        <p>SecurityWeek reports that the Ruby project has patched a vulnerability nicknamed Ruby2Shell, tracked as CVE-2026-132825. The bug is a heap-based buffer overflow that could lead to remote code execution.</p>
-        <p class="where"><a href="https://www.securityweek.com/ruby-patches-ruby2shell-vulnerability-that-could-lead-to-rce/" rel="noopener noreferrer nofollow">SecurityWeek</a> · 20 Nov</p>
-      </li>
-    </ol>
-    <p class="ai-line">AI-generated summaries by Claude Opus 5.5 of the linked sources</p>
-  </section>
 
   <section class="block" id="radar" aria-labelledby="h-radar">
     <div class="section-head"><h2 id="h-radar">Also on the radar</h2><span>Lower-ranked, links only</span></div>
     <ul class="radar">
-      <li><a href="https://www.securityweek.com/sbc-medical-group-data-breach-impacts-over-2-million/" rel="noopener noreferrer nofollow">SBC Medical Group data breach impacts over 2 million people in Japan</a><span class="where">SecurityWeek</span></li>
-      <li><a href="https://therecord.media/container-store-restores-systems-cyberattack" rel="noopener noreferrer nofollow">Container Store restores website and systems after cybersecurity incident</a><span class="where">The Record</span></li>
-      <li><a href="https://www.bleepingcomputer.com/news/microsoft/microsoft-now-automatically-installs-windows-11-26h2-on-personal-and-unmanaged-pcs/" rel="noopener noreferrer nofollow">Microsoft begins auto-installing Windows 11 26H2 on unmanaged devices; KB5132057 released</a><span class="where">BleepingComputer</span></li>
-      <li><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2024-7532" rel="noopener noreferrer nofollow">Chromium use-after-free flaws CVE-2024-7533 and CVE-2023-1531 listed in MSRC guide</a><span class="where">MSRC Security Update Guide · CVE-2024-7533, CVE-2023-1531</span></li>
-      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-133680" rel="noopener noreferrer nofollow">D-Link DCS-935L command injection CVE-2026-133680 has a public exploit</a><span class="where">NVD · CVE-2026-133680</span></li>
-      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-133500" rel="noopener noreferrer nofollow">Gladys Assistant command injection CVE-2026-133500 has a publicly available exploit</a><span class="where">NVD · CVE-2026-133500</span></li>
-      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-133835" rel="noopener noreferrer nofollow">HanLP path traversal CVE-2026-133835 has a published exploit, fixed in 2.1.7</a><span class="where">NVD · CVE-2026-133835</span></li>
-      <li><span>CVE-2026-121481 drawing discussion from 15 accounts on social media</span><span class="where">CVE-2026-121481</span></li>
-      <li><a href="https://therecord.media/chinese-open-weight-AI-use-by-US-companies-house-investigation" rel="noopener noreferrer nofollow">House Homeland Security chairmen rebuke US firms&#39; use of Chinese open-weight AI models</a><span class="where">The Record</span></li>
+      <li><a href="https://www.securityweek.com/president-trump-taps-kirsten-davies-as-national-cyber-director/" rel="noopener noreferrer nofollow">Trump names Kirsten Davies as National Cyber Director</a><span class="where">SecurityWeek</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-134254" rel="noopener noreferrer nofollow">Admidio path traversal and stored XSS flaws allow file writes and admin takeover</a><span class="where">NVD · CVE-2026-134254, CVE-2026-134258, CVE-2026-134262</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-134292" rel="noopener noreferrer nofollow">SurrealDB flaws allow file access outside storage root and authorization bypass</a><span class="where">NVD · CVE-2026-134292, CVE-2026-134291, CVE-2026-134293</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-134287" rel="noopener noreferrer nofollow">OpenRemote MQTT provisioning flaw allows impersonating devices without private key</a><span class="where">NVD · CVE-2026-134287</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-134352" rel="noopener noreferrer nofollow">Rclone SFTP auth-proxy cache flaw allows read-write access using a public key</a><span class="where">NVD · CVE-2026-134352</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-134372" rel="noopener noreferrer nofollow">Frappe ERPNext authorization flaws expose records across companies and portal users</a><span class="where">NVD · CVE-2026-134372, CVE-2026-134389, CVE-2026-134393</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-134370" rel="noopener noreferrer nofollow">Frappe Framework path traversal allows authenticated arbitrary file read CVE-2026-134370</a><span class="where">NVD · CVE-2026-134370</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-134245" rel="noopener noreferrer nofollow">SiYuan flaws expose protected documents and allow admin access via forged header</a><span class="where">NVD · CVE-2026-134245, CVE-2026-134246, CVE-2026-134247</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-134250" rel="noopener noreferrer nofollow">Grav CMS plugin flaws allow stored XSS and remote code execution via uploads</a><span class="where">NVD · CVE-2026-134250, CVE-2026-134253</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-134268" rel="noopener noreferrer nofollow">Vikunja flaws allow admin access, SSO account takeover and instance-wide DB writes</a><span class="where">NVD · CVE-2026-134268, CVE-2026-134282, CVE-2026-134284</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-134325" rel="noopener noreferrer nofollow">ArcadeDB authorization bypasses allow unauthorized writes and data access</a><span class="where">NVD · CVE-2026-134325, CVE-2026-134337, CVE-2026-134338</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-134448" rel="noopener noreferrer nofollow">Dockhand flaws allow file access, admin escalation and command execution</a><span class="where">NVD · CVE-2026-134448, CVE-2026-134451, CVE-2026-134452</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-134316" rel="noopener noreferrer nofollow">better-auth flaws expose secrets and allow session forgery and 2FA bypass</a><span class="where">NVD · CVE-2026-134316, CVE-2026-134322</span></li>
     </ul>
   </section>
 
   <details class="status">
     <summary>Collection status: 21 of 22 sources returned data</summary>
-    <ul><li><span class="">BleepingComputer</span> <span class="muted">ok 8</span></li><li><span class="">Bluesky</span> <span class="muted">ok 0</span></li><li><span class="">CISA Advisories</span> <span class="muted">ok 1</span></li><li><span class="">CISA KEV</span> <span class="muted">ok 4</span></li><li><span class="">Cisco Talos</span> <span class="muted">ok 0</span></li><li><span class="">EPSS</span> <span class="muted">ok 38</span></li><li><span class="">Hacker News</span> <span class="muted">ok 20</span></li><li><span class="">Huntress</span> <span class="muted">ok 1</span></li><li><span class="">Krebs on Security</span> <span class="muted">ok 1</span></li><li><span class="">Mastodon</span> <span class="muted">ok 22</span></li><li><span class="">Microsoft Security Blog</span> <span class="muted">ok 1</span></li><li><span class="">MSRC Security Update Guide</span> <span class="muted">ok 2</span></li><li><span class="">NVD</span> <span class="muted">ok 11</span></li><li><span class="bad">r/netsec</span> <span class="muted">error FetchError: https://www.reddit.com/r/netsec/new/.rss: 429 Client Error: Too Many Requests for url: https://www.red</span></li><li><span class="">Rapid7</span> <span class="muted">ok 1</span></li><li><span class="">SANS ISC</span> <span class="muted">ok 0</span></li><li><span class="">SecurityWeek</span> <span class="muted">ok 8</span></li><li><span class="">SigmaHQ new rules</span> <span class="muted">ok 0</span></li><li><span class="">The DFIR Report</span> <span class="muted">ok 0</span></li><li><span class="">The Record</span> <span class="muted">ok 5</span></li><li><span class="">Unit 42</span> <span class="muted">ok 1</span></li><li><span class="">watchTowr Labs</span> <span class="muted">ok 0</span></li></ul>
-    <p>Data for this edition: <a href="editions/2026-11-21/edition.json">edition.json</a>. KQL parser: available.</p>
+    <ul><li><span class="">BleepingComputer</span> <span class="muted">ok 4</span></li><li><span class="">Bluesky</span> <span class="muted">ok 0</span></li><li><span class="">CISA Advisories</span> <span class="muted">ok 0</span></li><li><span class="">CISA KEV</span> <span class="muted">ok 0</span></li><li><span class="">Cisco Talos</span> <span class="muted">ok 0</span></li><li><span class="">EPSS</span> <span class="muted">ok 115</span></li><li><span class="">Hacker News</span> <span class="muted">ok 8</span></li><li><span class="">Huntress</span> <span class="muted">ok 0</span></li><li><span class="">Krebs on Security</span> <span class="muted">ok 0</span></li><li><span class="">Mastodon</span> <span class="muted">ok 15</span></li><li><span class="">Microsoft Security Blog</span> <span class="muted">ok 0</span></li><li><span class="">MSRC Security Update Guide</span> <span class="muted">ok 0</span></li><li><span class="">NVD</span> <span class="muted">ok 101</span></li><li><span class="bad">r/netsec</span> <span class="muted">error FetchError: 404 https://www.reddit.com/r/netsec/new/.rss</span></li><li><span class="">Rapid7</span> <span class="muted">ok 0</span></li><li><span class="">SANS ISC</span> <span class="muted">ok 0</span></li><li><span class="">SecurityWeek</span> <span class="muted">ok 3</span></li><li><span class="">SigmaHQ new rules</span> <span class="muted">ok 0</span></li><li><span class="">The DFIR Report</span> <span class="muted">ok 0</span></li><li><span class="">The Record</span> <span class="muted">ok 0</span></li><li><span class="">Unit 42</span> <span class="muted">ok 0</span></li><li><span class="">watchTowr Labs</span> <span class="muted">ok 0</span></li></ul>
+    <p>Data for this edition: <a href="editions/2026-11-22/edition.json">edition.json</a>. KQL parser: available.</p>
   </details>
 </main>
 
@@ -784,37 +614,27 @@ identified. An application that …</p>
   <section class="panel also">
     <h2>Also today</h2>
     <ol class="toc">
-      <li><b class="num crit">2</b><span><span class="tier crit">Exploited</span><a href="#story-2">N-able attributes worldwide Mail Assure and SpamExperts outage to server breach</a></span></li>
-      <li><b class="num crit">3</b><span><span class="tier crit">Exploited</span><a href="#story-3">JPMorgan Chase, Visa and Mastercard blame third-party providers for leaked customer data</a></span></li>
-      <li><b class="num crit">4</b><span><span class="tier crit">Exploited</span><a href="#story-4">Unit 42 profiles Com affiliate vishing, cloud data theft and extortion against healthcare and finance</a></span></li>
-      <li><b class="num crit">5</b><span><span class="tier crit">Exploited · KEV · PoC</span><a href="#story-5">Metasploit adds Zimbra impersonation and brute-force modules plus BeyondTrust RS exploit</a><span class="toc-warn"><b>3 public PoC repos.</b> Links only, not vetted. Public PoC repos are often fake or backdoored. Don't run them on a work machine.</span></span></li>
-      <li><b class="num high">6</b><span><span class="tier high">High risk</span><a href="#story-6">WhatsApp fixes low-severity <span class="nowrap">CVE-2026-23871</span> found during scam campaign disruption</a></span></li>
-      <li><b class="num crit">7</b><span><span class="tier crit">Exploited</span><a href="#story-7">China-linked actor used open-source AI pentest tool Cairn to find apparent zero-day and seize server</a></span></li>
-      <li><b class="num crit">8</b><span><span class="tier crit">Exploited</span><a href="#story-8">Bell Canada confirms &#39;agentic&#39; threat actor breached systems and stole enterprise customer data</a></span></li>
-      <li><b class="num crit">9</b><span><span class="tier crit">Exploited</span><a href="#story-9">European Commission takes services offline after AI-assisted cyberattack, reports no data breach</a></span></li>
-      <li><b class="num crit">10</b><span><span class="tier crit">Exploited</span><a href="#story-10">West Virginia Legislature IT systems disrupted by ongoing cybersecurity incident</a></span></li>
+      <li><b class="num crit">2</b><span><span class="tier crit">Exploited</span><a href="#story-2">Rackspace Spot breach exposed Kubernetes secrets in customer clusters via compromised credentials</a></span></li>
+      <li><b class="num crit">3</b><span><span class="tier crit">Exploited</span><a href="#story-3">Amazon says China-linked actor used AI agents to find and exploit a MONAI Label zero-day</a></span></li>
+      <li><b class="num crit">4</b><span><span class="tier crit">Exploited</span><a href="#story-4">BADBOX ad-fraud botnet on generic Android TV boxes resumes at large scale</a></span></li>
+      <li><b class="num high">5</b><span><span class="tier high">High risk · PoC</span><a href="#story-5">D-Link DIR-600L 2.17b02 stack overflow in gena.cgi (<span class="nowrap">CVE-2026-133993</span>) rated CVSS 9.3</a></span></li>
+      <li><b class="num high">6</b><span><span class="tier high">High risk</span><a href="#story-6">FBI investigating apparent breach of National Crime Information Center database</a></span></li>
+      <li><b class="num high">7</b><span><span class="tier high">High risk · PoC</span><a href="#story-7">Out-of-bounds read in end-of-life TRENDnet TEW-657BRM router has published exploit</a></span></li>
     </ol>
-  </section>
-  <section class="panel kev">
-    <h2>KEV deadlines</h2>
-    <div class="kv"><a href="#kev">CVE-2026-129448</a><span class="due"><b class="crit">Due 23 Nov</b><small>3 days after listing</small></span></div>
-    <div class="kv"><a href="#kev">CVE-2026-123890</a><span class="due"><b class="crit">Due 23 Nov</b><small>3 days after listing</small></span></div>
-    <div class="kv"><a href="#kev">CVE-2025-42884</a><span class="due"><b class="crit">Due 23 Nov</b><small>3 days after listing</small></span></div>
-    <div class="kv"><a href="#kev">CVE-2026-76466</a><span class="due"><b class="crit">Due 23 Nov</b><small>3 days after listing</small></span></div>
   </section>
   <section class="panel learn">
     <h2>Also in this edition</h2>
-<p><span class="k">Explainer</span><a href="#explainer">JNDI injection and Java deserialization: when a server builds objects from attacker input</a></p><p><span class="k">Good news</span><a href="#good-news">4 wins for defenders</a></p>  </section>
+<p><span class="k">Explainer</span><a href="#explainer">Entra Connect Health and the hybrid identity servers it watches</a></p>  </section>
   <section class="panel">
     <h2>Early signals</h2>
     <p class="lede">Counted by code, not AI. Chatter is a lead, not confirmation.</p>
-    <div class="sig-row"><b>15</b><span><a href="#signals">CVE-2026-121481</a> · CVSS 5.9 · PoC</span></div>
-    <div class="sig-row"><b>4</b><span><a href="#signals">CVE-2026-123007</a> · CVSS 9.2 · PoC</span></div>
+    <div class="sig-row"><b>6</b><span><a href="#signals">CVE-2026-125396</a> · CVSS 8.5 · PoC</span></div>
+    <div class="sig-row"><b>3</b><span><a href="#signals">CVE-2026-129975</a> · PoC</span></div>
   </section>
   <section class="panel">
     <h2>Collection</h2>
     <div class="meter"><svg class="bar" viewBox="0 0 100 6" preserveAspectRatio="none" aria-hidden="true"><rect class="track" width="100" height="6" rx="3"/><rect class="fill" width="95" height="6" rx="3"/></svg><span class="mono">21/22</span></div>
-    <p>No data from r/netsec. 86 items collected.</p>
+    <p>No data from r/netsec. 131 items collected.</p>
   </section>
   <section class="panel follow">
     <h2>Follow the brief</h2>
@@ -823,7 +643,7 @@ identified. An application that …</p>
   </section>
   <nav class="panel" aria-label="Other editions">
     <h2>Other editions</h2>
-<div class="kv"><span>Older</span><a href="editions/2026-11-20/">20 November 2026</a></div>  </nav>
+<div class="kv"><span>Older</span><a href="editions/2026-11-21/">21 November 2026</a></div>  </nav>
 </aside>
 </div>
 </div>
