@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>Daily Intel Brief</title><link>https://intel.brycemaxheimer.com/</link><description>Daily AI-generated threat-intel brief: top stories, new KEV entries, early signals and detections.</description><language>en-us</language><item><title>Daily Intel Brief: 2026-11-21</title><link>https://intel.brycemaxheimer.com/editions/2026-11-21/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-21/</guid><pubDate>Sat, 21 Nov 2026 17:24:24 +0000</pubDate><description>1. CISA adds exploited SAP NetWeaver, Cisco Expressway, VMware vCenter and Apache Roller flaws to KEV
+<rss version="2.0"><channel><title>Daily Intel Brief</title><link>https://intel.brycemaxheimer.com/</link><description>Daily AI-generated threat-intel brief: top stories, new KEV entries, early signals and detections.</description><language>en-us</language><item><title>Daily Intel Brief: 2026-11-22</title><link>https://intel.brycemaxheimer.com/editions/2026-11-22/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-22/</guid><pubDate>Sun, 22 Nov 2026 17:48:14 +0000</pubDate><description>1. Microsoft reports Entra Connect Health flaw exploited to expose admin emails and tenant configuration
+2. Rackspace Spot breach exposed Kubernetes secrets in customer clusters via compromised credentials
+3. Amazon says China-linked actor used AI agents to find and exploit a MONAI Label zero-day
+4. BADBOX ad-fraud botnet on generic Android TV boxes resumes at large scale
+5. D-Link DIR-600L 2.17b02 stack overflow in gena.cgi (CVE-2026-133993) rated CVSS 9.3
+6. FBI investigating apparent breach of National Crime Information Center database
+7. Out-of-bounds read in end-of-life TRENDnet TEW-657BRM router has published exploit
+Early signals: CVE-2026-125396, CVE-2026-129975
+Explainer: Entra Connect Health and the hybrid identity servers it watches</description></item><item><title>Daily Intel Brief: 2026-11-21</title><link>https://intel.brycemaxheimer.com/editions/2026-11-21/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-21/</guid><pubDate>Sat, 21 Nov 2026 17:24:24 +0000</pubDate><description>1. CISA adds exploited SAP NetWeaver, Cisco Expressway, VMware vCenter and Apache Roller flaws to KEV
 2. N-able attributes worldwide Mail Assure and SpamExperts outage to server breach
 3. JPMorgan Chase, Visa and Mastercard blame third-party providers for leaked customer data
 4. Unit 42 profiles Com affiliate vishing, cloud data theft and extortion against healthcare and finance
