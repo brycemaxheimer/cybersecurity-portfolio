@@ -1,0 +1,320 @@
+{
+ "schema": 1,
+ "date": "2026-11-23",
+ "generated_at": "2026-11-23T22:01:57Z",
+ "generator": "intel-brief 0.1.0",
+ "models": {
+  "triage": "claude-haiku-5-5",
+  "writeup": "claude-opus-5-5",
+  "triage_method": "model"
+ },
+ "window": {
+  "since": "2026-11-22T05:00:00+00:00",
+  "until": "2026-11-23T05:00:00+00:00"
+ },
+ "stories": [
+  {
+   "id": "story-1",
+   "rank": 1,
+   "score": 67,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 4,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "GL.iNet confirms attackers abused its cloud management service to backdoor routers and KVM devices",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "niche",
+    "platform": "edge_device",
+    "vendor": "GL.iNet",
+    "product": "cloud remote management service"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "According to BleepingComputer, GL.iNet has confirmed that attackers exploited a vulnerability in its cloud remote management service to install custom malware on customer routers and KVM devices. Some affected users reported backdoors and reverse shells that gave attackers remote access to the infected devices. The report was published on 22 November 2026. The sources do not name a CVE, list affected firmware or models, or describe a fix.",
+    "why_it_matters": "GL.iNet routers and KVM-over-IP units often sit unmanaged at branch offices, in home offices or inside server rooms. A backdoored KVM gives an attacker console-level control of attached servers. A compromised router can serve as a foothold that bypasses perimeter controls and EDR. Exploitation is confirmed in the wild, and no patch or affected-version details have been published yet, so inventory and isolation are the only defenses available now.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory all GL.iNet routers and KVM devices, including shadow IT in remote offices and home setups used for work.",
+     "Disable GL.iNet cloud remote management on these devices until GL.iNet publishes remediation guidance, and block their management interfaces from the internet.",
+     "Treat devices that were enrolled in cloud management as potentially compromised: reflash with the latest official firmware from the vendor, reset credentials, and rotate any credentials typed through or stored on KVM-attached systems.",
+     "Review firewall and NetFlow logs for unexpected outbound connections from GL.iNet device IPs, especially long-lived sessions that look like reverse shells.",
+     "Watch GL.iNet advisories for affected models, firmware versions and any CVE assignment, and apply fixes as soon as they are released."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Hackers exploit GL.iNet cloud flaw to infect routers, KVM devices",
+     "url": "https://www.bleepingcomputer.com/news/security/hackers-exploit-glinet-cloud-flaw-to-infect-routers-kvm-devices/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-22T18:45:37Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Use Defender device discovery and network inventory to identify GL.iNet routers and KVM devices, and record their IP addresses.",
+     "Check whether each device was enrolled in GL.iNet cloud remote management, and isolate or disable cloud access on enrolled devices.",
+     "In firewall, proxy and NetFlow logs, look for outbound connections from those device IPs to unfamiliar external hosts, particularly persistent or interactive sessions.",
+     "In Defender XDR, look for inbound connections from GL.iNet device IPs to managed endpoints and servers on SMB, RDP, SSH or WinRM ports, which could indicate lateral movement.",
+     "For KVM-attached servers, review console sign-ins and local logon events around the time the KVM was reachable through cloud management."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Discovered GL.iNet devices in the network inventory",
+      "kql": "DeviceInfo | where Timestamp > ago(30d) | where Vendor has \"GL.iNet\" or Vendor has \"GLiNet\" or Model startswith \"GL-\" | summarize LastSeen = max(Timestamp) by DeviceId, DeviceName, Vendor, Model, DeviceType, OSPlatform, OSVersion",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 60,
+        "hits": 0,
+        "tables": [
+         "DeviceInfo"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Inbound connections from GL.iNet device IPs to managed endpoints",
+      "kql": "let GlinetIPs = dynamic([\"0.0.0.0\"]); // replace with the IP addresses of your GL.iNet devices\nDeviceNetworkEvents | where Timestamp > ago(14d) | where ActionType == \"InboundConnectionAccepted\" | where RemoteIP in (GlinetIPs) | where LocalPort in (22, 135, 445, 3389, 5985, 5986) | summarize Connections = count(), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by DeviceName, RemoteIP, LocalPort",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 300,
+        "hits": 0,
+        "tables": [
+         "DeviceNetworkEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-2",
+   "rank": 2,
+   "score": 55,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 4,
+    "platform": 8,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Cleverbridge discloses breach exposing customer card numbers and CVV codes",
+   "labels": {
+    "category": "breach",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "niche",
+    "platform": "cloud_saas",
+    "vendor": "Cleverbridge",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "According to BleepingComputer, e-commerce and subscription billing platform Cleverbridge has warned customers that attackers breached its systems and stole payment card data, including full card numbers and CVV security codes. The source does not say how the attackers got in, how long they had access, or how many customers are affected.",
+    "why_it_matters": "This is a third-party supplier breach rather than a flaw in Windows, Microsoft 365 or edge devices, so there is nothing to patch or detect in those environments. The main risk is card fraud against corporate or employee cards used to buy software through Cleverbridge-powered storefronts, and phishing that uses the breach as a lure. No technical indicators have been published.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Work with procurement and finance to find corporate cards used for purchases processed by Cleverbridge, then have them reissued or watched for fraud.",
+     "Warn users to expect phishing that impersonates Cleverbridge or software vendors and talks about the breach, refunds or payment updates.",
+     "Review the vendor-risk record for Cleverbridge and ask the vendor for scope, timeline and notification details."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Cleverbridge warns hackers stole credit card numbers, CVVs in data breach",
+     "url": "https://www.bleepingcomputer.com/news/security/cleverbridge-warns-hackers-stole-credit-card-numbers-cvvs-in-data-breach/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-22T15:43:04Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  }
+ ],
+ "more_stories": [
+  {
+   "title": "binary-parser before 2.3.1 code injection via parser definitions (CVE-2026-134814)",
+   "score": 9,
+   "cves": [
+    "CVE-2026-134814"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-134814 (CRITICAL 9.2)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-134814",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "simple-git before 4.1.0 argument injection allows command execution (CVE-2026-134815)",
+   "score": 9,
+   "cves": [
+    "CVE-2026-134815"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-134815 (CRITICAL 9.2)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-134815",
+     "source": "NVD"
+    }
+   ]
+  }
+ ],
+ "kev_new": [],
+ "early_signals": [],
+ "explainer": {
+  "concept": "Vendor cloud management: the outbound tunnel that becomes an inbound path",
+  "dek": "Many routers, IP-KVMs and other network devices keep a persistent outbound connection to their vendor's cloud so owners can manage them remotely, which means whoever controls or abuses that cloud service can reach every enrolled device.",
+  "why_today": "GL.iNet confirmed that attackers abused a flaw in its cloud remote management service to plant backdoors and reverse shells on customer routers and KVM devices. The attackers used the vendor's own management channel, not exposed ports on each device.",
+  "related_story_ids": [
+   "story-1"
+  ],
+  "parts": [
+   {
+    "heading": "How cloud management works",
+    "paragraphs": [
+     "Consumer and small-business network gear often ships with an optional vendor cloud service. The device opens an outbound connection to the vendor's platform and keeps it alive. The owner logs into a web portal or mobile app, and the vendor relays commands, configuration changes and firmware updates down that connection.",
+     "Because the device dials out, this works through NAT and firewalls that block all inbound traffic. That convenience is the design weakness. A device that looks unreachable from the internet still accepts instructions from a party outside your network, and those instructions usually run with full administrative or root privileges on the device.",
+     "Exact protocols, authentication and the scope of what the cloud can do differ by vendor, product and firmware version. Check the vendor's documentation for the specific device rather than assuming."
+    ]
+   },
+   {
+    "heading": "What an attacker gains",
+    "paragraphs": [
+     "If an attacker finds a flaw in the cloud service, such as broken authorization between tenants, a weak device binding process or an injectable command path, they may be able to issue commands to many devices at once. They do not need to scan for or exploit each device individually. Any device enrolled in the service becomes a target, whatever its local firewall settings.",
+     "A compromised router sits in the traffic path. It can intercept or redirect traffic, serve as a pivot into the internal network, or act as a residential proxy for further attacks. A compromised IP-KVM is arguably worse. It provides keyboard, video and often power control of the servers or workstations attached to it, which operates beneath the operating system and outside the view of endpoint security agents."
+    ]
+   },
+   {
+    "heading": "What it looks like in telemetry",
+    "paragraphs": [
+     "These devices rarely run an EDR agent, so the evidence is mostly on the network and on the hosts they touch. Useful signals include new or unusual outbound connections from the device's management IP to destinations other than the vendor's documented cloud endpoints, long-lived sessions to unfamiliar infrastructure, and DNS lookups the device has never made before.",
+     "On hosts attached to a KVM, look for interactive console logons with no matching remote session, unexpected reboots, changes to boot settings or firmware configuration, and activity at odd hours from a local or physical session type. In Defender XDR, device discovery can surface network devices you did not know about. Firewall and proxy logs ingested into Sentinel are usually the best place to baseline the device's normal outbound behavior."
+    ]
+   },
+   {
+    "heading": "How to reduce the risk",
+    "paragraphs": [
+     "The strongest control is to disable vendor cloud management on devices that do not need it and manage them locally from a dedicated management network. Where the cloud feature is needed, restrict the device's egress to the vendor's documented endpoints, put the device in its own segment, and protect the vendor portal account with strong unique credentials and MFA.",
+     "Treat out-of-band management hardware such as IP-KVMs as highly privileged assets: inventory them, keep them off general user networks, and review who and what can reach them. Remember that patching the device firmware does not necessarily fix a flaw in the vendor's cloud, and it does not remove an implant that has already been installed."
+    ]
+   }
+  ],
+  "takeaways": [
+   "Inventory every router, IP-KVM and similar device with vendor cloud management enabled, including unmanaged or shadow devices that device discovery or network scans reveal.",
+   "Disable cloud remote management where it is not required, and manage those devices from a segmented management network instead.",
+   "Restrict device egress to the vendor's documented cloud endpoints, and alert in Sentinel on outbound connections from device management IPs to anything else.",
+   "For hosts attached to IP-KVMs, hunt for console logons without a corresponding remote session, unexpected reboots and boot or firmware setting changes.",
+   "If a device may have been compromised through a vendor cloud flaw, treat it as untrusted: factory reset or reflash from known-good firmware and rotate any credentials it stored or saw."
+  ],
+  "unsupported_cves": [],
+  "model": "claude-opus-5-5"
+ },
+ "good_news": [
+  {
+   "headline": "Signal adds protections against screenshots and AI assistant capture of chats",
+   "summary": "BleepingComputer reports that Signal has announced new protections that block screenshots on iOS 27. On supported Android devices, the protections prevent AI assistants from capturing conversations. The change limits a path for sensitive message content to leave the encrypted app.",
+   "kind": "new_defense",
+   "sources": [
+    {
+     "title": "Signal to block Siri, Gemini AI from capturing chats on iOS, Android",
+     "url": "https://www.bleepingcomputer.com/news/security/signal-to-block-siri-gemini-ai-from-capturing-chats-on-ios-android/",
+     "source": "BleepingComputer",
+     "published": "2026-11-22T15:15:25Z"
+    }
+   ],
+   "unsupported_cves": [],
+   "model": "claude-opus-5-5"
+  }
+ ],
+ "explainer_status": "ok",
+ "sources_status": {
+  "CISA KEV": "ok 0",
+  "NVD": "ok 9",
+  "BleepingComputer": "ok 3",
+  "The Record": "ok 0",
+  "The DFIR Report": "ok 0",
+  "Cisco Talos": "ok 0",
+  "Unit 42": "ok 0",
+  "Microsoft Security Blog": "ok 0",
+  "SANS ISC": "ok 2",
+  "Huntress": "ok 0",
+  "watchTowr Labs": "ok 0",
+  "Rapid7": "ok 0",
+  "SecurityWeek": "ok 0",
+  "Krebs on Security": "ok 0",
+  "CISA Advisories": "ok 0",
+  "MSRC Security Update Guide": "ok 0",
+  "Bluesky": "ok 0",
+  "Mastodon": "ok 0",
+  "r/netsec": "error FetchError: 404 https://www.reddit.com/r/netsec/new/.rss",
+  "Hacker News": "ok 2",
+  "SigmaHQ new rules": "ok 0",
+  "EPSS": "ok 10"
+ },
+ "stats": {
+  "items": {
+   "news": 5,
+   "advisory": 0,
+   "kev": 0,
+   "nvd": 9,
+   "social": 2,
+   "sigma": 0
+  },
+  "stories_found": 4,
+  "kql_parser": "available",
+  "receipts": {
+   "status": "ran",
+   "engine": "Kusto emulator 1.0.9810.23682",
+   "baseline_events": 1338,
+   "baseline_seed": 20261110
+  }
+ }
+}

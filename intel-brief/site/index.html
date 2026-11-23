@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Daily Intel Brief: 22 November 2026</title>
-<meta name="description" content="Threat-intel brief for 22 November 2026: Microsoft reports Entra Connect Health flaw exploited to expose admin emails and tenant configuration; Rackspace Spot breach exposed Kubernetes secrets in customer clusters via compromised credentials; Amazon says China-linked actor used AI agents to find and exploit a MONAI Label zero-day">
+<title>Daily Intel Brief: 23 November 2026</title>
+<meta name="description" content="Threat-intel brief for 23 November 2026: GL.iNet confirms attackers abused its cloud management service to backdoor routers and KVM devices; Cleverbridge discloses breach exposing customer card numbers and CVV codes">
 <meta name="color-scheme" content="only light">
 <meta name="theme-color" content="#B3141B">
-<link rel="canonical" href="https://intel.brycemaxheimer.com/editions/2026-11-22/"><link rel="alternate" type="application/rss+xml" title="Daily Intel Brief (RSS)" href="https://intel.brycemaxheimer.com/feed.xml">
+<link rel="canonical" href="https://intel.brycemaxheimer.com/editions/2026-11-23/"><link rel="alternate" type="application/rss+xml" title="Daily Intel Brief (RSS)" href="https://intel.brycemaxheimer.com/feed.xml">
 <link rel="alternate" type="application/feed+json" title="Daily Intel Brief (JSON Feed)" href="https://intel.brycemaxheimer.com/feed.json">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/LibreFranklin-Variable.woff2" as="font" type="font/woff2" crossorigin>
@@ -20,8 +20,8 @@
   <div class="wrap mast-band">
     <a class="brand" href="/">Daily Intel Brief</a>
 <div class="mast-meta">
-  <p class="eyebrow">Sunday edition</p>
-  <h1 id="edition-title">22 November 2026</h1>
+  <p class="eyebrow">Monday edition</p>
+  <h1 id="edition-title">23 November 2026</h1>
 </div>
   </div>
   <div class="mast-bar">
@@ -41,14 +41,14 @@
 
 <div class="edition-strip">
   <dl class="stats" aria-labelledby="edition-title">
-    <div><dd>7</dd><dt>Top stories</dt></div>
+    <div><dd>2</dd><dt>Top stories</dt></div>
     <div class="crit"><dd>0</dd><dt>New KEV entries</dt></div>
-    <div class="ai"><dd>2</dd><dt>Early signals</dt></div>
+    <div class="ai"><dd>0</dd><dt>Early signals</dt></div>
     <div><dd>21<small>/22</small></dd><dt>Sources collected</dt></div>
   </dl>
   <section class="provenance" aria-label="How this edition was made">
   <p><strong>How this edition was made.</strong>
-    Collected from 22 public sources between 21 Nov 05:00 and 22 Nov 05:00 UTC.
+    Collected from 22 public sources between 22 Nov 05:00 and 23 Nov 05:00 UTC.
 Ranked by Claude Haiku 5.5, summarized by Claude Opus 5.5, and reviewed by a person before publishing.
     Summaries can be wrong, so check the linked sources before acting. <a href="methodology/">Read the methodology</a></p>
   </section>
@@ -66,33 +66,33 @@ Ranked by Claude Haiku 5.5, summarized by Claude Opus 5.5, and reviewed by a per
       <div class="story-flags">
         <div class="tags">
 <span class="tag crit-solid">Exploited</span>
-<span class="tag info">M365 / Entra</span><span class="tag">breach</span>        </div>
+<span class="tag info">Edge device</span>        </div>
         <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span class="rank">No. 01</span> · Priority <b>81</b>
+          <span class="rank">No. 01</span> · Priority <b>67</b>
         </div>
       </div>
-      <h3 id="story-1-h">Microsoft reports Entra Connect Health flaw exploited to expose admin emails and tenant configuration</h3>
-      <p class="meta">Microsoft Entra Connect Health · 1 source · first reported 21 November 2026</p>
+      <h3 id="story-1-h">GL.iNet confirms attackers abused its cloud management service to backdoor routers and KVM devices</h3>
+      <p class="meta">GL.iNet cloud remote management service · 1 source · first reported 22 November 2026</p>
     </div>
 
 
     <div class="story-body">
       <div class="cols2">
-        <section><h4 class="label">What happened</h4><p>BleepingComputer reports that Microsoft is warning organizations of a data breach in which attackers exploited a vulnerability in the Entra Connect Health service. According to that report, the attackers gained unauthorized access to tenant administrator email addresses and tenant configuration information. No CVE, affected component details, timeline or count of affected tenants were given in the available reporting, and the source text is a truncated summary.</p></section>
-        <section><h4 class="label">Why it matters</h4><p>The flaw sits in a Microsoft-operated cloud service, so the fix is on Microsoft&#39;s side, but leaked admin addresses and configuration data give attackers a ready target list for phishing, password spraying and MFA fatigue against privileged Entra accounts. Exploitation is reported as confirmed, so treat any tenant using Entra Connect Health as potentially exposed until Microsoft&#39;s notification says otherwise.</p></section>
+        <section><h4 class="label">What happened</h4><p>According to BleepingComputer, GL.iNet has confirmed that attackers exploited a vulnerability in its cloud remote management service to install custom malware on customer routers and KVM devices. Some affected users reported backdoors and reverse shells that gave attackers remote access to the infected devices. The report was published on 22 November 2026. The sources do not name a CVE, list affected firmware or models, or describe a fix.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>GL.iNet routers and KVM-over-IP units often sit unmanaged at branch offices, in home offices or inside server rooms. A backdoored KVM gives an attacker console-level control of attached servers. A compromised router can serve as a foothold that bypasses perimeter controls and EDR. Exploitation is confirmed in the wild, and no patch or affected-version details have been published yet, so inventory and isolation are the only defenses available now.</p></section>
       </div>
       <div class="actions">
         <h4 class="label">What to do</h4>
-        <ol class="steps"><li>Check the Microsoft 365 admin center Message center and Service health for a breach notification specific to your tenant, and follow any instructions it contains.</li><li>Confirm all Global Administrator and other privileged Entra accounts use phishing-resistant MFA and are covered by Conditional Access policies.</li><li>Warn administrators that their addresses may be exposed and raise scrutiny of phishing and unexpected MFA prompts aimed at them.</li><li>Review Entra audit logs for unexpected changes to Connect Health agents, service principals, app consents and tenant settings since the disclosure.</li><li>Monitor sign-in logs for password spraying or anomalous sign-ins against admin accounts.</li></ol>
+        <ol class="steps"><li>Inventory all GL.iNet routers and KVM devices, including shadow IT in remote offices and home setups used for work.</li><li>Disable GL.iNet cloud remote management on these devices until GL.iNet publishes remediation guidance, and block their management interfaces from the internet.</li><li>Treat devices that were enrolled in cloud management as potentially compromised: reflash with the latest official firmware from the vendor, reset credentials, and rotate any credentials typed through or stored on KVM-attached systems.</li><li>Review firewall and NetFlow logs for unexpected outbound connections from GL.iNet device IPs, especially long-lived sessions that look like reverse shells.</li><li>Watch GL.iNet advisories for affected models, firmware versions and any CVE assignment, and apply fixes as soon as they are released.</li></ol>
       </div>
     </div>
 
     <div class="sources">
       <h4 class="label">Sources</h4>
       <ul>
-        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/microsoft-entra-connect-health-flaw-exploited-to-steal-tenant-data/" rel="noopener noreferrer nofollow">Microsoft Entra Connect Health flaw exploited to steal tenant data</a><span class="where">bleepingcomputer.com · 21 Nov</span></li>
+        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/hackers-exploit-glinet-cloud-flaw-to-infect-routers-kvm-devices/" rel="noopener noreferrer nofollow">Hackers exploit GL.iNet cloud flaw to infect routers, KVM devices</a><span class="where">bleepingcomputer.com · 22 Nov</span></li>
       </ul>
-<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: low</p>    </div>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
 
 
     <section class="detect" aria-label="Detection">
@@ -106,45 +106,23 @@ Ranked by Claude Haiku 5.5, summarized by Claude Opus 5.5, and reviewed by a per
         <label for="story-1-hunt">Hunting</label>
         <div class="tab-panels">
           <div class="tab-panel">
-<ol class="steps-plain"><li>Read any tenant-specific notification from Microsoft to learn whether your tenant was affected and which data was exposed.</li><li>Build a list of privileged Entra account addresses and hunt for phishing delivered to them since early November 2026.</li><li>Hunt for failed and anomalous sign-ins against those admin accounts, focusing on spraying patterns from single IPs across many admins.</li><li>Review Entra audit and cloud app activity for new service principals, app consents, credential additions and Connect Health-related changes made by unexpected actors.</li></ol><div class="code">
+<ol class="steps-plain"><li>Use Defender device discovery and network inventory to identify GL.iNet routers and KVM devices, and record their IP addresses.</li><li>Check whether each device was enrolled in GL.iNet cloud remote management, and isolate or disable cloud access on enrolled devices.</li><li>In firewall, proxy and NetFlow logs, look for outbound connections from those device IPs to unfamiliar external hosts, particularly persistent or interactive sessions.</li><li>In Defender XDR, look for inbound connections from GL.iNet device IPs to managed endpoints and servers on SMB, RDP, SSH or WinRM ports, which could indicate lateral movement.</li><li>For KVM-attached servers, review console sign-ins and local logon events around the time the KVM was reachable through cloud management.</li></ol><div class="code">
   <div class="code-bar">
-    <span class="name">Defender XDR KQL · Phishing and malware emails delivered to privileged admin mailboxes</span>
+    <span class="name">Defender XDR KQL · Discovered GL.iNet devices in the network inventory</span>
 <span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
   </div>
-  <pre><code>let AdminAddresses = dynamic([]); // populate with your privileged admin addresses
-EmailEvents
-| where Timestamp &gt; ago(30d)
-| where RecipientEmailAddress in~ (AdminAddresses)
-| where ThreatTypes has_any (&#34;Phish&#34;, &#34;Malware&#34;) or DeliveryAction == &#34;Delivered&#34; and EmailDirection == &#34;Inbound&#34; and isnotempty(ThreatTypes)
-| project Timestamp, RecipientEmailAddress, SenderFromAddress, SenderIPv4, Subject, ThreatTypes, DeliveryAction, DeliveryLocation
-| order by Timestamp desc</code></pre>
+  <pre><code>DeviceInfo | where Timestamp &gt; ago(30d) | where Vendor has &#34;GL.iNet&#34; or Vendor has &#34;GLiNet&#34; or Model startswith &#34;GL-&#34; | summarize LastSeen = max(Timestamp) by DeviceId, DeviceName, Vendor, Model, DeviceType, OSPlatform, OSVersion</code></pre>
 </div>
-<p class="conv-note receipt">On 40 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<p class="conv-note receipt">On 60 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
 <div class="code">
   <div class="code-bar">
-    <span class="name">Defender XDR KQL · Password spraying against many accounts from a single IP</span>
+    <span class="name">Defender XDR KQL · Inbound connections from GL.iNet device IPs to managed endpoints</span>
 <span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
   </div>
-  <pre><code>IdentityLogonEvents
-| where Timestamp &gt; ago(14d)
-| where ActionType == &#34;LogonFailed&#34;
-| summarize FailedAccounts = dcount(AccountUpn), Attempts = count(), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by IPAddress
-| where FailedAccounts &gt;= 10
-| order by FailedAccounts desc</code></pre>
+  <pre><code>let GlinetIPs = dynamic([&#34;0.0.0.0&#34;]); // replace with the IP addresses of your GL.iNet devices
+DeviceNetworkEvents | where Timestamp &gt; ago(14d) | where ActionType == &#34;InboundConnectionAccepted&#34; | where RemoteIP in (GlinetIPs) | where LocalPort in (22, 135, 445, 3389, 5985, 5986) | summarize Connections = count(), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by DeviceName, RemoteIP, LocalPort</code></pre>
 </div>
-<p class="conv-note receipt">The synthetic baseline has no data for its tables. Not tested on real attack data.</p>
-<div class="code">
-  <div class="code-bar">
-    <span class="name">Defender XDR KQL · New app consents, service principals and credentials in Entra</span>
-<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
-  </div>
-  <pre><code>CloudAppEvents
-| where Timestamp &gt; ago(30d)
-| where ActionType has_any (&#34;Consent to application&#34;, &#34;Add service principal&#34;, &#34;Add service principal credentials&#34;, &#34;Update application&#34;, &#34;Add app role assignment&#34;)
-| project Timestamp, ActionType, AccountDisplayName, AccountObjectId, IPAddress, ObjectName, RawEventData
-| order by Timestamp desc</code></pre>
-</div>
-<p class="conv-note receipt">On 30 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<p class="conv-note receipt">On 300 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
           </div>
         </div>
       </div>
@@ -160,374 +138,30 @@ EmailEvents
           <span class="rank">No. 02</span> · Priority <b>55</b>
         </div>
       </div>
-      <h3 id="story-2-h">Rackspace Spot breach exposed Kubernetes secrets in customer clusters via compromised credentials</h3>
-      <p class="meta">Rackspace Rackspace Spot · 1 source · first reported 21 November 2026</p>
+      <h3 id="story-2-h">Cleverbridge discloses breach exposing customer card numbers and CVV codes</h3>
+      <p class="meta">Cleverbridge  · 1 source · first reported 22 November 2026</p>
     </div>
 
 
     <div class="story-body">
       <div class="cols2">
-        <section><h4 class="label">What happened</h4><p>According to BleepingComputer, Rackspace has warned customers that attackers broke into its Rackspace Spot cloud platform using compromised credentials. The intruders were able to deploy unauthorized workloads and read Kubernetes secrets inside customer clusters. The report, published 21 November 2026, does not say which credentials were compromised, how long the attackers had access, how many customers were affected, or what the secrets contained.</p></section>
-        <section><h4 class="label">Why it matters</h4><p>Kubernetes secrets often hold cloud API keys, database passwords, registry tokens and service principal credentials, including Entra ID app secrets that grant access to Microsoft 365 or Azure resources. Any credential stored in an affected Spot cluster should be treated as exposed, and attackers can reuse it well outside the Kubernetes environment. Exploitation is confirmed, but details are thin, so organizations using Rackspace Spot should act on the assumption of compromise rather than wait for more information.</p></section>
+        <section><h4 class="label">What happened</h4><p>According to BleepingComputer, e-commerce and subscription billing platform Cleverbridge has warned customers that attackers breached its systems and stole payment card data, including full card numbers and CVV security codes. The source does not say how the attackers got in, how long they had access, or how many customers are affected.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>This is a third-party supplier breach rather than a flaw in Windows, Microsoft 365 or edge devices, so there is nothing to patch or detect in those environments. The main risk is card fraud against corporate or employee cards used to buy software through Cleverbridge-powered storefronts, and phishing that uses the breach as a lure. No technical indicators have been published.</p></section>
       </div>
       <div class="actions">
         <h4 class="label">What to do</h4>
-        <ol class="steps"><li>If you use Rackspace Spot, contact Rackspace to confirm whether your clusters were affected, and get the exposure window and the indicators they hold.</li><li>Rotate every secret stored in Rackspace Spot clusters, starting with Entra ID app registration secrets and certificates, cloud provider keys, and database and registry credentials. Revoke the old values rather than only issuing new ones.</li><li>Review Spot clusters for workloads, pods, service accounts or role bindings you did not create, and remove them.</li><li>Review sign-in and activity logs for service principals and accounts whose credentials were held as Kubernetes secrets. Look for use from unfamiliar IP addresses or unusual API calls since the compromise window.</li><li>Rotate the credentials used to access the Rackspace Spot console and API, and enforce MFA on those accounts.</li></ol>
+        <ol class="steps"><li>Work with procurement and finance to find corporate cards used for purchases processed by Cleverbridge, then have them reissued or watched for fraud.</li><li>Warn users to expect phishing that impersonates Cleverbridge or software vendors and talks about the breach, refunds or payment updates.</li><li>Review the vendor-risk record for Cleverbridge and ask the vendor for scope, timeline and notification details.</li></ol>
       </div>
     </div>
 
     <div class="sources">
       <h4 class="label">Sources</h4>
       <ul>
-        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/rackspace-spot-breach-let-hackers-access-customer-kubernetes-secrets/" rel="noopener noreferrer nofollow">Rackspace Spot breach let hackers access customer Kubernetes secrets</a><span class="where">bleepingcomputer.com · 21 Nov</span></li>
+        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/cleverbridge-warns-hackers-stole-credit-card-numbers-cvvs-in-data-breach/" rel="noopener noreferrer nofollow">Cleverbridge warns hackers stole credit card numbers, CVVs in data breach</a><span class="where">bleepingcomputer.com · 22 Nov</span></li>
       </ul>
 <p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
 
 
-    <section class="detect" aria-label="Detection">
-      <div class="detect-head">
-        <div class="t">Detection
-<span class="tag ai">AI-generated · untested</span>        </div>
-        <span class="why">Hunting only: no endpoint behavior to write a rule against</span>
-      </div>
-      <div class="tabs">
-        <input class="tab-input" type="radio" name="fmt-story-2" id="story-2-hunt" checked>
-        <label for="story-2-hunt">Hunting</label>
-        <div class="tab-panels">
-          <div class="tab-panel">
-<ol class="steps-plain"><li>List every Kubernetes secret in your Rackspace Spot clusters and map each one to the identity or system it unlocks, such as an Entra ID service principal, a cloud account, a database or a container registry.</li><li>For each Entra ID service principal or app secret on that list, check sign-in and audit logs in Sentinel for authentications from IP addresses or locations outside your known infrastructure during the exposure window.</li><li>Check the Kubernetes audit logs and workload inventories of affected clusters for unexpected deployments, DaemonSets, CronJobs or new service accounts.</li><li>Look for downstream misuse of exposed credentials, such as new mailbox access, data downloads or resource creation by the affected identities, and confirm that rotated credentials no longer authenticate.</li></ol>          </div>
-        </div>
-      </div>
-    </section>
-  </article>
-  <article class="story" id="story-3" aria-labelledby="story-3-h">
-    <div class="story-top">
-      <div class="story-flags">
-        <div class="tags">
-<span class="tag crit-solid">Exploited</span>
-<span class="tag">campaign</span>        </div>
-        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span class="rank">No. 03</span> · Priority <b>47</b>
-        </div>
-      </div>
-      <h3 id="story-3-h">Amazon says China-linked actor used AI agents to find and exploit a MONAI Label zero-day</h3>
-      <p class="meta"> MONAI Label · 1 source · first reported 21 November 2026</p>
-    </div>
-
-
-    <div class="story-body">
-      <div class="cols2">
-        <section><h4 class="label">What happened</h4><p>SecurityWeek, citing Amazon, reports that a China-linked threat actor used autonomous AI agents, which Amazon calls Cairn, to discover and exploit a critical zero-day in MONAI Label. MONAI Label is open-source medical imaging annotation server software. The available report does not give a CVE identifier, affected or fixed versions, technical details of the flaw, victims, or indicators of compromise.</p></section>
-        <section><h4 class="label">Why it matters</h4><p>Exploitation is confirmed in the wild, but MONAI Label is niche software that is mostly found in healthcare, research and AI/ML environments. Any instance exposed to the internet or reachable from untrusted networks should be treated as potentially compromised until a fix and details are published. The report that AI agents handled both discovery and exploitation suggests less-common research and ML tooling may be targeted faster than usual.</p></section>
-      </div>
-      <div class="actions">
-        <h4 class="label">What to do</h4>
-        <ol class="steps"><li>Inventory all MONAI Label servers, including research workstations and GPU hosts, and remove any instance reachable from the internet or untrusted networks.</li><li>Restrict access to MONAI Label servers to trusted networks behind VPN or authentication until the project or Amazon publishes fix details.</li><li>Monitor Project MONAI and Amazon advisories for a CVE, affected versions and a patch, and apply the patch once it is released.</li><li>Review MONAI Label hosts for unexpected child processes, new files, outbound connections and credential access, and rotate any cloud or dataset credentials stored on exposed hosts.</li><li>Treat medical imaging data on exposed instances as possibly accessed, and involve privacy and compliance teams if compromise is suspected.</li></ol>
-      </div>
-    </div>
-
-    <div class="sources">
-      <h4 class="label">Sources</h4>
-      <ul>
-        <li><span class="pub">SecurityWeek</span><a href="https://www.securityweek.com/amazon-china-linked-hackers-ai-agents-exploited-medical-software-zero-day/" rel="noopener noreferrer nofollow">Amazon: China-Linked Hackers’ AI Agents Exploited Medical Software Zero-Day</a><span class="where">securityweek.com · 21 Nov</span></li>
-      </ul>
-<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: low</p>    </div>
-
-
-    <section class="detect" aria-label="Detection">
-      <div class="detect-head">
-        <div class="t">Detection
-<span class="tag ai">AI-generated · untested</span>        </div>
-        <span class="why">Hunting only: no endpoint behavior to write a rule against</span>
-      </div>
-      <div class="tabs">
-        <input class="tab-input" type="radio" name="fmt-story-3" id="story-3-hunt" checked>
-        <label for="story-3-hunt">Hunting</label>
-        <div class="tab-panels">
-          <div class="tab-panel">
-<ol class="steps-plain"><li>Identify endpoints and servers running MONAI Label by searching process command lines for &#39;monailabel&#39;.</li><li>Check whether those hosts accept inbound connections from public IP addresses on the MONAI Label service port.</li><li>Look for shells, download utilities or scripting interpreters spawned by the MONAI Label server process.</li><li>Review outbound connections from MONAI Label hosts to unfamiliar public destinations since the server was first exposed.</li><li>Escalate any host with suspicious child processes or public exposure for full incident response.</li></ol><div class="code">
-  <div class="code-bar">
-    <span class="name">Defender XDR KQL · Hosts running MONAI Label server processes</span>
-<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
-  </div>
-  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(30d) | where ProcessCommandLine has &#34;monailabel&#34; or InitiatingProcessCommandLine has &#34;monailabel&#34; | summarize FirstSeen=min(Timestamp), LastSeen=max(Timestamp), SampleCmd=any(ProcessCommandLine) by DeviceId, DeviceName</code></pre>
-</div>
-<p class="conv-note receipt">On 500 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
-<div class="code">
-  <div class="code-bar">
-    <span class="name">Defender XDR KQL · Suspicious child processes spawned by MONAI Label</span>
-<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
-  </div>
-  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(30d) | where InitiatingProcessCommandLine has &#34;monailabel&#34; | where FileName in~ (&#34;sh&#34;,&#34;bash&#34;,&#34;dash&#34;,&#34;zsh&#34;,&#34;cmd.exe&#34;,&#34;powershell.exe&#34;,&#34;pwsh.exe&#34;,&#34;curl&#34;,&#34;wget&#34;,&#34;curl.exe&#34;,&#34;nc&#34;,&#34;ncat&#34;,&#34;certutil.exe&#34;) | project Timestamp, DeviceName, AccountName, FileName, ProcessCommandLine, InitiatingProcessCommandLine</code></pre>
-</div>
-<p class="conv-note receipt">On 500 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
-<div class="code">
-  <div class="code-bar">
-    <span class="name">Defender XDR KQL · Public inbound connections to MONAI Label processes</span>
-<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
-  </div>
-  <pre><code>DeviceNetworkEvents | where Timestamp &gt; ago(30d) | where InitiatingProcessCommandLine has &#34;monailabel&#34; | where ActionType == &#34;InboundConnectionAccepted&#34; and RemoteIPType == &#34;Public&#34; | summarize Connections=count(), Ports=make_set(LocalPort), FirstSeen=min(Timestamp), LastSeen=max(Timestamp) by DeviceName, RemoteIP</code></pre>
-</div>
-<p class="conv-note receipt">On 300 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-  </article>
-  <article class="story" id="story-4" aria-labelledby="story-4-h">
-    <div class="story-top">
-      <div class="story-flags">
-        <div class="tags">
-<span class="tag crit-solid">Exploited</span>
-<span class="tag">malware</span>        </div>
-        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span class="rank">No. 04</span> · Priority <b>47</b>
-        </div>
-      </div>
-      <h3 id="story-4-h">BADBOX ad-fraud botnet on generic Android TV boxes resumes at large scale</h3>
-      <p class="meta">1 source · first reported 21 November 2026</p>
-    </div>
-
-
-    <div class="story-body">
-      <div class="cols2">
-        <section><h4 class="label">What happened</h4><p>BleepingComputer reports that the BADBOX malware, found on a wide range of generic Android TV boxes, has resumed large-scale ad-fraud operations after disruptions last year. According to the report, the botnet now generates about 40 billion ad requests per day. The available reporting does not name specific device models, firmware versions, infection vectors or indicators of compromise.</p></section>
-        <section><h4 class="label">Why it matters</h4><p>BADBOX targets cheap, unmanaged Android-based streaming boxes rather than Windows, M365 or edge devices. The main risk is these boxes appearing on corporate, guest or remote-worker networks as untrusted, compromised hosts. The botnet is active in the wild, but without published indicators, defenders can only reduce exposure by inventorying and isolating such devices.</p></section>
-      </div>
-      <div class="actions">
-        <h4 class="label">What to do</h4>
-        <ol class="steps"><li>Inventory unmanaged Android-based media or TV boxes on corporate and office networks, and remove or isolate any that are not approved.</li><li>Restrict IoT and consumer devices to segmented VLANs or guest networks with no access to internal resources.</li><li>Prohibit off-brand Android TV boxes in procurement and facilities, for example in meeting-room displays and digital signage.</li><li>Watch for vendor or researcher publications of BADBOX indicators, and add them to blocklists and hunts once available.</li></ol>
-      <div class="cols2 versions">
-        <div><div class="k">Affected</div><ul><li>Generic Android TV boxes (specific models not stated)</li></ul></div>
-        <div><div class="k">Fixed</div><span class="muted">Not stated in the sources</span></div>
-      </div>
-      </div>
-    </div>
-
-    <div class="sources">
-      <h4 class="label">Sources</h4>
-      <ul>
-        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/badbox-30-botnet-returns-with-record-breaking-40-billion-daily-ad-requests/" rel="noopener noreferrer nofollow">BADBOX botnet returns with record-breaking 40 billion daily ad requests</a><span class="where">bleepingcomputer.com · 21 Nov</span></li>
-      </ul>
-<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
-
-
-    <section class="detect" aria-label="Detection">
-      <div class="detect-head">
-        <div class="t">Detection
-<span class="tag ai">AI-generated · untested</span>        </div>
-        <span class="why">Hunting only: no endpoint behavior to write a rule against</span>
-      </div>
-      <div class="tabs">
-        <input class="tab-input" type="radio" name="fmt-story-4" id="story-4-hunt" checked>
-        <label for="story-4-hunt">Hunting</label>
-        <div class="tab-panels">
-          <div class="tab-panel">
-<ol class="steps-plain"><li>Use Defender for Endpoint device discovery to list unmanaged devices that report an Android platform or an IoT category.</li><li>Check discovered devices against the approved asset list, and flag generic or unknown-vendor streaming boxes.</li><li>Confirm which network segment each flagged device sits on, and isolate or remove those on corporate segments.</li><li>Once BADBOX indicators are published, search network and DNS telemetry for connections to them.</li></ol><div class="code">
-  <div class="code-bar">
-    <span class="name">Defender XDR KQL · Unmanaged Android or IoT devices discovered on the network</span>
-<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
-  </div>
-  <pre><code>DeviceInfo | where Timestamp &gt; ago(14d) | where OnboardingStatus != &#34;Onboarded&#34; | where OSPlatform contains &#34;Android&#34; or DeviceCategory == &#34;IoT&#34; | summarize arg_max(Timestamp, *) by DeviceId | project Timestamp, DeviceId, DeviceName, DeviceCategory, DeviceType, OSPlatform, Vendor, Model, OnboardingStatus</code></pre>
-</div>
-<p class="conv-note receipt">On 60 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-  </article>
-  <article class="story" id="story-5" aria-labelledby="story-5-h">
-    <div class="story-top">
-      <div class="story-flags">
-        <div class="tags">
-<span class="tag high">Public PoC</span><span class="tag info">Edge device</span>        </div>
-        <div class="priority high" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span class="rank">No. 05</span> · Priority <b>47</b>
-        </div>
-      </div>
-      <h3 id="story-5-h">D-Link DIR-600L 2.17b02 stack overflow in gena.cgi (<span class="nowrap">CVE-2026-133993</span>) rated CVSS 9.3</h3>
-      <p class="meta">D-Link DIR-600L · 1 source · first reported 21 November 2026</p>
-    </div>
-
-    <dl class="facts">
-      <div><dt>CVE</dt><dd><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-133993">CVE-2026-133993</a></dd></div>
-      <div><dt>CVSS</dt><dd><strong>9.3</strong> <span class="crit">Critical</span></dd></div>
-      <div><dt>EPSS</dt><dd><strong>1.1%</strong> <span class="muted">30-day</span></dd></div>
-      <div><dt>CISA KEV</dt><dd><span class="muted">Not listed</span></dd></div>
-      <div><dt>Public PoC</dt><dd>None known</dd></div>
-    </dl>
-
-    <div class="story-body">
-      <div class="cols2">
-        <section><h4 class="label">What happened</h4><p>NVD lists CVE-2026-133993, a stack-based buffer overflow in the GENA subscription handler (gena.cgi) of D-Link DIR-600L firmware 2.17b02, published 21 November 2026. According to NVD, an attacker can trigger the flaw remotely by manipulating the service argument, and the scoring is CVSS 9.3 (critical). NVD says an exploit has been publicly released. Separate proof-of-concept tracking did not confirm public exploit code, so the sources disagree on this point. No vendor advisory or fixed firmware is cited.</p></section>
-        <section><h4 class="label">Why it matters</h4><p>The DIR-600L is a small-office or home router, so exposure in enterprise estates is most likely through branch sites, remote workers or unmanaged shadow IT, not managed edge infrastructure. The bug is not in CISA KEV and the EPSS score is low (about 1.1%). Still, a remotely reachable memory corruption bug with a reportedly public exploit is the kind of flaw botnets tend to pick up on cheap routers.</p></section>
-      </div>
-      <div class="actions">
-        <h4 class="label">What to do</h4>
-        <ol class="steps"><li>Inventory DIR-600L routers in offices, branches and remote-worker setups, and remove them from any network that carries corporate traffic.</li><li>Since no fixed firmware is identified, replace affected units with supported hardware and do not wait for a patch.</li><li>Make sure the router&#39;s UPnP/GENA services and remote management are not reachable from the internet or from untrusted segments.</li><li>Check for a D-Link advisory on this CVE and apply any firmware update it provides.</li><li>Watch traffic from any remaining DIR-600L devices for unexpected outbound connections that could point to compromise or botnet enrollment.</li></ol>
-      <div class="cols2 versions">
-        <div><div class="k">Affected</div><ul><li>D-Link DIR-600L 2.17b02</li></ul></div>
-        <div><div class="k">Fixed</div><span class="muted">Not stated in the sources</span></div>
-      </div>
-      </div>
-    </div>
-
-    <div class="sources">
-      <h4 class="label">Sources</h4>
-      <ul>
-        <li><span class="pub">NVD</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-133993" rel="noopener noreferrer nofollow">CVE-2026-133993 (CRITICAL 9.3)</a><span class="where">nvd.nist.gov · 21 Nov</span></li>
-      </ul>
-<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
-
-
-    <section class="detect" aria-label="Detection">
-      <div class="detect-head">
-        <div class="t">Detection
-<span class="tag ai">AI-generated · untested</span>        </div>
-        <span class="why">Hunting only: no endpoint behavior to write a rule against</span>
-      </div>
-      <div class="tabs">
-        <input class="tab-input" type="radio" name="fmt-story-5" id="story-5-hunt" checked>
-        <label for="story-5-hunt">Hunting</label>
-        <div class="tab-panels">
-          <div class="tab-panel">
-<ol class="steps-plain"><li>Use Defender for Endpoint device discovery to list network devices that report D-Link as vendor or DIR-600L as model.</li><li>Find managed endpoints whose default gateway or frequent network neighbors are D-Link routers. These usually indicate remote-worker or branch exposure.</li><li>Look for managed hosts reaching common router UPnP ports (1900, 49152) on internal router addresses, which shows where such services are present.</li><li>For confirmed DIR-600L units, verify the firmware version and plan replacement, since no fix is stated.</li></ol><div class="code">
-  <div class="code-bar">
-    <span class="name">Defender XDR KQL · Discovered D-Link network devices (possible DIR-600L)</span>
-<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
-  </div>
-  <pre><code>DeviceInfo | where Timestamp &gt; ago(30d) | where Vendor has &#34;D-Link&#34; or Model has &#34;DIR-600&#34; | summarize arg_max(Timestamp, *) by DeviceId | project Timestamp, DeviceId, DeviceName, Vendor, Model, DeviceType, DeviceCategory, OSVersion</code></pre>
-</div>
-<p class="conv-note receipt">On 60 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
-<div class="code">
-  <div class="code-bar">
-    <span class="name">Defender XDR KQL · Endpoint connections to router UPnP/GENA ports on private addresses</span>
-<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
-  </div>
-  <pre><code>DeviceNetworkEvents | where Timestamp &gt; ago(14d) | where RemotePort in (1900, 49152) | where ipv4_is_private(RemoteIP) | summarize Connections = count(), Hosts = dcount(DeviceId) by RemoteIP, RemotePort | order by Hosts desc</code></pre>
-</div>
-<p class="conv-note receipt">On 300 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-  </article>
-  <article class="story" id="story-6" aria-labelledby="story-6-h">
-    <div class="story-top">
-      <div class="story-flags">
-        <div class="tags">
-<span class="tag crit">Exploitation reported</span><span class="tag">breach</span>        </div>
-        <div class="priority high" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span class="rank">No. 06</span> · Priority <b>42</b>
-        </div>
-      </div>
-      <h3 id="story-6-h">FBI investigating apparent breach of National Crime Information Center database</h3>
-      <p class="meta">FBI National Crime Information Center · 2 sources · first reported 21 November 2026</p>
-    </div>
-
-
-    <div class="story-body">
-      <div class="cols2">
-        <section><h4 class="label">What happened</h4><p>BleepingComputer reports that FBI systems have apparently been breached for the second time in two months, this time affecting the National Crime Information Center (NCIC), the database local, state and federal law enforcement agencies use to share information. SecurityWeek, citing an AP source, says the FBI is investigating an apparent hack of a national law enforcement database it maintains. The sources do not describe how access was gained, what data was taken, or who is responsible.</p></section>
-        <section><h4 class="label">Why it matters</h4><p>No technical details, vulnerabilities or indicators have been published, so there is nothing specific to hunt for in Windows, M365 or edge-device telemetry yet. Organizations that connect to NCIC or other criminal justice information systems, such as state and local agencies and their contractors, may face follow-on phishing or credential abuse if account or query data was exposed.</p></section>
-      </div>
-      <div class="actions">
-        <h4 class="label">What to do</h4>
-        <ol class="steps"><li>If your organization connects to NCIC or CJIS systems, watch for official FBI or CJIS notices and follow any credential reset or access guidance they issue.</li><li>Review access logs and accounts used for criminal justice information system connectivity for unusual sign-ins or query volumes.</li><li>Brief users who handle law enforcement data about possible phishing that references the incident.</li></ol>
-      </div>
-    </div>
-
-    <div class="sources">
-      <h4 class="label">Sources</h4>
-      <ul>
-        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/fbi-reportedly-hacked-again-this-time-targeting-nationwide-police-database/" rel="noopener noreferrer nofollow">FBI reportedly hacked again, this time targeting nationwide police database</a><span class="where">bleepingcomputer.com · 21 Nov</span></li>
-        <li><span class="pub">SecurityWeek</span><a href="https://www.securityweek.com/fbi-investigating-apparent-hack-of-its-key-national-criminal-justice-database-ap-source-says/" rel="noopener noreferrer nofollow">FBI Investigating Apparent Hack of Its Key National Criminal Justice Database, AP Source Says</a><span class="where">securityweek.com · 22 Nov</span></li>
-      </ul>
-<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: low</p>    </div>
-
-
-  </article>
-  <article class="story" id="story-7" aria-labelledby="story-7-h">
-    <div class="story-top">
-      <div class="story-flags">
-        <div class="tags">
-<span class="tag high">Public PoC</span><span class="tag info">Edge device</span>        </div>
-        <div class="priority high" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
-          <span class="rank">No. 07</span> · Priority <b>42</b>
-        </div>
-      </div>
-      <h3 id="story-7-h">Out-of-bounds read in end-of-life TRENDnet TEW-657BRM router has published exploit</h3>
-      <p class="meta">TRENDnet TEW-657BRM · 1 source · first reported 21 November 2026</p>
-    </div>
-
-    <dl class="facts">
-      <div><dt>CVE</dt><dd><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-133985">CVE-2026-133985</a></dd></div>
-      <div><dt>CVSS</dt><dd><strong>7.4</strong> <span class="high">High</span></dd></div>
-      <div><dt>EPSS</dt><dd><strong>0.6%</strong> <span class="muted">30-day</span></dd></div>
-      <div><dt>CISA KEV</dt><dd><span class="muted">Not listed</span></dd></div>
-      <div><dt>Public PoC</dt><dd>None known</dd></div>
-    </dl>
-
-    <div class="story-body">
-      <div class="cols2">
-        <section><h4 class="label">What happened</h4><p>NVD lists CVE-2026-133985 (CVSS 7.4, high) as an out-of-bounds read in the restore_config.cgi component of TRENDnet TEW-657BRM firmware 1.00.1 that can be triggered remotely. According to NVD, an exploit has been published, although no public proof-of-concept was confirmed by other tracking. TRENDnet says it cannot confirm the flaw because the product has been end-of-life for more than 15 years, and it plans to notify customers. No patch is expected.</p></section>
-        <section><h4 class="label">Why it matters</h4><p>This is a niche consumer/SOHO router that is long unsupported, so most enterprise environments will only meet it at small branch sites or in remote workers&#39; homes. The flaw is not in CISA KEV and has an EPSS score of 0.6%, but no fix will come, so any exposed unit stays vulnerable for good.</p></section>
-      </div>
-      <div class="actions">
-        <h4 class="label">What to do</h4>
-        <ol class="steps"><li>Find any TRENDnet TEW-657BRM devices in branch, lab or remote-worker networks and replace them with supported hardware.</li><li>Until replacement, block internet access to the device&#39;s web management interface and limit admin access to a trusted management network.</li><li>Treat traffic coming from networks behind these devices as untrusted, and require VPN with device compliance checks for remote workers who use them.</li></ol>
-      <div class="cols2 versions">
-        <div><div class="k">Affected</div><ul><li>TRENDnet TEW-657BRM 1.00.1</li></ul></div>
-        <div><div class="k">Fixed</div><span class="muted">Not stated in the sources</span></div>
-      </div>
-      </div>
-    </div>
-
-    <div class="sources">
-      <h4 class="label">Sources</h4>
-      <ul>
-        <li><span class="pub">NVD</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-133985" rel="noopener noreferrer nofollow">CVE-2026-133985 (HIGH 7.4)</a><span class="where">nvd.nist.gov · 21 Nov</span></li>
-      </ul>
-<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
-
-
-    <section class="detect" aria-label="Detection">
-      <div class="detect-head">
-        <div class="t">Detection
-<span class="tag ai">AI-generated · untested</span>        </div>
-        <span class="why">Hunting only: no endpoint behavior to write a rule against</span>
-      </div>
-      <div class="tabs">
-        <input class="tab-input" type="radio" name="fmt-story-7" id="story-7-hunt" checked>
-        <label for="story-7-hunt">Hunting</label>
-        <div class="tab-panels">
-          <div class="tab-panel">
-<ol class="steps-plain"><li>Review asset inventories and network discovery data for TRENDnet devices, especially the TEW-657BRM model.</li><li>Use Defender for Endpoint device discovery to find network devices from TRENDnet seen on corporate segments.</li><li>Check perimeter firewall and proxy logs for inbound requests to restore_config.cgi on any internet-facing addresses you own.</li></ol><div class="code">
-  <div class="code-bar">
-    <span class="name">Defender XDR KQL · Discovered TRENDnet network devices</span>
-<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
-  </div>
-  <pre><code>DeviceInfo
-| where Timestamp &gt; ago(30d)
-| where Vendor has &#34;TRENDnet&#34; or Model has &#34;TEW-657&#34;
-| summarize LastSeen = max(Timestamp) by DeviceId, DeviceName, Vendor, Model, DeviceType</code></pre>
-</div>
-<p class="conv-note receipt">On 60 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
-<div class="code">
-  <div class="code-bar">
-    <span class="name">Defender XDR KQL · Endpoint connections to local web admin of possible TRENDnet routers</span>
-<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
-  </div>
-  <pre><code>DeviceNetworkEvents
-| where Timestamp &gt; ago(14d)
-| where RemoteUrl has &#34;restore_config.cgi&#34;
-| project Timestamp, DeviceName, InitiatingProcessFileName, RemoteIP, RemotePort, RemoteUrl</code></pre>
-</div>
-<p class="conv-note receipt">On 300 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
-          </div>
-        </div>
-      </div>
-    </section>
   </article>
 
   <section class="block" id="kev" aria-labelledby="h-kev">
@@ -538,75 +172,47 @@ EmailEvents
   <section class="block" id="signals" aria-labelledby="h-signals">
     <div class="section-head"><h2 id="h-signals">Early signals</h2><span>Counted by code, not AI</span></div>
     <p class="lead">CVEs that several independent accounts posted about in the window but that are not in KEV or the news feeds yet. Counted from Bluesky, Mastodon (infosec.exchange), r/netsec and Hacker News after dropping CVE-feed bots and digest posts. Chatter is a lead, not confirmation.</p>
-    <div class="signal">
-      <div class="id">
-        <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-125396">CVE-2026-125396</a>
-        <div class="tags">
-<span class="tag high">CVSS 8.5</span><span class="tag high">Public PoC</span>        </div>
-        <span class="k">Accounts posting</span>
-        <div class="count"><b>6</b><span>on Hacker News, Mastodon · EPSS 0.3%</span></div>
-      </div>
-      <div class="detail">
-        <span class="k">NVD summary</span>
-        <p>Ghostscript before 10.08.0 contains a -dSAFER bypass vulnerability in the .putgstringcopy procedure in gs_fonts.ps, which calls the privileged .forceput operator without checking operand types. Attackers can supply crafted PostScript or PDF documents that trigger a type error, recover .forceput via …</p>
-        <span class="k">Posts</span>
-        <div class="posts"><a href="https://news.ycombinator.com/item?id=50592097" rel="noopener noreferrer nofollow" title="Hacker News">@f311a</a><a href="https://infosec.exchange/@axnews/117657681002628061" rel="noopener noreferrer nofollow" title="Mastodon">@axnews</a><a href="https://infosec.exchange/@thecybersecguru/117656379729095095" rel="noopener noreferrer nofollow" title="Mastodon">@thecybersecguru</a><a href="https://news.ycombinator.com/item?id=50594349" rel="noopener noreferrer nofollow" title="Hacker News">@dvh</a><a href="https://news.ycombinator.com/item?id=50593988" rel="noopener noreferrer nofollow" title="Hacker News">@CER10TY</a></div>
-      </div>
-    </div>
-    <div class="signal">
-      <div class="id">
-        <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-129975">CVE-2026-129975</a>
-        <div class="tags">
-<span class="tag high">Public PoC</span>        </div>
-        <span class="k">Accounts posting</span>
-        <div class="count"><b>3</b><span>on Hacker News, Mastodon</span></div>
-      </div>
-      <div class="detail">
-        <span class="k">NVD summary</span>
-        <p>Not in NVD yet.</p>
-        <span class="k">Posts</span>
-        <div class="posts"><a href="https://infosec.exchange/@edwardk/117657069652303904" rel="noopener noreferrer nofollow" title="Mastodon">@edwardk</a><a href="https://news.ycombinator.com/item?id=50592599" rel="noopener noreferrer nofollow" title="Hacker News">@MadrasThorn</a><a href="https://infosec.exchange/@cloud/117656944150384660" rel="noopener noreferrer nofollow" title="Mastodon">@cloud</a></div>
-      </div>
-    </div>
+    <p class="muted">No CVE crossed the threshold in this window.</p>
   </section>
 
   <section class="block explainer" id="explainer" aria-labelledby="h-explainer">
     <div class="section-head"><h2 id="h-explainer">Explainer</h2><span>Background, not news</span></div>
-    <h3>Entra Connect Health and the hybrid identity servers it watches</h3>
-    <p class="dek">Entra Connect Health is Microsoft&#39;s cloud monitoring service for on-premises identity infrastructure, and it sits beside servers that attackers treat as keys to both Active Directory and Entra ID.</p>
-<p class="why-today"><strong>Why today.</strong> Microsoft has disclosed that attackers exploited a flaw in the Entra Connect Health service to read tenant administrator email addresses and tenant configuration. Knowing what the service touches, and what that leaked data is good for, tells you where to look next. See <a href="#story-1">story 1</a>.</p>    <div class="ex-body">
-<h4>What Connect Health is</h4><p>Microsoft Entra Connect Health, formerly Azure AD Connect Health, monitors the on-premises side of a hybrid identity deployment. You install lightweight agents on Entra Connect Sync servers, AD FS servers and, optionally, domain controllers. The agents send health data, alerts, sync errors and, for AD FS, usage and sign-in analytics to a Microsoft-hosted service, and administrators view the results in the Entra admin center.</p><p>The service needs an Entra ID P1 or P2 licence. Registering an agent requires a privileged Entra role, and the agent then authenticates to the cloud service with its own credentials. The cloud side holds tenant-level metadata about your hybrid setup: which servers exist, how they are configured, which alerts fired, and who receives alert notifications.</p><h4>Why the servers it monitors are tier zero</h4><p>The Entra Connect Sync server holds credentials for an on-premises connector account. With password hash sync enabled, that account has directory replication permissions, the same rights a DCSync attack abuses. The server also holds credentials that let it write identities into Entra ID. Whoever controls the sync server can usually harvest on-premises password hashes and change what gets synchronized to the cloud.</p><p>AD FS servers hold the token-signing keys that Entra ID trusts for federated domains. An attacker with those keys can forge sign-in tokens. Both server types belong in the same protection tier as domain controllers, whether or not Connect Health is installed on them.</p><h4>What leaked admin emails and tenant configuration give an attacker</h4><p>Based on what has been reported so far, this breach was on Microsoft&#39;s service side and did not involve compromise of customer servers. The data still has value. A verified list of tenant administrator addresses is a ready-made target list for phishing, device code phishing, adversary-in-the-middle phishing and password spraying, because the attacker knows which accounts hold privilege.</p><p>Tenant configuration shows how identity is wired: whether the tenant is federated or uses password hash sync or pass-through authentication, which on-premises servers participate, and possibly their names and versions. That shortens reconnaissance for anyone planning to go after the sync or AD FS servers. Microsoft has not published the full scope, so treat both data types as exposed until it says otherwise.</p><h4>What follow-on activity looks like in telemetry</h4><p>Expect targeting of the privileged accounts first. In Sentinel or Defender XDR, look in SigninLogs and AADNonInteractiveUserSignInLogs for failed or unusual sign-ins against admin accounts, device code flow sign-ins, and new sign-in locations. Look in the email tables for lures sent to admin mailboxes.</p><p>For the hybrid servers, watch for directory replication requests from hosts that are not domain controllers; Defender for Identity raises alerts for this and its sensor can be installed on Entra Connect and AD FS servers. In AuditLogs, check for changes to federation settings, newly added federated domains, and new credentials or role assignments on accounts and applications used for directory synchronization.</p>    </div>
+    <h3>Vendor cloud management: the outbound tunnel that becomes an inbound path</h3>
+    <p class="dek">Many routers, IP-KVMs and other network devices keep a persistent outbound connection to their vendor&#39;s cloud so owners can manage them remotely, which means whoever controls or abuses that cloud service can reach every enrolled device.</p>
+<p class="why-today"><strong>Why today.</strong> GL.iNet confirmed that attackers abused a flaw in its cloud remote management service to plant backdoors and reverse shells on customer routers and KVM devices. The attackers used the vendor&#39;s own management channel, not exposed ports on each device. See <a href="#story-1">story 1</a>.</p>    <div class="ex-body">
+<h4>How cloud management works</h4><p>Consumer and small-business network gear often ships with an optional vendor cloud service. The device opens an outbound connection to the vendor&#39;s platform and keeps it alive. The owner logs into a web portal or mobile app, and the vendor relays commands, configuration changes and firmware updates down that connection.</p><p>Because the device dials out, this works through NAT and firewalls that block all inbound traffic. That convenience is the design weakness. A device that looks unreachable from the internet still accepts instructions from a party outside your network, and those instructions usually run with full administrative or root privileges on the device.</p><p>Exact protocols, authentication and the scope of what the cloud can do differ by vendor, product and firmware version. Check the vendor&#39;s documentation for the specific device rather than assuming.</p><h4>What an attacker gains</h4><p>If an attacker finds a flaw in the cloud service, such as broken authorization between tenants, a weak device binding process or an injectable command path, they may be able to issue commands to many devices at once. They do not need to scan for or exploit each device individually. Any device enrolled in the service becomes a target, whatever its local firewall settings.</p><p>A compromised router sits in the traffic path. It can intercept or redirect traffic, serve as a pivot into the internal network, or act as a residential proxy for further attacks. A compromised IP-KVM is arguably worse. It provides keyboard, video and often power control of the servers or workstations attached to it, which operates beneath the operating system and outside the view of endpoint security agents.</p><h4>What it looks like in telemetry</h4><p>These devices rarely run an EDR agent, so the evidence is mostly on the network and on the hosts they touch. Useful signals include new or unusual outbound connections from the device&#39;s management IP to destinations other than the vendor&#39;s documented cloud endpoints, long-lived sessions to unfamiliar infrastructure, and DNS lookups the device has never made before.</p><p>On hosts attached to a KVM, look for interactive console logons with no matching remote session, unexpected reboots, changes to boot settings or firmware configuration, and activity at odd hours from a local or physical session type. In Defender XDR, device discovery can surface network devices you did not know about. Firewall and proxy logs ingested into Sentinel are usually the best place to baseline the device&#39;s normal outbound behavior.</p><h4>How to reduce the risk</h4><p>The strongest control is to disable vendor cloud management on devices that do not need it and manage them locally from a dedicated management network. Where the cloud feature is needed, restrict the device&#39;s egress to the vendor&#39;s documented endpoints, put the device in its own segment, and protect the vendor portal account with strong unique credentials and MFA.</p><p>Treat out-of-band management hardware such as IP-KVMs as highly privileged assets: inventory them, keep them off general user networks, and review who and what can reach them. Remember that patching the device firmware does not necessarily fix a flaw in the vendor&#39;s cloud, and it does not remove an implant that has already been installed.</p>    </div>
     <div class="actions">
       <h4 class="label">For defenders</h4>
-      <ol class="steps"><li>Check the Microsoft 365 message center and Service Health for any notice about this incident addressed to your tenant, and record which admin addresses and configuration details Microsoft says were exposed.</li><li>Require phishing-resistant MFA, such as FIDO2 keys or Windows Hello for Business, for every privileged Entra role, and block device code flow for admins through Conditional Access where you do not need it.</li><li>Treat Entra Connect Sync and AD FS servers as tier zero: restrict interactive logon to tier-zero admins, install the Defender for Identity sensor on them, and confirm alerts for replication requests from non-domain-controller hosts are reaching your SOC.</li><li>Hunt in AuditLogs for recent federation setting changes, new federated domains, and new credentials or role assignments on synchronization-related accounts and applications.</li><li>Review which addresses receive Connect Health and other admin notifications, and use dedicated cloud-only admin accounts that are not used for everyday email.</li></ol>
+      <ol class="steps"><li>Inventory every router, IP-KVM and similar device with vendor cloud management enabled, including unmanaged or shadow devices that device discovery or network scans reveal.</li><li>Disable cloud remote management where it is not required, and manage those devices from a segmented management network instead.</li><li>Restrict device egress to the vendor&#39;s documented cloud endpoints, and alert in Sentinel on outbound connections from device management IPs to anything else.</li><li>For hosts attached to IP-KVMs, hunt for console logons without a corresponding remote session, unexpected reboots and boot or firmware setting changes.</li><li>If a device may have been compromised through a vendor cloud flaw, treat it as untrusted: factory reset or reflash from known-good firmware and rotate any credentials it stored or saw.</li></ol>
     </div>
     <p class="ai-line">AI-generated explainer by Claude Opus 5.5 · from the model's background knowledge, not today's sources · check vendor documentation before acting on it</p>
   </section>
 
+  <section class="block good-news" id="good-news" aria-labelledby="h-good-news">
+    <div class="section-head"><h2 id="h-good-news">Good news</h2><span>Wins for defenders</span></div>
+    <ol class="good">
+      <li>
+        <span class="tag ok">New defense</span>
+        <h3>Signal adds protections against screenshots and AI assistant capture of chats</h3>
+        <p>BleepingComputer reports that Signal has announced new protections that block screenshots on iOS 27. On supported Android devices, the protections prevent AI assistants from capturing conversations. The change limits a path for sensitive message content to leave the encrypted app.</p>
+        <p class="where"><a href="https://www.bleepingcomputer.com/news/security/signal-to-block-siri-gemini-ai-from-capturing-chats-on-ios-android/" rel="noopener noreferrer nofollow">BleepingComputer</a> · 22 Nov</p>
+      </li>
+    </ol>
+    <p class="ai-line">AI-generated summaries by Claude Opus 5.5 of the linked sources</p>
+  </section>
 
   <section class="block" id="radar" aria-labelledby="h-radar">
     <div class="section-head"><h2 id="h-radar">Also on the radar</h2><span>Lower-ranked, links only</span></div>
     <ul class="radar">
-      <li><a href="https://www.securityweek.com/president-trump-taps-kirsten-davies-as-national-cyber-director/" rel="noopener noreferrer nofollow">Trump names Kirsten Davies as National Cyber Director</a><span class="where">SecurityWeek</span></li>
-      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-134254" rel="noopener noreferrer nofollow">Admidio path traversal and stored XSS flaws allow file writes and admin takeover</a><span class="where">NVD · CVE-2026-134254, CVE-2026-134258, CVE-2026-134262</span></li>
-      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-134292" rel="noopener noreferrer nofollow">SurrealDB flaws allow file access outside storage root and authorization bypass</a><span class="where">NVD · CVE-2026-134292, CVE-2026-134291, CVE-2026-134293</span></li>
-      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-134287" rel="noopener noreferrer nofollow">OpenRemote MQTT provisioning flaw allows impersonating devices without private key</a><span class="where">NVD · CVE-2026-134287</span></li>
-      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-134352" rel="noopener noreferrer nofollow">Rclone SFTP auth-proxy cache flaw allows read-write access using a public key</a><span class="where">NVD · CVE-2026-134352</span></li>
-      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-134372" rel="noopener noreferrer nofollow">Frappe ERPNext authorization flaws expose records across companies and portal users</a><span class="where">NVD · CVE-2026-134372, CVE-2026-134389, CVE-2026-134393</span></li>
-      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-134370" rel="noopener noreferrer nofollow">Frappe Framework path traversal allows authenticated arbitrary file read CVE-2026-134370</a><span class="where">NVD · CVE-2026-134370</span></li>
-      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-134245" rel="noopener noreferrer nofollow">SiYuan flaws expose protected documents and allow admin access via forged header</a><span class="where">NVD · CVE-2026-134245, CVE-2026-134246, CVE-2026-134247</span></li>
-      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-134250" rel="noopener noreferrer nofollow">Grav CMS plugin flaws allow stored XSS and remote code execution via uploads</a><span class="where">NVD · CVE-2026-134250, CVE-2026-134253</span></li>
-      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-134268" rel="noopener noreferrer nofollow">Vikunja flaws allow admin access, SSO account takeover and instance-wide DB writes</a><span class="where">NVD · CVE-2026-134268, CVE-2026-134282, CVE-2026-134284</span></li>
-      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-134325" rel="noopener noreferrer nofollow">ArcadeDB authorization bypasses allow unauthorized writes and data access</a><span class="where">NVD · CVE-2026-134325, CVE-2026-134337, CVE-2026-134338</span></li>
-      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-134448" rel="noopener noreferrer nofollow">Dockhand flaws allow file access, admin escalation and command execution</a><span class="where">NVD · CVE-2026-134448, CVE-2026-134451, CVE-2026-134452</span></li>
-      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-134316" rel="noopener noreferrer nofollow">better-auth flaws expose secrets and allow session forgery and 2FA bypass</a><span class="where">NVD · CVE-2026-134316, CVE-2026-134322</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-134814" rel="noopener noreferrer nofollow">binary-parser before 2.3.1 code injection via parser definitions (CVE-2026-134814)</a><span class="where">NVD · CVE-2026-134814</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-134815" rel="noopener noreferrer nofollow">simple-git before 4.1.0 argument injection allows command execution (CVE-2026-134815)</a><span class="where">NVD · CVE-2026-134815</span></li>
     </ul>
   </section>
 
   <details class="status">
     <summary>Collection status: 21 of 22 sources returned data</summary>
-    <ul><li><span class="">BleepingComputer</span> <span class="muted">ok 4</span></li><li><span class="">Bluesky</span> <span class="muted">ok 0</span></li><li><span class="">CISA Advisories</span> <span class="muted">ok 0</span></li><li><span class="">CISA KEV</span> <span class="muted">ok 0</span></li><li><span class="">Cisco Talos</span> <span class="muted">ok 0</span></li><li><span class="">EPSS</span> <span class="muted">ok 115</span></li><li><span class="">Hacker News</span> <span class="muted">ok 8</span></li><li><span class="">Huntress</span> <span class="muted">ok 0</span></li><li><span class="">Krebs on Security</span> <span class="muted">ok 0</span></li><li><span class="">Mastodon</span> <span class="muted">ok 15</span></li><li><span class="">Microsoft Security Blog</span> <span class="muted">ok 0</span></li><li><span class="">MSRC Security Update Guide</span> <span class="muted">ok 0</span></li><li><span class="">NVD</span> <span class="muted">ok 101</span></li><li><span class="bad">r/netsec</span> <span class="muted">error FetchError: 404 https://www.reddit.com/r/netsec/new/.rss</span></li><li><span class="">Rapid7</span> <span class="muted">ok 0</span></li><li><span class="">SANS ISC</span> <span class="muted">ok 0</span></li><li><span class="">SecurityWeek</span> <span class="muted">ok 3</span></li><li><span class="">SigmaHQ new rules</span> <span class="muted">ok 0</span></li><li><span class="">The DFIR Report</span> <span class="muted">ok 0</span></li><li><span class="">The Record</span> <span class="muted">ok 0</span></li><li><span class="">Unit 42</span> <span class="muted">ok 0</span></li><li><span class="">watchTowr Labs</span> <span class="muted">ok 0</span></li></ul>
-    <p>Data for this edition: <a href="editions/2026-11-22/edition.json">edition.json</a>. KQL parser: available.</p>
+    <ul><li><span class="">BleepingComputer</span> <span class="muted">ok 3</span></li><li><span class="">Bluesky</span> <span class="muted">ok 0</span></li><li><span class="">CISA Advisories</span> <span class="muted">ok 0</span></li><li><span class="">CISA KEV</span> <span class="muted">ok 0</span></li><li><span class="">Cisco Talos</span> <span class="muted">ok 0</span></li><li><span class="">EPSS</span> <span class="muted">ok 10</span></li><li><span class="">Hacker News</span> <span class="muted">ok 2</span></li><li><span class="">Huntress</span> <span class="muted">ok 0</span></li><li><span class="">Krebs on Security</span> <span class="muted">ok 0</span></li><li><span class="">Mastodon</span> <span class="muted">ok 0</span></li><li><span class="">Microsoft Security Blog</span> <span class="muted">ok 0</span></li><li><span class="">MSRC Security Update Guide</span> <span class="muted">ok 0</span></li><li><span class="">NVD</span> <span class="muted">ok 9</span></li><li><span class="bad">r/netsec</span> <span class="muted">error FetchError: 404 https://www.reddit.com/r/netsec/new/.rss</span></li><li><span class="">Rapid7</span> <span class="muted">ok 0</span></li><li><span class="">SANS ISC</span> <span class="muted">ok 2</span></li><li><span class="">SecurityWeek</span> <span class="muted">ok 0</span></li><li><span class="">SigmaHQ new rules</span> <span class="muted">ok 0</span></li><li><span class="">The DFIR Report</span> <span class="muted">ok 0</span></li><li><span class="">The Record</span> <span class="muted">ok 0</span></li><li><span class="">Unit 42</span> <span class="muted">ok 0</span></li><li><span class="">watchTowr Labs</span> <span class="muted">ok 0</span></li></ul>
+    <p>Data for this edition: <a href="editions/2026-11-23/edition.json">edition.json</a>. KQL parser: available.</p>
   </details>
 </main>
 
@@ -614,27 +220,16 @@ EmailEvents
   <section class="panel also">
     <h2>Also today</h2>
     <ol class="toc">
-      <li><b class="num crit">2</b><span><span class="tier crit">Exploited</span><a href="#story-2">Rackspace Spot breach exposed Kubernetes secrets in customer clusters via compromised credentials</a></span></li>
-      <li><b class="num crit">3</b><span><span class="tier crit">Exploited</span><a href="#story-3">Amazon says China-linked actor used AI agents to find and exploit a MONAI Label zero-day</a></span></li>
-      <li><b class="num crit">4</b><span><span class="tier crit">Exploited</span><a href="#story-4">BADBOX ad-fraud botnet on generic Android TV boxes resumes at large scale</a></span></li>
-      <li><b class="num high">5</b><span><span class="tier high">High risk · PoC</span><a href="#story-5">D-Link DIR-600L 2.17b02 stack overflow in gena.cgi (<span class="nowrap">CVE-2026-133993</span>) rated CVSS 9.3</a></span></li>
-      <li><b class="num high">6</b><span><span class="tier high">High risk</span><a href="#story-6">FBI investigating apparent breach of National Crime Information Center database</a></span></li>
-      <li><b class="num high">7</b><span><span class="tier high">High risk · PoC</span><a href="#story-7">Out-of-bounds read in end-of-life TRENDnet TEW-657BRM router has published exploit</a></span></li>
+      <li><b class="num crit">2</b><span><span class="tier crit">Exploited</span><a href="#story-2">Cleverbridge discloses breach exposing customer card numbers and CVV codes</a></span></li>
     </ol>
   </section>
   <section class="panel learn">
     <h2>Also in this edition</h2>
-<p><span class="k">Explainer</span><a href="#explainer">Entra Connect Health and the hybrid identity servers it watches</a></p>  </section>
-  <section class="panel">
-    <h2>Early signals</h2>
-    <p class="lede">Counted by code, not AI. Chatter is a lead, not confirmation.</p>
-    <div class="sig-row"><b>6</b><span><a href="#signals">CVE-2026-125396</a> · CVSS 8.5 · PoC</span></div>
-    <div class="sig-row"><b>3</b><span><a href="#signals">CVE-2026-129975</a> · PoC</span></div>
-  </section>
+<p><span class="k">Explainer</span><a href="#explainer">Vendor cloud management: the outbound tunnel that becomes an inbound path</a></p><p><span class="k">Good news</span><a href="#good-news">1 win for defenders</a></p>  </section>
   <section class="panel">
     <h2>Collection</h2>
     <div class="meter"><svg class="bar" viewBox="0 0 100 6" preserveAspectRatio="none" aria-hidden="true"><rect class="track" width="100" height="6" rx="3"/><rect class="fill" width="95" height="6" rx="3"/></svg><span class="mono">21/22</span></div>
-    <p>No data from r/netsec. 131 items collected.</p>
+    <p>No data from r/netsec. 16 items collected.</p>
   </section>
   <section class="panel follow">
     <h2>Follow the brief</h2>
@@ -643,7 +238,7 @@ EmailEvents
   </section>
   <nav class="panel" aria-label="Other editions">
     <h2>Other editions</h2>
-<div class="kv"><span>Older</span><a href="editions/2026-11-21/">21 November 2026</a></div>  </nav>
+<div class="kv"><span>Older</span><a href="editions/2026-11-22/">22 November 2026</a></div>  </nav>
 </aside>
 </div>
 </div>
