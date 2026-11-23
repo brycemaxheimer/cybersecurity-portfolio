@@ -12,6 +12,32 @@
  "language": "en-US",
  "items": [
   {
+   "id": "https://intel.brycemaxheimer.com/editions/2026-11-23/",
+   "url": "https://intel.brycemaxheimer.com/editions/2026-11-23/",
+   "title": "Daily Intel Brief: 2026-11-23",
+   "content_text": "1. GL.iNet confirms attackers abused its cloud management service to backdoor routers and KVM devices\n2. Cleverbridge discloses breach exposing customer card numbers and CVV codes\nExplainer: Vendor cloud management: the outbound tunnel that becomes an inbound path\nGood news: Signal adds protections against screenshots and AI assistant capture of chats",
+   "date_published": "2026-11-23T22:01:57Z",
+   "_intel_brief": {
+    "data": "https://intel.brycemaxheimer.com/editions/2026-11-23/edition.json",
+    "stories": [
+     {
+      "title": "GL.iNet confirms attackers abused its cloud management service to backdoor routers and KVM devices",
+      "cves": [],
+      "score": 67
+     },
+     {
+      "title": "Cleverbridge discloses breach exposing customer card numbers and CVV codes",
+      "cves": [],
+      "score": 55
+     }
+    ],
+    "explainer": "Vendor cloud management: the outbound tunnel that becomes an inbound path",
+    "good_news": [
+     "Signal adds protections against screenshots and AI assistant capture of chats"
+    ]
+   }
+  },
+  {
    "id": "https://intel.brycemaxheimer.com/editions/2026-11-22/",
    "url": "https://intel.brycemaxheimer.com/editions/2026-11-22/",
    "title": "Daily Intel Brief: 2026-11-22",
