@@ -1,0 +1,1523 @@
+{
+ "schema": 1,
+ "date": "2026-11-24",
+ "generated_at": "2026-11-24T20:42:31Z",
+ "generator": "intel-brief 0.1.0",
+ "models": {
+  "triage": "claude-haiku-5-5",
+  "writeup": "claude-opus-5-5",
+  "triage_method": "model"
+ },
+ "window": {
+  "since": "2026-11-23T05:00:00+00:00",
+  "until": "2026-11-24T05:00:00+00:00"
+ },
+ "stories": [
+  {
+   "id": "story-1",
+   "rank": 1,
+   "score": 81,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 18,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Huntress details ClickFix lures, fake verification pages and varied payloads",
+   "labels": {
+    "category": "campaign",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "widespread",
+    "platform": "windows",
+    "vendor": "",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "In a Tradecraft Tuesday recap published 23 November 2026, Huntress reviewed ClickFix social engineering campaigns: convincing lures, the infrastructure behind fake verification pages, a range of delivered payloads, and ways to stop users from pasting malicious commands. The available summary does not name specific payload families, infrastructure indicators or threat actors. ClickFix generally tricks a user into copying a command from a web page and running it themselves, often through the Windows Run dialog or a terminal.",
+    "why_it_matters": "ClickFix bypasses many email and download controls because the user runs the command, so the first reliable signal is usually on the endpoint: explorer.exe launching PowerShell, mshta or cmd with download or encoded content, and Run dialog history in the registry. The source describes the activity as current and the technique is widespread, so Windows fleets with standard users are exposed regardless of patch level.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Hunt for explorer.exe spawning powershell.exe, pwsh.exe or mshta.exe with web download, Invoke-Expression or encoded-command arguments, and isolate hosts that show it.",
+     "Review RunMRU registry values for pasted commands that contain PowerShell, mshta, curl or URLs.",
+     "Where the business allows, restrict the Run dialog and mshta.exe for standard users via Group Policy or application control, and enable PowerShell Constrained Language Mode and script block logging.",
+     "Enable Defender attack surface reduction rules that block obfuscated scripts and script-launched downloaded content.",
+     "Brief users that legitimate CAPTCHA or verification pages never ask them to paste and run commands."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "A Buffet of ClickFix: Lures, Infrastructure & Payloads",
+     "url": "https://www.huntress.com/blog/tradecraft-tuesday-clickfix-lures-and-infrastructure",
+     "source": "Huntress",
+     "kind": "news",
+     "published": "2026-11-23T14:00:00Z"
+    }
+   ],
+   "detection": {
+    "type": "behavioral",
+    "sigma": {
+     "origin": "ai",
+     "title": "Possible ClickFix Execution - Explorer Spawning Script Host With Download or Encoded Command",
+     "url": null,
+     "yaml": "title: Possible ClickFix Execution - Explorer Spawning Script Host With Download or Encoded Command\nid: 2c70cbca-ee50-5604-a58a-ee4bfec99d5c\nstatus: experimental\ndescription: Detects PowerShell or mshta launched directly by explorer.exe with download, Invoke-Expression or encoded-command arguments. This matches ClickFix lures where a user pastes a command into the Run dialog. AI-generated, untested.\nreferences:\n- https://www.huntress.com/blog/tradecraft-tuesday-clickfix-lures-and-infrastructure\nauthor: intel-brief (AI-generated, untested)\ndate: '2026-11-24'\ntags:\n- attack.execution\n- attack.t1204.004\n- attack.t1059.001\n- attack.t1218.005\nlogsource:\n  product: windows\n  category: process_creation\ndetection:\n  selection_parent:\n    ParentImage|endswith: \\explorer.exe\n  selection_image:\n    Image|endswith:\n    - \\powershell.exe\n    - \\pwsh.exe\n    - \\mshta.exe\n  selection_cli:\n    CommandLine|contains:\n    - http://\n    - https://\n    - iex\n    - Invoke-Expression\n    - 'irm '\n    - 'iwr '\n    - Invoke-WebRequest\n    - Invoke-RestMethod\n    - DownloadString\n    - -enc\n    - -EncodedCommand\n    - FromBase64String\n  condition: all of selection_*\nfalsepositives:\n- Administrators manually running download or encoded PowerShell one-liners from the Run dialog\n- Shortcuts that launch scripts with web arguments\nlevel: high\n",
+     "check": {
+      "status": "pass",
+      "messages": [
+       "No rule errors found.",
+       "No condition errors found.",
+       "No validation issues found.",
+       "Parsing Sigma rules",
+       "Checking Sigma rules"
+      ]
+     },
+     "conversions": {
+      "kql": {
+       "label": "Defender XDR / Sentinel KQL",
+       "query": "DeviceProcessEvents\n| where InitiatingProcessFolderPath endswith \"\\\\explorer.exe\" and (FolderPath endswith \"\\\\powershell.exe\" or FolderPath endswith \"\\\\pwsh.exe\" or FolderPath endswith \"\\\\mshta.exe\") and (ProcessCommandLine contains \"http://\" or ProcessCommandLine contains \"https://\" or ProcessCommandLine contains \"iex\" or ProcessCommandLine contains \"Invoke-Expression\" or ProcessCommandLine contains \"irm \" or ProcessCommandLine contains \"iwr \" or ProcessCommandLine contains \"Invoke-WebRequest\" or ProcessCommandLine contains \"Invoke-RestMethod\" or ProcessCommandLine contains \"DownloadString\" or ProcessCommandLine contains \"-enc\" or ProcessCommandLine contains \"-EncodedCommand\" or ProcessCommandLine contains \"FromBase64String\")",
+       "error": null,
+       "validation": {
+        "status": "pass",
+        "messages": []
+       },
+       "receipt": {
+        "engine": "ran",
+        "baseline": {
+         "events": 500,
+         "hits": 0,
+         "tables": [
+          "DeviceProcessEvents"
+         ]
+        },
+        "cases": {
+         "status": "pass",
+         "positive": 29,
+         "positive_fired": 29,
+         "negative": 6,
+         "negative_fired": 0,
+         "disagreements": [],
+         "skipped": 0
+        }
+       }
+      },
+      "spl": {
+       "label": "Splunk SPL",
+       "query": "ParentImage=\"*\\\\explorer.exe\" Image IN (\"*\\\\powershell.exe\", \"*\\\\pwsh.exe\", \"*\\\\mshta.exe\") CommandLine IN (\"*http://*\", \"*https://*\", \"*iex*\", \"*Invoke-Expression*\", \"*irm *\", \"*iwr *\", \"*Invoke-WebRequest*\", \"*Invoke-RestMethod*\", \"*DownloadString*\", \"*-enc*\", \"*-EncodedCommand*\", \"*FromBase64String*\")",
+       "error": null
+      },
+      "elastic": {
+       "label": "Elastic (Lucene, ECS)",
+       "query": "process.parent.executable.caseless:*\\\\explorer.exe AND (process.executable.caseless:(*\\\\powershell.exe OR *\\\\pwsh.exe OR *\\\\mshta.exe)) AND (process.command_line:(*http\\:\\/\\/* OR *https\\:\\/\\/* OR *iex* OR *Invoke\\-Expression* OR *irm\\ * OR *iwr\\ * OR *Invoke\\-WebRequest* OR *Invoke\\-RestMethod* OR *DownloadString* OR *\\-enc* OR *\\-EncodedCommand* OR *FromBase64String*))",
+       "error": null
+      }
+     }
+    },
+    "hunting_steps": [
+     "Query process events for explorer.exe launching powershell.exe, pwsh.exe, mshta.exe or cmd.exe with URLs, Invoke-Expression or encoded arguments over the last 30 days.",
+     "Check RunMRU registry writes for pasted commands that reference script hosts or URLs, and correlate them with process creation on the same host.",
+     "For each hit, review outbound connections from the spawned process and its children to find payload hosting infrastructure, and block confirmed domains.",
+     "Look for follow-on activity on affected hosts: new files in user AppData or Temp, new Run keys or scheduled tasks, and access to browser credential stores.",
+     "Reset credentials and revoke sessions for users on confirmed hosts, since ClickFix payloads commonly include infostealers."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Explorer spawning script hosts with download or encoded commands",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where InitiatingProcessFileName =~ \"explorer.exe\" | where FileName in~ (\"powershell.exe\",\"pwsh.exe\",\"mshta.exe\",\"cmd.exe\") | where ProcessCommandLine has_any (\"http\",\"iex\",\"Invoke-Expression\",\"irm\",\"iwr\",\"Invoke-WebRequest\",\"DownloadString\",\"-enc\",\"FromBase64String\",\"curl\") | project Timestamp, DeviceName, AccountName, FileName, ProcessCommandLine, InitiatingProcessCommandLine | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "RunMRU entries containing script hosts or URLs",
+      "kql": "DeviceRegistryEvents | where Timestamp > ago(30d) | where RegistryKey has \"RunMRU\" | where RegistryValueData has_any (\"powershell\",\"pwsh\",\"mshta\",\"curl\",\"http\",\"iex\",\"cmd\") | project Timestamp, DeviceName, InitiatingProcessAccountName, RegistryValueName, RegistryValueData | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 60,
+        "hits": 0,
+        "tables": [
+         "DeviceRegistryEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Network connections from script hosts launched by explorer",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(30d) | where InitiatingProcessFileName in~ (\"powershell.exe\",\"pwsh.exe\",\"mshta.exe\") | where InitiatingProcessParentFileName =~ \"explorer.exe\" | where RemoteIPType == \"Public\" | project Timestamp, DeviceName, InitiatingProcessFileName, InitiatingProcessCommandLine, RemoteUrl, RemoteIP, RemotePort | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 300,
+        "hits": 0,
+        "tables": [
+         "DeviceNetworkEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-2",
+   "rank": 2,
+   "score": 72,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 18,
+    "platform": 8,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 6,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Microsoft says Azure API Management Classic tier flaw was exploited to steal stored API credentials",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "widespread",
+    "platform": "cloud_saas",
+    "vendor": "Microsoft",
+    "product": "Azure API Management"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "According to BleepingComputer, Microsoft is warning customers that a vulnerability in the Classic tiers of Azure API Management (APIM) was exploited to steal API credentials stored in the service. Norwegian authorities have linked the flaw to cyberattacks against energy companies. SecurityWeek reports that Microsoft has closed the flaw and that sectors beyond energy were also affected. Neither source gives a CVE, a disclosure timeline or technical details of the exploitation.",
+    "why_it_matters": "Microsoft confirms in-the-wild exploitation, so any credentials stored in a Classic-tier APIM instance should be treated as possibly exposed even though the service-side flaw is now fixed. Stolen subscription keys, named values or backend secrets give an attacker access to the APIs and backend systems behind them. Customers cannot patch this themselves; credential rotation and review of how those credentials have been used are the only remaining controls.",
+    "affected_versions": [
+     "Azure API Management Classic tiers (no specific versions or dates stated)"
+    ],
+    "fixed_versions": [
+     "Fixed by Microsoft on the service side, per SecurityWeek; no customer action or version stated"
+    ],
+    "recommended_actions": [
+     "List every Azure API Management instance on a Classic tier across all subscriptions and check Azure Service Health and the Microsoft notifications for any tenant-specific alert.",
+     "Rotate all credentials stored in affected instances, including subscription keys, named values, backend credentials, certificates and any secrets for downstream services.",
+     "Review backend and API access logs for affected APIs for calls from unfamiliar IP addresses, odd user agents or unusual volumes since the earliest exposure window Microsoft gives.",
+     "Review Azure Activity Log entries for API Management operations that read or list secrets, keys or named values, and confirm each one maps to a known administrator or pipeline.",
+     "Where possible, move APIM secrets into Azure Key Vault references with managed identity, and consider migrating off Classic tiers."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Azure Flaw Exploited to Target Secrets at Norwegian Energy Firms",
+     "url": "https://www.securityweek.com/azure-flaw-exploited-to-target-secrets-at-norwegian-energy-firms/",
+     "source": "SecurityWeek",
+     "kind": "news",
+     "published": "2026-11-23T15:47:40Z"
+    },
+    {
+     "title": "Microsoft Azure flaw exploited to steal customers' API credentials",
+     "url": "https://www.bleepingcomputer.com/news/security/microsoft-azure-flaw-exploited-to-steal-customers-api-credentials/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-23T19:42:20Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Inventory APIM instances and their tiers using Azure Resource Graph or the portal, and flag those on Classic tiers (Developer, Basic, Standard, Premium).",
+     "Pull Azure Activity Log and Defender for Cloud Apps records of Microsoft.ApiManagement operations that list or read secrets, subscription keys or named values, and look for unexpected callers or source IPs.",
+     "For each credential stored in an affected instance, identify the backend system that accepts it and review its access logs for use from unfamiliar infrastructure.",
+     "Correlate any suspicious source IPs with Entra ID sign-in logs and other cloud audit data to find related activity.",
+     "Confirm that rotation is complete and that old keys are rejected by the backends."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Azure API Management secret and key read operations",
+      "kql": "CloudAppEvents\n| where Timestamp > ago(30d)\n| where Application == \"Microsoft Azure\"\n| where ActionType has \"ApiManagement\"\n| where ActionType has_any (\"listSecrets\", \"listValue\", \"listKeys\", \"namedValues\", \"subscriptions\")\n| project Timestamp, ActionType, AccountDisplayName, AccountObjectId, IPAddress, CountryCode, ISP, UserAgent, ObjectName\n| order by Timestamp desc",
+      "validation": {
+       "status": "fail",
+       "messages": [
+        "Error KS142: The name 'ISP' does not refer to any known column, table, variable or function."
+       ]
+      },
+      "receipt": {
+       "engine": "error",
+       "message": "General_BadRequest: Request is invalid and cannot be executed."
+      }
+     },
+     {
+      "title": "API Management operations by caller and source IP",
+      "kql": "CloudAppEvents\n| where Timestamp > ago(30d)\n| where Application == \"Microsoft Azure\"\n| where ActionType has \"ApiManagement\"\n| summarize Operations = count(), Actions = make_set(ActionType, 20), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by AccountDisplayName, IPAddress, CountryCode\n| order by Operations desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 30,
+        "hits": 0,
+        "tables": [
+         "CloudAppEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-3",
+   "rank": 3,
+   "score": 65,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 4,
+    "platform": 8,
+    "new_kev": 10,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": true,
+    "epss_max": 0.0062,
+    "cvss_max": 0
+   },
+   "title": "N-able patches actively exploited MailAssure SSRF flaw; CISA adds CVE-2026-134624 to KEV",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "niche",
+    "platform": "cloud_saas",
+    "vendor": "N-able",
+    "product": "MailAssure"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-134624",
+     "cvss": 9.3,
+     "severity": "CRITICAL",
+     "products": [
+      "n-able mail assure"
+     ],
+     "epss": 0.00617,
+     "percentile": 0.50289,
+     "in_kev": true,
+     "kev_due": "2026-11-26",
+     "poc": [
+      {
+       "url": "https://github.com/cveForge/CVE-2026-134624",
+       "name": "cveForge/CVE-2026-134624",
+       "stars": 0,
+       "created": "2026-11-24"
+      }
+     ],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "CISA added CVE-2026-134624, a server-side request forgery flaw in N-able MailAssure (SpamExperts), to its Known Exploited Vulnerabilities catalog on 23 November 2026. CISA says the bug sits in the LDAP synchronization connection check and lets an authenticated API user reach arbitrary internal hosts and ports, learn which are reachable, and send crafted data to internal services. SecurityWeek reports that N-able found and patched the flaw after a cyberattack on Mail Assure, has restored access to the affected services, and is still monitoring the affected environments. The sources do not say who was behind the attack, what data was accessed, or which customers were affected.",
+    "why_it_matters": "The flaw is rated CVSS 9.3, exploitation is confirmed, public proof-of-concept code exists, and CISA set a remediation due date of 26 November 2026, even though EPSS is only 0.6%. MailAssure is a hosted email filtering service, so you cannot patch it yourself. Your exposure comes through the API credentials and the LDAP sync connection your tenant uses, which may give access to your directory and mail flow. Organizations that route Microsoft 365 or on-premises mail through MailAssure should treat the integration as potentially touched by the incident.",
+    "affected_versions": [
+     "N-able MailAssure (SpamExperts): affected versions not stated by the sources"
+    ],
+    "fixed_versions": [
+     "Fixed by N-able on the service side; no version number stated"
+    ],
+    "recommended_actions": [
+     "Confirm with N-able whether your MailAssure tenant was in the affected environments, and request their incident findings and mitigation guidance before the 26 November 2026 KEV due date.",
+     "Rotate MailAssure API credentials and the service account used for LDAP synchronization, and remove API users that are not needed.",
+     "Restrict inbound LDAP/LDAPS access from MailAssure so it can reach only the specific directory hosts it needs, and review firewall logs for connection attempts to other internal hosts or ports.",
+     "Review MailAssure admin and API activity logs for unexpected LDAP connection checks or configuration changes.",
+     "Audit the mail routing, connectors and allow-lists in Exchange Online and on-premises Exchange that trust MailAssure, and watch for unexpected changes."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "N-able Patches Critical Flaw Discovered After Mail Assure Cyberattack",
+     "url": "https://www.securityweek.com/n-able-patches-critical-flaw-disclosed-after-mail-assure-cyberattack/",
+     "source": "SecurityWeek",
+     "kind": "news",
+     "published": "2026-11-23T15:06:49Z"
+    },
+    {
+     "title": "CVE-2026-134624: N-able MailAssure (SpamExperts) Server-Side Request Forgery (SSRF) Vulnerability",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-134624",
+     "source": "CISA KEV",
+     "kind": "kev",
+     "published": "2026-11-23T00:00:00Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Inventory whether your organization uses N-able MailAssure or SpamExperts, and identify which directory servers its LDAP synchronization points to.",
+     "Pull MailAssure admin and API audit logs for the period around the attack disclosure, and look for LDAP sync connection checks that target unusual hosts or ports.",
+     "On domain controllers or LDAP servers exposed to MailAssure, review inbound connections from public IP addresses on LDAP ports, and confirm the sources match your provider's documented ranges.",
+     "Check the LDAP sync service account for sign-ins or binds from unexpected sources, then rotate its credentials.",
+     "Review Exchange Online inbound connectors and transport rules tied to the filtering service for recent changes."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Inbound LDAP/LDAPS connections from public IPs to internal hosts",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(30d) | where ActionType == \"InboundConnectionAccepted\" | where LocalPort in (389, 636, 3268, 3269) | where RemoteIPType == \"Public\" | summarize Connections = count(), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by DeviceName, RemoteIP, LocalPort | order by Connections desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 300,
+        "hits": 0,
+        "tables": [
+         "DeviceNetworkEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-4",
+   "rank": 4,
+   "score": 62,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 4,
+    "platform": 0,
+    "new_kev": 10,
+    "epss": 5,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": true,
+    "epss_max": 0.498,
+    "cvss_max": 0
+   },
+   "title": "CISA adds exploited MONAI Label path traversal flaw (CVE-2026-133968) to KEV",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "niche",
+    "platform": "other",
+    "vendor": "Project MONAI",
+    "product": "MONAI Label"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-133968",
+     "cvss": 9.8,
+     "severity": "CRITICAL",
+     "products": [
+      "monai monai label"
+     ],
+     "epss": 0.49795,
+     "percentile": 0.98916,
+     "in_kev": true,
+     "kev_due": "2026-11-26",
+     "poc": [
+      {
+       "url": "https://github.com/cveForge/CVE-2026-133968",
+       "name": "cveForge/CVE-2026-133968",
+       "stars": 0,
+       "created": "2026-11-23"
+      },
+      {
+       "url": "https://github.com/foxcornlab/monai-label-scanner",
+       "name": "foxcornlab/monai-label-scanner",
+       "stars": 0,
+       "created": "2026-11-24"
+      },
+      {
+       "url": "https://github.com/googlesky/CVE-2026-133968",
+       "name": "googlesky/CVE-2026-133968",
+       "stars": 0,
+       "created": "2026-11-24"
+      }
+     ],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-134624",
+     "cvss": 9.3,
+     "severity": "CRITICAL",
+     "products": [
+      "n-able mail assure"
+     ],
+     "epss": 0.00617,
+     "percentile": 0.50289,
+     "in_kev": true,
+     "kev_due": "2026-11-26",
+     "poc": [
+      {
+       "url": "https://github.com/cveForge/CVE-2026-134624",
+       "name": "cveForge/CVE-2026-134624",
+       "stars": 0,
+       "created": "2026-11-24"
+      }
+     ],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "On 23 November 2026, CISA added CVE-2026-133968 to its Known Exploited Vulnerabilities catalog, citing evidence of active exploitation. CISA describes it as a path traversal flaw in Project MONAI's MONAI Label, a medical imaging annotation server. It lets an unauthenticated remote attacker write arbitrary files outside the intended datastore directory, which can lead to remote code execution. In the same update CISA also added CVE-2026-134624, a server-side request forgery flaw in N-able Mail Assure (SpamExperts), but the sources give no technical detail on it.",
+    "why_it_matters": "MONAI Label is niche, but it often runs on research or data-science hosts with GPUs and access to sensitive imaging data, which central IT may not inventory. The flaw needs no authentication, is rated CVSS 9.8, has public proof-of-concept code and an EPSS of 49.8%. The KEV due date for federal agencies is 26 November 2026. The Mail Assure flaw has an EPSS of 0.6% and is also confirmed exploited, so organizations using that mail filtering service should check vendor guidance.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Identify every MONAI Label server, especially any reachable from the internet, and remove public exposure or restrict access to trusted networks immediately.",
+     "Apply the mitigations or updates in Project MONAI's guidance. CISA advises discontinuing use if no mitigation is available.",
+     "Before and after patching, check exposed MONAI Label hosts for compromise. Look for unexpected files written outside the datastore directory, new scripts or scheduled tasks, and shells spawned by the MONAI Label Python process.",
+     "Review the N-able Mail Assure advisory for CVE-2026-134624 and confirm that the vendor-side fix or your required configuration changes are in place.",
+     "Rotate credentials, API tokens and keys stored on or reachable from any MONAI Label host that shows signs of compromise."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "CISA Adds Two Known Exploited Vulnerabilities to Catalog",
+     "url": "https://www.cisa.gov/news-events/alerts/2026/11/23/cisa-adds-two-known-exploited-vulnerabilities-catalog",
+     "source": "CISA Advisories",
+     "kind": "advisory",
+     "published": "2026-11-23T12:00:00Z"
+    },
+    {
+     "title": "CVE-2026-133968: Project MONAI MONAI Label Path Traversal Vulnerability",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-133968",
+     "source": "CISA KEV",
+     "kind": "kev",
+     "published": "2026-11-23T00:00:00Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Inventory hosts running MONAI Label by searching process command lines for monailabel.",
+     "Check whether those hosts accept inbound connections from public IP addresses.",
+     "Review file writes made by the MONAI Label process outside its datastore or application directories, especially script, executable or startup files.",
+     "Look for shells, interpreters or download utilities launched as children of the MONAI Label process.",
+     "Isolate and investigate any host with suspicious writes or child processes, and preserve evidence in line with CISA's forensics triage expectations."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Hosts running MONAI Label server",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where ProcessCommandLine has \"monailabel\" or InitiatingProcessCommandLine has \"monailabel\" | summarize FirstSeen=min(Timestamp), LastSeen=max(Timestamp), SampleCmd=any(ProcessCommandLine) by DeviceId, DeviceName",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Suspicious child processes spawned by MONAI Label",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where InitiatingProcessCommandLine has \"monailabel\" | where FileName in~ (\"cmd.exe\",\"powershell.exe\",\"pwsh.exe\",\"sh\",\"bash\",\"dash\",\"curl\",\"wget\",\"curl.exe\",\"certutil.exe\",\"nc\",\"ncat\") | project Timestamp, DeviceName, AccountName, FileName, ProcessCommandLine, InitiatingProcessCommandLine",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Script or executable files written by MONAI Label process",
+      "kql": "DeviceFileEvents | where Timestamp > ago(30d) | where InitiatingProcessCommandLine has \"monailabel\" | where ActionType in (\"FileCreated\",\"FileModified\") | where FileName endswith \".py\" or FileName endswith \".sh\" or FileName endswith \".so\" or FileName endswith \".exe\" or FileName endswith \".dll\" or FileName endswith \".ps1\" or FolderPath has_any (\"/etc/cron\",\"/.ssh\",\"site-packages\",\"\\\\Startup\\\\\") | project Timestamp, DeviceName, FolderPath, FileName, InitiatingProcessCommandLine",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 150,
+        "hits": 0,
+        "tables": [
+         "DeviceFileEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-5",
+   "rank": 5,
+   "score": 51,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "KEPCO confirms breach of internal systems exposing data on about 1.5 million people",
+   "labels": {
+    "category": "breach",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "other",
+    "vendor": "KEPCO",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "According to BleepingComputer, Korea Electric Power Corporation (KEPCO), South Korea's state power utility, has confirmed that a threat actor got into its internal network. The attacker reached two systems holding customer, employee and contractor data, and the breach affects roughly 1.5 million people. The sources do not say how the attacker got in, who is responsible, or which data fields were exposed.",
+    "why_it_matters": "No vulnerability, product or attacker technique has been disclosed, so this breach offers nothing to patch or hunt for directly. The main risk to most organizations is follow-on phishing and impersonation using the stolen customer, employee and contractor details, especially for anyone who works with KEPCO or its contractors.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "If your organization works with KEPCO, expect phishing and business email compromise that uses KEPCO branding or leaked contractor details, and tell exposed staff to stay alert.",
+     "Watch for official KEPCO statements on the intrusion vector or indicators, and reassess this story if technical details are published."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "South Korea’s power giant KEPCO confirms data breach impacting 1.5 million",
+     "url": "https://www.bleepingcomputer.com/news/security/south-koreas-power-giant-kepco-confirms-data-breach-impacting-15-million/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-23T20:54:51Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-6",
+   "rank": 6,
+   "score": 48,
+   "factors": {
+    "exploitation": 0,
+    "prevalence": 25,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0099,
+    "cvss_max": 0
+   },
+   "title": "Microsoft revises 10 existing CVE entries with acknowledgement-only changes; no new fixes",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "none_known",
+    "prevalence": "ubiquitous",
+    "platform": "windows",
+    "vendor": "Microsoft",
+    "product": ""
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-69291",
+     "cvss": 8.8,
+     "severity": "HIGH",
+     "products": [
+      "microsoft windows 10 1607",
+      "microsoft windows 10 1809",
+      "microsoft windows 10 21h2",
+      "microsoft windows 10 22h2",
+      "microsoft windows 11 23h2"
+     ],
+     "epss": 0.00819,
+     "percentile": 0.57982,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-78462",
+     "cvss": 8.8,
+     "severity": "HIGH",
+     "products": [
+      "microsoft visual studio code"
+     ],
+     "epss": 0.00758,
+     "percentile": 0.5595,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-72965",
+     "cvss": 7.8,
+     "severity": "HIGH",
+     "products": [
+      "microsoft windows 10 1607",
+      "microsoft windows 10 1809",
+      "microsoft windows 10 21h2",
+      "microsoft windows 10 22h2",
+      "microsoft windows 11 23h2"
+     ],
+     "epss": 0.00333,
+     "percentile": 0.26899,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-87697",
+     "cvss": 8.8,
+     "severity": "HIGH",
+     "products": [],
+     "epss": 0.00843,
+     "percentile": 0.58707,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-70175",
+     "cvss": null,
+     "severity": "",
+     "products": [],
+     "epss": 0.00729,
+     "percentile": 0.54971,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-70197",
+     "cvss": null,
+     "severity": "",
+     "products": [],
+     "epss": 0.00845,
+     "percentile": 0.58788,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "On 23 November 2026, Microsoft's Security Update Guide republished 10 existing CVE entries. Each revision only updates the acknowledgement, and Microsoft describes all of them as informational. The CVEs cover the Windows Volume Manager Extension Driver, the Windows WebClient service, Windows Message Queuing, Visual Studio Code, .NET, and ASP.NET Core. Microsoft did not change versions, fixes or exploitation status in these revisions.",
+    "why_it_matters": "These revisions require no new action. Exploitation is not known for any of the 10 CVEs, none is in CISA KEV, and the highest EPSS score is about 0.8%. The only value for defenders is confirming that the original patches for these CVEs, several rated CVSS 8.8, were already deployed.",
+    "affected_versions": [
+     "Microsoft Windows 10 1607, 1809, 21H2, 22H2 and Windows 11 23H2 (CVE-2026-69291, CVE-2026-72965, per NVD product data)",
+     "Microsoft Visual Studio Code (CVE-2026-78462, versions not stated)"
+    ],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Take no emergency action; these are acknowledgement-only revisions.",
+     "Confirm through vulnerability management that the original updates for these CVEs are installed, prioritizing CVE-2026-69291, CVE-2026-78462 and CVE-2026-87697 (CVSS 8.8).",
+     "Check that .NET, ASP.NET Core and Visual Studio Code installations are covered by your patch process, since developer tooling is often missed."
+    ],
+    "confidence": "high",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "CVE-2026-69291 Windows Volume Manager Extension Driver Remote Code Execution Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-69291",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-23T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-78462 Visual Studio Code Security Feature Bypass Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-78462",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-23T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-72965 Windows WebClient Service Elevation of Privilege Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-72965",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-23T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-87697 .NET Remote Code Execution Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-87697",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-23T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-70175 ASP.NET Core Elevation of Privilege Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-70175",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-23T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-70197 .NET and Visual Studio Remote Code Execution Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-70197",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-23T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-96225 .NET Elevation of Privilege Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-96225",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-23T16:00:00Z"
+    },
+    {
+     "title": "CVE-2026-96233 ASP.NET Core Denial of Service Vulnerability",
+     "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-96233",
+     "source": "MSRC Security Update Guide",
+     "kind": "advisory",
+     "published": "2026-11-23T16:00:00Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-7",
+   "rank": 7,
+   "score": 47,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 4,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "GlobeTopper reports $2.5 million revenue loss after cyberattack; attacker redeemed $70,000 in gift cards",
+   "labels": {
+    "category": "breach",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "niche",
+    "platform": "other",
+    "vendor": "GlobeTopper",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "According to BleepingComputer, a cyberattack disrupted operations at GlobeTopper, a B2B provider of digital top-up and gift card solutions, and the company estimates about $2.5 million in lost revenue. The attacker also redeemed roughly $70,000 worth of digital gift cards. The sources do not describe the initial access vector, the systems affected, or any attribution.",
+    "why_it_matters": "This is a niche incident with no disclosed vulnerability, tooling, or indicators, so there is nothing specific to search for in Windows, Microsoft 365 or edge telemetry. It still shows that attackers target platforms that issue redeemable digital value, where direct fraud can be monetized quickly. Organizations that buy or distribute gift cards or top-ups through third-party B2B platforms should treat it as a third-party risk signal.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "If you use GlobeTopper or similar gift card and top-up platforms, contact the vendor to confirm whether your account, API keys, or orders were affected.",
+     "Rotate API keys and credentials used to integrate with third-party gift card or top-up providers, and enforce MFA on their admin portals.",
+     "Review recent gift card and top-up issuance and redemption records for unusual volume or unexpected recipients.",
+     "Set issuance limits and alerting on digital value purchases made through supplier integrations."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "GlobeTopper loses $2.5 million after hackers steal $70k in gift cards",
+     "url": "https://www.bleepingcomputer.com/news/security/globetopper-loses-25-million-after-hackers-steal-70k-in-gift-cards/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-23T16:50:01Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-8",
+   "rank": 8,
+   "score": 47,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 4,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "LaLiga discloses data breach exposing personal data of fans and affiliated club users",
+   "labels": {
+    "category": "breach",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "niche",
+    "platform": "other",
+    "vendor": "LaLiga",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "According to BleepingComputer, LaLiga, the organizer of Spain's top men's football league, has disclosed a data breach in which attackers obtained personal information of users of its services and of some affiliated clubs. The available reporting does not describe how the attackers got in, which systems were affected, how many people are impacted, or exactly which data fields were exposed.",
+    "why_it_matters": "This incident does not involve a product that defenders run, so there is nothing to patch or hunt for in Windows, M365 or edge-device telemetry. The main risk to most organizations is indirect: employees who hold LaLiga or club accounts may receive targeted phishing or face credential-reuse attempts that use the stolen personal data.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Alert users to expect phishing that uses LaLiga or football club branding, and remind them to report suspicious messages.",
+     "Encourage staff with LaLiga or club accounts to change those passwords and stop reusing them on corporate services.",
+     "Monitor for further LaLiga disclosures on the scope of the breach and the data types exposed, and reassess if credentials turn out to be included."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Spanish LaLiga confirms hackers stole soccer fans’ personal data",
+     "url": "https://www.bleepingcomputer.com/news/security/spanish-laliga-confirms-hackers-stole-soccer-fans-personal-data/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-23T18:38:40Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-9",
+   "rank": 9,
+   "score": 31,
+   "factors": {
+    "exploitation": 0,
+    "prevalence": 18,
+    "platform": 8,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 5,
+    "sources": 0,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0068,
+    "cvss_max": 9.2
+   },
+   "title": "FFmpeg 9.1 fixes five memory-corruption flaws, including a critical deband filter bug",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "none_known",
+    "prevalence": "widespread",
+    "platform": "linux_server",
+    "vendor": "FFmpeg",
+    "product": "FFmpeg"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-135736",
+     "cvss": 9.2,
+     "severity": "CRITICAL",
+     "products": [
+      "ffmpeg ffmpeg"
+     ],
+     "epss": 0.00681,
+     "percentile": 0.53179,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [
+      {
+       "url": "https://github.com/googlesky/CVE-2026-135736",
+       "name": "googlesky/CVE-2026-135736",
+       "stars": 0,
+       "created": "2026-11-24"
+      }
+     ],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-135722",
+     "cvss": 8.5,
+     "severity": "HIGH",
+     "products": [],
+     "epss": 0.00212,
+     "percentile": 0.11358,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [
+      {
+       "url": "https://github.com/googlesky/CVE-2026-135722",
+       "name": "googlesky/CVE-2026-135722",
+       "stars": 0,
+       "created": "2026-11-24"
+      },
+      {
+       "url": "https://github.com/cveForge/CVE-2026-135722",
+       "name": "cveForge/CVE-2026-135722",
+       "stars": 0,
+       "created": "2026-11-24"
+      }
+     ],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-135723",
+     "cvss": 7.3,
+     "severity": "HIGH",
+     "products": [
+      "ffmpeg ffmpeg"
+     ],
+     "epss": 0.00165,
+     "percentile": 0.05626,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [
+      {
+       "url": "https://github.com/googlesky/CVE-2026-135723",
+       "name": "googlesky/CVE-2026-135723",
+       "stars": 0,
+       "created": "2026-11-24"
+      }
+     ],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-135739",
+     "cvss": 8.3,
+     "severity": "HIGH",
+     "products": [
+      "ffmpeg ffmpeg"
+     ],
+     "epss": 0.00482,
+     "percentile": 0.42108,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [
+      {
+       "url": "https://github.com/googlesky/CVE-2026-135739",
+       "name": "googlesky/CVE-2026-135739",
+       "stars": 0,
+       "created": "2026-11-24"
+      }
+     ],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-135740",
+     "cvss": 8.5,
+     "severity": "HIGH",
+     "products": [
+      "ffmpeg ffmpeg"
+     ],
+     "epss": 0.00196,
+     "percentile": 0.0919,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "NVD published five FFmpeg CVEs on 24 November 2026, all fixed in FFmpeg 9.1. The most severe, CVE-2026-135736 (CVSS 9.2), is a heap out-of-bounds read and write in the deband filter. NVD says it can be triggered by a runtime command sent through sendcmd or an unauthenticated zmq filter, and may lead to a crash or code execution. The other four are a heap overflow in the WAV muxer from zero-channel audio (CVE-2026-135722), a double free in the IMF Composition Playlist parser (CVE-2026-135723), an out-of-bounds read in the scale filter reachable through sendcmd, zmq or azmq commands (CVE-2026-135739), and a heap out-of-bounds write in the readeia608 filter from crafted high bit depth video (CVE-2026-135740).",
+    "why_it_matters": "FFmpeg is embedded in many media-processing servers, transcoding pipelines, upload handlers and desktop applications. Any service that processes untrusted media, or exposes a zmq or azmq filter control socket, can be made to crash and possibly run attacker code. No exploitation is known, none of the CVEs are in CISA KEV, and EPSS scores are low (0.2% to 0.7%). However, public proof-of-concept code reportedly exists for four of the five CVEs, so patching should not wait for the normal cycle on internet-facing media pipelines.",
+    "affected_versions": [
+     "FFmpeg 4.4 before 9.1 (CVE-2026-135736)",
+     "FFmpeg before 9.1 (CVE-2026-135722, CVE-2026-135723, CVE-2026-135740)",
+     "FFmpeg 7.1 before 9.1 (CVE-2026-135739)"
+    ],
+    "fixed_versions": [
+     "FFmpeg 9.1"
+    ],
+    "recommended_actions": [
+     "Upgrade FFmpeg and its libraries (libavfilter, libavformat) to 9.1 or a distribution build carrying the fixes, starting with services that process untrusted uploads or streams.",
+     "Find FFmpeg pipelines that use zmq or azmq filters and either remove those filters or restrict their control sockets to localhost or trusted hosts, since NVD notes they accept commands without authentication.",
+     "Inventory applications that bundle their own FFmpeg or libav* libraries, because OS package updates will not patch them, and track the vendors' updates.",
+     "Run media transcoding in sandboxed, low-privilege containers and alert on repeated FFmpeg crashes, which may indicate attempts to trigger these bugs."
+    ],
+    "confidence": "high",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "CVE-2026-135722 (HIGH 8.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-135722",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-24T04:17:30.013Z"
+    },
+    {
+     "title": "CVE-2026-135723 (HIGH 7.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-135723",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-24T04:17:30.177Z"
+    },
+    {
+     "title": "CVE-2026-135736 (CRITICAL 9.2)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-135736",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-24T04:17:32.500Z"
+    },
+    {
+     "title": "CVE-2026-135739 (HIGH 8.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-135739",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-24T04:17:32.987Z"
+    },
+    {
+     "title": "CVE-2026-135740 (HIGH 8.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-135740",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-24T04:17:33.157Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Use Defender Vulnerability Management to list devices flagged for these CVEs, and note the FFmpeg versions installed.",
+     "Search process telemetry for ffmpeg command lines that use zmq, azmq or sendcmd filters, which expose the command-driven flaws in the deband and scale filters.",
+     "Identify ffmpeg processes that open listening sockets, and confirm whether those ports are reachable from untrusted networks.",
+     "Review crash events and abnormal ffmpeg terminations on media servers for clusters tied to specific uploaded files or streams.",
+     "Check for applications that ship bundled FFmpeg DLLs or shared libraries outside package-managed paths."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Devices with FFmpeg vulnerable to the 9.1-fixed CVEs",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where CveId in~ (\"CVE-2026-135736\",\"CVE-2026-135722\",\"CVE-2026-135723\",\"CVE-2026-135739\",\"CVE-2026-135740\") | project DeviceName, OSPlatform, SoftwareVendor, SoftwareName, SoftwareVersion, CveId, VulnerabilitySeverityLevel | order by DeviceName asc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 0,
+        "hits": 0,
+        "tables": [
+         "DeviceTvmSoftwareVulnerabilities"
+        ]
+       }
+      }
+     },
+     {
+      "title": "FFmpeg runs using zmq, azmq or sendcmd command filters",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where FileName in~ (\"ffmpeg\",\"ffmpeg.exe\",\"ffplay\",\"ffplay.exe\") or ProcessCommandLine has \"ffmpeg\" | where ProcessCommandLine has_any (\"zmq\",\"azmq\",\"sendcmd\") | project Timestamp, DeviceName, AccountName, FileName, ProcessCommandLine, InitiatingProcessFileName, InitiatingProcessCommandLine | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "FFmpeg processes opening listening sockets",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(30d) | where InitiatingProcessFileName in~ (\"ffmpeg\",\"ffmpeg.exe\") | where ActionType == \"ListeningConnectionCreated\" | summarize Count = count(), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by DeviceName, LocalIP, LocalPort, InitiatingProcessCommandLine | order by Count desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 300,
+        "hits": 0,
+        "tables": [
+         "DeviceNetworkEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-10",
+   "rank": 10,
+   "score": 29,
+   "factors": {
+    "exploitation": 0,
+    "prevalence": 4,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 5,
+    "sources": 0,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0252,
+    "cvss_max": 10.0
+   },
+   "title": "Critical command injection in TOTOLINK A7100RU router web handler, public PoC exists",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "none_known",
+    "prevalence": "niche",
+    "platform": "edge_device",
+    "vendor": "TOTOLINK",
+    "product": "A7100RU"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-134882",
+     "cvss": 10.0,
+     "severity": "CRITICAL",
+     "products": [],
+     "epss": 0.02524,
+     "percentile": 0.85166,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [
+      {
+       "url": "https://github.com/cveForge/CVE-2026-134882",
+       "name": "cveForge/CVE-2026-134882",
+       "stars": 0,
+       "created": "2026-11-24"
+      }
+     ],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "NVD has published CVE-2026-134882 (CVSS 10.0) for the TOTOLINK A7100RU router running firmware 7.4cu.2313_B20191024. According to NVD, the exportOvpn function in the CGI handler (/cgi-bin/cstecgi.cgi) fails to sanitize the Username argument, which allows remote OS command injection. The sources do not mention a vendor advisory or a fixed firmware release.",
+    "why_it_matters": "A successful attack gives an attacker command execution on the router, which they could use to intercept traffic, pivot into the internal network, or add the device to a botnet. Public proof-of-concept code exists and EPSS is 2.5%, but exploitation is not confirmed and the CVE is not in CISA KEV. Exposure in enterprise environments is likely limited to branch offices, remote workers or shadow IT, where this consumer router may appear.",
+    "affected_versions": [
+     "TOTOLINK A7100RU 7.4cu.2313_B20191024"
+    ],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory TOTOLINK A7100RU devices in offices, branches and home-office setups that are connected to corporate resources.",
+     "Block internet access to the router's web management interface, and restrict LAN-side management to trusted admin hosts.",
+     "Check TOTOLINK for updated firmware. If no fix is available, replace the device with a supported, managed router.",
+     "Treat traffic that comes through these routers as untrusted, and require VPN or Zero Trust access for corporate resources from home networks.",
+     "Watch for unusual outbound connections from router IP addresses, such as scanning or connections to unknown hosts."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "CVE-2026-134882 (CRITICAL 10.0)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-134882",
+     "source": "NVD",
+     "kind": "nvd",
+     "published": "2026-11-23T09:17:05.653Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Use Defender device discovery to list network devices that report TOTOLINK as the vendor or A7100RU as the model.",
+     "Confirm the firmware version on any devices you find, through the admin interface or asset records.",
+     "Check perimeter and firewall logs for inbound HTTP requests to /cgi-bin/cstecgi.cgi on any exposed management interface.",
+     "Review DeviceNetworkEvents for managed endpoints that connect to discovered router IPs on web management ports, and confirm each connection is expected administration.",
+     "Run external attack surface scans to confirm that no corporate-owned TOTOLINK management interface is reachable from the internet."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Discovered TOTOLINK network devices",
+      "kql": "DeviceInfo\n| where Timestamp > ago(30d)\n| where Vendor has \"TOTOLINK\" or Model has \"A7100RU\"\n| summarize arg_max(Timestamp, *) by DeviceId\n| project Timestamp, DeviceId, DeviceName, DeviceCategory, DeviceType, Vendor, Model, OSVersion, PublicIP",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 60,
+        "hits": 0,
+        "tables": [
+         "DeviceInfo"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Endpoint connections to discovered TOTOLINK devices on web ports",
+      "kql": "let routers = DeviceInfo\n| where Timestamp > ago(30d)\n| where Vendor has \"TOTOLINK\" or Model has \"A7100RU\"\n| join kind=inner (DeviceNetworkInfo | where Timestamp > ago(30d) | mv-expand ip = parse_json(IPAddresses) | extend RouterIP = tostring(ip.IPAddress)) on DeviceId\n| distinct RouterIP;\nDeviceNetworkEvents\n| where Timestamp > ago(14d)\n| where RemoteIP in (routers) and RemotePort in (80, 443, 8080, 8443)\n| summarize Connections = count(), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by DeviceName, InitiatingProcessFileName, RemoteIP, RemotePort",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 370,
+        "hits": 0,
+        "tables": [
+         "DeviceNetworkEvents",
+         "DeviceInfo",
+         "DeviceNetworkInfo"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  }
+ ],
+ "more_stories": [
+  {
+   "title": "SANS ISC reports scanning from 109.160.32.0/24, mostly against SSH",
+   "score": 19,
+   "cves": [],
+   "sources": [
+    {
+     "title": "Scanning from Subnet 109.160.32.0/24, (Mon, Nov 23rd)",
+     "url": "https://isc.sans.edu/diary/rss/33550",
+     "source": "SANS ISC"
+    }
+   ]
+  },
+  {
+   "title": "OpenRouter removes three AI providers after leaked prompts and secrets",
+   "score": 15,
+   "cves": [],
+   "sources": [
+    {
+     "title": "OpenRouter drops AI providers over leaked prompts and secrets",
+     "url": "https://www.bleepingcomputer.com/news/security/openrouter-drops-ai-providers-over-leaked-prompts-and-secrets/",
+     "source": "BleepingComputer"
+    }
+   ]
+  },
+  {
+   "title": "Wing FTP Server before 8.2.8 predictable session IDs allow admin session hijack",
+   "score": 9,
+   "cves": [
+    "CVE-2026-135171"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-135171 (CRITICAL 9.2)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-135171",
+     "source": "NVD"
+    }
+   ]
+  }
+ ],
+ "kev_new": [
+  {
+   "cve": "CVE-2026-133968",
+   "vendor": "Project MONAI",
+   "product": "MONAI Label",
+   "name": "Project MONAI MONAI Label Path Traversal Vulnerability",
+   "date_added": "2026-11-23",
+   "due_date": "2026-11-26",
+   "ransomware": "Unknown",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-133968"
+  },
+  {
+   "cve": "CVE-2026-134624",
+   "vendor": "N-able",
+   "product": "MailAssure",
+   "name": "N-able MailAssure (SpamExperts) Server-Side Request Forgery (SSRF) Vulnerability",
+   "date_added": "2026-11-23",
+   "due_date": "2026-11-26",
+   "ransomware": "Unknown",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-134624"
+  }
+ ],
+ "early_signals": [],
+ "explainer": {
+  "concept": "ClickFix: when the user runs the attacker's command for them",
+  "dek": "ClickFix is a social engineering technique in which a web page persuades a user to copy a command and run it themselves, usually through the Windows Run dialog or a terminal, so the attacker never has to deliver a file.",
+  "why_today": "Huntress's recap of ClickFix lures, fake verification pages and payloads is today's top story. Knowing where the technique leaves traces is what lets you hunt for it in Defender XDR and Sentinel.",
+  "related_story_ids": [
+   "story-1"
+  ],
+  "parts": [
+   {
+    "heading": "How the lure works",
+    "paragraphs": [
+     "A ClickFix page imitates something users trust: a CAPTCHA or human verification check, a browser or document error, or a meeting app that claims a missing component. When the user clicks the button, script on the page silently places a command on the clipboard. The page then tells the user to press a key combination such as Windows+R, paste with Ctrl+V and press Enter, describing it as a verification or repair step.",
+     "Because the user runs the command, the attack avoids many controls that inspect downloads and attachments. No file is saved from the browser and there is no macro or exploit, and the first process runs in the user's own context. Variants use the Windows+X terminal, the File Explorer address bar, or the macOS Terminal, so blocking one input path does not end the technique. MITRE ATT&CK tracks this behaviour under User Execution as malicious copy and paste."
+    ]
+   },
+   {
+    "heading": "What the pasted command usually does",
+    "paragraphs": [
+     "The pasted text is typically a short one-liner that calls a built-in Windows binary to fetch and run a second stage. Common choices are powershell.exe with a download-and-execute pattern, mshta.exe pointed at a remote URL, cmd.exe chaining curl or bitsadmin, msiexec.exe installing a remote package, and rundll32.exe. Attackers often pad the command with spaces or a fake comment, such as a line claiming to be a verification ID, so that the visible part of the Run box looks harmless.",
+     "Reported payloads range from infostealers and loaders to remote access trojans and legitimate remote management tools. That range is why Huntress describes varied payloads. Detection should focus on the shared delivery step rather than on any one malware family."
+    ]
+   },
+   {
+    "heading": "What it looks like in telemetry",
+    "paragraphs": [
+     "A command typed or pasted into the Run dialog is launched by explorer.exe. In Defender XDR, DeviceProcessEvents will show explorer.exe as the initiating process of powershell.exe, mshta.exe, cmd.exe or similar, with a command line that contains a URL, an encoded block, or download functions. Legitimate users rarely launch these binaries with network arguments directly from the shell.",
+     "Windows also records Run dialog entries per user under the RunMRU key in the user's registry hive. In Defender XDR, DeviceRegistryEvents can surface new RunMRU values that contain powershell, mshta, curl, http or long obfuscated strings. Look next for a browser process holding a network connection shortly before the launch, for PowerShell script block logging (event 4104) showing the decoded second stage, and for new outbound connections from the spawned process."
+    ]
+   },
+   {
+    "heading": "How to prevent it",
+    "paragraphs": [
+     "Where users do not need the Run dialog, Group Policy can remove it, and AppLocker or Windows Defender Application Control can block mshta.exe and limit script hosts for standard users. Attack surface reduction rules, such as the one that blocks potentially obfuscated scripts, add another layer. Their effect on a given ClickFix chain depends on the binaries it uses, so test them against your own environment. PowerShell Constrained Language Mode limits what an interactive one-liner can do.",
+     "User awareness still matters because the technique depends on the user's cooperation. The message is simple: no legitimate website or CAPTCHA will ever ask you to paste anything into Run, a terminal or the address bar. Make it easy for users to report a page that does."
+    ]
+   }
+  ],
+  "takeaways": [
+   "Hunt in DeviceProcessEvents for explorer.exe launching powershell.exe, mshta.exe, cmd.exe, msiexec.exe or rundll32.exe with URLs, encoded content or download functions on the command line, and turn the high-confidence hits into a custom detection.",
+   "Query DeviceRegistryEvents for new RunMRU values containing script hosts, http, curl or unusually long strings, which can reveal ClickFix executions that other telemetry missed.",
+   "Block mshta.exe for standard users with AppLocker or WDAC, and remove the Run dialog through Group Policy for user populations that do not need it.",
+   "Enable PowerShell script block logging and forward event 4104 to Sentinel, so the decoded second stage is visible when a pasted one-liner runs.",
+   "Add a specific warning to security awareness material that no CAPTCHA, browser fix or meeting app will ask users to paste commands into Run, a terminal or the File Explorer address bar."
+  ],
+  "unsupported_cves": [],
+  "model": "claude-opus-5-5"
+ },
+ "good_news": [],
+ "explainer_status": "ok",
+ "sources_status": {
+  "CISA KEV": "ok 2",
+  "NVD": "ok 20",
+  "BleepingComputer": "ok 5",
+  "The Record": "ok 0",
+  "The DFIR Report": "ok 0",
+  "Cisco Talos": "ok 0",
+  "Unit 42": "ok 0",
+  "Microsoft Security Blog": "ok 0",
+  "SANS ISC": "ok 2",
+  "Huntress": "ok 3",
+  "watchTowr Labs": "ok 0",
+  "Rapid7": "ok 0",
+  "SecurityWeek": "ok 2",
+  "Krebs on Security": "ok 0",
+  "CISA Advisories": "ok 1",
+  "MSRC Security Update Guide": "ok 10",
+  "Bluesky": "ok 0",
+  "Mastodon": "ok 0",
+  "r/netsec": "error FetchError: 404 https://www.reddit.com/r/netsec/new/.rss",
+  "Hacker News": "ok 3",
+  "SigmaHQ new rules": "ok 0",
+  "EPSS": "ok 36"
+ },
+ "stats": {
+  "items": {
+   "news": 12,
+   "advisory": 11,
+   "kev": 2,
+   "nvd": 20,
+   "social": 3,
+   "sigma": 0
+  },
+  "stories_found": 13,
+  "kql_parser": "available",
+  "receipts": {
+   "status": "ran",
+   "engine": "Kusto emulator 1.0.9810.23682",
+   "baseline_events": 1338,
+   "baseline_seed": 20261110
+  }
+ }
+}

@@ -12,6 +12,90 @@
  "language": "en-US",
  "items": [
   {
+   "id": "https://intel.brycemaxheimer.com/editions/2026-11-24/",
+   "url": "https://intel.brycemaxheimer.com/editions/2026-11-24/",
+   "title": "Daily Intel Brief: 2026-11-24",
+   "content_text": "1. Huntress details ClickFix lures, fake verification pages and varied payloads\n2. Microsoft says Azure API Management Classic tier flaw was exploited to steal stored API credentials\n3. N-able patches actively exploited MailAssure SSRF flaw; CISA adds CVE-2026-134624 to KEV\n4. CISA adds exploited MONAI Label path traversal flaw (CVE-2026-133968) to KEV\n5. KEPCO confirms breach of internal systems exposing data on about 1.5 million people\n6. Microsoft revises 10 existing CVE entries with acknowledgement-only changes; no new fixes\n7. GlobeTopper reports $2.5 million revenue loss after cyberattack; attacker redeemed $70,000 in gift cards\n8. LaLiga discloses data breach exposing personal data of fans and affiliated club users\n9. FFmpeg 9.1 fixes five memory-corruption flaws, including a critical deband filter bug\n10. Critical command injection in TOTOLINK A7100RU router web handler, public PoC exists\nNew KEV entries: CVE-2026-133968, CVE-2026-134624\nExplainer: ClickFix: when the user runs the attacker's command for them",
+   "date_published": "2026-11-24T20:42:31Z",
+   "_intel_brief": {
+    "data": "https://intel.brycemaxheimer.com/editions/2026-11-24/edition.json",
+    "stories": [
+     {
+      "title": "Huntress details ClickFix lures, fake verification pages and varied payloads",
+      "cves": [],
+      "score": 81
+     },
+     {
+      "title": "Microsoft says Azure API Management Classic tier flaw was exploited to steal stored API credentials",
+      "cves": [],
+      "score": 72
+     },
+     {
+      "title": "N-able patches actively exploited MailAssure SSRF flaw; CISA adds CVE-2026-134624 to KEV",
+      "cves": [
+       "CVE-2026-134624"
+      ],
+      "score": 65
+     },
+     {
+      "title": "CISA adds exploited MONAI Label path traversal flaw (CVE-2026-133968) to KEV",
+      "cves": [
+       "CVE-2026-133968",
+       "CVE-2026-134624"
+      ],
+      "score": 62
+     },
+     {
+      "title": "KEPCO confirms breach of internal systems exposing data on about 1.5 million people",
+      "cves": [],
+      "score": 51
+     },
+     {
+      "title": "Microsoft revises 10 existing CVE entries with acknowledgement-only changes; no new fixes",
+      "cves": [
+       "CVE-2026-69291",
+       "CVE-2026-78462",
+       "CVE-2026-72965",
+       "CVE-2026-87697",
+       "CVE-2026-70175",
+       "CVE-2026-70197"
+      ],
+      "score": 48
+     },
+     {
+      "title": "GlobeTopper reports $2.5 million revenue loss after cyberattack; attacker redeemed $70,000 in gift cards",
+      "cves": [],
+      "score": 47
+     },
+     {
+      "title": "LaLiga discloses data breach exposing personal data of fans and affiliated club users",
+      "cves": [],
+      "score": 47
+     },
+     {
+      "title": "FFmpeg 9.1 fixes five memory-corruption flaws, including a critical deband filter bug",
+      "cves": [
+       "CVE-2026-135736",
+       "CVE-2026-135722",
+       "CVE-2026-135723",
+       "CVE-2026-135739",
+       "CVE-2026-135740"
+      ],
+      "score": 31
+     },
+     {
+      "title": "Critical command injection in TOTOLINK A7100RU router web handler, public PoC exists",
+      "cves": [
+       "CVE-2026-134882"
+      ],
+      "score": 29
+     }
+    ],
+    "explainer": "ClickFix: when the user runs the attacker's command for them",
+    "good_news": []
+   }
+  },
+  {
    "id": "https://intel.brycemaxheimer.com/editions/2026-11-22/",
    "url": "https://intel.brycemaxheimer.com/editions/2026-11-22/",
    "title": "Daily Intel Brief: 2026-11-22",

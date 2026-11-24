@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>Daily Intel Brief</title><link>https://intel.brycemaxheimer.com/</link><description>Daily AI-generated threat-intel brief: top stories, new KEV entries, early signals and detections.</description><language>en-us</language><item><title>Daily Intel Brief: 2026-11-22</title><link>https://intel.brycemaxheimer.com/editions/2026-11-22/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-22/</guid><pubDate>Sun, 22 Nov 2026 17:48:14 +0000</pubDate><description>1. Microsoft reports Entra Connect Health flaw exploited to expose admin emails and tenant configuration
+<rss version="2.0"><channel><title>Daily Intel Brief</title><link>https://intel.brycemaxheimer.com/</link><description>Daily AI-generated threat-intel brief: top stories, new KEV entries, early signals and detections.</description><language>en-us</language><item><title>Daily Intel Brief: 2026-11-24</title><link>https://intel.brycemaxheimer.com/editions/2026-11-24/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-24/</guid><pubDate>Tue, 24 Nov 2026 20:42:31 +0000</pubDate><description>1. Huntress details ClickFix lures, fake verification pages and varied payloads
+2. Microsoft says Azure API Management Classic tier flaw was exploited to steal stored API credentials
+3. N-able patches actively exploited MailAssure SSRF flaw; CISA adds CVE-2026-134624 to KEV
+4. CISA adds exploited MONAI Label path traversal flaw (CVE-2026-133968) to KEV
+5. KEPCO confirms breach of internal systems exposing data on about 1.5 million people
+6. Microsoft revises 10 existing CVE entries with acknowledgement-only changes; no new fixes
+7. GlobeTopper reports $2.5 million revenue loss after cyberattack; attacker redeemed $70,000 in gift cards
+8. LaLiga discloses data breach exposing personal data of fans and affiliated club users
+9. FFmpeg 9.1 fixes five memory-corruption flaws, including a critical deband filter bug
+10. Critical command injection in TOTOLINK A7100RU router web handler, public PoC exists
+New KEV entries: CVE-2026-133968, CVE-2026-134624
+Explainer: ClickFix: when the user runs the attacker's command for them</description></item><item><title>Daily Intel Brief: 2026-11-22</title><link>https://intel.brycemaxheimer.com/editions/2026-11-22/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-22/</guid><pubDate>Sun, 22 Nov 2026 17:48:14 +0000</pubDate><description>1. Microsoft reports Entra Connect Health flaw exploited to expose admin emails and tenant configuration
 2. Rackspace Spot breach exposed Kubernetes secrets in customer clusters via compromised credentials
 3. Amazon says China-linked actor used AI agents to find and exploit a MONAI Label zero-day
 4. BADBOX ad-fraud botnet on generic Android TV boxes resumes at large scale
