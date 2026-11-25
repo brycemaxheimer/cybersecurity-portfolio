@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>Daily Intel Brief</title><link>https://intel.brycemaxheimer.com/</link><description>Daily AI-generated threat-intel brief: top stories, new KEV entries, early signals and detections.</description><language>en-us</language><item><title>Daily Intel Brief: 2026-11-24</title><link>https://intel.brycemaxheimer.com/editions/2026-11-24/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-24/</guid><pubDate>Tue, 24 Nov 2026 20:42:31 +0000</pubDate><description>1. Huntress details ClickFix lures, fake verification pages and varied payloads
+<rss version="2.0"><channel><title>Daily Intel Brief</title><link>https://intel.brycemaxheimer.com/</link><description>Daily AI-generated threat-intel brief: top stories, new KEV entries, early signals and detections.</description><language>en-us</language><item><title>Daily Intel Brief: 2026-11-25</title><link>https://intel.brycemaxheimer.com/editions/2026-11-25/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-25/</guid><pubDate>Wed, 25 Nov 2026 19:58:15 +0000</pubDate><description>1. CISA adds exploited Drupal Core, Idunno AntiCsrf and Optimizely Web Experimentation flaws to KEV
+2. VMware vCenter SRP authentication bypass (CVE-2026-123890) leads to root; CISA KEV lists it
+3. Check Point Security Management Servers compromised in campaign hitting 22 organizations
+4. Newly formed Inception extortion group runs large-scale vishing campaign against SSO credentials
+5. Rackspace shuts down Spot cloud platform after attackers accessed customer Kubernetes clusters
+6. Radware says exposed Cloud WAF management API let attackers obtain customer account details and cloud access keys
+7. Turnitin discloses unauthorized activity on certain customer-facing systems
+8. Unit 42 tracks intrusion campaigns run by autonomous AI agents
+9. Four command injection flaws in Panabit Smart Application Gateway TANGr7p10, no vendor fix
+10. Two command injection flaws in Volans NGFW r5.1 disclosed with no vendor response
+New KEV entries: CVE-2026-132224, CVE-2026-131914, CVE-2026-132165
+Explainer: Forged tokens from stolen signing keys: why one private key can be every admin
+Good news: Unit 42 publishes analysis and patch guidance for NGINX HTTP/2 use-after-free CVE-2026-123633
+Good news: Microsoft confirms Visio remote code execution flaw was fixed in November 2026 updates
+Good news: Schneider Electric provides remediations for EcoStruxure Power Build Rapsody memory flaws</description></item><item><title>Daily Intel Brief: 2026-11-24</title><link>https://intel.brycemaxheimer.com/editions/2026-11-24/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-24/</guid><pubDate>Tue, 24 Nov 2026 20:42:31 +0000</pubDate><description>1. Huntress details ClickFix lures, fake verification pages and varied payloads
 2. Microsoft says Azure API Management Classic tier flaw was exploited to steal stored API credentials
 3. N-able patches actively exploited MailAssure SSRF flaw; CISA adds CVE-2026-134624 to KEV
 4. CISA adds exploited MONAI Label path traversal flaw (CVE-2026-133968) to KEV
