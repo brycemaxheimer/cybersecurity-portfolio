@@ -1,0 +1,922 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Intel Brief: 25 November 2026</title>
+<meta name="description" content="Threat-intel brief for 25 November 2026: CISA adds exploited Drupal Core, Idunno AntiCsrf and Optimizely Web Experimentation flaws to KEV; VMware vCenter SRP authentication bypass (CVE-2026-123890) leads to root; CISA KEV lists it; Check Point Security Management Servers compromised in campaign hitting 22 organizations">
+<meta name="color-scheme" content="only light">
+<meta name="theme-color" content="#B3141B">
+<link rel="canonical" href="https://intel.brycemaxheimer.com/editions/2026-11-25/"><link rel="alternate" type="application/rss+xml" title="Daily Intel Brief (RSS)" href="https://intel.brycemaxheimer.com/feed.xml">
+<link rel="alternate" type="application/feed+json" title="Daily Intel Brief (JSON Feed)" href="https://intel.brycemaxheimer.com/feed.json">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="../../assets/fonts/LibreFranklin-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../assets/fonts/PlayfairDisplay-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="mast">
+  <div class="wrap mast-band">
+    <a class="brand" href="../../">Daily Intel Brief</a>
+<div class="mast-meta">
+  <p class="eyebrow">Wednesday edition</p>
+  <h1 id="edition-title">25 November 2026</h1>
+</div>
+  </div>
+  <div class="mast-bar">
+    <div class="wrap">
+      <nav aria-label="Site">
+        <a href="../../">Latest</a>
+        <a href="../../archive/">Archive</a>
+        <a href="https://intel.brycemaxheimer.com/feed.xml">RSS</a>
+        <a href="https://intel.brycemaxheimer.com/feed.json">JSON Feed</a>
+        <a href="../../methodology/">Methodology</a>
+      </nav>
+      <p class="mast-dek">Threat intelligence for teams defending Windows, Microsoft 365 and internet-facing edge devices.</p>
+    </div>
+  </div>
+</header>
+<div id="main" class="wrap">
+
+<div class="edition-strip">
+  <dl class="stats" aria-labelledby="edition-title">
+    <div><dd>10</dd><dt>Top stories</dt></div>
+    <div class="crit"><dd>3</dd><dt>New KEV entries</dt></div>
+    <div class="ai"><dd>0</dd><dt>Early signals</dt></div>
+    <div><dd>21<small>/22</small></dd><dt>Sources collected</dt></div>
+  </dl>
+  <section class="provenance" aria-label="How this edition was made">
+  <p><strong>How this edition was made.</strong>
+    Collected from 22 public sources between 24 Nov 05:00 and 25 Nov 05:00 UTC.
+Ranked by Claude Haiku 5.5, summarized by Claude Opus 5.5, and reviewed by a person before publishing.
+    Summaries can be wrong, so check the linked sources before acting. <a href="../../methodology/">Read the methodology</a></p>
+  </section>
+</div>
+
+<div class="layout">
+<main class="main">
+  <div class="section-head" id="stories">
+    <h2>Top stories</h2>
+    <span>Ranked by exploitation, reach and platform</span>
+  </div>
+
+  <article class="story lead-story" id="story-1" aria-labelledby="story-1-h">
+    <div class="story-top">
+      <div class="story-flags">
+        <div class="tags">
+<span class="tag crit-solid">Exploited</span>
+<span class="tag crit">In CISA KEV</span><span class="tag high">Public PoC</span><span class="tag info">Web app</span>        </div>
+        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span class="rank">No. 01</span> · Priority <b>71</b>
+        </div>
+      </div>
+      <h3 id="story-1-h">CISA adds exploited Drupal Core, Idunno AntiCsrf and Optimizely Web Experimentation flaws to KEV</h3>
+      <p class="meta">4 sources · first reported 24 November 2026</p>
+    </div>
+
+    <dl class="facts">
+      <div><dt>CVE</dt><dd><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-131914">CVE-2026-131914</a></dd></div>
+      <div><dt>CVSS</dt><dd><strong>9.3</strong> <span class="crit">Critical</span></dd></div>
+      <div><dt>EPSS</dt><dd><strong>4.3%</strong> <span class="muted">30-day</span></dd></div>
+      <div class="due"><dt>KEV deadline</dt><dd><strong class="crit">27 November 2026</strong></dd></div>
+      <div><dt>Public PoC</dt><dd><strong class="high">3 repos</strong></dd></div>
+    </dl>
+    <p class="related">Also: <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-132224">CVE-2026-132224</a> (KEV, due 27 Nov), <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-132165">CVE-2026-132165</a> (KEV, due 27 Nov)</p>
+
+    <div class="story-body">
+      <div class="cols2">
+        <section><h4 class="label">What happened</h4><p>On 24 November 2026 CISA added three vulnerabilities to its Known Exploited Vulnerabilities catalog, citing evidence of active exploitation. CISA describes CVE-2026-132165 as a Drupal Core flaw that can let an unauthenticated attacker abuse the installer (install.php) to reinstall Drupal under specific conditions, taking over the site or running arbitrary code. CVE-2026-131914 is an unauthenticated remote code execution flaw caused by unsafe deserialization in the Idunno AntiCsrf library, which CISA says may be end-of-life. The vulnerability data also lists this product as blowdart anticsrf. CVE-2026-132224 is a flaw in the Optimizely Web Experimentation account signup flow that CISA says lets attackers impersonate customer users, change Project JavaScript and serve malicious script to visitors of affected sites.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>All three are being exploited, and federal agencies must remediate by 27 November 2026. The AntiCsrf flaw is rated CVSS 9.3 (EPSS 4.3%) and the Drupal flaw has public proof-of-concept code, so any internet-facing Drupal site or .NET web app using AntiCsrf is a direct path to server compromise. The Optimizely issue is a hosted-service supply-chain risk: injected JavaScript can run in your users&#39; browsers without any change to your own servers.</p></section>
+      </div>
+      <div class="actions">
+        <h4 class="label">What to do</h4>
+        <ol class="steps"><li>Inventory internet-facing Drupal sites and apply the vendor&#39;s Drupal Core security update now. Until then, block external access to install.php and confirm the installer cannot run on production sites.</li><li>Find .NET applications that reference the Idunno or blowdart AntiCsrf package. Move to a supported version or remove the library, since CISA notes it may be end-of-life.</li><li>If you use Optimizely Web Experimentation, review Project JavaScript and recent account and user changes for unauthorized edits. Follow Optimizely&#39;s mitigation guidance.</li><li>On Drupal and IIS hosts, hunt for web server processes spawning shells and for unexpected changes to Drupal settings files, following CISA&#39;s forensic triage guidance.</li><li>Treat any confirmed exploitation as a full host compromise. Rotate database and application credentials on affected servers.</li></ol>
+      </div>
+    </div>
+
+    <div class="sources">
+      <h4 class="label">Sources</h4>
+      <ul>
+        <li><span class="pub">CISA Advisories</span><a href="https://www.cisa.gov/news-events/alerts/2026/11/24/cisa-adds-three-known-exploited-vulnerabilities-catalog" rel="noopener noreferrer nofollow">CISA Adds Three Known Exploited Vulnerabilities to Catalog</a><span class="where">cisa.gov · 24 Nov</span></li>
+        <li><span class="pub">CISA KEV</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-132224" rel="noopener noreferrer nofollow">CVE-2026-132224: Optimizely Web Experimentation External Control of Critical State Data Vulnerability</a><span class="where">nvd.nist.gov · 24 Nov</span></li>
+        <li><span class="pub">CISA KEV</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-131914" rel="noopener noreferrer nofollow">CVE-2026-131914: Idunno AntiCsrf Deserialization of Untrusted Data Vulnerability</a><span class="where">nvd.nist.gov · 24 Nov</span></li>
+        <li><span class="pub">CISA KEV</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-132165" rel="noopener noreferrer nofollow">CVE-2026-132165: Drupal Core Remote Code Execution Vulnerability</a><span class="where">nvd.nist.gov · 24 Nov</span></li>
+      </ul>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: high</p>    </div>
+
+    <details class="poc">
+      <summary>Public proof-of-concept repos (6)</summary>
+      <p class="warn">Links only, not vetted. Public PoC repos are often fake or backdoored. Don't run them on a work machine.</p>
+      <ul><li><a href="https://github.com/dinosn/cve-2026-131914-poc" rel="noopener noreferrer nofollow">dinosn/cve-2026-131914-poc</a> <span class="muted">CVE-2026-131914 · 7 stars · created 23 Nov</span></li><li><a href="https://github.com/l0lsec/CVE-2026-131914" rel="noopener noreferrer nofollow">l0lsec/CVE-2026-131914</a> <span class="muted">CVE-2026-131914 · 0 stars · created 24 Nov</span></li><li><a href="https://github.com/abraxas/cve-2026-131914-idunno-anticsrf-deserialization" rel="noopener noreferrer nofollow">abraxas/cve-2026-131914-idunno-anticsrf-deserialization</a> <span class="muted">CVE-2026-131914 · 0 stars · created 24 Nov</span></li><li><a href="https://github.com/abraxas/drupal-install-takeover" rel="noopener noreferrer nofollow">abraxas/drupal-install-takeover</a> <span class="muted">CVE-2026-132165 · 5 stars · created 20 Nov</span></li><li><a href="https://github.com/foxcornlab/drupal-installer-scanner" rel="noopener noreferrer nofollow">foxcornlab/drupal-installer-scanner</a> <span class="muted">CVE-2026-132165 · 0 stars · created 25 Nov</span></li><li><a href="https://github.com/malloryai/cve-2026-132165-drupal-installer-check" rel="noopener noreferrer nofollow">malloryai/cve-2026-132165-drupal-installer-check</a> <span class="muted">CVE-2026-132165 · 0 stars · created 25 Nov</span></li></ul>
+    </details>
+
+    <section class="detect" aria-label="Detection">
+      <div class="detect-head">
+        <div class="t">Detection
+<span class="tag ai">AI-generated · untested</span>        </div>
+        <span class="why">Hunting guidance</span>
+      </div>
+      <div class="tabs">
+        <input class="tab-input" type="radio" name="fmt-story-1" id="story-1-hunt" checked>
+        <label for="story-1-hunt">Hunting</label>
+        <div class="tab-panels">
+          <div class="tab-panel">
+<ol class="steps-plain"><li>Identify Drupal and .NET web servers exposed to the internet, and check vulnerability management data for the three CVEs.</li><li>Review web server logs for requests to install.php on Drupal sites since mid-November 2026, focusing on successful POST requests from external addresses.</li><li>Look for web server worker processes (w3wp, php, httpd, nginx) launching shells or reconnaissance tools.</li><li>Check Drupal settings.php files and site directories for unexpected creation or modification.</li><li>For Optimizely customers, audit Project JavaScript change history and newly added or changed users in the Optimizely account.</li></ol><div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Web server processes spawning shells or recon tools</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(14d) | where InitiatingProcessFileName in~ (&#34;w3wp.exe&#34;,&#34;php-cgi.exe&#34;,&#34;php.exe&#34;,&#34;httpd.exe&#34;,&#34;nginx.exe&#34;,&#34;php-fpm&#34;,&#34;apache2&#34;) | where FileName in~ (&#34;cmd.exe&#34;,&#34;powershell.exe&#34;,&#34;pwsh.exe&#34;,&#34;whoami.exe&#34;,&#34;certutil.exe&#34;,&#34;curl.exe&#34;,&#34;sh&#34;,&#34;bash&#34;,&#34;dash&#34;) | project Timestamp, DeviceName, InitiatingProcessFileName, InitiatingProcessCommandLine, FileName, ProcessCommandLine, AccountName</code></pre>
+</div>
+<p class="conv-note receipt">On 500 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Drupal settings.php created or modified</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceFileEvents | where Timestamp &gt; ago(14d) | where FileName =~ &#34;settings.php&#34; and FolderPath has &#34;sites&#34; | where ActionType in (&#34;FileCreated&#34;,&#34;FileModified&#34;) | project Timestamp, DeviceName, FolderPath, ActionType, InitiatingProcessFileName, InitiatingProcessCommandLine</code></pre>
+</div>
+<p class="conv-note receipt">On 150 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Devices exposed to the three KEV CVEs</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceTvmSoftwareVulnerabilities | where CveId in (&#34;CVE-2026-132165&#34;,&#34;CVE-2026-131914&#34;,&#34;CVE-2026-132224&#34;) | project DeviceName, OSPlatform, SoftwareVendor, SoftwareName, SoftwareVersion, CveId, VulnerabilitySeverityLevel</code></pre>
+</div>
+<p class="conv-note receipt">The synthetic baseline has no data for its tables. Not tested on real attack data.</p>
+          </div>
+        </div>
+      </div>
+<p class="notes">An AI-drafted Sigma rule failed validation and was dropped. </p>    </section>
+  </article>
+  <article class="story" id="story-2" aria-labelledby="story-2-h">
+    <div class="story-top">
+      <div class="story-flags">
+        <div class="tags">
+<span class="tag crit-solid">Exploited</span>
+<span class="tag crit">In CISA KEV</span><span class="tag high">Public PoC</span>        </div>
+        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span class="rank">No. 02</span> · Priority <b>64</b>
+        </div>
+      </div>
+      <h3 id="story-2-h">VMware vCenter SRP authentication bypass (<span class="nowrap">CVE-2026-123890</span>) leads to root; CISA KEV lists it</h3>
+      <p class="meta">VMware vCenter · 2 sources · first reported 24 November 2026</p>
+    </div>
+
+    <dl class="facts">
+      <div><dt>CVE</dt><dd><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-123890">CVE-2026-123890</a></dd></div>
+      <div><dt>CVSS</dt><dd><strong>9.8</strong> <span class="crit">Critical</span></dd></div>
+      <div><dt>EPSS</dt><dd><strong>5.0%</strong> <span class="muted">30-day</span></dd></div>
+      <div><dt>CISA KEV</dt><dd>Listed earlier</dd></div>
+      <div><dt>Public PoC</dt><dd><strong class="high">3 repos</strong></dd></div>
+    </dl>
+
+    <div class="story-body">
+      <div class="cols2">
+        <section><h4 class="label">What happened</h4><p>Rapid7 published an analysis of CVE-2026-123890, a critical (CVSS 9.8) flaw in the VMware vCenter directory service. An unauthenticated attacker who can reach DCE/RPC on TCP 2012 can obtain the session key of a login the attacker starts and complete it as an SSO administrator without the password. Rapid7 reproduced the bypass on vCenter Server Appliance 8.0.2.00400 and turned it into root command execution. The chain copied the directory database, took the STS signing key, forged an administrator session, created a local superAdmin account and enabled SSH. SecurityWeek reports that VMware has shipped updates fixing this vCenter bypass along with critical ESX code execution flaws, but the sources do not list fixed builds.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>vCenter controls the whole virtualization estate, including Windows servers and domain controllers running as VMs, and theft of the STS signing key lets an attacker forge trusted admin sessions even after the bypass is patched. The CVE is in CISA&#39;s KEV catalog (no due date given), public proof-of-concept code exists, and EPSS is 5.0%, so treat any vCenter with TCP 2012 reachable from untrusted networks as urgent.</p></section>
+      </div>
+      <div class="actions">
+        <h4 class="label">What to do</h4>
+        <ol class="steps"><li>Apply VMware&#39;s vCenter updates for CVE-2026-123890 now; take the fixed build numbers from VMware&#39;s advisory, because the sources do not state them.</li><li>Until patched, use firewall rules to block TCP 2012, 443 and 22 to vCenter from everything except dedicated admin hosts.</li><li>Check each vCenter appliance for compromise: unexpected local superAdmin or appliance accounts, SSH or Bash being enabled, and unexplained SSO administrator logins.</li><li>If compromise is suspected, treat the STS signing key and directory database as stolen. Rebuild or replace the STS certificates and rotate SSO, root and service account credentials according to VMware guidance.</li><li>Review the ESX vulnerabilities fixed in the same release and patch ESX hosts too.</li></ol>
+      <div class="cols2 versions">
+        <div><div class="k">Affected</div><ul><li>VMware vCenter Server (affected range not stated in the sources; Rapid7 reproduced on vCenter Server Appliance 8.0.2.00400, build 23929136)</li><li>VMware Cloud Foundation</li><li>VMware Telco Cloud Infrastructure</li><li>VMware Telco Cloud Platform</li></ul></div>
+        <div><div class="k">Fixed</div><span class="muted">Not stated in the sources</span></div>
+      </div>
+      </div>
+    </div>
+
+    <div class="sources">
+      <h4 class="label">Sources</h4>
+      <ul>
+        <li><span class="pub">Rapid7</span><a href="https://www.rapid7.com/blog/post/ra-rapid7-analysis-vmware-vcenter-srp-authentication-bypass-to-root-cve-2026-123890" rel="noopener noreferrer nofollow">Rapid7 Analysis: VMware vCenter SRP Authentication Bypass to Root (CVE-2026-123890)</a><span class="where">rapid7.com · 24 Nov</span></li>
+        <li><span class="pub">SecurityWeek</span><a href="https://www.securityweek.com/vmware-updates-patch-critical-esx-vcenter-vulnerabilities/" rel="noopener noreferrer nofollow">VMware Updates Patch Critical ESX, vCenter Vulnerabilities</a><span class="where">securityweek.com · 24 Nov</span></li>
+      </ul>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
+
+    <details class="poc">
+      <summary>Public proof-of-concept repos (3)</summary>
+      <p class="warn">Links only, not vetted. Public PoC repos are often fake or backdoored. Don't run them on a work machine.</p>
+      <ul><li><a href="https://github.com/dinosn/CVE-2026-123890" rel="noopener noreferrer nofollow">dinosn/CVE-2026-123890</a> <span class="muted">CVE-2026-123890 · 23 stars · created 23 Nov</span></li><li><a href="https://github.com/Sable-Research/CVE-2026-123890-Research" rel="noopener noreferrer nofollow">Sable-Research/CVE-2026-123890-Research</a> <span class="muted">CVE-2026-123890 · 2 stars · created 21 Nov</span></li><li><a href="https://github.com/Cyber-BansalAI/vmware-vcenter-2026" rel="noopener noreferrer nofollow">Cyber-BansalAI/vmware-vcenter-2026</a> <span class="muted">CVE-2026-123890 · 0 stars · created 19 Nov</span></li></ul>
+    </details>
+
+    <section class="detect" aria-label="Detection">
+      <div class="detect-head">
+        <div class="t">Detection
+<span class="tag ai">AI-generated · untested</span>        </div>
+        <span class="why">Hunting only: no endpoint behavior to write a rule against</span>
+      </div>
+      <div class="tabs">
+        <input class="tab-input" type="radio" name="fmt-story-2" id="story-2-hunt" checked>
+        <label for="story-2-hunt">Hunting</label>
+        <div class="tab-panels">
+          <div class="tab-panel">
+<ol class="steps-plain"><li>Inventory every vCenter Server, Cloud Foundation and Telco Cloud deployment and record its build number against VMware&#39;s advisory.</li><li>Use firewall and NetFlow logs to check which sources can reach vCenter on TCP 2012, and flag any traffic from the internet or from user subnets.</li><li>With Defender telemetry, look for managed endpoints opening TCP 2012 connections, which are unusual outside admin tooling.</li><li>On each vCenter, review appliance and SSO logs for newly created local accounts, SSH or Bash being turned on, and administrator sessions with no matching interactive login.</li><li>Look for SSH sessions to vCenter from unexpected sources, especially when SSH is normally disabled.</li><li>Escalate any hit as a possible full virtualization compromise and start credential and STS key rotation.</li></ol><div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Endpoints connecting to vCenter directory RPC port TCP 2012</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceNetworkEvents | where Timestamp &gt; ago(30d) | where RemotePort == 2012 and ActionType in (&#34;ConnectionSuccess&#34;, &#34;ConnectionAttempt&#34;) | summarize Connections = count(), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by DeviceName, InitiatingProcessFileName, RemoteIP | order by Connections desc</code></pre>
+</div>
+<p class="conv-note receipt">On 300 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Inbound connections to TCP 2012 on onboarded devices from public IPs</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceNetworkEvents | where Timestamp &gt; ago(30d) | where LocalPort == 2012 and ActionType == &#34;InboundConnectionAccepted&#34; | where RemoteIPType == &#34;Public&#34; | summarize Connections = count(), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by DeviceName, RemoteIP | order by Connections desc</code></pre>
+</div>
+<p class="conv-note receipt">On 300 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Devices flagged by Defender vulnerability management for CVE-2026-123890</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceTvmSoftwareVulnerabilities | where CveId == &#34;CVE-2026-123890&#34; | project DeviceName, OSPlatform, SoftwareVendor, SoftwareName, SoftwareVersion, VulnerabilitySeverityLevel, RecommendedSecurityUpdate</code></pre>
+</div>
+<p class="conv-note receipt">The synthetic baseline has no data for its tables. Not tested on real attack data.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </article>
+  <article class="story" id="story-3" aria-labelledby="story-3-h">
+    <div class="story-top">
+      <div class="story-flags">
+        <div class="tags">
+<span class="tag crit-solid">Exploited</span>
+<span class="tag">campaign</span>        </div>
+        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span class="rank">No. 03</span> · Priority <b>61</b>
+        </div>
+      </div>
+      <h3 id="story-3-h">Check Point Security Management Servers compromised in campaign hitting 22 organizations</h3>
+      <p class="meta">Check Point Security Management Server · 1 source · first reported 24 November 2026</p>
+    </div>
+
+
+    <div class="story-body">
+      <div class="cols2">
+        <section><h4 class="label">What happened</h4><p>BleepingComputer reported on 24 November 2026 that threat actors have compromised about two dozen Check Point Security Management Servers belonging to 22 organizations. According to the report, the attackers exploited multiple vulnerabilities, and the campaign is ongoing. The sources do not name the vulnerabilities, CVE identifiers, affected versions, patches or the threat actor.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>A management server controls firewall policy, VPN configuration and credentials for every gateway it manages, so a compromise can let attackers change security policy, open access paths or harvest secrets across the network edge. Exploitation is confirmed in the wild and still ongoing. With no vulnerabilities or fixes named yet, the main defenses for now are limiting exposure and checking for signs of compromise.</p></section>
+      </div>
+      <div class="actions">
+        <h4 class="label">What to do</h4>
+        <ol class="steps"><li>Confirm that no Check Point Security Management Server or its management ports are reachable from the internet. Restrict access to dedicated admin networks or jump hosts.</li><li>Watch Check Point advisories for the exploited vulnerabilities and apply hotfixes as soon as they are published.</li><li>Review management server audit logs for unexpected administrator logins, new or changed admin accounts, and policy or VPN configuration changes since early November 2026.</li><li>Rotate management administrator credentials and any secrets stored on or pushed from the management server if you see suspicious activity.</li><li>Look for unusual outbound connections from the management server and its gateways, and keep a forensic copy before rebuilding any server you suspect.</li></ol>
+      <div class="cols2 versions">
+        <div><div class="k">Affected</div><ul><li>Check Point Security Management Server (specific versions not stated)</li></ul></div>
+        <div><div class="k">Fixed</div><span class="muted">Not stated in the sources</span></div>
+      </div>
+      </div>
+    </div>
+
+    <div class="sources">
+      <h4 class="label">Sources</h4>
+      <ul>
+        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/hackers-compromise-check-point-servers-in-22-organizations/" rel="noopener noreferrer nofollow">Hackers compromise Check Point Servers in 22 organizations</a><span class="where">bleepingcomputer.com · 24 Nov</span></li>
+      </ul>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: low</p>    </div>
+
+
+    <section class="detect" aria-label="Detection">
+      <div class="detect-head">
+        <div class="t">Detection
+<span class="tag ai">AI-generated · untested</span>        </div>
+        <span class="why">Hunting only: no endpoint behavior to write a rule against</span>
+      </div>
+      <div class="tabs">
+        <input class="tab-input" type="radio" name="fmt-story-3" id="story-3-hunt" checked>
+        <label for="story-3-hunt">Hunting</label>
+        <div class="tab-panels">
+          <div class="tab-panel">
+<ol class="steps-plain"><li>Inventory every Check Point Security Management Server and Multi-Domain Server, and confirm with external scans which of them, if any, expose management services to the internet.</li><li>In SmartConsole audit logs and Gaia system logs, review administrator logins, focusing on source IPs outside your admin ranges and logins at unusual times.</li><li>Check for new administrator accounts, changed permission profiles, new SSH keys and changes to firewall or VPN policy that no change ticket explains.</li><li>From the management server and the gateways it manages, hunt for outbound connections to unfamiliar public IP addresses.</li><li>On Windows admin workstations that run SmartConsole, look for connections to management ports from unexpected hosts or users.</li></ol><div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Inbound public connections to Check Point management ports on onboarded hosts</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceNetworkEvents | where Timestamp &gt; ago(30d) | where ActionType == &#34;InboundConnectionAccepted&#34; | where LocalPort in (18190, 18191, 18192, 18264, 19009) | where RemoteIPType == &#34;Public&#34; | summarize Connections = count(), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by DeviceName, LocalPort, RemoteIP | order by Connections desc</code></pre>
+</div>
+<p class="conv-note receipt">On 300 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Workstations and users connecting to Check Point management ports</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceNetworkEvents | where Timestamp &gt; ago(30d) | where RemotePort in (18190, 18264, 19009) | summarize Connections = count(), Destinations = make_set(RemoteIP, 50) by DeviceName, InitiatingProcessFileName, InitiatingProcessAccountName | order by Connections desc</code></pre>
+</div>
+<p class="conv-note receipt">On 300 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </article>
+  <article class="story" id="story-4" aria-labelledby="story-4-h">
+    <div class="story-top">
+      <div class="story-flags">
+        <div class="tags">
+<span class="tag crit-solid">Exploited</span>
+<span class="tag info">Cloud / SaaS</span><span class="tag">campaign</span>        </div>
+        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span class="rank">No. 04</span> · Priority <b>59</b>
+        </div>
+      </div>
+      <h3 id="story-4-h">Newly formed Inception extortion group runs large-scale vishing campaign against SSO credentials</h3>
+      <p class="meta">1 source · first reported 24 November 2026</p>
+    </div>
+
+
+    <div class="story-body">
+      <div class="cols2">
+        <section><h4 class="label">What happened</h4><p>BleepingComputer reported on 24 November 2026 that a newly formed data extortion group calling itself Inception has been linked to a large-scale voice phishing (vishing) campaign. According to the report, the campaign targets single sign-on (SSO) credentials at multiple global brands and companies. The available reporting does not name the identity providers, the specific social engineering pretexts, the victims, or any indicators of compromise.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>SSO accounts give access to every application behind the identity provider, including Microsoft 365 and Entra ID-federated SaaS, so one phone call that captures a password and MFA approval can lead straight to data theft and extortion. Exploitation is confirmed in the wild, and no software patch applies; defenses depend on help desk procedures, phishing-resistant MFA and close monitoring of sign-ins and MFA changes. Because the sources give few technical details, defenders should hunt for generic vishing follow-on activity rather than specific indicators.</p></section>
+      </div>
+      <div class="actions">
+        <h4 class="label">What to do</h4>
+        <ol class="steps"><li>Brief the help desk and staff that callers posing as IT or the help desk may ask for SSO credentials, MFA codes or MFA resets, and require out-of-band identity verification before any password or MFA reset.</li><li>Enforce phishing-resistant MFA (FIDO2 or Windows Hello for Business) for privileged and high-value users and restrict who can register new MFA methods using Conditional Access, for example only from compliant devices or trusted locations.</li><li>Review recent MFA method registrations, password resets and new device enrollments, and confirm each was expected with the user.</li><li>Hunt for successful sign-ins from unfamiliar IP addresses or countries shortly after credential or MFA changes, and for bulk data access or downloads in SharePoint, OneDrive and other SSO-connected SaaS applications.</li><li>For any suspected compromise, revoke sessions and refresh tokens, reset credentials, and remove attacker-registered MFA methods and devices.</li></ol>
+      </div>
+    </div>
+
+    <div class="sources">
+      <h4 class="label">Sources</h4>
+      <ul>
+        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/new-inception-extortion-gang-launches-large-scale-vishing-campaign/" rel="noopener noreferrer nofollow">New Inception extortion gang launches large-scale vishing campaign</a><span class="where">bleepingcomputer.com · 24 Nov</span></li>
+      </ul>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: low</p>    </div>
+
+
+    <section class="detect" aria-label="Detection">
+      <div class="detect-head">
+        <div class="t">Detection
+<span class="tag ai">AI-generated · untested</span>        </div>
+        <span class="why">Hunting only: no endpoint behavior to write a rule against</span>
+      </div>
+      <div class="tabs">
+        <input class="tab-input" type="radio" name="fmt-story-4" id="story-4-hunt" checked>
+        <label for="story-4-hunt">Hunting</label>
+        <div class="tab-panels">
+          <div class="tab-panel">
+<ol class="steps-plain"><li>List MFA or security info registrations and changes from the last 14 days and confirm unexpected ones with the account owners, giving priority to changes made outside business hours or from new IP addresses.</li><li>For each account with a recent MFA or password change, review sign-ins in the following 24 hours for new IP addresses, countries or user agents.</li><li>Look for accounts with successful sign-ins from several distinct countries or IP addresses in a short period.</li><li>Check SSO-connected applications, especially SharePoint, OneDrive and Exchange Online, for unusually high download or file access volume by recently changed accounts.</li><li>Correlate any findings with help desk tickets and call logs to find possible social-engineered resets.</li></ol><div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Recent MFA / security info registrations and changes</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>CloudAppEvents | where Timestamp &gt; ago(14d) | where ActionType has_any (&#34;security info&#34;, &#34;StrongAuthentication&#34;, &#34;Reset user password&#34;, &#34;Register device&#34;) | project Timestamp, ActionType, AccountDisplayName, AccountObjectId, IPAddress, CountryCode, Application | order by Timestamp desc</code></pre>
+</div>
+<p class="conv-note receipt">On 30 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Accounts signing in successfully from multiple countries in a day</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>IdentityLogonEvents | where Timestamp &gt; ago(7d) | where ActionType == &#34;LogonSuccess&#34; | where isnotempty(Location) | summarize Countries = dcount(Location), CountryList = make_set(Location, 10), IPs = make_set(IPAddress, 20) by AccountUpn, bin(Timestamp, 1d) | where Countries &gt; 1 | order by Countries desc</code></pre>
+</div>
+<p class="conv-note receipt">The synthetic baseline has no data for its tables. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · High-volume file downloads in SharePoint/OneDrive per user</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>CloudAppEvents | where Timestamp &gt; ago(7d) | where Application in (&#34;Microsoft SharePoint Online&#34;, &#34;Microsoft OneDrive for Business&#34;) | where ActionType in (&#34;FileDownloaded&#34;, &#34;FileSyncDownloadedFull&#34;) | summarize Downloads = count(), IPs = make_set(IPAddress, 10) by AccountDisplayName, bin(Timestamp, 1h) | where Downloads &gt; 200 | order by Downloads desc</code></pre>
+</div>
+<p class="conv-note receipt">On 30 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </article>
+  <article class="story" id="story-5" aria-labelledby="story-5-h">
+    <div class="story-top">
+      <div class="story-flags">
+        <div class="tags">
+<span class="tag crit-solid">Exploited</span>
+<span class="tag info">Cloud / SaaS</span><span class="tag">breach</span>        </div>
+        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span class="rank">No. 05</span> · Priority <b>55</b>
+        </div>
+      </div>
+      <h3 id="story-5-h">Rackspace shuts down Spot cloud platform after attackers accessed customer Kubernetes clusters</h3>
+      <p class="meta">Rackspace Spot · 1 source · first reported 24 November 2026</p>
+    </div>
+
+
+    <div class="story-body">
+      <div class="cols2">
+        <section><h4 class="label">What happened</h4><p>According to BleepingComputer, Rackspace is shutting down its Rackspace Spot cloud platform after a security breach in which attackers gained access to customer Kubernetes clusters and secrets. Customers have until 8 December to migrate their services and download their data. The sources do not describe how the attackers got in, how many customers were affected, or which secrets were exposed.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>Any credentials, API keys, tokens or certificates stored as secrets in Rackspace Spot clusters should be treated as compromised. Those secrets may grant access to Entra ID applications, Microsoft 365, cloud storage or on-premises systems. The platform is niche, but the impact for affected customers is direct, and the migration deadline is short.</p></section>
+      </div>
+      <div class="actions">
+        <h4 class="label">What to do</h4>
+        <ol class="steps"><li>Check whether your organization or any supplier uses Rackspace Spot; if so, inventory every secret stored in those clusters.</li><li>Rotate all credentials, API keys, service principal secrets, tokens and certificates that were stored in Spot clusters, starting with those that reach identity providers and production systems.</li><li>Review sign-in and audit logs for any service principals or accounts whose secrets were stored in Spot, looking for use from unfamiliar IP addresses or at unusual times.</li><li>Migrate workloads and download data before the 8 December deadline, and rebuild workloads from trusted images rather than copying them from the possibly compromised clusters.</li><li>Follow Rackspace communications for indicators of compromise or details on the intrusion vector.</li></ol>
+      <div class="cols2 versions">
+        <div><div class="k">Affected</div><ul><li>Rackspace Spot (customer Kubernetes clusters and secrets)</li></ul></div>
+        <div><div class="k">Fixed</div><span class="muted">Not stated in the sources</span></div>
+      </div>
+      </div>
+    </div>
+
+    <div class="sources">
+      <h4 class="label">Sources</h4>
+      <ul>
+        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/rackspace-shuts-down-spot-cloud-platform-after-security-breach/" rel="noopener noreferrer nofollow">Rackspace shuts down Spot cloud platform after security breach</a><span class="where">bleepingcomputer.com · 24 Nov</span></li>
+      </ul>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
+
+
+    <section class="detect" aria-label="Detection">
+      <div class="detect-head">
+        <div class="t">Detection
+<span class="tag ai">AI-generated · untested</span>        </div>
+        <span class="why">Hunting only: no endpoint behavior to write a rule against</span>
+      </div>
+      <div class="tabs">
+        <input class="tab-input" type="radio" name="fmt-story-5" id="story-5-hunt" checked>
+        <label for="story-5-hunt">Hunting</label>
+        <div class="tab-panels">
+          <div class="tab-panel">
+<ol class="steps-plain"><li>Identify which applications, service principals and accounts had credentials stored as Kubernetes secrets in Rackspace Spot.</li><li>In Entra ID sign-in logs and CloudAppEvents, review activity by those identities since the earliest plausible exposure date, looking for new source IPs, new countries or unusual operations.</li><li>Look for changes made by those identities to credentials, roles or app consent, which could indicate persistence.</li><li>After rotation, confirm that the old credentials no longer succeed and alert on any failed attempts to use them.</li></ol><div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Cloud app activity by identities whose secrets may have been in Spot</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>let suspect_ids = dynamic([&#34;replace-with-app-or-account-object-ids&#34;]);
+CloudAppEvents
+| where Timestamp &gt; ago(30d)
+| where AccountObjectId in (suspect_ids) or tostring(RawEventData.AppId) in (suspect_ids)
+| summarize Events = count(), IPs = make_set(IPAddress, 50), Countries = make_set(CountryCode, 20), Actions = make_set(ActionType, 50) by AccountObjectId, AccountDisplayName, Application
+| order by Events desc</code></pre>
+</div>
+<p class="conv-note receipt">On 30 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Credential or role changes on service principals in the last 30 days</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>CloudAppEvents
+| where Timestamp &gt; ago(30d)
+| where ActionType has_any (&#34;Add service principal credentials&#34;, &#34;Update application&#34;, &#34;Add app role assignment&#34;, &#34;Consent to application&#34;)
+| project Timestamp, ActionType, AccountDisplayName, AccountObjectId, IPAddress, CountryCode, ObjectName
+| order by Timestamp desc</code></pre>
+</div>
+<p class="conv-note receipt">On 30 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </article>
+  <article class="story" id="story-6" aria-labelledby="story-6-h">
+    <div class="story-top">
+      <div class="story-flags">
+        <div class="tags">
+<span class="tag crit-solid">Exploited</span>
+<span class="tag info">Cloud / SaaS</span><span class="tag">breach</span>        </div>
+        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span class="rank">No. 06</span> · Priority <b>55</b>
+        </div>
+      </div>
+      <h3 id="story-6-h">Radware says exposed Cloud WAF management API let attackers obtain customer account details and cloud access keys</h3>
+      <p class="meta">Radware Cloud WAF management API · 1 source · first reported 24 November 2026</p>
+    </div>
+
+
+    <div class="story-body">
+      <div class="cols2">
+        <section><h4 class="label">What happened</h4><p>According to BleepingComputer, Radware has disclosed that attackers accessed some customers&#39; account details and cloud access keys. Radware attributes the breach to an unsecured internal Cloud WAF management API that had been left reachable from the internet. The report, published 24 November 2026, does not say how many customers were affected, which keys or cloud platforms were involved, or when the access happened.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>Organizations that use Radware Cloud WAF may hold credentials that attackers now have, and those keys can be used to change WAF policy or reach linked cloud resources without touching any endpoint. Radware confirms the access took place, so treat any Radware-related keys as compromised until Radware says otherwise. The current reporting rests on a single source and leaves out scope details, so confirm your own exposure directly with Radware.</p></section>
+      </div>
+      <div class="actions">
+        <h4 class="label">What to do</h4>
+        <ol class="steps"><li>Contact Radware to confirm whether your tenant&#39;s account details or access keys were among those exposed.</li><li>Rotate all API keys, access keys and credentials tied to Radware Cloud WAF. Revoke any cloud provider access keys that were ever shared with Radware.</li><li>Review Radware Cloud WAF audit logs for unexpected policy, origin, certificate or user changes. Check cloud provider logs for activity using the rotated keys.</li><li>Reset passwords and enforce MFA on Radware portal accounts, and watch for phishing that pretends to be Radware breach notifications.</li><li>Restrict any cloud credentials used by third-party security services to least privilege, and limit them to known source IP ranges where the provider supports it.</li></ol>
+      </div>
+    </div>
+
+    <div class="sources">
+      <h4 class="label">Sources</h4>
+      <ul>
+        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/radware-discloses-breach-exposing-customer-cloud-access-keys/" rel="noopener noreferrer nofollow">Radware discloses breach exposing customer cloud access keys</a><span class="where">bleepingcomputer.com · 24 Nov</span></li>
+      </ul>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
+
+
+    <section class="detect" aria-label="Detection">
+      <div class="detect-head">
+        <div class="t">Detection
+<span class="tag ai">AI-generated · untested</span>        </div>
+        <span class="why">Hunting only: no endpoint behavior to write a rule against</span>
+      </div>
+      <div class="tabs">
+        <input class="tab-input" type="radio" name="fmt-story-6" id="story-6-hunt" checked>
+        <label for="story-6-hunt">Hunting</label>
+        <div class="tab-panels">
+          <div class="tab-panel">
+<ol class="steps-plain"><li>Inventory every credential your organization has issued to Radware: Cloud WAF API keys, portal accounts, and any AWS, Azure or GCP keys used for integration.</li><li>Pull the Radware Cloud WAF audit trail for recent configuration changes, such as security policy relaxation, origin server changes, new users or new API tokens, and confirm each with its owner.</li><li>In cloud provider logs, search for calls made with Radware-associated access keys from unfamiliar IP addresses, regions or user agents, especially enumeration or IAM changes.</li><li>If Defender for Cloud Apps connects AWS, use CloudAppEvents to review activity tied to the integration identity and look for new IAM users or keys.</li><li>After rotation, confirm the old keys are disabled and that no failed or successful calls still use them.</li></ol><div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · AWS IAM and key changes seen via Defender for Cloud Apps</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>CloudAppEvents
+| where Timestamp &gt; ago(30d)
+| where Application == &#34;Amazon Web Services&#34;
+| where ActionType in~ (&#34;CreateAccessKey&#34;, &#34;CreateUser&#34;, &#34;AttachUserPolicy&#34;, &#34;PutUserPolicy&#34;, &#34;CreateLoginProfile&#34;, &#34;UpdateAccessKey&#34;)
+| project Timestamp, ActionType, AccountDisplayName, AccountObjectId, IPAddress, CountryCode, UserAgent
+| order by Timestamp desc</code></pre>
+</div>
+<p class="conv-note receipt">On 30 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · AWS activity from new countries by account in last 7 days</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>let baseline = CloudAppEvents
+| where Timestamp between (ago(37d) .. ago(7d))
+| where Application == &#34;Amazon Web Services&#34;
+| summarize KnownCountries = make_set(CountryCode) by AccountDisplayName;
+CloudAppEvents
+| where Timestamp &gt; ago(7d)
+| where Application == &#34;Amazon Web Services&#34;
+| join kind=leftouter baseline on AccountDisplayName
+| where isnull(KnownCountries) or not(set_has_element(KnownCountries, CountryCode))
+| summarize Events = count(), Actions = make_set(ActionType, 20), IPs = make_set(IPAddress, 20) by AccountDisplayName, CountryCode
+| order by Events desc</code></pre>
+</div>
+<p class="conv-note receipt">On 30 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </article>
+  <article class="story" id="story-7" aria-labelledby="story-7-h">
+    <div class="story-top">
+      <div class="story-flags">
+        <div class="tags">
+<span class="tag crit-solid">Exploited</span>
+<span class="tag info">Cloud / SaaS</span><span class="tag">breach</span>        </div>
+        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span class="rank">No. 07</span> · Priority <b>55</b>
+        </div>
+      </div>
+      <h3 id="story-7-h">Turnitin discloses unauthorized activity on certain customer-facing systems</h3>
+      <p class="meta">Turnitin  · 1 source · first reported 24 November 2026</p>
+    </div>
+
+
+    <div class="story-body">
+      <div class="cols2">
+        <section><h4 class="label">What happened</h4><p>According to BleepingComputer, Turnitin CEO Chris Caren said in a statement that the company recently detected unauthorized activity involving certain customer-facing systems. The available reporting does not say how the attacker got in, which systems or data were involved, when the activity began, or whether customer credentials or integrations were exposed. The sources name no CVE, malware or indicators.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>Many universities and schools connect Turnitin to learning management systems and single sign-on, so a compromise of its customer-facing systems could expose user data or integration secrets held by those organizations. With no technical details yet, the practical risk for defenders is follow-on phishing that uses Turnitin branding and possible misuse of integration credentials. Do nothing drastic now, but watch for further vendor disclosures.</p></section>
+      </div>
+      <div class="actions">
+        <h4 class="label">What to do</h4>
+        <ol class="steps"><li>Find out whether your organization uses Turnitin, and which identity and LMS integrations it relies on (SSO apps, LTI keys, API tokens).</li><li>Contact Turnitin for scoping details and any customer guidance, and follow vendor notifications as the investigation continues.</li><li>Rotate Turnitin API keys, LTI shared secrets or service account credentials if Turnitin confirms that integration data was exposed.</li><li>Warn users and help desk staff about phishing that uses Turnitin branding or refers to the incident.</li></ol>
+      </div>
+    </div>
+
+    <div class="sources">
+      <h4 class="label">Sources</h4>
+      <ul>
+        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/turnitin-discloses-cyberattack-affecting-customer-facing-systems/" rel="noopener noreferrer nofollow">Turnitin discloses cyberattack affecting customer-facing systems</a><span class="where">bleepingcomputer.com · 24 Nov</span></li>
+      </ul>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: low</p>    </div>
+
+
+  </article>
+  <article class="story" id="story-8" aria-labelledby="story-8-h">
+    <div class="story-top">
+      <div class="story-flags">
+        <div class="tags">
+<span class="tag crit-solid">Exploited</span>
+<span class="tag">research</span>        </div>
+        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span class="rank">No. 08</span> · Priority <b>51</b>
+        </div>
+      </div>
+      <h3 id="story-8-h">Unit 42 tracks intrusion campaigns run by autonomous AI agents</h3>
+      <p class="meta">1 source · first reported 24 November 2026</p>
+    </div>
+
+
+    <div class="story-body">
+      <div class="cols2">
+        <section><h4 class="label">What happened</h4><p>Unit 42 reports that it has tracked campaigns in which attackers used autonomous AI agents to automate intrusions across multiple platforms. According to Unit 42, the agents relied on standard tools but left distinctive operational traces. The available summary gives no victims, timeframes, specific tools, indicators or technical traces, so the scope and methods cannot be confirmed from this source alone.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>If Unit 42&#39;s findings hold, attackers can run intrusion steps faster and at greater scale, and much of that activity may look like ordinary administrative tool use on Windows, cloud and edge systems. No CVE, product or indicator is tied to this report, so defenders have nothing specific to patch or block yet. The practical value lies in the operational traces Unit 42 describes in its full write-up.</p></section>
+      </div>
+      <div class="actions">
+        <h4 class="label">What to do</h4>
+        <ol class="steps"><li>Read the full Unit 42 report and pull out any concrete behaviors, tools or indicators it documents for detection engineering.</li><li>Review existing detections for built-in and dual-use tool abuse (discovery commands, remote execution, credential access) to confirm they fire on activity that is fast and scripted, not only on manual operator activity.</li><li>Make sure alerting covers bursts of reconnaissance and lateral movement from a single account or host within short time windows, because automated agents tend to compress intrusion timelines.</li></ol>
+      </div>
+    </div>
+
+    <div class="sources">
+      <h4 class="label">Sources</h4>
+      <ul>
+        <li><span class="pub">Unit 42</span><a href="https://unit42.paloaltonetworks.com/autonomous-ai-agent-threat-campaigns/" rel="noopener noreferrer nofollow">Recent Trends and Tactics of Agentic AI Attacks</a><span class="where">unit42.paloaltonetworks.com · 24 Nov</span></li>
+      </ul>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: low</p>    </div>
+
+
+  </article>
+  <article class="story" id="story-9" aria-labelledby="story-9-h">
+    <div class="story-top">
+      <div class="story-flags">
+        <div class="tags">
+<span class="tag high">Public PoC</span><span class="tag info">Edge device</span>        </div>
+        <div class="priority high" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span class="rank">No. 09</span> · Priority <b>47</b>
+        </div>
+      </div>
+      <h3 id="story-9-h">Four command injection flaws in Panabit Smart Application Gateway TANGr7p10, no vendor fix</h3>
+      <p class="meta">Panabit Smart Application Gateway · 4 sources · first reported 24 November 2026</p>
+    </div>
+
+    <dl class="facts">
+      <div><dt>CVE</dt><dd><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-135792">CVE-2026-135792</a></dd></div>
+      <div><dt>CVSS</dt><dd><strong>9.3</strong> <span class="crit">Critical</span></dd></div>
+      <div><dt>EPSS</dt><dd><strong>2.3%</strong> <span class="muted">30-day</span></dd></div>
+      <div><dt>CISA KEV</dt><dd><span class="muted">Not listed</span></dd></div>
+      <div><dt>Public PoC</dt><dd>None known</dd></div>
+    </dl>
+    <p class="related">Also: <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-135790">CVE-2026-135790</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-135791">CVE-2026-135791</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-135794">CVE-2026-135794</a></p>
+
+    <div class="story-body">
+      <div class="cols2">
+        <section><h4 class="label">What happened</h4><p>NVD published four CVEs on 24 November 2026 for Panabit Smart Application Gateway TANGr7p10: OS command injection in the dashboard chart dump endpoint (CVE-2026-135790), the flow control pie chart function (CVE-2026-135791), and the email auth code sender in user.cgi through the Username argument (CVE-2026-135792, CVSS 9.3), plus code injection in the SAC crontab function through the cmd argument (CVE-2026-135794). According to the NVD descriptions, all four can be triggered remotely and exploit details are public. The disclosures say Panabit was contacted early and did not respond, and no patch is mentioned. Automated proof-of-concept tracking did not confirm public exploit code, so the sources disagree on how available working exploits are.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>Panabit gateways are niche outside China, but any exposed unit is an edge device where command injection means control of a traffic chokepoint. None of the CVEs are in CISA KEV, and EPSS is modest (0.6% to 2.3%). With public exploit details and no vendor fix, exposure reduction is the only real defense. CVE-2026-135792 sits in a user-facing authentication function, so it may be reachable without admin access, though the sources do not state whether authentication is required.</p></section>
+      </div>
+      <div class="actions">
+        <h4 class="label">What to do</h4>
+        <ol class="steps"><li>Inventory Panabit Smart Application Gateway devices, and confirm whether any web management or user portal interfaces are reachable from the internet.</li><li>Restrict management and portal access to trusted administrative networks or a VPN until Panabit releases a fix.</li><li>Review gateway web and system logs for requests to ajax_chart_dump, ajax_data_pie, user.cgi send_email_authcode and ajax_sac_crontab that contain shell metacharacters, and check for unexpected crontab entries.</li><li>Watch for unusual outbound connections from gateway management IPs, such as callbacks or downloads, that could indicate compromise.</li><li>Contact Panabit or your reseller for patch status, and consider replacing exposed units if no fix arrives.</li></ol>
+      <div class="cols2 versions">
+        <div><div class="k">Affected</div><ul><li>Panabit Smart Application Gateway TANGr7p10</li></ul></div>
+        <div><div class="k">Fixed</div><span class="muted">Not stated in the sources</span></div>
+      </div>
+      </div>
+    </div>
+
+    <div class="sources">
+      <h4 class="label">Sources</h4>
+      <ul>
+        <li><span class="pub">NVD</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-135790" rel="noopener noreferrer nofollow">CVE-2026-135790 (HIGH 8.6)</a><span class="where">nvd.nist.gov · 24 Nov</span></li>
+        <li><span class="pub">NVD</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-135791" rel="noopener noreferrer nofollow">CVE-2026-135791 (HIGH 8.6)</a><span class="where">nvd.nist.gov · 24 Nov</span></li>
+        <li><span class="pub">NVD</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-135792" rel="noopener noreferrer nofollow">CVE-2026-135792 (CRITICAL 9.3)</a><span class="where">nvd.nist.gov · 24 Nov</span></li>
+        <li><span class="pub">NVD</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-135794" rel="noopener noreferrer nofollow">CVE-2026-135794 (HIGH 8.6)</a><span class="where">nvd.nist.gov · 24 Nov</span></li>
+      </ul>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
+
+
+    <section class="detect" aria-label="Detection">
+      <div class="detect-head">
+        <div class="t">Detection
+<span class="tag ai">AI-generated · untested</span>        </div>
+        <span class="why">Hunting only: no endpoint behavior to write a rule against</span>
+      </div>
+      <div class="tabs">
+        <input class="tab-input" type="radio" name="fmt-story-9" id="story-9-hunt" checked>
+        <label for="story-9-hunt">Hunting</label>
+        <div class="tab-panels">
+          <div class="tab-panel">
+<ol class="steps-plain"><li>Identify Panabit gateways in asset inventories and external attack surface scans, and record their management IP addresses.</li><li>Check whether the gateway web interfaces are internet-facing, and restrict them if they are.</li><li>Search managed endpoints for browser or tool connections to the vulnerable CGI endpoints, to find admin workstations and any unexpected internal sources.</li><li>Pull the gateway&#39;s own web logs, if available, and look for vulnerable endpoint requests with characters such as semicolons, pipes, backticks or $( in parameters.</li><li>Inspect the device&#39;s scheduled tasks or crontab for entries an administrator did not create.</li><li>Review firewall logs for outbound connections that originate from gateway management addresses.</li></ol><div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Endpoint connections to vulnerable Panabit CGI endpoints</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceNetworkEvents | where Timestamp &gt; ago(30d) | where RemoteUrl has_any (&#34;ajax_chart_dump&#34;, &#34;ajax_data_pie&#34;, &#34;send_email_authcode&#34;, &#34;ajax_sac_crontab&#34;) | project Timestamp, DeviceName, InitiatingProcessFileName, InitiatingProcessAccountName, RemoteIP, RemotePort, RemoteUrl | order by Timestamp desc</code></pre>
+</div>
+<p class="conv-note receipt">On 300 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Command lines referencing Panabit vulnerable endpoints</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(30d) | where ProcessCommandLine has_any (&#34;ajax_chart_dump&#34;, &#34;ajax_data_pie&#34;, &#34;send_email_authcode&#34;, &#34;ajax_sac_crontab&#34;) | project Timestamp, DeviceName, AccountName, FileName, ProcessCommandLine, InitiatingProcessFileName | order by Timestamp desc</code></pre>
+</div>
+<p class="conv-note receipt">On 500 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </article>
+  <article class="story" id="story-10" aria-labelledby="story-10-h">
+    <div class="story-top">
+      <div class="story-flags">
+        <div class="tags">
+<span class="tag high">Public PoC</span><span class="tag info">Edge device</span>        </div>
+        <div class="priority high" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span class="rank">No. 10</span> · Priority <b>47</b>
+        </div>
+      </div>
+      <h3 id="story-10-h">Two command injection flaws in Volans NGFW r5.1 disclosed with no vendor response</h3>
+      <p class="meta">Volans NGFW · 2 sources · first reported 24 November 2026</p>
+    </div>
+
+    <dl class="facts">
+      <div><dt>CVE</dt><dd><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-135797">CVE-2026-135797</a></dd></div>
+      <div><dt>CVSS</dt><dd><strong>9.3</strong> <span class="crit">Critical</span></dd></div>
+      <div><dt>EPSS</dt><dd><strong>2.3%</strong> <span class="muted">30-day</span></dd></div>
+      <div><dt>CISA KEV</dt><dd><span class="muted">Not listed</span></dd></div>
+      <div><dt>Public PoC</dt><dd>None known</dd></div>
+    </dl>
+    <p class="related">Also: <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-135796">CVE-2026-135796</a></p>
+
+    <div class="story-body">
+      <div class="cols2">
+        <section><h4 class="label">What happened</h4><p>NVD published two OS command injection vulnerabilities in the Volans NGFW Next-Generation Firewall r5.1 on 24 November 2026. CVE-2026-135796 (CVSS 8.6) affects a port scan module in the Web Management UI, and CVE-2026-135797 (CVSS 9.3) affects the SSLVPN Client component. Both can be triggered remotely. According to NVD, exploit details have been publicly disclosed and the vendor did not respond when contacted before disclosure, so no fix is known.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>If you run Volans NGFW with the SSL VPN or management interface reachable from untrusted networks, an attacker could execute OS commands on the firewall and use it to reach internal systems. Neither CVE is in CISA KEV and EPSS is low (2.5% and 2.3%). The sources disagree on exploit availability: NVD says it is public, while separate tracking found no public proof-of-concept code. With no vendor patch, mitigation depends on reducing exposure.</p></section>
+      </div>
+      <div class="actions">
+        <h4 class="label">What to do</h4>
+        <ol class="steps"><li>Identify any Volans NGFW appliances in your estate, including those run by third parties or branch offices, and confirm their versions.</li><li>Restrict the Web Management UI to a dedicated management network or allowlisted administrator IPs, and never expose it to the internet.</li><li>If the SSL VPN is not required, disable it. If it is required, limit access by source IP where possible and plan to move to a supported VPN solution, since the vendor has not responded.</li><li>Review appliance logs for unusual requests to the SSL VPN client and management endpoints, unexpected configuration changes, and new administrator accounts.</li><li>Monitor traffic originating from the firewall itself for unexpected outbound connections or internal scanning, which could indicate compromise.</li></ol>
+      <div class="cols2 versions">
+        <div><div class="k">Affected</div><ul><li>Volans NGFW Next-Generation Firewall r5.1</li></ul></div>
+        <div><div class="k">Fixed</div><span class="muted">Not stated in the sources</span></div>
+      </div>
+      </div>
+    </div>
+
+    <div class="sources">
+      <h4 class="label">Sources</h4>
+      <ul>
+        <li><span class="pub">NVD</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-135796" rel="noopener noreferrer nofollow">CVE-2026-135796 (HIGH 8.6)</a><span class="where">nvd.nist.gov · 24 Nov</span></li>
+        <li><span class="pub">NVD</span><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-135797" rel="noopener noreferrer nofollow">CVE-2026-135797 (CRITICAL 9.3)</a><span class="where">nvd.nist.gov · 24 Nov</span></li>
+      </ul>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
+
+
+    <section class="detect" aria-label="Detection">
+      <div class="detect-head">
+        <div class="t">Detection
+<span class="tag ai">AI-generated · untested</span>        </div>
+        <span class="why">Hunting only: no endpoint behavior to write a rule against</span>
+      </div>
+      <div class="tabs">
+        <input class="tab-input" type="radio" name="fmt-story-10" id="story-10-hunt" checked>
+        <label for="story-10-hunt">Hunting</label>
+        <div class="tab-panels">
+          <div class="tab-panel">
+<ol class="steps-plain"><li>Inventory Volans NGFW appliances and record which ones expose the management UI or SSL VPN to the internet.</li><li>Check vulnerability management data for either CVE. Coverage for this niche vendor may be absent, so rely on the asset inventory as well.</li><li>In firewall and proxy logs, review requests to the SSL VPN client path and management UI from unfamiliar external sources.</li><li>Look for connections from firewall management or internal interface IPs to internal hosts on admin ports (SMB, RDP, WinRM, SSH) that do not match normal behavior.</li><li>If you suspect compromise, take a configuration backup, compare it against a known-good baseline, and rotate credentials stored on or authenticated through the device, such as VPN users and LDAP bind accounts.</li></ol><div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Devices with Volans NGFW CVEs in Defender vulnerability management</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceTvmSoftwareVulnerabilities | where CveId in (&#34;CVE-2026-135796&#34;, &#34;CVE-2026-135797&#34;) | project DeviceName, OSPlatform, SoftwareVendor, SoftwareName, SoftwareVersion, CveId, VulnerabilitySeverityLevel</code></pre>
+</div>
+<p class="conv-note receipt">The synthetic baseline has no data for its tables. Not tested on real attack data.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </article>
+
+  <section class="block" id="kev" aria-labelledby="h-kev">
+    <div class="section-head"><h2 id="h-kev">New CISA KEV entries</h2><span>Added 24 November 2026</span></div>
+    <div class="table-box">
+      <table class="tbl">
+        <thead><tr><th scope="col">CVE</th><th scope="col">Vendor / product</th><th scope="col">Vulnerability</th><th scope="col">Deadline</th><th scope="col">Ransomware use</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="cve nowrap"><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-132224">CVE-2026-132224</a></td>
+            <td>Optimizely Web Experimentation</td>
+            <td>Optimizely Web Experimentation External Control of Critical State Data Vulnerability</td>
+            <td class="nowrap"><strong class="due-soon">27 November 2026</strong><div class="sub">3 days after listing</div></td>
+            <td>Unknown</td>
+          </tr>
+          <tr>
+            <td class="cve nowrap"><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-131914">CVE-2026-131914</a></td>
+            <td>Idunno AntiCsrf</td>
+            <td>Idunno AntiCsrf Deserialization of Untrusted Data Vulnerability</td>
+            <td class="nowrap"><strong class="due-soon">27 November 2026</strong><div class="sub">3 days after listing</div></td>
+            <td>Unknown</td>
+          </tr>
+          <tr>
+            <td class="cve nowrap"><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-132165">CVE-2026-132165</a></td>
+            <td>Drupal Core</td>
+            <td>Drupal Core Remote Code Execution Vulnerability</td>
+            <td class="nowrap"><strong class="due-soon">27 November 2026</strong><div class="sub">3 days after listing</div></td>
+            <td>Unknown</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">From the <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog">CISA KEV catalog</a>. Deadlines bind US federal civilian agencies; treat them as the latest you should act.</p>
+  </section>
+
+  <section class="block" id="signals" aria-labelledby="h-signals">
+    <div class="section-head"><h2 id="h-signals">Early signals</h2><span>Counted by code, not AI</span></div>
+    <p class="lead">CVEs that several independent accounts posted about in the window but that are not in KEV or the news feeds yet. Counted from Bluesky, Mastodon (infosec.exchange), r/netsec and Hacker News after dropping CVE-feed bots and digest posts. Chatter is a lead, not confirmation.</p>
+    <p class="muted">No CVE crossed the threshold in this window.</p>
+  </section>
+
+  <section class="block explainer" id="explainer" aria-labelledby="h-explainer">
+    <div class="section-head"><h2 id="h-explainer">Explainer</h2><span>Background, not news</span></div>
+    <h3>Forged tokens from stolen signing keys: why one private key can be every admin</h3>
+    <p class="dek">When an identity service signs authentication tokens with a private key, anyone who steals that key can mint valid tokens for any user, with no password, MFA or login event.</p>
+<p class="why-today"><strong>Why today.</strong> Rapid7&#39;s vCenter chain did not stop at the authentication bypass: it copied the directory database, took the STS signing key and forged an administrator session. That last step explains why patching alone does not undo a compromise. See <a href="#story-2">story 2</a>.</p>    <div class="ex-body">
+<h4>How token signing works</h4><p>Federated and single sign-on systems do not re-check a password every time a user reaches a service. A token service authenticates the user once, then issues a signed assertion, such as a SAML token, saying who the user is and what groups they belong to. Relying services check the signature against a certificate they trust and accept the claims inside.</p><p>In vCenter, the vSphere SSO Secure Token Service (STS) issues these tokens, and its signing material lives in the VMware Directory Service. In Microsoft environments, AD FS signs SAML tokens with its token-signing certificate, and Entra ID trusts that certificate for federated domains. The design is the same in both: the signing key is the root of trust for every session.</p><h4>What an attacker gains</h4><p>With the private key, an attacker can write a token for any identity, including built-in administrators, add any group claims, and sign it so the relying service accepts it. This is the technique publicly described as Golden SAML. It was used against AD FS in the SolarWinds-era intrusions.</p><p>Forged tokens skip the identity provider&#39;s login. No password is checked, MFA is never prompted, and conditional checks that run at the identity provider may never fire. The key stays valid until it is replaced. Patching the bug that exposed it, or resetting user passwords, does not invalidate tokens the attacker can keep minting.</p><h4>What it looks like in telemetry</h4><p>The forged sign-in itself often looks normal to the relying service. Look for the gap instead: a session at the service with no matching authentication event at the token issuer. For AD FS-federated Entra ID tenants, that means federated sign-ins in Entra logs without corresponding AD FS token issuance events. Defender for Identity can also alert on suspicious reads of the AD FS key material in Active Directory.</p><p>On vCenter, the forged session is usually followed by noisier actions. Watch for new local SSO or superAdmin-type accounts, SSH or the shell being enabled on the appliance, unexpected access to or export of the directory database, and administrative logins from unfamiliar sources. Forward vCenter and appliance logs to Sentinel so these events survive an attacker with root.</p><h4>Recovery and prevention</h4><p>If a signing key may have been exposed, treat it as burned. Replace the STS signing certificate using VMware&#39;s documented certificate replacement procedure. For AD FS, Microsoft&#39;s compromise guidance calls for rolling the token-signing certificate twice, so the previous certificate cannot be reused. Then remove persistence the attacker created with their forged access.</p><p>Prevention means treating token issuers as tier-zero. Restrict network reach to their management and directory ports, limit who can log in, and monitor key access. Where it fits, reduce dependence on on-premises federation, for example by moving Entra ID domains from AD FS to cloud authentication.</p>    </div>
+    <div class="actions">
+      <h4 class="label">For defenders</h4>
+      <ol class="steps"><li>If any vCenter was reachable on TCP 2012 before patching for CVE-2026-123890, assume the STS signing key may be exposed. Replace it following VMware&#39;s guidance after patching.</li><li>Audit vCenter for SSO or local accounts created recently, SSH or shell enablement, and admin logins from unexpected hosts. Send those logs to Sentinel.</li><li>In Sentinel, correlate Entra ID federated sign-ins with AD FS token issuance events and alert on sign-ins that have no matching issuance.</li><li>Confirm Defender for Identity sensors are deployed on AD FS servers and review any alerts about AD FS key material access.</li><li>Inventory every system whose signing key can mint admin sessions, such as AD FS, vCenter STS and other SSO providers. Restrict network access to them as tier-zero assets.</li></ol>
+    </div>
+    <p class="ai-line">AI-generated explainer by Claude Opus 5.5 · from the model's background knowledge, not today's sources · check vendor documentation before acting on it</p>
+  </section>
+
+  <section class="block good-news" id="good-news" aria-labelledby="h-good-news">
+    <div class="section-head"><h2 id="h-good-news">Good news</h2><span>Wins for defenders</span></div>
+    <ol class="good">
+      <li>
+        <span class="tag ok">Research</span>
+        <h3>Unit 42 publishes analysis and patch guidance for NGINX HTTP/2 use-after-free <span class="nowrap">CVE-2026-123633</span></h3>
+        <p>Unit 42 published a technical analysis of CVE-2026-123633, a use-after-free flaw in NGINX&#39;s HTTP/2 handling. According to Unit 42, the write-up covers affected versions, sanitizer testing and patch guidance, giving defenders what they need to scope exposure and prioritize updates.</p>
+        <p class="where"><a href="https://unit42.paloaltonetworks.com/cve-2026-123633-nginx-http2-vulnerability/" rel="noopener noreferrer nofollow">Unit 42</a> · 24 Nov</p>
+      </li>
+      <li>
+        <span class="tag ok">Fix shipped</span>
+        <h3>Microsoft confirms Visio remote code execution flaw was fixed in November 2026 updates</h3>
+        <p>According to the MSRC Security Update Guide, CVE-2026-112732, a Microsoft Office Visio remote code execution vulnerability, was addressed by updates released in November 2026 but was left out of that month&#39;s security update listing. Microsoft says customers who have already installed the November 2026 updates need to take no further action.</p>
+        <p class="where"><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-112732" rel="noopener noreferrer nofollow">MSRC Security Update Guide</a> · 24 Nov</p>
+      </li>
+      <li>
+        <span class="tag ok">Fix shipped</span>
+        <h3>Schneider Electric provides remediations for EcoStruxure Power Build Rapsody memory flaws</h3>
+        <p>A CISA advisory says Schneider Electric has published remediations for a vulnerability in EcoStruxure Power Build Rapsody, its switchboard design software. According to the advisory, the flaw could cause memory corruption and heap- or stack-based buffer overflows if left unremediated.</p>
+        <p class="where"><a href="https://www.cisa.gov/news-events/ics-advisories/icsa-26-328-02" rel="noopener noreferrer nofollow">CISA Advisories</a> · 24 Nov</p>
+      </li>
+    </ol>
+    <p class="ai-line">AI-generated summaries by Claude Opus 5.5 of the linked sources</p>
+  </section>
+
+  <section class="block" id="radar" aria-labelledby="h-radar">
+    <div class="section-head"><h2 id="h-radar">Also on the radar</h2><span>Lower-ranked, links only</span></div>
+    <ul class="radar">
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-136136" rel="noopener noreferrer nofollow">Netis WF2409E authentication bypass CVE-2026-136136 with public exploit</a><span class="where">NVD · CVE-2026-136136</span></li>
+      <li><a href="https://www.bleepingcomputer.com/news/security/european-commission-confirms-data-theft-in-eu-academy-breach/" rel="noopener noreferrer nofollow">European Commission confirms data theft from EU Academy online learning hub breach</a><span class="where">BleepingComputer</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-135788" rel="noopener noreferrer nofollow">D-Link router command injection flaws with public exploit reported</a><span class="where">NVD · CVE-2026-135788, CVE-2026-135789</span></li>
+      <li><a href="https://www.bleepingcomputer.com/news/security/shinyhunters-resurfaces-after-fbi-arrests-uses-old-pgp-keys-as-proof/" rel="noopener noreferrer nofollow">ShinyHunters claims return after FBI arrests using old PGP keys as proof</a><span class="where">BleepingComputer</span></li>
+      <li><a href="https://www.securityweek.com/an-unclassified-cia-system-was-breached-in-a-cyberattack-ap-source-says/" rel="noopener noreferrer nofollow">Unclassified CIA system breached in cyberattack, according to AP source</a><span class="where">SecurityWeek</span></li>
+      <li><a href="https://therecord.media/mycolorado-app-down-data-breach" rel="noopener noreferrer nofollow">Colorado says cyberattack took down myColorado app and likely stole data of 150,000 users</a><span class="where">The Record</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-136411" rel="noopener noreferrer nofollow">BusyBox tftpd absolute path traversal allows reading and overwriting files as root</a><span class="where">NVD · CVE-2026-136411</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-136412" rel="noopener noreferrer nofollow">OpenResty stream-lua-nginx-module use-after-free can crash nginx workers</a><span class="where">NVD · CVE-2026-136412</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-136126" rel="noopener noreferrer nofollow">c-icap heap corruption via crafted ICAP request</a><span class="where">NVD · CVE-2026-136126</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-134642" rel="noopener noreferrer nofollow">Webmin fastrpc.cgi missing authentication allows file theft and root code execution</a><span class="where">NVD · CVE-2026-134642</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-123342" rel="noopener noreferrer nofollow">Adobe Campaign Classic critical code injection and SQL injection CVEs published</a><span class="where">NVD · CVE-2026-123342, CVE-2026-123986, CVE-2026-123987</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-117593" rel="noopener noreferrer nofollow">ITG VSRM critical password recovery, SQL injection and access control flaws published</a><span class="where">NVD · CVE-2026-117593, CVE-2026-119582, CVE-2026-119543</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-136132" rel="noopener noreferrer nofollow">Pangolin authentication bypass in path matching allows access to protected backends</a><span class="where">NVD · CVE-2026-136132</span></li>
+      <li><a href="https://www.cisa.gov/news-events/ics-advisories/icsa-26-328-03" rel="noopener noreferrer nofollow">Danfoss AK-SM 8xxA stack-based buffer overflow allows code execution with webserver privileges</a><span class="where">CISA Advisories · CVE-2026-129713</span></li>
+      <li><a href="https://www.cisa.gov/news-events/ics-advisories/icsa-26-328-01" rel="noopener noreferrer nofollow">AutomationDirect C-More EA9 heap overflow exploitable via malicious file</a><span class="where">CISA Advisories · CVE-2026-127280</span></li>
+    </ul>
+  </section>
+
+  <details class="status">
+    <summary>Collection status: 21 of 22 sources returned data</summary>
+    <ul><li><span class="">BleepingComputer</span> <span class="muted">ok 7</span></li><li><span class="">Bluesky</span> <span class="muted">ok 0</span></li><li><span class="">CISA Advisories</span> <span class="muted">ok 4</span></li><li><span class="">CISA KEV</span> <span class="muted">ok 3</span></li><li><span class="">Cisco Talos</span> <span class="muted">ok 0</span></li><li><span class="">EPSS</span> <span class="muted">ok 56</span></li><li><span class="">Hacker News</span> <span class="muted">ok 12</span></li><li><span class="">Huntress</span> <span class="muted">ok 0</span></li><li><span class="">Krebs on Security</span> <span class="muted">ok 0</span></li><li><span class="">Mastodon</span> <span class="muted">ok 0</span></li><li><span class="">Microsoft Security Blog</span> <span class="muted">ok 0</span></li><li><span class="">MSRC Security Update Guide</span> <span class="muted">ok 1</span></li><li><span class="">NVD</span> <span class="muted">ok 40</span></li><li><span class="bad">r/netsec</span> <span class="muted">error FetchError: 404 https://www.reddit.com/r/netsec/new/.rss</span></li><li><span class="">Rapid7</span> <span class="muted">ok 2</span></li><li><span class="">SANS ISC</span> <span class="muted">ok 1</span></li><li><span class="">SecurityWeek</span> <span class="muted">ok 2</span></li><li><span class="">SigmaHQ new rules</span> <span class="muted">ok 0</span></li><li><span class="">The DFIR Report</span> <span class="muted">ok 0</span></li><li><span class="">The Record</span> <span class="muted">ok 1</span></li><li><span class="">Unit 42</span> <span class="muted">ok 2</span></li><li><span class="">watchTowr Labs</span> <span class="muted">ok 0</span></li></ul>
+    <p>Data for this edition: <a href="../../editions/2026-11-25/edition.json">edition.json</a>. KQL parser: available.</p>
+  </details>
+</main>
+
+<aside class="rail" aria-label="Edition summary">
+  <section class="panel also">
+    <h2>Also today</h2>
+    <ol class="toc">
+      <li><b class="num crit">2</b><span><span class="tier crit">Exploited · KEV · PoC</span><a href="#story-2">VMware vCenter SRP authentication bypass (<span class="nowrap">CVE-2026-123890</span>) leads to root; CISA KEV lists it</a><span class="toc-warn"><b>3 public PoC repos.</b> Links only, not vetted. Public PoC repos are often fake or backdoored. Don't run them on a work machine.</span></span></li>
+      <li><b class="num crit">3</b><span><span class="tier crit">Exploited</span><a href="#story-3">Check Point Security Management Servers compromised in campaign hitting 22 organizations</a></span></li>
+      <li><b class="num crit">4</b><span><span class="tier crit">Exploited</span><a href="#story-4">Newly formed Inception extortion group runs large-scale vishing campaign against SSO credentials</a></span></li>
+      <li><b class="num crit">5</b><span><span class="tier crit">Exploited</span><a href="#story-5">Rackspace shuts down Spot cloud platform after attackers accessed customer Kubernetes clusters</a></span></li>
+      <li><b class="num crit">6</b><span><span class="tier crit">Exploited</span><a href="#story-6">Radware says exposed Cloud WAF management API let attackers obtain customer account details and cloud access keys</a></span></li>
+      <li><b class="num crit">7</b><span><span class="tier crit">Exploited</span><a href="#story-7">Turnitin discloses unauthorized activity on certain customer-facing systems</a></span></li>
+      <li><b class="num crit">8</b><span><span class="tier crit">Exploited</span><a href="#story-8">Unit 42 tracks intrusion campaigns run by autonomous AI agents</a></span></li>
+      <li><b class="num high">9</b><span><span class="tier high">High risk · PoC</span><a href="#story-9">Four command injection flaws in Panabit Smart Application Gateway TANGr7p10, no vendor fix</a></span></li>
+      <li><b class="num high">10</b><span><span class="tier high">High risk · PoC</span><a href="#story-10">Two command injection flaws in Volans NGFW r5.1 disclosed with no vendor response</a></span></li>
+    </ol>
+  </section>
+  <section class="panel kev">
+    <h2>KEV deadlines</h2>
+    <div class="kv"><a href="#kev">CVE-2026-132224</a><span class="due"><b class="crit">Due 27 Nov</b><small>3 days after listing</small></span></div>
+    <div class="kv"><a href="#kev">CVE-2026-131914</a><span class="due"><b class="crit">Due 27 Nov</b><small>3 days after listing</small></span></div>
+    <div class="kv"><a href="#kev">CVE-2026-132165</a><span class="due"><b class="crit">Due 27 Nov</b><small>3 days after listing</small></span></div>
+  </section>
+  <section class="panel learn">
+    <h2>Also in this edition</h2>
+<p><span class="k">Explainer</span><a href="#explainer">Forged tokens from stolen signing keys: why one private key can be every admin</a></p><p><span class="k">Good news</span><a href="#good-news">3 wins for defenders</a></p>  </section>
+  <section class="panel">
+    <h2>Collection</h2>
+    <div class="meter"><svg class="bar" viewBox="0 0 100 6" preserveAspectRatio="none" aria-hidden="true"><rect class="track" width="100" height="6" rx="3"/><rect class="fill" width="95" height="6" rx="3"/></svg><span class="mono">21/22</span></div>
+    <p>No data from r/netsec. 75 items collected.</p>
+  </section>
+  <section class="panel follow">
+    <h2>Follow the brief</h2>
+    <p>A new edition every morning, 07:15 US Eastern.</p>
+    <div class="btns"><a class="btn primary" href="https://intel.brycemaxheimer.com/feed.xml">RSS feed</a><a class="btn ghost" href="https://intel.brycemaxheimer.com/feed.json">JSON Feed</a></div>
+  </section>
+  <nav class="panel" aria-label="Other editions">
+    <h2>Other editions</h2>
+<div class="kv"><span>Older</span><a href="../../editions/2026-11-24/">24 November 2026</a></div>  </nav>
+</aside>
+</div>
+</div>
+<footer class="foot">
+  <div class="wrap">
+    <p>Summaries and detections are AI-generated and can be wrong. This site publishes summaries and links only, never copies of articles. Detections are labelled with their origin and are untested in your environment.</p>
+    <p>Maintained by Bryce Maxheimer · <a href="../../methodology/">Methodology</a> · <a href="../../archive/">Archive</a></p>
+  </div>
+</footer>
+</body>
+</html>

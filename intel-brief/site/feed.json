@@ -12,6 +12,88 @@
  "language": "en-US",
  "items": [
   {
+   "id": "https://intel.brycemaxheimer.com/editions/2026-11-25/",
+   "url": "https://intel.brycemaxheimer.com/editions/2026-11-25/",
+   "title": "Daily Intel Brief: 2026-11-25",
+   "content_text": "1. CISA adds exploited Drupal Core, Idunno AntiCsrf and Optimizely Web Experimentation flaws to KEV\n2. VMware vCenter SRP authentication bypass (CVE-2026-123890) leads to root; CISA KEV lists it\n3. Check Point Security Management Servers compromised in campaign hitting 22 organizations\n4. Newly formed Inception extortion group runs large-scale vishing campaign against SSO credentials\n5. Rackspace shuts down Spot cloud platform after attackers accessed customer Kubernetes clusters\n6. Radware says exposed Cloud WAF management API let attackers obtain customer account details and cloud access keys\n7. Turnitin discloses unauthorized activity on certain customer-facing systems\n8. Unit 42 tracks intrusion campaigns run by autonomous AI agents\n9. Four command injection flaws in Panabit Smart Application Gateway TANGr7p10, no vendor fix\n10. Two command injection flaws in Volans NGFW r5.1 disclosed with no vendor response\nNew KEV entries: CVE-2026-132224, CVE-2026-131914, CVE-2026-132165\nExplainer: Forged tokens from stolen signing keys: why one private key can be every admin\nGood news: Unit 42 publishes analysis and patch guidance for NGINX HTTP/2 use-after-free CVE-2026-123633\nGood news: Microsoft confirms Visio remote code execution flaw was fixed in November 2026 updates\nGood news: Schneider Electric provides remediations for EcoStruxure Power Build Rapsody memory flaws",
+   "date_published": "2026-11-25T19:58:15Z",
+   "_intel_brief": {
+    "data": "https://intel.brycemaxheimer.com/editions/2026-11-25/edition.json",
+    "stories": [
+     {
+      "title": "CISA adds exploited Drupal Core, Idunno AntiCsrf and Optimizely Web Experimentation flaws to KEV",
+      "cves": [
+       "CVE-2026-132224",
+       "CVE-2026-131914",
+       "CVE-2026-132165"
+      ],
+      "score": 71
+     },
+     {
+      "title": "VMware vCenter SRP authentication bypass (CVE-2026-123890) leads to root; CISA KEV lists it",
+      "cves": [
+       "CVE-2026-123890"
+      ],
+      "score": 64
+     },
+     {
+      "title": "Check Point Security Management Servers compromised in campaign hitting 22 organizations",
+      "cves": [],
+      "score": 61
+     },
+     {
+      "title": "Newly formed Inception extortion group runs large-scale vishing campaign against SSO credentials",
+      "cves": [],
+      "score": 59
+     },
+     {
+      "title": "Rackspace shuts down Spot cloud platform after attackers accessed customer Kubernetes clusters",
+      "cves": [],
+      "score": 55
+     },
+     {
+      "title": "Radware says exposed Cloud WAF management API let attackers obtain customer account details and cloud access keys",
+      "cves": [],
+      "score": 55
+     },
+     {
+      "title": "Turnitin discloses unauthorized activity on certain customer-facing systems",
+      "cves": [],
+      "score": 55
+     },
+     {
+      "title": "Unit 42 tracks intrusion campaigns run by autonomous AI agents",
+      "cves": [],
+      "score": 51
+     },
+     {
+      "title": "Four command injection flaws in Panabit Smart Application Gateway TANGr7p10, no vendor fix",
+      "cves": [
+       "CVE-2026-135790",
+       "CVE-2026-135791",
+       "CVE-2026-135792",
+       "CVE-2026-135794"
+      ],
+      "score": 47
+     },
+     {
+      "title": "Two command injection flaws in Volans NGFW r5.1 disclosed with no vendor response",
+      "cves": [
+       "CVE-2026-135796",
+       "CVE-2026-135797"
+      ],
+      "score": 47
+     }
+    ],
+    "explainer": "Forged tokens from stolen signing keys: why one private key can be every admin",
+    "good_news": [
+     "Unit 42 publishes analysis and patch guidance for NGINX HTTP/2 use-after-free CVE-2026-123633",
+     "Microsoft confirms Visio remote code execution flaw was fixed in November 2026 updates",
+     "Schneider Electric provides remediations for EcoStruxure Power Build Rapsody memory flaws"
+    ]
+   }
+  },
+  {
    "id": "https://intel.brycemaxheimer.com/editions/2026-11-24/",
    "url": "https://intel.brycemaxheimer.com/editions/2026-11-24/",
    "title": "Daily Intel Brief: 2026-11-24",
