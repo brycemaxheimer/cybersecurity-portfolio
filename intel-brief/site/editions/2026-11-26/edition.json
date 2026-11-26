@@ -1,0 +1,2128 @@
+{
+ "schema": 1,
+ "date": "2026-11-26",
+ "generated_at": "2026-11-26T19:37:29Z",
+ "generator": "intel-brief 0.1.0",
+ "models": {
+  "triage": "claude-haiku-5-5",
+  "writeup": "claude-opus-5-5",
+  "triage_method": "model"
+ },
+ "window": {
+  "since": "2026-11-25T05:00:00+00:00",
+  "until": "2026-11-26T05:00:00+00:00"
+ },
+ "stories": [
+  {
+   "id": "story-1",
+   "rank": 1,
+   "score": 74,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 4,
+    "platform": 20,
+    "new_kev": 10,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 0,
+    "chatter": 0,
+    "in_kev": true,
+    "epss_max": 0.0154,
+    "cvss_max": 0
+   },
+   "title": "CISA adds critical HPE Juniper Session Smart Router and Conductor command injection to KEV",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "niche",
+    "platform": "edge_device",
+    "vendor": "HPE Juniper",
+    "product": "Session Smart Conductor and Session Smart Router"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-103406",
+     "cvss": 9.8,
+     "severity": "CRITICAL",
+     "products": [
+      "juniper session smart conductor"
+     ],
+     "epss": 0.01535,
+     "percentile": 0.75157,
+     "in_kev": true,
+     "kev_due": "2026-11-28",
+     "poc": [
+      {
+       "url": "https://github.com/Sable-Research/CVE-2026-103406-Analysis",
+       "name": "Sable-Research/CVE-2026-103406-Analysis",
+       "stars": 1,
+       "created": "2026-11-25"
+      },
+      {
+       "url": "https://github.com/Frostmoon39206/CVE-2026-103406-PoC",
+       "name": "Frostmoon39206/CVE-2026-103406-PoC",
+       "stars": 0,
+       "created": "2026-11-25"
+      }
+     ],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "CISA added CVE-2026-103406 to its Known Exploited Vulnerabilities catalog on 25 November 2026, indicating confirmed exploitation in the wild. According to CISA, HPE Juniper Session Smart Conductor and Session Smart Router contain an OS command injection flaw. A remote attacker can use a specially crafted Salt minion ID to run arbitrary commands as root. The sources do not list affected or fixed versions, and CISA directs organizations to apply mitigations according to vendor instructions.",
+    "why_it_matters": "Session Smart Conductor manages fleets of SD-WAN routers, so root code execution there could give an attacker control over routing edge devices across many sites. The flaw is rated CVSS 9.8, public proof-of-concept code reportedly exists, and the KEV due date is 28 November 2026, only three days after it was listed. EPSS is low at 1.5%, but confirmed exploitation outweighs that score.",
+    "affected_versions": [
+     "HPE Juniper Session Smart Conductor (versions not stated)",
+     "HPE Juniper Session Smart Router (versions not stated)"
+    ],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory all Juniper Session Smart Conductor and Session Smart Router deployments and apply the HPE Juniper fix or mitigation for CVE-2026-103406 before 28 November 2026.",
+     "Restrict the Conductor's Salt management ports (TCP 4505 and 4506) and its management interfaces so only known router and administrator addresses can reach them, and never expose them to the internet.",
+     "Review the Conductor's list of accepted Salt minions and remove any unknown or oddly named minion IDs.",
+     "Follow CISA's forensics triage guidance on exposed Conductors: collect logs and look for unexpected root processes, new accounts, cron entries or SSH keys.",
+     "If you find signs of compromise, rotate the credentials and keys stored on the Conductor and managed routers, and rebuild from known-good images."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "CVE-2026-103406: Hewlett Packard Enterprise (HPE) Juniper Session Smart Conductor and Session Smart Router OS Command Injection Vulnerability",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-103406",
+     "source": "CISA KEV",
+     "kind": "kev",
+     "published": "2026-11-25T00:00:00Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Identify Session Smart Conductor and Router assets and confirm their software versions against the HPE Juniper advisory.",
+     "Check whether the Conductor's Salt ports (TCP 4505 and 4506) or management interfaces are reachable from the internet or from untrusted network segments.",
+     "In Defender XDR, look for connections from managed hosts to TCP 4505 or 4506 on addresses that are not your known Conductors. Separately, look for inbound connections to those ports on any onboarded Linux Conductor.",
+     "On the Conductor, review Salt master logs and the accepted minion keys for minion IDs that contain unusual characters or do not match known routers.",
+     "Review Conductor and router logs for unexpected root shells, outbound connections to unknown hosts, and configuration changes made around and after 25 November 2026."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Devices with CVE-2026-103406 per Defender vulnerability management",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where CveId == \"CVE-2026-103406\" | project DeviceName, OSPlatform, SoftwareVendor, SoftwareName, SoftwareVersion, VulnerabilitySeverityLevel, RecommendedSecurityUpdate",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 0,
+        "hits": 0,
+        "tables": [
+         "DeviceTvmSoftwareVulnerabilities"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Network activity on Salt master ports 4505/4506",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(30d) | where RemotePort in (4505, 4506) or LocalPort in (4505, 4506) | summarize Connections = count(), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by DeviceName, RemoteIP, RemotePort, LocalPort, ActionType, InitiatingProcessFileName | order by Connections desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 300,
+        "hits": 0,
+        "tables": [
+         "DeviceNetworkEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Shell activity spawned by Salt processes on onboarded Linux hosts",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where InitiatingProcessCommandLine has \"salt\" | where FileName in~ (\"sh\", \"bash\", \"dash\", \"curl\", \"wget\", \"nc\", \"python\", \"python3\") | project Timestamp, DeviceName, AccountName, FileName, ProcessCommandLine, InitiatingProcessFileName, InitiatingProcessCommandLine",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-2",
+   "rank": 2,
+   "score": 69,
+   "factors": {
+    "exploitation": 28,
+    "prevalence": 18,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Palo Alto Networks warns attackers are chaining PHP2Shell and Fragnesia flaws against PAN-OS",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "reported",
+    "prevalence": "widespread",
+    "platform": "edge_device",
+    "vendor": "Palo Alto Networks",
+    "product": "PAN-OS"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "According to BleepingComputer, Palo Alto Networks has warned that threat actors are chaining exploits for two vulnerabilities, named PHP2Shell and Fragnesia, to attack PAN-OS devices. The activity targets devices whose management interfaces are exposed to the internet. The available reporting gives no CVE identifiers, affected or fixed versions, or technical indicators, so check Palo Alto Networks' own advisory for those details.",
+    "why_it_matters": "PAN-OS firewalls and GlobalProtect gateways sit on the network perimeter, and a compromised management plane gives an attacker a foothold to pivot into internal Windows and identity infrastructure. Exploitation is reported as active. Any PAN-OS device with its management interface reachable from the internet should be treated as at risk until the vendor's fixes are confirmed applied.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Immediately remove internet access to PAN-OS management interfaces and restrict them to a dedicated management network or allowlisted administrator IPs.",
+     "Review Palo Alto Networks' security advisory for PHP2Shell and Fragnesia, identify the affected PAN-OS versions, and apply the vendor's fixed releases or mitigations as soon as possible.",
+     "Review PAN-OS system, configuration and management-plane logs for unexpected administrator logins, configuration changes, new accounts or unfamiliar files since at least early November 2026.",
+     "If compromise is suspected, rotate firewall administrator credentials, API keys and any secrets stored on the device, such as LDAP or RADIUS bind accounts, and follow the vendor's incident guidance.",
+     "Watch internal hosts for inbound connections that originate from firewall interface addresses, which may indicate an attacker pivoting from a compromised device."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Palo Alto Networks warns of Fragnesia flaw exploited in PAN-OS attacks",
+     "url": "https://www.bleepingcomputer.com/news/security/palo-alto-networks-warns-of-fragnesia-flaw-exploited-in-pan-os-attacks/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-25T22:05:09Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Inventory all PAN-OS devices and confirm whether any management interface, either the web UI or the API, is reachable from the internet.",
+     "Compare each device's PAN-OS version against the affected versions listed in the Palo Alto Networks advisory.",
+     "Pull PAN-OS system and configuration logs and look for administrator sessions from unknown source IPs, unexpected commits, and newly created admin accounts.",
+     "Check firewall traffic logs for outbound connections from the management interface to unfamiliar external hosts.",
+     "In Defender XDR, look for inbound remote-administration connections to internal hosts from firewall internal IP addresses, and for unusual activity by service accounts the firewall uses for LDAP or RADIUS lookups."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Inbound admin-protocol connections to endpoints from firewall IPs",
+      "kql": "let FirewallIPs = dynamic([]); // add your PAN-OS interface and management IPs\nDeviceNetworkEvents\n| where Timestamp > ago(30d)\n| where ActionType == \"InboundConnectionAccepted\"\n| where RemoteIP in (FirewallIPs)\n| where LocalPort in (22, 135, 445, 3389, 5985, 5986)\n| summarize Connections = count(), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by DeviceName, RemoteIP, LocalPort\n| order by Connections desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 300,
+        "hits": 0,
+        "tables": [
+         "DeviceNetworkEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Logons to endpoints originating from firewall IPs",
+      "kql": "let FirewallIPs = dynamic([]); // add your PAN-OS interface and management IPs\nDeviceLogonEvents\n| where Timestamp > ago(30d)\n| where RemoteIP in (FirewallIPs)\n| summarize Logons = count(), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by DeviceName, AccountDomain, AccountName, LogonType, ActionType, RemoteIP\n| order by LastSeen desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 80,
+        "hits": 0,
+        "tables": [
+         "DeviceLogonEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-3",
+   "rank": 3,
+   "score": 61,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 18,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Drupal security team confirms in-the-wild exploitation of critical RCE flaw in unpatched sites",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "widespread",
+    "platform": "web_app",
+    "vendor": "Drupal",
+    "product": "Drupal"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "According to BleepingComputer, the Drupal security team has confirmed that attackers are exploiting a critical vulnerability that allows them to take over unpatched Drupal sites. Exploitation has reportedly been under way since at least the Thursday before the 25 November 2026 report. The available reporting does not name a CVE, the affected Drupal core or module versions, or the fixed releases.",
+    "why_it_matters": "Internet-facing Drupal sites, including marketing sites, portals and intranets on Windows or Linux hosts, can be fully taken over, giving attackers a foothold for web shells, credential theft and lateral movement. Exploitation is confirmed and described as widespread, so any unpatched instance should be treated as possibly compromised.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory every Drupal instance you run, including forgotten or third-party hosted sites, and apply the fix from the Drupal security team's advisory immediately.",
+     "If you cannot patch right away, take exposed Drupal sites offline or restrict them behind a WAF or IP allowlist until they are updated.",
+     "Treat sites left unpatched since mid-November 2026 as potentially compromised: check for web server processes spawning shells and for new or modified PHP files in the web root.",
+     "Rotate the database credentials, the Drupal admin accounts and any secrets stored in the configuration of any site that shows signs of compromise.",
+     "Check the Drupal security advisories for the CVE, affected versions and any vendor indicators, since current reporting gives few details."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Hackers now exploit critical Drupal RCE flaw to hijack sites",
+     "url": "https://www.bleepingcomputer.com/news/security/hackers-now-exploit-critical-drupal-rce-flaw-to-hijack-sites/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-25T10:10:20Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Identify hosts running Drupal by searching for Drupal web root paths and PHP or web server processes on onboarded servers.",
+     "Hunt for web server or PHP processes spawning command shells, scripting engines or download utilities since mid-November 2026.",
+     "Look for PHP files created or modified in Drupal directories by the web server process, which may indicate web shells.",
+     "Review outbound network connections from web server processes to unusual external hosts.",
+     "Review web server access logs for unusual POST requests and errors around the time of any suspicious process activity, and escalate confirmed hits for incident response."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Web server or PHP processes spawning shells or download tools",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(14d) | where InitiatingProcessFileName in~ ('php','php-fpm','php-cgi','php-cgi.exe','php.exe','httpd','httpd.exe','apache2','nginx','nginx.exe','w3wp.exe') | where FileName in~ ('sh','bash','dash','cmd.exe','powershell.exe','pwsh.exe','curl','wget','curl.exe','certutil.exe','python','python3','perl','nc') | project Timestamp, DeviceName, AccountName, InitiatingProcessFileName, InitiatingProcessCommandLine, FileName, ProcessCommandLine | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "PHP files written in Drupal paths by web server processes",
+      "kql": "DeviceFileEvents | where Timestamp > ago(14d) | where ActionType in ('FileCreated','FileModified') | where FileName endswith '.php' or FileName endswith '.phtml' | where FolderPath has_any ('drupal','sites/default','sites\\\\default','modules','themes') | where InitiatingProcessFileName in~ ('php','php-fpm','php-cgi','php-cgi.exe','php.exe','httpd','httpd.exe','apache2','nginx','nginx.exe','w3wp.exe') | project Timestamp, DeviceName, FolderPath, FileName, InitiatingProcessFileName, InitiatingProcessCommandLine | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 150,
+        "hits": 0,
+        "tables": [
+         "DeviceFileEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Outbound connections from web server processes to public IPs",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(14d) | where InitiatingProcessFileName in~ ('php','php-fpm','php-cgi','php-cgi.exe','php.exe','httpd','httpd.exe','apache2','nginx','nginx.exe','w3wp.exe') | where RemoteIPType == 'Public' | summarize Connections = count(), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by DeviceName, InitiatingProcessFileName, RemoteIP, RemotePort, RemoteUrl | order by Connections asc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 300,
+        "hits": 0,
+        "tables": [
+         "DeviceNetworkEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-4",
+   "rank": 4,
+   "score": 61,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 18,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": true,
+    "epss_max": 0.0501,
+    "cvss_max": 0
+   },
+   "title": "Broadcom fixes critical vCenter directory service auth bypass CVE-2026-123903; public PoC validated",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "widespread",
+    "platform": "other",
+    "vendor": "Broadcom",
+    "product": "VMware vCenter"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-123903",
+     "cvss": 9.8,
+     "severity": "CRITICAL",
+     "products": [],
+     "epss": 0.00614,
+     "percentile": 0.4369,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [
+      {
+       "url": "https://github.com/dinosn/CVE-2026-123903",
+       "name": "dinosn/CVE-2026-123903",
+       "stars": 25,
+       "created": "2026-11-24"
+      },
+      {
+       "url": "https://github.com/Hann1bl3L3ct3r/CVE-2026-123903",
+       "name": "Hann1bl3L3ct3r/CVE-2026-123903",
+       "stars": 1,
+       "created": "2026-11-25"
+      }
+     ],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-123890",
+     "cvss": 9.8,
+     "severity": "CRITICAL",
+     "products": [
+      "vmware cloud foundation",
+      "vmware telco cloud infrastructure",
+      "vmware telco cloud platform",
+      "vmware vcenter server"
+     ],
+     "epss": 0.05009,
+     "percentile": 0.93017,
+     "in_kev": true,
+     "kev_due": null,
+     "poc": [
+      {
+       "url": "https://github.com/dinosn/CVE-2026-123890",
+       "name": "dinosn/CVE-2026-123890",
+       "stars": 25,
+       "created": "2026-11-23"
+      },
+      {
+       "url": "https://github.com/Sable-Research/CVE-2026-123890-Research",
+       "name": "Sable-Research/CVE-2026-123890-Research",
+       "stars": 2,
+       "created": "2026-11-21"
+      },
+      {
+       "url": "https://github.com/Cyber-BansalAI/vmware-vcenter-2026",
+       "name": "Cyber-BansalAI/vmware-vcenter-2026",
+       "stars": 0,
+       "created": "2026-11-19"
+      }
+     ],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-123904",
+     "cvss": 7.5,
+     "severity": "HIGH",
+     "products": [],
+     "epss": 0.00307,
+     "percentile": 0.15962,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-123905",
+     "cvss": 7.5,
+     "severity": "HIGH",
+     "products": [],
+     "epss": 0.00285,
+     "percentile": 0.13612,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-123906",
+     "cvss": null,
+     "severity": "",
+     "products": [],
+     "epss": 0.00285,
+     "percentile": 0.13611,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-123907",
+     "cvss": null,
+     "severity": "",
+     "products": [],
+     "epss": 0.00285,
+     "percentile": 0.13611,
+     "in_kev": false,
+     "kev_due": null,
+     "poc": [],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "On 24 November 2026 Broadcom published VMSA-2026-0011, which fixes CVE-2026-123903 (CVSS 9.8), an authentication bypass in the VMware Directory Service (vmdir) of vCenter that lets a network attacker reach vCenter without credentials over LDAP. The same advisory fixes several high and medium severity flaws (CVE-2026-123904 through CVE-2026-123909). Rapid7 says a public proof-of-concept exists and that it confirmed the bypass works, but it knows of no in-the-wild exploitation of this CVE as of 25 November 2026. Broadcom describes it as separate from CVE-2026-123890, an RPC-reachable vmdir bypass that has been exploited in the wild and is listed in CISA KEV.",
+    "why_it_matters": "vCenter controls the whole virtualization estate, including Windows servers and domain controllers running as VMs, so unauthenticated access is a direct path to mass impact such as ransomware deployment. Attackers are already targeting vmdir through CVE-2026-123890, and a working public PoC now exists for the LDAP variant (EPSS 0.6%, not in KEV). Broadcom lists no workaround and the updates cannot be applied through Quick Patch.",
+    "affected_versions": [
+     "VMware Cloud Foundation / VMware vSphere Foundation 9.1.x.x",
+     "VMware Cloud Foundation / VMware vSphere Foundation 9.0.x.x",
+     "VMware vCenter 8.0",
+     "VMware vCenter 7.0",
+     "VMware Cloud Foundation 5.x",
+     "VMware Telco Cloud Platform 3.0, 4.x, 5.0.x, 5.1.x, 5.2",
+     "VMware Telco Cloud Infrastructure 3.0"
+    ],
+    "fixed_versions": [
+     "VMware Cloud Foundation / vSphere Foundation 9.1.2",
+     "VMware Cloud Foundation / vSphere Foundation 9.0.2.0300",
+     "VMware vCenter 8.0 U3m (also fixes CVE-2026-123890; no further update needed if already installed)",
+     "VMware vCenter 7.0: contact Broadcom Support (extended-support customers)",
+     "VMware Cloud Foundation 5.2.5",
+     "VMware Telco Cloud Platform and Telco Cloud Infrastructure: KB463501"
+    ],
+    "recommended_actions": [
+     "Update vCenter and related VCF/vSphere Foundation deployments to the fixed versions outside the normal patch cycle; vCenter 8.0 should be on 8.0 U3m.",
+     "Confirm CVE-2026-123890 is also remediated, since it is exploited in the wild and in CISA KEV.",
+     "Restrict network access to vCenter management and directory service (LDAP and RPC) interfaces to dedicated admin networks and jump hosts only.",
+     "Review vCenter and SSO logs for logins, new SSO users or group changes, and VM power or snapshot operations that do not match change records.",
+     "For vCenter 7.0 extended-support customers, open a Broadcom Support case now and apply strict network isolation until patched."
+    ],
+    "confidence": "high",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "CVE-2026-123903: Critical VMware Directory Service Authentication Bypass affects vCenter",
+     "url": "https://www.rapid7.com/blog/post/etr-cve-2026-123903-critical-vmware-directory-service-authentication-bypass-affects-vcenter",
+     "source": "Rapid7",
+     "kind": "news",
+     "published": "2026-11-25T12:19:20Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Inventory all vCenter, VCF, vSphere Foundation and Telco Cloud instances and compare their builds to the fixed versions.",
+     "Use Defender vulnerability management to find any onboarded assets flagged for the VMSA-2026-0011 CVEs or CVE-2026-123890.",
+     "Identify which hosts communicate with vCenter over LDAP or LDAPS and flag any source outside the approved admin and infrastructure ranges.",
+     "On the vCenter appliance, review SSO and vmdir logs for unexpected binds, new accounts or privileged group changes since 24 November 2026.",
+     "Check for unexpected VM snapshots, VM exports, or bulk power-off operations, which commonly follow vCenter compromise."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Assets exposed to VMSA-2026-0011 and CVE-2026-123890",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where CveId in ('CVE-2026-123903','CVE-2026-123890','CVE-2026-123904','CVE-2026-123905','CVE-2026-123906','CVE-2026-123907','CVE-2026-123908','CVE-2026-123909') | summarize CVEs = make_set(CveId) by DeviceName, SoftwareVendor, SoftwareName, SoftwareVersion",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 0,
+        "hits": 0,
+        "tables": [
+         "DeviceTvmSoftwareVulnerabilities"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Endpoints making LDAP connections to vCenter appliances",
+      "kql": "let vCenterIPs = dynamic([]); // populate with your vCenter appliance IP addresses\nDeviceNetworkEvents\n| where Timestamp > ago(14d)\n| where RemoteIP in (vCenterIPs)\n| where RemotePort in (389, 636)\n| summarize Connections = count(), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by DeviceName, InitiatingProcessFileName, InitiatingProcessAccountName, RemoteIP, RemotePort\n| order by Connections desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 300,
+        "hits": 0,
+        "tables": [
+         "DeviceNetworkEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-5",
+   "rank": 5,
+   "score": 59,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 4,
+    "platform": 0,
+    "new_kev": 10,
+    "epss": 5,
+    "cvss": 0,
+    "sources": 0,
+    "chatter": 0,
+    "in_kev": true,
+    "epss_max": 0.3177,
+    "cvss_max": 0
+   },
+   "title": "CISA adds critical Xen Orchestra authentication bypass CVE-2026-133469 to KEV",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "niche",
+    "platform": "other",
+    "vendor": "Vates",
+    "product": "Xen Orchestra"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-133469",
+     "cvss": 9.8,
+     "severity": "CRITICAL",
+     "products": [
+      "xen-orchestra xen orchestra server",
+      "xen-orchestra xen orchestra"
+     ],
+     "epss": 0.31768,
+     "percentile": 0.987,
+     "in_kev": true,
+     "kev_due": "2026-11-28",
+     "poc": [
+      {
+       "url": "https://github.com/googlesky/CVE-2026-133469",
+       "name": "googlesky/CVE-2026-133469",
+       "stars": 0,
+       "created": "2026-11-23"
+      }
+     ],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "CISA added CVE-2026-133469, a flaw in Vates Xen Orchestra, to its Known Exploited Vulnerabilities catalog on 25 November 2026. According to CISA, Xen Orchestra does not properly validate the type of input in authentication tokens. An unauthenticated attacker can send a crafted token holding an empty JSON object to skip authentication and act with administrative privileges. The sources do not list affected or fixed versions, and no vendor advisory was available to confirm them.",
+    "why_it_matters": "Xen Orchestra is the management plane for XCP-ng and XenServer hypervisors, so an attacker with admin access can control, snapshot, export or destroy every virtual machine it manages, including domain controllers and other Windows servers. Exploitation is confirmed in the wild and public proof-of-concept code exists. The CVSS score is 9.8, EPSS is 31.8%, and the KEV due date is 28 November 2026, which leaves very little time to act.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Take every Xen Orchestra web interface off the internet now, and allow access only from a management VLAN or VPN.",
+     "Apply the update or mitigation in the Vates advisory by 28 November 2026. Check the advisory for the fixed version, because the sources do not state one.",
+     "Review Xen Orchestra audit logs and user lists for new admin accounts, new API tokens, VM exports, snapshots, console sessions or deletions you cannot explain, especially from external IP addresses.",
+     "If you find signs of compromise, rotate Xen Orchestra credentials, hypervisor pool credentials and any secrets stored in managed VMs, and follow CISA forensic triage guidance before rebuilding.",
+     "Check backup and replication jobs that Xen Orchestra controls for tampering, and confirm that offline backups are intact."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "CVE-2026-133469: Vates Xen Orchestra Improper Validation of Specified Type of Input Vulnerability",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-133469",
+     "source": "CISA KEV",
+     "kind": "kev",
+     "published": "2026-11-25T00:00:00Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Inventory all Xen Orchestra instances, including XOA appliances and self-built xo-server installs, and record their versions and network exposure.",
+     "Use Defender vulnerability management to find onboarded hosts flagged for CVE-2026-133469.",
+     "On Xen Orchestra hosts, look for inbound connections from public IP addresses to the web service ports (80 and 443) accepted by the Node.js process.",
+     "Review the Xen Orchestra audit log for administrative actions or new users and tokens that do not match change records, focusing on activity since mid-November 2026.",
+     "On the hypervisors, check for unexpected VM exports, snapshots, new VMs or changes to backup jobs."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Devices flagged vulnerable to CVE-2026-133469",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where CveId == \"CVE-2026-133469\" | project DeviceName, OSPlatform, SoftwareVendor, SoftwareName, SoftwareVersion, VulnerabilitySeverityLevel, RecommendedSecurityUpdate",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 0,
+        "hits": 0,
+        "tables": [
+         "DeviceTvmSoftwareVulnerabilities"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Public inbound connections to Node.js web service on possible Xen Orchestra hosts",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(30d) | where ActionType == \"InboundConnectionAccepted\" | where InitiatingProcessFileName in~ (\"node\", \"node.exe\") | where LocalPort in (80, 443) | where RemoteIPType == \"Public\" | summarize Connections = count(), FirstSeen = min(Timestamp), LastSeen = max(Timestamp), RemoteIPs = make_set(RemoteIP, 50) by DeviceName, LocalPort",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 300,
+        "hits": 0,
+        "tables": [
+         "DeviceNetworkEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-6",
+   "rank": 6,
+   "score": 57,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 4,
+    "platform": 0,
+    "new_kev": 10,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": true,
+    "epss_max": 0.0427,
+    "cvss_max": 0
+   },
+   "title": "CISA adds three Danfoss AK-SM 800A refrigeration controller flaws to KEV, one rated critical",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "niche",
+    "platform": "ics_ot",
+    "vendor": "Danfoss",
+    "product": "AK-SM 800A Series"
+   },
+   "cves": [
+    {
+     "id": "CVE-2025-41450",
+     "cvss": 8.2,
+     "severity": "HIGH",
+     "products": [
+      "danfoss ak-sm 800a firmware"
+     ],
+     "epss": 0.04271,
+     "percentile": 0.91857,
+     "in_kev": true,
+     "kev_due": "2026-12-09",
+     "poc": [
+      {
+       "url": "https://github.com/msuiche/fromagegate",
+       "name": "msuiche/fromagegate",
+       "stars": 11,
+       "created": "2026-10-13"
+      },
+      {
+       "url": "https://github.com/Nero22k/CVE-2025-41450_poc",
+       "name": "Nero22k/CVE-2025-41450_poc",
+       "stars": 3,
+       "created": "2026-10-13"
+      },
+      {
+       "url": "https://github.com/GabrieleDattile/CVE-2025-41450-Fromagegate",
+       "name": "GabrieleDattile/CVE-2025-41450-Fromagegate",
+       "stars": 1,
+       "created": "2026-11-02"
+      }
+     ],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2023-25914",
+     "cvss": 8.8,
+     "severity": "HIGH",
+     "products": [
+      "danfoss ak-sm 800a firmware"
+     ],
+     "epss": 0.01845,
+     "percentile": 0.79569,
+     "in_kev": true,
+     "kev_due": "2026-11-28",
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2023-25915",
+     "cvss": 9.9,
+     "severity": "CRITICAL",
+     "products": [
+      "danfoss ak-sm 800a firmware"
+     ],
+     "epss": 0.02485,
+     "percentile": 0.85331,
+     "in_kev": true,
+     "kev_due": "2026-11-28",
+     "poc": [],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "On 25 November 2026 CISA added three Danfoss AK-SM 800A Series flaws to its Known Exploited Vulnerabilities catalog: CVE-2023-25915, an input validation bug that lets a remote attacker run arbitrary commands (CVSS 9.9); CVE-2023-25914, a path traversal in the XML interface that exposes system files (CVSS 8.8); and CVE-2025-41450, an authentication flaw that lets an attacker generate a web report leaking internal IP addresses, usernames and store names (CVSS 8.2). BleepingComputer reports that CISA is also warning of a critical unpatched vulnerability in the AK-SM 8xxA Series controllers, which food retailers use to run commercial refrigeration, HVAC and lighting. The sources do not say which flaw lacks a fix or name fixed firmware versions.",
+    "why_it_matters": "CISA lists all three as exploited in the wild, and a public proof of concept exists for CVE-2025-41450. Exploitation can give an attacker command execution on the controller plus network and user details for reaching further into the environment. KEV due dates are 28 November 2026 for the two 2023 CVEs and 9 December 2026 for CVE-2025-41450; EPSS ranges from 1.8% to 4.3%.",
+    "affected_versions": [
+     "Danfoss AK-SM 800A Series (firmware versions not stated)",
+     "Danfoss AK-SM 8xxA Series controllers, per BleepingComputer"
+    ],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Find every Danfoss AK-SM 800A/8xxA controller and take any that are reachable from the internet off direct exposure right away. Put remote access behind a VPN or jump host with MFA.",
+     "Apply Danfoss mitigations and firmware updates as the vendor instructs. Where no fix exists, follow CISA guidance to isolate the device or stop using it.",
+     "Restrict inbound access to controller web and XML interfaces to named management hosts using firewall rules, and segment OT networks from corporate networks.",
+     "Treat controller usernames, store names and internal IP data as possibly exposed. Rotate controller credentials and check whether any are reused elsewhere.",
+     "Review firewall, VPN and proxy logs for inbound connections to controller IPs from unexpected or external sources, and for outbound connections from controllers to the internet."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "CISA warns of critical unpatched flaw in Danfoss refrigeration controllers",
+     "url": "https://www.bleepingcomputer.com/news/security/cisa-warns-of-critical-unpatched-flaw-in-danfoss-refrigeration-controllers/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-25T16:13:40Z"
+    },
+    {
+     "title": "CVE-2025-41450: Danfoss AK-SM 800A Series Improper Authentication Vulnerability",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-41450",
+     "source": "CISA KEV",
+     "kind": "kev",
+     "published": "2026-11-25T00:00:00Z"
+    },
+    {
+     "title": "CVE-2023-25914: Danfoss AK-SM 800A Series Path Traversal Vulnerability",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-25914",
+     "source": "CISA KEV",
+     "kind": "kev",
+     "published": "2026-11-25T00:00:00Z"
+    },
+    {
+     "title": "CVE-2023-25915: Danfoss AK-SM 800A Series Improper Input Validation Vulnerability",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-25915",
+     "source": "CISA KEV",
+     "kind": "kev",
+     "published": "2026-11-25T00:00:00Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Build an inventory of Danfoss controllers from asset management, OT monitoring tools and Defender device discovery.",
+     "Check edge firewall and NAT rules, plus external attack surface scans, for any controller published to the internet.",
+     "Review firewall and web logs for access to controller web or XML interfaces from sources other than approved management hosts, especially external IPs.",
+     "Look for managed Windows endpoints talking to controller IPs that are not known management workstations.",
+     "Look for outbound connections initiated by controllers to the internet, which could point to command execution after compromise."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Danfoss devices seen by Defender device discovery",
+      "kql": "DeviceInfo | where Timestamp > ago(14d) | where Vendor has \"Danfoss\" or Model has \"AK-SM\" | summarize arg_max(Timestamp, *) by DeviceId | project Timestamp, DeviceId, DeviceName, Vendor, Model, DeviceType, DeviceCategory, OSPlatform, PublicIP",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 60,
+        "hits": 0,
+        "tables": [
+         "DeviceInfo"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Managed endpoints connecting to Danfoss controller IPs (populate list)",
+      "kql": "let ControllerIPs = dynamic([]); // add your controller IP addresses here\nDeviceNetworkEvents | where Timestamp > ago(30d) | where RemoteIP in (ControllerIPs) | summarize Connections = count(), Ports = make_set(RemotePort), Processes = make_set(InitiatingProcessFileName), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by DeviceName, RemoteIP | order by Connections desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 300,
+        "hits": 0,
+        "tables": [
+         "DeviceNetworkEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-7",
+   "rank": 7,
+   "score": 56,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 5,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": true,
+    "epss_max": 0.3177,
+    "cvss_max": 0
+   },
+   "title": "CISA adds 10 exploited flaws in Danfoss, Juniper, Mitel MiCollab and Xen Orchestra to KEV",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "other",
+    "vendor": "",
+    "product": ""
+   },
+   "cves": [
+    {
+     "id": "CVE-2023-25914",
+     "cvss": 8.8,
+     "severity": "HIGH",
+     "products": [
+      "danfoss ak-sm 800a firmware"
+     ],
+     "epss": 0.01845,
+     "percentile": 0.79569,
+     "in_kev": true,
+     "kev_due": "2026-11-28",
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2023-25915",
+     "cvss": 9.9,
+     "severity": "CRITICAL",
+     "products": [
+      "danfoss ak-sm 800a firmware"
+     ],
+     "epss": 0.02485,
+     "percentile": 0.85331,
+     "in_kev": true,
+     "kev_due": "2026-11-28",
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2025-41450",
+     "cvss": 8.2,
+     "severity": "HIGH",
+     "products": [
+      "danfoss ak-sm 800a firmware"
+     ],
+     "epss": 0.04271,
+     "percentile": 0.91857,
+     "in_kev": true,
+     "kev_due": "2026-12-09",
+     "poc": [
+      {
+       "url": "https://github.com/msuiche/fromagegate",
+       "name": "msuiche/fromagegate",
+       "stars": 11,
+       "created": "2026-10-13"
+      },
+      {
+       "url": "https://github.com/Nero22k/CVE-2025-41450_poc",
+       "name": "Nero22k/CVE-2025-41450_poc",
+       "stars": 3,
+       "created": "2026-10-13"
+      },
+      {
+       "url": "https://github.com/GabrieleDattile/CVE-2025-41450-Fromagegate",
+       "name": "GabrieleDattile/CVE-2025-41450-Fromagegate",
+       "stars": 1,
+       "created": "2026-11-02"
+      }
+     ],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-103406",
+     "cvss": 9.8,
+     "severity": "CRITICAL",
+     "products": [
+      "juniper session smart conductor"
+     ],
+     "epss": 0.01535,
+     "percentile": 0.75157,
+     "in_kev": true,
+     "kev_due": "2026-11-28",
+     "poc": [
+      {
+       "url": "https://github.com/Sable-Research/CVE-2026-103406-Analysis",
+       "name": "Sable-Research/CVE-2026-103406-Analysis",
+       "stars": 1,
+       "created": "2026-11-25"
+      },
+      {
+       "url": "https://github.com/Frostmoon39206/CVE-2026-103406-PoC",
+       "name": "Frostmoon39206/CVE-2026-103406-PoC",
+       "stars": 0,
+       "created": "2026-11-25"
+      }
+     ],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-133275",
+     "cvss": 5.3,
+     "severity": "MEDIUM",
+     "products": [
+      "mitel micollab"
+     ],
+     "epss": 0.00771,
+     "percentile": 0.52058,
+     "in_kev": true,
+     "kev_due": "2026-11-28",
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-133303",
+     "cvss": 9.0,
+     "severity": "CRITICAL",
+     "products": [
+      "mitel micollab"
+     ],
+     "epss": 0.01326,
+     "percentile": 0.71078,
+     "in_kev": true,
+     "kev_due": "2026-11-28",
+     "poc": [],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "On 25 November 2026 CISA added 10 vulnerabilities to its Known Exploited Vulnerabilities catalog, citing evidence of active exploitation. The additions are three Danfoss AK-SM 800A Series flaws (path traversal, improper input validation, improper authentication), an OS command injection in HPE Juniper Session Smart Conductor and Session Smart Router, five Mitel MiCollab flaws (dangerous file upload, XML injection, weak authentication, OS command injection, not failing securely), and an input validation flaw in Vates Xen Orchestra. CISA did not publish affected version ranges, fixed versions, or details about the attackers or campaigns.",
+    "why_it_matters": "Mitel MiCollab and Juniper Session Smart routers usually sit at the network edge, and Xen Orchestra manages virtualization infrastructure, so a compromise of any of them gives an attacker a strong foothold. The Juniper command injection (CVE-2026-103406, CVSS 9.8) and CVE-2025-41450 in Danfoss (EPSS 4.3%) both have public proof-of-concept code. Most of the new entries carry a federal remediation due date of 28 November 2026, three days after they were added, which signals high urgency. CVE-2025-41450 is due 9 December 2026.",
+    "affected_versions": [
+     "Danfoss AK-SM 800A Series (CVE-2023-25914, CVE-2023-25915, CVE-2025-41450); versions not stated",
+     "HPE Juniper Session Smart Conductor and Session Smart Router (CVE-2026-103406); versions not stated",
+     "Mitel MiCollab (CVE-2026-133275, CVE-2026-133303, CVE-2026-133311, CVE-2026-133323, CVE-2026-133324); versions not stated",
+     "Vates Xen Orchestra (CVE-2026-133469); versions not stated"
+    ],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory all Mitel MiCollab, Juniper Session Smart Conductor and Router, Xen Orchestra and Danfoss AK-SM 800A systems. Remove any internet-exposed management or web interfaces, or restrict them to trusted networks.",
+     "Apply the vendor fixes from Mitel, HPE Juniper, Vates and Danfoss advisories. Prioritize the Juniper and MiCollab systems, which have a 28 November 2026 due date and, for Juniper, public proof-of-concept code.",
+     "Because exploitation is confirmed, check patched systems for signs of compromise before or since patching. Look for unexpected uploaded files, new accounts, configuration changes and unusual outbound connections from the appliances.",
+     "Rotate credentials stored on or used by MiCollab, Xen Orchestra and Session Smart Conductor, including hypervisor and directory service accounts.",
+     "Keep Danfoss AK-SM 800A controllers on segmented OT networks with no direct internet access."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "CISA Adds 10 Known Exploited Vulnerabilities to Catalog",
+     "url": "https://www.cisa.gov/news-events/alerts/2026/11/25/cisa-adds-10-known-exploited-vulnerabilities-catalog",
+     "source": "CISA Advisories",
+     "kind": "advisory",
+     "published": "2026-11-25T12:00:00Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Use Defender Vulnerability Management to find any onboarded assets that report the listed CVEs.",
+     "Use external attack surface data or firewall rules to find internet-exposed MiCollab, Juniper Session Smart, Xen Orchestra and Danfoss AK-SM interfaces.",
+     "Review appliance and web server logs for unusual file uploads, unauthenticated requests to administrative paths, and command execution errors around and before 25 November 2026.",
+     "Review firewall and proxy logs for new outbound connections from these appliances to unfamiliar external hosts.",
+     "For Xen Orchestra, review recent VM, snapshot and user changes, and connected hypervisor activity, for anything unauthorized."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Devices reporting CVEs from the 25 November 2026 KEV additions",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where CveId in~ ('CVE-2023-25914','CVE-2023-25915','CVE-2025-41450','CVE-2026-103406','CVE-2026-133275','CVE-2026-133303','CVE-2026-133311','CVE-2026-133323','CVE-2026-133324','CVE-2026-133469') | project DeviceName, OSPlatform, SoftwareVendor, SoftwareName, SoftwareVersion, CveId, VulnerabilitySeverityLevel, RecommendedSecurityUpdate",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 0,
+        "hits": 0,
+        "tables": [
+         "DeviceTvmSoftwareVulnerabilities"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Vulnerable Mitel, Juniper, Vates or Danfoss software seen by TVM",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where SoftwareVendor has_any ('mitel','juniper','vates','danfoss') or SoftwareName has_any ('micollab','xen_orchestra','session_smart') | summarize Cves = make_set(CveId) by DeviceName, SoftwareVendor, SoftwareName, SoftwareVersion",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 0,
+        "hits": 0,
+        "tables": [
+         "DeviceTvmSoftwareVulnerabilities"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-8",
+   "rank": 8,
+   "score": 55,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 4,
+    "platform": 8,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "1Password reports customer data theft after attackers hijacked an employee's GitHub account",
+   "labels": {
+    "category": "breach",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "niche",
+    "platform": "cloud_saas",
+    "vendor": "1Password",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "According to BleepingComputer, 1Password has disclosed a data breach. Attackers compromised an employee's corporate GitHub account and used it to push malicious code to the company's backend services, and that code was used to steal customer data. The available reporting does not say what customer data was taken, how many customers are affected, when the intrusion happened, or whether vault contents were involved.",
+    "why_it_matters": "Organizations that use 1Password may have users whose account details are exposed, which makes 1Password-themed phishing and credential-reset lures a likely follow-on risk. The incident also shows how one hijacked developer source-control account can lead to production code changes, and the same path exists in any organization's own GitHub estate. Exploitation is confirmed, but scope is unclear until 1Password publishes more detail.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Follow 1Password's official notification to find out which customer data was affected, and check whether your organization's accounts are in scope.",
+     "Warn users about 1Password-themed phishing, fake breach notices and account-reset requests, and confirm that secret keys and master passwords are never requested by email.",
+     "Monitor email for 1Password-themed lures from senders that are not legitimate, and quarantine any that are confirmed.",
+     "Enforce phishing-resistant MFA, SSO and short-lived tokens on your own GitHub organization, and review personal access tokens and deploy keys.",
+     "Require protected branches and reviewed changes before code can deploy to production, so a single compromised developer account cannot ship code unreviewed."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "1Password customer data stolen after employee GitHub account breach",
+     "url": "https://www.bleepingcomputer.com/news/security/1password-customer-data-stolen-after-employee-github-account-breach/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-25T21:33:33Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Confirm which teams and users in your organization use 1Password business or personal accounts tied to corporate email.",
+     "Search delivered email from the last 30 days for 1Password-themed subjects, and review sender domains for lookalikes or unrelated senders.",
+     "Check URL clicks on any suspicious 1Password-themed messages, and reset credentials for users who clicked through.",
+     "If GitHub is connected to Defender for Cloud Apps, review recent GitHub activity for unusual token creation, new deploy keys, or pushes from unfamiliar locations."
+    ],
+    "hunting_queries": [
+     {
+      "title": "1Password-themed emails delivered in the last 30 days, grouped by sender",
+      "kql": "EmailEvents | where Timestamp > ago(30d) | where Subject has \"1Password\" | where DeliveryAction == \"Delivered\" | summarize Messages = count(), Recipients = dcount(RecipientEmailAddress), SampleSubject = any(Subject) by SenderFromDomain, SenderFromAddress | order by Messages desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 40,
+        "hits": 0,
+        "tables": [
+         "EmailEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "GitHub admin and credential activity seen in Defender for Cloud Apps",
+      "kql": "CloudAppEvents | where Timestamp > ago(30d) | where Application has \"GitHub\" | where ActionType has_any (\"token\", \"deploy_key\", \"oauth\", \"protected_branch\", \"member\") | project Timestamp, AccountDisplayName, ActionType, IPAddress, CountryCode, ObjectName | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 30,
+        "hits": 0,
+        "tables": [
+         "CloudAppEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-9",
+   "rank": 9,
+   "score": 54,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 4,
+    "platform": 0,
+    "new_kev": 10,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 0,
+    "chatter": 0,
+    "in_kev": true,
+    "epss_max": 0.0563,
+    "cvss_max": 0
+   },
+   "title": "CISA adds five exploited Mitel MiCollab AWV flaws to KEV, including unauthenticated command execution",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "niche",
+    "platform": "other",
+    "vendor": "Mitel",
+    "product": "MiCollab"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-133324",
+     "cvss": 5.3,
+     "severity": "MEDIUM",
+     "products": [
+      "mitel micollab"
+     ],
+     "epss": 0.00832,
+     "percentile": 0.54808,
+     "in_kev": true,
+     "kev_due": "2026-11-28",
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-133275",
+     "cvss": 5.3,
+     "severity": "MEDIUM",
+     "products": [
+      "mitel micollab"
+     ],
+     "epss": 0.00771,
+     "percentile": 0.52058,
+     "in_kev": true,
+     "kev_due": "2026-11-28",
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-133311",
+     "cvss": 5.9,
+     "severity": "MEDIUM",
+     "products": [
+      "mitel micollab"
+     ],
+     "epss": 0.00985,
+     "percentile": 0.61187,
+     "in_kev": true,
+     "kev_due": "2026-12-09",
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-133303",
+     "cvss": 9.0,
+     "severity": "CRITICAL",
+     "products": [
+      "mitel micollab"
+     ],
+     "epss": 0.01326,
+     "percentile": 0.71078,
+     "in_kev": true,
+     "kev_due": "2026-11-28",
+     "poc": [],
+     "sigmahq_rules": 0
+    },
+    {
+     "id": "CVE-2026-133323",
+     "cvss": null,
+     "severity": "",
+     "products": [],
+     "epss": 0.05628,
+     "percentile": 0.93713,
+     "in_kev": true,
+     "kev_due": "2026-11-28",
+     "poc": [],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "On 25 November 2026 CISA added five vulnerabilities in the Audio, Web and Video Conferencing (AWV) component of Mitel MiCollab to its Known Exploited Vulnerabilities catalog, which means it has evidence of exploitation in the wild. CISA describes an OS command injection (CVE-2026-133323) and an XML injection (CVE-2026-133303, CVSS 9.0) that can let an unauthenticated attacker run arbitrary commands. It also lists an unrestricted file upload (CVE-2026-133275), an authentication bypass caused by not failing securely (CVE-2026-133324), and a weak authentication flaw that exposes sensitive information (CVE-2026-133311). The sources do not name affected or fixed versions, and CISA tells agencies to apply mitigations according to Mitel's instructions.",
+    "why_it_matters": "MiCollab AWV is usually reachable from the internet so outside participants can join conferences, and all five flaws can be used without credentials. Chained together, they can give an attacker file upload and command execution on an appliance that sits on the corporate network. All five are confirmed exploited, and four have a KEV due date of 28 November 2026 (CVE-2026-133311 is due 9 December 2026). EPSS ranges from 0.8% to 5.6%, with CVE-2026-133323 the highest at 5.6%.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Find every MiCollab server and AWV web portal you run, paying particular attention to any that are internet-facing, and apply Mitel's fixes or mitigations for all five CVEs before 28 November 2026.",
+     "If you cannot patch immediately, restrict internet access to the AWV component (for example, allow-list addresses at the firewall or reverse proxy) or take it offline, as CISA advises when mitigations are unavailable.",
+     "Treat exposed, unpatched MiCollab servers as possibly compromised: review AWV web logs for unauthenticated upload requests and unusual responses, and look for unexpected files in web-served directories.",
+     "Watch outbound traffic from MiCollab hosts for connections to unfamiliar external addresses, and for lateral connections to internal systems such as SMB, RDP or LDAP servers.",
+     "Rotate credentials stored on or used by the MiCollab server, such as admin, LDAP bind and SIP accounts, if you find signs of compromise."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "CVE-2026-133324: Mitel MiCollab Not Failing Securely Vulnerability",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-133324",
+     "source": "CISA KEV",
+     "kind": "kev",
+     "published": "2026-11-25T00:00:00Z"
+    },
+    {
+     "title": "CVE-2026-133275: Mitel MiCollab Unrestricted Upload of File with Dangerous Type Vulnerability",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-133275",
+     "source": "CISA KEV",
+     "kind": "kev",
+     "published": "2026-11-25T00:00:00Z"
+    },
+    {
+     "title": "CVE-2026-133311: Mitel MiCollab Weak Authentication Vulnerability",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-133311",
+     "source": "CISA KEV",
+     "kind": "kev",
+     "published": "2026-11-25T00:00:00Z"
+    },
+    {
+     "title": "CVE-2026-133303: Mitel MiCollab XML Injection Vulnerability",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-133303",
+     "source": "CISA KEV",
+     "kind": "kev",
+     "published": "2026-11-25T00:00:00Z"
+    },
+    {
+     "title": "CVE-2026-133323: Mitel MiCollab OS Command Injection Vulnerability",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-133323",
+     "source": "CISA KEV",
+     "kind": "kev",
+     "published": "2026-11-25T00:00:00Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Build an inventory of MiCollab servers from your CMDB, firewall NAT rules and external attack surface scans, and record which ones expose the AWV portal to the internet.",
+     "Where Defender vulnerability management covers these hosts, check for the five CVE IDs; otherwise confirm the patch level manually against Mitel's advisory.",
+     "Pull AWV and web server access logs from the time each host was exposed until the patch was applied. Look for unauthenticated POST or upload requests, requests from unfamiliar sources, and spikes in requests to conferencing endpoints.",
+     "On the appliance, check for recently created or modified files in web-accessible directories and for unexpected scheduled tasks or new user accounts.",
+     "If the hosts have Linux EDR or are onboarded to Defender, look for shells or download tools started by web server or Java processes.",
+     "Review firewall and Defender network telemetry for outbound connections from MiCollab hosts to new external addresses, and for internal connections those hosts do not normally make."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Devices exposed to the five KEV-listed Mitel MiCollab CVEs",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where CveId in~ ('CVE-2026-133324','CVE-2026-133275','CVE-2026-133311','CVE-2026-133303','CVE-2026-133323') | project DeviceName, OSPlatform, SoftwareVendor, SoftwareName, SoftwareVersion, CveId, VulnerabilitySeverityLevel",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 0,
+        "hits": 0,
+        "tables": [
+         "DeviceTvmSoftwareVulnerabilities"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Shells or download tools spawned by web or Java processes on MiCollab hosts",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where DeviceName contains 'micollab' | where InitiatingProcessFileName in~ ('httpd','apache2','java','tomcat','nginx','php','php-fpm') | where FileName in~ ('sh','bash','dash','curl','wget','python','python3','perl','nc','ncat','base64') | project Timestamp, DeviceName, AccountName, InitiatingProcessFileName, InitiatingProcessCommandLine, FileName, ProcessCommandLine",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Outbound public connections from MiCollab hosts",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(30d) | where DeviceName contains 'micollab' | where RemoteIPType == 'Public' | summarize Connections = count(), FirstSeen = min(Timestamp), LastSeen = max(Timestamp), Ports = make_set(RemotePort) by DeviceName, RemoteIP, InitiatingProcessFileName | order by FirstSeen desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 300,
+        "hits": 0,
+        "tables": [
+         "DeviceNetworkEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-10",
+   "rank": 10,
+   "score": 54,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 6,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Microsoft: Salt Typhoon, Onyx Sleet and others abuse the ARTEX AI pentest framework",
+   "labels": {
+    "category": "malware",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "other",
+    "vendor": "",
+    "product": "ARTEX"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "On 25 November 2026, Microsoft Threat Intelligence reported that ARTEX, a publicly available AI-driven penetration testing framework released in July 2026, has been adopted by several threat actors. Microsoft names state-sponsored groups Salt Typhoon, Crystal Typhoon, Onyx Sleet and Pearl Sleet, along with Storm-0940 and Storm-3358. According to Microsoft, these actors use ARTEX to speed up reconnaissance, credential attacks, web application exploitation, secret harvesting from public repositories and supply chain compromise. The Record reports that Microsoft links the tool to several high-profile breaches and to groups based in China and North Korea.",
+    "why_it_matters": "Microsoft says ARTEX uses ordinary pentest tools and techniques, but at machine speed. Depending on configuration and defenses, it can move from reconnaissance to persistent privileged access within minutes, which leaves very little time for internet-facing apps, VPNs and identity endpoints to be caught. Attackers vary source IPs and user agents, so static indicator blocking is unreliable. Microsoft says the most durable signal is behavioral: bursts of varied requests and rapid retries.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Patch or take offline internet-facing web applications, VPNs and gateways with known exploitable flaws, since ARTEX automates scanning and exploitation of exposed systems.",
+     "Scan public and internal code repositories for exposed secrets, then rotate any credentials, tokens or keys you find.",
+     "Enforce phishing-resistant MFA and smart lockout on externally reachable authentication endpoints to blunt automated credential attacks.",
+     "Tune detections and rate limits on WAF, VPN and identity logs to catch high-volume, rapidly varying requests from a single source rather than relying on IP or user-agent blocklists.",
+     "Review Microsoft's Defender detections and hunting guidance for ARTEX and confirm the related alerts are enabled and routed to the SOC."
+    ],
+    "confidence": "high",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "What defenders need to know about ARTEX, the agentic AI framework threat actors abuse",
+     "url": "https://www.microsoft.com/en-us/security/blog/2026/11/25/what-defenders-need-to-know-artex-agentic-ai-framework-threat-actors-abuse/",
+     "source": "Microsoft Security Blog",
+     "kind": "news",
+     "published": "2026-11-25T18:09:06Z"
+    },
+    {
+     "title": "Microsoft: China’s Salt Typhoon hackers are using Artex",
+     "url": "https://therecord.media/microsoft-china-salt-typhoon-using-artex-ai-tool",
+     "source": "The Record",
+     "kind": "news",
+     "published": "2026-11-25T21:18:00Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Look for single external sources that produce many failed logons across many accounts within minutes against AD, Entra ID or VPN authentication.",
+     "Find inbound connection bursts in which one remote IP touches many ports or services on an internet-facing host within a minute.",
+     "Check web server and WAF logs for short windows with a high variety of request paths and parameters from one source, along with changing user agents.",
+     "On web-facing servers, look for web server worker processes spawning shells or reconnaissance utilities, which can indicate successful exploitation.",
+     "When a burst is followed by a successful logon or new process activity on the same host, treat it as possible rapid compromise and investigate for persistence and privilege escalation."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Burst of failed logons across many accounts from one IP",
+      "kql": "IdentityLogonEvents | where Timestamp > ago(7d) | where ActionType == \"LogonFailed\" | summarize Attempts = count(), Accounts = dcount(AccountUpn), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by IPAddress, Window = bin(Timestamp, 5m) | where Accounts > 10 or Attempts > 50 | order by Attempts desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 0,
+        "hits": 0,
+        "tables": [
+         "IdentityLogonEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Inbound port sweep against a device within one minute",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(7d) | where ActionType == \"InboundConnectionAccepted\" | summarize Ports = dcount(LocalPort), Connections = count() by DeviceName, RemoteIP, Window = bin(Timestamp, 1m) | where Ports > 20 | order by Ports desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 300,
+        "hits": 0,
+        "tables": [
+         "DeviceNetworkEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Web server process spawning shells or recon tools",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(14d) | where InitiatingProcessFileName in~ (\"w3wp.exe\", \"httpd.exe\", \"nginx.exe\", \"tomcat9.exe\", \"php-cgi.exe\") | where FileName in~ (\"cmd.exe\", \"powershell.exe\", \"pwsh.exe\", \"whoami.exe\", \"net.exe\", \"nltest.exe\", \"certutil.exe\", \"systeminfo.exe\") | project Timestamp, DeviceName, InitiatingProcessFileName, FileName, ProcessCommandLine, AccountName | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  }
+ ],
+ "more_stories": [
+  {
+   "title": "FIFA says hackers accessed limited personal and business information",
+   "score": 51,
+   "cves": [],
+   "sources": [
+    {
+     "title": "FIFA says hackers accessed ‘limited set of personal and business information’",
+     "url": "https://therecord.media/fifa-data-breach-limited",
+     "source": "The Record"
+    }
+   ]
+  },
+  {
+   "title": "US Treasury FinCEN disconnects systems and extends filer deadlines after cyber incident",
+   "score": 51,
+   "cves": [],
+   "sources": [
+    {
+     "title": "US Treasury’s FinCEN Disconnects Systems Following Cyber Incident",
+     "url": "https://www.securityweek.com/us-treasurys-fincen-disconnects-systems-following-cyber-incident/",
+     "source": "SecurityWeek"
+    }
+   ]
+  },
+  {
+   "title": "Microsoft confirms authentication issues after November security updates",
+   "score": 48,
+   "cves": [],
+   "sources": [
+    {
+     "title": "Microsoft confirms authentication issues after November updates",
+     "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-confirms-authentication-issues-after-november-updates/",
+     "source": "BleepingComputer"
+    }
+   ]
+  },
+  {
+   "title": "Microsoft fixes known issue blocking some Microsoft 365 customers from Office apps",
+   "score": 48,
+   "cves": [],
+   "sources": [
+    {
+     "title": "Microsoft fixes Microsoft 365 bug blocking access to Office apps",
+     "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-fixes-blank-dialog-that-made-microsoft-365-office-apps-unusable/",
+     "source": "BleepingComputer"
+    }
+   ]
+  },
+  {
+   "title": "Three real-world attacks show full Microsoft 365 compromise without exploits",
+   "score": 48,
+   "cves": [],
+   "sources": [
+    {
+     "title": "Three Attacks, Zero Exploits in Microsoft 365",
+     "url": "https://www.huntress.com/blog/three-attacks-zero-exploits-microsoft-365",
+     "source": "Huntress"
+    }
+   ]
+  },
+  {
+   "title": "Tenda RX3 router firmware stack overflow and command injection flaws with public exploits",
+   "score": 47,
+   "cves": [
+    "CVE-2026-136548",
+    "CVE-2026-136549",
+    "CVE-2026-136550"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-136548 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-136548",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-136549 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-136549",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-136550 (HIGH 8.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-136550",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "D-Link R32 command injection flaws in DHMAPI handler with public exploits",
+   "score": 47,
+   "cves": [
+    "CVE-2026-136821",
+    "CVE-2026-136822",
+    "CVE-2026-136823"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-136821 (HIGH 8.6)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-136821",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-136822 (HIGH 8.6)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-136822",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-136823 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-136823",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "TOTOLINK N350RT authorization bypass with public exploit disclosed",
+   "score": 47,
+   "cves": [
+    "CVE-2026-137043"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-137043 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-137043",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Turnitin investigates cyberattack, says systems are operational and safe",
+   "score": 43,
+   "cves": [],
+   "sources": [
+    {
+     "title": "Plagiarism Checker Turnitin Investigating Cyberattack",
+     "url": "https://www.securityweek.com/plagiarism-checker-turnitin-investigating-cyberattack/",
+     "source": "SecurityWeek"
+    }
+   ]
+  },
+  {
+   "title": "Hackers reportedly breached CIA open-source intelligence analysis system",
+   "score": 39,
+   "cves": [],
+   "sources": [
+    {
+     "title": "Hackers reportedly breached CIA intelligence analysis system",
+     "url": "https://www.bleepingcomputer.com/news/security/hackers-reportedly-breached-cia-intelligence-analysis-system/",
+     "source": "BleepingComputer"
+    }
+   ]
+  },
+  {
+   "title": "Attackers probing GeoServer instances for two newly disclosed high-severity flaws",
+   "score": 35,
+   "cves": [],
+   "sources": [
+    {
+     "title": "Two Newly Disclosed GeoServer Vulnerabilities Under Attack",
+     "url": "https://www.securityweek.com/two-newly-disclosed-geoserver-vulnerabilities-under-attack/",
+     "source": "SecurityWeek"
+    }
+   ]
+  },
+  {
+   "title": "Open-source npm and Python package flaws allow command execution or prototype pollution",
+   "score": 27,
+   "cves": [
+    "CVE-2026-137090",
+    "CVE-2026-136923",
+    "CVE-2026-137058"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-137090 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-137090",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-136923 (HIGH 8.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-136923",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-137058 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-137058",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Multiple AI and developer tool flaws disclosed, including command execution and DoS",
+   "score": 22,
+   "cves": [
+    "CVE-2026-136694",
+    "CVE-2026-137056",
+    "CVE-2026-137057"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-136694 (MEDIUM 5.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-136694",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-137056 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-137056",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-137057 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-137057",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "KubeSphere flaws allow privilege escalation and command injection via low-privilege roles",
+   "score": 12,
+   "cves": [
+    "CVE-2026-64845",
+    "CVE-2026-73517"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-64845 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-64845",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-73517 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-73517",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Submariner default shared PSK allows cluster identity forgery and MITM",
+   "score": 12,
+   "cves": [
+    "CVE-2026-66784"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-66784 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-66784",
+     "source": "NVD"
+    }
+   ]
+  }
+ ],
+ "kev_new": [
+  {
+   "cve": "CVE-2026-103406",
+   "vendor": "Hewlett Packard Enterprise (HPE)",
+   "product": "Juniper Session Smart Conductor and Session Smart Router",
+   "name": "Hewlett Packard Enterprise (HPE) Juniper Session Smart Conductor and Session Smart Router OS Command Injection Vulnerability",
+   "date_added": "2026-11-25",
+   "due_date": "2026-11-28",
+   "ransomware": "Unknown",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-103406"
+  },
+  {
+   "cve": "CVE-2026-133469",
+   "vendor": "Vates",
+   "product": "Xen Orchestra",
+   "name": "Vates Xen Orchestra Improper Validation of Specified Type of Input Vulnerability",
+   "date_added": "2026-11-25",
+   "due_date": "2026-11-28",
+   "ransomware": "Unknown",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-133469"
+  },
+  {
+   "cve": "CVE-2025-41450",
+   "vendor": "Danfoss",
+   "product": "AK-SM 800A Series",
+   "name": "Danfoss AK-SM 800A Series Improper Authentication Vulnerability",
+   "date_added": "2026-11-25",
+   "due_date": "2026-12-09",
+   "ransomware": "Unknown",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-41450"
+  },
+  {
+   "cve": "CVE-2023-25914",
+   "vendor": "Danfoss",
+   "product": "AK-SM 800A Series",
+   "name": "Danfoss AK-SM 800A Series Path Traversal Vulnerability",
+   "date_added": "2026-11-25",
+   "due_date": "2026-11-28",
+   "ransomware": "Unknown",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-25914"
+  },
+  {
+   "cve": "CVE-2023-25915",
+   "vendor": "Danfoss",
+   "product": "AK-SM 800A Series",
+   "name": "Danfoss AK-SM 800A Series Improper Input Validation Vulnerability",
+   "date_added": "2026-11-25",
+   "due_date": "2026-11-28",
+   "ransomware": "Unknown",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-25915"
+  },
+  {
+   "cve": "CVE-2026-133324",
+   "vendor": "Mitel",
+   "product": "MiCollab",
+   "name": "Mitel MiCollab Not Failing Securely Vulnerability",
+   "date_added": "2026-11-25",
+   "due_date": "2026-11-28",
+   "ransomware": "Unknown",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-133324"
+  },
+  {
+   "cve": "CVE-2026-133275",
+   "vendor": "Mitel",
+   "product": "MiCollab",
+   "name": "Mitel MiCollab Unrestricted Upload of File with Dangerous Type Vulnerability",
+   "date_added": "2026-11-25",
+   "due_date": "2026-11-28",
+   "ransomware": "Unknown",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-133275"
+  },
+  {
+   "cve": "CVE-2026-133311",
+   "vendor": "Mitel",
+   "product": "MiCollab",
+   "name": "Mitel MiCollab Weak Authentication Vulnerability",
+   "date_added": "2026-11-25",
+   "due_date": "2026-12-09",
+   "ransomware": "Unknown",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-133311"
+  },
+  {
+   "cve": "CVE-2026-133303",
+   "vendor": "Mitel",
+   "product": "MiCollab",
+   "name": "Mitel MiCollab XML Injection Vulnerability",
+   "date_added": "2026-11-25",
+   "due_date": "2026-11-28",
+   "ransomware": "Unknown",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-133303"
+  },
+  {
+   "cve": "CVE-2026-133323",
+   "vendor": "Mitel",
+   "product": "MiCollab",
+   "name": "Mitel MiCollab OS Command Injection Vulnerability",
+   "date_added": "2026-11-25",
+   "due_date": "2026-11-28",
+   "ransomware": "Unknown",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-133323"
+  }
+ ],
+ "early_signals": [
+  {
+   "cve": "CVE-2026-99362",
+   "authors": 3,
+   "platforms": [
+    "Hacker News"
+   ],
+   "posts": [
+    {
+     "url": "https://news.ycombinator.com/item?id=50647161",
+     "platform": "Hacker News",
+     "account": "@dm",
+     "published": "2026-11-25T20:35:50Z"
+    },
+    {
+     "url": "https://news.ycombinator.com/item?id=50650163",
+     "platform": "Hacker News",
+     "account": "@scottchiefbaker",
+     "published": "2026-11-26T01:20:21Z"
+    },
+    {
+     "url": "https://news.ycombinator.com/item?id=50648450",
+     "platform": "Hacker News",
+     "account": "@davrosthedalek",
+     "published": "2026-11-25T22:21:49Z"
+    }
+   ],
+   "first_seen": "2026-11-25T20:35:50Z",
+   "epss": {
+    "epss": 0.00755,
+    "percentile": 0.51366
+   },
+   "vendor_advisory": false,
+   "nvd": {
+    "cvss": 9.8,
+    "severity": "CRITICAL",
+    "products": [],
+    "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nnfsd: preflight SEQUENCE replies before accepting a slot\n\nnfsd4_sequence() narrows the reply buffer to the session's cached\nreply limit before it accepts the slot seqid. A client may negotiate\nca_maxresponsesize_cached down to NFSD…"
+   },
+   "poc": [
+    {
+     "url": "https://github.com/ashrafzaryouh/CVE-2026-99362",
+     "name": "ashrafzaryouh/CVE-2026-99362",
+     "stars": 0,
+     "created": "2026-11-26"
+    }
+   ]
+  }
+ ],
+ "explainer": {
+  "concept": "The CISA KEV catalog: what an entry means and what it does not",
+  "dek": "The Known Exploited Vulnerabilities catalog is CISA's list of CVEs with reliable evidence of exploitation in the wild, and it sets remediation deadlines that bind US federal civilian agencies and serve as a prioritization signal for everyone else.",
+  "why_today": "CISA added 10 flaws to KEV on 25 November 2026, covering Juniper Session Smart routers, Xen Orchestra, Danfoss refrigeration controllers and Mitel MiCollab. Meanwhile, the exploited Drupal and PAN-OS attacks show what KEV does not yet cover.",
+  "related_story_ids": [
+   "story-7",
+   "story-1",
+   "story-5",
+   "story-6",
+   "story-9",
+   "story-4",
+   "story-2",
+   "story-3"
+  ],
+  "parts": [
+   {
+    "heading": "What gets a CVE into KEV",
+    "paragraphs": [
+     "CISA adds a vulnerability to KEV when three conditions hold: it has an assigned CVE ID, there is reliable evidence that it has been actively exploited, and there is clear remediation guidance such as a patch, a mitigation or a workaround. A public proof-of-concept alone does not qualify. That is why the newly fixed vCenter bypass CVE-2026-123903, which has a validated public exploit but no confirmed attacks, is not listed, while the separate vmdir flaw CVE-2026-123890 is.",
+     "Each entry records the vendor, product, a short description, the date added, a due date, the required action, and a flag showing whether the flaw is known to be used in ransomware campaigns. The required action often reads as applying mitigations per vendor instructions, or discontinuing the product if no mitigation is available. That wording appears even when no fixed version has been published, as with several of today's additions."
+    ]
+   },
+   {
+    "heading": "Deadlines and who they bind",
+    "paragraphs": [
+     "Binding Operational Directive 22-01 requires US federal civilian executive branch agencies to remediate KEV entries by their due date. CISA sets the due date per entry, and for new additions it is typically a few weeks after the date added. Private companies and non-US organizations have no legal obligation, but many treat KEV due dates as an outside limit for internet-facing assets.",
+     "Age does not decide the deadline. A flaw from 2023, like the two Danfoss CVEs added today, gets a fresh due date when it enters the catalog. Its age tells you nothing about how urgent it is now."
+    ]
+   },
+   {
+    "heading": "What KEV does not tell you",
+    "paragraphs": [
+     "KEV is a confirmation list, so it lags behind attacks. A vendor or security team can confirm exploitation days before CISA adds the CVE, and some exploited flaws never get a CVE quickly enough to be listed. Today's Drupal and PAN-OS reports are examples: both are being exploited, and neither has a public CVE in the reporting yet. Not being in KEV does not mean a flaw is safe to defer.",
+     "Entries also carry almost no threat detail. You will not find indicators, attacker names, targeting, or usually affected version ranges, so you need the vendor advisory to scope exposure and threat intelligence to hunt. EPSS answers a different question: it estimates the probability of exploitation activity in the coming weeks. It complements KEV but does not replace it."
+    ]
+   }
+  ],
+  "takeaways": [
+   "Check your exposure management data for the 10 CVEs added on 25 November 2026, especially internet-reachable Juniper Session Smart routers and conductors, Mitel MiCollab servers and Xen Orchestra instances. Treat any you find as compromise candidates as well as patch targets.",
+   "Pull the KEV catalog's machine-readable feed into Sentinel as a watchlist and join it against Defender Vulnerability Management software vulnerability data. That gives you a standing list of exposed KEV CVEs with their due dates.",
+   "Set an internal remediation SLA for KEV entries on edge and management-plane devices that is no longer than CISA's federal due date. Track separately any entry whose vendor guidance is mitigation-only.",
+   "Do not wait for KEV when a vendor confirms exploitation. Act on the Drupal and PAN-OS reports now: restrict PAN-OS management interfaces to trusted networks and patch Drupal sites as soon as fixed releases are confirmed.",
+   "For KEV entries flagged as used in ransomware campaigns, add hunting for post-exploitation activity on the affected hosts. Patching alone does not remove an attacker who is already in."
+  ],
+  "unsupported_cves": [],
+  "model": "claude-opus-5-5"
+ },
+ "good_news": [
+  {
+   "headline": "Florida ransomware recovery CEO indicted over alleged lies and ransom payments",
+   "summary": "The Record reports that a federal grand jury has indicted the CEO of a Florida ransomware recovery firm. Prosecutors allege he misrepresented his firm's services and paid ransoms to cybercriminals.",
+   "kind": "arrest_or_sentencing",
+   "sources": [
+    {
+     "title": "Florida ransomware recovery CEO indicted for allegedly paying hacker ransoms",
+     "url": "https://therecord.media/ransomware-doj-indictment-recovery",
+     "source": "The Record",
+     "published": "2026-11-25T17:30:00Z"
+    }
+   ],
+   "unsupported_cves": [],
+   "model": "claude-opus-5-5"
+  }
+ ],
+ "explainer_status": "ok",
+ "sources_status": {
+  "CISA KEV": "ok 10",
+  "NVD": "ok 43",
+  "BleepingComputer": "ok 10",
+  "The Record": "ok 5",
+  "The DFIR Report": "ok 0",
+  "Cisco Talos": "ok 3",
+  "Unit 42": "ok 1",
+  "Microsoft Security Blog": "ok 2",
+  "SANS ISC": "ok 0",
+  "Huntress": "ok 1",
+  "watchTowr Labs": "ok 0",
+  "Rapid7": "ok 3",
+  "SecurityWeek": "ok 5",
+  "Krebs on Security": "ok 0",
+  "CISA Advisories": "ok 1",
+  "MSRC Security Update Guide": "ok 0",
+  "Bluesky": "ok 0",
+  "Mastodon": "ok 1",
+  "r/netsec": "error FetchError: 404 https://www.reddit.com/r/netsec/new/.rss",
+  "Hacker News": "ok 11",
+  "SigmaHQ new rules": "ok 0",
+  "EPSS": "ok 73"
+ },
+ "stats": {
+  "items": {
+   "news": 30,
+   "advisory": 1,
+   "kev": 10,
+   "nvd": 43,
+   "social": 12,
+   "sigma": 0
+  },
+  "stories_found": 34,
+  "kql_parser": "available",
+  "receipts": {
+   "status": "ran",
+   "engine": "Kusto emulator 1.0.9810.23682",
+   "baseline_events": 1338,
+   "baseline_seed": 20261110
+  }
+ }
+}
