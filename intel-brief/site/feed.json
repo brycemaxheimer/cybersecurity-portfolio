@@ -12,6 +12,100 @@
  "language": "en-US",
  "items": [
   {
+   "id": "https://intel.brycemaxheimer.com/editions/2026-11-26/",
+   "url": "https://intel.brycemaxheimer.com/editions/2026-11-26/",
+   "title": "Daily Intel Brief: 2026-11-26",
+   "content_text": "1. CISA adds critical HPE Juniper Session Smart Router and Conductor command injection to KEV\n2. Palo Alto Networks warns attackers are chaining PHP2Shell and Fragnesia flaws against PAN-OS\n3. Drupal security team confirms in-the-wild exploitation of critical RCE flaw in unpatched sites\n4. Broadcom fixes critical vCenter directory service auth bypass CVE-2026-123903; public PoC validated\n5. CISA adds critical Xen Orchestra authentication bypass CVE-2026-133469 to KEV\n6. CISA adds three Danfoss AK-SM 800A refrigeration controller flaws to KEV, one rated critical\n7. CISA adds 10 exploited flaws in Danfoss, Juniper, Mitel MiCollab and Xen Orchestra to KEV\n8. 1Password reports customer data theft after attackers hijacked an employee's GitHub account\n9. CISA adds five exploited Mitel MiCollab AWV flaws to KEV, including unauthenticated command execution\n10. Microsoft: Salt Typhoon, Onyx Sleet and others abuse the ARTEX AI pentest framework\nNew KEV entries: CVE-2026-103406, CVE-2026-133469, CVE-2025-41450, CVE-2023-25914, CVE-2023-25915, CVE-2026-133324, CVE-2026-133275, CVE-2026-133311, CVE-2026-133303, CVE-2026-133323\nEarly signals: CVE-2026-99362\nExplainer: The CISA KEV catalog: what an entry means and what it does not\nGood news: Florida ransomware recovery CEO indicted over alleged lies and ransom payments",
+   "date_published": "2026-11-26T19:37:29Z",
+   "_intel_brief": {
+    "data": "https://intel.brycemaxheimer.com/editions/2026-11-26/edition.json",
+    "stories": [
+     {
+      "title": "CISA adds critical HPE Juniper Session Smart Router and Conductor command injection to KEV",
+      "cves": [
+       "CVE-2026-103406"
+      ],
+      "score": 74
+     },
+     {
+      "title": "Palo Alto Networks warns attackers are chaining PHP2Shell and Fragnesia flaws against PAN-OS",
+      "cves": [],
+      "score": 69
+     },
+     {
+      "title": "Drupal security team confirms in-the-wild exploitation of critical RCE flaw in unpatched sites",
+      "cves": [],
+      "score": 61
+     },
+     {
+      "title": "Broadcom fixes critical vCenter directory service auth bypass CVE-2026-123903; public PoC validated",
+      "cves": [
+       "CVE-2026-123903",
+       "CVE-2026-123890",
+       "CVE-2026-123904",
+       "CVE-2026-123905",
+       "CVE-2026-123906",
+       "CVE-2026-123907"
+      ],
+      "score": 61
+     },
+     {
+      "title": "CISA adds critical Xen Orchestra authentication bypass CVE-2026-133469 to KEV",
+      "cves": [
+       "CVE-2026-133469"
+      ],
+      "score": 59
+     },
+     {
+      "title": "CISA adds three Danfoss AK-SM 800A refrigeration controller flaws to KEV, one rated critical",
+      "cves": [
+       "CVE-2025-41450",
+       "CVE-2023-25914",
+       "CVE-2023-25915"
+      ],
+      "score": 57
+     },
+     {
+      "title": "CISA adds 10 exploited flaws in Danfoss, Juniper, Mitel MiCollab and Xen Orchestra to KEV",
+      "cves": [
+       "CVE-2023-25914",
+       "CVE-2023-25915",
+       "CVE-2025-41450",
+       "CVE-2026-103406",
+       "CVE-2026-133275",
+       "CVE-2026-133303"
+      ],
+      "score": 56
+     },
+     {
+      "title": "1Password reports customer data theft after attackers hijacked an employee's GitHub account",
+      "cves": [],
+      "score": 55
+     },
+     {
+      "title": "CISA adds five exploited Mitel MiCollab AWV flaws to KEV, including unauthenticated command execution",
+      "cves": [
+       "CVE-2026-133324",
+       "CVE-2026-133275",
+       "CVE-2026-133311",
+       "CVE-2026-133303",
+       "CVE-2026-133323"
+      ],
+      "score": 54
+     },
+     {
+      "title": "Microsoft: Salt Typhoon, Onyx Sleet and others abuse the ARTEX AI pentest framework",
+      "cves": [],
+      "score": 54
+     }
+    ],
+    "explainer": "The CISA KEV catalog: what an entry means and what it does not",
+    "good_news": [
+     "Florida ransomware recovery CEO indicted over alleged lies and ransom payments"
+    ]
+   }
+  },
+  {
    "id": "https://intel.brycemaxheimer.com/editions/2026-11-25/",
    "url": "https://intel.brycemaxheimer.com/editions/2026-11-25/",
    "title": "Daily Intel Brief: 2026-11-25",

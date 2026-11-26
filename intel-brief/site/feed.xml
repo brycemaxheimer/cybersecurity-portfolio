@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>Daily Intel Brief</title><link>https://intel.brycemaxheimer.com/</link><description>Daily AI-generated threat-intel brief: top stories, new KEV entries, early signals and detections.</description><language>en-us</language><item><title>Daily Intel Brief: 2026-11-25</title><link>https://intel.brycemaxheimer.com/editions/2026-11-25/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-25/</guid><pubDate>Wed, 25 Nov 2026 19:58:15 +0000</pubDate><description>1. CISA adds exploited Drupal Core, Idunno AntiCsrf and Optimizely Web Experimentation flaws to KEV
+<rss version="2.0"><channel><title>Daily Intel Brief</title><link>https://intel.brycemaxheimer.com/</link><description>Daily AI-generated threat-intel brief: top stories, new KEV entries, early signals and detections.</description><language>en-us</language><item><title>Daily Intel Brief: 2026-11-26</title><link>https://intel.brycemaxheimer.com/editions/2026-11-26/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-26/</guid><pubDate>Thu, 26 Nov 2026 19:37:29 +0000</pubDate><description>1. CISA adds critical HPE Juniper Session Smart Router and Conductor command injection to KEV
+2. Palo Alto Networks warns attackers are chaining PHP2Shell and Fragnesia flaws against PAN-OS
+3. Drupal security team confirms in-the-wild exploitation of critical RCE flaw in unpatched sites
+4. Broadcom fixes critical vCenter directory service auth bypass CVE-2026-123903; public PoC validated
+5. CISA adds critical Xen Orchestra authentication bypass CVE-2026-133469 to KEV
+6. CISA adds three Danfoss AK-SM 800A refrigeration controller flaws to KEV, one rated critical
+7. CISA adds 10 exploited flaws in Danfoss, Juniper, Mitel MiCollab and Xen Orchestra to KEV
+8. 1Password reports customer data theft after attackers hijacked an employee's GitHub account
+9. CISA adds five exploited Mitel MiCollab AWV flaws to KEV, including unauthenticated command execution
+10. Microsoft: Salt Typhoon, Onyx Sleet and others abuse the ARTEX AI pentest framework
+New KEV entries: CVE-2026-103406, CVE-2026-133469, CVE-2025-41450, CVE-2023-25914, CVE-2023-25915, CVE-2026-133324, CVE-2026-133275, CVE-2026-133311, CVE-2026-133303, CVE-2026-133323
+Early signals: CVE-2026-99362
+Explainer: The CISA KEV catalog: what an entry means and what it does not
+Good news: Florida ransomware recovery CEO indicted over alleged lies and ransom payments</description></item><item><title>Daily Intel Brief: 2026-11-25</title><link>https://intel.brycemaxheimer.com/editions/2026-11-25/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-25/</guid><pubDate>Wed, 25 Nov 2026 19:58:15 +0000</pubDate><description>1. CISA adds exploited Drupal Core, Idunno AntiCsrf and Optimizely Web Experimentation flaws to KEV
 2. VMware vCenter SRP authentication bypass (CVE-2026-123890) leads to root; CISA KEV lists it
 3. Check Point Security Management Servers compromised in campaign hitting 22 organizations
 4. Newly formed Inception extortion group runs large-scale vishing campaign against SSO credentials
