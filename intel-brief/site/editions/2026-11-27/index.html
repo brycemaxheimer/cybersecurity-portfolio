@@ -1,0 +1,857 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Intel Brief: 27 November 2026</title>
+<meta name="description" content="Threat-intel brief for 27 November 2026: Juniper Session Smart Conductor flaw CVE-2026-103406 exploited for root command execution; 1Password breach via compromised employee GitHub account exposes customer records and source code; GoodGuys phishing uses fake paid expert interviews to steal Google and Okta logins">
+<meta name="color-scheme" content="only light">
+<meta name="theme-color" content="#B3141B">
+<link rel="canonical" href="https://intel.brycemaxheimer.com/editions/2026-11-27/"><link rel="alternate" type="application/rss+xml" title="Daily Intel Brief (RSS)" href="https://intel.brycemaxheimer.com/feed.xml">
+<link rel="alternate" type="application/feed+json" title="Daily Intel Brief (JSON Feed)" href="https://intel.brycemaxheimer.com/feed.json">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="../../assets/fonts/LibreFranklin-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../assets/fonts/PlayfairDisplay-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="mast">
+  <div class="wrap mast-band">
+    <a class="brand" href="../../">Daily Intel Brief</a>
+<div class="mast-meta">
+  <p class="eyebrow">Friday edition</p>
+  <h1 id="edition-title">27 November 2026</h1>
+</div>
+  </div>
+  <div class="mast-bar">
+    <div class="wrap">
+      <nav aria-label="Site">
+        <a href="../../">Latest</a>
+        <a href="../../archive/">Archive</a>
+        <a href="https://intel.brycemaxheimer.com/feed.xml">RSS</a>
+        <a href="https://intel.brycemaxheimer.com/feed.json">JSON Feed</a>
+        <a href="../../methodology/">Methodology</a>
+      </nav>
+      <p class="mast-dek">Threat intelligence for teams defending Windows, Microsoft 365 and internet-facing edge devices.</p>
+    </div>
+  </div>
+</header>
+<div id="main" class="wrap">
+
+<div class="edition-strip">
+  <dl class="stats" aria-labelledby="edition-title">
+    <div><dd>10</dd><dt>Top stories</dt></div>
+    <div class="crit"><dd>0</dd><dt>New KEV entries</dt></div>
+    <div class="ai"><dd>0</dd><dt>Early signals</dt></div>
+    <div><dd>21<small>/22</small></dd><dt>Sources collected</dt></div>
+  </dl>
+  <section class="provenance" aria-label="How this edition was made">
+  <p><strong>How this edition was made.</strong>
+    Collected from 22 public sources between 26 Nov 05:00 and 27 Nov 05:00 UTC.
+Ranked by Claude Haiku 5.5, summarized by Claude Opus 5.5, and reviewed by a person before publishing.
+    Summaries can be wrong, so check the linked sources before acting. <a href="../../methodology/">Read the methodology</a></p>
+  </section>
+</div>
+
+<div class="layout">
+<main class="main">
+  <div class="section-head" id="stories">
+    <h2>Top stories</h2>
+    <span>Ranked by exploitation, reach and platform</span>
+  </div>
+
+  <article class="story lead-story" id="story-1" aria-labelledby="story-1-h">
+    <div class="story-top">
+      <div class="story-flags">
+        <div class="tags">
+<span class="tag crit-solid">Exploited</span>
+<span class="tag crit">In CISA KEV</span><span class="tag high">Public PoC</span><span class="tag info">Edge device</span>        </div>
+        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span class="rank">No. 01</span> · Priority <b>81</b>
+        </div>
+      </div>
+      <h3 id="story-1-h">Juniper Session Smart Conductor flaw <span class="nowrap">CVE-2026-103406</span> exploited for root command execution</h3>
+      <p class="meta">Juniper Networks Session Smart Conductor · 1 source · first reported 26 November 2026</p>
+    </div>
+
+    <dl class="facts">
+      <div><dt>CVE</dt><dd><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-103406">CVE-2026-103406</a></dd></div>
+      <div><dt>CVSS</dt><dd><strong>9.8</strong> <span class="crit">Critical</span></dd></div>
+      <div><dt>EPSS</dt><dd><strong>1.5%</strong> <span class="muted">30-day</span></dd></div>
+      <div><dt>CISA KEV</dt><dd>Listed earlier</dd></div>
+      <div><dt>Public PoC</dt><dd><strong class="high">2 repos</strong></dd></div>
+    </dl>
+
+    <div class="story-body">
+      <div class="cols2">
+        <section><h4 class="label">What happened</h4><p>SecurityWeek reported on 26 November 2026 that CVE-2026-103406, a critical flaw in Juniper Networks Session Smart Conductor, is being exploited in attacks. According to SecurityWeek, the bug lets a remote attacker run arbitrary commands as root on the device. The vulnerability carries a CVSS score of 9.8, is listed in CISA&#39;s Known Exploited Vulnerabilities catalog, and public proof-of-concept code exists. The sources do not state affected or fixed versions, the attack vector details, or who is behind the exploitation.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>Session Smart Conductor centrally manages Juniper Session Smart Routers, so root access on the conductor can give an attacker control over the SD-WAN fabric and a foothold for pivoting into internal Windows and identity infrastructure. Exploitation is confirmed, public PoC code is available and the flaw is in CISA KEV (no due date listed), so the EPSS of 1.5% understates the practical risk. Any conductor with management interfaces reachable from the internet or untrusted networks should be treated as urgent.</p></section>
+      </div>
+      <div class="actions">
+        <h4 class="label">What to do</h4>
+        <ol class="steps"><li>Inventory all Juniper Session Smart Conductor instances and apply the fix from Juniper&#39;s advisory for CVE-2026-103406 as soon as possible; the sources do not name fixed versions, so confirm them with Juniper.</li><li>Restrict conductor management interfaces so they are not reachable from the internet or untrusted segments until patched.</li><li>Review conductor logs, local accounts and configuration for unexpected changes, new users or unknown processes, and treat exposed unpatched conductors as potentially compromised.</li><li>Hunt for unusual connections from conductor IP addresses to internal Windows servers, domain controllers and management ports.</li><li>Rotate credentials, API keys and certificates stored on or used by any conductor showing signs of compromise.</li></ol>
+      </div>
+    </div>
+
+    <div class="sources">
+      <h4 class="label">Sources</h4>
+      <ul>
+        <li><span class="pub">SecurityWeek</span><a href="https://www.securityweek.com/critical-juniper-session-smart-conductor-flaw-exploited-in-attacks/" rel="noopener noreferrer nofollow">Critical Juniper Session Smart Conductor Flaw Exploited in Attacks</a><span class="where">securityweek.com · 26 Nov</span></li>
+      </ul>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
+
+    <details class="poc">
+      <summary>Public proof-of-concept repos (2)</summary>
+      <p class="warn">Links only, not vetted. Public PoC repos are often fake or backdoored. Don't run them on a work machine.</p>
+      <ul><li><a href="https://github.com/Sable-Research/CVE-2026-103406-Analysis" rel="noopener noreferrer nofollow">Sable-Research/CVE-2026-103406-Analysis</a> <span class="muted">CVE-2026-103406 · 1 stars · created 25 Nov</span></li><li><a href="https://github.com/Frostmoon39206/CVE-2026-103406-PoC" rel="noopener noreferrer nofollow">Frostmoon39206/CVE-2026-103406-PoC</a> <span class="muted">CVE-2026-103406 · 0 stars · created 25 Nov</span></li></ul>
+    </details>
+
+    <section class="detect" aria-label="Detection">
+      <div class="detect-head">
+        <div class="t">Detection
+<span class="tag ai">AI-generated · untested</span>        </div>
+        <span class="why">Hunting only: no endpoint behavior to write a rule against</span>
+      </div>
+      <div class="tabs">
+        <input class="tab-input" type="radio" name="fmt-story-1" id="story-1-hunt" checked>
+        <label for="story-1-hunt">Hunting</label>
+        <div class="tab-panels">
+          <div class="tab-panel">
+<ol class="steps-plain"><li>Identify every Session Smart Conductor deployment, its software version and whether its management interface is internet-exposed.</li><li>Check vulnerability management data for CVE-2026-103406 and for Juniper devices found by Defender device discovery.</li><li>Pull conductor system and authentication logs and look for unexpected root activity, new accounts, configuration pushes or outbound connections around and after late November 2026.</li><li>Using the conductor IP addresses, search endpoint network telemetry for inbound connections from those hosts to internal Windows systems on SMB, RDP, WinRM, LDAP or SSH ports.</li><li>Escalate any conductor with suspicious activity for forensic imaging before rebuilding, and rotate associated credentials.</li></ol><div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Devices reported vulnerable to CVE-2026-103406</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceTvmSoftwareVulnerabilities
+| where CveId == &#34;CVE-2026-103406&#34;
+| project DeviceName, DeviceId, OSPlatform, SoftwareVendor, SoftwareName, SoftwareVersion, VulnerabilitySeverityLevel</code></pre>
+</div>
+<p class="conv-note receipt">The synthetic baseline has no data for its tables. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Juniper network devices discovered by Defender</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceInfo
+| where Timestamp &gt; ago(7d)
+| where Vendor has &#34;Juniper&#34; or Model has &#34;Session Smart&#34;
+| summarize arg_max(Timestamp, *) by DeviceId
+| project Timestamp, DeviceName, DeviceType, Vendor, Model, OSPlatform, OSVersion, PublicIP</code></pre>
+</div>
+<p class="conv-note receipt">On 60 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Inbound connections from conductor hosts to Windows admin ports</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>let ConductorIPs = dynamic([]); // fill in your conductor management IP addresses
+DeviceNetworkEvents
+| where Timestamp &gt; ago(30d)
+| where ActionType == &#34;InboundConnectionAccepted&#34;
+| where RemoteIP in (ConductorIPs)
+| where LocalPort in (22, 135, 139, 389, 445, 636, 3389, 5985, 5986)
+| summarize Connections = count(), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by DeviceName, RemoteIP, LocalPort</code></pre>
+</div>
+<p class="conv-note receipt">On 300 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </article>
+  <article class="story" id="story-2" aria-labelledby="story-2-h">
+    <div class="story-top">
+      <div class="story-flags">
+        <div class="tags">
+<span class="tag crit-solid">Exploited</span>
+<span class="tag info">Cloud / SaaS</span><span class="tag">breach</span>        </div>
+        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span class="rank">No. 02</span> · Priority <b>69</b>
+        </div>
+      </div>
+      <h3 id="story-2-h">1Password breach via compromised employee GitHub account exposes customer records and source code</h3>
+      <p class="meta">1Password  · 1 source · first reported 26 November 2026</p>
+    </div>
+
+
+    <div class="story-body">
+      <div class="cols2">
+        <section><h4 class="label">What happened</h4><p>SecurityWeek reported on 26 November 2026 that an attacker used a compromised 1Password employee GitHub account to push malicious code and steal customer records, and that internal source code was also exposed. According to the report, customer vaults were not accessed. The sources do not say which customer data fields were taken, what the malicious code did, or whether it reached any released product build.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>Organizations that use 1Password should expect targeted phishing and social engineering that uses the stolen customer records, aimed at password manager admins and users whose credentials guard M365 and Entra ID access. Malicious code was pushed through a developer account, but the scope and any downstream impact on client software are unconfirmed. Treat this as an open supply-chain question until 1Password publishes details.</p></section>
+      </div>
+      <div class="actions">
+        <h4 class="label">What to do</h4>
+        <ol class="steps"><li>Monitor 1Password&#39;s official advisories for the exposed data fields, any affected client builds, and required customer actions, and act on them as soon as they are published.</li><li>Warn users and 1Password administrators about likely phishing that uses breach themes or stolen account details, and confirm that phishing-resistant MFA is enforced on 1Password admin accounts.</li><li>Review 1Password admin and audit logs for unexpected logins, new device approvals, or policy changes since the breach became public.</li><li>Inventory 1Password clients and browser extensions in your environment so you can quickly find and update builds if 1Password names a tainted release.</li><li>Review your own GitHub organization for weak MFA, stale personal access tokens and unprotected branches, since the same intrusion path applies to your code.</li></ol>
+      </div>
+    </div>
+
+    <div class="sources">
+      <h4 class="label">Sources</h4>
+      <ul>
+        <li><span class="pub">SecurityWeek</span><a href="https://www.securityweek.com/1password-breach-exposes-customer-data-internal-source-code/" rel="noopener noreferrer nofollow">1Password Breach Exposes Customer Data, Internal Source Code</a><span class="where">securityweek.com · 26 Nov</span></li>
+      </ul>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: low</p>    </div>
+
+
+    <section class="detect" aria-label="Detection">
+      <div class="detect-head">
+        <div class="t">Detection
+<span class="tag ai">AI-generated · untested</span>        </div>
+        <span class="why">Hunting only: no endpoint behavior to write a rule against</span>
+      </div>
+      <div class="tabs">
+        <input class="tab-input" type="radio" name="fmt-story-2" id="story-2-hunt" checked>
+        <label for="story-2-hunt">Hunting</label>
+        <div class="tab-panels">
+          <div class="tab-panel">
+<ol class="steps-plain"><li>Search recent inbound email for 1Password-themed subjects and check sender domains and URLs for impersonation.</li><li>Identify users who clicked links in suspicious 1Password-themed messages and review their sign-in activity for anomalies.</li><li>Inventory endpoints running 1Password clients so version checks are ready if 1Password names affected builds.</li><li>Review 1Password admin console audit logs for unusual logins or configuration changes.</li></ol><div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Inbound email with 1Password-themed subjects for phishing triage</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>EmailEvents | where Timestamp &gt; ago(14d) | where EmailDirection == &#34;Inbound&#34; | where Subject has &#34;1Password&#34; | summarize Count = count(), Recipients = dcount(RecipientEmailAddress) by SenderFromDomain, SenderFromAddress, Subject, ThreatTypes, DeliveryAction | order by Count desc</code></pre>
+</div>
+<p class="conv-note receipt">On 40 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Endpoints running 1Password client processes</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(7d) | where FileName has &#34;1Password&#34; or ProcessVersionInfoProductName has &#34;1Password&#34; | summarize LastSeen = max(Timestamp), Versions = make_set(ProcessVersionInfoProductVersion) by DeviceName, FileName, FolderPath</code></pre>
+</div>
+<p class="conv-note receipt">On 500 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </article>
+  <article class="story" id="story-3" aria-labelledby="story-3-h">
+    <div class="story-top">
+      <div class="story-flags">
+        <div class="tags">
+<span class="tag crit-solid">Exploited</span>
+<span class="tag info">Cloud / SaaS</span><span class="tag">campaign</span>        </div>
+        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span class="rank">No. 03</span> · Priority <b>69</b>
+        </div>
+      </div>
+      <h3 id="story-3-h">GoodGuys phishing uses fake paid expert interviews to steal Google and Okta logins</h3>
+      <p class="meta"> Google, Okta · 1 source · first reported 26 November 2026</p>
+    </div>
+
+
+    <div class="story-body">
+      <div class="cols2">
+        <section><h4 class="label">What happened</h4><p>BleepingComputer reports an ongoing phishing campaign called GoodGuys. It impersonates major brands, including Google, Nvidia, Accenture and SpaceX, and sends fake invitations to paid expert interviews and webinars. The goal is to steal corporate Google and Okta credentials. The available reporting does not describe the delivery infrastructure, the phishing pages, indicators of compromise, or whether MFA is bypassed.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>The campaign targets corporate identity providers, so stolen Okta credentials can open every federated SaaS application, which may include Microsoft 365 if Okta federates to Entra ID. BleepingComputer describes the campaign as ongoing. The lure is a paid interview or webinar invitation, a pretext that can get past awareness training built around invoice or password-reset themes.</p></section>
+      </div>
+      <div class="actions">
+        <h4 class="label">What to do</h4>
+        <ol class="steps"><li>Search recent inbound mail for paid expert interview, consultation and webinar invitations that use Google, Nvidia, Accenture or SpaceX branding from non-matching sender domains, and purge confirmed phish.</li><li>For any user who clicked or submitted credentials, reset the Okta and Google passwords, revoke active sessions and tokens, and review MFA factors registered recently.</li><li>Require phishing-resistant MFA (FIDO2/WebAuthn or Okta FastPass) for Okta and Google Workspace sign-ins to blunt credential replay.</li><li>Review Okta and Google sign-in logs for new devices, unusual locations or anonymizing infrastructure following suspected lure delivery.</li><li>Brief staff that unsolicited paid interview or webinar offers asking them to sign in with corporate credentials are a known phishing pretext.</li></ol>
+      </div>
+    </div>
+
+    <div class="sources">
+      <h4 class="label">Sources</h4>
+      <ul>
+        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/apple/fake-paid-expert-interviews-impersonate-brands-to-steal-google-logins/" rel="noopener noreferrer nofollow">Fake paid expert interviews impersonate brands to steal Google logins</a><span class="where">bleepingcomputer.com · 26 Nov</span></li>
+      </ul>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
+
+
+    <section class="detect" aria-label="Detection">
+      <div class="detect-head">
+        <div class="t">Detection
+<span class="tag ai">AI-generated · untested</span>        </div>
+        <span class="why">Hunting only: no endpoint behavior to write a rule against</span>
+      </div>
+      <div class="tabs">
+        <input class="tab-input" type="radio" name="fmt-story-3" id="story-3-hunt" checked>
+        <label for="story-3-hunt">Hunting</label>
+        <div class="tab-panels">
+          <div class="tab-panel">
+<ol class="steps-plain"><li>Query EmailEvents for inbound messages with interview, consultation, honorarium or webinar themes from the last 14 to 30 days.</li><li>Narrow the results to messages whose sender display name references an impersonated brand while the sender domain does not belong to that brand.</li><li>Identify recipients of delivered messages and check whether they clicked links, using Defender for Office 365 click data where available.</li><li>For recipients who clicked, review Okta System Log and Google Workspace login audit events for new sessions from unfamiliar IPs, devices or countries shortly after delivery.</li><li>If you find suspicious sessions, reset credentials, revoke sessions, and check for newly enrolled MFA factors or OAuth app grants.</li></ol><div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Inbound paid interview and webinar lures</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>EmailEvents | where Timestamp &gt; ago(30d) | where EmailDirection == &#34;Inbound&#34; | where Subject has_any (&#34;expert interview&#34;, &#34;paid interview&#34;, &#34;expert call&#34;, &#34;paid consultation&#34;, &#34;honorarium&#34;, &#34;webinar invitation&#34;, &#34;expert network&#34;) | project Timestamp, RecipientEmailAddress, SenderFromAddress, SenderFromDomain, SenderDisplayName, Subject, DeliveryAction, ThreatTypes | order by Timestamp desc</code></pre>
+</div>
+<p class="conv-note receipt">On 40 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Brand display names from non-matching sender domains</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>EmailEvents | where Timestamp &gt; ago(30d) | where EmailDirection == &#34;Inbound&#34; | where SenderDisplayName has_any (&#34;Google&#34;, &#34;Nvidia&#34;, &#34;Accenture&#34;, &#34;SpaceX&#34;) | where not(SenderFromDomain has_any (&#34;google&#34;, &#34;nvidia&#34;, &#34;accenture&#34;, &#34;spacex&#34;)) | where Subject has_any (&#34;interview&#34;, &#34;webinar&#34;, &#34;expert&#34;, &#34;consultation&#34;, &#34;paid&#34;) | summarize Messages = count(), Recipients = dcount(RecipientEmailAddress), Subjects = make_set(Subject, 10) by SenderFromDomain, SenderDisplayName | order by Recipients desc</code></pre>
+</div>
+<p class="conv-note receipt">On 40 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </article>
+  <article class="story" id="story-4" aria-labelledby="story-4-h">
+    <div class="story-top">
+      <div class="story-flags">
+        <div class="tags">
+<span class="tag crit-solid">Exploited</span>
+        </div>
+        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span class="rank">No. 04</span> · Priority <b>61</b>
+        </div>
+      </div>
+      <h3 id="story-4-h">Accenture reports Mitel MiCollab zero-days exploited before Mitel&#39;s advisory</h3>
+      <p class="meta">Mitel MiCollab · 1 source · first reported 26 November 2026</p>
+    </div>
+
+
+    <div class="story-body">
+      <div class="cols2">
+        <section><h4 class="label">What happened</h4><p>According to SecurityWeek, Accenture says attackers exploited vulnerabilities in Mitel MiCollab before Mitel published its advisory. Accenture links the activity to a suspected extortion campaign and believes the attackers were likely helped by AI tooling. The available reporting does not name CVE identifiers, affected versions, fixed versions or indicators of compromise.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>MiCollab is a unified communications platform that is often exposed to the internet, so it sits in the same risk category as VPNs and gateways. Exploitation was confirmed before any advisory existed, which means systems may have been compromised before patching was possible. Treat any exposed MiCollab server as potentially compromised until you have checked it.</p></section>
+      </div>
+      <div class="actions">
+        <h4 class="label">What to do</h4>
+        <ol class="steps"><li>Find every MiCollab deployment, especially internet-facing ones, and restrict access to its web and management interfaces to trusted networks or a VPN where possible.</li><li>Read Mitel&#39;s current security advisories for MiCollab and apply the fixed release or mitigations Mitel specifies.</li><li>Review MiCollab web and system logs from before the advisory date for unusual requests, new accounts, unexpected files and outbound connections.</li><li>Hunt for lateral movement and data staging from MiCollab servers toward internal Windows hosts, in line with the suspected extortion objective.</li><li>If you find signs of compromise, rotate credentials stored on or integrated with MiCollab, such as directory and service accounts.</li></ol>
+      </div>
+    </div>
+
+    <div class="sources">
+      <h4 class="label">Sources</h4>
+      <ul>
+        <li><span class="pub">SecurityWeek</span><a href="https://www.securityweek.com/mitel-micollab-zero-days-exploited-in-suspected-ai-assisted-attacks/" rel="noopener noreferrer nofollow">Mitel MiCollab Zero-Days Exploited in Suspected AI-Assisted Attacks</a><span class="where">securityweek.com · 26 Nov</span></li>
+      </ul>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: low</p>    </div>
+
+
+    <section class="detect" aria-label="Detection">
+      <div class="detect-head">
+        <div class="t">Detection
+<span class="tag ai">AI-generated · untested</span>        </div>
+        <span class="why">Hunting only: no endpoint behavior to write a rule against</span>
+      </div>
+      <div class="tabs">
+        <input class="tab-input" type="radio" name="fmt-story-4" id="story-4-hunt" checked>
+        <label for="story-4-hunt">Hunting</label>
+        <div class="tab-panels">
+          <div class="tab-panel">
+<ol class="steps-plain"><li>Build an inventory of MiCollab servers and confirm which are reachable from the internet using external attack surface data or firewall rules.</li><li>Collect MiCollab web server and application logs for the period before Mitel&#39;s advisory. Look for unusual or unauthenticated requests, path traversal patterns and access to administrative endpoints.</li><li>Check MiCollab hosts for unexpected files, scripts or accounts created recently.</li><li>Review firewall and proxy logs for outbound connections from MiCollab servers to unfamiliar destinations.</li><li>Look for connections from the MiCollab server&#39;s IP into internal Windows hosts over SMB, RDP or WinRM, and investigate any you find.</li></ol><div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Mitel software with known vulnerabilities in Defender inventory</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceTvmSoftwareVulnerabilities | where SoftwareVendor has &#34;mitel&#34; or SoftwareName has &#34;micollab&#34; | project DeviceName, SoftwareVendor, SoftwareName, SoftwareVersion, CveId, VulnerabilitySeverityLevel</code></pre>
+</div>
+<p class="conv-note receipt">The synthetic baseline has no data for its tables. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Inbound remote-admin connections to Windows hosts from non-standard sources</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceNetworkEvents | where Timestamp &gt; ago(30d) | where ActionType == &#34;InboundConnectionAccepted&#34; | where LocalPort in (445, 3389, 5985, 5986) | summarize Connections = count(), Targets = dcount(DeviceName) by RemoteIP | order by Targets desc</code></pre>
+</div>
+<p class="conv-note receipt">On 300 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </article>
+  <article class="story" id="story-5" aria-labelledby="story-5-h">
+    <div class="story-top">
+      <div class="story-flags">
+        <div class="tags">
+<span class="tag crit-solid">Exploited</span>
+<span class="tag info">Web app</span>        </div>
+        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span class="rank">No. 05</span> · Priority <b>61</b>
+        </div>
+      </div>
+      <h3 id="story-5-h">Drupal says gap in earlier installer patch is being exploited to take over sites</h3>
+      <p class="meta">Drupal Drupal · 1 source · first reported 26 November 2026</p>
+    </div>
+
+
+    <div class="story-body">
+      <div class="cols2">
+        <section><h4 class="label">What happened</h4><p>According to SecurityWeek, reporting on 26 November 2026, Drupal has warned that a previous patch for its installer did not fully close the issue and left some websites open to takeover. Drupal says attackers are already exploiting the gap. The available reporting gives no CVE identifier, affected or fixed version numbers, or technical details of the attack.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>Exploitation is confirmed in the wild, so any internet-facing Drupal site, including marketing sites, intranet portals or partner sites running on your servers, should be treated as at risk until Drupal&#39;s latest guidance is applied. Takeover of a site gives attackers a foothold on the web server and a trusted domain for phishing or malware hosting. Version details are missing from the reporting, so check Drupal&#39;s own advisory directly rather than assuming the earlier installer patch protects you.</p></section>
+      </div>
+      <div class="actions">
+        <h4 class="label">What to do</h4>
+        <ol class="steps"><li>Inventory all Drupal sites you run or host, including staging and forgotten instances, and check Drupal&#39;s latest security advisory for the corrected installer fix.</li><li>Apply Drupal&#39;s newest security release as soon as the advisory identifies it; do not rely on the earlier installer patch alone.</li><li>Block or restrict public access to the Drupal installer and other setup scripts on production sites at the web server or WAF.</li><li>Review sites for signs of takeover: unexpected administrator accounts, changed configuration or settings files, new modules or themes, and unfamiliar PHP files in web directories.</li><li>If compromise is suspected, rotate the database credentials and admin passwords used by the site and rebuild from a known-good state.</li></ol>
+      </div>
+    </div>
+
+    <div class="sources">
+      <h4 class="label">Sources</h4>
+      <ul>
+        <li><span class="pub">SecurityWeek</span><a href="https://www.securityweek.com/drupal-installer-patch-left-a-gap-attackers-are-already-exploiting/" rel="noopener noreferrer nofollow">Drupal Installer Patch Left a Gap Attackers Are Already Exploiting</a><span class="where">securityweek.com · 26 Nov</span></li>
+      </ul>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: low</p>    </div>
+
+
+    <section class="detect" aria-label="Detection">
+      <div class="detect-head">
+        <div class="t">Detection
+<span class="tag ai">AI-generated · untested</span>        </div>
+        <span class="why">Hunting only: no endpoint behavior to write a rule against</span>
+      </div>
+      <div class="tabs">
+        <input class="tab-input" type="radio" name="fmt-story-5" id="story-5-hunt" checked>
+        <label for="story-5-hunt">Hunting</label>
+        <div class="tab-panels">
+          <div class="tab-panel">
+<ol class="steps-plain"><li>Identify servers hosting Drupal by searching for Drupal core files and settings files on onboarded devices.</li><li>Review web server access logs for requests to the Drupal installer path on sites that are already installed, especially from external IP addresses since the earlier patch was released.</li><li>Look for recent writes to Drupal settings files or new PHP files under web roots outside normal deployment windows.</li><li>Check for web server processes spawning shells or system utilities, which would indicate post-takeover code execution.</li><li>Audit Drupal user lists for administrator accounts created recently or by unknown actors.</li></ol><div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Recent writes to Drupal settings files or new PHP files in Drupal paths</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceFileEvents | where Timestamp &gt; ago(30d) | where ActionType in (&#34;FileCreated&#34;, &#34;FileModified&#34;, &#34;FileRenamed&#34;) | where FolderPath has &#34;sites&#34; and (FileName =~ &#34;settings.php&#34; or FileName =~ &#34;settings.local.php&#34; or (FileName endswith &#34;.php&#34; and FolderPath has &#34;files&#34;)) | project Timestamp, DeviceName, ActionType, FolderPath, FileName, InitiatingProcessFileName, InitiatingProcessAccountName | order by Timestamp desc</code></pre>
+</div>
+<p class="conv-note receipt">On 150 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Web server or PHP processes spawning shells or utilities</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(30d) | where InitiatingProcessFileName in~ (&#34;php-fpm&#34;, &#34;php&#34;, &#34;php-cgi&#34;, &#34;php-cgi.exe&#34;, &#34;php.exe&#34;, &#34;httpd&#34;, &#34;apache2&#34;, &#34;nginx&#34;, &#34;w3wp.exe&#34;) | where FileName in~ (&#34;sh&#34;, &#34;bash&#34;, &#34;dash&#34;, &#34;curl&#34;, &#34;wget&#34;, &#34;python&#34;, &#34;python3&#34;, &#34;perl&#34;, &#34;nc&#34;, &#34;cmd.exe&#34;, &#34;powershell.exe&#34;) | project Timestamp, DeviceName, InitiatingProcessFileName, FileName, ProcessCommandLine, AccountName | order by Timestamp desc</code></pre>
+</div>
+<p class="conv-note receipt">On 500 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </article>
+  <article class="story" id="story-6" aria-labelledby="story-6-h">
+    <div class="story-top">
+      <div class="story-flags">
+        <div class="tags">
+<span class="tag crit-solid">Exploited</span>
+<span class="tag">malware</span>        </div>
+        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span class="rank">No. 06</span> · Priority <b>51</b>
+        </div>
+      </div>
+      <h3 id="story-6-h">Remus infostealer uses fake Google Sheets Chrome extension to read Gmail messages</h3>
+      <p class="meta">1 source · first reported 26 November 2026</p>
+    </div>
+
+
+    <div class="story-body">
+      <div class="cols2">
+        <section><h4 class="label">What happened</h4><p>BleepingComputer reports that the Remus infostealer steals Gmail messages through a malicious Chrome extension posing as a Google Sheets add-on. According to the report, the malware&#39;s operators advertised this capability as a zero-day exploit in Gmail. The available reporting does not suggest an actual Gmail vulnerability, and it does not give extension IDs, distribution method, indicators or affected versions.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>An extension running inside an already signed-in browser session can read mail without stealing passwords or triggering MFA, so it may bypass identity-focused controls. Users who access personal or Workspace Gmail from corporate Windows endpoints may expose business data, and the same technique could target other webmail. Only one source covers this so far and it gives few technical details, so it is not yet clear how widespread the campaign is.</p></section>
+      </div>
+      <div class="actions">
+        <h4 class="label">What to do</h4>
+        <ol class="steps"><li>Enforce a Chrome extension allowlist through Group Policy or Chrome Enterprise (ExtensionInstallAllowlist with a blocklist of all others) so unvetted extensions cannot be installed.</li><li>Inventory installed browser extensions across endpoints and investigate any Google Sheets or Google Docs themed extensions that did not come from the official Google publisher.</li><li>Hunt for Chrome launched with command-line extension loading and for extension manifests written by processes other than the browser.</li><li>On any host with a suspicious extension, remove it, treat the host as infected by an infostealer, and revoke sessions and rotate credentials for accounts used in that browser.</li><li>Watch for vendor follow-up reporting that publishes extension IDs or other indicators, and add them to blocklists.</li></ol>
+      </div>
+    </div>
+
+    <div class="sources">
+      <h4 class="label">Sources</h4>
+      <ul>
+        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/remus-malware-steals-gmail-messages-via-fake-google-sheets-extension/" rel="noopener noreferrer nofollow">Remus malware steals Gmail messages via fake Google Sheets extension</a><span class="where">bleepingcomputer.com · 26 Nov</span></li>
+      </ul>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: low</p>    </div>
+
+
+    <section class="detect" aria-label="Detection">
+      <div class="detect-head">
+        <div class="t">Detection
+<span class="tag ai">AI-generated · untested</span>        </div>
+        <span class="why">Hunting only: no endpoint behavior to write a rule against</span>
+      </div>
+      <div class="tabs">
+        <input class="tab-input" type="radio" name="fmt-story-6" id="story-6-hunt" checked>
+        <label for="story-6-hunt">Hunting</label>
+        <div class="tab-panels">
+          <div class="tab-panel">
+<ol class="steps-plain"><li>List installed Chrome extensions across the fleet and flag Google Sheets themed or unknown-publisher extensions, especially recently installed ones.</li><li>Search process telemetry for Chrome started with the load-extension switch, which is often used to sideload extensions outside the Web Store.</li><li>Look for manifest.json files created in Chrome profile Extensions folders by processes other than chrome.exe.</li><li>For hosts with hits, review parent processes and recent downloads for infostealer delivery, and check for credential or cookie database access.</li><li>Revoke Google and Microsoft sessions for affected users and rotate their credentials.</li></ol><div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Chrome launched with sideloaded extensions via command line</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceProcessEvents | where Timestamp &gt; ago(30d) | where FileName =~ &#34;chrome.exe&#34; | where ProcessCommandLine has &#34;--load-extension&#34; | project Timestamp, DeviceName, AccountName, ProcessCommandLine, InitiatingProcessFileName, InitiatingProcessCommandLine | order by Timestamp desc</code></pre>
+</div>
+<p class="conv-note receipt">On 500 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Chrome extension manifests written by non-browser processes</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceFileEvents | where Timestamp &gt; ago(30d) | where ActionType == &#34;FileCreated&#34; | where FolderPath has @&#34;\Google\Chrome\User Data\&#34; and FolderPath has @&#34;\Extensions\&#34; | where FileName =~ &#34;manifest.json&#34; | where InitiatingProcessFileName !~ &#34;chrome.exe&#34; | project Timestamp, DeviceName, FolderPath, InitiatingProcessFileName, InitiatingProcessCommandLine, InitiatingProcessAccountName</code></pre>
+</div>
+<p class="conv-note receipt">On 150 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Installed Chrome extensions themed as Google Sheets or Docs</span>
+<span class="fail">Kusto parser: errors</span>
+  </div>
+  <pre><code>DeviceTvmBrowserExtensions | where BrowserName =~ &#34;chrome&#34; | where ExtensionName has_any (&#34;Sheets&#34;, &#34;Docs&#34;, &#34;Spreadsheet&#34;) | project DeviceId, ExtensionId, ExtensionName, ExtensionVendor, ExtensionVersion, IsActivated, InstallationTime, ExtensionRisk</code></pre>
+  <ul class="diag"><li>Error KS204: The name &#39;DeviceTvmBrowserExtensions&#39; does not refer to any known table, tabular variable or function.</li></ul>
+</div>
+<p class="conv-note receipt">Kusto engine: the query did not run.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </article>
+  <article class="story" id="story-7" aria-labelledby="story-7-h">
+    <div class="story-top">
+      <div class="story-flags">
+        <div class="tags">
+<span class="tag crit-solid">Exploited</span>
+<span class="tag">malware</span>        </div>
+        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span class="rank">No. 07</span> · Priority <b>51</b>
+        </div>
+      </div>
+      <h3 id="story-7-h">SYS01 infostealer variant enrolls browsers in management to force a mail-stealing extension</h3>
+      <p class="meta">1 source · first reported 26 November 2026</p>
+    </div>
+
+
+    <div class="story-body">
+      <div class="cols2">
+        <section><h4 class="label">What happened</h4><p>BleepingComputer reported on 26 November 2026 that a new version of the SYS01 infostealer, spread through Meta advertisements, enrolls victims&#39; browsers into enterprise-style management. According to the report, the malware uses this to force-install a browser extension that steals sensitive data, including Gmail and Outlook email content. The available reporting does not name the affected browsers, the extension, the policy mechanism, or any indicators of compromise.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>Abusing browser management policies gives the attacker a persistent, policy-enforced extension that users cannot easily remove and that can read webmail sessions, including Outlook on the web used with Microsoft 365. Unexpected browser policy changes on Windows endpoints are a durable signal, because legitimate extension force-install and cloud enrollment settings normally come only from Group Policy, Intune or other management tooling. The only source is a short news summary, so the exact technique should be confirmed once fuller details are published.</p></section>
+      </div>
+      <div class="actions">
+        <h4 class="label">What to do</h4>
+        <ol class="steps"><li>Hunt for browser policy registry writes (ExtensionInstallForcelist, cloud management enrollment token values) under the Chrome, Edge and Brave policy keys made by processes other than your Group Policy, Intune or configuration management agents.</li><li>Audit force-installed and policy-managed extensions across Chrome and Edge, and remove any that are not on your approved list.</li><li>Enforce an extension allowlist through your own Group Policy or Intune so that unknown extensions are blocked by default.</li><li>If a host is affected, remove the rogue policy keys and extension, then revoke sessions and reset passwords for the user&#39;s Microsoft 365 and Gmail accounts.</li><li>Warn users about software downloads promoted through Facebook and Instagram ads, the delivery channel reported for SYS01.</li></ol>
+      </div>
+    </div>
+
+    <div class="sources">
+      <h4 class="label">Sources</h4>
+      <ul>
+        <li><span class="pub">BleepingComputer</span><a href="https://www.bleepingcomputer.com/news/security/sys010-malware-abuses-browser-management-to-spy-on-gmail-outlook/" rel="noopener noreferrer nofollow">SYS010 malware abuses browser management to spy on Gmail, Outlook</a><span class="where">bleepingcomputer.com · 26 Nov</span></li>
+      </ul>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: low</p>    </div>
+
+
+    <section class="detect" aria-label="Detection">
+      <div class="detect-head">
+        <div class="t">Detection
+<span class="tag ai">AI-generated · untested</span>        </div>
+        <span class="why">Sigma rule drafted by Claude Opus 5.5 · passed sigma check</span>
+      </div>
+      <div class="tabs">
+        <input class="tab-input" type="radio" name="fmt-story-7" id="story-7-sigma">
+        <label for="story-7-sigma">Sigma</label>
+        <input class="tab-input" type="radio" name="fmt-story-7" id="story-7-kql" checked>
+        <label for="story-7-kql">Defender KQL</label>
+        <input class="tab-input" type="radio" name="fmt-story-7" id="story-7-spl">
+        <label for="story-7-spl">Splunk SPL</label>
+        <input class="tab-input" type="radio" name="fmt-story-7" id="story-7-elastic">
+        <label for="story-7-elastic">Elastic</label>
+        <input class="tab-input" type="radio" name="fmt-story-7" id="story-7-hunt">
+        <label for="story-7-hunt">Hunting</label>
+        <div class="tab-panels">
+          <div class="tab-panel">
+            <div class="code">
+  <div class="code-bar">
+    <span class="name">Browser Extension Force-Install or Cloud Enrollment Policy Set by Unexpected Process</span>
+  </div>
+  <pre><code>title: Browser Extension Force-Install or Cloud Enrollment Policy Set by Unexpected Process
+id: 31c87a28-aa48-5787-b4a0-8abb76bf22ef
+status: experimental
+description: Detects writes to Chromium browser policy keys that force-install extensions or enroll the browser into cloud management, a technique reported for the SYS01 infostealer to push a data-stealing extension. Legitimate changes normally originate from Group Policy or MDM agents. AI-generated, untested.
+references:
+- https://www.bleepingcomputer.com/news/security/sys010-malware-abuses-browser-management-to-spy-on-gmail-outlook/
+author: intel-brief (AI-generated, untested)
+date: &#39;2026-11-27&#39;
+tags:
+- attack.persistence
+- attack.t1176
+- attack.t1112
+- attack.collection
+- attack.t1114
+logsource:
+  product: windows
+  category: registry_set
+detection:
+  selection_path:
+    TargetObject|contains:
+    - \Policies\Google\Chrome\
+    - \Policies\Microsoft\Edge\
+    - \Policies\BraveSoftware\Brave\
+  selection_value:
+    TargetObject|contains:
+    - ExtensionInstallForcelist
+    - CloudManagementEnrollmentToken
+    - ExtensionSettings
+  filter_mgmt:
+    Image|endswith:
+    - \svchost.exe
+    - \omadmclient.exe
+    - \CcmExec.exe
+    - \Microsoft.Management.Services.IntuneWindowsAgent.exe
+  condition: selection_path and selection_value and not filter_mgmt
+falsepositives:
+- Software installers or third-party management agents that legitimately deploy browser extensions via policy
+- Administrators configuring browser policy with reg.exe or scripts
+level: medium
+</code></pre>
+</div>
+
+            <p class="conv-note">AI-generated, untested. Test and tune it in your environment before you deploy it.</p>
+          </div>
+          <div class="tab-panel">
+            <div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR / Sentinel KQL</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+<span class="fail">Labelled cases: fail</span>  </div>
+  <pre><code>DeviceRegistryEvents
+| where (RegistryKey endswith &#34;\\Policies\\Google\\Chrome*&#34; or RegistryKey endswith &#34;\\Policies\\Microsoft\\Edge*&#34; or RegistryKey endswith &#34;\\Policies\\BraveSoftware\\Brave*&#34;) and (RegistryKey contains &#34;ExtensionInstallForcelist&#34; or RegistryKey contains &#34;CloudManagementEnrollmentToken&#34; or RegistryKey contains &#34;ExtensionSettings&#34;) and (not((InitiatingProcessFolderPath endswith &#34;\\svchost.exe&#34; or InitiatingProcessFolderPath endswith &#34;\\omadmclient.exe&#34; or InitiatingProcessFolderPath endswith &#34;\\CcmExec.exe&#34; or InitiatingProcessFolderPath endswith &#34;\\Microsoft.Management.Services.IntuneWindowsAgent.exe&#34;)))</code></pre>
+</div>
+<p class="conv-note receipt">On the Kusto engine it fired on 0 of 12 labelled cases that should match and 0 of 5 that should not. On 60 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+
+            <p class="conv-note">Converted from the Sigma rule with pySigma (kusto backend, microsoft_xdr pipeline).</p>
+          </div>
+          <div class="tab-panel">
+            <div class="code">
+  <div class="code-bar">
+    <span class="name">Splunk SPL</span>
+  </div>
+  <pre><code>TargetObject IN (&#34;*\\Policies\\Google\\Chrome\\*&#34;, &#34;*\\Policies\\Microsoft\\Edge\\*&#34;, &#34;*\\Policies\\BraveSoftware\\Brave\\*&#34;) TargetObject IN (&#34;*ExtensionInstallForcelist*&#34;, &#34;*CloudManagementEnrollmentToken*&#34;, &#34;*ExtensionSettings*&#34;) NOT (Image IN (&#34;*\\svchost.exe&#34;, &#34;*\\omadmclient.exe&#34;, &#34;*\\CcmExec.exe&#34;, &#34;*\\Microsoft.Management.Services.IntuneWindowsAgent.exe&#34;))</code></pre>
+</div>
+
+            <p class="conv-note">Converted from the Sigma rule with pySigma.</p>
+          </div>
+          <div class="tab-panel">
+            <div class="code">
+  <div class="code-bar">
+    <span class="name">Elastic (Lucene, ECS)</span>
+  </div>
+  <pre><code>(registry.path:(*\\Policies\\Google\\Chrome\\* OR *\\Policies\\Microsoft\\Edge\\* OR *\\Policies\\BraveSoftware\\Brave\\*)) AND (registry.path:(*ExtensionInstallForcelist* OR *CloudManagementEnrollmentToken* OR *ExtensionSettings*)) AND (NOT (process.executable.caseless:(*\\svchost.exe OR *\\omadmclient.exe OR *\\CcmExec.exe OR *\\Microsoft.Management.Services.IntuneWindowsAgent.exe)))</code></pre>
+</div>
+
+            <p class="conv-note">Converted from the Sigma rule with pySigma.</p>
+          </div>
+          <div class="tab-panel">
+<ol class="steps-plain"><li>Query registry events for writes to ExtensionInstallForcelist, ExtensionSettings or CloudManagementEnrollmentToken under Chrome, Edge and Brave policy keys over the last 30 days.</li><li>Exclude processes belonging to Group Policy, Intune and your configuration management tools, and review the remaining initiating processes and their parent chains.</li><li>Extract extension IDs from the force-install values and compare them with your approved extension list.</li><li>For hosts with unexpected entries, review recent process launches from user-writable paths (Downloads, AppData, Temp) that may correspond to an ad-delivered installer.</li><li>Check affected users&#39; Microsoft 365 sign-ins and mailbox access for unusual activity and revoke sessions where needed.</li></ol><div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Browser extension force-install and enrollment policy writes</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceRegistryEvents | where Timestamp &gt; ago(30d) | where ActionType in (&#34;RegistryValueSet&#34;, &#34;RegistryKeyCreated&#34;) | where RegistryKey has_any (@&#34;Policies\Google\Chrome&#34;, @&#34;Policies\Microsoft\Edge&#34;, @&#34;Policies\BraveSoftware\Brave&#34;) | where RegistryKey has_any (&#34;ExtensionInstallForcelist&#34;, &#34;ExtensionSettings&#34;) or RegistryValueName has_any (&#34;CloudManagementEnrollmentToken&#34;, &#34;ExtensionSettings&#34;) | where InitiatingProcessFileName !in~ (&#34;svchost.exe&#34;, &#34;omadmclient.exe&#34;, &#34;ccmexec.exe&#34;, &#34;Microsoft.Management.Services.IntuneWindowsAgent.exe&#34;) | project Timestamp, DeviceName, RegistryKey, RegistryValueName, RegistryValueData, InitiatingProcessFileName, InitiatingProcessFolderPath, InitiatingProcessCommandLine, InitiatingProcessParentFileName, InitiatingProcessAccountName | order by Timestamp desc</code></pre>
+</div>
+<p class="conv-note receipt">On 60 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+<div class="code">
+  <div class="code-bar">
+    <span class="name">Defender XDR KQL · Rare processes modifying browser policy keys across the fleet</span>
+<span class="pass" title="Parsed with Microsoft Kusto.Language against the Defender XDR / Sentinel schema"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kusto parser: pass</span>
+  </div>
+  <pre><code>DeviceRegistryEvents | where Timestamp &gt; ago(30d) | where RegistryKey has_any (@&#34;Policies\Google\Chrome&#34;, @&#34;Policies\Microsoft\Edge&#34;, @&#34;Policies\BraveSoftware\Brave&#34;) | summarize Devices = dcount(DeviceId), Events = count(), SampleKeys = make_set(RegistryKey, 5) by InitiatingProcessFileName, InitiatingProcessFolderPath | where Devices &lt; 5 | order by Devices asc</code></pre>
+</div>
+<p class="conv-note receipt">On 60 synthetic benign events it returned 0 rows. Not tested on real attack data.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </article>
+  <article class="story" id="story-8" aria-labelledby="story-8-h">
+    <div class="story-top">
+      <div class="story-flags">
+        <div class="tags">
+<span class="tag crit-solid">Exploited</span>
+<span class="tag">breach</span>        </div>
+        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span class="rank">No. 08</span> · Priority <b>51</b>
+        </div>
+      </div>
+      <h3 id="story-8-h">AFP takes news distribution platform offline after cyberattack</h3>
+      <p class="meta">1 source · first reported 27 November 2026</p>
+    </div>
+
+
+    <div class="story-body">
+      <div class="cols2">
+        <section><h4 class="label">What happened</h4><p>According to The Record, French international news agency Agence France-Presse was hit by a cyberattack on a Thursday, reported on 27 November 2026. The attack forced AFP to take offline one of its main platforms for distributing news content to media organizations worldwide. The sources do not say how the attackers got in, which systems were affected beyond the distribution platform, whether data was stolen, or who was responsible.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>For most SOCs this is a supply-chain awareness item. Media organizations that ingest AFP feeds may see disrupted content delivery and could be targeted by phishing that uses the incident as a lure. With no attack vector, CVE or indicators disclosed, there is nothing specific to hunt for yet.</p></section>
+      </div>
+      <div class="actions">
+        <h4 class="label">What to do</h4>
+        <ol class="steps"><li>If your organization consumes AFP content feeds, confirm with AFP through established contacts which delivery channels are affected and when service will be restored.</li><li>Treat unexpected messages claiming to come from AFP, such as feed changes, new credentials or new download links, as suspicious until you verify them out of band.</li><li>Review and limit any credentials, API keys or integration accounts shared with AFP distribution services, and rotate them if AFP advises it.</li><li>Watch for follow-up disclosures from AFP on the attack vector or indicators, and hunt once specifics are published.</li></ol>
+      </div>
+    </div>
+
+    <div class="sources">
+      <h4 class="label">Sources</h4>
+      <ul>
+        <li><span class="pub">The Record</span><a href="https://therecord.media/france-afp-hit-by-cyberattack" rel="noopener noreferrer nofollow">Cyberattack disrupts global news distribution platform at France’s AFP</a><span class="where">therecord.media · 27 Nov</span></li>
+      </ul>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: medium</p>    </div>
+
+
+  </article>
+  <article class="story" id="story-9" aria-labelledby="story-9-h">
+    <div class="story-top">
+      <div class="story-flags">
+        <div class="tags">
+<span class="tag crit-solid">Exploited</span>
+<span class="tag">breach</span>        </div>
+        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span class="rank">No. 09</span> · Priority <b>51</b>
+        </div>
+      </div>
+      <h3 id="story-9-h">UK Department for Work and Pensions takes several services offline after cyber incident</h3>
+      <p class="meta">1 source · first reported 27 November 2026</p>
+    </div>
+
+
+    <div class="story-body">
+      <div class="cols2">
+        <section><h4 class="label">What happened</h4><p>The UK Department for Work and Pensions said on Friday, 27 November 2026, that it had experienced a cyber incident, according to The Record. The department took several services offline as a precaution. The sources do not say which systems were affected, how the attackers got in, who was responsible, or whether any data was accessed or stolen.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>With no details on the intrusion vector, malware or indicators, defenders cannot yet link this incident to specific exposure in their own Windows, Microsoft 365 or edge-device environments. Organisations that connect to or exchange data with DWP systems should watch for official guidance and be alert to phishing that uses the incident as a lure.</p></section>
+      </div>
+      <div class="actions">
+        <h4 class="label">What to do</h4>
+        <ol class="steps"><li>Watch for official statements from DWP or the UK National Cyber Security Centre that disclose the intrusion vector, malware or indicators, and act on them.</li><li>If your organisation has integrations, data feeds or shared accounts with DWP services, review those connections and rotate any shared credentials or API keys as a precaution.</li><li>Warn users and help-desk staff about phishing or social-engineering attempts that impersonate DWP or refer to the incident or the service outage.</li></ol>
+      </div>
+    </div>
+
+    <div class="sources">
+      <h4 class="label">Sources</h4>
+      <ul>
+        <li><span class="pub">The Record</span><a href="https://therecord.media/uk-department-work-pensions-cyber-incident" rel="noopener noreferrer nofollow">British government takes services offline following ‘cyber incident’</a><span class="where">therecord.media · 27 Nov</span></li>
+      </ul>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: low</p>    </div>
+
+
+  </article>
+  <article class="story" id="story-10" aria-labelledby="story-10-h">
+    <div class="story-top">
+      <div class="story-flags">
+        <div class="tags">
+<span class="tag crit-solid">Exploited</span>
+<span class="tag">breach</span>        </div>
+        <div class="priority crit" title="Priority score (0-100) computed by code from exploitation, KEV, EPSS, CVSS, product reach and platform">
+          <span class="rank">No. 10</span> · Priority <b>51</b>
+        </div>
+      </div>
+      <h3 id="story-10-h">FIFA discloses cyberattack that accessed personal and business information</h3>
+      <p class="meta">FIFA  · 1 source · first reported 26 November 2026</p>
+    </div>
+
+
+    <div class="story-body">
+      <div class="cols2">
+        <section><h4 class="label">What happened</h4><p>FIFA has confirmed it was hit by a cyberattack in which attackers accessed personal and business information, according to SecurityWeek reporting from 26 November 2026. FIFA did not say when the intrusion took place or exactly what data was taken. No details have been published on the attacker, the initial access method, or the systems involved.</p></section>
+        <section><h4 class="label">Why it matters</h4><p>With no technical details, CVEs or indicators available, defenders have nothing specific to hunt for. The main risk to most organizations is indirect: staff or partners whose data FIFA holds may receive targeted phishing or business email compromise attempts that use the stolen information as a lure.</p></section>
+      </div>
+      <div class="actions">
+        <h4 class="label">What to do</h4>
+        <ol class="steps"><li>Identify any business relationship with FIFA, for example vendors, sponsors or event partners, and watch for official breach notifications.</li><li>Warn users who deal with FIFA about phishing and invoice or payment-change fraud that may use the stolen personal or business data.</li><li>Watch for further reporting from FIFA or researchers that names the attacker, the access method or indicators, and reassess when details appear.</li></ol>
+      </div>
+    </div>
+
+    <div class="sources">
+      <h4 class="label">Sources</h4>
+      <ul>
+        <li><span class="pub">SecurityWeek</span><a href="https://www.securityweek.com/fifa-says-it-has-been-victim-of-a-cyberattack-accessing-personal-and-business-information/" rel="noopener noreferrer nofollow">FIFA Says It Has Been Victim of a Cyberattack Accessing ‘Personal and Business Information’</a><span class="where">securityweek.com · 26 Nov</span></li>
+      </ul>
+<p class="ai-line">AI-generated summary by Claude Opus 5.5 · source support: low</p>    </div>
+
+
+  </article>
+
+  <section class="block" id="kev" aria-labelledby="h-kev">
+    <div class="section-head"><h2 id="h-kev">New CISA KEV entries</h2></div>
+    <p class="muted">CISA added no KEV entries in this window.</p>
+  </section>
+
+  <section class="block" id="signals" aria-labelledby="h-signals">
+    <div class="section-head"><h2 id="h-signals">Early signals</h2><span>Counted by code, not AI</span></div>
+    <p class="lead">CVEs that several independent accounts posted about in the window but that are not in KEV or the news feeds yet. Counted from Bluesky, Mastodon (infosec.exchange), r/netsec and Hacker News after dropping CVE-feed bots and digest posts. Chatter is a lead, not confirmation.</p>
+    <p class="muted">No CVE crossed the threshold in this window.</p>
+  </section>
+
+  <section class="block explainer" id="explainer" aria-labelledby="h-explainer">
+    <div class="section-head"><h2 id="h-explainer">Explainer</h2><span>Background, not news</span></div>
+    <h3>Browser policy abuse: force-installed extensions as an inbox reader</h3>
+    <p class="dek">Attackers who can write browser management policy, or enroll a browser into management they control, can silently install extensions that read webmail and other pages inside the user&#39;s already-authenticated session.</p>
+<p class="why-today"><strong>Why today.</strong> The SYS01 infostealer now enrolls victims&#39; browsers into enterprise-style management to force-install a mail-stealing extension, and Remus reads Gmail through a fake Google Sheets extension that its operators sold as a Gmail zero-day. Both work through the browser rather than through any flaw in Gmail or Outlook. See <a href="#story-7">story 7</a>, <a href="#story-6">story 6</a>.</p>    <div class="ex-body">
+<h4>Why an extension can read your mail</h4><p>A browser extension declares host permissions in its manifest, for example access to a webmail domain. If the user or policy grants them, its content scripts run inside those pages and can read and change the rendered content, including open messages, folder lists and search results. Some permissions also let an extension read cookies or watch requests.</p><p>None of this needs the user&#39;s password, an OAuth token or a server-side bug. The extension acts inside a session the user already signed in to, so MFA, conditional access at sign-in and phishing-resistant authenticators have already been satisfied. That is why Remus can describe a working Gmail capability as a zero-day when no Gmail vulnerability is involved.</p><h4>Enterprise policy as the install mechanism</h4><p>Chromium-based browsers, including Chrome and Edge, read enterprise policy. On Windows this comes from registry keys under the Policies branch for each vendor, written by Group Policy, Intune or anything else with write access. Chrome can also enroll into Chrome Browser Cloud Management with an enrollment token, after which a remote admin console pushes policy. Firefox has its own policy mechanism.</p><p>The ExtensionInstallForcelist policy is the key one for attackers. Extensions listed there install silently, cannot be removed or disabled by the user, and are re-installed if deleted. A browser that is managed shows a notice such as &#39;Managed by your organization&#39;, but users seldom treat that as a warning. The SYS01 reporting does not say which browser or policy path the malware uses, so assume any of these routes is possible.</p><h4>What it looks like in telemetry</h4><p>On endpoints, the strongest signal is a write to browser policy registry keys, especially extension force-install lists or a cloud enrollment token, by a process that is not your management agent, Group Policy client or a known installer. In Defender XDR, DeviceRegistryEvents can be filtered on the Chrome and Edge policy key paths and the initiating process. New extension folders under browser profile directories appear in DeviceFileEvents.</p><p>On a live machine, the browser&#39;s internal policy page lists every active policy and its source, and the management page shows whether and by whom the browser is managed. Defender Vulnerability Management can inventory installed browser extensions and their permissions, which helps you spot an unknown extension with mail-domain access across the fleet.</p><h4>Prevention</h4><p>Manage the browsers yourself. An extension allowlist, with a blocklist of all extensions except those approved, sets a policy baseline that attacker-written policy has to visibly override. Restricting which extensions may run on sensitive sites such as webmail and SSO portals narrows the damage further.</p><p>Because these attacks rely on writing policy, the main control is keeping malware from getting a foothold at all. Typical delivery is through malicious ads and fake software downloads, as with SYS01&#39;s Meta ads. Users should not have local admin rights, because writes to the machine-wide policy keys require them.</p>    </div>
+    <div class="actions">
+      <h4 class="label">For defenders</h4>
+      <ol class="steps"><li>Hunt in DeviceRegistryEvents for writes to Chrome and Edge policy keys, in particular extension force-install lists and cloud management enrollment tokens, where the initiating process is not your Intune, Group Policy or software deployment tooling.</li><li>Deploy an extension allowlist for Chrome and Edge through Intune or Group Policy, with all other extensions blocked, so any unexpected force-install entry stands out against your baseline.</li><li>Use the Defender Vulnerability Management browser extension inventory to find extensions with access to Gmail, Outlook on the web or your SSO domains, and review any you did not approve.</li><li>On a suspected infostealer host, check the browser policy and management pages and the installed extension list before reimaging, and remove attacker-written policy as well as the malware itself.</li><li>After cleanup, revoke the affected user&#39;s sessions and refresh tokens in Entra ID and Google, because an extension running inside the session may also have exposed session material.</li></ol>
+    </div>
+    <p class="ai-line">AI-generated explainer by Claude Opus 5.5 · from the model's background knowledge, not today's sources · check vendor documentation before acting on it</p>
+  </section>
+
+
+  <section class="block" id="radar" aria-labelledby="h-radar">
+    <div class="section-head"><h2 id="h-radar">Also on the radar</h2><span>Lower-ranked, links only</span></div>
+    <ul class="radar">
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-137481" rel="noopener noreferrer nofollow">Traefik releases fix for three authentication and authorization bypass flaws</a><span class="where">NVD · CVE-2026-137481, CVE-2026-137478, CVE-2026-137480</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-137706" rel="noopener noreferrer nofollow">Smart Portal flaws allow adding accounts to Active Directory Domain Admins</a><span class="where">NVD · CVE-2026-137706, CVE-2026-137705</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-137389" rel="noopener noreferrer nofollow">Openfind MailGates and Mail2000 command injection flaws</a><span class="where">NVD · CVE-2026-137389, CVE-2026-137390</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-137704" rel="noopener noreferrer nofollow">D-Link DWM-222W hardcoded administrator credentials expose user passwords</a><span class="where">NVD · CVE-2026-137704</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-137585" rel="noopener noreferrer nofollow">Bazarr path traversal on Windows exposes config file with stored API keys</a><span class="where">NVD · CVE-2026-137585</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-137465" rel="noopener noreferrer nofollow">Parse Server Google Play Games auth lets attackers take over accounts</a><span class="where">NVD · CVE-2026-137465</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-137556" rel="noopener noreferrer nofollow">Dockhand path traversal allows remote code execution as root</a><span class="where">NVD · CVE-2026-137556</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-137494" rel="noopener noreferrer nofollow">Budibase 4.0.0 fixes multiple flaws including unauthenticated data access</a><span class="where">NVD · CVE-2026-137494, CVE-2026-137498, CVE-2026-137499</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-137536" rel="noopener noreferrer nofollow">ToolJet flaws allow SSO account takeover and cross-tenant access</a><span class="where">NVD · CVE-2026-137536, CVE-2026-137523, CVE-2026-137526</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-133951" rel="noopener noreferrer nofollow">Simple Membership plugin flaws enable privilege escalation</a><span class="where">NVD · CVE-2026-133951, CVE-2026-135626</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-137567" rel="noopener noreferrer nofollow">llama.cpp RPC server out-of-bounds write allows unauthenticated attacks</a><span class="where">NVD · CVE-2026-137567</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-137547" rel="noopener noreferrer nofollow">Coder leaks database password in API key error responses</a><span class="where">NVD · CVE-2026-137547</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-137467" rel="noopener noreferrer nofollow">SiYuan flaws enable XSS, path traversal and password brute-forcing</a><span class="where">NVD · CVE-2026-137467, CVE-2026-137468, CVE-2026-137469</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-137550" rel="noopener noreferrer nofollow">Frappe Framework flaws allow unauthorized document changes and 2FA bypass</a><span class="where">NVD · CVE-2026-137550, CVE-2026-137551, CVE-2026-137552</span></li>
+      <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-137544" rel="noopener noreferrer nofollow">LaraDashboard flaws enable RCE, secret disclosure and SSRF</a><span class="where">NVD · CVE-2026-137544, CVE-2026-137542, CVE-2026-137543</span></li>
+    </ul>
+  </section>
+
+  <details class="status">
+    <summary>Collection status: 21 of 22 sources returned data</summary>
+    <ul><li><span class="">BleepingComputer</span> <span class="muted">ok 5</span></li><li><span class="">Bluesky</span> <span class="muted">ok 0</span></li><li><span class="">CISA Advisories</span> <span class="muted">ok 0</span></li><li><span class="">CISA KEV</span> <span class="muted">ok 0</span></li><li><span class="">Cisco Talos</span> <span class="muted">ok 0</span></li><li><span class="">EPSS</span> <span class="muted">ok 120</span></li><li><span class="">Hacker News</span> <span class="muted">ok 1</span></li><li><span class="">Huntress</span> <span class="muted">ok 0</span></li><li><span class="">Krebs on Security</span> <span class="muted">ok 0</span></li><li><span class="">Mastodon</span> <span class="muted">ok 3</span></li><li><span class="">Microsoft Security Blog</span> <span class="muted">ok 0</span></li><li><span class="">MSRC Security Update Guide</span> <span class="muted">ok 0</span></li><li><span class="">NVD</span> <span class="muted">ok 115</span></li><li><span class="bad">r/netsec</span> <span class="muted">error FetchError: 404 https://www.reddit.com/r/netsec/new/.rss</span></li><li><span class="">Rapid7</span> <span class="muted">ok 0</span></li><li><span class="">SANS ISC</span> <span class="muted">ok 0</span></li><li><span class="">SecurityWeek</span> <span class="muted">ok 5</span></li><li><span class="">SigmaHQ new rules</span> <span class="muted">ok 0</span></li><li><span class="">The DFIR Report</span> <span class="muted">ok 0</span></li><li><span class="">The Record</span> <span class="muted">ok 2</span></li><li><span class="">Unit 42</span> <span class="muted">ok 0</span></li><li><span class="">watchTowr Labs</span> <span class="muted">ok 0</span></li></ul>
+    <p>Data for this edition: <a href="../../editions/2026-11-27/edition.json">edition.json</a>. KQL parser: available.</p>
+  </details>
+</main>
+
+<aside class="rail" aria-label="Edition summary">
+  <section class="panel also">
+    <h2>Also today</h2>
+    <ol class="toc">
+      <li><b class="num crit">2</b><span><span class="tier crit">Exploited</span><a href="#story-2">1Password breach via compromised employee GitHub account exposes customer records and source code</a></span></li>
+      <li><b class="num crit">3</b><span><span class="tier crit">Exploited</span><a href="#story-3">GoodGuys phishing uses fake paid expert interviews to steal Google and Okta logins</a></span></li>
+      <li><b class="num crit">4</b><span><span class="tier crit">Exploited</span><a href="#story-4">Accenture reports Mitel MiCollab zero-days exploited before Mitel&#39;s advisory</a></span></li>
+      <li><b class="num crit">5</b><span><span class="tier crit">Exploited</span><a href="#story-5">Drupal says gap in earlier installer patch is being exploited to take over sites</a></span></li>
+      <li><b class="num crit">6</b><span><span class="tier crit">Exploited</span><a href="#story-6">Remus infostealer uses fake Google Sheets Chrome extension to read Gmail messages</a></span></li>
+      <li><b class="num crit">7</b><span><span class="tier crit">Exploited</span><a href="#story-7">SYS01 infostealer variant enrolls browsers in management to force a mail-stealing extension</a></span></li>
+      <li><b class="num crit">8</b><span><span class="tier crit">Exploited</span><a href="#story-8">AFP takes news distribution platform offline after cyberattack</a></span></li>
+      <li><b class="num crit">9</b><span><span class="tier crit">Exploited</span><a href="#story-9">UK Department for Work and Pensions takes several services offline after cyber incident</a></span></li>
+      <li><b class="num crit">10</b><span><span class="tier crit">Exploited</span><a href="#story-10">FIFA discloses cyberattack that accessed personal and business information</a></span></li>
+    </ol>
+  </section>
+  <section class="panel learn">
+    <h2>Also in this edition</h2>
+<p><span class="k">Explainer</span><a href="#explainer">Browser policy abuse: force-installed extensions as an inbox reader</a></p>  </section>
+  <section class="panel">
+    <h2>Collection</h2>
+    <div class="meter"><svg class="bar" viewBox="0 0 100 6" preserveAspectRatio="none" aria-hidden="true"><rect class="track" width="100" height="6" rx="3"/><rect class="fill" width="95" height="6" rx="3"/></svg><span class="mono">21/22</span></div>
+    <p>No data from r/netsec. 131 items collected.</p>
+  </section>
+  <section class="panel follow">
+    <h2>Follow the brief</h2>
+    <p>A new edition every morning, 07:15 US Eastern.</p>
+    <div class="btns"><a class="btn primary" href="https://intel.brycemaxheimer.com/feed.xml">RSS feed</a><a class="btn ghost" href="https://intel.brycemaxheimer.com/feed.json">JSON Feed</a></div>
+  </section>
+  <nav class="panel" aria-label="Other editions">
+    <h2>Other editions</h2>
+<div class="kv"><span>Older</span><a href="../../editions/2026-11-26/">26 November 2026</a></div>  </nav>
+</aside>
+</div>
+</div>
+<footer class="foot">
+  <div class="wrap">
+    <p>Summaries and detections are AI-generated and can be wrong. This site publishes summaries and links only, never copies of articles. Detections are labelled with their origin and are untested in your environment.</p>
+    <p>Maintained by Bryce Maxheimer · <a href="../../methodology/">Methodology</a> · <a href="../../archive/">Archive</a></p>
+  </div>
+</footer>
+</body>
+</html>
