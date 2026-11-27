@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>Daily Intel Brief</title><link>https://intel.brycemaxheimer.com/</link><description>Daily AI-generated threat-intel brief: top stories, new KEV entries, early signals and detections.</description><language>en-us</language><item><title>Daily Intel Brief: 2026-11-26</title><link>https://intel.brycemaxheimer.com/editions/2026-11-26/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-26/</guid><pubDate>Thu, 26 Nov 2026 19:37:29 +0000</pubDate><description>1. CISA adds critical HPE Juniper Session Smart Router and Conductor command injection to KEV
+<rss version="2.0"><channel><title>Daily Intel Brief</title><link>https://intel.brycemaxheimer.com/</link><description>Daily AI-generated threat-intel brief: top stories, new KEV entries, early signals and detections.</description><language>en-us</language><item><title>Daily Intel Brief: 2026-11-27</title><link>https://intel.brycemaxheimer.com/editions/2026-11-27/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-27/</guid><pubDate>Fri, 27 Nov 2026 19:30:36 +0000</pubDate><description>1. Juniper Session Smart Conductor flaw CVE-2026-103406 exploited for root command execution
+2. 1Password breach via compromised employee GitHub account exposes customer records and source code
+3. GoodGuys phishing uses fake paid expert interviews to steal Google and Okta logins
+4. Accenture reports Mitel MiCollab zero-days exploited before Mitel's advisory
+5. Drupal says gap in earlier installer patch is being exploited to take over sites
+6. Remus infostealer uses fake Google Sheets Chrome extension to read Gmail messages
+7. SYS01 infostealer variant enrolls browsers in management to force a mail-stealing extension
+8. AFP takes news distribution platform offline after cyberattack
+9. UK Department for Work and Pensions takes several services offline after cyber incident
+10. FIFA discloses cyberattack that accessed personal and business information
+Explainer: Browser policy abuse: force-installed extensions as an inbox reader</description></item><item><title>Daily Intel Brief: 2026-11-26</title><link>https://intel.brycemaxheimer.com/editions/2026-11-26/</link><guid isPermaLink="true">https://intel.brycemaxheimer.com/editions/2026-11-26/</guid><pubDate>Thu, 26 Nov 2026 19:37:29 +0000</pubDate><description>1. CISA adds critical HPE Juniper Session Smart Router and Conductor command injection to KEV
 2. Palo Alto Networks warns attackers are chaining PHP2Shell and Fragnesia flaws against PAN-OS
 3. Drupal security team confirms in-the-wild exploitation of critical RCE flaw in unpatched sites
 4. Broadcom fixes critical vCenter directory service auth bypass CVE-2026-123903; public PoC validated

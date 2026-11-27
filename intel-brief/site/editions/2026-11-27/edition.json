@@ -1,0 +1,1484 @@
+{
+ "schema": 1,
+ "date": "2026-11-27",
+ "generated_at": "2026-11-27T19:30:36Z",
+ "generator": "intel-brief 0.1.0",
+ "models": {
+  "triage": "claude-haiku-5-5",
+  "writeup": "claude-opus-5-5",
+  "triage_method": "model"
+ },
+ "window": {
+  "since": "2026-11-26T05:00:00+00:00",
+  "until": "2026-11-27T05:00:00+00:00"
+ },
+ "stories": [
+  {
+   "id": "story-1",
+   "rank": 1,
+   "score": 81,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 18,
+    "platform": 20,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": true,
+    "epss_max": 0.0154,
+    "cvss_max": 0
+   },
+   "title": "Juniper Session Smart Conductor flaw CVE-2026-103406 exploited for root command execution",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "widespread",
+    "platform": "edge_device",
+    "vendor": "Juniper Networks",
+    "product": "Session Smart Conductor"
+   },
+   "cves": [
+    {
+     "id": "CVE-2026-103406",
+     "cvss": 9.8,
+     "severity": "CRITICAL",
+     "products": [
+      "juniper session smart conductor"
+     ],
+     "epss": 0.01535,
+     "percentile": 0.75183,
+     "in_kev": true,
+     "kev_due": null,
+     "poc": [
+      {
+       "url": "https://github.com/Sable-Research/CVE-2026-103406-Analysis",
+       "name": "Sable-Research/CVE-2026-103406-Analysis",
+       "stars": 1,
+       "created": "2026-11-25"
+      },
+      {
+       "url": "https://github.com/Frostmoon39206/CVE-2026-103406-PoC",
+       "name": "Frostmoon39206/CVE-2026-103406-PoC",
+       "stars": 0,
+       "created": "2026-11-25"
+      }
+     ],
+     "sigmahq_rules": 0
+    }
+   ],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "SecurityWeek reported on 26 November 2026 that CVE-2026-103406, a critical flaw in Juniper Networks Session Smart Conductor, is being exploited in attacks. According to SecurityWeek, the bug lets a remote attacker run arbitrary commands as root on the device. The vulnerability carries a CVSS score of 9.8, is listed in CISA's Known Exploited Vulnerabilities catalog, and public proof-of-concept code exists. The sources do not state affected or fixed versions, the attack vector details, or who is behind the exploitation.",
+    "why_it_matters": "Session Smart Conductor centrally manages Juniper Session Smart Routers, so root access on the conductor can give an attacker control over the SD-WAN fabric and a foothold for pivoting into internal Windows and identity infrastructure. Exploitation is confirmed, public PoC code is available and the flaw is in CISA KEV (no due date listed), so the EPSS of 1.5% understates the practical risk. Any conductor with management interfaces reachable from the internet or untrusted networks should be treated as urgent.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory all Juniper Session Smart Conductor instances and apply the fix from Juniper's advisory for CVE-2026-103406 as soon as possible; the sources do not name fixed versions, so confirm them with Juniper.",
+     "Restrict conductor management interfaces so they are not reachable from the internet or untrusted segments until patched.",
+     "Review conductor logs, local accounts and configuration for unexpected changes, new users or unknown processes, and treat exposed unpatched conductors as potentially compromised.",
+     "Hunt for unusual connections from conductor IP addresses to internal Windows servers, domain controllers and management ports.",
+     "Rotate credentials, API keys and certificates stored on or used by any conductor showing signs of compromise."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Critical Juniper Session Smart Conductor Flaw Exploited in Attacks",
+     "url": "https://www.securityweek.com/critical-juniper-session-smart-conductor-flaw-exploited-in-attacks/",
+     "source": "SecurityWeek",
+     "kind": "news",
+     "published": "2026-11-26T13:04:06Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Identify every Session Smart Conductor deployment, its software version and whether its management interface is internet-exposed.",
+     "Check vulnerability management data for CVE-2026-103406 and for Juniper devices found by Defender device discovery.",
+     "Pull conductor system and authentication logs and look for unexpected root activity, new accounts, configuration pushes or outbound connections around and after late November 2026.",
+     "Using the conductor IP addresses, search endpoint network telemetry for inbound connections from those hosts to internal Windows systems on SMB, RDP, WinRM, LDAP or SSH ports.",
+     "Escalate any conductor with suspicious activity for forensic imaging before rebuilding, and rotate associated credentials."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Devices reported vulnerable to CVE-2026-103406",
+      "kql": "DeviceTvmSoftwareVulnerabilities\n| where CveId == \"CVE-2026-103406\"\n| project DeviceName, DeviceId, OSPlatform, SoftwareVendor, SoftwareName, SoftwareVersion, VulnerabilitySeverityLevel",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 0,
+        "hits": 0,
+        "tables": [
+         "DeviceTvmSoftwareVulnerabilities"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Juniper network devices discovered by Defender",
+      "kql": "DeviceInfo\n| where Timestamp > ago(7d)\n| where Vendor has \"Juniper\" or Model has \"Session Smart\"\n| summarize arg_max(Timestamp, *) by DeviceId\n| project Timestamp, DeviceName, DeviceType, Vendor, Model, OSPlatform, OSVersion, PublicIP",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 60,
+        "hits": 0,
+        "tables": [
+         "DeviceInfo"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Inbound connections from conductor hosts to Windows admin ports",
+      "kql": "let ConductorIPs = dynamic([]); // fill in your conductor management IP addresses\nDeviceNetworkEvents\n| where Timestamp > ago(30d)\n| where ActionType == \"InboundConnectionAccepted\"\n| where RemoteIP in (ConductorIPs)\n| where LocalPort in (22, 135, 139, 389, 445, 636, 3389, 5985, 5986)\n| summarize Connections = count(), FirstSeen = min(Timestamp), LastSeen = max(Timestamp) by DeviceName, RemoteIP, LocalPort",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 300,
+        "hits": 0,
+        "tables": [
+         "DeviceNetworkEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-2",
+   "rank": 2,
+   "score": 69,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 18,
+    "platform": 8,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "1Password breach via compromised employee GitHub account exposes customer records and source code",
+   "labels": {
+    "category": "breach",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "widespread",
+    "platform": "cloud_saas",
+    "vendor": "1Password",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "SecurityWeek reported on 26 November 2026 that an attacker used a compromised 1Password employee GitHub account to push malicious code and steal customer records, and that internal source code was also exposed. According to the report, customer vaults were not accessed. The sources do not say which customer data fields were taken, what the malicious code did, or whether it reached any released product build.",
+    "why_it_matters": "Organizations that use 1Password should expect targeted phishing and social engineering that uses the stolen customer records, aimed at password manager admins and users whose credentials guard M365 and Entra ID access. Malicious code was pushed through a developer account, but the scope and any downstream impact on client software are unconfirmed. Treat this as an open supply-chain question until 1Password publishes details.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Monitor 1Password's official advisories for the exposed data fields, any affected client builds, and required customer actions, and act on them as soon as they are published.",
+     "Warn users and 1Password administrators about likely phishing that uses breach themes or stolen account details, and confirm that phishing-resistant MFA is enforced on 1Password admin accounts.",
+     "Review 1Password admin and audit logs for unexpected logins, new device approvals, or policy changes since the breach became public.",
+     "Inventory 1Password clients and browser extensions in your environment so you can quickly find and update builds if 1Password names a tainted release.",
+     "Review your own GitHub organization for weak MFA, stale personal access tokens and unprotected branches, since the same intrusion path applies to your code."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "1Password Breach Exposes Customer Data, Internal Source Code",
+     "url": "https://www.securityweek.com/1password-breach-exposes-customer-data-internal-source-code/",
+     "source": "SecurityWeek",
+     "kind": "news",
+     "published": "2026-11-26T08:32:10Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Search recent inbound email for 1Password-themed subjects and check sender domains and URLs for impersonation.",
+     "Identify users who clicked links in suspicious 1Password-themed messages and review their sign-in activity for anomalies.",
+     "Inventory endpoints running 1Password clients so version checks are ready if 1Password names affected builds.",
+     "Review 1Password admin console audit logs for unusual logins or configuration changes."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Inbound email with 1Password-themed subjects for phishing triage",
+      "kql": "EmailEvents | where Timestamp > ago(14d) | where EmailDirection == \"Inbound\" | where Subject has \"1Password\" | summarize Count = count(), Recipients = dcount(RecipientEmailAddress) by SenderFromDomain, SenderFromAddress, Subject, ThreatTypes, DeliveryAction | order by Count desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 40,
+        "hits": 0,
+        "tables": [
+         "EmailEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Endpoints running 1Password client processes",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(7d) | where FileName has \"1Password\" or ProcessVersionInfoProductName has \"1Password\" | summarize LastSeen = max(Timestamp), Versions = make_set(ProcessVersionInfoProductVersion) by DeviceName, FileName, FolderPath",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-3",
+   "rank": 3,
+   "score": 69,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 18,
+    "platform": 8,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "GoodGuys phishing uses fake paid expert interviews to steal Google and Okta logins",
+   "labels": {
+    "category": "campaign",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "widespread",
+    "platform": "cloud_saas",
+    "vendor": "",
+    "product": "Google, Okta"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "BleepingComputer reports an ongoing phishing campaign called GoodGuys. It impersonates major brands, including Google, Nvidia, Accenture and SpaceX, and sends fake invitations to paid expert interviews and webinars. The goal is to steal corporate Google and Okta credentials. The available reporting does not describe the delivery infrastructure, the phishing pages, indicators of compromise, or whether MFA is bypassed.",
+    "why_it_matters": "The campaign targets corporate identity providers, so stolen Okta credentials can open every federated SaaS application, which may include Microsoft 365 if Okta federates to Entra ID. BleepingComputer describes the campaign as ongoing. The lure is a paid interview or webinar invitation, a pretext that can get past awareness training built around invoice or password-reset themes.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Search recent inbound mail for paid expert interview, consultation and webinar invitations that use Google, Nvidia, Accenture or SpaceX branding from non-matching sender domains, and purge confirmed phish.",
+     "For any user who clicked or submitted credentials, reset the Okta and Google passwords, revoke active sessions and tokens, and review MFA factors registered recently.",
+     "Require phishing-resistant MFA (FIDO2/WebAuthn or Okta FastPass) for Okta and Google Workspace sign-ins to blunt credential replay.",
+     "Review Okta and Google sign-in logs for new devices, unusual locations or anonymizing infrastructure following suspected lure delivery.",
+     "Brief staff that unsolicited paid interview or webinar offers asking them to sign in with corporate credentials are a known phishing pretext."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Fake paid expert interviews impersonate brands to steal Google logins",
+     "url": "https://www.bleepingcomputer.com/news/apple/fake-paid-expert-interviews-impersonate-brands-to-steal-google-logins/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-26T17:15:27Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Query EmailEvents for inbound messages with interview, consultation, honorarium or webinar themes from the last 14 to 30 days.",
+     "Narrow the results to messages whose sender display name references an impersonated brand while the sender domain does not belong to that brand.",
+     "Identify recipients of delivered messages and check whether they clicked links, using Defender for Office 365 click data where available.",
+     "For recipients who clicked, review Okta System Log and Google Workspace login audit events for new sessions from unfamiliar IPs, devices or countries shortly after delivery.",
+     "If you find suspicious sessions, reset credentials, revoke sessions, and check for newly enrolled MFA factors or OAuth app grants."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Inbound paid interview and webinar lures",
+      "kql": "EmailEvents | where Timestamp > ago(30d) | where EmailDirection == \"Inbound\" | where Subject has_any (\"expert interview\", \"paid interview\", \"expert call\", \"paid consultation\", \"honorarium\", \"webinar invitation\", \"expert network\") | project Timestamp, RecipientEmailAddress, SenderFromAddress, SenderFromDomain, SenderDisplayName, Subject, DeliveryAction, ThreatTypes | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 40,
+        "hits": 0,
+        "tables": [
+         "EmailEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Brand display names from non-matching sender domains",
+      "kql": "EmailEvents | where Timestamp > ago(30d) | where EmailDirection == \"Inbound\" | where SenderDisplayName has_any (\"Google\", \"Nvidia\", \"Accenture\", \"SpaceX\") | where not(SenderFromDomain has_any (\"google\", \"nvidia\", \"accenture\", \"spacex\")) | where Subject has_any (\"interview\", \"webinar\", \"expert\", \"consultation\", \"paid\") | summarize Messages = count(), Recipients = dcount(RecipientEmailAddress), Subjects = make_set(Subject, 10) by SenderFromDomain, SenderDisplayName | order by Recipients desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 40,
+        "hits": 0,
+        "tables": [
+         "EmailEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-4",
+   "rank": 4,
+   "score": 61,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 18,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Accenture reports Mitel MiCollab zero-days exploited before Mitel's advisory",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "widespread",
+    "platform": "other",
+    "vendor": "Mitel",
+    "product": "MiCollab"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "According to SecurityWeek, Accenture says attackers exploited vulnerabilities in Mitel MiCollab before Mitel published its advisory. Accenture links the activity to a suspected extortion campaign and believes the attackers were likely helped by AI tooling. The available reporting does not name CVE identifiers, affected versions, fixed versions or indicators of compromise.",
+    "why_it_matters": "MiCollab is a unified communications platform that is often exposed to the internet, so it sits in the same risk category as VPNs and gateways. Exploitation was confirmed before any advisory existed, which means systems may have been compromised before patching was possible. Treat any exposed MiCollab server as potentially compromised until you have checked it.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Find every MiCollab deployment, especially internet-facing ones, and restrict access to its web and management interfaces to trusted networks or a VPN where possible.",
+     "Read Mitel's current security advisories for MiCollab and apply the fixed release or mitigations Mitel specifies.",
+     "Review MiCollab web and system logs from before the advisory date for unusual requests, new accounts, unexpected files and outbound connections.",
+     "Hunt for lateral movement and data staging from MiCollab servers toward internal Windows hosts, in line with the suspected extortion objective.",
+     "If you find signs of compromise, rotate credentials stored on or integrated with MiCollab, such as directory and service accounts."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Mitel MiCollab Zero-Days Exploited in Suspected AI-Assisted Attacks",
+     "url": "https://www.securityweek.com/mitel-micollab-zero-days-exploited-in-suspected-ai-assisted-attacks/",
+     "source": "SecurityWeek",
+     "kind": "news",
+     "published": "2026-11-26T11:35:25Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Build an inventory of MiCollab servers and confirm which are reachable from the internet using external attack surface data or firewall rules.",
+     "Collect MiCollab web server and application logs for the period before Mitel's advisory. Look for unusual or unauthenticated requests, path traversal patterns and access to administrative endpoints.",
+     "Check MiCollab hosts for unexpected files, scripts or accounts created recently.",
+     "Review firewall and proxy logs for outbound connections from MiCollab servers to unfamiliar destinations.",
+     "Look for connections from the MiCollab server's IP into internal Windows hosts over SMB, RDP or WinRM, and investigate any you find."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Mitel software with known vulnerabilities in Defender inventory",
+      "kql": "DeviceTvmSoftwareVulnerabilities | where SoftwareVendor has \"mitel\" or SoftwareName has \"micollab\" | project DeviceName, SoftwareVendor, SoftwareName, SoftwareVersion, CveId, VulnerabilitySeverityLevel",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 0,
+        "hits": 0,
+        "tables": [
+         "DeviceTvmSoftwareVulnerabilities"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Inbound remote-admin connections to Windows hosts from non-standard sources",
+      "kql": "DeviceNetworkEvents | where Timestamp > ago(30d) | where ActionType == \"InboundConnectionAccepted\" | where LocalPort in (445, 3389, 5985, 5986) | summarize Connections = count(), Targets = dcount(DeviceName) by RemoteIP | order by Targets desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 300,
+        "hits": 0,
+        "tables": [
+         "DeviceNetworkEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-5",
+   "rank": 5,
+   "score": 61,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 18,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Drupal says gap in earlier installer patch is being exploited to take over sites",
+   "labels": {
+    "category": "vulnerability",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "widespread",
+    "platform": "web_app",
+    "vendor": "Drupal",
+    "product": "Drupal"
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "According to SecurityWeek, reporting on 26 November 2026, Drupal has warned that a previous patch for its installer did not fully close the issue and left some websites open to takeover. Drupal says attackers are already exploiting the gap. The available reporting gives no CVE identifier, affected or fixed version numbers, or technical details of the attack.",
+    "why_it_matters": "Exploitation is confirmed in the wild, so any internet-facing Drupal site, including marketing sites, intranet portals or partner sites running on your servers, should be treated as at risk until Drupal's latest guidance is applied. Takeover of a site gives attackers a foothold on the web server and a trusted domain for phishing or malware hosting. Version details are missing from the reporting, so check Drupal's own advisory directly rather than assuming the earlier installer patch protects you.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Inventory all Drupal sites you run or host, including staging and forgotten instances, and check Drupal's latest security advisory for the corrected installer fix.",
+     "Apply Drupal's newest security release as soon as the advisory identifies it; do not rely on the earlier installer patch alone.",
+     "Block or restrict public access to the Drupal installer and other setup scripts on production sites at the web server or WAF.",
+     "Review sites for signs of takeover: unexpected administrator accounts, changed configuration or settings files, new modules or themes, and unfamiliar PHP files in web directories.",
+     "If compromise is suspected, rotate the database credentials and admin passwords used by the site and rebuild from a known-good state."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Drupal Installer Patch Left a Gap Attackers Are Already Exploiting",
+     "url": "https://www.securityweek.com/drupal-installer-patch-left-a-gap-attackers-are-already-exploiting/",
+     "source": "SecurityWeek",
+     "kind": "news",
+     "published": "2026-11-26T09:12:26Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "Identify servers hosting Drupal by searching for Drupal core files and settings files on onboarded devices.",
+     "Review web server access logs for requests to the Drupal installer path on sites that are already installed, especially from external IP addresses since the earlier patch was released.",
+     "Look for recent writes to Drupal settings files or new PHP files under web roots outside normal deployment windows.",
+     "Check for web server processes spawning shells or system utilities, which would indicate post-takeover code execution.",
+     "Audit Drupal user lists for administrator accounts created recently or by unknown actors."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Recent writes to Drupal settings files or new PHP files in Drupal paths",
+      "kql": "DeviceFileEvents | where Timestamp > ago(30d) | where ActionType in (\"FileCreated\", \"FileModified\", \"FileRenamed\") | where FolderPath has \"sites\" and (FileName =~ \"settings.php\" or FileName =~ \"settings.local.php\" or (FileName endswith \".php\" and FolderPath has \"files\")) | project Timestamp, DeviceName, ActionType, FolderPath, FileName, InitiatingProcessFileName, InitiatingProcessAccountName | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 150,
+        "hits": 0,
+        "tables": [
+         "DeviceFileEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Web server or PHP processes spawning shells or utilities",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where InitiatingProcessFileName in~ (\"php-fpm\", \"php\", \"php-cgi\", \"php-cgi.exe\", \"php.exe\", \"httpd\", \"apache2\", \"nginx\", \"w3wp.exe\") | where FileName in~ (\"sh\", \"bash\", \"dash\", \"curl\", \"wget\", \"python\", \"python3\", \"perl\", \"nc\", \"cmd.exe\", \"powershell.exe\") | project Timestamp, DeviceName, InitiatingProcessFileName, FileName, ProcessCommandLine, AccountName | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-6",
+   "rank": 6,
+   "score": 51,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "Remus infostealer uses fake Google Sheets Chrome extension to read Gmail messages",
+   "labels": {
+    "category": "malware",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "other",
+    "vendor": "",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "BleepingComputer reports that the Remus infostealer steals Gmail messages through a malicious Chrome extension posing as a Google Sheets add-on. According to the report, the malware's operators advertised this capability as a zero-day exploit in Gmail. The available reporting does not suggest an actual Gmail vulnerability, and it does not give extension IDs, distribution method, indicators or affected versions.",
+    "why_it_matters": "An extension running inside an already signed-in browser session can read mail without stealing passwords or triggering MFA, so it may bypass identity-focused controls. Users who access personal or Workspace Gmail from corporate Windows endpoints may expose business data, and the same technique could target other webmail. Only one source covers this so far and it gives few technical details, so it is not yet clear how widespread the campaign is.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Enforce a Chrome extension allowlist through Group Policy or Chrome Enterprise (ExtensionInstallAllowlist with a blocklist of all others) so unvetted extensions cannot be installed.",
+     "Inventory installed browser extensions across endpoints and investigate any Google Sheets or Google Docs themed extensions that did not come from the official Google publisher.",
+     "Hunt for Chrome launched with command-line extension loading and for extension manifests written by processes other than the browser.",
+     "On any host with a suspicious extension, remove it, treat the host as infected by an infostealer, and revoke sessions and rotate credentials for accounts used in that browser.",
+     "Watch for vendor follow-up reporting that publishes extension IDs or other indicators, and add them to blocklists."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Remus malware steals Gmail messages via fake Google Sheets extension",
+     "url": "https://www.bleepingcomputer.com/news/security/remus-malware-steals-gmail-messages-via-fake-google-sheets-extension/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-26T15:23:28Z"
+    }
+   ],
+   "detection": {
+    "type": "hunting_only",
+    "sigma": null,
+    "hunting_steps": [
+     "List installed Chrome extensions across the fleet and flag Google Sheets themed or unknown-publisher extensions, especially recently installed ones.",
+     "Search process telemetry for Chrome started with the load-extension switch, which is often used to sideload extensions outside the Web Store.",
+     "Look for manifest.json files created in Chrome profile Extensions folders by processes other than chrome.exe.",
+     "For hosts with hits, review parent processes and recent downloads for infostealer delivery, and check for credential or cookie database access.",
+     "Revoke Google and Microsoft sessions for affected users and rotate their credentials."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Chrome launched with sideloaded extensions via command line",
+      "kql": "DeviceProcessEvents | where Timestamp > ago(30d) | where FileName =~ \"chrome.exe\" | where ProcessCommandLine has \"--load-extension\" | project Timestamp, DeviceName, AccountName, ProcessCommandLine, InitiatingProcessFileName, InitiatingProcessCommandLine | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 500,
+        "hits": 0,
+        "tables": [
+         "DeviceProcessEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Chrome extension manifests written by non-browser processes",
+      "kql": "DeviceFileEvents | where Timestamp > ago(30d) | where ActionType == \"FileCreated\" | where FolderPath has @\"\\Google\\Chrome\\User Data\\\" and FolderPath has @\"\\Extensions\\\" | where FileName =~ \"manifest.json\" | where InitiatingProcessFileName !~ \"chrome.exe\" | project Timestamp, DeviceName, FolderPath, InitiatingProcessFileName, InitiatingProcessCommandLine, InitiatingProcessAccountName",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 150,
+        "hits": 0,
+        "tables": [
+         "DeviceFileEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Installed Chrome extensions themed as Google Sheets or Docs",
+      "kql": "DeviceTvmBrowserExtensions | where BrowserName =~ \"chrome\" | where ExtensionName has_any (\"Sheets\", \"Docs\", \"Spreadsheet\") | project DeviceId, ExtensionId, ExtensionName, ExtensionVendor, ExtensionVersion, IsActivated, InstallationTime, ExtensionRisk",
+      "validation": {
+       "status": "fail",
+       "messages": [
+        "Error KS204: The name 'DeviceTvmBrowserExtensions' does not refer to any known table, tabular variable or function."
+       ]
+      },
+      "receipt": {
+       "engine": "error",
+       "message": "General_BadRequest: Request is invalid and cannot be executed."
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-7",
+   "rank": 7,
+   "score": 51,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "SYS01 infostealer variant enrolls browsers in management to force a mail-stealing extension",
+   "labels": {
+    "category": "malware",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "other",
+    "vendor": "",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "BleepingComputer reported on 26 November 2026 that a new version of the SYS01 infostealer, spread through Meta advertisements, enrolls victims' browsers into enterprise-style management. According to the report, the malware uses this to force-install a browser extension that steals sensitive data, including Gmail and Outlook email content. The available reporting does not name the affected browsers, the extension, the policy mechanism, or any indicators of compromise.",
+    "why_it_matters": "Abusing browser management policies gives the attacker a persistent, policy-enforced extension that users cannot easily remove and that can read webmail sessions, including Outlook on the web used with Microsoft 365. Unexpected browser policy changes on Windows endpoints are a durable signal, because legitimate extension force-install and cloud enrollment settings normally come only from Group Policy, Intune or other management tooling. The only source is a short news summary, so the exact technique should be confirmed once fuller details are published.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Hunt for browser policy registry writes (ExtensionInstallForcelist, cloud management enrollment token values) under the Chrome, Edge and Brave policy keys made by processes other than your Group Policy, Intune or configuration management agents.",
+     "Audit force-installed and policy-managed extensions across Chrome and Edge, and remove any that are not on your approved list.",
+     "Enforce an extension allowlist through your own Group Policy or Intune so that unknown extensions are blocked by default.",
+     "If a host is affected, remove the rogue policy keys and extension, then revoke sessions and reset passwords for the user's Microsoft 365 and Gmail accounts.",
+     "Warn users about software downloads promoted through Facebook and Instagram ads, the delivery channel reported for SYS01."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "SYS010 malware abuses browser management to spy on Gmail, Outlook",
+     "url": "https://www.bleepingcomputer.com/news/security/sys010-malware-abuses-browser-management-to-spy-on-gmail-outlook/",
+     "source": "BleepingComputer",
+     "kind": "news",
+     "published": "2026-11-26T11:50:17Z"
+    }
+   ],
+   "detection": {
+    "type": "behavioral",
+    "sigma": {
+     "origin": "ai",
+     "title": "Browser Extension Force-Install or Cloud Enrollment Policy Set by Unexpected Process",
+     "url": null,
+     "yaml": "title: Browser Extension Force-Install or Cloud Enrollment Policy Set by Unexpected Process\nid: 31c87a28-aa48-5787-b4a0-8abb76bf22ef\nstatus: experimental\ndescription: Detects writes to Chromium browser policy keys that force-install extensions or enroll the browser into cloud management, a technique reported for the SYS01 infostealer to push a data-stealing extension. Legitimate changes normally originate from Group Policy or MDM agents. AI-generated, untested.\nreferences:\n- https://www.bleepingcomputer.com/news/security/sys010-malware-abuses-browser-management-to-spy-on-gmail-outlook/\nauthor: intel-brief (AI-generated, untested)\ndate: '2026-11-27'\ntags:\n- attack.persistence\n- attack.t1176\n- attack.t1112\n- attack.collection\n- attack.t1114\nlogsource:\n  product: windows\n  category: registry_set\ndetection:\n  selection_path:\n    TargetObject|contains:\n    - \\Policies\\Google\\Chrome\\\n    - \\Policies\\Microsoft\\Edge\\\n    - \\Policies\\BraveSoftware\\Brave\\\n  selection_value:\n    TargetObject|contains:\n    - ExtensionInstallForcelist\n    - CloudManagementEnrollmentToken\n    - ExtensionSettings\n  filter_mgmt:\n    Image|endswith:\n    - \\svchost.exe\n    - \\omadmclient.exe\n    - \\CcmExec.exe\n    - \\Microsoft.Management.Services.IntuneWindowsAgent.exe\n  condition: selection_path and selection_value and not filter_mgmt\nfalsepositives:\n- Software installers or third-party management agents that legitimately deploy browser extensions via policy\n- Administrators configuring browser policy with reg.exe or scripts\nlevel: medium\n",
+     "check": {
+      "status": "pass",
+      "messages": [
+       "No rule errors found.",
+       "No condition errors found.",
+       "No validation issues found.",
+       "Parsing Sigma rules",
+       "Checking Sigma rules"
+      ]
+     },
+     "conversions": {
+      "kql": {
+       "label": "Defender XDR / Sentinel KQL",
+       "query": "DeviceRegistryEvents\n| where (RegistryKey endswith \"\\\\Policies\\\\Google\\\\Chrome*\" or RegistryKey endswith \"\\\\Policies\\\\Microsoft\\\\Edge*\" or RegistryKey endswith \"\\\\Policies\\\\BraveSoftware\\\\Brave*\") and (RegistryKey contains \"ExtensionInstallForcelist\" or RegistryKey contains \"CloudManagementEnrollmentToken\" or RegistryKey contains \"ExtensionSettings\") and (not((InitiatingProcessFolderPath endswith \"\\\\svchost.exe\" or InitiatingProcessFolderPath endswith \"\\\\omadmclient.exe\" or InitiatingProcessFolderPath endswith \"\\\\CcmExec.exe\" or InitiatingProcessFolderPath endswith \"\\\\Microsoft.Management.Services.IntuneWindowsAgent.exe\")))",
+       "error": null,
+       "validation": {
+        "status": "pass",
+        "messages": []
+       },
+       "receipt": {
+        "engine": "ran",
+        "baseline": {
+         "events": 60,
+         "hits": 0,
+         "tables": [
+          "DeviceRegistryEvents"
+         ]
+        },
+        "cases": {
+         "status": "fail",
+         "positive": 12,
+         "positive_fired": 0,
+         "negative": 5,
+         "negative_fired": 0,
+         "disagreements": [
+          {
+           "case": "every selection",
+           "expected": true,
+           "fired": false
+          },
+          {
+           "case": "letter case changed",
+           "expected": true,
+           "fired": false
+          },
+          {
+           "case": "selection_path alternative 1, contained text at the end",
+           "expected": true,
+           "fired": false
+          },
+          {
+           "case": "selection_path alternative 2",
+           "expected": true,
+           "fired": false
+          },
+          {
+           "case": "selection_path alternative 2, contained text at the end",
+           "expected": true,
+           "fired": false
+          },
+          {
+           "case": "selection_path alternative 3",
+           "expected": true,
+           "fired": false
+          },
+          {
+           "case": "selection_path alternative 3, contained text at the end",
+           "expected": true,
+           "fired": false
+          },
+          {
+           "case": "selection_value alternative 1, contained text at the end",
+           "expected": true,
+           "fired": false
+          },
+          {
+           "case": "selection_value alternative 2",
+           "expected": true,
+           "fired": false
+          },
+          {
+           "case": "selection_value alternative 2, contained text at the end",
+           "expected": true,
+           "fired": false
+          }
+         ],
+         "skipped": 0
+        }
+       }
+      },
+      "spl": {
+       "label": "Splunk SPL",
+       "query": "TargetObject IN (\"*\\\\Policies\\\\Google\\\\Chrome\\\\*\", \"*\\\\Policies\\\\Microsoft\\\\Edge\\\\*\", \"*\\\\Policies\\\\BraveSoftware\\\\Brave\\\\*\") TargetObject IN (\"*ExtensionInstallForcelist*\", \"*CloudManagementEnrollmentToken*\", \"*ExtensionSettings*\") NOT (Image IN (\"*\\\\svchost.exe\", \"*\\\\omadmclient.exe\", \"*\\\\CcmExec.exe\", \"*\\\\Microsoft.Management.Services.IntuneWindowsAgent.exe\"))",
+       "error": null
+      },
+      "elastic": {
+       "label": "Elastic (Lucene, ECS)",
+       "query": "(registry.path:(*\\\\Policies\\\\Google\\\\Chrome\\\\* OR *\\\\Policies\\\\Microsoft\\\\Edge\\\\* OR *\\\\Policies\\\\BraveSoftware\\\\Brave\\\\*)) AND (registry.path:(*ExtensionInstallForcelist* OR *CloudManagementEnrollmentToken* OR *ExtensionSettings*)) AND (NOT (process.executable.caseless:(*\\\\svchost.exe OR *\\\\omadmclient.exe OR *\\\\CcmExec.exe OR *\\\\Microsoft.Management.Services.IntuneWindowsAgent.exe)))",
+       "error": null
+      }
+     }
+    },
+    "hunting_steps": [
+     "Query registry events for writes to ExtensionInstallForcelist, ExtensionSettings or CloudManagementEnrollmentToken under Chrome, Edge and Brave policy keys over the last 30 days.",
+     "Exclude processes belonging to Group Policy, Intune and your configuration management tools, and review the remaining initiating processes and their parent chains.",
+     "Extract extension IDs from the force-install values and compare them with your approved extension list.",
+     "For hosts with unexpected entries, review recent process launches from user-writable paths (Downloads, AppData, Temp) that may correspond to an ad-delivered installer.",
+     "Check affected users' Microsoft 365 sign-ins and mailbox access for unusual activity and revoke sessions where needed."
+    ],
+    "hunting_queries": [
+     {
+      "title": "Browser extension force-install and enrollment policy writes",
+      "kql": "DeviceRegistryEvents | where Timestamp > ago(30d) | where ActionType in (\"RegistryValueSet\", \"RegistryKeyCreated\") | where RegistryKey has_any (@\"Policies\\Google\\Chrome\", @\"Policies\\Microsoft\\Edge\", @\"Policies\\BraveSoftware\\Brave\") | where RegistryKey has_any (\"ExtensionInstallForcelist\", \"ExtensionSettings\") or RegistryValueName has_any (\"CloudManagementEnrollmentToken\", \"ExtensionSettings\") | where InitiatingProcessFileName !in~ (\"svchost.exe\", \"omadmclient.exe\", \"ccmexec.exe\", \"Microsoft.Management.Services.IntuneWindowsAgent.exe\") | project Timestamp, DeviceName, RegistryKey, RegistryValueName, RegistryValueData, InitiatingProcessFileName, InitiatingProcessFolderPath, InitiatingProcessCommandLine, InitiatingProcessParentFileName, InitiatingProcessAccountName | order by Timestamp desc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 60,
+        "hits": 0,
+        "tables": [
+         "DeviceRegistryEvents"
+        ]
+       }
+      }
+     },
+     {
+      "title": "Rare processes modifying browser policy keys across the fleet",
+      "kql": "DeviceRegistryEvents | where Timestamp > ago(30d) | where RegistryKey has_any (@\"Policies\\Google\\Chrome\", @\"Policies\\Microsoft\\Edge\", @\"Policies\\BraveSoftware\\Brave\") | summarize Devices = dcount(DeviceId), Events = count(), SampleKeys = make_set(RegistryKey, 5) by InitiatingProcessFileName, InitiatingProcessFolderPath | where Devices < 5 | order by Devices asc",
+      "validation": {
+       "status": "pass",
+       "messages": []
+      },
+      "receipt": {
+       "engine": "ran",
+       "baseline": {
+        "events": 60,
+        "hits": 0,
+        "tables": [
+         "DeviceRegistryEvents"
+        ]
+       }
+      }
+     }
+    ],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-8",
+   "rank": 8,
+   "score": 51,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "AFP takes news distribution platform offline after cyberattack",
+   "labels": {
+    "category": "breach",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "other",
+    "vendor": "",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "According to The Record, French international news agency Agence France-Presse was hit by a cyberattack on a Thursday, reported on 27 November 2026. The attack forced AFP to take offline one of its main platforms for distributing news content to media organizations worldwide. The sources do not say how the attackers got in, which systems were affected beyond the distribution platform, whether data was stolen, or who was responsible.",
+    "why_it_matters": "For most SOCs this is a supply-chain awareness item. Media organizations that ingest AFP feeds may see disrupted content delivery and could be targeted by phishing that uses the incident as a lure. With no attack vector, CVE or indicators disclosed, there is nothing specific to hunt for yet.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "If your organization consumes AFP content feeds, confirm with AFP through established contacts which delivery channels are affected and when service will be restored.",
+     "Treat unexpected messages claiming to come from AFP, such as feed changes, new credentials or new download links, as suspicious until you verify them out of band.",
+     "Review and limit any credentials, API keys or integration accounts shared with AFP distribution services, and rotate them if AFP advises it.",
+     "Watch for follow-up disclosures from AFP on the attack vector or indicators, and hunt once specifics are published."
+    ],
+    "confidence": "medium",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "Cyberattack disrupts global news distribution platform at France’s AFP",
+     "url": "https://therecord.media/france-afp-hit-by-cyberattack",
+     "source": "The Record",
+     "kind": "news",
+     "published": "2026-11-27T00:00:00Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-9",
+   "rank": 9,
+   "score": 51,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "UK Department for Work and Pensions takes several services offline after cyber incident",
+   "labels": {
+    "category": "breach",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "other",
+    "vendor": "",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "The UK Department for Work and Pensions said on Friday, 27 November 2026, that it had experienced a cyber incident, according to The Record. The department took several services offline as a precaution. The sources do not say which systems were affected, how the attackers got in, who was responsible, or whether any data was accessed or stolen.",
+    "why_it_matters": "With no details on the intrusion vector, malware or indicators, defenders cannot yet link this incident to specific exposure in their own Windows, Microsoft 365 or edge-device environments. Organisations that connect to or exchange data with DWP systems should watch for official guidance and be alert to phishing that uses the incident as a lure.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Watch for official statements from DWP or the UK National Cyber Security Centre that disclose the intrusion vector, malware or indicators, and act on them.",
+     "If your organisation has integrations, data feeds or shared accounts with DWP services, review those connections and rotate any shared credentials or API keys as a precaution.",
+     "Warn users and help-desk staff about phishing or social-engineering attempts that impersonate DWP or refer to the incident or the service outage."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "British government takes services offline following ‘cyber incident’",
+     "url": "https://therecord.media/uk-department-work-pensions-cyber-incident",
+     "source": "The Record",
+     "kind": "news",
+     "published": "2026-11-27T00:00:00Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  },
+  {
+   "id": "story-10",
+   "rank": 10,
+   "score": 51,
+   "factors": {
+    "exploitation": 40,
+    "prevalence": 8,
+    "platform": 0,
+    "new_kev": 0,
+    "epss": 0,
+    "cvss": 0,
+    "sources": 3,
+    "chatter": 0,
+    "in_kev": false,
+    "epss_max": 0.0,
+    "cvss_max": 0
+   },
+   "title": "FIFA discloses cyberattack that accessed personal and business information",
+   "labels": {
+    "category": "breach",
+    "exploitation": "confirmed_in_wild",
+    "prevalence": "unknown",
+    "platform": "other",
+    "vendor": "FIFA",
+    "product": ""
+   },
+   "cves": [],
+   "writeup_status": "ok",
+   "writeup": {
+    "what_happened": "FIFA has confirmed it was hit by a cyberattack in which attackers accessed personal and business information, according to SecurityWeek reporting from 26 November 2026. FIFA did not say when the intrusion took place or exactly what data was taken. No details have been published on the attacker, the initial access method, or the systems involved.",
+    "why_it_matters": "With no technical details, CVEs or indicators available, defenders have nothing specific to hunt for. The main risk to most organizations is indirect: staff or partners whose data FIFA holds may receive targeted phishing or business email compromise attempts that use the stolen information as a lure.",
+    "affected_versions": [],
+    "fixed_versions": [],
+    "recommended_actions": [
+     "Identify any business relationship with FIFA, for example vendors, sponsors or event partners, and watch for official breach notifications.",
+     "Warn users who deal with FIFA about phishing and invoice or payment-change fraud that may use the stolen personal or business data.",
+     "Watch for further reporting from FIFA or researchers that names the attacker, the access method or indicators, and reassess when details appear."
+    ],
+    "confidence": "low",
+    "model": "claude-opus-5-5",
+    "unsupported_cves": []
+   },
+   "sources": [
+    {
+     "title": "FIFA Says It Has Been Victim of a Cyberattack Accessing ‘Personal and Business Information’",
+     "url": "https://www.securityweek.com/fifa-says-it-has-been-victim-of-a-cyberattack-accessing-personal-and-business-information/",
+     "source": "SecurityWeek",
+     "kind": "news",
+     "published": "2026-11-26T17:06:55Z"
+    }
+   ],
+   "detection": {
+    "type": "none",
+    "sigma": null,
+    "hunting_steps": [],
+    "hunting_queries": [],
+    "notes": []
+   }
+  }
+ ],
+ "more_stories": [
+  {
+   "title": "Traefik releases fix for three authentication and authorization bypass flaws",
+   "score": 38,
+   "cves": [
+    "CVE-2026-137481",
+    "CVE-2026-137478",
+    "CVE-2026-137480"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-137481 (HIGH 7.8)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-137481",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-137478 (HIGH 7.0)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-137478",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-137480 (HIGH 7.0)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-137480",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Smart Portal flaws allow adding accounts to Active Directory Domain Admins",
+   "score": 33,
+   "cves": [
+    "CVE-2026-137706",
+    "CVE-2026-137705"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-137706 (CRITICAL 9.4)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-137706",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-137705 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-137705",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Openfind MailGates and Mail2000 command injection flaws",
+   "score": 24,
+   "cves": [
+    "CVE-2026-137389",
+    "CVE-2026-137390"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-137389 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-137389",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-137390 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-137390",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "D-Link DWM-222W hardcoded administrator credentials expose user passwords",
+   "score": 24,
+   "cves": [
+    "CVE-2026-137704"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-137704 (HIGH 8.6)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-137704",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Bazarr path traversal on Windows exposes config file with stored API keys",
+   "score": 24,
+   "cves": [
+    "CVE-2026-137585"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-137585 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-137585",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Parse Server Google Play Games auth lets attackers take over accounts",
+   "score": 17,
+   "cves": [
+    "CVE-2026-137465"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-137465 (CRITICAL 9.1)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-137465",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Dockhand path traversal allows remote code execution as root",
+   "score": 12,
+   "cves": [
+    "CVE-2026-137556"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-137556 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-137556",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Budibase 4.0.0 fixes multiple flaws including unauthenticated data access",
+   "score": 9,
+   "cves": [
+    "CVE-2026-137494",
+    "CVE-2026-137498",
+    "CVE-2026-137499"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-137494 (HIGH 8.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-137494",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-137498 (CRITICAL 9.9)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-137498",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-137499 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-137499",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "ToolJet flaws allow SSO account takeover and cross-tenant access",
+   "score": 9,
+   "cves": [
+    "CVE-2026-137536",
+    "CVE-2026-137523",
+    "CVE-2026-137526"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-137536 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-137536",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-137523 (HIGH 8.6)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-137523",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-137526 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-137526",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Simple Membership plugin flaws enable privilege escalation",
+   "score": 9,
+   "cves": [
+    "CVE-2026-133951",
+    "CVE-2026-135626"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-133951 (CRITICAL 9.1)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-133951",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-135626 (HIGH 7.5)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-135626",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "llama.cpp RPC server out-of-bounds write allows unauthenticated attacks",
+   "score": 9,
+   "cves": [
+    "CVE-2026-137567"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-137567 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-137567",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Coder leaks database password in API key error responses",
+   "score": 9,
+   "cves": [
+    "CVE-2026-137547"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-137547 (CRITICAL 9.2)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-137547",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "SiYuan flaws enable XSS, path traversal and password brute-forcing",
+   "score": 9,
+   "cves": [
+    "CVE-2026-137467",
+    "CVE-2026-137468",
+    "CVE-2026-137469"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-137467 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-137467",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-137468 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-137468",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-137469 (HIGH 7.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-137469",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "Frappe Framework flaws allow unauthorized document changes and 2FA bypass",
+   "score": 9,
+   "cves": [
+    "CVE-2026-137550",
+    "CVE-2026-137551",
+    "CVE-2026-137552"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-137550 (CRITICAL 9.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-137550",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-137551 (HIGH 8.6)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-137551",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-137552 (HIGH 8.7)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-137552",
+     "source": "NVD"
+    }
+   ]
+  },
+  {
+   "title": "LaraDashboard flaws enable RCE, secret disclosure and SSRF",
+   "score": 9,
+   "cves": [
+    "CVE-2026-137544",
+    "CVE-2026-137542",
+    "CVE-2026-137543"
+   ],
+   "sources": [
+    {
+     "title": "CVE-2026-137544 (CRITICAL 9.4)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-137544",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-137542 (HIGH 8.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-137542",
+     "source": "NVD"
+    },
+    {
+     "title": "CVE-2026-137543 (HIGH 8.3)",
+     "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-137543",
+     "source": "NVD"
+    }
+   ]
+  }
+ ],
+ "kev_new": [],
+ "early_signals": [],
+ "explainer": {
+  "concept": "Browser policy abuse: force-installed extensions as an inbox reader",
+  "dek": "Attackers who can write browser management policy, or enroll a browser into management they control, can silently install extensions that read webmail and other pages inside the user's already-authenticated session.",
+  "why_today": "The SYS01 infostealer now enrolls victims' browsers into enterprise-style management to force-install a mail-stealing extension, and Remus reads Gmail through a fake Google Sheets extension that its operators sold as a Gmail zero-day. Both work through the browser rather than through any flaw in Gmail or Outlook.",
+  "related_story_ids": [
+   "story-7",
+   "story-6"
+  ],
+  "parts": [
+   {
+    "heading": "Why an extension can read your mail",
+    "paragraphs": [
+     "A browser extension declares host permissions in its manifest, for example access to a webmail domain. If the user or policy grants them, its content scripts run inside those pages and can read and change the rendered content, including open messages, folder lists and search results. Some permissions also let an extension read cookies or watch requests.",
+     "None of this needs the user's password, an OAuth token or a server-side bug. The extension acts inside a session the user already signed in to, so MFA, conditional access at sign-in and phishing-resistant authenticators have already been satisfied. That is why Remus can describe a working Gmail capability as a zero-day when no Gmail vulnerability is involved."
+    ]
+   },
+   {
+    "heading": "Enterprise policy as the install mechanism",
+    "paragraphs": [
+     "Chromium-based browsers, including Chrome and Edge, read enterprise policy. On Windows this comes from registry keys under the Policies branch for each vendor, written by Group Policy, Intune or anything else with write access. Chrome can also enroll into Chrome Browser Cloud Management with an enrollment token, after which a remote admin console pushes policy. Firefox has its own policy mechanism.",
+     "The ExtensionInstallForcelist policy is the key one for attackers. Extensions listed there install silently, cannot be removed or disabled by the user, and are re-installed if deleted. A browser that is managed shows a notice such as 'Managed by your organization', but users seldom treat that as a warning. The SYS01 reporting does not say which browser or policy path the malware uses, so assume any of these routes is possible."
+    ]
+   },
+   {
+    "heading": "What it looks like in telemetry",
+    "paragraphs": [
+     "On endpoints, the strongest signal is a write to browser policy registry keys, especially extension force-install lists or a cloud enrollment token, by a process that is not your management agent, Group Policy client or a known installer. In Defender XDR, DeviceRegistryEvents can be filtered on the Chrome and Edge policy key paths and the initiating process. New extension folders under browser profile directories appear in DeviceFileEvents.",
+     "On a live machine, the browser's internal policy page lists every active policy and its source, and the management page shows whether and by whom the browser is managed. Defender Vulnerability Management can inventory installed browser extensions and their permissions, which helps you spot an unknown extension with mail-domain access across the fleet."
+    ]
+   },
+   {
+    "heading": "Prevention",
+    "paragraphs": [
+     "Manage the browsers yourself. An extension allowlist, with a blocklist of all extensions except those approved, sets a policy baseline that attacker-written policy has to visibly override. Restricting which extensions may run on sensitive sites such as webmail and SSO portals narrows the damage further.",
+     "Because these attacks rely on writing policy, the main control is keeping malware from getting a foothold at all. Typical delivery is through malicious ads and fake software downloads, as with SYS01's Meta ads. Users should not have local admin rights, because writes to the machine-wide policy keys require them."
+    ]
+   }
+  ],
+  "takeaways": [
+   "Hunt in DeviceRegistryEvents for writes to Chrome and Edge policy keys, in particular extension force-install lists and cloud management enrollment tokens, where the initiating process is not your Intune, Group Policy or software deployment tooling.",
+   "Deploy an extension allowlist for Chrome and Edge through Intune or Group Policy, with all other extensions blocked, so any unexpected force-install entry stands out against your baseline.",
+   "Use the Defender Vulnerability Management browser extension inventory to find extensions with access to Gmail, Outlook on the web or your SSO domains, and review any you did not approve.",
+   "On a suspected infostealer host, check the browser policy and management pages and the installed extension list before reimaging, and remove attacker-written policy as well as the malware itself.",
+   "After cleanup, revoke the affected user's sessions and refresh tokens in Entra ID and Google, because an extension running inside the session may also have exposed session material."
+  ],
+  "unsupported_cves": [],
+  "model": "claude-opus-5-5"
+ },
+ "good_news": [],
+ "explainer_status": "ok",
+ "sources_status": {
+  "CISA KEV": "ok 0",
+  "NVD": "ok 115",
+  "BleepingComputer": "ok 5",
+  "The Record": "ok 2",
+  "The DFIR Report": "ok 0",
+  "Cisco Talos": "ok 0",
+  "Unit 42": "ok 0",
+  "Microsoft Security Blog": "ok 0",
+  "SANS ISC": "ok 0",
+  "Huntress": "ok 0",
+  "watchTowr Labs": "ok 0",
+  "Rapid7": "ok 0",
+  "SecurityWeek": "ok 5",
+  "Krebs on Security": "ok 0",
+  "CISA Advisories": "ok 0",
+  "MSRC Security Update Guide": "ok 0",
+  "Bluesky": "ok 0",
+  "Mastodon": "ok 3",
+  "r/netsec": "error FetchError: 404 https://www.reddit.com/r/netsec/new/.rss",
+  "Hacker News": "ok 1",
+  "SigmaHQ new rules": "ok 0",
+  "EPSS": "ok 120"
+ },
+ "stats": {
+  "items": {
+   "news": 12,
+   "advisory": 0,
+   "kev": 0,
+   "nvd": 115,
+   "social": 4,
+   "sigma": 0
+  },
+  "stories_found": 30,
+  "kql_parser": "available",
+  "receipts": {
+   "status": "ran",
+   "engine": "Kusto emulator 1.0.9810.23682",
+   "baseline_events": 1338,
+   "baseline_seed": 20261110
+  }
+ }
+}
